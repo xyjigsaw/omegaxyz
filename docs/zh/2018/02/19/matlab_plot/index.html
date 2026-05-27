@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB二维绘图 · OmegaXYZ</title>
+  <meta name="description" content="v 基本的绘图命令 绘制二维图形最常用的函数是plot函数。其调用格式： plot(Y) 若Y为向量，则绘制的图形以向量索引为横坐标值，以向量分量值为纵坐标值。 若Y为矩阵，则绘制Y的列向量对其坐标索引的图形。 若Y为一复向量（矩阵），则plot(Y)相当于plot(real(Y),imag(Y))。而在其他形式的函数调用中，元素的虚部将...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/19/matlab_plot/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-19</div>
+        <h1>MATLAB二维绘图</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">v<b>基本的绘图命令</b>
+
+绘制二维图形最常用的函数是plot函数。其调用格式：
+
+<strong>plot(Y) </strong>
+
+若Y为向量，则绘制的图形以向量索引为横坐标值，以向量分量值为纵坐标值。
+
+若Y为矩阵，则绘制Y的列向量对其坐标索引的图形。
+
+若Y为一复向量（矩阵），则plot(Y)相当于plot(real(Y),imag(Y))。而在其他形式的函数调用中，元素的虚部将被忽略。
+
+例如：
+
+y=rand(100,1);
+plot(y)
+
+<img class="alignnone wp-image-3487 size-full" src="https://cdn.omegaxyz.com/2018/02/plot_matlab.jpg" alt="" width="708" height="633" />
+
+plot(X,Y)  X为横坐标，Y为纵坐标。
+
+注意：向量X和Y必须是同维数的，也必须同是行向量或列向量。
+
+当变量X和Y是同阶矩阵时，将按矩阵的行或列进行操作。特别的，变量Y可以包含多个符合要求的向量，这时将在同一幅图中绘制所有的图形。
+
+<img class="alignnone size-full wp-image-3488" src="https://cdn.omegaxyz.com/2018/02/plot_xy.jpg" alt="" width="683" height="396" />
+
+特殊的二维图形函数
+特殊坐标系的二维图形函数
+特殊坐标系具体为：对数坐标系、极坐标系。
+函数semilogx：x坐标为对数坐标绘制二维图
+semilogy：y坐标为对数坐标绘制二维图
+loglog：双对数坐标绘制二维图
+
+极坐标系绘图函数polar：
+polar(theta,tho,s)
+其中theta为弧度表示的角度向量；tho为相应的幅向量；s为图形属性设置选项，可省略。
+
+<img class="alignnone size-full wp-image-3489" src="https://cdn.omegaxyz.com/2018/02/plot_xy2.jpg" alt="" width="652" height="404" />
+
+例如绘制饼状图形
+
+x=[2,4,6,8];
+pie(x,{'math','english','chinese','music'})
+
+<img class="alignnone size-full wp-image-3490" src="https://cdn.omegaxyz.com/2018/02/plot_pie.jpg" alt="" width="709" height="634" />
+
+例如绘制矢量图
+
+x=0:0.1*pi:2*pi;
+y=sin(x).*x;
+feather(x,y)
+
+<img class="alignnone size-full wp-image-3492" src="https://cdn.omegaxyz.com/2018/02/plot_v.jpg" alt="" width="711" height="638" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

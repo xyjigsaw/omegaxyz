@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visual collection of infectious disease spread · OmegaXYZ</title>
+  <meta name="description" content="Known information Population mobility data during the Spring Festival in previous years, including (high-speed trains, airplanes, highways, etc.) Population mobility data this year (highway conditions, flights, etc.) Epidemic data (including confirmed and suspected cases’ residence, place of onset, and contact history) API: ① https://lab.isaaclin.cn/nCoV/ ② Baidu Map API Available models Pollution clustering models, such as the BW model of spatial analysis, analyze the development spatial situation of the transmission area Epidemic clustering model, using...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/02/09/epidemic-track/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-09</div>
+        <h1>Visual collection of infectious disease spread</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/%E5%85%83%E8%83%9E%E8%87%AA%E5%8A%A8%E6%9C%BA/index.html">元胞自动机</a></div>
+        <div class="article-content"><h2><strong>known information</strong></h2>
+<div>Population movement data during the Spring Festival in previous years, including (high-speed rail, airplane, highway, etc.)</div>
+<div>Population mobility data this year (highway conditions, flights, etc.)</div>
+<div>Epidemic data (including confirmed and suspected cases’ residence, place of onset, and contact history)</div>
+<div></div>
+<div><strong>API：</strong></div>
+<div>①<a href="https://lab.isaaclin.cn/nCoV/">https://lab.isaaclin.cn/nCoV/</a></div>
+<div>②Baidu Map API</div>
+<div></div>
+<h2><strong>Available models</strong></h2>
+<ul>
+<li>Pollution concentration and dispersion models, such as the BW model of spatial analysis, analyze the development spatial situation of the transmission area.</li>
+<li>The epidemic clustering and dispersing model uses the Moran'I coefficient to calculate the spatial correlation between epidemic areas and analyze whether the development of the epidemic shows spatial clustering or spread.</li>
+<li>Factor influence model, SAR, MAR and other spatial structure regression models to identify influencing factors of spatial propagation</li>
+<li>
+<div>Cellular automaton + infectious disease spatial dynamic model</div></li>
+</ul>
+<h2><strong>website</strong></h2>
+<h3><strong>EpiRisk</strong></h3>http://epirisk.net/
+
+The ISI Foundation, Northeastern University and other organizations jointly developed the Global Epidemic and Mobility Model (GLEAM) to effectively limit the social and economic losses caused by infectious diseases, predict the spatial and temporal evolution of the epidemic, and assess the potential impact of existing containment and prevention strategies.<div><img alt="" class="alignnone wp-image-6407" height="557" src="https://cdn.omegaxyz.com/2020/02/EpiRisk.png" width="800"/></div>
+<div>
+<hr/>
+</div>
+<h2><strong>ArcGIS</strong></h2>
+<div>https://www.arcgis.com/index.html</div>
+<div></div>
+<div><em>ArcGIS</em>The product line provides users with a scalable, comprehensive GIS platform.</div>
+<div><img alt="" class="alignnone wp-image-6405" height="494" src="https://cdn.omegaxyz.com/2020/02/ArcGIS.png" width="801"/></div>
+<div>
+<hr/>
+</div>
+<h2><strong>Baidu migration</strong></h2>
+https://qianxi.baidu.com/
+
+<img alt="" class="alignnone wp-image-6406" height="557" src="https://cdn.omegaxyz.com/2020/02/Baidu_qianxi.png" width="800"/>
+
+ 
+
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjQ3MTEtMTU4MTIxNjIyMzM0NCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLlt7IifSx7ImNoYXIiOiLnn6UifSx7ImNoYXIiOiLkv6EifSx7ImNoYXIiOiLmga8ifSx7ImNoYXIiOiLvvJoifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI4MjkwLTE1ODEyMTYyNDk3NDUiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5b6AIn0seyJjaGFyIjoi5bm0In0seyJjaGFyIjoi5pilIn0seyJjaGFyIjoi6IqCIn0seyJjaGFyIjoi5pyfIn0seyJjaGFyIjoi6Ze0In0seyJjaGFyIjoi5Lq6In0seyJjaGFyIjoi5Y+jIn0seyJjaGFyIjoi5rWBIn0seyJjaGFyIjoi5YqoIn0seyJjaGFyIjoi5pWwIn0seyJjaGFyIjoi5o2uIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5YyFIn0seyJjaGFyIjoi5ousIn0seyJjaGFyIjoi77yIIn0seyJjaGFyIjoi6auYIn0seyJjaGFyIjoi6ZOBIn0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi6aOeIn0seyJjaGFyIjoi5py6In0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi6auYIn0seyJjaGFyIjoi6YCfIn0seyJjaGFyIjoi562JIn0seyJjaGFyIjoi77yJIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiMjY2Ni0xNTgxMjE2MzA1MDIzIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuS7iiJ9LHsiY2hhciI6IuW5tCJ9LHsiY2hhciI6IuS6uiJ9LHsiY2hhciI6IuWPoyJ9LHsiY2hhciI6Iua1gSJ9LHsiY2hhciI6IuWKqCJ9LHsiY2hhciI6IuaVsCJ9LHsiY2hhciI6IuaNriJ9LHsiY2hhciI6Iu+8iCJ9LHsiY2hhciI6IumrmCJ9LHsiY2hhciI6IumAnyJ9LHsiY2hhciI6Iui3ryJ9LHsiY2hhciI6IuWGtSJ9LHsiY2hhciI6IuOAgSJ9LHsiY2hhciI6IuiIqiJ9LHsiY2hhciI6IuePrSJ9LHsiY2hhciI6IuetiSJ9LHsiY2hhciI6Iu+8iSJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjM2NzctMTU4MTIxNjc2ODkzOSIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLnlqsifSx7ImNoYXIiOiLmg4UifSx7ImNoYXIiOiLmlbAifSx7ImNoYXIiOiLmja4ifSx7ImNoYXIiOiLvvIgifSx7ImNoYXIiOiLljIUifSx7ImNoYXIiOiLmi6wifSx7ImNoYXIiOiLnoa4ifSx7ImNoYXIiOiLor4oifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnlpEifSx7ImNoYXIiOiLkvLwifSx7ImNoYXIiOiLnl4UifSx7ImNoYXIiOiLkvosifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlsYUifSx7ImNoYXIiOiLkvY8ifSx7ImNoYXIiOiLlnLAifSx7ImNoYXIiOiLjgIEifSx7ImNoYXIiOiLlj5EifSx7ImNoYXIiOiLnl4UifSx7ImNoYXIiOiLlnLAifSx7ImNoYXIiOiLjgIEifSx7ImNoYXIiOiLmjqUifSx7ImNoYXIiOiLop6YifSx7ImNoYXIiOiLlj7IifSx7ImNoYXIiOiLvvIkifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIwMDM2LTE1ODEyMTYzMDUyMjQiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbXSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjkxOTMtMTU4MTIxNjMwNTM0MSIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOltdLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNTg1MS0xNTgxMjE3MDkwMzAwIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IumHhyJ9LHsiY2hhciI6IueUqCJ9LHsiY2hhciI6IuaxoSJ9LHsiY2hhciI6IuafkyJ9LHsiY2hhciI6IuiBmiJ9LHsiY2hhciI6IuaVoyJ9LHsiY2hhciI6IuaooSJ9LHsiY2hhciI6IuWeiyJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuWmgiJ9LHsiY2hhciI6IuepuiJ9LHsiY2hhciI6IumXtCJ9LHsiY2hhciI6IuWIhiJ9LHsiY2hhciI6IuaekCJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IkIifSx7ImNoYXIiOiJXIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi5Z6LIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5YiGIn0seyJjaGFyIjoi5p6QIn0seyJjaGFyIjoi5LygIn0seyJjaGFyIjoi5pKtIn0seyJjaGFyIjoi5Yy6In0seyJjaGFyIjoi5Z+fIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5Y+RIn0seyJjaGFyIjoi5bGVIn0seyJjaGFyIjoi56m6In0seyJjaGFyIjoi6Ze0In0seyJjaGFyIjoi5oCBIn0seyJjaGFyIjoi5Yq/In1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNjE0OS0xNTgxMjE3MTI2NDk5IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IueWqyJ9LHsiY2hhciI6IuaDhSJ9LHsiY2hhciI6IuiBmiJ9LHsiY2hhciI6IuaVoyJ9LHsiY2hhciI6IuaooSJ9LHsiY2hhciI6IuWeiyJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IumHhyJ9LHsiY2hhciI6IueUqCJ9LHsiY2hhciI6Ik0ifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoiciJ9LHsiY2hhciI6ImEifSx7ImNoYXIiOiJuIn0seyJjaGFyIjoiJyJ9LHsiY2hhciI6IkkifSx7ImNoYXIiOiLns7sifSx7ImNoYXIiOiLmlbAifSx7ImNoYXIiOiLorqEifSx7ImNoYXIiOiLnrpcifSx7ImNoYXIiOiLnlqsifSx7ImNoYXIiOiLljLoifSx7ImNoYXIiOiLnqboifSx7ImNoYXIiOiLpl7QifSx7ImNoYXIiOiLnm7gifSx7ImNoYXIiOiLlhbMifSx7ImNoYXIiOiLlhbMifSx7ImNoYXIiOiLns7sifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLliIYifSx7ImNoYXIiOiLmnpAifSx7ImNoYXIiOiLnlqsifSx7ImNoYXIiOiLmg4UifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlj5EifSx7ImNoYXIiOiLlsZUifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLlkYgifSx7ImNoYXIiOiLnjrAifSx7ImNoYXIiOiLnqboifSx7ImNoYXIiOiLpl7QifSx7ImNoYXIiOiLogZoifSx7ImNoYXIiOiLpm4YifSx7ImNoYXIiOiLov5gifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLmiakifSx7ImNoYXIiOiLmlaMifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIxNjQzLTE1ODEyMTcxOTE2NTYiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5ZugIn0seyJjaGFyIjoi5a2QIn0seyJjaGFyIjoi5b2xIn0seyJjaGFyIjoi5ZONIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi5Z6LIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoiUyJ9LHsiY2hhciI6IkEifSx7ImNoYXIiOiJSIn0seyJjaGFyIjoiLCJ9LHsiY2hhciI6Ik0ifSx7ImNoYXIiOiJBIn0seyJjaGFyIjoiUiJ9LHsiY2hhciI6IuetiSJ9LHsiY2hhciI6IuepuiJ9LHsiY2hhciI6IumXtCJ9LHsiY2hhciI6Iue7kyJ9LHsiY2hhciI6IuaehCJ9LHsiY2hhciI6IuWbniJ9LHsiY2hhciI6IuW9kiJ9LHsiY2hhciI6IuaooSJ9LHsiY2hhciI6IuWeiyJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuivhiJ9LHsiY2hhciI6IuWIqyJ9LHsiY2hhciI6IuepuiJ9LHsiY2hhciI6IumXtCJ9LHsiY2hhciI6IuS8oCJ9LHsiY2hhciI6IuaSrSJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuW9sSJ9LHsiY2hhciI6IuWTjSJ9LHsiY2hhciI6IuWboCJ9LHsiY2hhciI6IuWtkCJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjY0MTAtMTU4MTIxNzI0NTA3MyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOltdLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiMzg5MS0xNTgxMjE3MjQ1MjM4IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W10sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIzMzgzLTE1ODEyMTcyNDU5NTMiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5pe2In0seyJjaGFyIjoi56m6In0seyJjaGFyIjoi6L+HIn0seyJjaGFyIjoi56iLIn0seyJjaGFyIjoi6aKEIn0seyJjaGFyIjoi5rWLIn0seyJjaGFyIjoi77yaIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiODE0Ni0xNTgxMjE3MjcwMTk0IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuWFgyJ9LHsiY2hhciI6IuiDniJ9LHsiY2hhciI6IuiHqiJ9LHsiY2hhciI6IuWKqCJ9LHsiY2hhciI6IuacuiJ9LHsiY2hhciI6IisifSx7ImNoYXIiOiLkvKAifSx7ImNoYXIiOiLmn5MifSx7ImNoYXIiOiLnl4UifSx7ImNoYXIiOiLnqboifSx7ImNoYXIiOiLpl7QifSx7ImNoYXIiOiLliqgifSx7ImNoYXIiOiLlipsifSx7ImNoYXIiOiLmqKEifSx7ImNoYXIiOiLlnosifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIzMjUzLTE1ODEyMTczMTA5MTEiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbXSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==--></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18591">
+          <strong>违章代办</strong>
+          <time>2020-02-21 17:23:22</time>
+          <div>百度迁徙</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

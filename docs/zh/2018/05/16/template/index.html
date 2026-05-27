@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++函数模板与类模板（template） · OmegaXYZ</title>
+  <meta name="description" content="函数模板 函数模板可以用来创建一个通用功能的函数，以支持多种不同形参，进一步简化重载函数的函数体设计。 声明方法： template &lt;typename 标识符&gt; 函数声明 绝对值函数模板实例： 编译器从调用abs()时实参的类型，推导出函数模板的类型参数。例如，对于调用表达式abs(n)，由于实参n为int型，所以推导出模板中类型参数T...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/16/template/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-16</div>
+        <h1>C++函数模板与类模板（template）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><h3><strong>函数模板</strong></h3>
+函数模板可以用来创建一个通用功能的函数，以支持多种不同形参，进一步简化重载函数的函数体设计。
+
+<b>声明方法：</b>
+
+<span style="color: #ff0000;">template &lt;typename  标识符&gt;</span>
+<span style="color: #ff0000;"> 函数声明</span>
+
+<strong>绝对值函数模板实例：</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+template&lt;typename T&gt;
+T abs(T x){    
+    return x&lt;0?-x:x;    
+}
+
+int main()
+{  
+    int n=-5;
+    double d=-5.5;
+    cout&lt;&lt;abs(n)&lt;&lt;endl;
+    cout&lt;&lt;abs(d)&lt;&lt;endl;
+}
+</code></pre>
+编译器从调用abs()时实参的类型，推导出函数模板的类型参数。例如，对于调用表达式abs(n)，由于实参n为int型，所以推导出模板中类型参数T为int。
+
+当类型参数的含义确定后，编译器将以函数模板为样板，生成一个函数：
+int abs(int x)
+{    return x&lt;0?-x:x;  }
+<h3><b>类模板</b></h3>
+<b>使用类模板使用户可以为类声明一种模式，使得类中的某些数据成员、某些成员函数的参数、某些成员函数的返回值，能取任意类型（包括基本类型的和用户自定义类型）</b>
+
+<span style="color: #ff0000;">template &lt;模板参数表&gt;</span>
+<span style="color: #ff0000;"> class 类名</span>
+<span style="color: #ff0000;"> {类成员声明}</span>
+
+<b>如果需要在类模板以外定义其成员函数，则要采用以下的形式：</b>
+
+<span style="color: #ff0000;">template &lt;模板参数表&gt;</span>
+<span style="color: #ff0000;"> 类型名 类名&lt;T&gt;::函数名（参数表）</span>
+
+<strong>实例：</strong>
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+using namespace std;
+
+struct Student               // 结构体Student
+{
+    int     id;             //学号
+    float   gpa;            //平均分
+};
+
+template &lt;class T&gt;  //类模板：实现对任意类型数据进行存取
+class Store
+{
+    private:
+        T item;          // item用于存放任意类型的数据
+        int haveValue;    // haveValue标记item是否已被存入内容
+
+    public:
+        Store(void);      // 缺省形式（无形参）的构造函数
+
+        T GetElem(void);  //提取数据函数
+        void PutElem(T x);  //存入数据函数
+};
+
+//以下实现各成员函数。
+//注意：模板类的成员函数，若在类外实现，则必须是模板函数
+
+template &lt;class T&gt;          // 缺省形式构造函数的实现
+Store&lt;T&gt;::Store(void): haveValue(0)
+{}
+
+template &lt;class T&gt;                // 提取数据函数的实现
+T Store&lt;T&gt;::GetElem(void)
+{
+    if (haveValue == 0)         // 如果试图提取未初始化的数据，则终止程序
+    {
+        cout &lt;&lt; "No item present!" &lt;&lt; endl;
+        exit(1);
+    }
+    return item;    // 返回item中存放的数据
+}
+
+template &lt;class T&gt;             // 存入数据函数的实现
+void Store&lt;T&gt;::PutElem(T x)
+{
+    haveValue++;      // 将haveValue 置为 TRUE，表示item中已存入数值
+    item = x;         // 将x值存入item
+}
+
+int main()
+{
+    Student g= {1000, 23};  //声明Student类型结构体变量的同时赋以初值
+    Store&lt;int&gt; S1, S2;   //声明两个Store&lt;int&gt;类对象，其中数据成员item为int类型
+    Store&lt;Student&gt; S3;//声明Store&lt;Student&gt;类对象S3，其中数据成员item为Student类型
+    Store&lt;double&gt; D;   //声明Store&lt;double&gt;类对象D，其中数据成员item为double类型
+    S1.PutElem(3);    //向对象S1中存入数据（初始化对象S1）
+    S2.PutElem(-7);   //向对象S2中存入数据（初始化对象S2）
+    cout&lt;&lt;S1.GetElem()&lt;&lt;"  "&lt;&lt;S2.GetElem()&lt;&lt;endl;  //输出对象S1和S2的数据成员
+    S3.PutElem(g); //向对象D中存入数据（初始化对象D）
+    cout &lt;&lt;"The student id is "&lt;&lt;S3.GetElem().id &lt;&lt; endl;	//输出对象S3的数据成员
+    cout &lt;&lt; "Retrieving object D  " ;
+    cout &lt;&lt; D.GetElem() &lt;&lt; endl;  //输出对象D的数据成员
+	// 由于D未经初始化,在执行函数D.GetElement()过程中导致程序终止
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

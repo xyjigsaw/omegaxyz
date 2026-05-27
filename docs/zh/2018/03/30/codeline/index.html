@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python统计磁盘代码文件行数 · OmegaXYZ</title>
+  <meta name="description" content="听说简历要求10万行代码经验。于是写了个Python脚本用来计算电脑磁盘内代码的行数。 主要功能： ①统计指定代码的总行数 ②统计每个代码单独的行数 ③自定义设置存储路径 设计思路： 将文件转化为txt文档，对txt文档统计行数。 非GUI代码： 效果图： GUI程序下载地址： https://download.csdn.net/down...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/30/codeline/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-30</div>
+        <h1>Python统计磁盘代码文件行数</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">听说简历要求10万行代码经验。于是写了个Python脚本用来计算电脑磁盘内代码的行数。
+
+主要功能：
+
+①统计指定代码的总行数
+②统计每个代码单独的行数
+③自定义设置存储路径
+
+设计思路：
+
+将文件转化为txt文档，对txt文档统计行数。
+
+非GUI代码：
+<pre ><code class="language-python">import shutil
+import os
+
+path = "C:\\Users\\dell\\Desktop\\archives\\"
+file_path1 = "E:\\Temporary\\python\\"
+file_path2 = "E:\\Files\\University study\\SE\\"
+file_archive = []
+file_archive.append(file_path1)
+file_archive.append(file_path2)
+file_label = [".py", ".h", ".c", ".cpp", ".java", ".m"]
+counter = 1
+total_line = 0
+
+
+def calculate(filename):
+    global counter
+    global total_line
+    newName = path + filename[filename.rfind('\\')+1:filename.rfind('.')] + str(counter) + ".txt"  # 更改文件后缀名为txt
+    shutil.copyfile(filename, newName)  # 将文件拷贝到工作区
+    myfile = open(newName, 'rb')  # 以rb方式打开文件
+    lines = len(myfile.readlines())  # 计算单个文件的行数
+    total_line += lines  # 加入到总行数
+    counter += 1  # 计数器加1
+
+
+def visitDir(path):
+    global file_label
+    if not os.path.isdir(path):
+        print('Error: "', path, '" is not a directory or does not exist.')
+        return
+    else:
+        try:
+            for lists in os.listdir(path):
+                sub_path = os.path.join(path, lists)
+                flag = 0
+                for i in range(len(file_label)):
+                    if file_label[i] == sub_path[sub_path.rfind("."):]:
+                        flag = 1
+                        break
+                if flag == 1:
+                    calculate(sub_path)
+                if os.path.isdir(sub_path):
+                    visitDir(sub_path)
+        except:
+            pass
+
+
+if __name__ == '__main__':
+    x = 0
+    for i in range(len(file_archive)):
+        visitDir(file_archive[i])
+    # visitDir(file_path2)
+    print("文件数：", counter, "\n总行数：", total_line)
+</code></pre>
+效果图：
+
+<img class="alignnone size-full wp-image-3878" src="https://cdn.omegaxyz.com/2018/03/codelinex.png" alt="" width="660" height="380" />
+
+GUI程序下载地址：<a href="https://download.csdn.net/download/xyisv/10317619">https://download.csdn.net/download/xyisv/10317619</a>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

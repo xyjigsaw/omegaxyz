@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vue快速开发注记 · OmegaXYZ</title>
+  <meta name="description" content="Vue.js（读音 /vjuː/, 类似于 view） 是一套构建用户界面的渐进式框架。Vue 只关注视图层， 采用自底向上增量开发的设计。 Vue项目初始化 使用vue-cli工具 目录结构，等参考： https://www.jianshu.com/p/45b5ce2ab1c5 工具 使用FastAPI等后端，建议使用axios工具 快...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/11/30/vue-manual/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-11-30</div>
+        <h1>Vue快速开发注记</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/vue/index.html">Vue</a></div>
+        <div class="article-content">Vue.js（读音 /vjuː/, 类似于 view） 是一套构建用户界面的渐进式框架。Vue 只关注视图层， 采用自底向上增量开发的设计。
+<h2><strong>Vue项目初始化</strong></h2>
+使用vue-cli工具
+<pre ><code class="language-default">$ npm install -g vue-cli // vue-cli installed globally
+
+$ vue init webpack project_name // init project
+
+? Project name project_name // 项目名称
+? Project description A Vue.js project // Project description
+? Author NathanYang // author
+? Vue build standalone  // 
+? Install vue-router? Yes  // 
+? Use ESLint to lint your code? Yes  // Not recommendated
+? Pick an ESLint preset Standard
+? Setup unit tests with Karma + Mocha? No
+? Setup e2e tests with Nightwatch? No // end2end
+
+   vue-cli · Generated "project_name".
+
+   To get started:
+
+     cd first-test-vue
+     npm install
+     npm run dev
+
+   Documentation can be found at https://vuejs-templates.github.io/webpack</code></pre>
+目录结构，等参考：<a href="https://www.jianshu.com/p/45b5ce2ab1c5">https://www.jianshu.com/p/45b5ce2ab1c5</a>
+<h2><strong>工具</strong></h2>
+使用FastAPI等后端，建议使用axios工具
+<pre ><code class="language-default">npm install axios -S</code></pre>
+快速构建UI，可使用ElementUI
+<pre ><code class="language-default">npm install element-ui -S</code></pre>
+前端展示PDF
+<pre class="line-numbers  language-undefined"><code class="  language-undefined">npm install vue-pdf -S</code></code></pre>
+参考：<a href="https://www.jianshu.com/p/6464eee4d0c1">https://www.jianshu.com/p/6464eee4d0c1</a>
+
+-g, -s等后缀区别
+<pre class="">npm i module_name  -S  = &gt;  npm install module_name --save    写入到 dependencies 对象
+
+npm i module_name  -D  =&gt; npm install module_name --save-dev   写入到 devDependencies 对象
+
+npm i module_name  -g  全局安装</code></pre>
+参考：<a href="https://www.cnblogs.com/web-record/p/10904907.html">https://www.cnblogs.com/web-record/p/10904907.html</a>
+<h2><strong>运行</strong></h2>
+<pre ><code class="language-default"># install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report</code></pre>
+<h2><strong>其他</strong></h2>
+后端建议采用fastapi配合前端，其中fastapi要编写跨域请求。
+<h2><strong>例子</strong></h2>
+<a href="https://github.com/xyjigsaw/easy_label">https://github.com/xyjigsaw/easy_label</a>
+
+更多内容访问 [omegaxyz.com](https://omegaxyz.com/)
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2021 • OmegaXYZ-版权所有 转载请注明出处
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

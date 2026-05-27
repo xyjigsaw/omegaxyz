@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hopcroft算法DFA最小化Python实现 · OmegaXYZ</title>
+  <meta name="description" content="DFA 最小化原理 所谓自动机的化简问题即是对任何一个确定有限自动机DFA M，构造另一个确定有限自动机DFA M’，有L（M）＝L（M’），并且M’的状态个数不多于M的状态个数，而且可以肯定地说，能够找到一个状态个数为最小的M’。 下面首先来介绍一些相关的基本概念。 设S i 是自动机M的一个状态，从S i 出发能导出的所有符号串集合记...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/01/hopcroft-min-dfa/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-01</div>
+        <h1>Hopcroft算法DFA最小化Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>DFA</strong><strong>最小化原理</strong></h2>
+所谓自动机的化简问题即是对任何一个确定有限自动机DFA M，构造另一个确定有限自动机DFA M’，有L（M）＝L（M’），并且M’的状态个数不多于M的状态个数，而且可以肯定地说，能够找到一个状态个数为最小的M’。
+
+下面首先来介绍一些相关的基本概念。
+
+<strong> </strong>设S<sub>i</sub>是自动机M的一个状态，从S<sub>i</sub>出发能导出的所有符号串集合记为L（S<sub>i</sub>）。
+
+<strong> </strong>设有两个状态S<sub>i</sub>和S<sub>j</sub>，若有L（S<sub>i</sub>）＝L（S<sub>j</sub>），则称S<sub>i</sub>和S<sub>j</sub>是等价状态。
+
+上图所示的自动机中L（B）＝L（C）＝{1}，所有状态B和状态C是等价状态。
+
+又例如终态导出的符号串集合中必然包含空串ε，而非终止状态导出的符号串集合中不可能包含空串ε，所以终态和非终止状态是不等价的。
+
+对于等价的概念，我们还可以从另一个角度来给出定义。
+
+给定一个DFA M，如果从某个状态P开始，以字符串w作为输入，DFA M将结束于终态，而从另一状态Q开始，以字符串w作为输入，DFA M将结束于非终止状态，则称字符串w把状态P和状态Q区分开来。
+
+把不可区分开来的两个状态称为等价状态。
+
+设S<sub>i</sub>是自动机M的一个状态，如果从开始状态不可能达到该状态S<sub>i</sub>，则称S<sub>i</sub>为无用状态。
+
+设S<sub>i</sub>是自动机M的一个状态，如果对任何输入符号a都转到其本身，而不可能达到终止状态，则称S<sub>i</sub>为死状态。
+
+化简DFA关键在于把它的状态集分成一些两两互不相交的子集，使得任何两个不相交的子集间的状态都是可区分的，而同一个子集中的任何两个状态都是等价的，这样可以以一个状态作为代表而删去其他等价的状态，然后将无关状态删去，也就获得了状态数最小的DFA。
+
+下面具体介绍DFA的化简算法：
+<ul>
+ 	<li>首先将DFA M的状态划分出终止状态集K<sub>1</sub>和非终止状态集K<sub>2</sub>。</li>
+</ul>
+K＝K<sub>1</sub>∪K<sub>2</sub>
+
+由上述定义知，K<sub>1</sub>和K<sub>2</sub>是不等价的。
+<ul>
+ 	<li>对各状态集每次按下面的方法进一步划分，直到不再产生新的划分。</li>
+</ul>
+设第i次划分已将状态集划分为k组，即：
+
+K＝K<sub>1</sub><sup>(i)</sup>∪K<sub>2</sub><sup>(i)</sup>∪…∪K<sub>k</sub><sup>(i)</sup>
+
+对于状态集K<sub>j</sub><sup>(i)</sup>（j=1,2,…,k）中的各个状态逐个检查，设有两个状态K<sub>j</sub>’、 K<sub>j</sub>’’∈K<sub>j</sub><sup>(i)</sup>，且对于输入符号a，有：
+
+F（K<sub>j</sub>'，a）＝K<sub>m</sub>
+
+F（K<sub>j</sub>''，a）＝K<sub>n</sub>
+
+如果K<sub>m</sub>和K<sub>n</sub>属于同一个状态集合，则将K<sub>j</sub>’和K<sub>j</sub>’’放到同一集合中，否则将K<sub>j</sub>’和K<sub>j</sub>’’分为两个集合。
+<ul>
+ 	<li>重复第（2）步，直到每一个集合不能再划分为止，此时每个状态集合中的状态均是等价的。</li>
+ 	<li>合并等价状态，即在等价状态集中取任意一个状态作为代表，删去其他一切等价状态。</li>
+ 	<li>若有无关状态，则将其删去。</li>
+</ul>
+根据以上方法就将确定有限自动机进行了简化，而且简化后的自动机是原自动机的状态最少的自动机。
+<h2><strong>Hopcroft</strong><strong>算法原理</strong></h2>
+<strong>算法抽象：</strong>
+<ul>
+ 	<li>1: Q/θ ← {F, Q − F}</li>
+ 	<li>2: while (∃U, V ∈ Q/θ, a ∈ Σ) s.t. Equation 1 holds do</li>
+ 	<li>3: Q/θ ← (Q/θ − {U}) ∪ {U ∩ δ^-1(V, a), U − U ∩ δ^-1(V, a)}</li>
+ 	<li>4: end while</li>
+</ul>
+<strong>算法细化：</strong>
+<ul>
+ 	<li>1:W ← {F, Q − F}    # 有些版本上只是 W ← {F }</li>
+ 	<li>2: P ← {F, Q − F}</li>
+ 	<li>3: while W is not empty do</li>
+ 	<li>4:     select and remove S from W</li>
+ 	<li>5:     for all a ∈ Σ do</li>
+ 	<li>6:         la ← δ^-1(S, a)</li>
+ 	<li>7:         for all R in P such that R ∩ la ≠ ∅ and R ∉ la do</li>
+ 	<li>8:             partition R into R1 and R2: R1 ← R ∩ la and R2 ← R − R1</li>
+ 	<li>9:             replace R in P with R1 and R2</li>
+ 	<li>10:           if R ∈ W then</li>
+ 	<li>11:               replace R in W with R1 and R2</li>
+ 	<li>12:           else</li>
+ 	<li>13:                 if |R1| ≤ |R2| then</li>
+ 	<li>14:                     add R1 to W</li>
+ 	<li>15:                 else</li>
+ 	<li>16:                     add R2 to W</li>
+ 	<li>17:                 end if</li>
+ 	<li>18:             end if</li>
+ 	<li>19:         end for</li>
+ 	<li>20:    end for</li>
+ 	<li>21: end while</li>
+</ul>
+<h2><strong>流程图</strong></h2>
+<img class="alignnone  wp-image-5461" src="https://cdn.omegaxyz.com/2019/02/minDFA2.png" alt="" width="604" height="556" />
+<h2><strong>Python代码</strong></h2>
+<pre ><code class="language-python">from graphviz import Digraph
+import random
+from copy import deepcopy
+
+
+class Part:
+    def __init__(self, src, edge, dst):
+        self.src = src
+        self.edge = edge
+        self.dst = dst
+
+
+def move(DFA, src, edge):
+    for i in range(len(DFA)):
+        if DFA[i].src[0] == src and DFA[i].edge == edge:
+            return DFA[i].dst[0]
+    return ''
+
+
+def get_source_set(target_set, char, DFA):
+    global allstatus
+    allstatusSet = set(allstatus)
+    source_set = set()
+    for state in allstatusSet:
+        try:
+            if move(DFA, state, char) in target_set:
+                source_set.update(state)
+        except KeyError:
+            pass
+    return source_set
+
+
+def hopcroft_algorithm(DFA):
+    global sigma
+    global endSet
+    global allstatus
+    cins = set(sigma)
+    termination_states = set(endSet)
+    total_states = set(allstatus)
+    not_termination_states = total_states - termination_states
+
+    P = [termination_states, not_termination_states]
+    W = [termination_states, not_termination_states]
+
+    while W:
+
+        A = random.choice(W)
+        W.remove(A)
+
+        for char in cins:
+            X = get_source_set(A, char,DFA)
+            P_temp = []
+
+            for Y in P:
+                S = X &amp; Y
+                S1 = Y - X
+
+                if len(S) and len(S1):
+                    P_temp.append(S)
+                    P_temp.append(S1)
+
+                    if Y in W:
+                        W.remove(Y)
+                        W.append(S)
+                        W.append(S1)
+                    else:
+                        if len(S) &lt;= len(S1):
+                            W.append(S)
+                        else:
+                            W.append(S1)
+                else:
+                    P_temp.append(Y)
+            P = deepcopy(P_temp)
+    return P
+
+
+def indexMinList(minList, a):
+    for i in range(len(minList)):
+        if a in minList[i]:
+            return i
+    return ''
+
+DFA = []
+DFA2 = []
+DFADic = {}
+sigma = ['a', 'b']
+# dot = Digraph(comment='The Test Table')
+dot = Digraph("DFA")
+num = int(input('input:'))
+for i in range(num):
+    x = input()
+    y = input()
+    z = input()
+    temp = []
+    temp.append(x)
+    temp.append(y)
+    DFA2.append(temp)
+    DFADic[tuple(temp)] = y
+    temp = Part(x, y, z)
+    DFA.append(temp)
+    if i == 1:
+        dot.node(name=x, color='blue')
+        dot.edge(x, z, y)
+    else:
+        dot.node(name=x, color='black')
+        dot.edge(x, z, y)
+
+for i in range(len(DFA)):
+    print(DFA[i].src, DFA[i].edge, DFA[i].dst)
+
+endSet = []
+endNum = int(input('input end num:'))
+for i in range(endNum):
+    temp = input()
+    endSet.append(temp)
+
+startSet = []
+allSet = []
+
+for i in range(len(DFA)):
+    if DFA[i].src[0] not in endSet:
+        startSet.append(DFA[i].src[0])
+    if DFA[i].dst[0] not in endSet:
+        startSet.append(DFA[i].src[0])
+
+allstatus = startSet
+allstatus.extend(endSet)
+dot.render('DFA.gv', view=True)
+minList = hopcroft_algorithm(DFA)
+minDFA = []
+print(minList)
+
+
+for i in range(len(minList)):
+    dstList = [0, 0] # 用来存储每种状态经过a和b变换后的结果
+    for j in range(len(minList[i])):
+            listi = list(minList[i])
+            if dstList[0] == 0 and move(DFA, listi[j], sigma[0]) != '' and indexMinList(minList, move(DFA, listi[j], sigma[0])) != '':
+                print(indexMinList(minList, move(DFA, listi[j], sigma[0])))
+                dstList[0] = min(minList[indexMinList(minList, move(DFA, listi[j], sigma[0]))])
+                # 使用Min函数的原因是为了重新给每种状态命名，选去每个状态中的最小的即可
+
+            if dstList[1] == 0 and move(DFA,listi[j], sigma[1]) != ''and indexMinList(minList, move(DFA, listi[j], sigma[1])) != '':
+                dstList[1] = min(minList[indexMinList(minList, move(DFA, listi[j], sigma[1]))])
+    if dstList[0] != 0:
+        temp = Part(min(minList[i]),'a',dstList[0])
+        minDFA.append(temp)
+    if dstList[1] != 0:
+        temp2 = Part(min(minList[i]), 'b', dstList[1])
+        minDFA.append(temp2)
+
+
+dot2 = Digraph('测试图片')
+
+for i in range(len(minDFA)):
+    print(minDFA[i].src, minDFA[i].edge,minDFA[i].dst)
+    if i == 1:
+        dot2.node(name = minDFA[i].src, color='red')
+        dot2.edge(minDFA[i].src, minDFA[i].dst, minDFA[i].edge)
+    else:
+        dot2.node(name=minDFA[i].src, color='black')
+        dot2.edge(minDFA[i].src, minDFA[i].dst, minDFA[i].edge)
+
+dot2.render('minDFA.gv', view=True)</code></pre>
+<h2><strong>测试</strong></h2>
+<strong>测试数据：</strong>
+
+起始节点、边、终止节点的表示
+
+共有14个边，7个节点
+
+<img class="alignnone  wp-image-5462" src="https://cdn.omegaxyz.com/2019/02/minDFA3.png" alt="" width="138" height="326" />
+
+<strong>图形显示:</strong>
+
+<img class="alignnone  wp-image-5463" src="https://cdn.omegaxyz.com/2019/02/minDFA4.png" alt="" width="213" height="538" />
+
+刚开始的子集为[{C,D,E,F},{S，A，B}]
+
+<strong>实验结束后的结果：</strong>
+
+<img class="alignnone  wp-image-5464" src="https://cdn.omegaxyz.com/2019/02/minDFA5.png" alt="" width="320" height="25" />
+
+<strong>最简化的DFA为：</strong>
+
+C为终止节点，S为起始节点
+
+<img class="alignnone  wp-image-5465" src="https://cdn.omegaxyz.com/2019/02/minDFA6.png" alt="" width="238" height="543" />
+<h2><strong>难点与解决的方法</strong></h2>
+<ul>
+ 	<li>在DFA最小化的过程中受限要去除无用状态，再使用子集分割算法处理。根据资料查找到一个快速的DFA最小化算法，叫做Hopcroft算法，通过该算法，能够处理不同大小字母表的DFA。</li>
+ 	<li>在进行子集分割算法后，要合并等价的节点并且重命名使用graphviz输出，在这一步，合并并重命名节点需要注意所有重复节点的入度和出度均要考虑，只有这样才能避免新的最小化的DFA的边不遗漏。</li>
+</ul></div>
+        <section class="comments"><h2>评论 (11)</h2>
+        <div class="comment" id="comment-18684">
+          <strong>ysj</strong>
+          <time>2020-03-20 16:46:40</time>
+          <div>想请教一下，dot.render()运行的时候总是报错：UnicodeDecodeError: &#x27;utf-8&#x27; codec can&#x27;t decode byte 0xb2 in position 6: invalid start byte。修改了编码方式也不行。想请教一下您有没有遇到这个问题。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18686">
+          <strong>xyjisaw</strong>
+          <time>2020-03-20 16:49:49</time>
+          <div>你把所有的汉字改成英文，注释也去掉</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18687">
+          <strong>ysj</strong>
+          <time>2020-03-20 16:59:48</time>
+          <div>您好，修改过了，还是不行...</div>
+        </div>
+        
+        <div class="comment" id="comment-18961">
+          <strong>limy</strong>
+          <time>2020-05-20 15:06:09</time>
+          <div>请问X&amp;amp;Y和X-Y是什么意思啊？，为什么说我的S和S1没有定义呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18962">
+          <strong>limy</strong>
+          <time>2020-05-20 15:09:58</time>
+          <div>我傻了，大家不要理我</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18963">
+          <strong>xyjisaw</strong>
+          <time>2020-05-20 15:14:53</time>
+          <div>牛！</div>
+        </div>
+        
+        <div class="comment" id="comment-18964">
+          <strong>limy</strong>
+          <time>2020-05-20 20:42:57</time>
+          <div>您好，这个代码我发现好像只可以划分一次分组。<br>有的NFA划分一次就是最小DFA，有的NFA需要划分好几次才可以，代码里划分分组的函数（129行）没有循环判断。<br>例：<br>测试数据为：<br>0 a 1<br>0 b 2<br>1 a 3<br>1 b 0<br>2 a 5<br>2 b 2<br>3 a 3<br>3 b 6<br>4 a 1<br>4 b 2<br>5 b 6<br>6 a 5<br>endNum：6<br>分别为0 1 2 3 4 5<br>这个例子答案就是错误的。结果有6个状态，而正确的minDFA应该是三个状态。<br><br>不知道我说的对不对，您兴趣可以测试一下。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18965">
+          <strong>xyjisaw</strong>
+          <time>2020-05-20 21:16:25</time>
+          <div>了解，第33行的函数应该没有问题，时间久远，如果您有新的想法欢迎指正。</div>
+        </div>
+        
+        <div class="comment" id="comment-19993">
+          <strong>吴</strong>
+          <time>2021-01-13 14:31:15</time>
+          <div>你好，你能解释一下程序的输入都是什么意思啊  我看了很久还是不明白。 主要是输入的end num 是什么呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19994">
+          <strong>吴</strong>
+          <time>2021-01-13 14:38:48</time>
+          <div>我傻了， 知道了   但是出现了dot.render的错误。。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19995">
+          <strong>xyjisaw</strong>
+          <time>2021-01-13 15:04:44</time>
+          <div>这个是画图，你可以把画图相关的去掉</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

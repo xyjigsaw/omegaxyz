@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>百练-2018年北京大学软件工程学科夏令营上机考试（待续） · OmegaXYZ</title>
+  <meta name="description" content="作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭， 无法看到是否AC（以下代码可能无法通过全部测试用例） ，如有错误，请指出，O(∩_∩)O谢谢。 A:最简真分数 全局题号3526 提交次数67 尝试人数39 通过人数38 总时间限制: 1000ms 内存限制: 6553...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/31/bailian-ssxly2018/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-31</div>
+        <h1>百练-2018年北京大学软件工程学科夏令营上机考试（待续）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭，<span style="color: #ff0000;"><strong>无法看到是否AC（以下代码可能无法通过全部测试用例）</strong></span>，如有错误，请指出，O(∩_∩)O谢谢。
+
+<img class="alignnone wp-image-5841" src="https://cdn.omegaxyz.com/2019/05/bailian-ssxly2018.png" alt="" width="822" height="465" />
+<h2><strong>A:最简真分数</strong></h2>
+<strong><span style="color: #ff0000;">全局题号3526 提交次数67 尝试人数39 通过人数38</span></strong>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>给出n个正整数，任取两个数分别作为分子和分母组成最简真分数，编程求共有几个这样的组合。</dd>
+ 	<dt>输入</dt>
+ 	<dd>第一行是一个正整数n（n&lt;=600）。
+第二行是n个不同的整数，相邻两个整数之间用单个空格隔开。整数大于1且小于等于1000。</dd>
+ 	<dt>输出</dt>
+ 	<dd>一个整数，即最简真分数组合的个数。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>7
+3 5 7 9 11 13 15
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">17</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int gcd(int x, int y){
+    if(y == 0)return x;
+    else return gcd(y, x % y);
+}
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    vector&lt;int&gt; all(n);
+    for(int i = 0; i &lt; n; i++){
+        cin&gt;&gt;all[i];
+    }
+    int ans = 0;
+    for(int i = 0; i &lt; n - 1; i++){
+        for(int j = i + 1; j &lt; n; j++){
+            if(gcd(all[i], all[j]) == 1)ans++;
+        }
+    }
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+}
+
+/* 
+7
+3 5 7 9 11 13 15
+ */</code></pre>
+
+<hr />
+
+<h2><strong>B:n-gram串频统计</strong></h2>
+<strong><span style="color: #ff0000;">全局题号7604 提交次数128 尝试人数34 通过人数31</span></strong>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>在文本分析中常用到n-gram串频统计方法，即，统计相邻的n个单元（如单词、汉字、或者字符）在整个文本中出现的频率。假设有一个字符串，请以字符为单位，按n-gram方法统计每个长度为 n 的子串出现的频度，并输出最高频度以及频度最高的子串。所给的字符串只包含大小写字母，长度不多于500个字符，且 1 &lt; n &lt; 5。
+
+如果有多个子串频度最高，则根据其在序列中第一次出现的次序依次输出，每行输出一个，如果最高频度不大于1，则输出NO。</dd>
+ 	<dt>输入</dt>
+ 	<dd>第一行为n；
+第二行为字符串。</dd>
+ 	<dt>输出</dt>
+ 	<dd>输出最高频度以及频度最高的所有子串。若最高频度不大于1，只输出一行NO。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>3
+abcdefabcd</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre>2
+abc
+bcd</code></pre>
+</dd>
+ 	<dt>提示</dt>
+ 	<dd>样例中，所有的3-gram是：abc,bcd,cde,def,efa,fab,abc,bcd。最后面的cd不足以形成3-gram，则不考虑。这样，abc 和 bcd 都出现了2次，其余的只出现了1次。</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+struct node{
+    string s;
+    int pos;
+};
+
+bool cmp(node a, node b){return a.pos &lt; b.pos;}
+
+int main(){
+    int n, max = 0;
+    string str;
+    cin&gt;&gt;n&gt;&gt;str;
+    unordered_map&lt;string, int&gt; cnt;
+    for(int i = 0; i &lt;= str.length() - n; i++){
+        cnt[str.substr(i, n)]++;
+    }
+    for(auto it = cnt.begin(); it != cnt.end(); it++){
+        if(max &lt; it-&gt;second)max = it-&gt;second;
+    }
+    cout&lt;&lt;max&lt;&lt;endl;
+    vector&lt;node&gt; ans;
+    for(auto it = cnt.begin(); it != cnt.end(); it++){
+        if(max == it-&gt;second){
+            node temp;
+            temp.s = it-&gt;first;
+            temp.pos = str.find(it-&gt;first);
+            ans.push_back(temp);
+        }
+    }
+    sort(ans.begin(), ans.end(), cmp);
+    for(int i = 0; i &lt; ans.size(); i++){
+        cout&lt;&lt;ans[i].s&lt;&lt;endl;
+    }
+    
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>C:垂直直方图</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号1802 提交次数74 尝试人数37 通过人数37</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>输入4行全部由大写字母组成的文本，输出一个垂直直方图，给出每个字符出现的次数。注意：只用输出字符的出现次数，不用输出空白字符，数字或者标点符号的输出次数。</dd>
+ 	<dt>输入</dt>
+ 	<dd>输入包括4行由大写字母组成的文本，每行上字符的数目不超过80个。</dd>
+ 	<dt>输出</dt>
+ 	<dd>输出包括若干行。其中最后一行给出26个大写英文字母，这些字母之间用一个空格隔开。前面的几行包括空格和星号，每个字母出现几次，就在这个字母的上方输出一个星号。注意：输出的第一行不能是空行。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.
+THIS IS AN EXAMPLE TO TEST FOR YOUR
+HISTOGRAM PROGRAM.
+HELLO!
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">                            *
+                            *
+        *                   *
+        *                   *     *   *
+        *                   *     *   *
+*       *     *             *     *   *
+*       *     * *     * *   *     * * *
+*       *   * * *     * *   * *   * * * *
+*     * * * * * *     * * * * *   * * * *     * *
+* * * * * * * * * * * * * * * * * * * * * * * * * *
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;map&gt;
+using namespace std;
+
+
+int main(){
+    string one, two, three, four, all = "";
+    getline(cin, one);
+    getline(cin, two);
+    getline(cin, three);
+    getline(cin, four);
+    all += one;
+    all += two;
+    all += three;
+    all += four;
+    map&lt;char, int&gt; cnt;
+    for(int i = 0; i &lt; all.length(); i++){
+        if(all[i] &gt;= 'A' &amp;&amp; all[i] &lt;= 'Z'){
+            cnt[all[i]]++;
+        }
+    }
+    int maxc = 0;
+    for(char c = 'A'; c &lt;= 'Z'; c++){
+        if(maxc &lt; cnt[c])maxc = cnt[c];
+    }
+    int temp = maxc;
+    for(int i = 1; i &lt;= temp; i++){
+        for(char j = 'A'; j &lt;= 'Z'; j++){
+            if(cnt[j] == maxc){
+                printf("%c%s", '*', j == 'Z' ? "\n" : " ");
+                cnt[j]--;
+            }
+            else printf("%c%s", ' ', j == 'Z' ? "\n" : " ");
+        }
+        maxc--; 
+    }
+    for(char c = 'A'; c &lt;= 'Z'; c++){
+        printf("%c%s", c, c == 'Z' ? "\n" : " ");
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>F:Game Prediction</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号325 提交次数27 尝试人数11 通过人数8</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>Suppose there are M people, including you, playing a special card game. At the beginning, each player receives N cards. The pip of a card is a positive integer which is at most N*M. And there are no two cards with the same pip. During a round, each player chooses one card to compare with others. The player whose card with the biggest pip wins the round, and then the next round begins. After N rounds, when all the cards of each player have been chosen, the player who has won the most rounds is the winner of the game.
+
+
+
+Given your cards received at the beginning, write a program to tell the maximal number of rounds that you may at least win during the whole game.</dd>
+ 	<dt>输入</dt>
+ 	<dd>The input consists of several test cases. The first line of each case contains two integers m (2 &lt;= m &lt;= 20) and n (1&lt;= n &lt;= 50), representing the number of players and the number of cards each player receives at the beginning of the game, respectively. This followed by a line with n positive integers, representing the pips of cards you received at the beginning. Then a blank line follows to separate the cases.
+
+The input is terminated by a line with two zeros.</dd>
+ 	<dt>输出</dt>
+ 	<dd>For each test case, output a line consisting of the test case number followed by the number of rounds you will at least win during the game.</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>2 5
+1 7 2 10 9
+
+6 11
+62 63 54 66 65 61 57 56 50 53 48
+
+0 0
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">Case 1: 2
+Case 2: 4</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+bool cards[1001];
+
+//贪心策略
+
+int main(){
+    int m, n, t = 0;
+    while(cin&gt;&gt;m&gt;&gt;n){
+        t++;
+        if(m == 0 &amp;&amp; n == 0)break;
+        int ans = 0, others_large = 0;
+        fill(cards, cards + 1000, false);
+        for(int i = 1; i &lt;= n; i++){
+            int temp;
+            cin&gt;&gt;temp;
+            cards[temp] = true;
+        }
+        for(int i = n * m; i &gt;= 1; i--){
+            if(cards[i]){
+                if(others_large == 0)ans++;
+                else others_large--;
+            }else{
+                others_large++;
+            }
+        }
+        cout&lt;&lt;"Case "&lt;&lt;t&lt;&lt;": "&lt;&lt;ans&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+&nbsp;
+
+<hr />
+
+<h2><strong>G:Networking</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号289 提交次数83 尝试人数28 通过人数17</strong></span>
+<div class="problem-page col-9">
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>You are assigned to design network connections between certain points in a wide area. You are given a set of points in the area, and a set of possible routes for the cables that may connect pairs of points. For each possible route between two points, you are given the length of the cable that is needed to connect the points over that route. Note that there may exist many possible routes between two given points. It is assumed that the given possible routes connect (directly or indirectly) each two points in the area.
+Your task is to design the network for the area, so that there is a connection (direct or indirect) between every two points (i.e., all the points are interconnected, but not necessarily by a direct cable), and that the total length of the used cable is minimal.</dd>
+ 	<dt>输入</dt>
+ 	<dd>The input file consists of a number of data sets. Each data set defines one required network. The first line of the set contains two integers: the first defines the number P of the given points, and the second the number R of given routes between the points. The following R lines define the given routes between the points, each giving three integer numbers: the first two numbers identify the points, and the third gives the length of the route. The numbers are separated with white spaces. A data set giving only one number P=0 denotes the end of the input. The data sets are separated with an empty line.
+The maximal number of points is 50. The maximal length of a given route is 100. The number of possible routes is unlimited. The nodes are identified with integers between 1 and P (inclusive). The routes between two points i and j may be given as i j or as j i.</dd>
+ 	<dt>输出</dt>
+ 	<dd>For each data set, print one number on a separate line that gives the total length of the cable used for the entire designed network.</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>1 0
+
+2 3
+1 2 37
+2 1 17
+1 2 68
+
+3 7
+1 2 19
+2 3 11
+3 1 7
+1 3 5
+2 3 89
+3 1 91
+1 2 32
+
+5 7
+1 2 5
+2 3 7
+2 4 8
+4 5 11
+3 5 10
+1 5 6
+4 2 12
+
+0</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">0
+17
+16
+26
+</code></pre>
+</dd>
+</dl>
+</div>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+//Kruskal最小生成树模板题
+int n, m, father[100000];
+
+struct node{
+    int src, dst;
+    int val;
+};
+
+bool cmp(node a, node b){return a.val &lt; b.val;}
+
+int findFather(int a){
+    int t = a;
+    while(a != father[a])a = father[a]; //找到根节点
+    return a;
+}
+
+void init(){
+    for(int i = 1; i &lt;= n; i++)father[i] = i;
+}
+
+int unionSet(int x, int y){ //和并查集一样，如果将根合并
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        father[fx] = fy;
+        return  1;
+    }return 0;
+}
+
+int main(){
+    while(cin&gt;&gt;n){
+        if(n == 0)break;
+        init(); //初始化不能丢
+        cin&gt;&gt;m;
+        int ans = 0;
+        vector&lt;node&gt; pool(m);
+        for(int i = 0; i &lt; m; i++){
+            cin&gt;&gt;pool[i].src&gt;&gt;pool[i].dst&gt;&gt;pool[i].val;
+        }
+        
+        sort(pool.begin(), pool.end(), cmp);
+        int k = 0, i = 0;
+        while(k &lt; n - 1){ 
+            if(unionSet(pool[i].src, pool[i].dst)){ //如果两个节点的根不一样则合并，本质上将两个预给定的边选择出来
+                //也不会成环
+                k++;
+                ans += pool[i].val;
+            }
+            i++;
+        }
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+    return 0;
+}</code></pre>
+
+<hr />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

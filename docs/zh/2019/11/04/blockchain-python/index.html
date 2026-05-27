@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>简单区块链Python实现 · OmegaXYZ</title>
+  <meta name="description" content="什么是区块链 区块链是一种数据结构，也是一个分布式数据库。 从技术上来看： 区块是一种记录交易的数据结构，反映了一笔交易的资金流向。系统中已经达成的交易的区块连接在一起形成了一条主链，所有参与计算的节点都记录了主链或主链的一部分。 组成 区块头 区块头主要包含的三组元数据分别是：(1)用于连接前面的区块、索引自父区块哈希值的数据；(2)挖...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/11/04/blockchain-python/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-11-04</div>
+        <h1>简单区块链Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../category/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>什么是区块链</strong></h2>
+<div>区块链是一种数据结构，也是一个分布式数据库。</div>
+<div></div>
+<div>
+<div><strong>从技术上来看：</strong>区块是一种记录交易的数据结构，反映了一笔交易的资金流向。系统中已经达成的交易的区块连接在一起形成了一条主链，所有参与计算的节点都记录了主链或主链的一部分。</div>
+<div><img class="alignnone wp-image-6022" src="https://cdn.omegaxyz.com/2019/11/blockchain2.png" alt="" width="404" height="288" /></div>
+<div>
+
+<hr />
+
+</div>
+</div>
+<h2><strong>组成</strong></h2>
+<div>
+<h3><strong>区块头</strong></h3>
+<div>区块头主要包含的三组元数据分别是：(1)用于连接前面的区块、索引自父区块哈希值的数据；(2)挖矿难度、时间戳、Nonce(随机数，用于工作量证明算法的计数器，也可理解为记录解密该区块相关数学题的答案的值)；(3)能够总结并快速归纳校验区块中所有交易数据的Merkle（默克尔）树根数据。当然区块头不仅仅包含这些元数据，还有其他比如：版本号、难度值等。</div>
+<div>从这个结构来看，区块链的大部分功能都由区块头实现。</div>
+<h3><strong>区块主体</strong></h3>
+<div>区块主体所记录的交易信息是区块所承载的任务数据，具体包括交易双方的私钥、交易的数量、电子货币的数字签名等。</div>
+<h3><strong>链</strong></h3>
+<div>比特币系统大约每10分钟会创建一个区块，这个区块包含了这段时间里全网范围内发生的所有交易。每一个区块都保存了上一个区块的哈希值，使得每个区块都能找到其前一个区块，这样就将这些区块连接起来，形成了一个链式的结构。</div>
+<div><img class="alignnone wp-image-6023" src="https://cdn.omegaxyz.com/2019/11/blockchain3.png" alt="" width="518" height="268" /></div>
+<div>
+
+<hr />
+
+</div>
+<h2><strong>区块字段</strong></h2>
+<ul>
+ 	<li>Difficulty 此区块的难度级别</li>
+ 	<li>ExtraData 与此区块相关的附加数据 在区块链早期使用比较多，现在用的很少</li>
+ 	<li>gasLimit 当前区块允许使用的最大gas， gas表示一种计算量， 使用的算力单位</li>
+ 	<li>gasUsed 当前区块已经使用的gas</li>
+ 	<li>Hash 当前区块的哈希值。如果区块没有被确认，这个字段会是null值</li>
+ 	<li>LogsBloom 由日志信息组成的一个Bloom过滤器 （数据结构），区块没被确认是值为null</li>
+ 	<li>Miner 取得该区块记账权的矿工</li>
+ 	<li>mixHash 一个Hash值，当与nonce组合时，证明此区块已经执行了足够的计算</li>
+ 	<li>nonce 一个Hash值，当与mixHash组合时，证明此区块已经执行了足够的计算</li>
+ 	<li>Number 当前区块的计数（创世纪块的区块序号为0，对于每个后续区块，区块序号都增加1）</li>
+ 	<li>parentHash 父区块头的Hash值（这也是使得区块变成区块链的原因）</li>
+ 	<li>receiptsRoot 包含此区块所列的所有交易收据的树的根节点Hash值</li>
+ 	<li>Sha3Uncles 数据块的哈希值</li>
+ 	<li>Size 当前区块的字节大小</li>
+ 	<li>stateRoot 区块状态树的根哈希</li>
+ 	<li>Timestamp 区块打包时的unix时间戳</li>
+ 	<li>totalDifficulty 区块链到当前区块的总难度</li>
+ 	<li>Transactions 交易的对象</li>
+ 	<li>transactionsRoot 区块的交易树的根哈希</li>
+ 	<li>Uncles 叔哈希数组 树区块详见 https://blog.csdn.net/weixin_42874184/article/details/81735695</li>
+</ul>
+<img class="alignnone wp-image-6024" src="https://cdn.omegaxyz.com/2019/11/blockchain4.png" alt="" width="793" height="326" />
+
+</div>
+
+<hr />
+
+<h2><strong>Python实现</strong></h2>
+实现了工作量证明，难度计算，哈希部分
+<pre ><code class="language-python">import hashlib
+import datetime
+import random
+
+class Block:
+    def __init__(self, index, transaction, pre_hash, difficulty, nonce):
+        self.index = index
+        self._timestamp = datetime.datetime.now()
+        self._transaction = transaction
+        self._pre_hash = pre_hash
+        self._nonce = nonce
+        self._difficulty = difficulty
+        self.hash = self.gen_hash()
+
+    @property
+    def get_hash(self):
+        return self.hash
+
+    @property
+    def get_index(self):
+        return self.index
+
+    @property
+    def get_transaction(self):
+        return self._transaction
+
+    @property
+    def get_difficulty(self):
+        return self._difficulty
+
+    @property
+    def get_timestamp(self):
+        return self._timestamp
+
+    @property
+    def get_pre_hash(self):
+        return self._pre_hash
+
+    @property
+    def get_nonce(self):
+        return self._nonce
+
+    def gen_hash(self):
+        sha = hashlib.sha256()
+        data = str(self.index) + str(self._timestamp) + str(self._transaction) + str(self._pre_hash) + str(self._nonce) + str(self._difficulty)
+        sha.update(data.encode("utf8"))
+        return sha.hexdigest()
+
+
+class Blockchain:
+    def __init__(self, max_blocks):
+        self._chain_list = [Block(0, "The First Block", '0', '1', random.randrange(0, 99999))]
+        self._previous_block = self._chain_list[0]
+        self._current_block = 1
+        self.max_blocks = max_blocks
+
+    @staticmethod
+    def create_next_block(self):
+        last_block = self._chain_list[self._current_block - 1]
+        last_difficulty = last_block.get_difficulty
+        this_index = last_block.index + 1
+        this_transaction = "New Block " + str(this_index) + " has been generated successfully."
+        nonce = random.randrange(0, 99999)
+        this_difficulty = self.proof_of_work(nonce)
+        pre_hash = last_block.hash
+        self._chain_list.append(Block(this_index, this_transaction, pre_hash, this_difficulty, nonce))
+        self._current_block += 1
+
+    def last_block(self):
+        return self._chain_list[-1]
+
+    def proof_of_work(self, nonce):
+        proof = 0
+        while self.valid_proof(self, proof, nonce) is False:
+            proof += 1
+        return proof
+
+    @staticmethod
+    def valid_proof(self, proof, nonce):
+        guess = f'{proof}{nonce}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        pattern = "0000"
+        return guess_hash[:len(pattern)] == pattern
+
+    def run(self):
+        for i in range(self.max_blocks):
+            self.create_next_block(self)
+
+    def show_block(self, index):
+        print("----------------------------------------")
+        print("ID: ", self._chain_list[index].get_index)
+        print("Time", self._chain_list[index].get_transaction)
+        print("Cur Hash", self._chain_list[index].get_hash)
+        print("Pre Hash", self._chain_list[index].get_pre_hash)
+        print("Difficulty", self._chain_list[index].get_difficulty)
+        print("Trans", self._chain_list[index].get_transaction)
+        print("Nonce", self._chain_list[index].get_nonce)
+        print("----------------------------------------")
+
+
+myBlockChain = Blockchain(100)
+myBlockChain.run()
+for i in range(myBlockChain.max_blocks):
+    myBlockChain.show_block(i)
+
+
+
+</code></pre>
+<img class="alignnone wp-image-6021" src="https://cdn.omegaxyz.com/2019/11/blockchain1.png" alt="" width="588" height="496" />
+
+<hr />
+
+<h2><strong>参考文献</strong></h2>
+<ul>
+ 	<li><a href="https://segmentfault.com/a/1190000014483104">https://segmentfault.com/a/1190000014483104</a></li>
+ 	<li><a href="https://blog.csdn.net/qq874455953/article/details/83718022">https://blog.csdn.net/qq874455953/article/details/83718022</a></li>
+</ul>
+&nbsp;
+
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjM0NzAtMTU3Mjg0ODU0MDU2OSIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLku4AiLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5LmIIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuaYryIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLljLoiLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5Z2XIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IumTviIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIyNDEwLTE1NzI4NDg1NjM2MzUiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5Yy6Iiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuWdlyIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLpk74iLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5pivIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuS4gCIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLnp40iLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5pWwIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuaNriIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLnu5MiLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5p6EIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLkuZ8iLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5pivIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuS4gCIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLkuKoiLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5YiGIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuW4gyIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLlvI8iLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi5pWwIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19LHsiY2hhciI6IuaNriIsInN0eWxlcyI6eyJmb250LWZhbWlseSI6IlNpbVN1biJ9fSx7ImNoYXIiOiLlupMiLCJzdHlsZXMiOnsiZm9udC1mYW1pbHkiOiJTaW1TdW4ifX0seyJjaGFyIjoi44CCIiwic3R5bGVzIjp7ImZvbnQtZmFtaWx5IjoiU2ltU3VuIn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjY4OTItMTU3Mjg0ODU3ODU2MCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOltdLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX1d--></div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-18219">
+          <strong>repostone</strong>
+          <time>2019-11-17 17:15:31</time>
+          <div>非技术的路过。https://repostone.home.blog/</div>
+        </div>
+        
+        <div class="comment" id="comment-18410">
+          <strong><a href="http://nowosty.info/" rel="nofollow">Gregkab</a></strong>
+          <time>2019-12-29 00:10:02</time>
+          <div>Пипл! Кто нибудь знает где можно взять нормальную тему wordpress для новостного сайта?</div>
+        </div>
+        
+        <div class="comment" id="comment-18426">
+          <strong><a href="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epcWeEsu7iaYCjR9sxPklFHBS8LmjIqlkgChEtpas2nlVKoRd8cicTgu2CUyfmqDvvdJZqbPCjHBGibQ/132" rel="nofollow">Reacubeth</a></strong>
+          <time>2020-01-04 14:25:06</time>
+          <div>nice</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

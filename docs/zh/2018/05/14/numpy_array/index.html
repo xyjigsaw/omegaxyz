@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numpy矩阵、数组操作（MATLAB转Python） · OmegaXYZ</title>
+  <meta name="description" content="MATLAB和Python都是解释性语言，如何将代码从MATLAB转换为Python呢，这就需要numpy了。 NumPy是一个关于矩阵运算的库 ，熟悉Matlab的都应该清楚，这个库就是让python能够进行矩阵话的操作，而不用去写循环操作。 下面对numpy中的操作进行总结。 numpy包含两种基本的数据类型：数组和矩阵。 数组创建：...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/14/numpy_array/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-14</div>
+        <h1>Numpy矩阵、数组操作（MATLAB转Python）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">MATLAB和Python都是解释性语言，如何将代码从MATLAB转换为Python呢，这就需要numpy了。
+
+<strong>NumPy是一个关于矩阵运算的库</strong>，熟悉Matlab的都应该清楚，这个库就是让python能够进行矩阵话的操作，而不用去写循环操作。
+
+<strong>下面对numpy中的操作进行总结。</strong>
+numpy包含两种基本的数据类型：数组和矩阵。
+<pre ><code class="language-python">&gt;&gt;&gt; from numpy import *
+&gt;&gt;&gt; a1=array([1,1,1])    #定义一个数组
+&gt;&gt;&gt; a2=array([2,2,2])
+&gt;&gt;&gt; a1+a2                #对于元素相加
+array([3, 3, 3])
+&gt;&gt;&gt; a1*2                 #乘一个数
+array([2, 2, 2])
+
+##
+&gt;&gt;&gt; a1=array([1,2,3])
+&gt;&gt;&gt; a1
+array([1, 2, 3])
+&gt;&gt;&gt; a1**3              #表示对数组中的每个数做平方
+array([ 1,  8, 27])
+##取值，注意的是它是以0为开始坐标，不matlab不同
+&gt;&gt;&gt; a1[1]
+2
+
+##定义多维数组
+&gt;&gt;&gt; a3=array([[1,2,3],[4,5,6]])
+&gt;&gt;&gt; a3
+array([[1, 2, 3],
+       [4, 5, 6]])
+&gt;&gt;&gt; a3[0]             #取出第一行的数据
+array([1, 2, 3])
+&gt;&gt;&gt; a3[0,0]           #第一行第一个数据
+1
+&gt;&gt;&gt; a3[0][0]          #也可用这种方式
+1
+##数组点乘，相当于matlab点乘操作
+&gt;&gt;&gt; a1=array([1,2,3])
+&gt;&gt;&gt; a2=array([4,5,6])
+&gt;&gt;&gt; a1*a2
+array([ 4, 10, 18])</code></pre>
+<strong>数组创建：</strong>
+<pre ><code class="language-python">import numpy as np
+
+a = np.zeros((2,2))  # Create an array of all zeros
+print a              # Prints "[[ 0.  0.]
+                     #          [ 0.  0.]]"
+
+b = np.ones((1,2))   # Create an array of all ones
+print b              # Prints "[[ 1.  1.]]"
+
+c = np.full((2,2), 7) # Create a constant array
+print c               # Prints "[[ 7.  7.]
+                      #          [ 7.  7.]]"
+
+d = np.eye(2)        # Create a 2x2 identity matrix
+print d              # Prints "[[ 1.  0.]
+                     #          [ 0.  1.]]"
+
+e = np.random.random((2,2)) # Create an array filled with random values
+print e                     # Might print "[[ 0.91940167  0.08143941]
+                            #               [ 0.68744134  0.87236687]]"</code></pre>
+<strong>数组对象的属性：</strong>
+
+<img class="alignnone size-full wp-image-4282" src="https://cdn.omegaxyz.com/2018/05/attribute1.jpg" alt="" width="608" height="410" />
+
+<strong>数组对象的方法：</strong>
+
+<img class="alignnone size-full wp-image-4283" src="https://cdn.omegaxyz.com/2018/05/methods.jpg" alt="" width="794" height="674" />
+
+<img class="alignnone size-full wp-image-4284" src="https://cdn.omegaxyz.com/2018/05/methods2.jpg" alt="" width="879" height="553" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

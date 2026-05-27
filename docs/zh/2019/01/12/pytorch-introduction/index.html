@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyTorch入门 · OmegaXYZ</title>
+  <meta name="description" content="PyTorch入门 PyTorch 是一个建立在 Torch 库之上的 Python 包，旨在加速深度学习应用。PyTorch 提供一种类似 NumPy 的抽象方法来表征张量（或多维数组），它可以利用 GPU 来加速训练。 PyTorch 既可以看做加入了GPU 支持的numpy，同时也可以看成一个拥有自动求导功能的强大的深度神经网络，除...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/12/pytorch-introduction/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-12</div>
+        <h1>PyTorch入门</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a></div>
+        <div class="article-content"><h2><strong>PyTorch入门</strong></h2>
+PyTorch 是一个建立在 Torch 库之上的 Python 包，旨在加速深度学习应用。PyTorch 提供一种类似 NumPy 的抽象方法来表征张量（或多维数组），它可以利用 GPU 来加速训练。
+
+PyTorch 既可以看做加入了GPU 支持的numpy，同时也可以看成一个拥有自动求导功能的强大的深度神经网络，除了Facebook 之外，它还已经被Twitter、CMU 和Salesforce 等机构采用。
+<h2><strong>基本知识</strong></h2>
+<strong>标量、向量、张量的区别，下图已经很明确了。</strong>
+
+<img class="alignnone  wp-image-5271" src="https://cdn.omegaxyz.com/2019/01/tensor.png" alt="" width="474" height="263" />
+
+PyTorch 的关键数据结构是张量，即多维数组。其功能与 NumPy 的 ndarray 对象类似，如下我们可以使用 torch.Tensor() 创建张量。
+<pre ><code class="language-python"># Generate a 2-D pytorch tensor (i.e., a matrix)
+pytorch_tensor = torch.Tensor(10, 20)
+print("type: ", type(pytorch_tensor), " and size: ", pytorch_tensor.shape )</code></pre>
+如果你需要一个兼容 NumPy 的表征，或者你想从现有的 NumPy 对象中创建一个 PyTorch 张量。
+<pre ><code class="language-python"># Convert the pytorch tensor to a numpy array:
+numpy_tensor = pytorch_tensor.numpy()
+print("type: ", type(numpy_tensor), " and size: ", numpy_tensor.shape) 
+# Convert the numpy array to Pytorch Tensor:
+print("type: ", type(torch.Tensor(numpy_tensor)), " and size: ", torch.Tensor(numpy_tensor).shape)</code></pre>
+<h2><strong>PyTorch与TensorFlow</strong></h2>
+就目前而言，由于各种原因，TensorFlow 显然比 PyTorch 更受青睐。
+
+TensorFlow 很大，经验丰富，最适合实际应用。 是大多数机器学习和深度学习专家明显的选择，因为它提供了大量的功能，最重要的是它在市场上的成熟应用。 它具有更好的社区支持以及多语言 API 可用。 它有一个很好的文档库，由于从准备到使用的代码使之易于生产。 因此，它更适合想要开始深度学习的人，或者希望开发深度学习模型的组织。
+
+虽然 PyTorch 相对较新，社区较小，但它速度快，效率高。 总之，它给你所有的优势在于 Python 的有用性和易用性。 由于其效率和速度，对于基于研究的小型项目来说，这是一个很好的选择。 如前所述，Facebook、Twitter 等公司正在使用 PyTorch 来训练深度学习模型。 但是，使用它尚未成为主流。 PyTorch 的潜力是显而易见的，但它还没有准备好去挑战这个 TensorFlow 野兽。 然而，考虑到它的增长，PyTorch 进一步优化并提供更多功能的日子并不遥远，直到与 TensorFlow可以 比较。
+<h2><strong>pytorch入门代码</strong></h2>
+<pre ><code class="language-python">import torch
+
+dtype = torch.FloatTensor
+# dtype = torch.cuda.FloatTensor # Uncomment this to run GPU
+
+# N is batch size; D_in is input dimenssion
+# H is hidden demenssion; D_out is output dimension
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# create random input and output data
+x = torch.randn(N, D_in).type(dtype)
+y = torch.randn(N, D_out).type(dtype)
+
+# Randomly initialize weights
+w1 = torch.randn(D_in, H).type(dtype)
+w2 = torch.randn(H, D_out).type(dtype)
+
+learning_rate = 1e-6
+
+for t in range(500):
+    # Forward pss: compute predicted y
+    h = x.mm(w1)
+    h_relu = h.clamp(min=0)
+    y_pred = h_relu.mm(w2)
+
+    # compute and print loss
+    loss = (y_pred - y).pow(2).sum()
+    print(t, loss)
+
+    # backprop to compute gradients of w1 and w2 with respect to loss
+    grad_y_pred = 3.0 * (y_pred - y)
+    grad_w2 = h_relu.t().mm(grad_y_pred)
+    grad_h_relu = grad_y_pred.mm(w2.t())
+    grad_h = grad_h_relu.clone()
+    grad_h[h&lt;0] = 0
+    grad_w1 = x.t().mm(grad_h)
+
+    # update weights using gradient descent
+    w1 -= learning_rate * grad_w1
+    w2 -= learning_rate * grad_w2
+</code></pre>
+<strong>pytorch官网：</strong><a href="https://pytorch.org/">https://pytorch.org/</a>
+<h2></h2></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

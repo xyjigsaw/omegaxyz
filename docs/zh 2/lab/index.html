@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab · OmegaXYZ</title>
+  <meta name="description" content="本页面用于测试插件与HTML代码运行。 加载速度过慢与页面bug请谅解。 网页中动态的显示系统日期时间 当前时间：">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../index.html">主页</a><a href="../archive/index.html">文章</a><a href="../pages/index.html">页面</a><a href="../categories/index.html">分类</a><a href="../search/index.html">搜索</a>
+          <a href="../../en/lab/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-07</div>
+        <h1>Lab</h1>
+        <div class="terms"></div>
+        <div class="article-content"><div id="pl-190"  class="panel-layout" ><div id="pg-190-0"  class="panel-grid panel-no-style" ><div id="pgc-190-0-0"  class="panel-grid-cell"  data-weight="1" ><div id="panel-190-0-0-0" class="so-panel widget widget_text panel-first-child" data-index="0" data-style="{&quot;background_image_attachment&quot;:false,&quot;background_display&quot;:&quot;tile&quot;,&quot;background_image_size&quot;:&quot;full&quot;,&quot;background_image_opacity&quot;:&quot;100&quot;,&quot;border_thickness&quot;:&quot;1px&quot;}" >			<div class="textwidget"><p><strong>本页面用于测试插件与HTML代码运行。</strong></p>
+<p><strong>加载速度过慢与页面bug请谅解。</strong></p>
+</div>
+		</div><div id="panel-190-0-0-1" class="so-panel widget widget_text" data-index="1" data-style="{&quot;background_image_attachment&quot;:false,&quot;background_display&quot;:&quot;tile&quot;,&quot;background_image_size&quot;:&quot;full&quot;,&quot;background_image_opacity&quot;:&quot;100&quot;,&quot;border_thickness&quot;:&quot;1px&quot;}" >			<div class="textwidget"><html>
+    <head>
+        <title>网页中动态的显示系统日期时间</title>
+        <script language="JavaScript">
+            function startTime()   
+            {   
+                var today=new Date();//定义日期对象   
+                var yyyy = today.getFullYear();//通过日期对象的getFullYear()方法返回年    
+                var MM = today.getMonth()+1;//通过日期对象的getMonth()方法返回年    
+                var dd = today.getDate();//通过日期对象的getDate()方法返回年     
+                var hh=today.getHours();//通过日期对象的getHours方法返回小时   
+                var mm=today.getMinutes();//通过日期对象的getMinutes方法返回分钟   
+                var ss=today.getSeconds();//通过日期对象的getSeconds方法返回秒   
+                // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09   
+                MM=checkTime(MM);
+                dd=checkTime(dd);
+                mm=checkTime(mm);   
+                ss=checkTime(ss);    
+                var day; //用于保存星期（getDay()方法得到星期编号）
+                if(today.getDay()==0)   day   =   "星期日 " 
+                if(today.getDay()==1)   day   =   "星期一 " 
+                if(today.getDay()==2)   day   =   "星期二 " 
+                if(today.getDay()==3)   day   =   "星期三 " 
+                if(today.getDay()==4)   day   =   "星期四 " 
+                if(today.getDay()==5)   day   =   "星期五 " 
+                if(today.getDay()==6)   day   =   "星期六 " 
+                document.getElementById('nowDateTimeSpan').innerHTML=yyyy+"-"+MM +"-"+ dd +" " + hh+":"+mm+":"+ss+"   " + day;   
+                setTimeout('startTime()',1000);//每一秒中重新加载startTime()方法 
+            }   
+             
+            function checkTime(i)   
+            {   
+                if (i<10){
+                    i="0" + i;
+                }   
+                  return i;
+            }  
+        </script>
+    </head>
+    <body onload="startTime()">
+        当前时间：<font color="#33FFFF"><span id="nowDateTimeSpan"></span></font> 
+    </body>
+</html></div>
+		</div><div id="panel-190-0-0-2" class="so-panel widget widget_media_audio" data-index="2" data-style="{&quot;background_image_attachment&quot;:false,&quot;background_display&quot;:&quot;tile&quot;,&quot;background_image_size&quot;:&quot;full&quot;,&quot;background_image_opacity&quot;:&quot;100&quot;,&quot;border_thickness&quot;:&quot;1px&quot;}" ></div><div id="panel-190-0-0-3" class="so-panel widget widget_calendar" data-index="3" ></div><div id="panel-190-0-0-4" class="so-panel widget widget_recent-comments widget_recent_comments" data-index="4" data-style="{&quot;background_display&quot;:&quot;tile&quot;}" ></div><div id="panel-190-0-0-5" class="so-panel widget widget_custom_html" data-index="5" data-style="{&quot;background_image_attachment&quot;:false,&quot;background_display&quot;:&quot;tile&quot;}" ></div><div id="panel-190-0-0-6" class="so-panel widget widget_custom_html panel-last-child" data-index="6" data-style="{&quot;background_image_attachment&quot;:false,&quot;background_display&quot;:&quot;tile&quot;}" ></div></div></div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../assets/site.js"></script>
+</body>
+</html>

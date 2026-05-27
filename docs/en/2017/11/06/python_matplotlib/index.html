@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python matplotlib module draws simple images · OmegaXYZ</title>
+  <meta name="description" content="Matplotlib is a Python 2D plotting library that produces publication-quality graphics in a variety of hardcopy formats and in a cross-platform interactive environment [1]. With Matplotlib, developers can generate plots, histograms, power spectra, bar charts, error plots, scatter plots, etc. with just a few lines of code. Basic knowledge of Matplotlib 1. Basic charts in Matplotlib include elements x-axis and y-axis water...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/11/06/python_matplotlib/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-06</div>
+        <h1>Python matplotlib module draws simple images</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a></div>
+        <div class="article-content"><div class="para">Matplotlib is a<a href="https://baike.baidu.com/item/Python" rel="noopener" target="_blank">Python</a>A 2D plotting library that produces publication-quality graphics in a variety of hardcopy formats and in a cross-platform interactive environment<sup>[1]</sup><a class="sup-anchor" name="ref_[1]_21128868"></a>  。</div>
+<div class="para">With Matplotlib, developers can generate plots, histograms, power spectra, bar charts, error plots, scatter plots, etc. with just a few lines of code.</div>
+<div class="para">Matplotlib basics</div>
+<div class="para"><strong>1. Elements included in basic charts in Matplotlib</strong></div>
+<div class="para">x-axis and y-axis</div>
+<div class="para">horizontal and vertical axes</div>
+<div class="para">x-axis and y-axis scale</div>
+<div class="para">The scale marks the separation of the coordinate axes, including the minimum scale and the maximum scale.</div>
+<div class="para">x-axis and y-axis tick labels</div>
+<div class="para">Represents the value of a specific axis</div>
+<div class="para">drawing area</div>
+<div class="para">actual drawing area</div>
+<div class="para"><strong>2.hold attribute</strong></div>
+<div class="para">The hold attribute defaults to True, allowing multiple curves to be drawn in one figure; modify the hold attribute to False, and each plot will overwrite the previous plot.</div>
+<div class="para">However, it is currently not recommended to use the hold attribute (there will be a warning). So just use the default settings.</div>
+<div class="para"><strong>3. Grid lines</strong></div>
+<div class="para">grid method</div>
+<div class="para">Use the grid method to add grid lines to the diagram</div>
+<div class="para">Set the grid parameters (the parameters are the same as the plot function)</div>
+<div class="para">.lw represents linewidth, the thickness of the line</div>
+<div class="para">.alpha represents the lightness and darkness of the line</div>
+<div class="para"><strong>4.axis method</strong></div>
+<div class="para">If the axis method does not have any parameters, it returns the upper and lower limits of the current coordinate axis.</div>
+<div class="para"><strong>5.xlim method and ylim method</strong></div>
+<div class="para">In addition to the plt.axis method, you can also set the coordinate axis range through the xlim and ylim methods.</div>
+<div class="para"><strong>6.legend method</strong></div>
+<div class="para">Two methods of passing parameters:</div>
+<div class="para">[Recommended] Add label parameter to plot function</div>
+<div class="para">Pass in a list of strings in the legend method</div>
+<div class="para">Configure matplotlib parameters</div>
+<div class="para">Permanent configuration</div>
+<div class="para">matplotlib configuration information is read from the configuration file. Permanently valid default values ​​can be specified in the configuration file for almost all properties of matplotlib.</div>
+<div class="para">Per installation configuration file</div>
+<div class="para">Python's site-packages directory (site-packages/matplotlib/mpl-data/matplotlibrc)</div>
+<div class="para">System-level configuration, the configuration file will be overwritten every time matplotlib is reinstalled</div>
+<div class="para">If you want to maintain a persistent and effective configuration, it is best to set it in a user-level configuration file</div>
+<div class="para">The best way to use this configuration file is as a default configuration template</div>
+<div class="para">User-level .matplotlib/matplotlibrc files (Per user .matplotlib/matplotlibrc)</div>
+<div class="para">User's Documents and Settings directory</div>
+<div class="para">You can use the matplotlib.get_configdir() command to find the current user's configuration file directory.</div>
+<div class="para">current working directory</div>
+<div class="para">The directory where the code is run</div>
+<div class="para">In the current directory, matplotlib configuration items can be customized for the current project code contained in the directory. The file name of the configuration file is matplotlibrc</div>
+<div class="para">In Windows systems, there is no global configuration file, and the location of the user configuration file is C:\Documents and Settings\yourname\.matplotlib.</div>
+<div class="para">In Linux systems, the global configuration file is located in /etc/matplotlibrc, and the user configuration file is located in $HOME/.matplotlib/matplotlibrc.</div>
+<div class="para">Dynamic configuration</div>
+<div class="para">Configuration code in the program</div>
+<div class="para">To finetune settings only for that execution; this overwrites every configuration file.</div>
+<div class="para">The priority of configuration methods is:</div>
+<div class="para">Matplotlib functions in Python code</div>
+<div class="para">matplotlibrc file in the current directory</div>
+<div class="para">User matplotlibrc file</div>
+<div class="para">Global matplotlibrc file</div>
+<div class="para">rcParams method</div>
+<div class="para">Access and modify all loaded configuration items through the rcParams dictionary</div>
+<div></div>
+<div>A simple example:</div>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+# **coding=utf-8
+
+x = np.array([-0.5, -1.5, -2, -3.5,-5,-6,-6.2,-6.25,-6.3,-6.35,   0.2,0.4,0.6,0.7,0.72,0.74,0.76,0.78,0.8,0.82])
+y = np.array([-0.1,-0.5,-0.6,-1,-1.5,-1.75,-2,-6,-46.5,-74.5,    0,0.45,0.5,1,1.6,3.25,5.5,8,15.4,35.5])
+
+z1 = np.polyfit(x, y,1)  # 用3次多项式拟合
+
+p1 = np.poly1d(z1)
+
+print(p1)  # 在屏幕上打印拟合多项式
+
+yvals = p1(x)  # 也可以使用yvals=np.polyval(z1,x)
+
+plot1 = plt.plot(x, y, '*', label='original')
+plot2 = plt.plot(x, yvals, 'r', label='ployfit')
+
+plt.xlabel(u'X')
+plt.ylabel(u'Y')
+plt.legend(loc=4)  # 指定legend的位置,读者可以自己help它的用法
+plt.title('UnLiner R Curve ')
+plt.grid()
+plt.show()
+</code></pre>
+<img alt="" class="alignnone size-medium wp-image-2292" height="251" src="https://cdn.omegaxyz.com/2017/11/matplot-300x251.jpg" width="300"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

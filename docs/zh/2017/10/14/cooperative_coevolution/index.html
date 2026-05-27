@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>合作协同进化算法概述（Cooperative Coevolution） · OmegaXYZ</title>
+  <meta name="description" content="合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 分解策略的分类: ①随机分解：随机选择基因的顺序，但是用户要决定组的数量和组的大小。 ②扰动：使用若干方法扰动决策变量尝试对变量进行分组。 ③模型建构：基于个体数量s的概...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/14/cooperative_coevolution/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-14</div>
+        <h1>合作协同进化算法概述（Cooperative Coevolution）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。
+
+&nbsp;
+
+分解策略的分类:
+
+①随机分解：随机选择基因的顺序，但是用户要决定组的数量和组的大小。
+
+②扰动：使用若干方法扰动决策变量尝试对变量进行分组。
+
+③模型建构：基于个体数量s的概率模型，在进化过程中迭代更新。
+
+&nbsp;
+
+下面是CC算法不同的分解策略体现的论文:
+
+Liu, X. Yao, Q. Zhao, and T. Higuchi, “Scaling up fast evolutionary
+programming with cooperative coevolution,” in <em>Proc. IEEE Congr. Evol.</em>
+<em>Comput.</em>, 2001, pp. 1101–1108.（这是第一次解决1000维的基准问题采用的合作协同进化算法）
+van den Bergh and A. P. Engelbrecht, “A cooperative approach to
+particle swarm optimization,” <em>IEEE Trans. Evol. Comput.</em>, vol. 8, no. 3,225–239, Jun. 2004.（这是第一个应用到PSO算法，将一个n维问题分成k-s维问题，没有在大规模的问题上测试过）
+
+&nbsp;
+
+Shi, H. Teng, and Z. Li, “Cooperative co-evolutionary differential
+evolution for function optimization,” in <em>Proc. Int. Conf. Natural Comput.</em>,
+2005, pp. 1080–1088.（应用在差分进化算法中，决策变量被分成两个同样大小的子成分，不适合高维）
+Yang, K. Tang, and X. Yao, “Large scale evolutionary optimization
+using cooperative coevolution,” <em>Inf. Sci.</em>, vol. 178, pp. 2986–2999,
+Aug. 2008.（将问题分成k-s维问题，使用随机分组，在1000维上取得了很好的效果）
+
+N. Omidvar, X. Li, Z. Yang, and X. Yao, “Cooperative coevolution
+for large scale optimization through more frequent random
+grouping,” in <em>Proc. IEEE Congr. Evol. Comput.</em>, Jul. 2010,1754–1761.（修正的CPSO随机分组方案，达到2000维）
+
+&nbsp;
+
+N. Omidvar, X. Li, and X. Yao, “Cooperative co-evolution with delta
+grouping for large scale non-separable function optimization,” in <em>Proc.</em>
+<em>IEEE Congr. Evol. Comput.</em>, Jul. 2010, pp. 1762–1769.（增量分组策略，当目标函数存在不可分子成分时性能低）
+
+&nbsp;
+
+Yang, K. Tang, and X. Yao, “Multilevel cooperative coevolution
+for large scale optimization,” in <em>Proc. IEEE Congr. Evol. Comput.</em>,
+Jun. 2008, pp. 1663–1670.（MLCC算法，一组不同s的值（子成分的大小）提供给算法，缺点较多）
+
+<img class="alignnone wp-image-2184" src="https://cdn.omegaxyz.com/2017/10/CC1-300x118.png" alt="" width="689" height="271" />
+
+另外用CC算法做大规模优化的论文数量有不少。因此要应用CC算法，关键在分解策略提出。
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-16847">
+          <strong>Anonymous</strong>
+          <time>2019-04-26 10:23:41</time>
+          <div>请问有没有具体怎么实现大规模协同进化PSO问题维数分组的文章学习？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16851">
+          <strong>xyjisaw</strong>
+          <time>2019-04-27 08:30:41</time>
+          <div>有很多啊，谷歌学术搜索看看</div>
+        </div>
+        
+        <div class="comment" id="comment-37499">
+          <strong>GU</strong>
+          <time>2024-01-21 10:29:05</time>
+          <div>UP主您好，这么好的网站，怎么不继续更新了哇？我目前结合课题的应用背景，设计出多目标函数、决策变量及约束条件，适配到了原版的NSGA2算法中，并将帕累托前沿解集用评价算法重新筛选。<br>不知道能否有机会跟您探讨一下融合改进算法的相关问题，期待您的回复！谢谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-37559">
+          <strong>xyjisaw</strong>
+          <time>2024-01-24 10:15:11</time>
+          <div>您好，欢迎您对我工作的关注。不过现在我已经转了研究方向。欢迎用留言板和我讨论<br>我的邮箱是noverfitting@gmail.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

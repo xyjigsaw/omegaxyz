@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of C++ container Set · OmegaXYZ</title>
+  <meta name="description" content="The set collection is an associative container that comes with the C++ STL library. It uses a very efficient balanced search binary tree: red-black tree (RBT). Set has the following two characteristics: 1. The elements in the set are all sorted. 2. There are no duplicate elements in the set set. Common operations: construction, copying, destruction. Operation effect. set c produces an empty set/multiset without any elements. set c(op) uses op as the sorting criterion...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/17/cpp_set/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-17</div>
+        <h1>Detailed explanation of C++ container Set</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content">The set collection is an associative container that comes with the C++ STL library. It uses a very efficient balanced search binary tree: red-black tree (RBT). set has the following two characteristics:
+
+1. The elements in the set are all sorted.
+2. There are no duplicate elements in the set collection<img alt="" class="alignnone size-full wp-image-3764" height="189" src="https://cdn.omegaxyz.com/2018/03/set_cpp.png" width="507"/>Common operations:<h2>Construction, copying, destruction</h2>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left"><em>set</em> c</p>
+</td>
+<td valign="top">
+<p align="left">Produces an empty set/multiset with no elements</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(op)</p>
+</td>
+<td valign="top">
+<p align="left">Using op as the sorting criterion, generate an empty set/multiset</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c1(c2)</p>
+</td>
+<td valign="top">
+<p align="left">Produce a copy of a set/multiset, all elements are copied</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">Generate a set/multiset with all elements in the interval [beg, end)</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(beg,end, op)</p>
+</td>
+<td valign="top">
+<p align="left">Using op as the sorting criterion, the elements in the interval [beg, end) generate a set/multiset</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.~set()</p>
+</td>
+<td valign="top">
+<p align="left">Destroy all elements and release memory</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set&lt;Elem&gt;</p>
+</td>
+<td valign="top">
+<p align="left">Generate a set with (operator &lt;) as the sorting criterion</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set&lt;Elem,0p&gt;</p>
+</td>
+<td valign="top">
+<p align="left">Generate a set, using op as the sorting criterion</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>non-volatile operations</h2>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.size()</p>
+</td>
+<td valign="top">
+<p align="left">Returns the current number of elements</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.empty ()</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether the size is zero, which is equivalent to 0 == size() and is more efficient.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.max_size()</p>
+</td>
+<td valign="top">
+<p align="left">Returns the maximum number of elements that can be accommodated</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 == c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is equal to c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 != c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is not equal to c2 (equal to! (c1==c2))</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &lt; c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is less than c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &gt; c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is greater than c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &lt;= c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is less than or equal to c2 (equal to! (c2&lt;c1))</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &gt;= c2</p>
+</td>
+<td valign="top">
+<p align="left">Determine whether c1 is greater than or equal to c2 (equivalent to!(c1&lt;c2))</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Special search functions</h2>Sets and multisets are optimized for fast search of elements and provide special search functions. Therefore, these search functions should be used first to obtain logarithmic complexity instead of linear complexity of STL. For example, when searching for 1000 elements, the logarithmic complexity takes an average of ten times, while the linear complexity requires an average of 500 times.<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">count (elem)</p>
+</td>
+<td valign="top">
+<p align="left">Returns the number of elements whose value is elem</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">find(elem)</p>
+</td>
+<td valign="top">
+<p align="left">Returns the first element whose element value is elem, if not return end()</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">lower _bound(elem)</p>
+</td>
+<td valign="top">
+<p align="left">Returns the first insertable position where the element value is elem, that is, the first element position where the element value &gt;= elem</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">upper _bound (elem)</p>
+</td>
+<td valign="top">
+<p align="left">Returns the last insertable position where the element value is elem, that is, the first element position where the element value &gt; elem</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">equal_range (elem)</p>
+</td>
+<td valign="top">
+<p align="left">Returns the first and last position where elem can be placed, that is, the interval where the element value == elem</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Assignment</h2>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 = c2</p>
+</td>
+<td valign="top">
+<p align="left">Give all elements of c2 to c1</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1.swap(c2)</p>
+</td>
+<td valign="top">
+<p align="left">Swap the elements of c1 and c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">swap(c1,c2)</p>
+</td>
+<td valign="top">
+<p align="left">Same as above, global function</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Iterator related functions</h2>The iterators of sets and multisets are bidirectional iterators. For iterator operations, all elements are treated as constants, which ensures that you will not artificially change the element values ​​to disrupt the established order, so you cannot call variability algorithms such as remove().<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.begin()</p>
+</td>
+<td valign="top">
+<p align="left">Returns a random access iterator pointing to the first element</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.end()</p>
+</td>
+<td valign="top">
+<p align="left">Returns a random access iterator pointing to the position next to the last element</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.rbegin()</p>
+</td>
+<td valign="top">
+<p align="left">Returns a reverse iterator pointing to the first element of the reverse iteration</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.rend()</p>
+</td>
+<td valign="top">
+<p align="left">Returns a reverse iterator pointing to the position next to the last element of the reverse iteration</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Inserting and removing elements</h2>The parameters must be guaranteed to be valid, the iterator must point to a valid position, the starting point of the sequence cannot be located after the end point, and elements cannot be deleted from an empty container.<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>operate</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>Effect</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(elem)</p>
+</td>
+<td valign="top">
+<p align="left">Inserts a copy of elem and returns the position of the new element, regardless of whether the insertion was successful or not.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(pos, elem)</p>
+</td>
+<td valign="top">
+<p align="left">Insert a copy of the elem element and return the position of the new element. POS is the starting point for retrieval, which improves the insertion speed.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">Insert all elements in the interval [beg, end) into c, no return value.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(elem)</p>
+</td>
+<td valign="top">
+<p align="left">Delete all elements equal to elem and return the number of elements removed.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(pos)</p>
+</td>
+<td valign="top">
+<p align="left">Remove the element at the position pointed by the iterator pos, no return value.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">Removes all elements in the interval [beg, end), no return value.</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.clear()</p>
+</td>
+<td valign="top">
+<p align="left">Remove all elements and empty the container</p>
+</td>
+</tr>
+</tbody>
+</table>
+<strong>Example:</strong>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;set&gt;
+//#include&lt;multiset&gt;
+
+using namespace std;
+
+int main()
+{
+    set&lt;int&gt; s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    s.insert(1);
+    s.insert(4);
+    s.insert(5);
+    s.insert(6);
+    cout&lt;&lt;"SIZE:"&lt;&lt;s.size()&lt;&lt;endl;
+    cout&lt;&lt;"max_size:"&lt;&lt;s.max_size()&lt;&lt;endl;
+    cout&lt;&lt;"how many 1 in set? "&lt;&lt;s.count(1)&lt;&lt;endl;
+    cout&lt;&lt;"lower_bound:"&lt;&lt;*s.lower_bound(-1)&lt;&lt;endl;
+    for(set&lt;int&gt;::iterator it=s.begin();it!=s.end();it++){
+        cout&lt;&lt;*it&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    s.erase(1);
+    s.erase(s.begin());
+
+    cout&lt;&lt;"//////////////"&lt;&lt;endl;
+    for(set&lt;int&gt;::iterator it=s.begin();it!=s.end();it++){
+        cout&lt;&lt;*it&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    s.clear();
+    if(s.empty()){
+        cout&lt;&lt;"set is empty"&lt;&lt;endl;
+    }
+    cout&lt;&lt;"SIZE:"&lt;&lt;s.size()&lt;&lt;endl;
+    cout&lt;&lt;"max_size:"&lt;&lt;s.max_size()&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<img alt="" class="alignnone size-full wp-image-3767" height="278" src="https://cdn.omegaxyz.com/2018/03/cpp_set2.jpg" width="529"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

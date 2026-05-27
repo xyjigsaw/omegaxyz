@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>模拟退火算法（SAA）C语言与MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="爬山法 在介绍模拟退火算法之前，先介绍一下 爬山法 。爬山法是一种贪心算法。其目标是要找到函数的最大值，若初始化时，初始点的位置在C处，则会寻找到附近的局部最大值A点处，由于A点出是一个局部最大值点，故对于爬山法来讲，该算法无法跳出局部最大值点。若初始点选择在D处，根据爬山法，则会找到全部最大值点B。这一点也说明了这样基于贪婪的爬山法是否...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/25/saa/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-25</div>
+        <h1>模拟退火算法（SAA）C语言与MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>爬山法</h1>
+在介绍模拟退火算法之前，先介绍一下<strong>爬山法</strong>。爬山法是一种贪心算法。其目标是要找到函数的最大值，若初始化时，初始点的位置在C处，则会寻找到附近的局部最大值A点处，由于A点出是一个局部最大值点，故对于爬山法来讲，该算法无法跳出局部最大值点。若初始点选择在D处，根据爬山法，则会找到全部最大值点B。这一点也说明了这样基于贪婪的爬山法是否能够取得全局最优解与初始值的选取由很大的关系。
+
+<img class="alignnone size-full wp-image-2978" src="https://cdn.omegaxyz.com/2018/01/saa1.png" alt="" width="600" height="400" />
+
+模拟退火算法(Simulated Annealing Algorithm, SAA)的思想借鉴于固体的退火原理，当固体的温度很高的时候，内能比较大，固体的内部粒子处于快速无序运动，当温度慢慢降低的过程中，固体的内能减小，粒子的慢慢趋于有序，最终，当固体处于常温时，内能达到最小，此时，粒子最为稳定。模拟退火算法便是基于这样的原理设计而成。
+
+模拟退火算法从某一较高的温度出发，这个温度称为初始温度，伴随着温度参数的不断下降，算法中的解趋于稳定，但是，可能这样的稳定解是一个局部最优解，此时，模拟退火算法中会以一定的概率跳出这样的局部最优解，以寻找目标函数的全局最优解。如上图中所示，若此时寻找到了A点处的解，模拟退火算法会以一定的概率跳出这个解，如跳到了D点重新寻找，这样在一定程度上增加了寻找到全局最优解的可能性。
+<h1 id="模拟退火算法过程">模拟退火算法过程</h1>
+(1)随机挑选一个单元<span id="MathJax-Element-2786-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-22" class="math"><span id="MathJax-Span-23" class="mrow"><span id="MathJax-Span-24" class="mi">k</span></span></span></span>，并给它一个随机的位移，求出系统因此而产生的能量变化<span id="MathJax-Element-2787-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-25" class="math"><span id="MathJax-Span-26" class="mrow"><span id="MathJax-Span-27" class="mi">Δ</span><span id="MathJax-Span-28" class="msubsup"><span id="MathJax-Span-29" class="mi">E</span><span id="MathJax-Span-30" class="mi">k</span></span></span></span></span>。
+(2)若<span id="MathJax-Element-2788-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-31" class="math"><span id="MathJax-Span-32" class="mrow"><span id="MathJax-Span-33" class="mi">Δ</span><span id="MathJax-Span-34" class="msubsup"><span id="MathJax-Span-35" class="mi">E</span><span id="MathJax-Span-36" class="mi">k</span></span><span id="MathJax-Span-37" class="mo">⩽</span><span id="MathJax-Span-38" class="mn">0</span></span></span></span>，该位移可采纳，而变化后的系统状态可作为下次变化的起点；
+若<span id="MathJax-Element-2789-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-39" class="math"><span id="MathJax-Span-40" class="mrow"><span id="MathJax-Span-41" class="mi">Δ</span><span id="MathJax-Span-42" class="msubsup"><span id="MathJax-Span-43" class="mi">E</span><span id="MathJax-Span-44" class="mi">k</span></span><span id="MathJax-Span-45" class="mo">&gt;</span><span id="MathJax-Span-46" class="mn">0</span></span></span></span>，位移后的状态可采纳的概率为
+<div class="MathJax_Display" role="textbox" aria-readonly="true"> <img class="alignnone size-full wp-image-2979" src="https://cdn.omegaxyz.com/2018/01/saa2.jpg" alt="" width="315" height="115" /></div>
+<div role="textbox" aria-readonly="true">式中<span id="MathJax-Element-2791-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-75" class="math"><span id="MathJax-Span-76" class="mrow"><span id="MathJax-Span-77" class="mi">T</span></span></span></span>为温度，然后从<span id="MathJax-Element-2792-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-78" class="math"><span id="MathJax-Span-79" class="mrow"><span id="MathJax-Span-80" class="mrow"><span id="MathJax-Span-81" class="mo">(</span><span id="MathJax-Span-82" class="mn">0</span><span id="MathJax-Span-83" class="mo">,</span><span id="MathJax-Span-84" class="mn">1</span><span id="MathJax-Span-85" class="mo">)</span></span></span></span></span>区间均匀分布的随机数中挑选一个数<span id="MathJax-Element-2793-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-86" class="math"><span id="MathJax-Span-87" class="mrow"><span id="MathJax-Span-88" class="mi">R</span></span></span></span>，若<span id="MathJax-Element-2794-Frame" class="MathJax" role="textbox" aria-readonly="true"><span id="MathJax-Span-89" class="math"><span id="MathJax-Span-90" class="mrow"><span id="MathJax-Span-91" class="mi">R</span><span id="MathJax-Span-92" class="mo">&lt;</span><span id="MathJax-Span-93" class="msubsup"><span id="MathJax-Span-94" class="mi">P</span><span id="MathJax-Span-95" class="mi">k</span></span></span></span></span>，则将变化后的状态作为下次的起点；否则，将变化前的状态作为下次的起点。
+(3)转第(1)步继续执行，知道达到平衡状态为止。</div>
+<div role="textbox" aria-readonly="true">
+<h1 id="模拟退火算法流程"><strong>模拟退火算法流程</strong></h1>
+<img class="alignnone size-full wp-image-2981" src="https://cdn.omegaxyz.com/2018/01/saa3.jpeg" alt="" width="460" height="616" />
+<h1 id="模拟退火算法流程">模拟退火算法MATLAB实现</h1>
+<strong>计算-x^2-4x+3的最大值：</strong>
+
+主函数：
+<pre ><code class="language-matlab">clc;
+clear;
+k = 0.1;
+r = 0.9;
+T = 2000;
+T_min = 20;
+glb = -4.0;
+lub = 4.0;
+gen = 100000;
+best = func(rnd(glb,lub));
+best_min = 9999;
+while(T&gt;T_min)
+    for i=1:gen
+        current = func(rnd(glb,lub));
+        dE = current - best;
+        if(dE&gt;=0)
+            best = current;
+            best_min = current;
+        else
+            if(exp(dE/(T*k))&gt;rnd(0,1))
+                best = current;
+            end
+        end
+    end
+    T = r * T;
+end</code></pre>
+随机数生成函数：
+<pre ><code class="language-matlab">function y = rnd(glb, lub)
+y = glb + (lub-glb)*rand();
+end
+
+</code></pre>
+目标函数：
+<pre ><code class="language-matlab">function y = func(x)
+y = -x*x-4*x+3;
+end</code></pre>
+<h1 id="模拟退火算法流程">模拟退火算法C语言实现</h1>
+<strong>计算-x^2-4x+3的最大值：</strong>
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#include &lt;time.h&gt;
+
+#define num 1000000 //迭代次数
+
+double k=0.1;
+double r=0.9; //用于控制降温的快慢
+double T=2000; //系统的温度，系统初始应该要处于一个高温的状态
+double T_min =2;//温度的下限，若温度T达到T_min，则停止搜索
+//返回指定范围内的随机浮点数
+double rnd(double dbLow,double dbUpper)
+{
+    double dbTemp=rand()/((double)RAND_MAX+1.0);
+    return dbLow+dbTemp*(dbUpper-dbLow);
+}
+double func(double x)//目标函数
+{
+    return -x*x-4*x+3;
+}
+int main()
+{
+    double best=func(rnd(-4,4));
+    double dE,current;
+    double gbest=0;
+    int i;
+    while( T &gt; T_min )
+    {
+        for(i=0;i&lt;num;i++)
+        {
+        //用当前时间点初始化随机种子，防止每次运行的结果都相同
+        time_t tm;
+        time(&amp;tm);
+        unsigned int nSeed=(unsigned int)tm;
+        srand(nSeed);
+
+        current=func(rnd(-4,4));
+        dE = current - best ;
+
+        if ( dE &gt;= 0 ) //表达移动后得到更优解，则总是接受移动
+            best = current ;
+            gbest = current;
+
+        }
+        T = r * T ;//降温退火 ，0&lt;r&lt;1 。r越大，降温越慢；r越小，降温越快
+    }
+    printf("最大值是 %f\n",best);
+    printf("gbest为：%f\n",gbest);
+    return 0;
+}
+</code></pre>
+<h1>结果</h1>
+best和best_min是求出的最大值。
+
+<img class="alignnone size-full wp-image-2982" src="https://cdn.omegaxyz.com/2018/01/saa4.jpg" alt="" width="384" height="282" />
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyQt5构建MVC模式样例 · OmegaXYZ</title>
+  <meta name="description" content="MVC 是一种使用 MVC（Model View Controller 模型-视图-控制器）设计创建 Web 应用程序的模式： [1] Model（模型）表示应用程序核心（比如数据库记录列表）。 View（视图）显示数据（数据库记录）。 Controller（控制器）处理输入（写入数据库记录）。 MVC 模式同时提供了对 HTML、CSS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/03/pyqt5_mvc/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-03</div>
+        <h1>PyQt5构建MVC模式样例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/pyqt/index.html">PyQt</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a><a class="pill" href="../../../../tag/mvc/index.html">MVC</a></div>
+        <div class="article-content"><div class="para">MVC 是一种使用 MVC（Model View Controller 模型-视图-控制器）设计创建 Web 应用程序的模式：<sup class="sup--normal" data-sup="1" data-ctrmap=":1,"> [1]</sup><a class="sup-anchor" name="ref_[1]_5468343"></a></div>
+<ul class="custom_dot para-list list-paddingleft-1">
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">Model（模型）表示应用程序核心（比如数据库记录列表）。</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">View（视图）显示数据（数据库记录）。</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">Controller（控制器）处理输入（写入数据库记录）。</div></li>
+</ul>
+<div class="para">MVC 模式同时提供了对 HTML、CSS 和 JavaScript 的完全控制。</div>
+<div class="para"><b>Model（模型）</b>是应用程序中用于处理应用程序数据逻辑的部分。
+通常模型对象负责在数据库中存取数据。</div>
+<div class="para"><b>View（视图）</b>是应用程序中处理数据显示的部分。
+通常视图是依据模型数据创建的。</div>
+<div class="para"><b>Controller（控制器）</b>是应用程序中处理用户交互的部分。</div>
+<div class="para">
+<span style="color: #ff0000;"><strong>通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</strong></span></div>
+<div></div>
+<div class="para">MVC 分层有助于管理复杂的应用程序，因为您可以在一个时间内专门关注一个方面。例如，您可以在不依赖业务逻辑的情况下专注于视图设计。同时也让应用程序的测试更加容易。</div>
+<div class="para">MVC 分层同时也简化了分组开发。不同的开发人员可同时开发视图、控制器逻辑和业务逻辑。</div>
+<div></div>
+<div><strong>下面给出了一个用PyQt5写的登录窗口，基于MVC模式构建：</strong></div>
+<div>
+<pre ><code class="language-python">import sys
+from functools import partial
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Model:
+    def __init__(self):
+        self.username = ""
+        self.password = ""
+
+    def verify_password(self):
+        return self.username == "USER" and self.password == "PASS"
+
+
+class View(QtWidgets.QWidget):
+    verifySignal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super(View, self).__init__()
+        self.username = ""
+        self.password = ""
+        self.initUi()
+
+    def initUi(self):
+        lay = QtWidgets.QVBoxLayout(self)
+        title = QtWidgets.QLabel("&lt;b&gt;LOGIN&lt;/b&gt;")
+        lay.addWidget(title, alignment=QtCore.Qt.AlignHCenter)
+
+        fwidget = QtWidgets.QWidget()
+        flay = QtWidgets.QFormLayout(fwidget)
+        self.usernameInput = QtWidgets.QLineEdit()
+        self.usernameInput.textChanged.connect(partial(setattr, self, "username"))
+        self.passwordInput = QtWidgets.QLineEdit(echoMode=QtWidgets.QLineEdit.Password)
+        self.passwordInput.textChanged.connect(partial(setattr, self, "password"))
+        self.loginButton = QtWidgets.QPushButton("Login")
+        self.loginButton.clicked.connect(self.verifySignal)
+
+        flay.addRow("Username: ", self.usernameInput)
+        flay.addRow("Password: ", self.passwordInput)
+        flay.addRow(self.loginButton)
+
+        lay.addWidget(fwidget, alignment=QtCore.Qt.AlignHCenter)
+        lay.addStretch()
+
+    def clear(self):
+        self.usernameInput.clear()
+        self.passwordInput.clear()
+
+    def showMessage(self):
+        messageBox = QtWidgets.QMessageBox(self)
+        messageBox.setText("your credentials are valid\n Welcome")
+        messageBox.exec_()
+        self.close()
+
+    def showError(self):
+        messageBox = QtWidgets.QMessageBox(self)
+        messageBox.setText("your credentials are not valid\nTry again...")
+        messageBox.setIcon(QtWidgets.QMessageBox.Critical)
+        messageBox.exec_()
+
+
+class Controller:
+    def __init__(self):
+        self._app = QtWidgets.QApplication(sys.argv)
+        self._model = Model()  # 初始化模型
+        self._view = View()  # 初始化视图
+        self.init()
+
+    def init(self):
+        self._view.verifySignal.connect(self.verify_credentials)
+
+    def verify_credentials(self):
+        self._model.username = self._view.username
+        self._model.password = self._view.password
+        self._view.clear()
+        if self._model.verify_password():
+            self._view.showMessage()
+        else:
+            self._view.showError()
+
+    def run(self):
+        self._view.show()
+        return self._app.exec_()
+
+
+if __name__ == '__main__':
+    c = Controller()  # 调用控制器
+    sys.exit(c.run())
+</code></pre>
+</div>
+<h2><strong>效果</strong></h2>
+<img class="alignnone  wp-image-5568" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC1.png" alt="" width="307" height="227" />
+
+<img class="alignnone  wp-image-5569" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC2.png" alt="" width="378" height="186" />
+
+<img class="alignnone  wp-image-5570" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC3.png" alt="" width="378" height="208" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

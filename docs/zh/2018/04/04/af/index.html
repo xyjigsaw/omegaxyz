@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人工鱼群算法MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="人工鱼群算法 在一片水域中，鱼往往能自行或尾随其他鱼找到营养物质多的地方，因而鱼生存数目最多的地方一般就是本水域中营养物质最多的地方，人工鱼群算法就是根据这一特点，通过构造人工鱼来模仿鱼群的觅食、聚群及追尾行为，从而实现寻优。 中文名 人工鱼群算法 典型行为觅食行为 特 点 具有较快的收敛速度 停止条件 均方差小于允许的误差。 算法描述...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/04/af/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-04</div>
+        <h1>人工鱼群算法MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><strong>人工鱼群算法</strong>
+在一片水域中，鱼往往能自行或尾随其他鱼找到营养物质多的地方，因而鱼生存数目最多的地方一般就是本水域中营养物质最多的地方，人工鱼群算法就是根据这一特点，通过构造人工鱼来模仿鱼群的觅食、聚群及追尾行为，从而实现寻优。
+中文名 人工鱼群算法 典型行为觅食行为 特 点 具有较快的收敛速度 停止条件 均方差小于允许的误差。
+
+<strong>算法描述</strong>
+在一片水域中，鱼往往能自行或尾随其他鱼找到营养物质多的地方，因而鱼生存数目最多的地方一般就是本水域中营养物质最多的地方，人工鱼群算法就是根据这一特点，通过构造人工鱼来模仿鱼群的觅食、聚群及追尾行为，从而实现寻优，以下是鱼的几种典型行为:
+1)觅食行为：一般情况下鱼在水中随机地自由游动,当发现食物时,则会向食物逐渐增多的方向快速游去。
+2)聚群行为:鱼在游动过程中为了保证自身的生存和躲避危害会自然地聚集成群，鱼聚群时所遵守的规则有三条：分隔规则：尽量避免与临近伙伴过于拥挤;对准规则:尽量与临近伙伴的平均方向一致;内聚规则:尽量朝临近伙伴的中心移动。
+3)追尾行为：当鱼群中的一条或几条鱼发现食物时,其临近的伙伴会尾随其快速到达食物点。
+4)随机行为：单独的鱼在水中通常都是随机游动的，这是为了更大范围地寻找食物点或身边的伙伴。
+
+<strong>特点</strong>
+1)具有较快的收敛速度，可以用于解决有实时性要求的问题；
+2)对于一些精度要求不高的场合，可以用它快速的得到一个可行解；
+3)不需要问题的严格机理模型，甚至不需要问题的精确描述，这使得它的应用范围得以延伸。
+
+<strong>停止条件</strong>
+1) 判断连续多次所得的均方差小于允许的误差；
+2)判断某个区域的人工鱼群的数目达到某个比率；
+3)连续多次所获取的值均不能超过已找到的极值。
+4）迭代次数达到预设次数
+
+一维函数寻优MATLAB代码：
+
+①main.m
+<pre ><code class="language-matlab">clc
+clear all
+close all
+tic
+figure(1);hold on
+ezplot('x*sin(10*pi*x)+2',[-1,2]);
+%% 参数设置
+fishnum=50; %生成50只人工鱼
+MAXGEN=50; %最多迭代次数
+try_number=100;%最多试探次数
+visual=1; %感知距离
+delta=0.618; %拥挤度因子
+step=0.1; %步长
+%% 初始化鱼群
+lb_ub=[-1,2,1];
+X=AF_init(fishnum,lb_ub);
+LBUB=[];
+for i=1:size(lb_ub,1)
+    LBUB=[LBUB;repmat(lb_ub(i,1:2),lb_ub(i,3),1)];
+end
+gen=1;
+BestY=-1*ones(1,MAXGEN); %每步中最优的函数值
+BestX=-1*ones(1,MAXGEN); %每步中最优的自变量
+besty=-100; %最优函数值
+Y=AF_foodconsistence(X);
+while gen&lt;=MAXGEN
+    fprintf(1,'%d\n',gen)
+    for i=1:fishnum
+          %% 聚群行为
+        [Xi1,Yi1]=AF_swarm(X,i,visual,step,delta,try_number,LBUB,Y); 
+         %% 追尾行为
+        [Xi2,Yi2]=AF_follow(X,i,visual,step,delta,try_number,LBUB,Y); 
+        if Yi1&gt;Yi2
+            X(:,i)=Xi1;
+            Y(1,i)=Yi1;
+        else
+            X(:,i)=Xi2;
+            Y(1,i)=Yi2;
+        end
+    end
+    [Ymax,index]=max(Y);
+    figure(1);
+    plot(X(1,index),Ymax,'.','color',[gen/MAXGEN,0,0])
+    if Ymax&gt;besty
+        besty=Ymax;
+        bestx=X(:,index);
+        BestY(gen)=Ymax;
+        [BestX(:,gen)]=X(:,index);
+    else
+        BestY(gen)=BestY(gen-1);
+        [BestX(:,gen)]=BestX(:,gen-1);
+    end
+    gen=gen+1;
+end
+plot(bestx(1),besty,'ro','MarkerSize',100)
+xlabel('x')
+ylabel('y')
+title('鱼群算法迭代过程中最优坐标移动')
+
+%% 优化过程图
+figure
+plot(1:MAXGEN,BestY)
+xlabel('迭代次数')
+ylabel('优化值')
+title('鱼群算法迭代过程')
+disp(['最优解X：',num2str(bestx,'%1.4f')])
+disp(['最优解Y：',num2str(besty,'%1.4f')])
+toc</code></pre>
+②dist.m
+<pre ><code class="language-matlab">%计算第i条鱼与所有鱼的位置，包括本身。
+function D=dist(Xi,X)
+col=size(X,2);
+D=zeros(1,col);
+for j=1:col
+    D(j)=norm(Xi-X(:,j));
+end</code></pre>
+③AF_swarm.m
+<pre ><code class="language-matlab">function [Xnext,Ynext]=AF_swarm(X,i,visual,step,deta,try_number,LBUB,lastY)
+% 聚群行为
+%输入：
+%X           所有人工鱼的位置
+%i           当前人工鱼的序号
+%visual      感知范围
+%step        最大移动步长
+%deta        拥挤度
+%try_number  最大尝试次数
+%LBUB        各个数的上下限
+%lastY       上次的各人工鱼位置的食物浓度
+
+%输出：
+%Xnext       Xi人工鱼的下一个位置  
+%Ynext       Xi人工鱼的下一个位置的食物浓度
+Xi=X(:,i);
+D=AF_dist(Xi,X);
+index=find(D&gt;0 &amp; D&lt;visual);
+nf=length(index);
+if nf&gt;0
+    for j=1:size(X,1)
+        Xc(j,1)=mean(X(j,index));
+    end
+    Yc=AF_foodconsistence(Xc);
+    Yi=lastY(i);
+    if Yc/nf&gt;deta*Yi
+        Xnext=Xi+rand*step*(Xc-Xi)/norm(Xc-Xi);
+        for i=1:length(Xnext)
+            if  Xnext(i)&gt;LBUB(i,2)
+                Xnext(i)=LBUB(i,2);
+            end
+            if  Xnext(i)&lt;LBUB(i,1)
+                Xnext(i)=LBUB(i,1);
+            end
+        end
+        Ynext=AF_foodconsistence(Xnext);
+    else
+        [Xnext,Ynext]=AF_prey(Xi,i,visual,step,try_number,LBUB,lastY);
+    end
+else
+    [Xnext,Ynext]=AF_prey(Xi,i,visual,step,try_number,LBUB,lastY);
+end</code></pre>
+④AF_prey.m
+<pre ><code class="language-matlab">function [Xnext,Ynext]=AF_prey(Xi,ii,visual,step,try_number,LBUB,lastY)
+%觅食行为
+%输入：
+%Xi          当前人工鱼的位置
+%ii          当前人工鱼的序号
+%visual      感知范围
+%step        最大移动步长
+%try_number  最大尝试次数
+%LBUB        各个数的上下限
+%lastY       上次的各人工鱼位置的食物浓度
+
+%输出：
+%Xnext       Xi人工鱼的下一个位置  
+%Ynext       Xi人工鱼的下一个位置的食物浓度
+
+Xnext=[];
+Yi=lastY(ii);
+for i=1:try_number
+    Xj=Xi+(2*rand(length(Xi),1)-1)*visual;
+    Yj=AF_foodconsistence(Xj);
+    if Yi&lt;Yj
+        Xnext=Xi+rand*step*(Xj-Xi)/norm(Xj-Xi);
+        for i=1:length(Xnext)
+            if  Xnext(i)&gt;LBUB(i,2)
+                Xnext(i)=LBUB(i,2);
+            end
+            if  Xnext(i)&lt;LBUB(i,1)
+                Xnext(i)=LBUB(i,1);
+            end
+        end
+        Xi=Xnext;
+        break;
+    end
+end
+
+%随机行为
+if isempty(Xnext)
+    Xj=Xi+(2*rand(length(Xi),1)-1)*visual;
+    Xnext=Xj;
+    for i=1:length(Xnext)
+        if  Xnext(i)&gt;LBUB(i,2)
+            Xnext(i)=LBUB(i,2);
+        end
+        if  Xnext(i)&lt;LBUB(i,1)
+            Xnext(i)=LBUB(i,1);
+        end
+    end
+end
+Ynext=AF_foodconsistence(Xnext);
+</code></pre>
+⑤AF_init.m
+<pre ><code class="language-matlab">function X=AF_init(Nfish,lb_ub)
+%输入：
+% Nfish 鱼群大小
+% lb_ub 鱼的活动范围
+
+%输出：
+% X     产生的初始人工鱼群
+
+% example：
+% Nfish=3;
+% lb_ub=[-3.0,12.1,1;4.1,5.8,1]; 
+%%这里的lb_ub是2行3列的矩阵，每行中前两个数是范围的上下限，第3个数是在该范围内的数的个数
+% X=Inital(Nfish,lb_ub)  
+%%就是产生[-3.0,12.1]内的数1个，[4.1,5.8]内的数1个
+%%两个数一组，这样的数一共Nfish个
+row=size(lb_ub,1);
+X=[];
+for i=1:row
+    lb=lb_ub(i,1);
+    ub=lb_ub(i,2);
+    nr=lb_ub(i,3);
+    for j=1:nr
+        X(end+1,:)=lb+(ub-lb)*rand(1,Nfish);
+    end
+end
+</code></pre>
+⑥AF_foodconsistence
+<pre ><code class="language-matlab">function [Y]=AF_foodconsistence(X)
+fishnum=size(X,2);
+for i=1:fishnum
+     Y(1,i)=X(i)*sin(10*pi*X(i))+2;
+end
+
+</code></pre>
+⑦AF_follow.m
+<pre ><code class="language-matlab">function [Xnext,Ynext]=AF_follow(X,i,visual,step,deta,try_number,LBUB,lastY)
+% 追尾行为
+%输入：
+%X           所有人工鱼的位置
+%i           当前人工鱼的序号
+%visual      感知范围
+%step        最大移动步长
+%deta        拥挤度
+%try_number  最大尝试次数
+%LBUB        各个数的上下限
+%lastY       上次的各人工鱼位置的食物浓度
+
+%输出：
+%Xnext       Xi人工鱼的下一个位置
+%Ynext       Xi人工鱼的下一个位置的食物浓度
+Xi=X(:,i);
+D=AF_dist(Xi,X);
+index=find(D&gt;0 &amp; D&lt;visual);
+nf=length(index);
+if nf&gt;0
+    XX=X(:,index);
+    YY=lastY(index);
+    [Ymax,Max_index]=max(YY);
+    Xmax=XX(:,Max_index);
+    Yi=lastY(i);
+    if Ymax/nf&gt;deta*Yi;
+        Xnext=Xi+rand*step*(Xmax-Xi)/norm(Xmax-Xi);
+        for i=1:length(Xnext)
+            if  Xnext(i)&gt;LBUB(i,2)
+                Xnext(i)=LBUB(i,2);
+            end
+            if  Xnext(i)&lt;LBUB(i,1)
+                Xnext(i)=LBUB(i,1);
+            end
+        end
+        Ynext=AF_foodconsistence(Xnext);
+    else
+        [Xnext,Ynext]=AF_prey(X(:,i),i,visual,step,try_number,LBUB,lastY);
+    end
+else
+    [Xnext,Ynext]=AF_prey(X(:,i),i,visual,step,try_number,LBUB,lastY);
+end
+</code></pre>
+⑧AF_dist
+<pre ><code class="language-matlab">function D=AF_dist(Xi,X)
+%计算第i条鱼与所有鱼的位置，包括本身。
+%输入：
+%Xi   第i条鱼的当前位置  
+%X    所有鱼的当前位置
+% 输出：
+%D    第i条鱼与所有鱼的距离
+col=size(X,2);
+D=zeros(1,col);
+for j=1:col
+    D(j)=norm(Xi-X(:,j));
+end
+</code></pre>
+<strong>效果</strong>
+
+<img class="alignnone size-full wp-image-3942" src="https://cdn.omegaxyz.com/2018/04/fish2.jpg" alt="" width="562" height="507" />
+
+<img class="alignnone size-full wp-image-3941" src="https://cdn.omegaxyz.com/2018/04/fish1.jpg" alt="" width="562" height="507" />
+
+<strong>参考文献</strong>
+
+Feng Shi. MATLAB 智能算法-30个案例分析[J]. 2015.</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18249">
+          <strong>吴理煜</strong>
+          <time>2019-11-22 11:06:03</time>
+          <div>请问如果想要改成求解最小值应该这么做?</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18250">
+          <strong>xyjisaw</strong>
+          <time>2019-11-22 11:08:02</time>
+          <div>加负号</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

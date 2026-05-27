@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feature engineering - feature discretization and selection · OmegaXYZ</title>
+  <meta name="description" content="Summary Since many feature selection problems deal with discrete data, a common approach is to apply discretization before feature selection. In order to improve efficiency, features are usually discretized univariately. This scheme is based on the assumption that each feature affects the task independently, which may not be true in the presence of feature interactions. Therefore, univariate discretization reduces the performance of the feature selection stage after information is displayed. Feature interactions may be lost during the discretization process. In addition to feature selection, feature discretization also deals with...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/23/feature-discretization-selection/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-23</div>
+        <h1>Feature engineering - feature discretization and selection</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><strong>summary</strong></h2>Since many feature selection problems deal with discrete data, a common approach is to apply discretization before feature selection. In order to improve efficiency, features are usually discretized univariately. This scheme is based on the assumption that each feature affects the task independently, which may not be true in the presence of feature interactions. Therefore, univariate discretization reduces the performance of the feature selection stage after information is displayed. Feature interactions may be lost during the discretization process.
+
+In addition to feature selection, feature discretization is also a crucial method for processing high-dimensional data. Discretization of features converts continuous values ​​into discrete values. Through discretization, small fluctuations or possible noise can be discovered.<strong>Therefore, feature selection + feature discretization can effectively improve classifier performance and reduce computing time and storage space.</strong>In this paper, the author proposes an algorithm called PPSO to reduce the search space. Of course, the fitness function here has also been adjusted accordingly to improve search performance. The result is a compression rate of up to 95%.<strong>Keywords: PSO, feature selection, discretization, classification, high dimension</strong>In PSO feature selection, PSO represents an N-dimensional variable. Each value in real encoding is between 0 and 1. One possible result of this is that two different vectors select the same feature subset. In discretization, a slightly different evolutionary cut-point may lead to different discrete characteristics.<strong>The entropy base cut point can reduce the search space.</strong>
+<h2><strong>Target</strong></h2>Propose a new way to combine discretization and feature selection into the same stage (BBPSO)<h2><strong>The research questions include</strong></h2>① How to perform multi-variable discretization and selection to improve the discriminative power of feature sets in a single stage.
+
+② Can PPSO achieve better classification accuracy by discretizing and selecting features than using the full feature set?
+
+③Whether the performance of PPSO is better than the corresponding one. Accuracy of two-stage methods on feature subsets. size and computation time.
+
+④Whether PPSO is better than EPSO and achieves better classification performance without FS bias.
+
+⑤Whether the results of PPSO can be well generalized to algorithms other than packaging methods in learning.<h2><strong>Feature Discretization (quantification and discretization of features)</strong></h2>Research on feature discretization has a long history. There are many discretization methods, but these methods are all based on the same goal: to determine cut-points to divide features into discrete values.
+
+Cut-points, or split-points, are real values ​​within a feature range that divide the feature range into multiple intervals.
+
+Existing discretization methods fall into the following categories:
+
+①Direct method, the interval is generated by predefined parameters
+
+② Incremental method, recursive division or merging interval guidance to meet the requirements
+
+These are known as top-down or bottom-up approaches
+
+Of course there are supervised and unsupervised approaches.
+
+The effect of the unsupervised method is not as good as the supervised method. The following mainly explains the supervised method.
+
+Minimizing the discretization length (MDL) is currently a popular method. It is a discretization method based on entropy-based incremental partitioning. Information gain is used to evaluate cut-points. Through recursion, MDL is able to select the best cut-point to turn one interval into two intervals until the minimum discretization length is reached. In this paper, the author proposes a cut-point method that uses the entropy-based cut point as an initial candidate for BBPSO.<h2><strong>Feature selection using discretization</strong></h2>
+<h3><strong>dual stage</strong></h3>There are not many studies that combine feature selection and discretization. First, the features are ranked through the discretization process, and then the TOP-RANKED features will be selected. This method is divided into two steps, the first step is discretization and the second step is feature selection.<img alt="" class="alignnone size-full wp-image-4829" height="261" src="https://cdn.omegaxyz.com/2018/07/FDFS2.png" width="754"/>
+<h3><strong>Single stage (feature selection while discretizing)</strong></h3>In order to achieve discretization, the eigenvalue features below the cut-point are set to 0, and vice versa. If all the values ​​​​of a feature are set to 0 or 1, it can be considered an irrelevant feature because it cannot distinguish the categories in the instance. Feature selection will remove these features.<img alt="" class="alignnone size-full wp-image-4828" height="281" src="https://cdn.omegaxyz.com/2018/07/FDFS1.png" width="755"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

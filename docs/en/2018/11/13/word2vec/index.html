@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to word2vec in NLP · OmegaXYZ</title>
+  <meta name="description" content="Introduction Word2vec is a group of related models used to generate word vectors. These models are shallow, two-layer neural networks trained to reconstruct linguistic word text. The network is represented by words and needs to guess the input words at adjacent positions. Under the assumption of the word bag model in word2vec, the order of the words is not important. After training is completed, the word2vec model can be used to map each word to a vector, which can be used to represent the relationship between words. This vector is the hidden layer of the neural network. W...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/11/13/word2vec/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-13</div>
+        <h1>Introduction to word2vec in NLP</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Word2vec is a group of related models used to generate word vectors. These models are shallow, two-layer neural networks trained to reconstruct linguistic word text. The network is represented by words and needs to guess the input words at adjacent positions. Under the assumption of the word bag model in word2vec, the order of the words is not important. After training is completed, the word2vec model can be used to map each word to a vector, which can be used to represent the relationship between words. This vector is the hidden layer of the neural network.<img alt="" class="alignnone size-full wp-image-5123" height="446" src="https://cdn.omegaxyz.com/2018/11/word2vec.png" width="800"/>
+<em>WI</em>The size is<em>VxN, V</em>is the size of the word dictionary, each input is a word, and N is the hidden layer size you set.<h2><strong>One-hot encoding</strong></h2>One hot representation is very simple to represent word vectors, but it has many problems. When the number of words is extremely large, it will cause the curse of dimensionality. In fact, except for one position of such a vector, which is 1, the other positions are all 0, and the expression efficiency is very low.<strong>one-hot encoding python implementation</strong>https://omegaxyz.com/2018/04/22/one-hot/?hilite=%27one-hot%27
+
+Dristributed representation can solve the problem of One hot representation. Its idea is to map each word to a shorter word vector through training. All these word vectors form a vector space, and ordinary statistical methods can be used to study the relationship between words. What is the dimension of this shorter word vector? This generally needs to be specified by ourselves during training.<h2 class="para"><strong>Bag-of-words model</strong></h2>
+<ul>
+<li>Predict a text from its context</li>
+</ul>
+<div class="para">The Bag-of-words model is a simplified expression model under natural language processing and information retrieval (IR). Under this model, text such as sentences or documents can be represented by a bag containing these words, regardless of grammar and word order. Recently, the bag-of-words model has also been applied in the field of computer vision. The bag-of-words model is widely used in document classification, and the frequency of word occurrences can be used as features for training classifiers. The origin of the word "bag of words" can be traced back to Zelig Harris's 1954 article in Distributional Structure.</div>
+<div></div>
+<div><strong>Continuous Bag of Words Model (CBOW)</strong></div>
+<div>
+<div>
+<ol>
+<li>Remove the nonlinear hidden layer in the forward feedback neural network and directly connect the embedding layer of the middle layer to the softmax layer of the output layer;</li>
+<li>Ignore the sequence information of the context: all input word vectors are summarized into the same embedding layer;</li>
+<li>Put future words into context</li>
+</ol>
+<img alt="" class="alignnone size-full wp-image-5121" height="355" src="https://cdn.omegaxyz.com/2018/11/word2vec-cbow.png" width="278"/>Mathematically, the CBoW model is equivalent to multiplying the vector of a bag-of-words model by an embedding matrix to obtain a continuous embedding vector. This is also the origin of the name of the CBoW model.</div>
+<div></div>
+</div>
+<h2 class="para"><strong>Skip-gram model</strong></h2>
+<ul>
+<li>Predict context from a text</li>
+</ul>
+<div class="para">The Skip-gram model is a simple but very practical model. In natural language processing, corpus selection is a very important issue:</div>
+<div class="para">First, the corpus must be sufficient. On the one hand, the word size of the dictionary must be large enough, and on the other hand, it must contain as many sentences as possible that reflect the relationship between words. For example, only if the sentence pattern "fish swims in the water" is as common as possible in the corpus, the model can learn the semantic and grammatical relationships in the sentence. This is the same as humans learning natural language. The more times they are repeated, the more they will imitate it.</div>
+<div></div>
+<div class="para">Second, the corpus must be accurate. In other words, the selected corpus can correctly reflect the semantic and grammatical relationships of the language. This seems not difficult to achieve. For example, in Chinese, the corpus of "People's Daily" is relatively accurate. However, more often than not, it is not the selection of corpus that causes concerns about accuracy, but the processing method. In the n-ary model, due to the limitation of the window size, the relationship between words beyond the window range and the current word cannot be correctly reflected in the model. Simply expanding the window size will increase the complexity of training. The Skip-gram model is proposed to solve these problems well. As the name suggests, Skip-gram is to "skip certain symbols." For example, the sentence "Chinese football is really bad" has four 3-gram phrases, namely "Chinese football is good", "football is really bad", "football is really bad", and "it's really bad". However, we found that the original meaning of this sentence is "Chinese football is so bad" but the above four 3-gram phrases cannot reflect this information. The Skip-gram model allows certain words to be skipped, so the 3-gram phrase "Chinese football is terrible" can be formed. If it is allowed to skip 2 words, it is 2-Skip-gram.</div>
+<div><img alt="" class="alignnone size-full wp-image-5122" height="359" src="https://cdn.omegaxyz.com/2018/11/word2vec-skip-gram.png" width="258"/></div>
+<h2><strong>References</strong></h2>
+<div></div>
+<div><a href="http://nooverfit.com/wp/%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%98%AFword2vec-skip-gram%E6%A8%A1%E5%9E%8B%E5%92%8Ccontinuous-bag-wordscbow%E6%A8%A1%E5%9E%8B/">http://nooverfit.com/wp/%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%98%AFword2vec-skip-gram%E6%A8%A1%E5%9E%8B%E5%92%8Ccontinuous-bag-wordscbow%E6%A8%A1%E5%9E%8B/</a></div>
+<div></div>
+<div><a href="https://www.cnblogs.com/iloveai/p/word2vec.html">https://www.cnblogs.com/iloveai/p/word2vec.html</a></div>
+<div></div>
+<div><a href="https://baike.baidu.com/item/Word2vec/22660840?fr=aladdin">https://baike.baidu.com/item/Word2vec/22660840?fr=aladdin</a></div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

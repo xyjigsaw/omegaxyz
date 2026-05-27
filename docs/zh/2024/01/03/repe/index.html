@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大模型中的RepE表征工程 · OmegaXYZ</title>
+  <meta name="description" content="Highlight 论文地址： https://arxiv.org/abs/2310.01405 表征工程（RepE）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。 属于AI可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activ...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2024/01/03/repe/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-01-03</div>
+        <h1>大模型中的RepE表征工程</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/gpt/index.html">GPT</a><a class="pill" href="../../../../tag/llm/index.html">LLM</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<img class="alignnone wp-image-7943" src="https://cdn.omegaxyz.com/2024/01/repe.png" alt="" width="660" height="464" />
+<h2><strong>Highlight</strong></h2>
+<ul>
+ 	<li>论文地址：<a href="https://arxiv.org/abs/2310.01405" target="_blank" rel="noopener">https://arxiv.org/abs/2310.01405</a></li>
+ 	<li>表征工程（RepE）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。</li>
+ 	<li>属于AI可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activation）而非神经元等结构为主要研究对象，对信息表征的读取、理解、修改提出了一组基本方法，并展示了在评估和控制 LLM 的诚实性、幻觉、情感等方面的应用。</li>
+ 	<li>文章中提出的信息表征读取的方法：Linear Artificial Tomography（LAT，线性人工断层扫描）。所谓读取信息表征，其实就是刻画模型内中间层的高维空间的结构。理想的状态是，对于该高维空间中的大部分位置都能给出人类可理解的相应概念，但目前离这个目标还很远。</li>
+</ul>
+<h2><strong>方法</strong></h2>
+与神经成像方法类似，LAT 扫描由三个关键步骤组成：<strong>（1）设计刺激和任务；（2）收集神经活动；（3）构建线性模型。</strong>
+<h3><strong>1. 设计刺激和任务</strong></h3>
+对于概念 ，设计如下模板 ：
+
+<img class="alignnone wp-image-7942" src="https://cdn.omegaxyz.com/2024/01/repe_stimulus.png" alt="" width="804" height="98" />
+举个例子：
+<blockquote>"Consider the amount of truthfulness in the following answer.\n\nQuestion: {q}\nAnswer: {a}\n\nThe amount of truthfulness in the answer is"</blockquote>
+为什么到is停止？根据大语言模型causal language model的自回归训练方式，is的embedding实际上包含了整句话前面的信息（attention信息等）；另一方面模型需要预测is后面一个token，在这样的prompt下，该位置的token一般是一个值或者代表某种程度单词。
+<h3><strong>2. 收集神经活动</strong></h3>
+通过更改模板中 这部分，生成一批输入文本。每个文本喂给模型，收集模型每一层在 last token 上的 activation（原因：模型最终的输出是从 last token 上预测产生的）。
+形式上，对于概念c、解码器模型M、接受模型和输入并返回所有token位置的表示的函数Rep，以及一组刺激S，这里编译了一组从-1 token位置收集的神经活动，如以下公式所示。
+<img class="alignnone wp-image-7936" src="https://cdn.omegaxyz.com/2024/01/repe_equation1.png" alt="" width="400" height="64" />
+收集到这些 activation后，拿它们互相之间的差值做 PCA（主成分分析），取所得第一个主成分作为概念 的 reading vector。
+
+给定一些案例，例如10个正例，10个负例，构建上述刺激prompt后，得到（假设embedding的维度为d）：
+
+正例：10 * len * d
+负例：10 * len * d
+
+注意这里每个case的len不一样长。根据下面的规则，取出is位置的token embedding，得到
+
+正例：10 * d
+负例：10 * d
+
+将上述case随机作差得到k * d个差向量，对k * d进行主成分分析，得到主成分的基向量1 * d。
+
+为什么要作差并找到主成分向量？目的是得到正负例的一个方向，通俗来说是找到一个决策标准。
+<h3><strong>3. 构建线性模型</strong></h3>
+有了特定概念例如“真实性”的 reading vector，对于以后的任意输入，都可以计算模型的activation在reading vector上的投影大小来评估模型的输出的“真实性”。
+<h2><strong>真实性</strong></h2>
+<h3><strong>LLM真不会还是在撒谎？能力失误和不诚实？</strong></h3>
+<ul>
+ 	<li>为了提取诚实的基本功能，作者按照上述描述的 LAT 设置，使用真实性判断的数据集中的真实语句来创建刺激。为了提高所需的神经活动的可分离性并方便提取，设计了 LAT 的刺激集，其中包括不诚实的参考任务和诚实的实验任务。具体来说，作者用下面的任务模板来表明模型诚实或不诚实。
+<img class="alignnone wp-image-7939" src="https://cdn.omegaxyz.com/2024/01/repe_honesty.png" alt="" width="670" height="133" /></li>
+ 	<li>在这种设置下，所得到的 LAT 阅读向量在区分模型被表明为诚实或不诚实的被保留样本时，分类准确率超过 90%。这表明了强大的分布内泛化能力。
+<img class="alignnone wp-image-7940" src="https://cdn.omegaxyz.com/2024/01/repe_lat.png" alt="" width="511" height="377" /></li>
+ 	<li>对Vicuna-33B-Uncensored模型进行了时间LAT扫描，以分辨出说真话的情况（如承认抄袭他人作业）和说谎的情况（如否认杀人）。这些扫描提供了层级分辨率，每个微小区块都显示了特定token bits置层内不诚实神经活动的程度。右图突出显示了较高水平的欺骗性神经活动。
+<img class="alignnone wp-image-7941" src="https://cdn.omegaxyz.com/2024/01/repe_lie.png" alt="" width="526" height="338" /></li>
+</ul>
+<h2><strong>传统Fewshot问答基准的正确性</strong></h2>
+一个真实的模型应该对问题给出准确的答案。作者通过在标准基准上执行 LAT 扫描，从 LLaMA-2 模型中提取真实性概念。一些问题侧重于事实性，而另一些问题则基于推理或从段落中提取信息。
+从few-shot几个样本中随机抽取问题-答案对作为刺激，在所有五个数据集上，LAT 的表现都明显优于 few-shot 基线，这表明 LAT 能够有效地从模型内部表示中提取出符合正确性的方向，同时比 few-shot 输出更加准确。
+<img class="alignnone wp-image-7938" src="https://cdn.omegaxyz.com/2024/01/repe_fewshot.png" alt="" width="412" height="375" />
+<h2><strong>操纵LLM</strong></h2>
+利用RepE的方法，首先设计正例与负例，接着通过二者representation做差得到差向量，维度为[n_samples, llm_dim]，接着使用PCA方法得到降维方向的基向量[llm_dim]。在实际测试时将降维得到的基向量融合进入原有模型中。
+<h2><strong>RepE的缺陷</strong></h2>
+<ol>
+ 	<li>性能与刺激prompt的设计高度相关，找到一个质量高的prompt是关键。</li>
+ 	<li>prompt取最后一个位置的token来做主成分分析对简单的分类任务是ok的，但是对于评价整个句子的某些指标，是存在问题的。
+<ul>
+ 	<li>例如评价流畅性，是ok的，但是对于评价句子的逻辑性/事实性，则存在问题，逻辑上存在漏洞。一个结论的生成需要考虑推理连续性，即中间步骤不能瞎说。</li>
+ 	<li>文章中利用reading vector（主成分向量）对句子的每一个token独立做评估，得到类似于下面的结果。但在实际测试中，并不与论文观点一致，论文中的case是特地挑选过的，这部分还有很大的提升空间。</li>
+ 	<li>因此在我们reliability的评估中，需要考虑到token的条件依赖。</li>
+</ul>
+</li>
+</ol>
+&nbsp;
+
+更多内容访问 [omegaxyz.com](https://omegaxyz.com)
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2024 • OmegaXYZ-版权所有 转载请注明出处</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

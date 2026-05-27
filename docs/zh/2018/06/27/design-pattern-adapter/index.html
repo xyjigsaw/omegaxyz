@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设计模式-适配器模式 · OmegaXYZ</title>
+  <meta name="description" content="模式动机 在软件开发中采用类似于电源适配器的设计和编码技巧被称为适配器模式。 通常情况下，客户端可以通过目标类的接口访问它所提供的服务。有时，现有的类可以满足客户类的功能需要，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。 在这种情况下，现有的接口需要转化为客户类期望的接口...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/27/design-pattern-adapter/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-27</div>
+        <h1>设计模式-适配器模式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>模式动机</strong></h2>
+<ul>
+ 	<li>在软件开发中采用类似于电源适配器的设计和编码技巧被称为适配器模式。</li>
+ 	<li>通常情况下，客户端可以通过目标类的接口访问它所提供的服务。有时，现有的类可以满足客户类的功能需要，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。</li>
+ 	<li>在这种情况下，现有的接口需要转化为客户类期望的接口，这样保证了对现有类的重用。如果不进行这样的转化，客户类就不能利用现有类所提供的功能，适配器模式可以完成这样的转化。（如下图）</li>
+</ul>
+<img class="size-full wp-image-4648 aligncenter" src="https://cdn.omegaxyz.com/2018/06/adapter2.png" alt="" width="522" height="253" />
+
+<img class="alignnone size-full wp-image-4649 aligncenter" src="https://cdn.omegaxyz.com/2018/06/adapter3.png" alt="" width="507" height="278" />
+<ul>
+ 	<li>在适配器模式中可以定义一个包装类，包装不兼容接口的对象，这个包装类指的就是适配器(Adapter)，它所包装的对象就是适配者(Adaptee)，即被适配的类。</li>
+ 	<li>适配器提供客户类需要的接口，适配器的实现就是把客户类的请求转化为对适配者的相应接口的调用。也就是说：当客户类调用适配器的方法时，在适配器类的内部将调用适配者类的方法，而这个过程对客户类是透明的，客户类并不直接访问适配者类。</li>
+ 	<li>适配器可以使由于接口不兼容而不能交互的类可以一起工作。这就是适配器模式的模式动机.</li>
+</ul>
+&nbsp;
+<h2><strong>模式定义</strong></h2>
+适配器模式(Adapter Pattern) ：将一个接口转换成客户希望的另一个接口，适配器模式使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。
+
+<img class="alignnone  wp-image-4647" src="https://cdn.omegaxyz.com/2018/06/adapter1.jpg" alt="" width="432" height="663" />
+<ul>
+ 	<li>抽象类的名称和它们的抽象（虚拟）方法以斜体字显示</li>
+ 	<li>方法<i>request</i>定义为类 <b><i>Abstract Target</i></b>的一个抽象方法在（具体）类 <b>Adapter</b> 中实现它，来发送specificRequest 消息给类 <b>Adaptee </b>的一个对象</li>
+</ul>
+<ul>
+ 	<li>类 <b>Adapter</b> 是抽象类 <b><i>Abstract Target </i></b>的一个实子类,空心箭头表示继承关系</li>
+</ul>
+<h2><strong>模式优缺点</strong></h2>
+<strong>适配器模式的优点如下：</strong>
+<ul>
+ 	<li>将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无需修改原有代码。</li>
+ 	<li>增加了类的透明性和复用性，将具体的实现封装在适配者类中，对于客户端类来说是透明的，而且提高了适配者的复用性。</li>
+ 	<li>灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</li>
+</ul>
+<strong>类适配器模式还具有如下优点：</strong>
+
+由于适配器类是适配者类的子类，因此可以在适配器类中置换一些适配者的方法，使得适配器的灵活性更强。
+
+<strong>类适配器模式的缺点如下：</strong>
+
+对于Java、C#等不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为抽象类，不能为具体类，其使用有一定的局限性，不能将一个适配者类和它的子类都适配到目标接口。
+
+<strong>对象适配器模式还具有如下优点：</strong>
+
+一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。
+
+<strong>对象适配器模式的缺点如下：</strong>
+
+与类适配器模式相比，要想置换适配者类的方法就不容易。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。
+<h2><strong>模式适用环境</strong></h2>
+<strong>在以下情况下可以使用适配器模式：</strong>
+
+系统需要使用现有的类，而这些类的接口不符合系统的需要。
+
+想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

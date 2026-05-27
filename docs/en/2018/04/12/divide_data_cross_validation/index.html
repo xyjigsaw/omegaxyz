@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Machine learning data set partitioning and cross-validation selection · OmegaXYZ</title>
+  <meta name="description" content="Data set partitioning is very important in machine learning. The following strategy is adopted when the number of samples (number of instances) is large: If the given samples are sufficient, a simple method for model selection is to randomly split the data set into three parts, divided into training set, validation set and testing set. The training set is used to train the model, the validation set is used for model selection, and the test set is used for the final evaluation of the learning method. exist...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/12/divide_data_cross_validation/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-12</div>
+        <h1>Machine learning data set partitioning and cross-validation selection</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">Data set partitioning is very important in machine learning.<h1><strong>When the number of samples (number of instances) is large, the following strategy is adopted:</strong></h1>If the given samples are sufficient, a simple method for model selection is to randomly split the data set into three parts, divided into training set, validation set and testing set. The training set is used to train the model, the validation set is used for model selection, and the test set is used for the final evaluation of the learning method. Among the learned models of different complexity, the model with the smallest prediction error on the validation set is selected. Since the validation set has enough data, it is also effective to use it for model selection.
+
+Training set and Validation set are both used during the training process of the model:<pre><code class="language-default">for each epoch
+    for each training data instance
+        propagate error through the network
+        adjust the weights
+        calculate the accuracy over training data
+    for each validation data instance
+        calculate the accuracy over the validation data
+    if the threshold validation accuracy is met
+        exit training
+    else
+        continue training</code></pre>Testing sets are only used to test the model to see how good the model is, which is to evaluate the generalization ability of the model. At this time, the accuracy obtained by this model on the testing set is a very representative accuracy. When it is tested on a new data set in the future, it will not deviate from this accuracy range.<strong>In actual use, we learn the parameters through the training set, then calculate the error on the cross-validation set, then select a model with the smallest error on the validation set, and finally estimate the generalization error of the model on the test set.</strong>
+<h1><strong>Use cross-validation when the number of samples is small</strong></h1>The purpose of k-fold cross validation is not to select a model, but to first have a model and evaluate the accuracy of this model.<strong>method:</strong>The cross validation method first divides the data set DD into k mutually exclusive subsets of similar size, that is, D=D1∪D2∪...∪Dk, Di∩Dj=∅D=D1∪D2∪...∪Dk, Di∩Dj=∅. Each subset DiDi maintains the consistency of the data distribution as much as possible, that is, obtained from DD through stratified sampling. Then, each time the union of k-1k-1 subsets is used as the training set, and the remaining subset is used as the test set; in this way, kk sets of training/testing sets can be obtained, and k can be performed. k sets of training and testing, the final return is the mean of the kk test results. Obviously, the stability and fidelity of the cross-validation evaluation results largely depend on the value of kk. To emphasize this point, the cross-validation method is usually called "k-fold cross-validation". cross validation). The most commonly used value of kk is 10, which is called 10-fold cross validation.
+There are many ways to divide the data set DD into kk subsets. In order to reduce the differences caused by different sample divisions, kk-fold cross-validation is usually repeated p times using different partitions randomly. The final evaluation result is the mean of the pp kk-fold cross-validation results. For example, the common one is "10-fold cross-validation" (10 times of 10-fold cross-validation, 100 times of training/testing).
+Assume that the data set DD contains mm samples. If k=mk=m, a special case of the cross-validation method is obtained:<strong>Leave-One-Out (LOO for short).</strong>Obviously, the leave-one-out method is not affected by the random sample division method, because there is only one way to divide mm samples into mm subsets-each subset contains one sample; the training set used by the leave-one-out method is only one sample less than the initial data set, which makes in the vast majority of cases, the model actually evaluated in the leave-one-out method is very similar to the model trained with DD that is expected to be evaluated. Therefore, the evaluation results of the leave-one-out method are often considered to be more accurate. However, the leave-one-out method also has its flaws: when the data set is relatively large, the computational cost of training mm models may be very huge (for example, if the data set contains 1 million samples, 1 million models need to be trained), and this is without considering algorithm parameter adjustment. In addition, the evaluation results of the leave-one-out method may not be more accurate than other evaluation methods; the "no free lunch" theorem also applies to experimental evaluations.
+
+——Zhou Zhihua "Machine Learning"
+
+Looking at the data set in the table below, there are only 200 instances at most, so cross validation is used.<img alt="" class="alignnone size-full wp-image-4005" height="216" src="https://cdn.omegaxyz.com/2018/04/datasets.jpg" width="752"/>The author uses LOOCV (leave one out) cross-validation based on variant KNN, which can be seen to take a long time.<img alt="" class="alignnone size-full wp-image-4006" height="258" src="https://cdn.omegaxyz.com/2018/04/timeloocv.jpg" width="676"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

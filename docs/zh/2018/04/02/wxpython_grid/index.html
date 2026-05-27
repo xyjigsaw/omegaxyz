@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython控件自适应窗口大小 · OmegaXYZ</title>
+  <meta name="description" content="问题： wxpython作的窗口，点击窗口最大化，就会出问题，1、窗口控件并不一起最大化。2、最大化后有些控件找不着了，再恢复窗口，那些消失的控件一样找不到。 wxPython 中最复杂的 sizer. 它带来了对部件的显式定位. 部件项目还可以跨越行或列. 专题教程： wxpython中文教程 wx.GridBagSizer 的构造器是...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/02/wxpython_grid/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-02</div>
+        <h1>wxpython控件自适应窗口大小</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">问题：
+
+wxpython作的窗口，点击窗口最大化，就会出问题，1、窗口控件并不一起最大化。2、最大化后有些控件找不着了，再恢复窗口，那些消失的控件一样找不到。
+
+wxPython 中最复杂的 sizer.
+它带来了对部件的显式定位. 部件项目还可以跨越行或列.  专题教程：<a href="http://www.jbxue.com/zt/wxpython/">wxpython中文教程</a>
+
+wx.GridBagSizer 的构造器是十分简单的。
+wx.GridBagSizer (integer vgap, integer hgap)
+垂直和水平空白 (gap) 定义了子部件之间的空白距离. 通过 Add() 方法向网格里添加部件项目.
+Add(self, item, tuple pos, tuple span=wx.DefaultSpan, integer flag=0,
+integer border=0, userData=None)
+“item” 指你要插入到网格中的部件. “pos” 指定虚拟网格的位置. 左上单元格的 “pos” 值为（0, 0）.“span” 是一个对应部件的跨度值. 比如（3, 2）指一个部件要跨越 3 行 2 列. “flag” 和 “border” 两个参数在早前的 wx.BoxSizer 中已经讨论了.
+网格中的这些部件项目可以随窗口缩放而改变其大小，也可以保持不变.
+
+如果需要部件变大或缩小，可以使用这两个方法.
+AddGrowableRow(integer row)
+AddGrowableCol(integer col)
+
+代码：
+<pre ><code class="language-python">import wx
+
+
+class MyFrame(wx.Frame):
+    def __init__(self,parent, id, title):
+        wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition)
+        sizer = wx.GridBagSizer(9, 9)
+        sizer.Add(wx.Button(self, -1, "按钮1"), (0, 0), wx.DefaultSpan,wx.ALL, 5)
+        sizer.Add(wx.Button(self, -1, "按钮2随着主窗口布局变动"), (1, 1), (1, 7), wx.EXPAND)
+        sizer.Add(wx.Button(self, -1, "按钮3随着主窗口布局变动"), (6, 6), (3, 3), wx.EXPAND)
+        sizer.Add(wx.Button(self, -1, "按钮4"), (3, 0), (1, 1), wx.ALIGN_CENTER)
+        sizer.Add(wx.Button(self, -1, "按钮5"), (4, 0), (1, 1), wx.ALIGN_LEFT)
+        sizer.Add(wx.Button(self, -1, "按钮6"), (5, 0), (1, 1), wx.ALIGN_RIGHT)
+        sizer.AddGrowableRow(6)
+        sizer.AddGrowableCol(6)
+        self.SetSizerAndFit(sizer)
+        self.Centre()
+
+
+class MyApp(wx.App):
+    def OnInit(self):
+        frame = MyFrame(None, -1, 'wxgridbagsizer.py')
+        frame.Show(True)
+        return True
+app = MyApp(0)
+app.MainLoop()
+</code></pre>
+改变后效果：
+
+<img class="alignnone size-full wp-image-3901" src="https://cdn.omegaxyz.com/2018/04/wxgrid2.jpg" alt="" width="812" height="482" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

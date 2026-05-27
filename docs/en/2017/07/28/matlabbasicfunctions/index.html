@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB commonly used mathematical functions · OmegaXYZ</title>
+  <meta name="description" content="abs(x): Absolute value of a scalar or length of a vector angle(z): Phase angle of a complex number z sqrt(x): Square root real(z): Real part of a complex number z imag(z): Imaginary part of a complex number z conj(z): Complex conjugate of a complex number z round(x): Round to the nearest integer fix(x): Regardless of positive or negative, round off decimals to the nearest integer floor(x): floor function, that is, rounding off positive decimals to...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/07/28/matlabbasicfunctions/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-28</div>
+        <h1>MATLAB commonly used mathematical functions</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">abs(x): the absolute value of a scalar or the length of a vector
+angle(z): phase angle of complex number z (Phase angle)
+sqrt(x): square root
+real(z): the real part of the complex number z
+imag(z): Imaginary part of complex number z
+conj(z): the conjugate complex number of the complex number z
+round(x): round to the nearest integer
+fix(x): Regardless of positive or negative, round off decimals to the nearest integer
+floor(x): floor function, that is, rounding off positive decimals to the nearest integer
+ceil(x): ceiling function, that is, adding positive decimals to the nearest integer
+rat(x): Convert real number x into fractional representation
+rats(x): Convert the real number x into a multinomial fraction expansion
+sign(x): Signum function.
+When x&lt;0, sign(x)=-1; when x=0, sign(x)=0; when x&gt;0, sign(x)=1.
+rem(x,y): Find the remainder of x divided by y
+gcd(x,y): the greatest common divisor of integers x and y
+lcm(x,y): least common multiple of integers x and y
+exp(x): natural exponent
+pow2(x): exponent of 2
+log(x): logarithm with base e, that is, natural logarithm or
+log2(x): logarithm to base 2
+log10(x): base 10 logarithm
+Commonly used trigonometric functions in MATLAB
+sin(x): sine function
+cos(x): cosine function
+tan(x): tangent function
+asin(x): arcsine function
+acos(x): inverse cosine function
+atan(x): arctangent function
+atan2(x,y): arctangent function of four quadrants
+sinh(x): Transcendental sine function
+cosh(x): transcendental cosine function
+tanh(x): transcendental tangent function
+asinh(x): inverse transcendental sine function
+acosh(x): inverse transcendental cosine function
+atanh(x): inverse transcendental tangent function
+Variables can also be used to store vectors or matrices and perform various operations, such as the row vector operation in the following example:
+x = [1 3 5 2];
+y=2*x+1
+y =
+3 7 11 5
+Tip: Rules for naming variables
+1. The first letter must be an English letter
+2. No spaces between letters
+3. There can only be 19 letters at most, and MATLAB will ignore the extra letters.
+Common functions for vectors are:
+min(x): the minimum value of the elements of vector x
+max(x): the maximum value of the elements of vector x
+mean(x): mean of the elements of vector x
+median(x): the median of the elements of vector x
+std(x): standard deviation of the elements of vector x
+diff(x): the difference between adjacent elements of vector x
+sort(x): Sort the elements of vector x (Sorting)
+length(x): the number of elements of vector x
+norm(x): Euclidean length of vector x
+sum(x): sum of elements of vector x
+prod(x): total product of elements of vector x
+cumsum(x): cumulative element-wise sum of vector x
+cumprod(x): the total product of the cumulative elements of vector x
+dot(x, y): inner product of vectors x and y
+cross(x, y): outer product of vectors x and y
+(Most vector functions also work on matrices, see below.)
+The following table shows the permanent constants commonly used in MATLAB.
+i or j: basic imaginary unit
+eps: Floating-point accuracy of the system
+inf: infinite, such as 1/0
+nan or NaN: Not a number, such as 0/0
+pi: Pi p (= 3.1415926...)
+realmax: the maximum value that the system can represent
+realmin: the smallest value that the system can represent
+nargin: the number of input arguments to the function
+nargin: the number of output arguments of the function</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

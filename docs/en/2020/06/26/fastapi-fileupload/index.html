@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAPI builds file upload server · OmegaXYZ</title>
+  <meta name="description" content="FastAPI is a high-performance web framework and a Python package used to build APIs. It is suitable for building server backends with very little code and achieving front-end and back-end separation. A task is given below: use FastAPI to build a file upload server, provide an upload interface, and save it to the specified location on the server. Python packages required: fastapi and uvicorn. Server code where with open(file...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/06/26/fastapi-fileupload/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-06-26</div>
+        <h1>FastAPI builds file upload server</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">FastAPI is a high-performance web framework and a Python package used to build APIs. It is suitable for building server backends with very little code and achieving front-end and back-end separation.
+
+A task is given below: use FastAPI to build a file upload server, provide an upload interface, and save it to the specified location on the server.
+
+Python packages required: fastapi and uvicorn.<h2><strong>server code</strong></h2>Among them, with open(file.filename, "wb") saves the file uploaded by the customer. The uploaded URL address is host:port/file_upload, and the port and host can be customized.
+
+Note that if cross-domain problems occur during front-end configuration, you need to add FastAPI cross-domain rules.<pre><code class="language-python">import time
+import uvicorn
+from fastapi import FastAPI, File, UploadFile
+
+app = FastAPI()
+
+
+@app.post("/file_upload")
+async def file_upload(file: UploadFile = File(...)):
+    start = time.time()
+    try:
+        res = await file.read()
+        with open(file.filename, "wb") as f:
+            f.write(res)
+        return {"message": "success", 'time': time.time() - start, 'filename': file.filename}
+    except Exception as e:
+        return {"message": str(e), 'time': time.time() - start, 'filename': file.filename}
+
+
+if __name__ == '__main__':
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, workers=1)</code></pre>
+<h2><strong>Client code example</strong></h2>The file that needs to be uploaded by this client is in the path, and the url is the API for file upload.<pre><code class="language-python">import requests
+url = "http://127.0.0.1:8000/file_upload"
+path = "C:\\Users\\me\\Desktop\\pic.jpeg"
+files = {'file': open(path, 'rb')}
+r = requests.post(url, files=files)
+print(r.url)
+print(r.text)</code></pre>PS: In addition to the Python client, you can also write post requests in JS (the server-side code does not need to be modified) to upload files to the server in the browser.</div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-19772">
+          <strong>leo gao</strong>
+          <time>2020-12-14 11:14:06</time>
+          <div>还需要pip3 install python-multipart</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19774">
+          <strong>xyjisaw</strong>
+          <time>2020-12-14 20:56:43</time>
+          <div>对的，谢谢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++多态虚函数动态绑定 · OmegaXYZ</title>
+  <meta name="description" content="定义 动态绑定是将一个过程调用与相应代码链接起来的行为。是指与给定的过程调用相关联的代码，只有在运行期才可知的一种绑定，它是多态实现的具体形式。 原理 C++中，通过基类的引用或指针调用虚函数时，发生动态绑定。引用(或指针)既可以指向基类对象也可以指向派生类对象，这一事实是动态绑定的关键。用引用(或指针)调用的虚函数在运行时确定，被调用的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/11/cpp-dynamic-binding/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-11</div>
+        <h1>C++多态虚函数动态绑定</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><h2><strong>定义</strong></h2>
+动态绑定是将一个过程调用与相应代码链接起来的行为。是指与给定的过程调用相关联的代码，只有在运行期才可知的一种绑定，它是多态实现的具体形式。
+<h2><strong>原理</strong></h2>
+C++中，通过基类的引用或指针调用虚函数时，发生动态绑定。引用(或指针)既可以指向基类对象也可以指向派生类对象，这一事实是动态绑定的关键。用引用(或指针)调用的虚函数在运行时确定，被调用的函数是引用(或指针)所指对的实际类型所定义的。
+C++中动态绑定是通过虚函数实现的。而虚函数是通过一张虚函数表实现的。这个表中记录了虚函数的地址，解决继承、覆盖的问题，保证动态绑定时能够根据对象的实际类型调用正确的函数。
+在C++的标准规格说明书中说到，编译器必需要保证虚函数表的指针存在于对象实例中最前面的位置(这是为了保证正确取到虚函数的偏移量)。这意味着我们通过对象实例的地址得到这张虚函数表，然后就可以遍历其中函数指针，并调用相应的函数。
+<h2><strong>缺点</strong></h2>
+1.动态绑定在函数调用时需要在虚函数表中查找，所以性能比静态函数调用稍低。
+2.通过基类类型的指针访问派生类自己的虚函数将发生错误。
+
+虚函数、动态绑定、运行时多态之间的关系：
+虚函数是动态绑定的基础；动态绑定是实现运行时多态的基础。
+<h2><strong>动态绑定两个条件</strong></h2>
+(1) 只有虚函数才能进行动态绑定，非虚函数不进行动态绑定。
+(2) 必须通过基类类型的引用或指针进行函数调用。
+
+对应的有静态绑定
+静态绑定是指不需要考虑表达式的执行期语义，仅分析程序文本而决定的表达式类型。静态绑定仅依赖于包含表达式的程序文本的形式，而在程序运行时不会改变。简单的讲，就是上下文无关，在编译时就可以确定其类型。
+
+动态绑定与静态绑定
+静态绑定：编译时绑定，通过对象调用
+动态绑定：运行时绑定，通过地址实现
+<h3><strong>代码实例</strong></h3>
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+class Base
+{
+public:
+    virtual void f1()
+    {
+        cout&lt;&lt;"Base"&lt;&lt;endl;
+    }
+};
+class Drived1:public Base
+{
+public:
+    void f1()
+    {
+        cout&lt;&lt;"Drived1"&lt;&lt;endl;
+    }
+};
+class Drived2:public Base
+{
+public:
+    void f1()
+    {
+        cout&lt;&lt;"Drived2"&lt;&lt;endl;
+    }
+};
+void Test(Base* pB)
+{
+    pB-&gt;f1 ();
+}
+int main()
+{
+    Base b;
+    Drived1 d1;
+    Drived2 d2;
+    Test(&amp;b);
+    Test(&amp;d1);
+    Test(&amp;d2);
+    return 0;
+}</code></pre>
+输出结果：
+Base
+Drived1
+Drived12
+<h2><strong>多继承中的问题</strong></h2>
+声明一个车(vehicle)基类，有Run、Stop等成员函数，由此派生出自行车(bicycle)类、汽车(motorcar)类，从bicycle和motorcar派生出摩托车(motorcycle)类，它们都有Run、Stop等成员函数。观察虚函数的作用。
+其中令基类（vehicle）的Run和Stop函数设为虚函数
+
+代码：
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+class vehicle{
+public:
+    virtual void Run()const{cout&lt;&lt;"Vehicle Run"&lt;&lt;endl;}
+    virtual void Stop()const{cout&lt;&lt;"Vehicle Stop"&lt;&lt;endl;}
+};
+
+class bicycle:public vehicle{
+private:
+    int Height;
+public:
+    void Run()const{cout&lt;&lt;"Bicycle Run"&lt;&lt;endl;}
+    void Stop()const{cout&lt;&lt;"Bicycle Stop"&lt;&lt;endl;}
+};
+
+class motorcar:public vehicle{
+private:
+    int SeatNum;
+public:
+    void Run()const{cout&lt;&lt;"Motorcar Run"&lt;&lt;endl;}
+    void Stop()const{cout&lt;&lt;"Motorcar Stop"&lt;&lt;endl;}
+};
+
+
+class motorcycle:public bicycle,public motorcar{
+private:
+public:
+    void Run()const{cout&lt;&lt;"Motorcycle Run"&lt;&lt;endl;}
+    void Stop()const{cout&lt;&lt;"Motorcycle Stop"&lt;&lt;endl;}
+};
+
+void fun(vehicle *ptr)
+{
+    ptr-&gt;Run();
+    ptr-&gt;Stop();
+}
+
+void fun(motorcycle *ptr)
+{
+    ptr-&gt;Run();
+    ptr-&gt;Stop();
+}
+
+int main()
+{
+    vehicle v;
+    bicycle b;
+    motorcar m;
+    motorcycle x;
+    fun(&amp;v);
+    fun(&amp;b);
+    fun(&amp;m);
+    fun(&amp;x);
+}
+</code></pre>
+<img class="alignnone  wp-image-4554" src="https://cdn.omegaxyz.com/2018/06/cppdynamic1.png" alt="" width="681" height="471" />
+
+程序类中类vehicle，motorcar，bicycle均属于同一个类组，而且是通过公有派生来的，因此满足赋值兼容规则。同时基类vehicle的函数成员Run和Stop声明为虚函数，程序中使用对象指针来访问函数成员，完成了动态绑定。
+
+<strong>为什么motorcycle单独设置了一个函数（使用指针）？</strong>
+
+此时如果还用上面的第一个fun函数对于vehicle则产生二义性（多继承），解决方法是使用虚基类（注意不是虚函数）或者重载，不使用动态绑定。</div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-17975">
+          <strong>方圆</strong>
+          <time>2019-10-01 12:55:04</time>
+          <div>动态绑定两个条件的Drived2的fun()输出为什么是Drived12？是打错了吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17976">
+          <strong>Anonymous</strong>
+          <time>2019-10-01 12:55:43</time>
+          <div>f1()  不是  fun()   打错了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17981">
+          <strong>xyjisaw</strong>
+          <time>2019-10-01 23:30:39</time>
+          <div>没有问题吧</div>
+        </div>
+        
+        <div class="comment" id="comment-19717">
+          <strong>zl</strong>
+          <time>2020-12-02 21:11:07</time>
+          <div>“必须通过基类类型的引用或指针进行函数调用。”<br>？？？这句话通过验证了吗，我在我电脑上尝试用派生类指向该类的虚函数或者父类的虚函数，查看汇编语言都是进行的动态绑定</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

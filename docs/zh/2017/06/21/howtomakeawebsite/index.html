@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如何制作网站（我是怎样建立一个网站的？） · OmegaXYZ</title>
+  <meta name="description" content="首先制作一个网站需要： ①域名即example.com ②虚拟空间或云服务器 ③网站代码制作工具或网站后台管理工具（你可以百度出模板） ④一定的编程技能和代码理解能力（优秀的网站制作者需要了解PHP、JavaScript、CSS、HTML、SQL、Markdown等知识） 第一部分：域名 域名是一个网站的入口与标识，域名需要购买 一般从阿...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/21/howtomakeawebsite/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-21</div>
+        <h1>如何制作网站（我是怎样建立一个网站的？）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/wordpress/index.html">wordpress</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<strong>首先制作一个网站需要：</strong>
+①域名即example.com
+②虚拟空间或云服务器
+③网站代码制作工具或网站后台管理工具（你可以百度出模板）
+④一定的编程技能和代码理解能力（优秀的网站制作者需要了解PHP、JavaScript、CSS、HTML、SQL、Markdown等知识）
+<h1><strong>第一部分：域名</strong></h1>
+域名是一个网站的入口与标识，域名需要购买
+一般从阿里云（万网）、腾讯云、京东云、Godaddy等网站购买。
+
+<img class="alignnone wp-image-1076" src="https://cdn.omegaxyz.com/2017/06/diyweb1-300x133.png" alt="" width="650" height="288" />
+
+<img class="alignnone wp-image-1077" src="https://cdn.omegaxyz.com/2017/06/diyweb2-300x131.png" alt="" width="650" height="284" />
+
+<img class="alignnone wp-image-1078" src="https://cdn.omegaxyz.com/2017/06/diyweb3-300x131.png" alt="" width="650" height="284" />
+
+<img class="alignnone wp-image-1081" src="https://cdn.omegaxyz.com/2017/06/diyweb6-300x52.png" alt="" width="652" height="113" />
+
+&nbsp;
+
+域名需要自己想一个好的名称，一旦选中变不可更改。建议大家购买顶级域名为.com、.cn结尾的域名，这些域名在国际上常见，便于网站站在国际高度上。当然你也可以标新立异购买其他顶级域名。比如小米为了购买mi.com域名便花了2000万人民币，饿了吗域名比较奇特为elem.me看是不是很厉害。
+
+当然，域名在中国是需要备案的，在阿里云腾讯云买的域名必须通过工信部备案。
+备案流程如下：
+
+<img class="alignnone wp-image-1080" src="https://cdn.omegaxyz.com/2017/06/diyweb5-300x57.png" alt="" width="652" height="124" />
+
+&nbsp;
+
+备案一般在购买域名的地方进行，阿里云会自动帮你向工信部提交。一般说来，备案的要求特别严，平均下来备案两次才可能被工信部通过，这期间大约花费两到三周。
+备案过程中会让你打印《个人网站承诺书》并拍照上传，为了验证你的身份还需要录制个人视频眨眼，笑什么的，当然你的个人信息精确到地址。（<del>估计到时候抓人的时候方便，舆论控制、思想钳制</del>）
+
+如果你不想备案的话，建议不要从国内的大公司购买域名，从大陆境外购买（香港、台湾也可以）
+
+当然如果你不备案的话如果被网警查到你的网站就要被封或者只能用VPN访问喽。（还是备案吧！！！）
+
+在工信部备案完成后如果你是一个大企业或公司或需要正式的网站，那么建议你还得去公安局备案，即到你网站信息填入的地址处所在地的公安局进行公安备案。（个人网站就不需要了）
+<h1><strong>第二部分 虚拟空间或云服务器</strong></h1>
+1.虚拟空间
+
+虚拟空间是云服务器分出来的一小部分空间，用来存放你的网站数据。
+购买域名后他们可能会给你免费提供一个虚拟空间，也可以购买，或者使用第三方虚拟空间。现以域名omegaxyz.com为例,把域名www. omegaxyz.com以及omegaxyz.com解析到虚拟主机上(假设虚拟主机的IP地址为21X.5.7X.1XX),解析完成后,将可以用www. omegaxyz.com以及omegaxyz.com来访问网站,当然(解析完成后,还得在虚拟主机上绑定才会生效,本站的虚拟主机完全具备域名自主绑定功能)。
+①首先请进入域名管理。(登录会员-&gt;英文域名管理-&gt;在列表中找到omegaxyz.com并点击"域名解析")。
+②首先来解析www.omegaxyz.com到IP: 21X.5.7X.1XX。 点击"增添主机记录",然后在弹出的框内输入"www",注意,不能输入"www.omegaxyz.com"。
+③按"确定",然后输入IP地址: 21X.5.7X.1XX。
+④再按"确定",该解析就完成了,该解析实时生效,大大方便了客户管理。
+⑤一般而言,用户除了用带www的网址www. omegaxyz.com来访问网站外,还喜欢用不带www的omegaxyz.com来访问,下面我们来把omegaxyz.com解析到IP: 21X.5.7X.1XX,还是点击"增添主机记录",将出现下图所示,此时不必输入任何字符,直接点击"确定"。(不输入字符代表域名omegaxyz.com本身)
+⑥点击确定后又出现IP地址输入框,输入IP: 21X.5.7X.1XX,然后按确定。
+⑦按确定后,该解析也完成了。
+
+如图：
+
+<img class="alignnone wp-image-1082" src="https://cdn.omegaxyz.com/2017/06/diyweb7-300x116.png" alt="" width="652" height="252" />
+
+第三方虚拟空间推荐七牛云，这部分请大家自己学习
+
+<img class="alignnone wp-image-1083" src="https://cdn.omegaxyz.com/2017/06/diyweb8-300x116.png" alt="" width="652" height="252" />
+
+&nbsp;
+
+注：DNS解析和域名解析类似，到控制台界面会有提示，这里不在赘述。
+2.云服务器
+
+简称ECS（elastic cloud servicer）
+
+云服务器的业内名称其实叫做计算单元。所谓计算单元，就是说这个服务器只能算是一个人的大脑，相当于普通电脑的CPU，里面的资源都是有限的。你要获得更好的性能，解决办法一是升级云服务器，二是将其它耗费计算单元资源的软件部署在对应的云服务上。例如数据库有专门的云数据库服务、静态网页和图片有专门的文件存储服务。
+当然用云服务器来存储网页是有点大材小用了，但是能使网站性能更好，且能加载更多子域名的网站如jiaotong.omegaxyz.com。最重要的是如果你想制作APP的话，云服务器是最好的选择了。唯一的缺点就是贵（找找优惠政策）。
+
+在购买云服务器是一定要注意云服务器的系统和环境（阿里云是基于Linux的Centos系统，Java和PHP环境等），这些在第三部分会细讲。
+<h1><strong>第三部分：网站代码制作工具或网站后台管理工具</strong></h1>
+&nbsp;
+
+如果你只想制作一个简单的页面，用来宣传一些简单的思想或者是新手试水，那么使用Dreamweaver可视化编辑即可制作一个简单的页面，百度搜索一些简单的模板，即可更改。
+
+<img class="alignnone wp-image-1084" src="https://cdn.omegaxyz.com/2017/06/diyweb9-300x165.png" alt="" width="651" height="358" />
+此处就看你的编程能力了哦。
+如果你想制作一个包含多个文件的网站，那么就需要使用一些管理工具了，这里以个人博客为例讲解。
+
+&nbsp;
+
+①HEXO(静态)
+hexo是一款基于Node.js的静态博客框架, hexo github链接 ,这篇教程是针对与Mac的，参考链接，由于原文讲到的hexo是以前的老版本，所以现在的版本配置的时候会有些改动。
+
+<img class="alignnone wp-image-1085" src="https://cdn.omegaxyz.com/2017/06/diyweb10-300x98.png" alt="" width="652" height="213" />
+
+配置环境
+
+安装Node（必须）
+作用：用来生成静态页面的
+到Node.js官网下载相应平台的最新版本，一路安装即可。
+安装Git（必须）
+作用：把本地的hexo内容提交到github上去.
+安装Xcode就自带有Git，我就不多说了。
+申请GitHub（必须）
+作用：是用来做博客的远程创库、域名、服务器之类的，怎么与本地hexo建立连接等下讲。
+github账号我也不再啰嗦了,没有的话直接申请就行了，跟一般的注册账号差不多，SSH Keys，看你自己了，可以不配制，不配置的话以后每次对自己的博客有改动提交的时候就要手动输入账号密码，配置了就不需要了，怎么配置我就不多说了，网上有很多教程。
+正式安装Hexo
+Node和Git都安装好后,首先创建一个文件夹,如blog,用户存放hexo的配置文件,然后进入blog里安装Hexo。
+执行如下命令安装Hexo：
+sudo npm install -g hexo
+初始化然后，执行init命令初始化hexo,命令：
+hexo init
+好啦，至此，全部安装工作已经完成！blog就是你的博客根目录，所有的操作都在里面进行。
+生成静态页面
+hexo generate（hexo g也可以）
+本地启动
+启动本地服务，进行文章预览调试，命令：
+hexo server
+浏览器输入http://localhost:4000
+我不知道你们能不能，反正我不能，因为我还有环境没配置好
+配置Github
+建立Repository
+建立与你用户名对应的仓库，仓库名必须为【your_user_name.github.io】，固定写法=
+然后建立关联，我的blog在本地/Users/leopard/blog，blog是我之前建的东西也全在这里面，有：
+_config.yml node_modules public source
+db.json package.json scaffolds themes
+现在我们需要_config.yml文件，来建立关联，命令：
+vim _config.yml
+翻到最下面，改成我这样子的
+deploy:
+type: git
+repo: https://github.com/leopardpan/leopardpan.github.io.git
+branch: master
+然后执行命令：
+npm install hexo-deployer-git --save
+网上会有很多说法，有的type是github, 还有repository最后面的后缀也不一样，是github.com.git，我也踩了很多坑，我现在的版本是hexo: 3.1.1，执行命令hexo -vsersion就出来了,貌似3.0后全部改成我上面这种格式了。
+忘了说了，我没用SSH Keys如果你用了SSH Keys的话直接在github里复制SSH的就行了，总共就两种协议，相信你懂的。
+然后，执行配置命令：
+hexo deploy
+然后再浏览器中输入http://leopardpan.github.io/就行了，我的github的账户叫leopardpan,把这个改成你github的账户名就行了
+部署步骤
+每次部署的步骤，可按以下三步来进行。
+hexo clean
+hexo generate
+hexo deploy
+一些常用命令：
+hexo new"postName" #新建文章
+hexo new page"pageName" #新建页面
+hexo generate #生成静态页面至public目录
+hexo server #开启预览访问端口（默认端口4000，'ctrl + c'关闭server）
+hexo deploy #将.deploy目录部署到GitHub
+hexo help # 查看帮助
+hexo version #查看Hexo的版本
+报错总结
+ERROR Deployer not found: git 或者 ERROR Deployer not found: github
+解决方法： npm install hexo-deployer-git --save
+如发生报错： ERROR Process failed: layout/.DS_Store , 那么进入主题里面layout和_partial目录下，使用删除命令：
+rm-rf.DS_Store
+ERROR Plugin load failed: hexo-server
+原因：
+Besides,utilities are separated into a standalone module.hexo.util is not reachable anymore.
+解决方法，执行命令：
+sudo npm install hexo-server
+执行命令hexo server，提示：Usage: hexo ....
+原因：
+我认为是没有生成本地服务
+解决方法，执行命令：
+npm install hexo-server --save
+提示：hexo-server@0.1.2 node_modules/hexo-server
+....
+表示成功了参考
+这个时候再执行：
+hexo-server
+得到:
+INFOHexois running at http://0.0.0.0:4000/.PressCtrl+C to stop.
+这个时候再点击http://0.0.0.0:4000，正常情况下应该是最原始的画面，但是我看到的是：
+白板和Cannot GET / 几个字
+原因：
+由于2.6以后就更新了，我们需要手动配置些东西，我们需要输入下面三行命令：
+npm install hexo-renderer-ejs --save
+npm install hexo-renderer-stylus --save
+npm install hexo-renderer-marked --save
+这个时候再重新生成静态文件，命令：
+hexo generate（或hexo g）
+启动本地服务器：
+hexo server（或hexo s）
+再，点击网址http://0.0.0.0:4000OK终于可以看到属于你自己的blog啦，😄，虽然很简陋，但好歹有了一个属于自己的小窝了。参考链接，本地已经简单的设置好了，但是现在域名和服务器都是基于自己的电脑，接下来需要跟github进行关联。
+
+<strong>②wordpress（动态）</strong>
+WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用。
+WordPress是一款个人博客系统，并逐步演化成一款内容管理系统软件，它是使用PHP语言和MySQL数据库开发的。用户可以在支持 PHP 和 MySQL数据库的服务器上使用自己的博客。
+WordPress有许多第三方开发的免费模板，安装方式简单易用。不过要做一个自己的模板，则需要你有一定的专业知识。比如你至少要懂的标准通用标记语言下的一个应用HTML代码、CSS、PHP等相关知识。
+WordPress官方支持中文版，同时有爱好者开发的第三方中文语言包，如wopus中文语言包。WordPress拥有成千上万个各式插件和不计其数的主题模板样式。
+
+<img class="alignnone wp-image-1086" src="https://cdn.omegaxyz.com/2017/06/diyweb11-300x121.png" alt="" width="652" height="263" />
+
+下面讲解如何在阿里云云服务器上安装wordpress
+
+服务器环境要求
+
+PHP 5.2.4或更新版本
+MySQL 5.0或更新版本
+Apache mod_rewrite模块（可选，用于支持“固定链接”和“站点网络”功能）
+
+利用Xshell登录自己的云服务器
+Xshell界面
+
+<img class="alignnone wp-image-1087" src="https://cdn.omegaxyz.com/2017/06/diyweb12-300x188.png" alt="" width="649" height="407" />
+
+<img class="alignnone wp-image-1089" src="https://cdn.omegaxyz.com/2017/06/diyweb14-300x149.png" alt="" width="650" height="323" />
+
+首先要创建一个数据库
+
+<img class="alignnone wp-image-1090" src="https://cdn.omegaxyz.com/2017/06/diyweb15-300x201.png" alt="" width="651" height="436" />
+
+<img class="alignnone wp-image-1088" src="https://cdn.omegaxyz.com/2017/06/diyweb13-300x243.png" alt="" width="651" height="527" />
+
+接下来添加虚拟主机
+
+<img class="alignnone wp-image-1094" src="https://cdn.omegaxyz.com/2017/06/diyweb19-300x49.png" alt="" width="649" height="106" />
+
+<img class="alignnone wp-image-1091" src="https://cdn.omegaxyz.com/2017/06/diyweb16-300x247.png" alt="" width="649" height="534" />
+
+<img class="alignnone wp-image-1092" src="https://cdn.omegaxyz.com/2017/06/diyweb17-300x171.png" alt="" width="651" height="371" />
+
+<img class="alignnone wp-image-1093" src="https://cdn.omegaxyz.com/2017/06/diyweb18-300x75.png" alt="" width="652" height="163" />
+
+接下来创建ftp账号
+
+<img class="alignnone wp-image-1095" src="https://cdn.omegaxyz.com/2017/06/diyweb20-300x38.png" alt="" width="655" height="83" />
+
+<img class="alignnone wp-image-1096" src="https://cdn.omegaxyz.com/2017/06/diyweb21-300x279.png" alt="" width="652" height="606" />
+
+最后使用wget命令下载wordpress（如下图）
+
+<img class="alignnone wp-image-1097" src="https://cdn.omegaxyz.com/2017/06/diyweb22-300x202.png" alt="" width="650" height="438" />
+
+此时你的网站数据就可以通过ftp工具查看了，具体百度。
+接下来浏览器登录你的网址
+
+<img class="alignnone wp-image-1098" src="https://cdn.omegaxyz.com/2017/06/diyweb23-282x300.png" alt="" width="651" height="693" />
+
+配置完即可
+出现控制台界面
+
+<img class="alignnone wp-image-1099" src="https://cdn.omegaxyz.com/2017/06/diyweb24-300x50.png" alt="" width="654" height="109" />
+
+自此你可以个性化你的网站了（需要一定的PHP和CSS和JavaScript的知识）</div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-100">
+          <strong>Anonymous</strong>
+          <time>2017-08-12 00:36:58</time>
+          <div>厉害了我的哥</div>
+        </div>
+        
+        <div class="comment" id="comment-18712">
+          <strong>kellymio</strong>
+          <time>2020-03-25 16:53:33</time>
+          <div>学长，你用的是wordpress吗？想问一下怎么美化wordpress？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18713">
+          <strong>xyjisaw</strong>
+          <time>2020-03-25 17:00:09</time>
+          <div>找一个好看的主题就好了，然后定制一些css</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

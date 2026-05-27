@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of feature selection Filter method · OmegaXYZ</title>
+  <meta name="description" content="Filter (filtering method) measures the classification ability of features by analyzing the internal characteristics of feature subsets, regardless of which classifier is used later. This type of method usually requires a scoring function and a threshold discriminant method to evaluate feature correlation to select the feature subset with the highest score. Through literature research, according to the different ways of selecting feature subsets, it can be further divided into two categories: feature ranking (Feature Ranking) and feature space search (Space Search). Based on special...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/23/fs_filter/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-23</div>
+        <h1>Detailed explanation of feature selection Filter method</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">Filter (filtering method) measures the classification ability of features by analyzing the internal characteristics of feature subsets, regardless of which classifier is used later. This type of method usually requires a scoring function and a threshold discriminant method to evaluate feature correlation to select the feature subset with the highest score. Through literature research, according to the different ways of selecting feature subsets, it can be further divided into two categories: feature ranking (Feature Ranking) and feature space search (Space Search).<strong>The main idea of ​​the method based on feature ranking is:</strong>1) Use the Scoring Function to score each feature and arrange all features in descending order of score;
+2) Perform significance test (such as p-value, etc.) on each feature score;
+3) Select the top ranked features with significant statistical significance through preset thresholds;
+4) Verify the selected optimal feature subset, usually using ROC (Receiver Operating Characteristic) curve, classification accuracy, group correlation coefficient, stability, etc.<strong>The core of the feature-based ranking method is the scoring function</strong>, the following figure lists three types of popular scoring functions that appear in feature selection: based on the difference between the distributions of metric sample groups, based on information theory, and based on correlation criteria.<div><img alt="" class="alignnone size-full wp-image-4124" height="702" src="https://cdn.omegaxyz.com/2018/04/FS_filter_score.jpg" width="626"/></div>
+<div></div>
+<div>The feature space search method mainly uses an optimization strategy to select the feature subset that contains the most information and achieves the minimum redundancy from the entire feature set. In specific fields, there are some studies on the accurate discovery of disease-causing genes, such as Correlation-based feature selection (CFS), Maximum Relevance Minimum Redundancy (MRMR), etc. The figure below shows several mainstream methods based on the feature space search method.</div>
+<div><img alt="" class="alignnone size-full wp-image-4125" height="512" src="https://cdn.omegaxyz.com/2018/04/FS_filter_space.jpg" width="624"/></div>
+<div></div>
+<div>Methods based on feature ranking are mostly univariate methods. They consider the influence of a single feature at a time and select the feature most relevant to the class label. This method has good computational complexity for high-dimensional small samples. However, in some application fields such as genetic microarray data, because the relationship between features is ignored, analysis is directly applied. The class accuracy is relatively average; and based on feature space search, which is a multi-variable method, this type of algorithm not only needs to consider the correlation between feature subsets and class labels, but also the correlation between feature subsets. Generally, the classification accuracy is good, but the computational complexity of finding the optimal subset under high-dimensional conditions is high.</div>
+<div></div>
+<div><strong>References:</strong>Wang Xiang, Hu Xuegang. A review of research on feature selection in high-dimensional small sample classification problems [J]. Computer Applications, 2017, 37(9):2433-2438.</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

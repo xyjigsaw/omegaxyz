@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Large models are also an optimizer. · OmegaXYZ</title>
+  <meta name="description" content="Paper: Large Language Models as Optimizers arXiv: https://arxiv.org/pdf/2309.03409.pdf Administration: Google DeepMind 🚀Highlight DeepMind introduced an approach called &quot;Optimation by Prom...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2023/11/23/llm_optimizer/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2023-11-23</div>
+        <h1>Large models are also an optimizer.</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/gpt/index.html">GPT</a><a class="pill" href="../../../../tag/llm/index.html">LLM</a></div>
+        <div class="article-content"><div><nav class="inline-toc side-box" data-toc=""></nav></div>
+<div></div>
+<div><strong>Thesis: Large Language Models as Optimizers</strong></div>
+<div></div>
+<div data-docx-has-block-data="false" data-page-id="NeXcd060VoGygMxtBSqcolXRnug">
+<div class="ace-line ace-line old-record-id-IpHPdDBWSoKvPfx0QAscuEsHnQf"><strong>arXiv:</strong> <a href="https://arxiv.org/pdf/2309.03409.pdf" rel="noopener" target="_blank">https://arxiv.org/pdf/2309.03409.pdf</a></div>
+<div class="ace-line ace-line old-record-id-LHJVdpgiloqPcexZFRFcO4ounIf"><strong>Affiliation:</strong> Google DeepMind</div>
+</div>
+<h2><strong>🚀Highlight</strong></h2>
+<ul>
+<li>DeepMind introduced a new methodology called Optimization by Warning: OPRO. It no longer relies on traditional optimization algorithms, such as RMSPROP, Adam, etc., but instead shifts its focus to issues or tips that optimize models. The objective is to find instructions that maximize mission accuracy.</li>
+<li>Specifically, the optimisation problem is described in natural languages, and LLM is then instructed to generate new solutions based on the description of the problem and the typologies previously found. LLM optimization can quickly adapt to different tasks by changing the question description in the prompt, and customise the optimization process by adding commands to specify the solution properties required.</li>
+</ul>
+<h2><strong>Background</strong></h2>
+<ul>
+<li>Optimization algorithms usually require tailoring to individual tasks to meet specific challenges posed by decision-making spaces and performance environments.</li>
+<li>Optimization everywhere. While algorithms based on the guidance are powerful for a variety of issues, the lack of gradients poses challenges for many applications in the real world.</li>
+</ul>
+<h2><strong>Methodology</strong></h2>
+<h3><strong>Definitions (components)</strong></h3>
+<ul>
+<li>The core of meta-prompt: meta-prompt is the basic input of LLM. It consolidates previous solutions, associated performance indicators and a concise description of current tasks. This structured input is designed to guide LLM towards more efficient decomposition.</li>
+<li>Optimizer LLM: When LLM receives meta-prompt, its goal is to generate improved prompt for better results. DeepMind tested this method in various models (including text-bison, Palm 2-L, gpt-3.5-turbo and gpt-4) to ensure robustness and multifunctionality.</li>
+<li>Pumper LLM: This component assesses the quality of the newly generated decomposition. It calculates the average score based on the behaviour of the hint on a given data set (e.g. GSM8K and Big-Bench Hard). DeepMind explores different configurations of LLM as an optimizer and evaluator.
+Notes: We will use LLM for target function evaluation as the scorer LLM, and LLM for optimization as the optimist LLM. They can be different.</li>
+</ul>
+<h3><strong>Frame</strong></h3>OPRO Framework Summary: 1 for input; 2 optimizer LLM to generate target function; 3 scorer LLM to assess the quality of the solvency; 4 to add the new solver and its fractions to the next optimised meta-prompt. The meta-prompt contains scores of solutions obtained throughout the optimization, as well as some examples of the natural linguistic description of the task and the (in the hint optimization) task.
+<h3><img alt="" class="alignnone wp-image-7828" height="276" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_framework.png" width="512"/>
+<strong>Case</strong></h3>
+<img alt="" class="alignnone wp-image-7821" height="667" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case1.png" width="805"/>
+<span style="text-decoration: underline;">Blue text contains solution fraction pairs; purple text describes optimization tasks and output formats; orange text is Meta-prompt.</span>Meta-prompt contains two core message clips. The first component is the prior generation of tips and the corresponding training precision. The second is a description of the issue of optimization, which includes several examples chosen randomly from the training focus to illustrate our concerns. It also provides an explanation for LLM to understand the relationship between the different parts and the required output format.
+<h3><strong>Different from other existing jobs</strong></h3>
+<ul>
+<li>Unlike the recent work of using LLM automatic alerts, each step of the exercise produces a new hint, with the aim of increasing the test accuracy based on the trajectory of the previously generated tip, rather than editing an input tip based on feedback from the natural language or requiring that the new tip follow the same semantic meaning.</li>
+<li>OPRO uses the complete optimized trajectory to enable LLM to gradually generate new tips to improve the accuracy of tasks throughout the optimization process, where the initial hints are less accurate.</li>
+</ul>
+<h2><strong>Evaluation</strong></h2>
+<h3><strong>Continuous optimization: linear regression</strong></h3>Mission: In the online regression problem, the goal is to find linear coefficients that best match the response from the input variable in terms of probability.
+
+<img alt="" class="alignnone wp-image-7822" height="271" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case2.png" width="586"/>
+<ul>
+<li>Step1: A random sample of five (w, b) yes.</li>
+<li>Step 2: Use a meta-prompt hint to optimizer LLM, which includes the best 20 pairs (w, b) of history against the target values and their sorting. Meta-prompt requires a new (w, b) pair, which further reduces the target value. The figure above shows a meta-prompt. Processes are issued eight times, generating up to eight new (w, b) pairs per step to improve optimal stability.</li>
+<li>Step3: Assess the proposed target value for the target and add it to history.</li>
+<li>Step4: The process is iterative until the conditions are met.</li>
+</ul>
+<img alt="" class="alignnone wp-image-7823" height="263" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case3.png" width="633"/>
+<ul>
+<li>Each model explores (w,b) fewer pairs than an exhaustive search, indicating that the models optimize the black box: comparing figures and suggesting a direction of decline.</li>
+<li>text-bison and gpt-4 models are better than gpt-3.5-turbo at condensing speed: they reach optimal state with fewer steps. The gpt-4 model performed best.</li>
+<li>When the ground truth is further from the starting area, the problem of all models becomes more difficult to resolve: all models require more exploration and more steps.</li>
+</ul>
+<h3><strong>Disconnection optimization: the issue of travellers</strong></h3>Slight
+<h3><strong>Tip Optimization</strong></h3>The goal is to find a hint to maximize the accuracy of the task. The mission here is to be carried out on GSM8K and movie_recommendation.
+
+<img alt="" class="alignnone wp-image-7824" height="253" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig1.png" width="695"/>
+<div data-docx-has-block-data="false" data-page-id="NeXcd060VoGygMxtBSqcolXRnug">
+<div class="ace-line ace-line old-record-id-CUcidRnJdoNLctxjJaWc4RKYn0B">Tips a result of optimizing the different scorers and optimizers on the task.</div>
+<div><img alt="" class="alignnone wp-image-7829" height="731" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_table1.png" width="755"/></div>
+</div>
+<h4><strong>The digestion experiment.</strong></h4>
+<strong>1. how each part of the meta-prompt matters</strong>
+<img alt="" class="alignnone wp-image-7825" height="923" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig2.png" width="636"/>
+<ul>
+<li>Optimizer LLM output is more vulnerable to the closer meta-prompt end command.</li>
+<li>The inclusion of precision fractions in the command helps the optimist LLM to better understand the quality differences between previous commands (better than direct sequencing).</li>
+<li>The example is useful in meta-prompt, as it provides intuitive information about the mission and helps the optimizer better describe the new instructions with phrases. However, more examples do not necessarily improve performance, as only a few examples are usually sufficient (like ICL). In addition, including more examples would lead to a longer meta-prompt, which could distract the optimizer LLM from other important components.</li>
+</ul>
+<strong>2. the number of generated instructions in each step</strong>
+<img alt="" class="alignnone wp-image-7826" height="369" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig3.png" width="586"/>
+<ul>
+<li>The article calculates the difference in the random gradient decline process. The generation of multiple commands at each step increases the optimal stability of LLM.</li>
+<li>On the whole, the best performance has been achieved with the sampling of eight instructions per step.</li>
+</ul>
+<strong>3. the initial instructions for prompt optimization</strong>
+<img alt="" class="alignnone wp-image-7827" height="348" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig4.png" width="653"/>
+<ul>
+<li>The performance of different initial instructions varies significantly, especially at the beginning of the optimization.</li>
+</ul>
+<h2><strong>Key Insights</strong></h2>
+<ul>
+<li>Innovative Optimized Prompts: The study revealed unexpected but effective tips. For example, PaLM 2-L-IT model tips include "take a deep break..." Such a phrase implies a human-like solution to the problem.</li>
+<li>Diversity in Model-Specific Prompts: Optimizing prompt for different models is different. Each model has its own unique architecture and training modules. This diversity highlights the need to customize individual models in order to obtain the best results. At the same time, a semanticly similar command may have completely different precisions. For example, the PaLM 2-L scorer on the GSM8K test set, “Let's think step by step.”, reaches precision 71.8, “Let's solve the problem.” is 60.5, while “Let's work programme the problem step by step.” is only 49.4.</li>
+<li>Transferability of Optimized Prompts: OPRO methods do not simply produce valid tips for individual assignments, which are migratory in different mandates.</li>
+<li>Natural Language Operations: A notable advantage of LLM is their proficiency in natural language processing. This function allows researchers and practitioners to describe complex optimization tasks in simple language, eliminating the need for complex technical terms. It streamlines the process of optimization and makes it easier to access and use.</li>
+</ul>More content access [omegaxyz.com] (https://omegaxyz.com)
+All website codes are authorized by Apache 2.0.
+Website articles are authorized by the Knowledge Sharing Licence Agreement BY-NC-SA 4.0
+□ 2023 • OmegaXYZ - All rights
+
+</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-36943">
+          <strong>xyjisaw</strong>
+          <time>2023-11-29 17:58:21</time>
+          <div>最近在做一些大模型相关的工作。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

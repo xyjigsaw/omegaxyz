@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aminer学术社交网络数据知识图谱构建（三元组与嵌入） · OmegaXYZ</title>
+  <meta name="description" content="Aminer 科技情报大数据挖掘与服务系统平台 AMiner 是由清华大学计算机科学与技术系教授唐杰率领团队建立的，具有完全自主知识产权的新一代科技情报分析与挖掘平台 。 AMiner平台以科研人员、科技文献、学术活动三大类数据为基础，构建三者之间的关联关系，深入分析挖掘，面向全球科研机构及相关工作人员，提供学者、论文文献等学术信息资源检...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/07/12/aminer-academic-social-network/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-07-12</div>
+        <h1>Aminer学术社交网络数据知识图谱构建（三元组与嵌入）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
+        <div class="article-content"><h2><strong>Aminer</strong></h2>
+科技情报大数据挖掘与服务系统平台<a href="https://www.aminer.cn/" target="_blank" rel="noopener noreferrer">AMiner</a>是由清华大学计算机科学与技术系教授唐杰率领团队建立的，具有完全自主知识产权的新一代科技情报分析与挖掘平台 。
+<div class="para">AMiner平台以科研人员、科技文献、学术活动三大类数据为基础，构建三者之间的关联关系，深入分析挖掘，面向全球科研机构及相关工作人员，提供学者、论文文献等学术信息资源检索以及面向科技文献、专利和科技新闻的语义搜索、语义分析、成果评价等知识服务。典型的知识服务包括：学者档案管理及分析挖掘、专家学者搜索及推荐、技术发展趋势分析、全球学者分布地图、全球学者迁徙图、开放平台等。</div>
+<div></div>
+<div><img class="alignnone wp-image-6799" src="https://cdn.omegaxyz.com/2020/07/aminer.jpg" alt="" width="197" height="78" /></div>
+
+<hr />
+
+<h2><strong>Academic Social Network数据集</strong></h2>
+数据集地址：<a href="https://www.aminer.cn/aminernetwork" target="_blank" rel="noopener noreferrer">https://www.aminer.cn/aminernetwork</a>
+<div id="Academic-Social-Network" class="inner-results">
+
+该数据的内容包括论文信息，论文引文，作者信息和作者协作。 2,092,356篇论文和8,024,869之间的引用被保存在文件AMiner-Paper.rar中; 1,712,433位作者被保存在AMiner-Author.zip文件中，4,258,615位合作关系被保存在文件AMiner-Coauthor.zip中。
+<div>
+<table border="1" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><address><strong><em>FileName</em></strong></address></td>
+<td><address><strong>Node</strong></address></td>
+<td><address><strong><em>Number</em></strong></address></td>
+<td><strong><em>Size</em></strong></td>
+</tr>
+<tr>
+<td><a href="https://lfs.aminer.cn/lab-datasets/aminerdataset/AMiner-Paper.rar">AMiner-Paper.rar</a>
+
+[<a href="http://doc.argcv.com/AMinerNetwork/AMiner-Paper.rar">download from mirror site</a>]</td>
+<td>Paper
+
+Citation</td>
+<td>2,092,356
+
+8,024,869</td>
+<td>509 MB</td>
+</tr>
+<tr>
+<td><a href="https://lfs.aminer.cn/lab-datasets/aminerdataset/AMiner-Author.zip">AMiner-Author.zip</a>
+
+[<a href="http://doc.argcv.com/AMinerNetwork/AMiner-Author.zip">download from mirror site</a>]</td>
+<td>Author</td>
+<td>1,712,433</td>
+<td>167 MB</td>
+</tr>
+<tr>
+<td><a href="https://lfs.aminer.cn/lab-datasets/aminerdataset/AMiner-Coauthor.zip">AMiner-Coauthor.zip</a>
+
+[<a href="http://doc.argcv.com/AMinerNetwork/AMiner-Coauthor.zip">download from mirror site</a>]</td>
+<td>Collaboration</td>
+<td>4,258,615</td>
+<td>
+<div>31.5 MB</div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><strong>Supplement: </strong>The relaionship between author id and paper id <a href="https://lfs.aminer.cn/lab-datasets/aminerdataset/AMiner-Author2Paper.zip">AMiner-Author2Paper.zip</a>. The 1st column is index, the 2nd colum is auhor id, the 3rd column is paper id, the 4th column is author's position.</div>
+</div>
+连上补充数据一共4个数据集文件。
+
+<hr />
+
+<h2><strong>数据三元组转化与连接</strong></h2>
+将上述4个数据集下载到本地目录后通过Python脚本读取、处理、连接生成实体csv和关系csv文件。
+
+脚本代码：<a href="https://github.com/xyjigsaw/Aminer2KG" target="_blank" rel="noopener noreferrer">https://github.com/xyjigsaw/Aminer2KG</a>
+
+脚本生成的数据包括一下几个部分：
+<ul>
+ 	<li>author2csv.py includes
+<ul>
+ 	<li>e_author.csv: author entity</li>
+ 	<li>e_affiliation: affiliation entity</li>
+ 	<li>e_concept.csv: concept entity</li>
+ 	<li>r_author2affiliation.csv: relation between author and affiliation</li>
+ 	<li>r_author2concept.csv: relation between author and concept</li>
+</ul>
+</li>
+ 	<li>author2paper2csv.py includes
+<ul>
+ 	<li>r_author2paper.csv: relation between author and paper</li>
+</ul>
+</li>
+ 	<li>paper2csv.py includes
+<ul>
+ 	<li>e_paper.csv: paper entity</li>
+ 	<li>e_venue.csv: venue entity</li>
+ 	<li>r_paper2venue.csv: relation between paper and venue</li>
+ 	<li>r_citation.csv: relation between papers</li>
+ 	<li>r_coauthor.csv: relation between authors</li>
+</ul>
+</li>
+</ul>
+汇总：
+<table style="height: 768px;" width="918">
+<tbody>
+<tr>
+<td width="165">文件名</td>
+<td width="113">类型</td>
+<td width="102">名称</td>
+<td width="126">数量</td>
+<td width="118">大小</td>
+</tr>
+<tr>
+<td width="165">e_author.csv</td>
+<td rowspan="5" width="113">&nbsp;
+
+&nbsp;
+
+实体</td>
+<td width="102">作者</td>
+<td width="126">1,712,432</td>
+<td width="118">70M</td>
+</tr>
+<tr>
+<td width="165">e_affiliation.csv</td>
+<td width="102">机构</td>
+<td width="126">624,750</td>
+<td width="118">54M</td>
+</tr>
+<tr>
+<td width="165">e_concept.csv</td>
+<td width="102">知识概念</td>
+<td width="126">4,055,686</td>
+<td width="118">131M</td>
+</tr>
+<tr>
+<td width="165">e_paper.csv</td>
+<td width="102">论文</td>
+<td width="126">2,092,355</td>
+<td width="118">1,495M</td>
+</tr>
+<tr>
+<td width="165">e_venue.csv</td>
+<td width="102">发生地点</td>
+<td width="126">264,839</td>
+<td width="118">19M</td>
+</tr>
+<tr>
+<td width="165">r_author2affiliation.csv</td>
+<td rowspan="6" width="113">&nbsp;
+
+&nbsp;
+
+关系</td>
+<td width="102">作者-机构</td>
+<td width="126">1,287,287</td>
+<td width="118">28M</td>
+</tr>
+<tr>
+<td width="165">r_author2concept.csv</td>
+<td width="102">作者-概念</td>
+<td width="126">14,589,981</td>
+<td width="118">339M</td>
+</tr>
+<tr>
+<td width="165">r_author2paper.csv</td>
+<td width="102">作者-论文</td>
+<td width="126">5,192,998</td>
+<td width="118">108M</td>
+</tr>
+<tr>
+<td width="165">r_citation.csv</td>
+<td width="102">引用</td>
+<td width="126">8,024,873</td>
+<td width="118">167M</td>
+</tr>
+<tr>
+<td width="165">r_coauthor.csv</td>
+<td width="102">合作者</td>
+<td width="126">4,258,946</td>
+<td width="118">120M</td>
+</tr>
+<tr>
+<td width="165">r_paper2venue</td>
+<td width="102">论文-发生地</td>
+<td width="126">2,092,355</td>
+<td width="118">45M</td>
+</tr>
+</tbody>
+</table>
+以上共5个实体类型，6个关系类型。
+
+至此，生成了Aminer学术社交网络知识图谱三元组数据。
+
+<hr />
+
+<h2><strong>导入Neo4j</strong></h2>
+将上述11个csv文件放入Neo4j数据库的import文件夹中。
+
+在Neo4j桌面端控制台一句一句执行下述CYPHER代码：
+
+包含了实体节点导入、实体索引构建、关系导入、关系索引构建。
+<pre ><code class="language-default">USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///e_author.csv" AS line
+CREATE (author:AUTHOR{authorID:line.authorID, authorName:line.authorName, pc:line.pc, cn:line.cn, hi:line.hi, pi:line.pi, upi:line.upi})
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///e_affiliation.csv" AS line
+CREATE (affiliation:AFFILIATION{affiliationID:line.affiliationID, affiliationName:line.affiliationName})
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///e_concept.csv" AS line
+CREATE (concept:CONCEPT{conceptID:line.conceptID, conceptName:line.conceptName})
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///e_paper.csv" AS line
+CREATE (paper:PAPER{paperID:line.paperID, paperTitle:line.title, paperYear:line.year, paperAbstract:line.abstract})
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///e_venue.csv" AS line
+CREATE (venue:VENUE{venueID:line.venueID, venueName:line.name})
+
+CREATE INDEX ON: AUTHOR(authorID)
+
+CREATE INDEX ON: AFFILIATION(affiliationID)
+
+CREATE INDEX ON: CONCEPT(conceptID)
+
+CREATE INDEX ON: PAPER(paperID)
+
+CREATE INDEX ON: VENUE(venueID)
+
+
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///r_author2affiliation.csv" AS line
+MATCH (FROM:AUTHOR{authorID:line.START_ID}), (TO:AFFILIATION{affiliationID:line.END_ID})
+MERGE (FROM)-[AUTHOR2AFFILIATION: AUTHOR2AFFILIATION{type:line.TYPE}]-&gt;(TO)
+
+
+USING PERIODIC COMMIT 10000
+LOAD CSV WITH HEADERS FROM "file:///r_author2concept.csv" AS line
+MATCH (FROM:AUTHOR{authorID:line.START_ID}), (TO:CONCEPT{conceptID:line.END_ID})
+MERGE (FROM)-[AUTHOR2CONCEPT: AUTHOR2CONCEPT{type:line.TYPE}]-&gt;(TO)
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///r_author2paper.csv" AS line
+MATCH (FROM:AUTHOR{authorID:line.START_ID}), (TO:PAPER{paperID:line.END_ID})
+MERGE (FROM)-[AUTHOR2PAPER: AUTHOR2PAPER{type:line.TYPE, author_pos:line.author_position}]-&gt;(TO)
+
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///r_citation.csv" AS line
+MATCH (FROM:PAPER{paperID:line.START_ID}), (TO:PAPER{paperID:line.END_ID})
+MERGE (FROM)-[CITATION: CITATION{type:line.TYPE}]-&gt;(TO)
+
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///r_coauthor.csv" AS line
+MATCH (FROM:AUTHOR{authorID:line.START_ID}), (TO:AUTHOR{authorID:line.END_ID})
+MERGE (FROM)&lt;-[COAUTHOR: COAUTHOR{type:line.TYPE, n_cooperation:line.n_cooperation}]-&gt;(TO)
+
+USING PERIODIC COMMIT 5000
+LOAD CSV WITH HEADERS FROM "file:///r_paper2venue.csv" AS line
+MATCH (FROM:PAPER{paperID:line.START_ID}), (TO:VENUE{venueID:line.END_ID})
+MERGE (FROM)-[PAPER2VENUE: PAPER2VENUE{type:line.TYPE}]-&gt;(TO)
+
+
+CREATE INDEX ON: AUTHOR(authorName)
+
+CREATE INDEX ON: AFFILIATION(affiliationName)
+
+CREATE INDEX ON: CONCEPT(conceptName)
+
+CREATE INDEX ON: PAPER(paperTitle)
+
+CREATE INDEX ON: VENUE(venueName)</code></pre>
+<strong>预览：</strong>
+
+<img class="alignnone wp-image-6798" src="https://cdn.omegaxyz.com/2020/07/aminer-kg.png" alt="" width="559" height="281" />
+
+<hr />
+
+<h2><strong>知识图谱嵌入</strong></h2>
+这部分将上述千万级三元组训练成嵌入数据，<a href="https://github.com/facebookresearch/PyTorch-BigGraph" target="_blank" rel="noopener noreferrer">PyTorch-BigGraph</a>（PBG）给出了令人满意的解决方案。PBG是一个分布式大规模图嵌入系统，能够处理多达数十亿个实体和数万亿条边的大型网络图结构。图结构分区、分布式多线程和批处理负采样技术赋予了PBG处理大型图的能力。
+
+<img class="alignnone wp-image-6797" src="https://cdn.omegaxyz.com/2020/07/PyTorch-BigGraph.png" alt="" width="319" height="63" />
+
+为了验证PBG对学者数据嵌入的有效性，本文将原始数据按照99:1:1的比例划分训练集，测试集和验证集，传入PBG后进行训练验证。
+
+<strong>训练命令：</strong>
+<pre ><code class="language-default">torchbiggraph_import_from_tsv --lhs-col=0 --rel-col=1 --rhs-col=2 new_config.py rel9811/train.txt rel9811/valid.txt rel9811/test.txt
+
+torchbiggraph_train new_config.py -p edge_paths=rel9811/train_p
+
+torchbiggraph_eval new_config.py -p edge_paths=rel9811/test_p -p relations.0.all_negs=true -p num_uniform_negs=0
+
+torchbiggraph_export_to_tsv new_config.py --entities-output entity_embeddings.tsv --relation-types-output relation_types_parameters.tsv
+</code></pre>
+<strong>训练参数：</strong>
+<table>
+<tbody>
+<tr>
+<td width="241">名称</td>
+<td width="188">释义</td>
+<td width="194">值</td>
+</tr>
+<tr>
+<td width="241">num_epoch</td>
+<td width="188">训练代数</td>
+<td width="194">20</td>
+</tr>
+<tr>
+<td width="241">num_uniform_negs</td>
+<td width="188">规范负样本个数</td>
+<td width="194">500</td>
+</tr>
+<tr>
+<td width="241">num_batch_negs</td>
+<td width="188">批训练负样本个数</td>
+<td width="194">500</td>
+</tr>
+<tr>
+<td width="241">batch_size</td>
+<td width="188">批训练大小</td>
+<td width="194">10000</td>
+</tr>
+<tr>
+<td width="241">loss_fn</td>
+<td width="188">损失激活函数</td>
+<td width="194">softmax</td>
+</tr>
+<tr>
+<td width="241">lr</td>
+<td width="188">学习率</td>
+<td width="194">0.1</td>
+</tr>
+<tr>
+<td width="241">num_partitions</td>
+<td width="188">分区个数</td>
+<td width="194">1</td>
+</tr>
+<tr>
+<td width="241">dimension</td>
+<td width="188">嵌入维度</td>
+<td width="194">50</td>
+</tr>
+<tr>
+<td width="241">operator</td>
+<td width="188">嵌入方法</td>
+<td width="194">TransE</td>
+</tr>
+</tbody>
+</table>
+由于PBG使用CPU进行分布式计算，不需要使用GPU。因此实验在多核服务器上进行，其基本配置如下：处理器为Xeon(R) E5‐2630 v3 @ 2.40GHz, 内存为256G, DDR4。整个实验在三小时内完成了数据嵌入及评价，<strong>嵌入结果</strong>如下所示：
+<table>
+<tbody>
+<tr>
+<td width="151">名称</td>
+<td width="274">释义</td>
+<td width="198">结果</td>
+</tr>
+<tr>
+<td width="151">Hits@1</td>
+<td width="274">预测直接命中率</td>
+<td width="198">0.6702</td>
+</tr>
+<tr>
+<td width="151">Hits@10</td>
+<td width="274">预测在Rank10内命中率</td>
+<td width="198">0.8179</td>
+</tr>
+<tr>
+<td width="151">Hits@50</td>
+<td width="274">预测在Rank50内命中率</td>
+<td width="198">0.8884</td>
+</tr>
+<tr>
+<td width="151">MRR</td>
+<td width="274">Mean Reciprocal Rank 搜索评价</td>
+<td width="198">0.7243</td>
+</tr>
+<tr>
+<td width="151">AUC</td>
+<td width="274">Area Under Curve, ROC曲线下面积</td>
+<td width="198">0.9674</td>
+</tr>
+</tbody>
+</table>
+以上就完成了三元组的嵌入。
+
+<strong>项目代码：<a href="https://github.com/xyjigsaw/Aminer2KG" target="_blank" rel="noopener noreferrer">https://github.com/xyjigsaw/Aminer2KG</a></strong>
+
+更多内容访问<a href="https://omegaxyz.com/">OmegaXYZ</a>
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2020 • OmegaXYZ-版权所有 转载请注明出处
+
+&nbsp;
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (15)</h2>
+        <div class="comment" id="comment-19537">
+          <strong>hotchi</strong>
+          <time>2020-10-20 09:35:11</time>
+          <div>请问Aminer这篇文章 按代码行一行行输入，没有得出知识图谱，neo4j构建最后的预览图是怎么得出来的？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19538">
+          <strong>xyjisaw</strong>
+          <time>2020-10-20 10:07:08</time>
+          <div>需要先用脚本生成csv文件并存储到import文件夹，你那边报的什么错误</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19539">
+          <strong>hotchi</strong>
+          <time>2020-10-20 11:23:19</time>
+          <div>我是按步骤操作的。但是最后没有形成知识图谱，可以点击标签是一个一个节点。请问输入cypher语句就可以得出来这个知识图谱吗？需不需要再输入查询语句？<br>USING PERIODIC COMMIT 5000<br>LOAD CSV WITH HEADERS FROM &quot;file:///r_paper2venue.csv&quot; AS line<br>MATCH (FROM:PAPER{paperID:line.START_ID}), (TO:VENUE{venueID:line.END_ID})<br>MERGE (FROM)-[PAPER2VENUE: PAPER2VENUE{type:line.TYPE}]-&amp;gt;(TO)<br>这几个语句我输入之后输出框里是（no change,no records),不知道是不是这里出了问题。谢谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19540">
+          <strong>xyjisaw</strong>
+          <time>2020-10-20 13:51:11</time>
+          <div>可以直接得出，不需要查询语句。你试着点击一下关系，检查一下r开头的csv文件里面是不是存储了数据。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19541">
+          <strong>hotchi</strong>
+          <time>2020-10-20 15:33:12</time>
+          <div>好像没有生成关系，csv里是有数据的。<br>有以下warning：<br>This query builds a cartesian product between disconnected patterns.<br>If a part of a query contains multiple disconnected patterns, this will build a cartesian product between all those parts. This may produce a large amount of data and slow down query processing. While occasionally intended, it may often be possible to reformulate the query that avoids the use of this cross product, perhaps by adding a relationship between the different parts or by using OPTIONAL MATCH (identifier is: (to))<br>match (from:AUTHOR{authorID:row.START_ID}),to:AFFILIATION{AFFILIATIONID:row.END_ID})</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19545">
+          <strong>xyjisaw</strong>
+          <time>2020-10-21 08:59:25</time>
+          <div>我试了下，我这里是没有问题的。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19548">
+          <strong>hotchi</strong>
+          <time>2020-10-21 12:31:47</time>
+          <div>好的谢谢 这篇文章对我帮助很大，最后请问一下你的neo4j版本？（突然发现我们是本科校友！0.0）</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19554">
+          <strong>xyjisaw</strong>
+          <time>2020-10-22 23:51:34</time>
+          <div>巧啊，方便加Q：644327005</div>
+        </div>
+        
+        <div class="comment" id="comment-21350">
+          <strong>赵奕翔</strong>
+          <time>2021-03-08 15:42:43</time>
+          <div>博主，那个部分知识图谱嵌入的结果方便发给我一份吗，感觉笔记本无法撼动，哈哈哈哈 邮箱：2721599586@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-22147">
+          <strong>hodor</strong>
+          <time>2021-06-04 00:23:32</time>
+          <div>你好，请问你这个问题解决了吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22154">
+          <strong>hodor</strong>
+          <time>2021-06-04 13:23:12</time>
+          <div>我的问题跟你一样，我点击Property Keys里的相关索引没有数据</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22155">
+          <strong>xyjisaw</strong>
+          <time>2021-06-04 14:29:56</time>
+          <div>&lt;code&gt;USING PERIODIC COMMIT 5000&lt;/code&gt;这句话在linux服务器上好像会出现一些问题。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22202">
+          <strong>hodor</strong>
+          <time>2021-06-10 18:38:50</time>
+          <div>这个在前面加个：auto就可以解决了。我跟楼上一样生成不了关系。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22203">
+          <strong>hodor</strong>
+          <time>2021-06-11 00:35:30</time>
+          <div>问题解决了！原来是csv文件里的列头名与cypher代码不一致导致！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26395">
+          <strong>arwenleo</strong>
+          <time>2022-05-22 17:32:19</time>
+          <div>求助！我整理了一遍代码的header和csv文件里的header，仍旧一直遇到导入关系不成功的问题</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

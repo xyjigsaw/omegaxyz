@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自然语言处理 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">主页</a><a href="../../archive/index.html">文章</a><a href="../../pages/index.html">页面</a><a href="../../categories/index.html">分类</a><a href="../../search/index.html">搜索</a>
+          <a href="../../../en/category/nlp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>自然语言处理</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2024-12-18</time>
+      <div>
+        <h2><a href="../../2024/12/18/alpacafarm/index.html">大模型AlpacaFarm分析</a></h2>
+        <p>一、摘要 本研究工作介绍了一个名为AlpacaFarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2024-11-18</time>
+      <div>
+        <h2><a href="../../2024/11/18/nlg_eval/index.html">NLG文本评估任务或许并不需要真值或参考文本</a></h2>
+        <p>摘要 面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的BLEU和METEOR，例如近年来基于embedding相似性提出的BERTScore和MoverScore。这类方法，可以称为Ref-free方法。 Re...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2024-01-03</time>
+      <div>
+        <h2><a href="../../2024/01/03/repe/index.html">大模型中的RepE表征工程</a></h2>
+        <p>Highlight 论文地址： https://arxiv.org/abs/2310.01405 表征工程（RepE）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。 属于AI可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activ...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-11-23</time>
+      <div>
+        <h2><a href="../../2023/11/23/llm_optimizer/index.html">大模型也是一种优化器（LLM as Optimizer）</a></h2>
+        <p>论文：Large Language Models as Optimizers arXiv: https://arxiv.org/pdf/2309.03409.pdf Affiliation: Google DeepMind 🚀Highlight DeepMind引入了一种名为“基于提示的优化方法”(Optimization by PROm...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-08-26</time>
+      <div>
+        <h2><a href="../../2023/08/26/kiscovery/index.html">学术idea自动发现与生成</a></h2>
+        <p>摘要 研究人员通常只有在深入了解大量文献后才能提出新的想法。学术出版物的数量呈指数级增长，这一事实加剧了这一过程的困难。在本研究中，我们设计了一个基于概念共现的学术思想启发框架，该框架已集成到一个研究辅助系统DeepReport中。从我们的角度来看，在一篇学术论文中同时出现的两个 概念（concept） 的融合可以被视为一种 新思想（id...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-03-29</time>
+      <div>
+        <h2><a href="../../2023/03/29/autoregressive-language-model/index.html">自回归语言模型（language model）Python实现</a></h2>
+        <p>[latexpage] 自回归语言模型 自回归语言模型是一种计算概率的模型，它可以预测一个给定的单词序列中下一个词的概率。它基于一个假设：每个词的出现只与前面的词有关，而与后面的词无关。因此，模型使用前面的单词来预测下一个单词，这也被称为自回归。 在自回归语言模型中，每个单词都被表示为一个向量。模型使用这些向量作为输入，并在每个时间步预测...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2022-02-02</time>
+      <div>
+        <h2><a href="../../2022/02/02/contrastive_learning_data_augmentation/index.html">对比学习中常见的数据增强策略</a></h2>
+        <p>[latexpage] 对比学习 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{L}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-02-10</time>
+      <div>
+        <h2><a href="../../2021/02/10/kg-github/index.html">知识图谱应用Github仓库（长期更新）</a></h2>
+        <p>知识图谱可视化Demo Github: https://github.com/xyjigsaw/Knowledge-Graph-And-Visualization-Demo 本项目支持2D，3D知识图谱可视化与查询，主要为JavaScript代码。 详细描述 ： https://omegaxyz.com/2020/03/03/knowle...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-10-09</time>
+      <div>
+        <h2><a href="../../2020/10/09/embedding-ea/index.html">基于Embedding的实体对齐前瞻</a></h2>
+        <p>摘录论文 ：Sun, Zequn, et al. &quot;A Benchmarking Study of Embedding-based Entity Alignment for Knowledge Graphs.&quot; arXiv preprint arXiv:2003.07743 (2020). 无监督实体对齐 Unsupervised ent...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-07-24</time>
+      <div>
+        <h2><a href="../../2020/07/24/dedupe/index.html">Dedupe去重与实体对齐</a></h2>
+        <p>简介 Dedupe是一个python库，使用机器学习对结构化数据快速执行模糊匹配，重复数据删除和实体对齐。 输入的数据 ：单文件csv表格 执行 ：用户在控制台根据提示标注少量相似数据即可 输出的数据 ：单文件csv表格，同时对相似的记录打上标签 Dedupe操作实例 ： 从名称和地址的电子表格中 删除重复的条目 将 具有客户信息 的列表...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-06-18</time>
+      <div>
+        <h2><a href="../../2020/06/18/fast-profile-extractor/index.html">个人主页信息提取器</a></h2>
+        <p>简介 从研究人员的主页(HTML)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。 可以分成的类别： publication education honor 详细 从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用f...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-05-19</time>
+      <div>
+        <h2><a href="../../2020/05/19/kg-survey/index.html">知识图谱综述论文阅读</a></h2>
+        <p>论文摘要 论文为A Survey on Knowledge Graphs: Representation, Acquisition and Applications，发表日期2020年，论文PDF，点击 链接 。 代表实体间结构关系的 知识图谱 已成为认知和人类智能研究的一个日益流行的方向。在这篇论文中，作者对 知识图谱 进行了全面的回顾...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-05-18</time>
+      <div>
+        <h2><a href="../../2020/05/18/bert-bilstm-crf/index.html">BERT-BiLSTM-CRF命名实体识别应用</a></h2>
+        <p>引言 本文将采用BERT+BiLSTM+CRF模型进行命名实体识别（Named Entity Recognition 简称NER），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 BERT（Bidirectional Encoder Representation from Transf...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-28</time>
+      <div>
+        <h2><a href="../../2020/04/28/kbqa-demo/index.html">基于知识图谱的问答系统Demo</a></h2>
+        <p>简介 基于知识图谱的问答系统，即KBQA。其中一个简单的实现方法是根据用户输入的自然语言问句，转化为图数据库中的关系查询，最终将数据库中的实体及关系呈现给用户。 下面给出了一个KBQA的Demo。 实现依赖 Python 3.6+ Apache Jena Fuseki SPARQLWrapper refo jiaba 实例数据 此知识图谱...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-06</time>
+      <div>
+        <h2><a href="../../2020/04/06/knowledge-fusion/index.html">知识融合（实体对齐）笔记</a></h2>
+        <p>知识融合包括以下几个部分 本体匹配（ontology matching） 侧重发现模式层等价或相似的类、属性或关系，也成为本体映射（mapping）、本体对齐（alignment） 实体对齐（entity alignment） 侧重发现指称真实世界相同对象的不同实例，也称为实体消解（resolution）、实例匹配（instance ma...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-24</time>
+      <div>
+        <h2><a href="../../2020/02/24/lda-topic/index.html">基于LDA的文本主题聚类Python实现</a></h2>
+        <p>LDA简介 LDA（Latent Dirichlet Allocation）是一种 文档主题生成模型 ，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-16</time>
+      <div>
+        <h2><a href="../../2020/02/16/recommendation-system-abstract/index.html">推荐系统摘要</a></h2>
+        <p>作为一个推荐系统的门外汉，或者说是用户，我觉得推荐系统有以下几个特性。 推荐系统的真实目的并不是做到让用户满意，而是提高销售能力，业务水平和收益。 一个好的推荐系统并不是推荐用户最喜爱/想要的东西，量化评判一个推荐系统的好坏依然是工业界，学术界难点。 相同的推荐算法应用于不同的系统，结果必然不同。 简单易懂的推荐算法往往能获得意想不到的效...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-09</time>
+      <div>
+        <h2><a href="../../2018/12/09/wmd-matlab/index.html">基于WMD（词移距离）的句子相似度分析MATLAB代码</a></h2>
+        <p>WMD简介 词移距离（Word Mover’s Distance） https://omegaxyz.com/2018/11/22/wmd/ WMD MATLAB代码 注意emd_mex是调用搬土距离的库Earth Mover&#x27;s Distance RWMD（Relaxed word moving distance ） 先去掉一个约束，计...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-27</time>
+      <div>
+        <h2><a href="../../2018/11/27/swmd/index.html">基于有监督的词移距离（SWMD）简介</a></h2>
+        <p>声明：本文章为机器学习期末作业一部分 WMD距离 https://omegaxyz.com/2018/11/22/wmd/ 我们理解了 WMD 距离 , 那么问题来了, 学习这个权重矩阵用来聚类虽好 ( 告诉我们哪些文档比较相近 ), 但是 , 用来 分类 却很差 ! 为什么?因为一些文章虽然近义词很多, 但是表达的不是一个语义和主题。...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-22</time>
+      <div>
+        <h2><a href="../../2018/11/22/wmd/index.html">基于WMD（词移距离）的句子相似度分析简介</a></h2>
+        <p>word2vec word2vec是只有一个隐层的全连接神经网络,对语料中的所有词汇进行训练并生成相应的词向量（Word Embedding） WI 的大小是 VxN, V 是单词字典的大小, 每次输入是一个单词, N是设定的隐层大小。word2vec的模型通过一种神经网络语言模型（Neural Network Language Mode...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-13</time>
+      <div>
+        <h2><a href="../../2018/11/13/word2vec/index.html">NLP之word2vec简介</a></h2>
+        <p>简介 Word2vec，是为一群用来产生词向量的相关模型。这些模型为浅而双层的神经网络，用来训练以重新建构语言学之词文本。网络以词表现，并且需猜测相邻位置的输入词，在word2vec中词袋模型假设下，词的顺序是不重要的。训练完成之后，word2vec模型可用来映射每个词到一个向量，可用来表示词对词之间的关系，该向量为神经网络之隐藏层。 W...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-02</time>
+      <div>
+        <h2><a href="../../2018/03/02/weibo_emotion/index.html">基于词典的社交媒体内容的情感分析（Python实现）</a></h2>
+        <p>之前写了一篇基于NLTK情感预测的文章 https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b 情感词典是从微博、新闻、论坛等数据来源的上百万篇情感标注数据当中自动构建的情感极性词典。因为标注包括微博数据，该词典囊括了很多网络用语及非正式简称，对非规范文本也有较高的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-12-26</time>
+      <div>
+        <h2><a href="../../2017/12/26/python_check_word/index.html">Python机器学习与拼写检查器</a></h2>
+        <p>稍有闲暇，找来一篇很早就保存下来的好文--刘未鹏的 《数学之美番外篇：平凡而神奇的贝叶斯方法》 拿来研读。读到一半，发现其中有一篇 Peter Norvig原创 、徐宥翻译的 《怎样写一个拼写检查器》 很有意思。 原理：概率论之朴素贝叶斯 原文链接： http://norvig.com/spell-correct.html 中文链接： h...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-12-15</time>
+      <div>
+        <h2><a href="../../2017/12/15/nltk_emotion/index.html">NLTK在python中对文字所表达的情感预测</a></h2>
+        <p>NLTK是python环境下NLP工具包，包含了丰富的文本处理和文本挖掘API。 自然语言处理是计算机科学领域与人工智能领域中的一个重要方向。自然语言工具箱（NLTK，Natural Language Toolkit） 是一个基于Python语言的类库，它也是当前最为流行的自然语言编程与开发工具。在进行自然语言处理研究和应用时， 恰当利用...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

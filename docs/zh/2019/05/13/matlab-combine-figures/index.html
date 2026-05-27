@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB多图合一代码模板 · OmegaXYZ</title>
+  <meta name="description" content="做算法，写论文使用MATLAB是理工科学生必须掌握的技术。在写论文的过程中，如果出版方，例如IEEE，会让你用LaTeX的trans模板写论文，制图画表格，这是再好不过了，但是有的会议或者出版方会让你用Word排版，做图制表就稍微有些麻烦，下面给出了采用MATLAB多图合一的代码模板。 生成的结果是2*3的图像。注意首先要把单个的.fig...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/13/matlab-combine-figures/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-13</div>
+        <h1>MATLAB多图合一代码模板</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">做算法，写论文使用MATLAB是理工科学生必须掌握的技术。在写论文的过程中，如果出版方，例如IEEE，会让你用LaTeX的trans模板写论文，制图画表格，这是再好不过了，但是有的会议或者出版方会让你用Word排版，做图制表就稍微有些麻烦，下面给出了采用MATLAB多图合一的代码模板。
+
+生成的结果是2*3的图像。注意首先要把单个的.fig文件保存下来，title，.fig路径需要自己重新手动设置。
+
+代码：
+<pre ><code class="language-default">h1 = openfig('ClimateCMPS.fig','reuse');
+ax1 = get(h1, 'CurrentAxes');  
+h2 = openfig('GermanCMPS.fig','reuse'); % open figure
+ax2 = get(h2, 'CurrentAxes');  
+h3 = openfig('SonarCMPS.fig','reuse');
+ax3 = get(h3, 'CurrentAxes');  
+h4 = openfig('Musk1CMPS.fig','reuse');
+ax4 = get(h4, 'CurrentAxes');  
+h5 = openfig('VoiceCMPS.fig','reuse'); % open figure
+ax5 = get(h5, 'CurrentAxes');  
+h6 = openfig('LungcancerCMPS.fig','reuse'); % open figure
+ax6 = get(h6, 'CurrentAxes');  
+
+h7 = figure; %create new figure
+
+s1 = subplot(2,3,1); %create and get handle to the subplot axes
+fig1 = get(ax1,'children'); %get handle to all the children in the figure
+copyobj(fig1,s1); %copy children to new parent axes i.e. the subplot axes
+title('Climate(18,7.14%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+
+
+s2 = subplot(2,3,2);
+fig2 = get(ax2,'children');
+copyobj(fig2,s2);
+title('German(24,29.58%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+
+
+
+s3 = subplot(2,3,3); %create and get handle to the subplot axes
+fig3 = get(ax3,'children'); %get handle to all the children in the figure
+copyobj(fig3,s3); %copy children to new parent axes i.e. the subplot axes
+title('Sonar(60,21.75%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+
+
+
+s4 = subplot(2,3,4);
+fig4 = get(ax4,'children');
+copyobj(fig4,s4);
+title('Musk1(166.18.09%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+
+
+
+s5 = subplot(2,3,5); %create and get handle to the subplot axes
+fig5 = get(ax5,'children'); %get handle to all the children in the figure
+copyobj(fig5,s5); %copy children to new parent axes i.e. the subplot axes
+title('LSVT(310,19.21%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+
+s6 = subplot(2,3,6);
+fig6 = get(ax6,'children');
+copyobj(fig6,s6);
+title('Lungcancer(56,62.33%)')
+ylabel('Error rate(%)')
+xlabel('Number of features')
+legend()
+</code></pre>
+<strong>效果:</strong>
+
+<img class="alignnone  wp-image-5781" src="https://cdn.omegaxyz.com/2019/05/matlab-combine-figs.png" alt="" width="705" height="392" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

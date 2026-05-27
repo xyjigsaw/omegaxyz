@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript网页中动态显示时间 · OmegaXYZ</title>
+  <meta name="description" content="本文着重介绍一下如何在网页中使用JavaScript添加动态时间方法 Date对象的方法 Date 对象能够使你获得相对于国际标准时间（格林威治标准时间，现在被称为 UTC-Universal Coordinated Time）或者是 Flash 播放器正运行的操作系统的时间和日期。要使用Date对象的方法，你就必须先创建一个Date对象...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/15/javascriptrunningtime/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-15</div>
+        <h1>JavaScript网页中动态显示时间</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/html/index.html">HTML</a></div>
+        <div class="article-content">本文着重介绍一下如何在网页中使用JavaScript添加动态时间方法
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>Date对象的方法</strong>
+
+Date 对象能够使你获得相对于国际标准时间（格林威治标准时间，现在被称为 UTC-Universal Coordinated Time）或者是 Flash 播放器正运行的操作系统的时间和日期。要使用Date对象的方法，你就必须先创建一个Date对象的实体（Instance）。
+
+Date 对象必须使用 Flash 5 或以后版本的播放器。
+
+Date 对象的方法并不是静态的，但是在使用时却可以应用于所指定的单独实体。
+
+<strong>Date 对象的方法简介：</strong>
+
+·getDate            ｜  根据本地时间获取当前日期(本月的几号)
+·getDay             ｜  根据本地时间获取今天是星期几(0-Sunday,1-Monday...)
+·getFullYear        ｜  根据本地时间获取当前年份(四位数字)
+·getHours           ｜  根据本地时间获取当前小时数(24小时制,0-23)
+·getMilliseconds    ｜  根据本地时间获取当前毫秒数
+·getMinutes         ｜  根据本地时间获取当前分钟数
+·getMonth           ｜  根据本地时间获取当前月份(注意从0开始:0-Jan,1-Feb...)
+·getSeconds         ｜  根据本地时间获取当前秒数
+·getTime            ｜  获取UTC格式的从1970.1.1 0:00以来的毫秒数
+·getTimezoneOffset  ｜  获取当前时间和UTC格式的偏移值(以分钟为单位)
+·getUTCDate         ｜  获取UTC格式的当前日期(本月的几号)
+·getUTCDay          ｜  获取UTC格式的今天是星期几(0-Sunday,1-Monday...)
+·getUTCFullYear     ｜  获取UTC格式的当前年份(四位数字)
+·getUTCHours        ｜  获取UTC格式的当前小时数(24小时制,0-23)
+·getUTCMilliseconds ｜  获取UTC格式的当前毫秒数
+·getUTCMinutes      ｜  获取UTC格式的当前分钟数
+·getUTCMonth        ｜  获取UTC格式的当前月份(注意从0开始:0-Jan,1-Feb...)
+·getUTCSeconds      ｜  获取UTC格式的当前秒数
+·getYear            ｜  根据本地时间获取当前缩写年份(当前年份减去1900)
+·setDate            ｜  设置当前日期(本月的几号)
+·setFullYear        ｜  设置当前年份(四位数字)
+·setHours           ｜  设置当前小时数(24小时制,0-23)
+·setMilliseconds    ｜  设置当前毫秒数
+·setMinutes         ｜  设置当前分钟数
+·setMonth           ｜  设置当前月份(注意从0开始:0-Jan,1-Feb...)
+·setSeconds         ｜  设置当前秒数
+·setTime            ｜  设置UTC格式的从1970.1.1 0:00以来的毫秒数
+·setUTCDate         ｜  设置UTC格式的当前日期(本月的几号)
+·setUTCFullYear     ｜  设置UTC格式的当前年份(四位数字)
+·setUTCHours        ｜  设置UTC格式的当前小时数(24小时制,0-23)
+·setUTCMilliseconds ｜  设置UTC格式的当前毫秒数
+·setUTCMinutes      ｜  设置UTC格式的当前分钟数
+·setUTCMonth        ｜  设置UTC格式的当前月份(注意从0开始:0-Jan,1-Feb...)
+·setUTCSeconds      ｜  设置UTC格式的当前秒数
+·setYear            ｜  设置当前缩写年份(当前年份减去1900)
+·toString           ｜  将日期时间值转换成"日期/时间"形式的字符串值
+·Date.UTC           ｜  返回指定的UTC格式日期时间的固定时间值
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+具体实现请看实验室：https://omegaxyz.com/idaily/
+<pre ><code class="language-js">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;网页中动态的显示系统日期时间&lt;/title&gt;
+        &lt;script language="JavaScript"&gt;
+            function startTime()   
+            {   
+                var today=new Date();//定义日期对象   
+                var yyyy = today.getFullYear();//通过日期对象的getFullYear()方法返回年    
+                var MM = today.getMonth()+1;//通过日期对象的getMonth()方法返回年    
+                var dd = today.getDate();//通过日期对象的getDate()方法返回年     
+                var hh=today.getHours();//通过日期对象的getHours方法返回小时   
+                var mm=today.getMinutes();//通过日期对象的getMinutes方法返回分钟   
+                var ss=today.getSeconds();//通过日期对象的getSeconds方法返回秒   
+                // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09   
+                MM=checkTime(MM);
+                dd=checkTime(dd);
+                mm=checkTime(mm);   
+                ss=checkTime(ss);    
+                var day; //用于保存星期（getDay()方法得到星期编号）
+                if(today.getDay()==0)   day   =   "星期日 " 
+                if(today.getDay()==1)   day   =   "星期一 " 
+                if(today.getDay()==2)   day   =   "星期二 " 
+                if(today.getDay()==3)   day   =   "星期三 " 
+                if(today.getDay()==4)   day   =   "星期四 " 
+                if(today.getDay()==5)   day   =   "星期五 " 
+                if(today.getDay()==6)   day   =   "星期六 " 
+                document.getElementById('nowDateTimeSpan').innerHTML=yyyy+"-"+MM +"-"+ dd +" " + hh+":"+mm+":"+ss+"   " + day;   
+                setTimeout('startTime()',1000);//每一秒中重新加载startTime()方法 
+            }   
+             
+            function checkTime(i)   
+            {   
+                if (i&lt;10){
+                    i="0" + i;
+                }   
+                  return i;
+            }  
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body onload="startTime()"&gt;
+        当前时间：&lt;font color="#33FFFF"&gt;&lt;span id="nowDateTimeSpan"&gt;&lt;/span&gt;&lt;/font&gt; 
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+截图实例：
+
+<img class="alignnone wp-image-1050" src="https://cdn.omegaxyz.com/2017/06/timehtml-300x58.jpg" alt="" width="466" height="90" />
+
+具体请看:<a href="https://omegaxyz.com/idaily/">https://omegaxyz.com/idaily/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

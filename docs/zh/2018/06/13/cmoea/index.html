@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多目标协同进化算法概要 · OmegaXYZ</title>
+  <meta name="description" content="转载自： https://ecole.asia/news/2018/06/10/weekly143/ 侵删！ 协同演化一直是人们研究的热点，尤其在处理大规模全局优化问题时（AAEO第27，32期）。协同演化算法往往构建两个或多个共同进化的种群，利用种群之间的竞争或合作关系，对种群进行优化。与传统演化算法相比，协同演化算法充分考虑种群之间以...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/13/cmoea/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-13</div>
+        <h1>多目标协同进化算法概要</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">转载自：<a href="https://ecole.asia/news/2018/06/10/weekly143/">https://ecole.asia/news/2018/06/10/weekly143/</a>
+
+侵删！
+
+协同演化一直是人们研究的热点，尤其在处理大规模全局优化问题时（AAEO第27，32期）。协同演化算法往往构建两个或多个共同进化的种群，利用种群之间的竞争或合作关系，对种群进行优化。与传统演化算法相比，协同演化算法充分考虑种群之间以及种群与环境之间的相互影响，在评估个体时考虑该个体与其他种群的个体之间的交互关系，因此在解决复杂优化问题时具有很大的优势。将协同演化机制融入到多目标演化算法中（Coevolutionary multi-objective evolutionary algorithms，CMOEAs）亦能提高多目标演化算法的搜索性能。本期AAEO我们将与大家分享一篇关于协同演化多目标演化算法的综述。由于笔者能力有限，如果分享过程中疏漏了重要工作，还请大家不吝赐教与指正。
+
+Luis Miguel Antonio 和 Carlos A. Coello Coello 于2017年在 IEEE Transactions on Evolutionary Computation 上发表的论文 Coevolutionary multi-objective evolutionary algorithms: A survey of the state-of-the-art分析了如何将协同演化机制融入到多目标演化算法中，将代表性的协同演化多目标演化算法进行了分类，并描述了算法的主要特征。
+
+在求解多目标优化问题时，CMOEAs往往建立两个或多个存在合作或者竞争关系的种群，每个种群通过某种演化算法独立地进化，并在评估个体时进行交互。基于多目标演化算法中采用协同演化的方式，可以将CMOEAs大致分为合作型，竞争型，以及竞争-合作型三类（图1）。
+
+<img src="https://cdn.omegaxyz.com/2018/06/AAEO143-11-1024x341.jpg" class="alignnone wp-image-4564 size-full" height="341" alt="" width="1024">
+
+合作CMOEAs可以基于决策变量空间，目标函数空间，或二者的混合对多目标优化问题进行分解，不同种群对应不同的分解子问题，且种群之间为合作关系。基于决策空间分解的合作CMOEAs中，每个种群的个体代表多目标优化问题在决策空间中的一部分解，所有种群的个体相结合可以获得问题的完整解。因此，在评估某个种群的个体时，该个体需要与其他种群的个体相结合，形成完整解，从而计算目标函数（图2）。
+
+<img src="https://cdn.omegaxyz.com/2018/06/AAEO143-21-300x202.jpg" class="alignnone wp-image-4565 size-full" height="202" alt="" width="300">
+
+<img src="https://cdn.omegaxyz.com/2018/06/AAEO143-31-300x256.jpg" class="alignnone wp-image-4562 size-full" height="256" alt="" width="300">
+
+基于目标空间分解的合作CMOEAs中，每个种群负责求解问题的一个目标函数，不同种群分别搜索Pareto前沿的不同区域，结合后可以形成整个Pareto前沿。因此，进行环境选择时，需要混合不同种群的个体，实现信息交互（图3）。
+
+竞争CMOEAs建立的多个种群之间存在生存竞争。竞争CMOEAs可以大致分为三类。第一类为基于捕食-猎物机制的CMOEAs。此类算法建立了捕猎者种群和猎物种群，通过捕猎者搜索一定范围内具有最差的目标值的猎物，并将其消除，使猎物不断进化（图4）。
+
+<img src="https://cdn.omegaxyz.com/2018/06/AAEO143-5-300x259.jpg" class="alignnone size-full wp-image-4563" height="259" alt="" width="300">
+
+第二类为基于竞争型适应度的CMOEAs。此类算法采用了特殊的适应度函数计算方式，个体的适应度值受到与其存在竞争关系的其他种群的个体影响。第三类为基于期望解的CMOEAs。该类算法在问题的候选解种群和期望解种群之间建立竞争关系。
+
+竞争-合作CMOEAs考虑竞争和合作之间的平衡。如合作CMOEAs一样，竞争-合作CMOEAs中，不同种群的个体相互合作，共同求解一个多目标优化问题，但是为了在求解优化问题时做出更多贡献，相互合作的种群仍存在竞争关系。
+
+此外，论文还简述了协同演化机制带来的问题：Intransitivity，Disengagement 和 Red Queen effect。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

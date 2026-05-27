@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorFlow simple convolutional neural (CNN) network implementation · OmegaXYZ</title>
+  <meta name="description" content="Data set This time we still use the MNIST data set for convolutional neural network training. MNIST is an entry-level computer vision data set, which contains various handwritten digit images: A blog post on using a simple neural network for handwriting recognition: https://omegaxyz.com/2018/04/26/tensorflow_mnist_simple/ The process of a simple convolutional neural network The first layer of convolution operation Parameter values ​​that need to be input...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/04/tensorflow-simple-cnn/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-04</div>
+        <h1>TensorFlow simple convolutional neural (CNN) network implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/cnn/index.html">CNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><h2><strong>Dataset</strong></h2>This time we still use the MNIST data set for convolutional neural network training.
+
+MNIST is an entry-level computer vision dataset that contains various images of handwritten digits:<div><img class="" height="121" src="http://www.tensorfly.cn/tfdoc/images/MNIST.png" width="484"/></div>
+<div>A blog post about using a simple neural network for handwriting recognition:<a href="https://omegaxyz.com/2018/04/26/tensorflow_mnist_simple/">https://omegaxyz.com/2018/04/26/tensorflow_mnist_simple/</a></div>
+<h2><strong>The process of simple convolutional neural network</strong></h2>
+<div>
+<h3><strong>First layer convolution operation</strong></h3>The parameter values ​​that need to be input include the convolution kernel size, that is, the patch, the number of image channels, and the number of convolution kernels, which represents how many convolution feature images will appear.
+
+There is a corresponding bias for each convolution kernel.
+
+The image is multiplied by the convolution kernel and added with the bias amount, and the convolution result is 28*28*32.
+
+The pooling result is 14*14*32 and the convolution result is multiplied by the pooling convolution kernel.<h3><strong>Second layer convolution operation</strong></h3>32-channel convolution, convolving 64 features.
+
+The original image size is 28*28. The first round of images is reduced to 14*14, with a total of 32 images. After the second round, the images are reduced to 7*7, with a total of 64 images.<h3><strong>Layer 3 fully connected operation</strong></h3>Two-dimensional tensor, the first parameter of the patch of 7*7*64 can also be considered as a convolution with only one row of 7*7*64 data, and the second parameter represents the number of convolutions, a total of 1024.
+
+The result of the convolution operation is 1*1*1024. Multiplying a single row by a single column is equal to a 1*1 matrix. Matmul implements the most basic matrix multiplication. It is different from the traversal multiplication of tf.nn.conv2d, which is automatically considered to be the previous row vector and the subsequent column vector.<h3><strong>The fourth layer output operation</strong></h3>Two-dimensional tensor, 1*1024 matrix convolution, a total of 10 convolutions, corresponding to the length of ys we started with is 10.
+
+The final classification result is 1*1*10. Softmax and Sigmoid are both based on logistic classification algorithms, one is multi-classification and the other is two-classification.<strong>Notice</strong>The dropout operation to reduce overfitting is actually to reduce the weight scale of some inputs in the upper layer, or even set it to 0, and increase the weight scale of some inputs, or even set it to 2, to prevent the evaluation curve from oscillating.
+
+Using placeholders, the scale is automatically determined by dropout, or it can be customized, such as 0.5. According to the TensorFlow documentation, the actual value used in the program is 1/0.5=2, that is, some inputs are multiplied by 2, and some inputs are multiplied by 0.<h2><strong>code</strong></h2>
+<pre><code class="language-default">import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
+
+mnist = input_data.read_data_sets('MNIST_DATA/', one_hot=True)
+
+sess = tf.InteractiveSession()
+
+
+def weight_variable(shape):
+    # 正态分布，标准差为0.1，默认最大为1，最小为-1，均值为0
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    weight = tf.Variable(initial_value=initial)
+    return weight
+
+
+# 定义bias
+def bias_variable(shape):
+    # 创建一个结构为shape矩阵也可以说是数组shape声明其行列，初始化所有值为0.1
+    initial = tf.constant(0.1, shape=shape)
+    bias = tf.Variable(initial_value=initial)
+    return bias
+
+
+# 卷积
+def conv_op(in_tensor, kernel, strides=[1, 1, 1, 1], padding='SAME'):
+    # 卷积遍历各方向步数为1，SAME：边缘外自动补0，遍历相乘
+    conv_out = tf.nn.conv2d(in_tensor, kernel, strides=strides, padding=padding)
+    return conv_out
+
+
+# 池化
+def max_pool_2x2(in_tensor, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME'):
+    # 池化卷积结果（conv2d）池化层采用kernel大小为2*2，步数也为2，周围补0，取最大值。数据量缩小了4倍
+    max_pool = tf.nn.max_pool(in_tensor, ksize, strides=strides, padding=padding)
+    return max_pool
+
+
+def simple_cnn():
+    # 声明一个占位符，None表示输入图片的数量不定，28*28图片分辨率
+    x = tf.placeholder(tf.float32, [None, 784])
+    # 类别是0-9总共10个类别，对应输出分类结果
+    y_ = tf.placeholder(tf.float32, [None, 10])
+    # x_image又把xs reshape成了28*28*1的形状，因为是灰色图片，所以通道是1.作为训练时的input，-1代表图片数量不定
+    x_image = tf.reshape(x, [-1, 28, 28, 1])
+
+    # cnn structure
+    # 第一二参数值得卷积核尺寸大小，即patch，第三个参数是图像通道数，第四个参数是卷积核的数目，代表会出现多少个卷积特征图像;
+    w1 = [5, 5, 1, 32]
+    b1 = [32]
+    w2 = [5, 5, 32, 64]
+    b2 = [64]
+    wfc1 = [7*7*64, 1024]
+    bfc1 = [1024]
+    wfc2 = [1024, 10]
+    bfc2 = [10]
+
+    # 第一层卷积操作
+
+    W_conv1 = weight_variable(w1)
+    b_conv1 = bias_variable(b1)
+    h_conv1 = tf.nn.relu(conv_op(x_image, W_conv1)+b_conv1)
+    h_pool1 = max_pool_2x2(h_conv1)
+    # 第二层卷积操作
+    W_conv2 = weight_variable(w2)
+    b_conv2 = bias_variable(b2)
+    h_conv2 = tf.nn.relu(conv_op(h_pool1, W_conv2)+b_conv2)
+    h_pool2 = max_pool_2x2(h_conv2)
+
+    # 第三层全连接操作
+    h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+    # 二维张量，第一个参数7*7*64的patch，也可以认为是只有一行7*7*64个数据的卷积，第二个参数代表卷积个数共1024个
+    W_fc1 = weight_variable(wfc1)
+    b_fc1 = bias_variable(bfc1)
+    # 卷积操作，结果是1 * 1 * 1024，单行乘以单列等于1 * 1矩阵，matmul实现最基本的矩阵相乘，不同于tf.nn.conv2d的遍历相乘，自动认为是前行向量后列向量
+    h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1)+b_fc1)
+    # drop out
+    keep_prob = tf.placeholder(tf.float32)
+    h_fc1_drop = tf.nn.dropout(h_fc1,keep_prob)
+    # fc2
+    W_fc2 = weight_variable(wfc2)
+    b_fc2 = bias_variable(bfc2)
+    # 最后的分类，结果为1*1*10 softmax和sigmoid都是基于logistic分类算法，一个是多分类一个是二分类
+    y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2)+b_fc2)
+    # loss function
+    cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_*tf.log(y_conv), reduction_indices=[1]))
+    train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+    # 使用AdamOptimizer
+
+    correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
+    accuarcy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+    tf.global_variables_initializer().run()
+    for i in range(400):
+        batch = mnist.train.next_batch(50)
+        if i % 100 == 0:
+            train_accuracy = accuarcy.eval(feed_dict={x:batch[0],y_:batch[1],keep_prob:1.0}) # testify, or prediction
+            print('step %d, training accuarcy %g'%(i, train_accuracy))
+        train_step.run(feed_dict={x:batch[0],y_:batch[1],keep_prob:0.5})
+
+    print("test accuracy %g"%accuarcy.eval(feed_dict={x:mnist.test.images,y_:mnist.test.labels,keep_prob:1.0}))
+    return
+
+if __name__ == '__main__':
+    simple_cnn()</code></pre>
+<strong>result:</strong>
+<img alt="" class="alignnone size-full wp-image-4476" height="82" src="https://cdn.omegaxyz.com/2018/06/simple-cnn.jpg" width="519"/>Obviously this result is better than that of a simple two-layer neural network.</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

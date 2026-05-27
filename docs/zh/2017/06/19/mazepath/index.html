@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>迷宫问题的通用解法C语言数据结构实现 · OmegaXYZ</title>
+  <meta name="description" content="1.1问题描述 以一个m*n的长方阵表示迷宫，0和1分别表示迷宫中的通路和障碍。设计一个程序，对任意设定的迷宫，求出一条从入口到出口的通路，或得出没有通路的结论。 1.2基本要求 输入的形式和范围： 非递归：行列为整型，坐标为整型 递归：迷宫以整型二维数组形式输入 输出的形式：非递归输出三元组通路和方阵通路； 递归以方阵输出迷宫和所有通路...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/19/mazepath/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-19</div>
+        <h1>迷宫问题的通用解法C语言数据结构实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a></div>
+        <div class="article-content"><h2>1.1问题描述</h2>
+以一个m*n的长方阵表示迷宫，0和1分别表示迷宫中的通路和障碍。设计一个程序，对任意设定的迷宫，求出一条从入口到出口的通路，或得出没有通路的结论。
+<h2> 1.2基本要求</h2>
+<h2>输入的形式和范围：</h2>
+非递归：行列为整型，坐标为整型
+
+递归：迷宫以整型二维数组形式输入
+<ul>
+ 	<li>输出的形式：非递归输出三元组通路和方阵通路；</li>
+</ul>
+递归以方阵输出迷宫和所有通路；
+
+1、非递归算法，求一条通路输出三元组形式如：（1，1，1），（1，2，2），（2，2，2），（3，2，3），（3，1，2），…和方阵通路；
+
+2、递归算法，求得迷宫中所有可能的通路，以方阵形式输出迷宫及其通路。
+
+大家先看一个特例：（特例结束后给处通用代码：代码转自AHU15计算机科学与技术专业赵吴攀先生，在此鸣谢）
+<pre ><code class="language-c">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;stack&gt;
+using namespace std;
+
+
+typedef struct{
+    int ord;
+    int flag;
+    int i;
+    int j;
+}SElemType;
+void di(int &amp;t,int &amp;i,int &amp;j)
+{
+    if(t==1)
+    {
+        j=j+1;
+    }
+    if(t==2)
+    {
+        i=i+1;
+    }
+    if(t==3)
+    {
+        j=j-1;
+    }
+    if(t==4)
+    {
+        i=i-1;
+    }
+
+}
+void ri(int &amp;t,int &amp;m,int &amp;n,int i,int j)
+{
+    if(t==1)
+    {
+        n=j+1;
+    }
+    if(t==2)
+    {
+        m=i+1;
+    }
+    if(t==3)
+    {
+        n=j-1;
+    }
+    if(t==4)
+    {
+        m=i-1;
+    }
+
+}
+int main()
+{
+    int maze[10][10]=
+    {
+    {1,1,2,3,4,5,6,7,8,9},
+    {1,0,0,1,0,0,0,1,0,1},
+    {2,0,0,1,0,0,0,1,0,1},
+    {3,0,0,0,0,1,1,0,0,1},
+    {4,0,1,1,1,0,0,0,0,1},
+    {5,0,0,0,1,0,0,0,0,1},
+    {6,0,1,0,0,0,1,0,0,1},
+    {7,0,1,1,1,0,1,1,0,1},
+    {8,1,0,0,0,0,0,0,0,1},
+    {9,1,1,1,1,1,1,1,1,1}
+    };
+    int curstep=1,m=1,n=1;
+    int tag=0;
+    SElemType e;
+    e.flag=1;e.i=1,e.j=1;
+    stack&lt;SElemType&gt;S;
+    do
+    {
+        if(maze[m][n]&lt;=0)
+        {
+            maze[m][n]=1;
+            e.ord=curstep;
+            e.i=m;e.j=n;
+            e.flag=1;
+            S.push(e);
+            if(m==8&amp;&amp;n==8){tag=1;break;}
+            else{
+                di(e.flag,m,n);
+                printf("%d %d\n",m,n);
+                curstep++;
+            }
+        }
+        else{
+            if(!S.empty()){
+                e=S.top();
+                S.pop();
+                while(e.flag==4&amp;&amp;!S.empty()){
+                    maze[m][n]=1;
+                    e=S.top();
+                    S.pop();
+                }
+                if(e.flag&lt;4){
+                    e.flag++;
+                    S.push(e);
+                    ri(e.flag,m,n,e.i,e.j);
+                }
+            }
+        }
+    }while(!S.empty());
+
+    if(tag==1)
+        printf("SUCCESS!");
+    else
+        printf("ERROR!");
+
+}
+</code></pre>
+&nbsp;
+
+递归代码：
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;malloc.h&gt;
+#define M 6
+#define N 6
+#define END N-2
+int flag=0;
+typedef struct
+{
+    int x,y,d;
+}position;
+
+/*创建迷宫*/
+void creat_maze(int a[][M])
+{
+    int i,j;
+    for(i=0;i&lt;=N-1;i++)
+        for(j=0;j&lt;=M-1;j++)
+        scanf("%1d",&amp;a[i][j]);
+}
+
+position nextq(int maze[][M],position q)
+{
+    if(q.d==0)
+        q.y++;
+    else if(q.d==1)
+        q.x++;
+    else if(q.d==2)
+        q.y--;
+    else if(q.d==3)
+        q.x--;
+    return q;
+}
+void initialmat(int route[][M])       //初始化输出路径图
+{
+    int i,j;
+    for(i=0;i&lt;N;i++)
+        for(j=0;j&lt;M;j++)
+            route[i][j]=1;
+}
+void print_maze(int mat[][M])        //输出迷宫
+{
+    int i,j;
+    for(i=0;i&lt;N;i++)
+        {
+        for(j=0;j&lt;M;j++)
+           printf("%d ",mat[i][j]);
+           printf("\n");
+        }
+
+}
+void MazePath(int maze[][M],int route[][M],position ps)
+{
+    position q;
+    route[ps.x][ps.y]=0;
+    maze[ps.x][ps.y]=-1;
+    q=nextq(maze,ps);
+    q.d=0;
+    if(q.x==END&amp;&amp;q.y==END)
+    {
+        flag++;
+        printf("\n第%d条路:\n",flag);
+        route[END][END]=0;
+        print_maze(route);
+        route[END][END]=1;
+    }
+    else if(maze[q.x][q.y]==0)
+        MazePath(maze,route,q);
+    if(ps.d&lt;=3)
+    {
+        ps.d++;
+        MazePath(maze,route,ps);
+    }
+    route[ps.x][ps.y]=1;
+    maze[ps.x][ps.y]=0;
+}
+void main()
+{
+    int maze[N][M],route[N][M];
+    position ps;
+    ps.x=ps.y=1;
+    ps.d=0;
+    printf("输入一个迷宫(%d*%d):\n",N,M);
+    creat_maze(maze);
+    printf("\n输出该迷宫:\n");
+    print_maze(maze);
+    printf("输出从(1,1)到(%d,%d)的所有通路:\n",N-2,M-2);
+    initialmat(route);
+    MazePath(maze,route,ps);
+}
+</code></pre>
+非递归代码：
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#define Elemtype int
+#define MAXSIZE 50
+typedef struct
+{
+    int x,y;
+}mark;               //起点、终点坐标
+
+typedef struct
+{
+    Elemtype x,y;    //迷宫数组坐标(x,y)
+    int d;    //下一步的方向
+}TriMatrix;
+
+typedef struct LStackNode
+{
+    TriMatrix elem;
+    struct LStackNode *next;
+}LStack,*PLStack;
+
+//栈的基本操作
+
+PLStack InitStack(PLStack S)
+{
+    S=NULL;
+	return S;
+}
+
+int StackEmpty(PLStack S)
+{
+    if(S==NULL)  return 1;
+    else return 0;
+}
+
+PLStack Push(PLStack S,TriMatrix e)   //入栈
+{
+    PLStack P;
+    P=(PLStack)malloc(sizeof(LStack));
+    P-&gt;elem=e;
+    P-&gt;next=S;
+    S=P;
+	return S;
+}
+
+PLStack Delete(PLStack S)   //删除栈头
+{
+    PLStack P;
+    P=S;
+	if(!StackEmpty(S))
+	{
+        S=S-&gt;next;
+        free(P);
+        return S;
+	}
+}
+
+TriMatrix Pop(PLStack S,TriMatrix e)  //出栈
+{
+    if(!StackEmpty(S))
+	{
+        e=S-&gt;elem;
+        return e;
+	}
+}
+
+void MazePath(mark start,mark end,
+              Elemtype maze[MAXSIZE][MAXSIZE],
+              int m,int n,int diradd[4][2])   //寻找路径
+{
+    int i,j,d;
+    int a,b;
+    TriMatrix elem,e;
+    PLStack S1,S2;
+    S1=InitStack(S1);
+    S2=InitStack(S2);
+    maze[start.x][start.y]=2;   //修改入口坐标，做标记
+    elem.x=start.x;
+    elem.y=start.y;
+    elem.d=0;  //开始为0
+    S1=Push(S1,elem);
+    while(!StackEmpty(S1))  //栈不空，有路可走
+    {
+        elem=Pop(S1,elem);
+		S1=Delete(S1);
+        i=elem.x;
+        j=elem.y;
+        d=elem.d+1;
+        while(d&lt;=4)
+        {
+            a=i+diradd[d-1][0];
+            b=j+diradd[d-1][1];
+            if(a==end.x&amp;&amp;b==end.y&amp;&amp;maze[a][b]==0)  //出口
+            {
+                elem.x=i;
+                elem.y=j;
+                elem.d=d;
+                S1=Push(S1,elem);
+                elem.x=a;
+                elem.y=b;
+                elem.d=0;   //方向输出为0，判断是否为出口
+                S1=Push(S1,elem);
+                printf("\n1=东 2=南 3=西 4=北 0为走出迷宫\n\n路径为:(行坐标，列坐标，方向)\n");
+                while(S1)  //逆置序列 并输出路径
+                {
+                    e=Pop(S1,e);
+					S1=Delete(S1);
+                    S2=Push(S2,e);
+                }
+                while(S2)
+                {
+                    e=Pop(S2,e);
+					S2=Delete(S2);
+                    printf("--&gt;(%d,%d,%d)",e.x,e.y,e.d);maze[e.x][e.y]=3;
+                }
+				printf("\n\n");
+				for(i=0;i&lt;=m+1;i++){
+                for(j=0;j&lt;=n+1;j++)
+                    if(maze[i][j]==3) printf("0 ");
+                    else printf("1 ");
+                    printf("\n");
+                }
+                return;
+            }//if
+            if(maze[a][b]==0)
+            {
+                maze[a][b]=2;
+                elem.x=i;
+                elem.y=j;
+                elem.d=d;
+                S1=Push(S1,elem);
+                i=a;  j=b;  d=0;
+            }
+            d++;
+        }
+    }
+    printf("没有出迷宫的路径\n");
+}
+
+//建立迷宫
+void initmaze(int maze[MAXSIZE][MAXSIZE],int m,int n)
+{
+    int i,j;
+    for(i=1;i&lt;=m;i++)
+        for(j=1;j&lt;=n;j++)
+        maze[i][j]=rand()%2;
+    for(i=0;i&lt;=m+1;i++)
+    {
+        maze[i][0]=maze[i][n+1]=1;
+    }
+    for(j=0;j&lt;=n+1;j++)
+    {
+        maze[0][j]=maze[m+1][j]=1;
+    }
+    printf("输出迷宫:\n");
+    for(i=0;i&lt;=m+1;i++)
+    {
+        for(j=0;j&lt;=n+1;j++)
+        printf("%d ",maze[i][j]);
+        printf("\n");
+    }
+}
+
+void main()
+{
+    int maze[MAXSIZE][MAXSIZE];
+    mark start,end;
+    int m,n;  //迷宫行列
+    printf("输入迷宫的行数m和列数n:\n");
+    scanf("%d%d",&amp;m,&amp;n);
+    int add[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
+    initmaze(maze,m,n);
+    printf("输入入口坐标和出口坐标:\n");
+    scanf("%d%d%d%d",&amp;start.x,&amp;start.y,&amp;end.x,&amp;end.y);
+    MazePath(start,end,maze,m,n,add);
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

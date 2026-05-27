@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>融合事实信息的知识图谱嵌入——翻译距离模型 · OmegaXYZ</title>
+  <meta name="description" content="知识图谱嵌入 知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/12/kge-translational-distance-models/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-12</div>
+        <h1>融合事实信息的知识图谱嵌入——翻译距离模型</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>知识图谱嵌入</strong></h2>
+<div>知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌入。关键思想是嵌入 KG 的组件，包括将实体和关系转化为连续的向量空间，从而简化操作，同时保留 KG 的原有的结构。那些实体和关系嵌入能进一步应用于各种任务中，如 KG 补全、关系提取、实体分类和实体解析。</div>
+<div>
+
+<hr />
+
+</div>
+<h2><strong>融合事实信息的知识图谱嵌入</strong></h2>
+<strong>步骤：</strong>
+<div>①使用连续向量空间表示实体关系，关系通常被视为向量空间的运算。</div>
+<div>②定义评分函数，用来测量事实的合理性。</div>
+<div>③学习实体关系的表示，优化问题：最大化全局观测事实的合理性。</div>
+<div>
+<div><strong>有两个主要分类：</strong></div>
+<div>①平移距离模型 translational distance models 前者使用基于距离的评分函数</div>
+<div>②语义匹配模型 semantic matching models 后者使用基于相似度的评分函数</div>
+<div>参考：<a href="https://omegaxyz.com/2020/01/13/kge-semantic-matching-models/">https://omegaxyz.com/2020/01/13/kge-semantic-matching-models/</a></div>
+</div>
+
+<hr />
+
+<h2><strong>平移距离模型</strong></h2>
+平移距离模型利用基于距离的评分函数。通常是在通过关系进行翻译之后，用两个实体之间的距离来衡量一个事实的合理性。下图是TransE及其变体的详细解释。
+
+<img class="alignnone wp-image-6199" src="https://cdn.omegaxyz.com/2020/01/translational-distance-model-details.png" alt="" width="938" height="231" />
+<h3><strong>TransE及其变体</strong></h3>
+<h4><strong>TransE：最具代表性的知识图谱嵌入</strong></h4>
+<div>实体和关系都在同一空间，对于每一个三元组（h,r,t）TransE 希望：\(h+r=t\)</div>
+<div>评分函数为：</div>
+<div>\(f_{r}(h, t)=-\|\mathbf{h}+\mathbf{r}-\mathbf{t}\|_{1 / 2}\)</div>
+<div>缺点：复杂关系例如，一对多 、 多对一 、多对多关系不适用。</div>
+&nbsp;
+<h4><strong>TransH：解决TransE在多元关系上的缺陷</strong></h4>
+<div>可以让一个实体在不同的关系下拥有不同的表示，方法对于一个三元组 (h, r, t) , TransH 首先将头实体向量 h 和尾实体向量 r，沿法线 wr，投影到关系 r 对应的超平面上，用 h⊥和 t⊥表示如下:</div>
+<div>\(\mathbf{h}_{\perp}=\mathbf{h}-\mathbf{w}_{r}^{\top} \mathbf{h} \mathbf{w}_{r}, \quad \mathbf{t}_{\perp}=\mathbf{t}-\mathbf{w}_{r}^{\top} \mathbf{t} \mathbf{w}_{r}\)</div>
+<div>
+<h4><strong>TransR：实体和关系在不同的语义空间中</strong></h4>
+<div>每一个关系关联着一个特定的空间，首先需要将实体映射到关系空间。</div>
+<div>\(\mathbf{h}_{\perp}=\mathbf{M}_{r} \mathbf{h}, \quad \mathbf{t}_{\perp}=\mathbf{M}_{r} \mathbf{t}\)</div>
+<div>
+<div>其中转换方式是一个从实体空间到关系空间的投影矩阵。</div>
+<div>缺点：转换方式是空间投影，复杂度高。</div>
+</div>
+</div>
+<div>
+<h4><strong>TransD：对TransR的简化</strong></h4>
+将TransR的投影矩阵分解为两个向量的积。
+<h4><strong>TransSparse：在投影矩阵上强化稀疏性来简化TransR</strong></h4>
+<div>它有两种版本，一个是共享型，另一个是独立型，其中share版本的头尾实体共享头一个稀疏投影矩阵，独立型的头尾实体则分别有一个投影矩阵。</div>
+</div>
+<div>
+<h4><strong>TransM：放松TransE的转化要求，提高模型性能</strong></h4>
+<div>为每个事实分配特定的关系权重θ，改变评分函数。</div>
+<div>\(f_{r}(h, t)=-\theta_{r}\|\mathbf{h}+\mathbf{r}-\mathbf{t}\|_{1 / 2}\)</div>
+<div>
+<div>通过对一对多、多对一和多对多分配较小的权重，TransM 模型使得 t 在上述的复杂关系中离 h+r 更远。</div>
+</div>
+</div>
+<div>
+<h4><strong>ManifoldE</strong></h4>
+<div>把 t 近似地位于流形体上，即一个以 h+r 为中心半径为 theta_r 的超球体。</div>
+&nbsp;
+<h4><strong>TransF</strong></h4>
+<div>只需要 t 与 h+r 位于同一个方向，同时 h 与 t-r 也位于同一个方向。</div>
+&nbsp;
+<h4><strong>TransA</strong></h4>
+<div>为每个关系 r 引入一个对称的非负矩阵 Mr，并使用自适应马氏距离定义评分函数。</div>
+</div>
+&nbsp;
+<h3><strong>高斯嵌入：考虑到实体与关系的不确定性，使用随机变量建模</strong></h3>
+<h4><strong>KG2E：使用高斯分布来表示实体和关系</strong></h4>
+<div>
+
+其中高斯分布的均值表示的是实体或关系在语义空间中的中心位置，而高斯分布的协方差则表示该实体或关系的不确定度。KG2E 模型将实体和关系表示为从多变量高斯分布中抽取的随机向量。
+<div></div>
+<div>\(\begin{aligned} \mathbf{h} &amp; \sim \mathcal{N}\left(\boldsymbol{\mu}_{h}, \Sigma_{h}\right) \\ \mathbf{t} &amp; \sim \mathcal{N}\left(\boldsymbol{\mu}_{t}, \mathbf{\Sigma}_{t}\right) \\ \mathbf{r} &amp; \sim \mathcal{N}\left(\boldsymbol{\mu}_{r}, \mathbf{\Sigma}_{r}\right) \end{aligned}\)</div>
+<div></div>
+<div>
+<div>通过测量 t-h 和 r 这两个随机向量之间的距离来为一个事实评分，通过 两种方法来进行测量。一种是通过 KL 散度（KL 距离）来进行测量，另一种是计算概率的内积。</div>
+</div>
+<div>
+<h4><strong>TransG</strong></h4>
+<div>实体采用高斯分布，但它认为关系具有多重语义，需要采用混合的高斯分布的表示</div>
+</div>
+<div></div>
+&nbsp;
+<h3><strong>其他距离模型</strong></h3>
+<h4><strong>非结构化模型UM（Unstructured model）</strong></h4>
+<div>
+
+TransE的简单版本，直接设置所有的r=0
+<div></div>
+<div>\(f_{r}(h, t)=-\|\mathbf{h}-\mathbf{t}\|_{2}^{2}\)</div>
+<div></div>
+<div>
+<h4><strong>结构化嵌入SE（Structured embedding）</strong></h4>
+<div>通过使用两个独立的矩阵 为每个关系 r 对头尾实体进行投影</div>
+</div>
+<div></div>
+<div>\(f_{r}(h, t)=-\left\|\mathbf{M}_{r}^{1} \mathbf{h}-\mathbf{M}_{r}^{2} \mathbf{t}\right\|_{1}\)</div>
+<div>
+
+<hr />
+
+</div>
+<h2><strong>平移距离模型总结</strong></h2>
+<div><img class="alignnone wp-image-6193" src="https://cdn.omegaxyz.com/2020/01/Translational-Distance-Models.png" alt="" width="822" height="523" /></div>
+</div>
+</div>
+
+<hr />
+
+<div><strong>参考文献：</strong>Wang Q , Mao Z , Wang B , et al. Knowledge Graph Embedding: A Survey of Approaches and Applications[J]. IEEE Transactions on Knowledge and Data Engineering, 2017, PP(99):1-1.</div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

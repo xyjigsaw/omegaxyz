@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software testing - black box testing · OmegaXYZ</title>
+  <meta name="description" content="1. Test Overview 1.1 Overview This test report is a black box test of the computer program ability online assessment system. Black box testing can be conducted without knowing the internal structure and code of the program. It is used to test whether the software functions meet user needs, whether it achieves user expected goals, and whether it has a better human-computer interaction experience. Figure 1.1 Black box testing process 1.2 Test tasks and test scope The main functions include: ① login module, ② online examination module, ③ test question management module, ④ test paper generation module,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/18/software-blackbox-test/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-18</div>
+        <h1>Software testing - black box testing</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>1. Test Overview</h1>
+<h2>1.1 Overview</h2>This test report is a black box test of the computer program ability online assessment system. Black box testing can be conducted without knowing the internal structure and code of the program. It is used to test whether the software functions meet user needs, whether it achieves user expectations, and whether it has a good human-computer interaction experience.<img alt="" class="alignnone wp-image-6251 aligncenter" height="222" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test1.png" width="422"/>
+<p style="text-align: center;"><strong>picture</strong><strong>1.1 </strong><strong>Black box testing process</strong></p>
+<h2>1.2 Test tasks and test scope</h2>The main functions include: ① login module, ② online examination module, ③ test question management module, ④ test paper generation module, ⑤ score inquiry module.
+
+The test mainly tests the above functions based on the user's demand specifications, software demand specifications and corresponding documents.<p style="text-align: center;"><strong>surface</strong><strong> 1.1 </strong><strong>Overview of functional breakdown</strong></p>
+<p style="text-align: center;"><img class="" height="265" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" width="563"/></p>
+<p style="text-align: center;"><img class="" height="543" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" width="524"/></p>
+<p style="text-align: center;"><strong>picture</strong><strong>1.2 </strong><strong>Overview after functional decomposition</strong></p>
+<h2>1.3 Defect level classification</h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 1.2 </strong><strong>Defect grading</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="124"><strong>grade</strong></td>
+<td width="188"><strong>describe</strong></td>
+<td width="315"><strong>illustrate</strong></td>
+</tr>
+<tr>
+<td width="124">5-Emergency</td>
+<td width="188">Discover repeatable fatal problems</td>
+<td width="315">——causing system crash;
+
+——Resulting in the loss of program modules;
+
+——The main business process has a breakpoint;
+
+——Memory leak;
+
+——Result in crash</td>
+</tr>
+<tr>
+<td width="124">4-very high</td>
+<td width="188">Discover serious and repeatable problems</td>
+<td width="315">——The function under test cannot be implemented correctly;
+
+——Software errors lead to data loss;
+
+——Error in processing of measured data;
+
+——User needs are not realized.</td>
+</tr>
+<tr>
+<td width="124">3-high</td>
+<td width="188">General errors or imperfections in function implementation</td>
+<td width="315">——Operation interface error;
+
+——Print content and format errors;
+
+——Simple input restrictions are not placed in the foreground for control;
+
+——No prompt is given for deletion operation.</td>
+</tr>
+<tr>
+<td width="124">2-medium</td>
+<td width="188">small mistakes</td>
+<td width="315">——Interface is not standardized;
+
+——The auxiliary instructions are unclear;
+
+——Irregular input and output;
+
+——No prompts are given to the user for long operations;
+
+——The prompt window text does not use industry terminology.</td>
+</tr>
+<tr>
+<td width="124">1-low</td>
+<td width="188">Suggestion error</td>
+<td width="315">It is not stated in the requirements specification and user manual, but it affects the user's convenience in using the software, etc.</td>
+</tr>
+</tbody>
+</table>
+<h1>2. Test steps and test purposes</h1>
+<h2>2.1 Test environment and tools</h2>
+<strong>surface</strong><strong> 2.1</strong><strong>Test environment and tools</strong>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>software</strong></td>
+<td width="284"><strong>hardware</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>Browser</strong><strong>：</strong>Chrome browser and IE browser<strong>OS</strong><strong>：</strong>Windows 10 and MacOS</td>
+<td width="284">&gt;10M bandwidth network
+
+&gt;512M memory
+
+2G hard drive/SSD
+
+intel processor</td>
+</tr>
+</tbody>
+</table>
+<h2>2.2 Black box testing steps</h2>
+<ul>
+<li>Design test plan</li>
+<li>Equivalence class division</li>
+<li>boundary value analysis</li>
+<li>Test execution is performed based on the results of equivalence class division and boundary value analysis on a function-by-function basis.</li>
+<li>Other black box testing methods</li>
+</ul>
+<h1>3. Functional testing</h1>
+<h2>3.1 Log in to the system</h2>
+<p style="text-align: center;"><strong><img alt="" class="wp-image-6253 aligncenter" height="305" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test3.png" width="285"/></strong><strong> </strong><strong>Figure 3.1</strong><strong>Login system style</strong></p>
+<p style="text-align: center;"><strong>Table 3.1</strong><strong>Login system equivalence class division</strong><strong> </strong></p>
+<table width="548">
+<tbody>
+<tr>
+<td width="123"><strong>Enter equivalence class</strong></td>
+<td width="161"><strong>valid equivalence classes</strong></td>
+<td width="265"><strong>Invalid equivalence class</strong></td>
+</tr>
+<tr>
+<td width="123">Email address</td>
+<td width="161">①Characters composed of alphanumeric and underline +@+domain name address</td>
+<td width="265">③No @
+
+④@ is empty before
+
+⑤After @ is empty
+
+⑥ Contains illegal characters
+
+⑨Enter the existing name</td>
+</tr>
+<tr>
+<td width="123">password</td>
+<td width="161">② A string of no less than 8 characters and no more than 20 characters consisting of characters, numbers and underscores</td>
+<td width="265">⑦Password length is less than 8 characters
+
+⑧Password length is greater than 8 characters</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>Table 3.2</strong><strong>Login system function test</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>serial number</strong></td>
+<td width="84"><strong>scene/</strong><strong>condition</strong></td>
+<td width="197"><strong>operate/</strong><strong>input (equivalence class)</strong></td>
+<td width="97"><strong>expected results</strong></td>
+<td width="97"><strong>actual results</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin001</td>
+<td width="84">User login</td>
+<td width="197">①：644327005@qq.com ② ： cdscdsc</td>
+<td width="97">Correctly log in to the system when the username and password verification code are correct
+
+When one of the username and password verification codes is incorrect, an accurate error message is given.</td>
+<td width="97"><strong>The password is correct and the login is successful.</strong>
+<strong> </strong>
+<strong>Login failed due to wrong password</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin002</td>
+<td width="84">User login</td>
+<td width="197">③：qq.com</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin003</td>
+<td width="84">User login</td>
+<td width="197">④：@qq.com</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin004</td>
+<td width="84">User login</td>
+<td width="197">⑤：ddd@</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin005</td>
+<td width="84">User login</td>
+<td width="197">⑥：\ncr</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin006</td>
+<td width="84">User login</td>
+<td width="197">⑦：xds</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin007</td>
+<td width="84">User login</td>
+<td width="197">⑧：cdscdfcvdfvcdfvdfvdfd</td>
+<td width="97">Can't click the login button</td>
+<td width="97"><strong>Can't click the login button</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin008</td>
+<td width="84">forget the password</td>
+<td width="197">Click Retrieve Forgot Password and follow the prompts to retrieve the password.</td>
+<td width="97">Enter the password retrieval page</td>
+<td width="97"><strong>Enter the password retrieval page</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin009</td>
+<td width="84">remember me</td>
+<td width="197">Reopen browser</td>
+<td width="97">Password automatically saved</td>
+<td width="97"><strong>Password automatically saved</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin010</td>
+<td width="84">Captcha slider</td>
+<td width="197">Move the slider to the corresponding position</td>
+<td width="97">Verification passed</td>
+<td width="97"><strong>Verification passed</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin011</td>
+<td width="84">User login</td>
+<td width="197">⑨：admin</td>
+<td width="97">Username exists</td>
+<td width="97"><strong>Username exists</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin012</td>
+<td width="84">User login</td>
+<td width="197">Use copy, paste, etc. to force password entry</td>
+<td width="97">Unable to copy and paste</td>
+<td width="97"><strong>Can copy and paste</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.2 Student online testing</h2>
+<img alt="" class="alignnone wp-image-6254 aligncenter" height="257" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test4.png" width="600"/>
+<p style="text-align: center;"><strong>Figure 3.2</strong><strong>Online test topic selection page style</strong></p>
+<p style="text-align: center;"><strong> </strong><strong>Table 3.3</strong><strong>Functional testing of the online testing section</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>serial number</strong></td>
+<td width="84"><strong>scene/</strong><strong>condition</strong></td>
+<td width="197"><strong>operate/</strong><strong>input (equivalence class)</strong></td>
+<td width="97"><strong>expected results</strong></td>
+<td width="97"><strong>actual results</strong></td>
+</tr>
+<tr>
+<td width="94">testloj001</td>
+<td width="84">Select question list</td>
+<td width="197">Click the question list button</td>
+<td width="97">Show question list</td>
+<td width="97"><strong>Show question list</strong></td>
+</tr>
+<tr>
+<td width="94">testloj002</td>
+<td width="84">Select submission list</td>
+<td width="197">Click the Submit List button</td>
+<td width="97">Show commit list</td>
+<td width="97"><strong>Show commit list</strong></td>
+</tr>
+<tr>
+<td width="94">testloj003</td>
+<td width="84">Select ranking</td>
+<td width="197">Click the Rank button</td>
+<td width="97">Show ranking</td>
+<td width="97"><strong>Show ranking</strong></td>
+</tr>
+<tr>
+<td width="94">testloj004</td>
+<td width="84">Select question number</td>
+<td width="197">Click on the question number</td>
+<td width="97">Go to current topic</td>
+<td width="97"><strong>Go to current topic</strong></td>
+</tr>
+<tr>
+<td width="94">testloj005</td>
+<td width="84">Select Submit Feedback</td>
+<td width="197">Click the Submit Feedback button</td>
+<td width="97">Automatically jump out of the current system's email APP, and the current page does not move</td>
+<td width="97"><strong>Automatically jump out of the current system’s email APP</strong><strong>, jump to unknown page</strong></td>
+</tr>
+</tbody>
+</table>
+<img alt="" class="wp-image-6255 aligncenter" height="331" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test5.png" width="600"/>
+<p style="text-align: center;"><strong>Figure 3.2</strong><strong>Online test answer page style</strong></p>
+<p style="text-align: center;"><strong>Table 3.4</strong><strong>Equivalence class division of code text</strong></p>
+<table width="548">
+<tbody>
+<tr>
+<td width="123"><strong>Enter equivalence class</strong></td>
+<td width="161"><strong>valid equivalence classes</strong></td>
+<td width="265"><strong>Invalid equivalence class</strong></td>
+</tr>
+<tr>
+<td width="123">Enter the corresponding code text</td>
+<td width="161">①A string of a certain length based on utf-8 encoding</td>
+<td width="265">②Null character
+
+③ Extra long lines larger than 100,000 lines are composed of UTF-8 encoding.</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>Table 3.5</strong><strong>Functional testing for online testing</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>serial number</strong></td>
+<td width="84"><strong>scene/</strong><strong>condition</strong></td>
+<td width="123"><strong>operate/</strong><strong>input (equivalence class)</strong></td>
+<td width="142"><strong>expected results</strong></td>
+<td width="126"><strong>actual results</strong></td>
+</tr>
+<tr>
+<td width="94">testloj006</td>
+<td width="84">Enter the code and click the submit button</td>
+<td width="123">Enter the equivalence class ① and click Submit</td>
+<td width="142">Display the corresponding results of the code (including correct answers, compilation errors, segfaults, timeouts, etc.)</td>
+<td width="126"><strong>Expected results are normal</strong></td>
+</tr>
+<tr>
+<td width="94">testloj007</td>
+<td width="84">Enter the code and click the submit button</td>
+<td width="123">Enter the equivalence class ② and click Submit</td>
+<td width="142">Unable to submit, or wrong answer displayed</td>
+<td width="126"><strong>Submit button is empty</strong></td>
+</tr>
+<tr>
+<td width="94">testloj008</td>
+<td width="84">Enter the code and click the submit button</td>
+<td width="123">Enter the equivalence class ③ and click Submit</td>
+<td width="142">Display the corresponding results of the code (including correct answers, compilation errors, segfaults, timeouts, etc.)</td>
+<td width="126"><strong>Shows website crash or server error</strong></td>
+</tr>
+<tr>
+<td width="94">testloj009</td>
+<td width="84">Click to show submission results</td>
+<td width="123">Click this button</td>
+<td width="142">Can see the corresponding submission results</td>
+<td width="126"><strong>Can see the corresponding submission results</strong></td>
+</tr>
+<tr>
+<td width="94">testloj010</td>
+<td width="84">Check the code editor</td>
+<td width="123">Check the situation of selecting items with shift, selecting items by pressing ctrl, and selecting multiple items directly with the mouse.</td>
+<td width="142">Able to select the code at the corresponding location and copy and paste</td>
+<td width="126"><strong>Able to select the code at the corresponding location and copy and paste</strong></td>
+</tr>
+<tr>
+<td width="94">testoj011</td>
+<td width="84">Scroll bar moves up and down</td>
+<td width="123">Drag the scroll bar to check the screen refresh and see if there are any garbled characters</td>
+<td width="142">Refreshing is normal, no garbled characters</td>
+<td width="126"><strong>Refreshing is normal, no garbled characters</strong></td>
+</tr>
+</tbody>
+</table>
+<img alt="" class="wp-image-6256 aligncenter" height="331" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test6.png" width="600"/>
+<p style="text-align: center;"><strong>Figure 3.3 testloj008</strong><strong>Test case 1</strong><strong>（300</strong><strong>Thousands of lines of code)</strong></p>
+<strong> <img alt="" class="wp-image-6256 aligncenter" height="331" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test6.png" width="600"/></strong>
+<p style="text-align: center;"><strong>Figure 3.4 testloj008</strong><strong>Test case 2</strong><strong>（276</strong><strong>Thousands of lines of code) and result 1</strong></p>
+ 
+
+<strong><img alt="" class="alignnone wp-image-6258 aligncenter" height="285" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test8.png" width="601"/></strong>
+<p style="text-align: center;"><strong>Figure 3.5 testloj008</strong><strong>Showing results 2</strong></p>
+<h2>3.3 Score query</h2>
+<img alt="" class="wp-image-6259 aligncenter" height="316" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test9.png" width="601"/>
+<p style="text-align: center;"><strong>Figure 3.6</strong><strong>Score query page</strong></p>
+<p style="text-align: center;"><strong> </strong><strong>Table 3.6</strong><strong>Functional test of score query</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>serial number</strong></td>
+<td width="84"><strong>scene/</strong><strong>condition</strong></td>
+<td width="197"><strong>operate/</strong><strong>input (equivalence class)</strong></td>
+<td width="97"><strong>expected results</strong></td>
+<td width="97"><strong>actual results</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc001</td>
+<td width="84">Select another page button</td>
+<td width="197">Click the other page button</td>
+<td width="97">Go to other page</td>
+<td width="97"><strong>Go to other page</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc002</td>
+<td width="84">View next page</td>
+<td width="197">Click the next page button</td>
+<td width="97">Go to next page</td>
+<td width="97"><strong>Go to next page</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc003</td>
+<td width="84">Select ranking</td>
+<td width="197">Click the Rank button</td>
+<td width="97">Show ranking</td>
+<td width="97"><strong>Show ranking</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.4 Question management and examination management</h2>
+<span style="color: #ff0000;"><strong>This part requires an administrator account, so this part cannot be tested in practice. Therefore, based on the results of reverse engineering, test cases are designed.</strong></span>
+<p style="text-align: center;"><strong>Table 3.7</strong><strong>Functional testing of question management and exam management</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="101"><strong>serial number</strong></td>
+<td width="83"><strong>scene/</strong><strong>condition</strong></td>
+<td width="164"><strong>operate/</strong><strong>input (equivalence class)</strong></td>
+<td width="125"><strong>expected results</strong></td>
+<td width="96"><strong>actual results</strong></td>
+</tr>
+<tr>
+<td width="101">testadmin001</td>
+<td width="83">View question bank</td>
+<td width="164">The administrator clicks on the question bank</td>
+<td width="125">You can view all types of question banks</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin002</td>
+<td width="83">Exit question bank</td>
+<td width="164">The administrator clicks to close the question bank without performing any operation. Click the close button.</td>
+<td width="125">System exit</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin003</td>
+<td width="83">Submit question bank</td>
+<td width="164">The administrator clicks on the question bank and continuously clicks to save and submit multiple times.</td>
+<td width="125">Operations will not be performed repeatedly and data will not be submitted repeatedly.</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin004</td>
+<td width="83">Add new question bank</td>
+<td width="164">The administrator clicks to add a new question bank</td>
+<td width="125">The page will jump to the new page. The maximum number of Chinese characters that can be input is in line with reality; verification of valid characters (not all characters can be saved)</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin005</td>
+<td width="83">Save question bank</td>
+<td width="164">Enter all required fields and click the save button</td>
+<td width="125">You can see the newly added question bank in the list of question bank management</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin006</td>
+<td width="83">Delete question bank</td>
+<td width="164">The administrator selects a question bank record and clicks the delete button, and confirms</td>
+<td width="125">The selected question bank is deleted and returned to the list</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin007</td>
+<td width="83">Query question bank</td>
+<td width="164">Enter the question bank name in the text box</td>
+<td width="125">You can query its question bank. Double-click the question bank record to view the detailed information of the question bank.</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin008</td>
+<td width="83">Enter test record management</td>
+<td width="164">The administrator clicks Test Record Management in Test</td>
+<td width="125">You can view the entire list of test record management</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin009</td>
+<td width="83">Query test records</td>
+<td width="164">Enter the test record management name in the text box</td>
+<td width="125">You can query its test record management. Double-click the test record management record to view the detailed information of the test record management.</td>
+<td width="96"><strong> </strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.5 Web security testing</h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 3.8</strong><strong>Security test project</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="135"><strong>serial number</strong></td>
+<td width="142"><strong>Category</strong></td>
+<td width="158"><strong>Details</strong></td>
+<td width="133"><strong>result</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse001</strong></td>
+<td rowspan="2" width="142"><strong>upload</strong></td>
+<td width="158">Bypass image (avatar) upload check</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse002</strong></td>
+<td width="158">Upload file size and number limits</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse003</strong></td>
+<td rowspan="11" width="142"><strong>Login function</strong></td>
+<td width="158">Whether the registration request is transmitted securely</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse004</strong></td>
+<td width="158">Whether the password complexity is checked in the background during registration</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse005</strong></td>
+<td width="158">Activate link test</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse006</strong></td>
+<td width="158">Duplicate registration</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse007</strong></td>
+<td width="158">Bulk registration problem</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse008</strong></td>
+<td width="158">Whether the login request is transmitted securely</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse009</strong></td>
+<td width="158">session pinning</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse010</strong></td>
+<td width="158">Whether the key cookie is HttpOnly</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse011</strong></td>
+<td width="158">Login request error limit</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse012</strong></td>
+<td width="158">"Remember me" feature</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse013</strong></td>
+<td width="158">Store sensitive information locally</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse014</strong></td>
+<td rowspan="3" width="142"><strong>Verification code</strong></td>
+<td width="158">Verification code bypass</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse015</strong></td>
+<td width="158">SMS verification code bombing</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse016</strong></td>
+<td width="158">One-time verification code</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse017</strong></td>
+<td width="142"><strong>Retrieve password</strong></td>
+<td width="158">Retrieve password</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse018</strong></td>
+<td width="142"><strong>SQL</strong><strong>Injection testing</strong></td>
+<td width="158">SQL injection testing</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse019</strong></td>
+<td width="142"><strong>URL</strong><strong>Redirect test</strong></td>
+<td width="158">URL redirection test</td>
+<td width="133"><strong>Safety</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse020</strong></td>
+<td rowspan="2" width="142"><strong>Sensitive information leaked</strong></td>
+<td width="158">SVN information leakage</td>
+<td width="133"><strong>? (unknown)</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse021</strong></td>
+<td width="158">Page leaks sensitive information</td>
+<td width="133"><strong>Safety</strong><strong> </strong></td>
+</tr>
+</tbody>
+</table>
+<h1>4. Test summary</h1>The main functions of this system include: ① login module, ② online examination module, ③ test question management module, ④ examination management module, ⑤ score inquiry module.
+
+The black box test results of this system are given below:<p style="text-align: center;"><strong>Table 4.1</strong><strong>Test summary</strong></p>
+<table width="574">
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>System name</strong></td>
+<td width="378">Computer Programming Ability Online Assessment System</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Tester (responsible person)</strong></td>
+<td width="378">OmegaXYZ.com</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Test method</strong></td>
+<td width="378">Black box testing (equivalence class division)</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Login module</strong></td>
+<td width="378"><strong>testlogin012</strong><strong>(Defect level 2</strong><strong>）</strong></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Online exam module</strong></td>
+<td width="378"><strong>testloj005(</strong><strong>Defect level 1)</strong><strong>、testloj008(</strong><strong>Defect level 3)</strong></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Test question management module</strong></td>
+<td width="378">\</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Exam Management Module</strong></td>
+<td width="378">\</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Score query module</strong></td>
+<td width="378">normal</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Security testing</strong></td>
+<td width="378">Basic security</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Test date</strong></td>
+<td width="378">Monday, April 15, 2019</td>
+</tr>
+<tr>
+<td width="102"><strong>Defect auditor approval</strong></td>
+<td colspan="2" width="472"><strong> </strong></td>
+</tr>
+<tr>
+<td width="102"></td>
+<td width="94"></td>
+<td width="378"></td>
+</tr>
+</tbody>
+</table>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

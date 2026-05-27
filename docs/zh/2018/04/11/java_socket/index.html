@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Java Socket网络通信GUI实例 · OmegaXYZ</title>
+  <meta name="description" content="Java Socket (套接字)通常也称作&quot;套接字&quot;，用于描述IP地址和端口，是一个通信链的句柄。应用程序通常通过&quot;套接字&quot;向网络发出请求或者应答网络请求。 Socket和ServerSocket类库位于java.net包中。ServerSocket用于服务器端，Socket是建立网络连接时使用的。在连接成功时，应用程序两端都会产生一个...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/11/java_socket/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-11</div>
+        <h1>Java Socket网络通信GUI实例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/computer-network/index.html">计算机网络</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/network/index.html">网络原理</a></div>
+        <div class="article-content"><strong>Java Socket</strong>(套接字)通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄。应用程序通常通过"套接字"向网络发出请求或者应答网络请求。
+
+Socket和ServerSocket类库位于java.net包中。ServerSocket用于服务器端，Socket是建立网络连接时使用的。在连接成功时，应用程序两端都会产生一个Socket实例，操作这个实例，完成所需的会话。对于一个网络连接来说，套接字是平等的，并没有差别，不因为在服务器端或在客户端而产生不同级别。不管是Socket还是ServerSocket它们的工作都是通过SocketImpl类及其子类完成的。
+重要的Socket API：
+java.net.Socket继承于java.lang.Object，有八个构造器，其方法并不多，下面介绍使用最频繁的三个方法，其它方法大家可以见JDK-1.3文档。
+. Accept方法用于产生"阻塞"，直到接受到一个连接，并且返回一个客户端的Socket对象实例。"阻塞"是一个术语，它使程序运行暂时"停留"在这个地方，直到一个会话产生，然后程序继续；通常"阻塞"是由循环产生的。
+<strong>. getInputStream</strong>方法获得网络连接输入，同时返回一个InputStream对象实例。
+<strong>. getOutputStream</strong>方法连接的另一端将得到输入，同时返回一个OutputStream对象实例。
+注意：其中getInputStream和getOutputStream方法均会产生一个IOException，它必须被捕获，因为它们返回的流对象，通常都会被另一个流对象使用。
+
+更多Java Socket详细教程：
+
+<a href="https://www.cnblogs.com/yiwangzhibujian/p/7107785.html">https://www.cnblogs.com/yiwangzhibujian/p/7107785.html</a>
+
+下面是利用socket进行客户端和服务端的通信：
+
+<strong>client.java</strong>
+<pre ><code class="language-java">import java.io.*;
+import java.net.*;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+@SuppressWarnings("restriction")
+public class Client extends Application {
+  // IO streams
+  DataOutputStream toServer = null;
+  DataInputStream fromServer = null;
+
+  @Override // Override the start method in the Application class
+  public void start(Stage primaryStage) {
+    // Panel p to hold the label and text field
+    BorderPane paneForTextField = new BorderPane();
+    paneForTextField.setPadding(new Insets(5, 5, 5, 5)); 
+    paneForTextField.setStyle("-fx-border-color: green");
+    paneForTextField.setLeft(new Label("Enter a radius: "));
+    
+    TextField tf = new TextField();
+    tf.setAlignment(Pos.BOTTOM_RIGHT);
+    paneForTextField.setCenter(tf);
+    
+    BorderPane mainPane = new BorderPane();
+    // Text area to display contents
+    TextArea ta = new TextArea();
+    mainPane.setCenter(new ScrollPane(ta));
+    mainPane.setTop(paneForTextField);
+    
+    // Create a scene and place it in the stage
+    Scene scene = new Scene(mainPane, 450, 200);
+    primaryStage.setTitle("Client"); // Set the stage title
+    primaryStage.setScene(scene); // Place the scene in the stage
+    primaryStage.show(); // Display the stage
+    
+    tf.setOnAction(e -&gt; {
+      try {
+        // Get the radius from the text field
+        double radius = Double.parseDouble(tf.getText().trim());
+  
+        // Send the radius to the server
+        toServer.writeDouble(radius);
+        toServer.flush();
+  
+        // Get area from the server
+        double area = fromServer.readDouble();
+  
+        // Display to the text area
+        ta.appendText("半径为 " + radius + "\n");
+        ta.appendText("服务器计算结果为： "
+          + area + '\n');
+      }
+      catch (IOException ex) {
+        System.err.println(ex);
+      }
+    });
+  
+    try {
+      // Create a socket to connect to the server
+      Socket socket = new Socket("localhost", 8888);
+      // Socket socket = new Socket("130.254.204.36", 8000);
+      // Socket socket = new Socket("drake.Armstrong.edu", 8000);
+
+      // Create an input stream to receive data from the server
+      fromServer = new DataInputStream(socket.getInputStream());
+
+      // Create an output stream to send data to the server
+      toServer = new DataOutputStream(socket.getOutputStream());
+    }
+    catch (IOException ex) {
+      ta.appendText(ex.toString() + '\n');
+    }
+  }
+
+  /**
+   * The main method is only needed for the IDE with limited
+   * JavaFX support. Not needed for running from the command line.
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
+}
+</code></pre>
+<strong>Server.java</strong>
+<pre ><code class="language-java">import java.io.*;
+import java.net.*;
+import java.util.Date;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
+public class Server extends Application {
+  @Override // Override the start method in the Application class
+  public void start(Stage primaryStage) {
+    // Text area for displaying contents
+    TextArea ta = new TextArea();
+
+    // Create a scene and place it in the stage
+    Scene scene = new Scene(new ScrollPane(ta), 450, 200);
+    primaryStage.setTitle("Server"); // Set the stage title
+    primaryStage.setScene(scene); // Place the scene in the stage
+    primaryStage.show(); // Display the stage
+    
+    new Thread( () -&gt; {
+      try {
+        // Create a server socket
+        ServerSocket serverSocket = new ServerSocket(8888);
+        Platform.runLater(() -&gt;
+          ta.appendText("服务器开始时间 " + new Date() + '\n'));
+  
+        // Listen for a connection request
+        Socket socket = serverSocket.accept();
+  
+        // Create data input and output streams
+        DataInputStream inputFromClient = new DataInputStream(
+          socket.getInputStream());
+        DataOutputStream outputToClient = new DataOutputStream(
+          socket.getOutputStream());
+  
+        while (true) {
+          // Receive radius from the client
+          double radius = inputFromClient.readDouble();
+  
+          // Compute area
+          double area = radius * radius * Math.PI;
+  
+          // Send area back to the client
+          outputToClient.writeDouble(area);
+  
+          Platform.runLater(() -&gt; {
+            ta.appendText("客户端传来的半径为: " 
+              + radius + '\n');
+            ta.appendText("面积为: " + area + '\n'); 
+          });
+        }
+      }
+      catch(IOException ex) {
+        ex.printStackTrace();
+      }
+    }).start();
+  }
+
+  /**
+   * The main method is only needed for the IDE with limited
+   * JavaFX support. Not needed for running from the command line.
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
+}
+</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-3997" src="https://cdn.omegaxyz.com/2018/04/java_client.jpg" alt="" width="452" height="232" />
+
+<img class="alignnone size-full wp-image-3998" src="https://cdn.omegaxyz.com/2018/04/java_server.jpg" alt="" width="452" height="225" />
+
+<span style="color: #ff0000;">注意本实例对于接口8888端口尚未关闭处于Listening状态，会导致其它程序无法使用8888端口，如果要关闭请到任务管理器关闭占用8888端口的进程！</span></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

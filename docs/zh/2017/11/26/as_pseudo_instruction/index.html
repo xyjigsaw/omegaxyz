@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编伪指令 · OmegaXYZ</title>
+  <meta name="description" content="伪指令：伪指令，告诉编译器如何进行编译的指令，它既不控制机器的操作，也不被汇编成机器代码，只能为汇编程序所识别并指导编译器如何翻译源程序。 伪指令与指令的最大区别在于，伪指令只在编译时起作用，而指令只能在程序运行时才发挥作用。 1、EQU（Equate） 一般格式为： 标号： EQU 操作数 指令功能为将操作数赋予标号，两边的值完全相等。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/26/as_pseudo_instruction/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-26</div>
+        <h1>汇编伪指令</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">&nbsp;
+
+伪指令：伪指令，告诉编译器如何进行编译的指令，它既不控制机器的操作，也不被汇编成机器代码，只能为汇编程序所识别并指导编译器如何翻译源程序。
+
+伪指令与指令的最大区别在于，伪指令只在编译时起作用，而指令只能在程序运行时才发挥作用。
+
+1、EQU（Equate）
+
+一般格式为：  标号：         EQU          操作数
+
+指令功能为将操作数赋予标号，两边的值完全相等。使用EQU伪指令给一个标号赋值后，此标号在整个源文件中值固定。
+
+AREA:       EQU          1000H                ;将标号AREA赋值为1000H
+
+&nbsp;
+
+2、ORG（Origin）
+
+一般格式为：         ORG  xxxxH（绝对地址或标号）
+
+XxxxH决定此语句后第一条指令（或数据）的地址。该段源程序或数据被连续存放在此后的地址内，直到下一条ORG指令为止。
+
+ORG          8000H                ；此后目标代码存储在存储器中以0x8000h开始的地址空间中。
+
+ADD    R1，  #1
+
+MOV         R2，  #2
+
+&nbsp;
+
+3、DB（Define Byte）
+
+一般格式为：         标号：     DB         字节常数或字符或表达式
+
+标号字段可有可无，字节常数或字符是指一个字节数据。此伪指令的功能是把字节常数或字节串存放至内存连续的地址空间中。
+
+ORG          8000H
+
+DATA1：  DB    43H,09H,08H
+
+DATA2：  DB    07H
+
+伪指令DB指定了43H，09H，08H      顺序存放在8000H开始的存储单元中，DATA2中的07H紧挨着DATA1的地址空间存放，即07H存放在8003H单元中。
+
+注：DW（Define Word）指令定义与DB类似，区别在于DW定义一个字，DB定义一个字节。
+
+&nbsp;
+
+4、END
+
+一般格式为：         标号：     END          地址或标号
+
+地址或标号可以忽略。此伪指令用于指示汇编语言程序段结束。因此一个源程序中仅有一个END，且一般放在程序最后。若END放在程序中间，则END后面的语句将不再被汇编。
+
+&nbsp;
+
+5、AREA
+
+一般格式为：         标号         sectionname{,attr}{,attr}……
+
+Sectionname指定节的名称。节是不可分的已命名独立代码模块或数据模块，由连接器进行处理。
+
+Attr则是一个或多个用逗号分隔的节的属性。属性有多种，比如：
+
+ALIGN=expression。默认条件下节以四字节边界对齐。Expression取值范围为0-31.表征的对齐边界是2的expression平方。
+
+CODE 包含机器指令。默认值为READONLY
+
+DATA         包含数据但不包含指令。默认值为READWRITE
+
+READONLY       指示此节只读。代码区域默认值。
+
+READWRITE     指示此节可读可写。数据区域默认值。
+
+AREA  Example,  DATA, READWRITE
+
+；data
+
+以上代码定义了名为Example的可读写数据节。
+
+&nbsp;
+
+6、PUBLIC
+
+一般格式为：         PUBLIC     标识符1，标识符2……
+
+在开发较为复杂的应用程序时，其执行文件的生成一般由多个目标文件链接而成。多个目标文件之间一般存在数据交互，汇编语言中通过伪指令PUBLIC及EXTRN来解决模块之间的联系。PUBLIC用来说明当前模块中可被其他模块所引用的公共标识符。
+
+PUBLIC     _STARTUP
+
+声明标识符_STARTUP可被其他模块所引用。
+
+&nbsp;
+
+7、EXTRN或EXTERN
+
+一般格式为：         EXTRN      标识符1：类型1，标识符2：类型2…….
+
+表明标识符1、2是外部标识符，其已经在其他模块中被定义为类型1、类型2等。在一个模块中，可用多条EXTRN来说明本模块中所引用的外部标识符。实质为汇编器提供一个并未在当前汇编文件中定义的名称。
+
+注：EXTRN所声明的标识符必须在其定义的模块中被PUBLIC声明为公共标识符，且声明的标识符类型需与该标识符定义类型一致。
+
+类似：EXPORT或GLOBAL
+
+声明一个符号，链接器可以使用此符号解析不同对象和库文件中的符号引用。即，可使其他文件中的代码能够访问当前文件中的符号。
+
+&nbsp;
+
+8、PROC
+
+一般格式为：                   &lt;过程名&gt;                   PROC        [类型]
+
+此指令为过程定义指令。过程即子程序，一个过程可以被其他程序调用（CALL指令）。
+
+&lt;过程名&gt;           PROC  [类型]
+
+…….
+
+…….
+
+&nbsp;
+
+ENDP
+
+注：PROC和ENDP必须成对出现。
+
+&nbsp;
+
+9、SPACE
+
+一般格式为：                   标号         SPACE   表达式
+
+此指令用于分配一片连续的存储区域并初始化为0。表达式为要分配的字节数。SPACE可用“%”来代替。
+
+DataSpace      SPACE    1000                ；分配连续1000个字节的存储单元DataSpace并初始化为0。
+
+&nbsp;
+
+10、ENTRY
+
+此指令用于声明程序的入口点。一个程序至少有一个入口点。
+
+AREA        TEST,         CODE,     READONLY
+
+ENTRY               ；程序入口点。
+
+&nbsp;
+
+11、PRESERVE8
+
+一般格式为：         PRESERVE8     {bool}
+
+PRESERVE8指令指定当前文件需保持堆栈八字节对齐方式。其通过设置PRES8编译属性通知连接器。
+
+PRESERVE8                         ；保持代码堆栈八字节对齐。
+
+PRESERVE8 {FALSE}           ；不保持代码堆栈八字节对齐。
+
+&nbsp;
+
+12、CODE16、CODE32
+
+一般格式为：         CODE16（或CODE32）
+
+CODE16通知编译器，其后的指令序列为16位的Thumb指令。
+
+CODE32通知编译器，其后的指令序列为32位的ARM指令。
+
+在实用ARM指令和Thumb指令混合编程的代码里，可使用这两天指令进行切换。注：指令只能通知编译器其后的指令类型，并不能对处理器进行状态的切换。
+
+&nbsp;
+
+12、IMPORT
+
+此指令类似于EXTERN。用于通知编译器即将使用的标号在其他源文件中定义。无论当前源文件是否引用该标号，该标号均会被加入到当前源文件的符号表中。
+
+一般格式为：         IMPORT            标号         {[WEAK]}
+
+标号在程序中区分大小写，[WEAK]表示当所有源文件中均找不到此标号时，编译器也不会显示错误信息。
+
+AREA        INIT,       CODE,      READONLY
+
+IMPORT Main                 ;通知编译器当前文件要引用标号Main,但其定义在其他源文件中。
+
+END
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

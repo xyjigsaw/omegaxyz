@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPOOLing technology · OmegaXYZ</title>
+  <meta name="description" content="Introduction to SPOOLing SPOOLing (ie, external device online parallel operations), the abbreviation of Simultaneous Peripheral Operations On-Line, is a technology about how slow character devices exchange information with the computer host, often called &quot;spooling technology&quot;. SPOOLing technology is actually a simultaneous online operation technology of peripheral devices, also known as queue dump technology. It&#x27;s between input and output...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/20/spooling/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-20</div>
+        <h1>SPOOLing technology</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction to SPOOLing</strong></h2>SPOOLing (ie, external device online parallel operations), the abbreviation of Simultaneous Peripheral Operations On-Line, is a technology about how slow character devices exchange information with the computer host, often called "spooling technology".
+SPOOLing technology is actually a simultaneous online operation technology of peripheral devices, also known as queue dump technology. It adds a queued dump link of "input well" and "output well" between input and output.
+
+Virtuality is one of the four major features of OS. If one physical CPU can be virtualized into multiple logical CPUs through multiprogramming technology, allowing multiple users to share one host, then one physical I/O device can be virtualized into multiple logical I/O devices through SPOOling technology, which also allows multiple users to share one physical I/O device.<h2 id="组成"><strong>composition</strong></h2>
+<img alt="" class="alignnone wp-image-4617" height="534" src="https://cdn.omegaxyz.com/2018/06/spooling.png" width="452"/>
+<strong>1. Input wells and output wells</strong>:The storage areas for input wells and output wells are in<strong>disk</strong>Developed on. The data in the input and output wells are generally organized and managed in the form of files, and these files are called well files. A file only stores the input or output data of a certain process, and the data input or output files of all processes are linked into an input and output queue.<strong>2. Input buffer and output buffer:</strong>The input buffer and output buffer storage areas are in<strong>Memory</strong>Developed in. Mainly used to alleviate the speed mismatch between CPU and disk. The input buffer is used to temporarily store the data transmitted by the input device, and then transferred to the input well; the same is true for the output buffer.<strong>3. Input process and output process:</strong>The input process is also called the pre-input process, which is used to simulate the peripheral control machine during offline input, transfer the data required by the user from the input device to the input buffer, and then store it in the input well. When the CPU needs it, it reads data directly from the input well into memory. On the contrary, the same is true for the output.<strong>4. Well management procedures:</strong>Used to control the exchange of information between jobs and disk wells.<h2 id="特点"><strong>Features</strong></h2>
+<strong>1. Improved I/O speed:</strong>I/O operations performed on data have evolved from I/O operations performed on low-speed I/O devices to accessing data in disk buffers, just like offline input and output, which improves I/O speed and alleviates the speed mismatch between the CPU and low-speed I/Os devices.<strong>2. Transform exclusive equipment into shared equipment</strong>: Because in the spool printer system, no device is actually allocated to any process, but only a free disk block is allocated to the process in the disk buffer and an I/O request table is established.<strong>3. Implemented virtual device functions:</strong>At a macro level, for each process, they think that they have an exclusive device, even if multiple processes are actually using an exclusive device at the same time. It can also be said that the spool system realizes the function of transforming an exclusive device into several corresponding logical devices.<h2>
+<strong>How does SPOOLing technology virtualize one printer into multiple printers?</strong></h2>Answer: Transforming a dedicated printer into a printer that can be shared by multiple users is a typical example of applying SPOOLing technology. The specific method is: for the user's print output, the system does not actually allocate the printer to the user process. Instead, it first applies for a free disk area in the output well and sends the data to be printed into it; then it applies for and fills in the request print form for the user, and hangs the form on the request print queue. If the printer is idle, the output program takes the table from the head of the requesting print queue, transfers the data to be printed from the output well to the memory buffer, and then prints until the print queue is empty.</div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-18431">
+          <strong>wyj的fan</strong>
+          <time>2020-01-05 20:46:22</time>
+          <div>您是ahu的学长或者学姐吗，我咋感觉您是wyj呢&amp;gt;_&amp;lt;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18433">
+          <strong>xyjisaw</strong>
+          <time>2020-01-05 21:12:29</time>
+          <div>不是wyj哈~</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proxy model generation algorithm based on training set (DROP3, AGG) · OmegaXYZ</title>
+  <meta name="description" content="DROP3 algorithm Purpose: retain instances on the class boundary, remove instances within the class, and construct a proxy training set. Main idea: Use the KNN algorithm and sorting to remove noisy instances. Algorithm steps: ① First remove all features misclassified by the KNN algorithm on the training set. ② For two classifications, calculate the distance between each instance and the nearest instances of other classes, and sort them. ③ Remove the above-mentioned instances that are far away. ④ Remove instances that do not affect the prediction results of other instances. Example Agglomerative C...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/08/drop3_agg/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-08</div>
+        <h1>Proxy model generation algorithm based on training set (DROP3, AGG)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content"><h2><strong>DROP3 algorithm</strong></h2>Purpose: retain instances on the class boundary, remove instances within the class, and construct an agent training set
+Main idea: Use KNN algorithm and sorting to remove noisy instances<h3><b>Algorithm steps</b></h3>①First remove all features misclassified by the KNN algorithm on the training set
+
+②For two categories, calculate the distance between each instance and the nearest instance of other classes, and sort them
+
+③Remove the above distant instances
+
+④Remove instances that do not affect the prediction results of other instances<h3><strong>Example</strong></h3>
+<img alt="" class="alignnone size-full wp-image-4237" height="259" src="https://cdn.omegaxyz.com/2018/05/drop31.jpg" width="886"/> <img alt="" class="alignnone size-full wp-image-4238" height="257" src="https://cdn.omegaxyz.com/2018/05/drop32.jpg" width="649"/>
+<h2><b>Agglomerative Clustering</b></h2>
+<b>Purpose:</b>Solve the problems of the DROP3 algorithm to construct a proxy model (abandoning the KNN algorithm)<img alt="" class="alignnone size-full wp-image-4239" height="343" src="https://cdn.omegaxyz.com/2018/05/AGG.png" width="482"/>
+<b>bottom-up clustering</b>First, each instance forms a class of its own, and the two nearest ones are merged into one class. The central instance of each class is selected and added to the agent training set model. (The number of classes is equal to the agent training set instance size, user settings)</div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-10596">
+          <strong>YK</strong>
+          <time>2019-03-04 23:39:49</time>
+          <div>你好 ， 这位朋友。 <br>我可以知道 Agglomerative Clustering 这个算法是怎么看吗？ 我看不懂呢。 可以教导我吗？ 谢谢你</div>
+        </div>
+        
+        <div class="comment reply" id="comment-10865">
+          <strong>xyjisaw</strong>
+          <time>2019-03-07 08:31:35</time>
+          <div>不还意思，时间久远，我记不大清楚了</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

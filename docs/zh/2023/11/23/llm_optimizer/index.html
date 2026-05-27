@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大模型也是一种优化器（LLM as Optimizer） · OmegaXYZ</title>
+  <meta name="description" content="论文：Large Language Models as Optimizers arXiv: https://arxiv.org/pdf/2309.03409.pdf Affiliation: Google DeepMind 🚀Highlight DeepMind引入了一种名为“基于提示的优化方法”(Optimization by PROm...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2023/11/23/llm_optimizer/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2023-11-23</div>
+        <h1>大模型也是一种优化器（LLM as Optimizer）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/gpt/index.html">GPT</a><a class="pill" href="../../../../tag/llm/index.html">LLM</a></div>
+        <div class="article-content"><div><nav class="inline-toc side-box" data-toc></nav></div>
+<div></div>
+<div><strong>论文：Large Language Models as Optimizers</strong></div>
+<div></div>
+<div data-page-id="NeXcd060VoGygMxtBSqcolXRnug" data-docx-has-block-data="false">
+<div class="ace-line ace-line old-record-id-IpHPdDBWSoKvPfx0QAscuEsHnQf"><strong>arXiv:</strong> <a href="https://arxiv.org/pdf/2309.03409.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/2309.03409.pdf</a></div>
+<div class="ace-line ace-line old-record-id-LHJVdpgiloqPcexZFRFcO4ounIf"><strong>Affiliation:</strong> Google DeepMind</div>
+</div>
+<h2><strong>🚀Highlight</strong></h2>
+<ul>
+ 	<li>DeepMind引入了一种名为“基于提示的优化方法”(Optimization by PROmpting: OPRO)的新方法。它不再依赖于传统的优化算法，如RMSPROP、Adam等，而是将重点转移到优化给模型的问题或提示上。目标是找到能够最大化任务准确性的指令。</li>
+ 	<li>具体来说，用自然语言描述优化问题，然后指示LLM根据问题描述和之前找到的解迭代生成新的解决方案。使用LLM进行优化可以通过更改提示符中的问题描述来快速适应不同的任务，并且可以通过添加指令来指定所需的解决方案属性来定制优化过程。</li>
+</ul>
+<h2><strong>背景</strong></h2>
+<ul>
+ 	<li>优化算法通常需要针对单个任务进行定制，以应对决策空间和性能环境带来的特定挑战。</li>
+ 	<li>优化无处不在。虽然基于导数的算法对于各种问题都非常强大，但是缺乏梯度给许多现实世界的应用带来了挑战。</li>
+</ul>
+<h2><strong>方法</strong></h2>
+<h3><strong>定义（组件）</strong></h3>
+<ul>
+ 	<li>meta-prompt：meta-prompt的核心是LLM的基础输入。它整合了以前的解决方案、相关的性能指标以及当前任务的简洁描述。这种结构化的输入旨在引导LLM产生更有效的解。</li>
+ 	<li>优化器LLM：当 LLM 收到meta-prompt时，其目标是生成改进的prompt，以获得更好的结果。 DeepMind 在各种模型（包括 text-bison、Palm 2-L、gpt-3.5-turbo 和 gpt-4）上测试了这种方法，以确保稳健性和多功能性。</li>
+ 	<li>打分器LLM：该组件评估新生成的解的质量。它根据提示在特定数据集（例如 GSM8K 和 Big-Bench Hard）上的表现来计算平均分数。 DeepMind 探索了 LLM 作为优化器和评估器的不同配置。
+Notes: 我们将用于目标函数评价的LLM表示为打分器LLM，将用于优化的LLM表示为优化器LLM。它们两者可以不同。</li>
+</ul>
+<h3><strong>框架</strong></h3>
+OPRO框架概述：① 给定meta-prompt作为输入；②优化器LLM生成目标函数的新解；③打分器LLM对新解的质量进行评估；④将新解及其分数添加到下一优化步骤的meta-prompt中。meta-prompt包含在整个优化过程中获得的解决方案得分对，以及任务的自然语言描述和（在提示优化中）任务的一些示例。
+<h3><img class="alignnone wp-image-7828" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_framework.png" alt="" width="512" height="276" />
+<strong>Case</strong></h3>
+<img class="alignnone wp-image-7821" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case1.png" alt="" width="805" height="667" />
+
+<span style="text-decoration: underline;">蓝色文本包含解决方案分数对；紫色文本描述了优化任务和输出格式；橙色文本是meta-prompt。</span>
+
+meta-prompt包含两个核心信息片段。第一个部分是之前生成的提示及其相应的训练精度。第二部分是优化问题描述，其中包括从训练集中随机选择的几个范例来举例说明我们关注的任务。同时其中还为LLM提供了说明，以理解不同部分之间的关系和所需的输出格式。
+<h3><strong>与现有其他工作的不同</strong></h3>
+<ul>
+ 	<li>不同于最近使用LLM自动提示生成提示的工作，该工作中的每个优化步骤生成新的提示，目的是在先前生成的提示的轨迹的基础上提高测试精度，而不是根据自然语言反馈编辑一个输入提示，或要求新的提示遵循相同的语义意义。</li>
+ 	<li>OPRO利用完整的优化轨迹，使LLM能够逐步生成新的提示，在整个优化过程中提高任务精度，其中初始提示的任务精度较低。</li>
+</ul>
+<h2><strong>评估</strong></h2>
+<h3><strong>连续优化：线性回归</strong></h3>
+任务：在线性回归问题中，目标是找到在概率上最符合来自输入变量的响应的线性系数。
+
+<img class="alignnone wp-image-7822" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case2.png" alt="" width="586" height="271" />
+<ul>
+ 	<li>Step1: 随机抽样5个（w, b）对。</li>
+ 	<li>Step2: 用一个meta-prompt提示优化器LLM，其中包括历史中最好的20对（w, b）对及其排序的目标值。meta-prompt要求有一个新的（w, b）对，从而进一步降低目标值。上图中显示了一个meta-prompt。流程会提示8次，每一步最多生成8个新的（w, b）对，以提高优化的稳定性。</li>
+ 	<li>Step3: 评估所提出的这对目标的目标值，并将其添加到历史中。</li>
+ 	<li>Step4: 迭代上述过程直到解满足条件。</li>
+</ul>
+<img class="alignnone wp-image-7823" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_case3.png" alt="" width="633" height="263" />
+<ul>
+ 	<li>每个模型所探索的（w,b）对的数量少于穷举搜索，这表明这些模型能够进行黑箱优化：比较数字并提出一个下降方向。</li>
+ 	<li>text-bison和gpt-4模型在收敛速度上优于gpt-3.5-turbo：它们以更少的步骤达到最佳状态。gpt-4模型的性能最好。</li>
+ 	<li>当ground truth离起始区域更远时，所有模型的问题都变得更加难以解决：所有模型都需要更多的探索和更多的步骤。</li>
+</ul>
+<h3><strong>离散优化：旅行商问题</strong></h3>
+略
+<h3><strong>提示优化</strong></h3>
+目标是找到使任务精度最大化的提示。这里的任务是在数学数据集GSM8K与movie_recommendation上进行。
+
+<img class="alignnone wp-image-7824" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig1.png" alt="" width="695" height="253" />
+<div data-page-id="NeXcd060VoGygMxtBSqcolXRnug" data-docx-has-block-data="false">
+<div class="ace-line ace-line old-record-id-CUcidRnJdoNLctxjJaWc4RKYn0B">提示优化任务上不同打分器和优化器的一个结果。</div>
+<div><img class="alignnone wp-image-7829" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_table1.png" alt="" width="755" height="731" /></div>
+</div>
+<h4><strong>消融实验</strong></h4>
+<strong>1. how each part of the meta-prompt matters</strong>
+
+<img class="alignnone wp-image-7825" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig2.png" alt="" width="636" height="923" />
+<ul>
+ 	<li>优化器LLM输出更容易受到更接近meta-prompt结尾指令的影响。</li>
+ 	<li>指令中包含精度分数有助于优化器LLM更好地理解之前指令之间的质量差异（比直接排序好）。</li>
+ 	<li>在meta-prompt中展示范例有作用，因为它提供了关于任务直观的信息，并帮助优化器更好地用短语描述新指令。然而，更多的范例并不一定能提高性能，因为只需要少数范例通常足以描述任务（类似于ICL）。此外，包含更多的范例会导致一个更长的meta-prompt，这可能会分散优化器LLM对其他重要组件的注意力。</li>
+</ul>
+<strong>2. the number of generated instructions in each step</strong>
+
+<img class="alignnone wp-image-7826" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig3.png" alt="" width="586" height="369" />
+<ul>
+ 	<li>文章中计算了随机梯度下降过程的方差。在每个步骤中生成多个指令可以提高LLM的优化稳定性。</li>
+ 	<li>每一步采样8条指令总体上达到了最好的性能。</li>
+</ul>
+<strong>3. the initial instructions for prompt optimization</strong>
+
+<img class="alignnone wp-image-7827" src="https://cdn.omegaxyz.com/2023/11/llm_optimizer_fig4.png" alt="" width="653" height="348" />
+<ul>
+ 	<li>不同的初始指令的性能差异更大，特别是在优化的开始时。</li>
+</ul>
+<h2><strong>Key Insights</strong></h2>
+<ul>
+ 	<li>Innovative Optimized Prompts: 该研究揭示了一些意想不到但有效的提示。例如，PaLM 2-L-IT模型提示包括“take a deep breath……”这样的短语，暗示了一种类似人类解决问题的方法。</li>
+ 	<li>Diversity in Model-Specific Prompts: 不同模型优化的prompt是有差异的。每个模型都有其独特的体系结构和训练模式。这种多样性强调了我们为获得最佳结果而需要对单个模型定制提示。同时语义上相似的指令可能会达到完全不同的精度。例如，在GSM8K测试集上的PaLM 2-L打分器，“Let's think step by step.”达到精度71.8，“Let's solve the problem.”精度为60.5，而“Let's work througth the problem step by step.”的精度只有49.4。</li>
+ 	<li>Transferability of Optimized Prompts: OPRO方法不只是产生对单个任务有效的提示，这些提示在不同的任务上是具有迁移性的。</li>
+ 	<li>Natural Language Objective Function: LLM的一个显著优势是他们对自然语言处理的熟练程度。这种功能允许研究人员和实践者用简单的语言描述复杂的优化任务，消除了对复杂技术术语的需要。它简化了优化过程，使其更易于访问和使用。</li>
+</ul>
+更多内容访问 [omegaxyz.com](https://omegaxyz.com)
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2023 • OmegaXYZ-版权所有 转载请注明出处
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-36943">
+          <strong>xyjisaw</strong>
+          <time>2023-11-29 17:58:21</time>
+          <div>最近在做一些大模型相关的工作。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

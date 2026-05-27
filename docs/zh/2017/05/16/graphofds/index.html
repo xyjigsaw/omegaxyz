@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构图的基本操作及遍历（存储结构为邻接表） · OmegaXYZ</title>
+  <meta name="description" content="数据结构图的基本操作及遍历 图的邻接矩阵遍历请看 https://omegaxyz.com/2017/05/17/graphofds2/ 实验目的： 编写程序，建立该图的邻接表存储。基于上面所建立的存储结构， 编程实现深度优先和广度优先搜索算法。 具体函数及其操作 头文件 主要函数 ①图的初始化函数 ②节点位置的定位 ③DFS深度优先搜索...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/16/graphofds/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-16</div>
+        <h1>数据结构图的基本操作及遍历（存储结构为邻接表）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">数据结构图的基本操作及遍历
+
+图的邻接矩阵遍历请看<a href="https://omegaxyz.com/2017/05/17/graphofds2/">https://omegaxyz.com/2017/05/17/graphofds2/</a>
+
+实验目的：
+
+编写程序，建立该图的邻接表存储。基于上面所建立的存储结构，
+
+编程实现深度优先和广度优先搜索算法。
+
+具体函数及其操作
+头文件
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdlib&gt;
+#define OK 1
+#define ERROR -1
+#define Maxsize 20
+
+typedef int InfoType;
+typedef int VertexType;
+
+typedef struct ArcNode ///表节点
+{
+    int adjvex; ///存放结点的下标
+    struct ArcNode *nextarc;///指向下一条边或弧的指针域
+    InfoType *info;///其他信息
+} ArcNode;
+typedef struct VNode ///头结点
+{
+    VertexType data;
+    ArcNode *firstarc;
+} VNode,AdjList[Maxsize];
+typedef struct ///图结构
+{
+    AdjList vertices;
+    int vexnum,arcnum;///图中顶点个数和边的个数
+    int kind; ///kind==0表示无向图，kind==1表示有向图
+} ALGraph;
+
+int visited[Maxsize];
+void CreateALDG(ALGraph &amp;G);
+void DFSTraverse(ALGraph G,VertexType x);
+void BFSTraverse(ALGraph G,VertexType x);
+int LocateX(ALGraph G,VertexType x);
+</code></pre>
+主要函数
+①图的初始化函数
+<pre ><code class="language-c++">void CreateALDG(ALGraph &amp;G)
+{
+	int ch1,ch2;
+	int k1,k2;//临时定义四个变量
+	printf("分别输入节点和弧的数量:");//输入节点和图的数量
+	scanf("%d%d",&amp;G.vexnum,&amp;G.arcnum);
+	printf("输入顶点的信息:\n");
+	for(int i=1;i&lt;=G.vexnum;i++)
+	{
+		printf("%d:",i);
+		scanf("%d",&amp;G.vertices[i].data);//输入顶点的信息
+		G.vertices[i].firstarc=NULL;//指向第一条依附该顶点的弧的指针
+	}
+	printf("输入弧的信息:\n");//输入弧的信息
+	for(int i=1;i&lt;=G.arcnum;i++)
+	{
+		printf("%d:",i);
+		getchar();
+		scanf("%d %d",&amp;ch1,&amp;ch2);
+		for(int p=1;p&lt;=G.arcnum;p++)
+		{
+			if(G.vertices[p].data==ch1)
+			{
+				k1=p;break;
+			}
+		}
+		for(int p=1;p&lt;=G.arcnum;p++)
+		{
+			if(G.vertices[p].data==ch2)
+			{
+				k2=p;break;
+			}
+		}
+		ArcNode *temp;
+		temp=(ArcNode*)malloc(sizeof(ArcNode));
+		temp-&gt;adjvex=k2;
+		temp-&gt;nextarc=G.vertices[k1].firstarc;
+		G.vertices[k1].firstarc=temp;
+	}
+}
+</code></pre>
+②节点位置的定位
+<pre ><code class="language-c++">int LocateX(ALGraph G,VertexType x)
+{
+    int i,k=0;
+    VertexType t;
+    for(i=1;i&lt;=G.vexnum;i++)
+    {
+        if(G.vertices[i].data==t)
+        {
+            k=i;break;
+        }
+    }
+    return k;
+}
+</code></pre>
+③DFS深度优先搜索函数
+<pre ><code class="language-c++">void DFSTraverse(ALGraph G,VertexType x)
+{
+    int k,i;
+    k=LocateX(G,x);
+    printf("%d/",G.vertices[k].data);
+    visited[k]=1;
+    ArcNode *p;
+    p=G.vertices[k].firstarc;
+    while(p)
+    {
+        if(visited[p-&gt;adjvex]==0)
+            DFSTraverse(G,G.vertices[p-&gt;adjvex].data);
+        p=p-&gt;nextarc;
+    }
+}
+</code></pre>
+④广度优先搜索
+<pre ><code class="language-c++">void BFSTraverse(ALGraph G,VertexType x)
+{
+    struct
+    {
+        ArcNode *Q[Maxsize];
+        int front,rear;
+    }Que;
+    Que.front=Que.rear;
+    int k,i;
+    k=LocateX(G,x);
+    visited[k]=1;
+    printf("%d /",G.vertices[k].data);
+    Que.rear=(Que.rear+1)%Maxsize;
+    Que.Q[Que.rear]=G.vertices[k].firstarc;
+    ArcNode *p;
+    while(Que.rear!=Que.front)
+    {
+        Que.front=(Que.front+1)%Maxsize;
+        p=Que.Q[Que.front];
+        while(p)
+        {
+            if(visited[p-&gt;adjvex]==0)
+            {
+                visited[p-&gt;adjvex]=1;
+                printf("%d /",G.vertices[p-&gt;adjvex].data);
+                Que.rear=(Que.rear+1)%Maxsize;
+                Que.Q[Que.rear]=G.vertices[p-&gt;adjvex].firstarc;
+            }
+            p=p-&gt;nextarc;
+        }
+    }
+}
+//此处使用了循环队列
+</code></pre>
+MAIN函数
+<pre ><code class="language-c++">int main()
+{
+    int visited[Maxsize];
+    int i;
+    printf("----------------------------------------\n");
+    printf("图的初始化：\n");
+    ALGraph G;
+    CreateALDG(G);
+    printf("----------------------------------------\n");
+    printf("图的DFS遍历：\n");
+    for(i=0;i&lt;=Maxsize;i++)
+        visited[i]=0;
+    VertexType x;
+    printf("输入开始遍历的节点名称：\n");
+    getchar();
+    scanf("%d",&amp;x);
+    printf("DFS遍历输出：\n");
+    DFSTraverse(G,x);
+    printf("\n----------------------------------------\n");
+    printf("图的BFS遍历：\n");
+    for(i=0;i&lt;=Maxsize;i++)
+        visited[i]=0;
+    printf("输入开始遍历的节点名称：\n");
+    getchar();
+    scanf("%d",&amp;x);
+    printf("BFS遍历输出：\n");
+    BFSTraverse(G,x);
+    printf("\n----------------------------------------\n");
+    return 0;
+}
+</code></pre>
+<img class="alignnone wp-image-766" src="https://cdn.omegaxyz.com/2017/05/graph1-236x300.png" alt="" width="669" height="850" />
+
+<img class="alignnone wp-image-767" src="https://cdn.omegaxyz.com/2017/05/graph2-300x88.png" alt="" width="668" height="196" />
+
+<img class="alignnone wp-image-768" src="https://cdn.omegaxyz.com/2017/05/graph3-300x90.png" alt="" width="663" height="199" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

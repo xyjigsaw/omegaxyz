@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C语言游戏1：2048 · OmegaXYZ</title>
+  <meta name="description" content="源代码来自：Judge Young 网址： http://www.cnblogs.com/judgeyoung/p/3760515.html 一、游戏介绍 《2048》是最近比较流行的一款数字游戏。原版2048首先在github上发布，原作者是Gabriele Cirulli。它是基于《1024》和《小3传奇》（Threes!）的玩法开发...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/31/c_game_2048/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-31</div>
+        <h1>C语言游戏1：2048</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cgame/index.html">C语言游戏</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+源代码来自：Judge Young
+
+网址：<a href="http://www.cnblogs.com/judgeyoung/p/3760515.html">http://www.cnblogs.com/judgeyoung/p/3760515.html</a>
+<h1>一、游戏介绍</h1>
+《2048》是最近比较流行的一款数字游戏。原版2048首先在github上发布，原作者是Gabriele Cirulli。它是基于《1024》和《小3传奇》（Threes!）的玩法开发而成的新型数字游戏。
+<h1>二、游戏规则</h1>
+游戏的规则很简单，你需要控制所有方块向同一个方向运动，两个相同数字的方块撞在一起之后合并成为他们的和，每次操作之后会在空白的方格处随机生成一个2或者4（生成2的概率要大一些），最终得到一个“2048”的方块就算胜利了。
+<h1>三、核心算法</h1>
+1、方块移动和合并算法。
+
+主要思想：把游戏数字面板抽象成4行4列的二维数组a[4][4]，值为0的位置表示空方块，其他表示对应数字方块。把每一行同等对待，只研究一行的移动和合并算法，然后可以通过遍历行来实现所有行的移动合并算法。在一行中，用b[4]表示一行的一位数组，使用两个下标变量来遍历列项，这里使用j和k，其中j总在k的后面，用来寻找k项后面第一个不为0的数字，而k项用于表示当前待比较的项，总是和j项之间隔着若干个数字0，或者干脆紧挨着。不失一般性，考虑往左滑动时，初始事情况下j等于1，而k等于0，接着判断j项数字是否大于0，若是，则判断j项和k项数字的关系，分成3种情况处理，分别是P1: ，P2: b[k]==0和P3: b[k]!=0且b[k]!=b[j]；若否，则j自加1，然后继续寻找k项后面第一个不为0的数字。其中P1，P2和P3分别对应如下：
+
+P1：b[k]==b[j]，则b[k] = 2 * b[k]（说明两数合并了），且b[j] = 0（合并之后要将残留的j项值清零），接着k自加1，然后进行下一次循环。
+
+P2：b[k]==0，则表示b[j]之前全是空格子，此时直接移动b[j]到k的位置，也就是b[k] = b[j]，然后b[j] = 0（移动后将残留的j项值清零），接着k值不变，然后进行下一次循环。
+
+P3：b[k]!=0且b[k]!=b[j]，则表示两数不相等且都不为0，此时将两数靠在一起，也就是b[k+1] = b[j]。接着分两种小情况，若j!=k+1，则b[j] = 0（移动后将残留的j项值清零）；若否，则表示两数原先就靠在一起，则不进行特殊处理（相当于未移动）。接着k自加1，然后进行下一次循环。
+
+2、判断游戏是否结束算法
+
+核心思想：遍历二维数组，看是否存在横向和纵向两个相邻的元素相等，若存在，则游戏不结束，若不存在，则游戏结束。
+
+3、生成随机数算法
+
+核心思想：根据生成的随机数，对一定的值进行取模，达到生成一定概率的数。在本游戏中，设定出现2的概率是4的两倍，于是可以利用系统提供的随机数函数生成一个数，然后对3取余，得到的数若小于2则在游戏面板空格处生成一个2，若余数等于2，则生成4。在选择将在哪一个空格出生成数的时候，也是根据系统提供的随机函数生成一个数，然后对空格数取余，然后在第余数个空格出生成数字。
+
+4、绘制界面的算法
+
+核心思想：利用系统提供的控制台界面清屏功能，达到刷新界面的效果，利用控制制表符位置，达到绘制游戏数字面板的效果。
+由于绘制界面不算是本游戏的本质，且代码段相对较长，所以算法描述在这里省略，读者可以参考完整源代码。
+<h1>四、源代码</h1>
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;    /* 包含设定随机数种子所需要的time()函数 */
+#include &lt;conio.h&gt;   /* 包含Windows平台上完成输入字符不带回显和回车确认的getch()函数 */
+#include &lt;windows.h&gt; /* 包含Windows平台上完成设定输出光标位置达到清屏功能的函数 */
+
+void start_game(); /* 开始游戏 */
+void reset_game(); /* 重置游戏 */
+
+/* 往左右上下四个方向移动 */
+void move_left();
+void move_right();
+void move_up();
+void move_down();
+
+void refresh_show();    /* 刷新界面显示 */
+void add_rand_num();    /* 生成随机数，本程序中仅生成2或4，概率之比设为2:1 */
+void check_game_over(); /* 检测是否输掉游戏，设定游戏结束标志 */
+int get_null_count();   /* 获取游戏面板上空位置数量 */
+
+int board[4][4];     /* 游戏数字面板，抽象为二维数组 */
+int score;           /* 游戏的分 */
+int best;            /* 游戏最高分 */
+int if_need_add_num; /* 是否需要生成随机数标志，1表示需要，0表示不需要 */
+int if_game_over;    /* 是否游戏结束标志，1表示游戏结束，0表示正常 */
+
+/* main函数 函数定义 */
+int main()
+{
+    start_game();
+}
+
+/* 开始游戏 函数定义 */
+void start_game()
+{
+    reset_game();
+    char cmd;
+    while (1)
+    {
+        cmd = getch(); /* 接收标准输入流字符命令 */
+
+        if (if_game_over) /* 判断是否需已经输掉游戏 */
+        {
+            if (cmd == 'y' || cmd == 'Y') /* 重玩游戏 */
+            {
+                reset_game();
+                continue;
+            }
+            else if (cmd == 'n' || cmd == 'N') /* 退出 */
+            {
+                return;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        if_need_add_num = 0; /* 先设定不默认需要生成随机数，需要时再设定为1 */
+
+        switch (cmd) /* 命令解析，w，s，a，d字符代表上下左右命令 */
+        {
+        case 'a':
+        case 'A':
+        case 75 :
+            move_left();
+            break;
+        case 's':
+        case 'S':
+        case 80 :
+            move_down();
+            break;
+        case 'w':
+        case 'W':
+        case 72 :
+            move_up();
+            break;
+        case 'd':
+        case 'D':
+        case 77 :
+            move_right();
+            break;
+        }
+
+        score &gt; best ? best = score : 1; /* 打破得分纪录 */
+
+        if (if_need_add_num) /* 默认为需要生成随机数时也同时需要刷新显示，反之亦然 */
+        {
+            add_rand_num();
+            refresh_show();
+        }
+    }
+}
+
+/* 重置游戏 函数定义 */
+void reset_game()
+{
+    score = 0;
+    if_need_add_num = 1;
+    if_game_over = 0;
+
+    /* 了解到游戏初始化时出现的两个数一定会有个2，所以先随机生成一个2，其他均为0 */
+    int n = rand() % 16;
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 0; j &lt; 4; j++)
+        {
+            board[i][j] = (n-- == 0 ? 2 : 0);
+        }
+    }
+
+    /* 前面已经生成了一个2，这里再生成一个随机的2或者4，且设定生成2的概率是4的两倍 */
+    add_rand_num();
+
+    /* 在这里刷新界面并显示的时候，界面上已经默认出现了两个数字，其他的都为空（值为0） */
+    system("cls");
+    refresh_show();
+}
+
+/* 生成随机数 函数定义 */
+void add_rand_num()
+{
+    srand(time(0));
+    int n = rand() % get_null_count();/* 确定在何处空位置生成随机数 */
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 0; j &lt; 4; j++)
+        {
+            if (board[i][j] == 0 &amp;&amp; n-- == 0) /* 定位待生成的位置 */
+            {
+                board[i][j] = (rand() % 3 ? 2 : 4);/* 确定生成何值，设定生成2的概率是4的概率的两倍 */
+                return;
+            }
+        }
+    }
+}
+
+/* 获取空位置数量 函数定义 */
+int get_null_count()
+{
+    int n = 0;
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 0; j &lt; 4; j++)
+        {
+            board[i][j] == 0 ? n++ : 1;
+        }
+    }
+    return n;
+}
+
+/* 检查游戏是否结束 函数定义 */
+void check_game_over()
+{
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 0; j &lt; 3; j++)
+        {
+            /* 横向和纵向比较挨着的两个元素是否相等，若有相等则游戏不结束 */
+            if (board[i][j] == board[i][j+1] || board[j][i] == board[j+1][i])
+            {
+                if_game_over = 0;
+                return;
+            }
+        }
+    }
+    if_game_over = 1;
+}
+
+/*
+ * 如下四个函数，实现上下左右移动时数字面板的变化算法
+ * 左和右移动的本质一样，区别仅仅是列项的遍历方向相反
+ * 上和下移动的本质一样，区别仅仅是行项的遍历方向相反
+ * 左和上移动的本质也一样，区别仅仅是遍历时行和列互换
+ */
+
+/* 左移 函数定义 */
+void move_left()
+{
+    /* 变量i用来遍历行项的下标，并且在移动时所有行相互独立，互不影响 */
+    for (int i = 0; i &lt; 4; i++)
+    {
+        /* 变量j为列下标，变量k为待比较（合并）项的下标，循环进入时k&lt;j */
+        for (int j = 1, k = 0; j &lt; 4; j++)
+        {
+            if (board[i][j] &gt; 0) /* 找出k后面第一个不为空的项，下标为j，之后分三种情况 */
+            {
+                if (board[i][k] == board[i][j]) /* 情况1：k项和j项相等，此时合并方块并计分 */
+                {
+                    score += board[i][k++] &lt;&lt;= 1;
+                    board[i][j] = 0;
+                    if_need_add_num = 1; /* 需要生成随机数和刷新界面 */
+                }
+                else if (board[i][k] == 0) /* 情况2：k项为空，则把j项赋值给k项，相当于j方块移动到k方块 */
+                {
+                    board[i][k] = board[i][j];
+                    board[i][j] = 0;
+                    if_need_add_num = 1;
+                }
+                else /* 情况3：k项不为空，且和j项不相等，此时把j项赋值给k+1项，相当于移动到k+1的位置 */
+                {
+                    board[i][++k] = board[i][j];
+                    if (j != k) /* 判断j项和k项是否原先就挨在一起，若不是则把j项赋值为空（值为0） */
+                    {
+                        board[i][j] = 0;
+                        if_need_add_num = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 右移 函数定义 */
+void move_right()
+{
+    /* 仿照左移操作，区别仅仅是j和k都反向遍历 */
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 2, k = 3; j &gt;= 0; j--)
+        {
+            if (board[i][j] &gt; 0)
+            {
+                if (board[i][k] == board[i][j])
+                {
+                    score += board[i][k--] &lt;&lt;= 1;
+                    board[i][j] = 0;
+                    if_need_add_num = 1;
+                }
+                else if (board[i][k] == 0)
+                {
+                    board[i][k] = board[i][j];
+                    board[i][j] = 0;
+                    if_need_add_num = 1;
+                }
+                else
+                {
+                    board[i][--k] = board[i][j];
+                    if (j != k)
+                    {
+                        board[i][j] = 0;
+                        if_need_add_num = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 上移 函数定义 */
+void move_up()
+{
+    /* 仿照左移操作，区别仅仅是行列互换后遍历 */
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 1, k = 0; j &lt; 4; j++)
+        {
+            if (board[j][i] &gt; 0)
+            {
+                if (board[k][i] == board[j][i])
+                {
+                    score += board[k++][i] &lt;&lt;= 1;
+                    board[j][i] = 0;
+                    if_need_add_num = 1;
+                }
+                else if (board[k][i] == 0)
+                {
+                    board[k][i] = board[j][i];
+                    board[j][i] = 0;
+                    if_need_add_num = 1;
+                }
+                else
+                {
+                    board[++k][i] = board[j][i];
+                    if (j != k)
+                    {
+                        board[j][i] = 0;
+                        if_need_add_num = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 下移 函数定义 */
+void move_down()
+{
+    /* 仿照左移操作，区别仅仅是行列互换后遍历，且j和k都反向遍历 */
+    for (int i = 0; i &lt; 4; i++)
+    {
+        for (int j = 2, k = 3; j &gt;= 0; j--)
+        {
+            if (board[j][i] &gt; 0)
+            {
+                if (board[k][i] == board[j][i])
+                {
+                    score += board[k--][i] &lt;&lt;= 1;
+                    board[j][i] = 0;
+                    if_need_add_num = 1;
+                }
+                else if (board[k][i] == 0)
+                {
+                    board[k][i] = board[j][i];
+                    board[j][i] = 0;
+                    if_need_add_num = 1;
+                }
+                else
+                {
+                    board[--k][i] = board[j][i];
+                    if (j != k)
+                    {
+                        board[j][i] = 0;
+                        if_need_add_num = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* 刷新界面 函数定义 */
+void refresh_show()
+{
+    /* 重设光标输出位置方式清屏可以减少闪烁，system("cls")为备用清屏命令，均为Windows平台相关*/
+    COORD pos = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+    printf("\n\n\n\n");
+    printf("                GAME: 2048     SCORE: %06d    BEST: %06d\n", score, best);
+    printf("             --------------------------------------------------\n\n");
+
+    /* 绘制表格和数字 */
+    printf("                        ┌──┬──┬──┬──┐\n");
+    for (int i = 0; i &lt; 4; i++)
+    {
+        printf("                        │");
+        for (int j = 0; j &lt; 4; j++)
+        {
+            if (board[i][j] != 0)
+            {
+                if (board[i][j] &lt; 10)
+                {
+                    printf("  %d │", board[i][j]);
+                }
+                else if (board[i][j] &lt; 100)
+                {
+                    printf(" %d │", board[i][j]);
+                }
+                else if (board[i][j] &lt; 1000)
+                {
+                    printf(" %d│", board[i][j]);
+                }
+                else if (board[i][j] &lt; 10000)
+                {
+                    printf("%4d│", board[i][j]);
+                }
+                else
+                {
+                    int n = board[i][j];
+                    for (int k = 1; k &lt; 20; k++)
+                    {
+                        n &gt;&gt;= 1;
+                        if (n == 1)
+                        {
+                            printf("2^%02d│", k); /* 超过四位的数字用2的幂形式表示，如2^13形式 */
+                            break;
+                        }
+                    }
+                }
+            }
+            else printf("    │");
+        }
+
+        if (i &lt; 3)
+        {
+            printf("\n                        ├──┼──┼──┼──┤\n");
+        }
+        else
+        {
+            printf("\n                        └──┴──┴──┴──┘\n");
+        }
+    }
+
+    printf("\n");
+    printf("             --------------------------------------------------\n");
+    printf("                            W↑  A←  →D  ↓S");
+
+    if (get_null_count() == 0)
+    {
+        check_game_over();
+        if (if_game_over) /* 判断是否输掉游戏 */
+        {
+            printf("\r                    GAME OVER! TRY THE GAME AGAIN? [Y/N]");
+        }
+    }
+}
+</code></pre>
+<h1>五、截图</h1>
+<img class="alignnone wp-image-1519" src="https://cdn.omegaxyz.com/2017/07/2048-300x228.jpg" alt="" width="588" height="447" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

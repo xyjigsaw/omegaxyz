@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python支持向量机（SVM）实例 · OmegaXYZ</title>
+  <meta name="description" content="SVM(Support Vector Machine)指的是支持向量机，是常见的一种判别方法。在机器学习领域，是一个有监督的学习模型，通常用来进行模式识别、分类以及回归分析。 Matlab中有林智仁编写的libsvm工具包可以很好地进行进行SVM训练。Python中我们有 sklearn工具包 来进行机器学习算法训练，Scikit-Lea...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/12/python_svm/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-12</div>
+        <h1>Python支持向量机（SVM）实例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="article-content">SVM(Support Vector Machine)指的是支持向量机，是常见的一种判别方法。在机器学习领域，是一个有监督的学习模型，通常用来进行模式识别、分类以及回归分析。
+
+Matlab中有林智仁编写的libsvm工具包可以很好地进行进行SVM训练。Python中我们有<strong>sklearn工具包</strong>来进行机器学习算法训练，Scikit-Learn库已经实现了所有基本机器学习的算法。
+
+以下内容参考自<a href="https://www.cnblogs.com/luyaoblog/p/6775342.html">https://www.cnblogs.com/luyaoblog/p/6775342.html</a>的博客，并将原文中Python2的代码更新为Python3的代码。
+
+下面以<strong>以</strong><strong>Iris兰花数据</strong><strong>集为例子：</strong>
+
+由于从UCI数据库中下载的Iris原始数据集的样子是这样的，前四列为特征列，第五列为类别列，分别有三种类别Iris-setosa， Iris-versicolor， Iris-virginica。
+
+<img class="alignnone size-medium wp-image-2774" src="https://cdn.omegaxyz.com/2018/01/iris-283x300.png" alt="" width="283" height="300" />
+
+需要使用numpy对其进行分割操作。
+
+数据集下载地址：<a href="http://archive.ics.uci.edu/ml/machine-learning-databases/iris/">http://archive.ics.uci.edu/ml/machine-learning-databases/iris/</a>
+
+下载iris.data即可。
+
+Python3代码：
+<pre ><code class="language-python">from sklearn import svm
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import colors
+from sklearn.model_selection import train_test_split
+
+
+def iris_type(s):
+    it = {b'Iris-setosa': 0, b'Iris-versicolor': 1, b'Iris-virginica': 2}
+    return it[s]
+
+
+path = 'C:\\Users\\dell\\desktop\\iris.data'  # 数据文件路径
+data = np.loadtxt(path, dtype=float, delimiter=',', converters={4: iris_type})
+
+x, y = np.split(data, (4,), axis=1)
+x = x[:, :2]
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1, train_size=0.6)
+
+# clf = svm.SVC(C=0.1, kernel='linear', decision_function_shape='ovr')
+clf = svm.SVC(C=0.8, kernel='rbf', gamma=20, decision_function_shape='ovr')
+clf.fit(x_train, y_train.ravel())
+
+print(clf.score(x_train, y_train))  # 精度
+y_hat = clf.predict(x_train)
+
+print(clf.score(x_test, y_test))
+y_hat2 = clf.predict(x_test)
+
+x1_min, x1_max = x[:, 0].min(), x[:, 0].max()  # 第0列的范围
+x2_min, x2_max = x[:, 1].min(), x[:, 1].max()  # 第1列的范围
+x1, x2 = np.mgrid[x1_min:x1_max:200j, x2_min:x2_max:200j]  # 生成网格采样点
+grid_test = np.stack((x1.flat, x2.flat), axis=1)  # 测试点
+
+mpl.rcParams['font.sans-serif'] = [u'SimHei']
+mpl.rcParams['axes.unicode_minus'] = False
+
+cm_light = mpl.colors.ListedColormap(['#A0FFA0', '#FFA0A0', '#A0A0FF'])
+cm_dark = mpl.colors.ListedColormap(['g', 'r', 'b'])
+
+grid_hat = clf.predict(grid_test)  # 预测分类值
+grid_hat = grid_hat.reshape(x1.shape)  # 使之与输入的形状相同
+
+alpha = 0.5
+plt.pcolormesh(x1, x2, grid_hat, cmap=cm_light)  # 预测值的显示
+plt.plot(x[:, 0], x[:, 1], 'o', alpha=alpha, color='blue', markeredgecolor='k')
+plt.scatter(x_test[:, 0], x_test[:, 1], s=120, facecolors='none', zorder=10)  # 圈中测试集样本
+plt.xlabel(u'花萼长度', fontsize=13)
+plt.ylabel(u'花萼宽度', fontsize=13)
+plt.xlim(x1_min, x1_max)
+plt.ylim(x2_min, x2_max)
+plt.title(u'SVM分类', fontsize=15)
+plt.show()
+</code></pre>
+1. split(数据，分割位置，轴=1（水平分割） or 0（垂直分割）)。
+
+2. x = x[:, :2]是为方便后期画图更直观，故只取了前两列特征值向量训练。
+
+3. sklearn.model_selection.train_test_split随机划分训练集与测试集。train_test_split(train_data,train_target,test_size=数字, random_state=0)
+
+参数解释：
+
+train_data：所要划分的样本特征集
+
+train_target：所要划分的样本结果
+
+test_size：样本占比，如果是整数的话就是样本的数量
+
+random_state：是随机数的种子。
+
+随机数种子：其实就是该组随机数的编号，在需要重复试验的时候，保证得到一组一样的随机数。比如你每次都填1，其他参数一样的情况下你得到的随机数组是一样的。但填0或不填，每次都会不一样。随机数的产生取决于种子，随机数和种子之间的关系遵从以下两个规则：种子不同，产生不同的随机数；种子相同，即使实例不同也产生相同的随机数。
+
+<strong>kernel='linear'时，为线性核，C越大分类效果越好，但有可能会过拟合（defaul C=1）。</strong>
+<strong> kernel='rbf'时（default），为高斯核，gamma值越小，分类界面越连续；gamma值越大，分类界面越“散”，分类效果越好，但有可能会过拟合。</strong>
+
+线性分类结果：
+
+<img class="alignnone wp-image-2775 size-full" src="https://cdn.omegaxyz.com/2018/01/iris_linear.jpg" alt="" width="639" height="543" />
+
+rbf核函数分类结果：
+
+<img class="alignnone wp-image-2776 size-full" src="https://cdn.omegaxyz.com/2018/01/iris_rbf.jpg" alt="" width="641" height="545" />
+
+精确度：
+
+<img class="alignnone wp-image-2777 size-full" src="https://cdn.omegaxyz.com/2018/01/iris_accracy.png" alt="" width="420" height="98" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

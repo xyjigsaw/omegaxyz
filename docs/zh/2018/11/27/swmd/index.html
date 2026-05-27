@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于有监督的词移距离（SWMD）简介 · OmegaXYZ</title>
+  <meta name="description" content="声明：本文章为机器学习期末作业一部分 WMD距离 https://omegaxyz.com/2018/11/22/wmd/ 我们理解了 WMD 距离 , 那么问题来了, 学习这个权重矩阵用来聚类虽好 ( 告诉我们哪些文档比较相近 ), 但是 , 用来 分类 却很差 ! 为什么?因为一些文章虽然近义词很多, 但是表达的不是一个语义和主题。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/27/swmd/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-27</div>
+        <h1>基于有监督的词移距离（SWMD）简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><strong>声明：本文章为机器学习期末作业一部分</strong>
+<h2><strong>WMD距离</strong></h2>
+https://omegaxyz.com/2018/11/22/wmd/
+
+我们理解了<b>WMD</b><b>距离</b>, 那么问题来了, <b>学习这个权重矩阵用来聚类虽好</b><b>(</b><b>告诉我们哪些文档比较相近</b><b>),  </b><b>但是</b><b>,  </b><b>用来</b><b>分类</b><b>却很差</b><b>!</b>
+
+为什么?因为一些文章虽然近义词很多, 但是表达的不是一个语义和主题。
+
+<strong>比如:</strong>
+<p style="text-align: center;"><b>I love playing </b><b>football.</b></p>
+<p style="text-align: center;"><b>I like playing </b><b>LOL</b><b> . </b></p>
+虽然看起来句式差不多, 可能会归为同类, 但是如果打标签时如果是“运动”和”游戏”两类, 显然就不能用WMD直接分类了。因为, <b>WMD</b><b>没有加入 </b><b>football</b><b>和”运动” 是强相关的信息。</b>
+<h2><strong>SWMD</strong></h2>
+在SWMD中作者引入了一个监督机制。<img class="alignnone  wp-image-5178" src="https://cdn.omegaxyz.com/2018/11/swmd2.png" alt="" width="831" height="341" />
+
+给词向量空间引入一个A，定义新的移动代价：<img class="alignnone  wp-image-5179" src="https://cdn.omegaxyz.com/2018/11/swmd3.png" alt="" width="200" height="28" />
+
+利用线性度量学习算法NCA来学习A，这样就引入了监督机制。
+
+<strong>实验结果：</strong>
+
+<img class="alignnone  wp-image-5180" src="https://cdn.omegaxyz.com/2018/11/swmd4.png" alt="" width="843" height="94" />
+
+加上了监督机制后错误率还能再下降一个层次。需要指出的是，不能简单地添加基于度量学习的监督矩阵，一方面，在计算过程中梯度可能不存在，另一方面，基于KNN的SWMD将会耗费大量的时间，因此需要采取相关措施来解决这些问题。具体请参考原文。
+
+<strong>原文：</strong>
+
+Huang G, Guo C, Kusner M J, et al. Supervised word mover's distance[C]//Advances in Neural Information Processing Systems. 2016: 4862-4870.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

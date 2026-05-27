@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ant Colony Algorithm (ACO) Shortest Path Planning (MATLAB) · OmegaXYZ</title>
+  <meta name="description" content="The ant colony algorithm was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback. Ant colony algorithm is a bionic algorithm designed based on simulating the shortest path behavior of ants looking for food. Therefore, generally speaking, ant colony algorithm is used to solve the shortest path problem, and it is really used in traveling salesman questions...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/27/aco_routes/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-27</div>
+        <h1>Ant Colony Algorithm (ACO) Shortest Path Planning (MATLAB)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/aco/index.html">ACO算法</a></div>
+        <div class="article-content">The ant colony algorithm was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback.
+
+Ant colony algorithm is a bionic algorithm designed based on simulating the shortest path behavior of ants looking for food. Therefore, generally speaking, ant colony algorithm is used to solve the shortest path problem, and it has really achieved better results in the Traveling Salesman Problem (TSP, a problem of finding the shortest path). At present, it has been gradually applied to other fields, including graph coloring problems, vehicle scheduling problems, integrated circuit design, communication networks, data cluster analysis, etc.
+
+For a detailed overview and general MATLAB code, please see:<span id="sample-permalink"><a href="https://omegaxyz.com/?p=3023&amp;preview=true" rel="noopener" target="wp-preview-3023">https://omegaxyz.com/2018/01/26/<span id="editable-post-name">aco</span>/</a></span>‎
+
+The following is the MATLAB code for the shortest path planning problem of the ant colony algorithm robot
+
+(1 represents obstacles)<pre><code class="language-matlab">function main() 
+G=[0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 1 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0; 
+   0 1 1 1 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0;
+   0 1 1 1 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 0; 
+   0 1 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0; 
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0; 
+   0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0; 
+   0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0; 
+   0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0; 
+   0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0; 
+   1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0; 
+   1 1 1 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0; 
+   0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 1 1 0; 
+   0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0; 
+   0 0 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 0 0; 
+   0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0;];
+MM=size(G,1);                  	   % G 地形图为01矩阵，如果为1表示障碍物 
+Tau=ones(MM*MM,MM*MM);        % Tau 初始信息素矩阵
+Tau=8.*Tau; 
+K=100;                       	   %迭代次数（指蚂蚁出动多少波）
+M=50;                        	   %蚂蚁个数
+S=1 ;                         	   %最短路径的起始点
+E=MM*MM;                        %最短路径的目的点
+Alpha=1;                      	   % Alpha 表征信息素重要程度的参数
+Beta=7;                       	   % Beta 表征启发式因子重要程度的参数
+Rho=0.3 ;                      	   % Rho 信息素蒸发系数
+Q=1;                               % Q 信息素增加强度系数 
+minkl=inf; 
+mink=0; 
+minl=0; 
+D=G2D(G); 
+N=size(D,1);               %N表示问题的规模（象素个数）
+ a=1;                     %小方格象素的边长
+ Ex=a*(mod(E,MM)-0.5);    %终止点横坐标
+ if Ex==-0.5 
+Ex=MM-0.5; 
+end 
+Ey=a*(MM+0.5-ceil(E/MM)); %终止点纵坐标
+ Eta=zeros(N);             %启发式信息，取为至目标点的直线距离的倒数
+ %以下启发式信息矩阵
+ for i=1:N 
+ ix=a*(mod(i,MM)-0.5); 
+   if ix==-0.5 
+   ix=MM-0.5; 
+   end 
+iy=a*(MM+0.5-ceil(i/MM));  
+   if i~=E 
+   Eta(i)=1/((ix-Ex)^2+(iy-Ey)^2)^0.5; 
+   else 
+   Eta(i)=100; 
+   end 
+end 
+ROUTES=cell(K,M);     %用细胞结构存储每一代的每一只蚂蚁的爬行路线
+PL=zeros(K,M);         %用矩阵存储每一代的每一只蚂蚁的爬行路线长度
+                      %启动K轮蚂蚁觅食活动，每轮派出M只蚂蚁
+for k=1:K 
+for m=1:M 
+%状态初始化
+W=S;                  %当前节点初始化为起始点
+Path=S;                %爬行路线初始化
+PLkm=0;               %爬行路线长度初始化
+TABUkm=ones(N);       %禁忌表初始化
+TABUkm(S)=0;          %已经在初始点了，因此要排除
+DD=D;                 %邻接矩阵初始化
+%下一步可以前往的节点
+DW=DD(W,:); 
+DW1=find(DW); 
+for j=1:length(DW1) 
+   if TABUkm(DW1(j))==0 
+      DW(DW1(j))=0; 
+  end 
+end 
+LJD=find(DW); 
+Len_LJD=length(LJD);%可选节点的个数
+%蚂蚁未遇到食物或者陷入死胡同或者觅食停止
+while W~=E&amp;&amp;Len_LJD&gt;=1 
+%转轮赌法选择下一步怎么走
+PP=zeros(Len_LJD); 
+for i=1:Len_LJD 
+    PP(i)=(Tau(W,LJD(i))^Alpha)*((Eta(LJD(i)))^Beta); 
+end 
+sumpp=sum(PP); 
+PP=PP/sumpp;%建立概率分布
+Pcum(1)=PP(1); 
+  for i=2:Len_LJD 
+  Pcum(i)=Pcum(i-1)+PP(i); 
+  end 
+Select=find(Pcum&gt;=rand); 
+to_visit=LJD(Select(1)); 
+%状态更新和记录
+Path=[Path,to_visit];       		 %路径增加
+PLkm=PLkm+DD(W,to_visit);    %路径长度增加
+W=to_visit;                   %蚂蚁移到下一个节点
+   for kk=1:N 
+      if TABUkm(kk)==0 
+      DD(W,kk)=0; 
+      DD(kk,W)=0; 
+      end 
+   end 
+TABUkm(W)=0;				%已访问过的节点从禁忌表中删除
+ DW=DD(W,:); 
+DW1=find(DW); 
+for j=1:length(DW1) 
+    if TABUkm(DW1(j))==0 
+       DW(j)=0; 
+    end 
+  end 
+LJD=find(DW); 
+Len_LJD=length(LJD);%可选节点的个数
+ end 
+%记下每一代每一只蚂蚁的觅食路线和路线长度
+ ROUTES{k,m}=Path; 
+   if Path(end)==E 
+      PL(k,m)=PLkm; 
+      if PLkm&lt;minkl 
+          mink=k;minl=m;minkl=PLkm; 
+      end 
+   else 
+      PL(k,m)=0; 
+   end 
+end 
+%更新信息素
+Delta_Tau=zeros(N,N);%更新量初始化
+   for m=1:M 
+     if PL(k,m)  
+        ROUT=ROUTES{k,m}; 
+        TS=length(ROUT)-1;%跳数
+         PL_km=PL(k,m); 
+        for s=1:TS 
+          x=ROUT(s); 
+          y=ROUT(s+1); 
+          Delta_Tau(x,y)=Delta_Tau(x,y)+Q/PL_km; 
+          Delta_Tau(y,x)=Delta_Tau(y,x)+Q/PL_km; 
+        end 
+     end 
+  end 
+Tau=(1-Rho).*Tau+Delta_Tau;%信息素挥发一部分，新增加一部分
+ end 
+%绘图
+plotif=1;%是否绘图的控制参数
+ if plotif==1 %绘收敛曲线
+    minPL=zeros(K); 
+   for i=1:K 
+     PLK=PL(i,:); 
+     Nonzero=find(PLK); 
+     PLKPLK=PLK(Nonzero); 
+     minPL(i)=min(PLKPLK); 
+   end 
+figure(1) 
+plot(minPL); 
+hold on 
+grid on 
+title('收敛曲线变化趋势'); 
+xlabel('迭代次数'); 
+ylabel('最小路径长度'); %绘爬行图
+figure(2) 
+axis([0,MM,0,MM]) 
+for i=1:MM 
+for j=1:MM 
+if G(i,j)==1 
+x1=j-1;y1=MM-i; 
+x2=j;y2=MM-i; 
+x3=j;y3=MM-i+1; 
+x4=j-1;y4=MM-i+1; 
+fill([x1,x2,x3,x4],[y1,y2,y3,y4],[0.2,0.2,0.2]); 
+hold on 
+else 
+x1=j-1;y1=MM-i; 
+x2=j;y2=MM-i; 
+x3=j;y3=MM-i+1; 
+x4=j-1;y4=MM-i+1; 
+fill([x1,x2,x3,x4],[y1,y2,y3,y4],[1,1,1]); 
+hold on 
+end 
+end 
+end 
+hold on 
+title('机器人运动轨迹'); 
+xlabel('坐标x'); 
+ylabel('坐标y');
+ROUT=ROUTES{mink,minl}; 
+LENROUT=length(ROUT); 
+Rx=ROUT; 
+Ry=ROUT; 
+for ii=1:LENROUT 
+Rx(ii)=a*(mod(ROUT(ii),MM)-0.5); 
+if Rx(ii)==-0.5 
+Rx(ii)=MM-0.5; 
+end 
+Ry(ii)=a*(MM+0.5-ceil(ROUT(ii)/MM)); 
+end 
+plot(Rx,Ry) 
+end 
+plotif2=0;%绘各代蚂蚁爬行图
+if plotif2==1 
+figure(3) 
+axis([0,MM,0,MM]) 
+for i=1:MM 
+for j=1:MM 
+if G(i,j)==1 
+x1=j-1;y1=MM-i; 
+x2=j;y2=MM-i; 
+x3=j;y3=MM-i+1; 
+x4=j-1;y4=MM-i+1; 
+fill([x1,x2,x3,x4],[y1,y2,y3,y4],[0.2,0.2,0.2]); 
+hold on 
+else 
+x1=j-1;y1=MM-i; 
+x2=j;y2=MM-i; 
+x3=j;y3=MM-i+1; 
+x4=j-1;y4=MM-i+1; 
+fill([x1,x2,x3,x4],[y1,y2,y3,y4],[1,1,1]); 
+hold on 
+end 
+end 
+end 
+for k=1:K 
+PLK=PL(k,:); 
+minPLK=min(PLK); 
+pos=find(PLK==minPLK); 
+m=pos(1); 
+ROUT=ROUTES{k,m}; 
+LENROUT=length(ROUT); 
+Rx=ROUT; 
+Ry=ROUT; 
+for ii=1:LENROUT 
+Rx(ii)=a*(mod(ROUT(ii),MM)-0.5); 
+if Rx(ii)==-0.5 
+Rx(ii)=MM-0.5; 
+end 
+Ry(ii)=a*(MM+0.5-ceil(ROUT(ii)/MM)); 
+end 
+plot(Rx,Ry) 
+hold on 
+end 
+end 
+function D=G2D(G) 
+l=size(G,1); 
+D=zeros(l*l,l*l); 
+for i=1:l 
+    for j=1:l 
+        if G(i,j)==0 
+            for m=1:l 
+                for n=1:l 
+                    if G(m,n)==0 
+                        im=abs(i-m);jn=abs(j-n); 
+                        if im+jn==1||(im==1&amp;&amp;jn==1) 
+                        D((i-1)*l+j,(m-1)*l+n)=(im+jn)^0.5; 
+                        end 
+                    end 
+                end 
+            end 
+        end 
+    end 
+end
+</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone size-full wp-image-3024" height="628" src="https://cdn.omegaxyz.com/2018/01/aca_robot.jpg" width="708"/>The shortest path length is stable at 38.<img alt="" class="alignnone size-full wp-image-3025" height="627" src="https://cdn.omegaxyz.com/2018/01/aca_robot2.jpg" width="702"/>The reference materials are: MATLAB self-study guide
+
+2019 US Sai D Reference:<a href="https://omegaxyz.com/2019/01/28/aco_routes2/">https://omegaxyz.com/2019/01/28/aco_routes2/</a></div>
+        <section class="comments"><h2>Comments (26)</h2>
+        <div class="comment" id="comment-3687">
+          <strong>Anonymous</strong>
+          <time>2018-05-27 19:00:56</time>
+          <div>您好Delta_Tau=zeros(N,N);%更新量初始化<br>   for m=1:M <br>     if PL(k,m)  <br>        ROUT=ROUTES{k,m}; <br>        TS=length(ROUT)-1;%跳数<br>         PL_km=PL(k,m); <br>        for s=1:TS <br>          x=ROUT(s); <br>          y=ROUT(s+1); <br>          Delta_Tau(x,y)=Delta_Tau(x,y)+Q/PL_km; <br>          Delta_Tau(y,x)=Delta_Tau(y,x)+Q/PL_km; <br>        end <br>     end <br>  end<br>的数学公式能告诉我一下吗，才接触matlab，不是很懂</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3689">
+          <strong>xyjisaw</strong>
+          <time>2018-05-28 00:06:00</time>
+          <div>这是信息素的更新公式啊，是蚁群算法里面的，与MATLAB没什么关系啊。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3692">
+          <strong>Anonymous</strong>
+          <time>2018-05-28 13:28:44</time>
+          <div>这个更新公式能告诉我下吗，我查了有好几种公式，我不知道是哪种，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3836">
+          <strong>Anonymous</strong>
+          <time>2018-08-28 21:40:12</time>
+          <div>你好，请问这个程序你运行能出图？方便联系？qq1064280920</div>
+        </div>
+        
+        <div class="comment" id="comment-3921">
+          <strong><a href="http://求求你了！" rel="nofollow">陈</a></strong>
+          <time>2018-10-29 22:28:31</time>
+          <div>您好，G2D这个函数可以分享下么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3941">
+          <strong>xyjisaw</strong>
+          <time>2018-11-02 17:21:10</time>
+          <div>就在里面呀</div>
+        </div>
+        
+        <div class="comment" id="comment-4235">
+          <strong>Anonymous</strong>
+          <time>2019-01-25 17:58:37</time>
+          <div>main不是函数吗  不能直接运行吧</div>
+        </div>
+        
+        <div class="comment" id="comment-4261">
+          <strong>Anonymous</strong>
+          <time>2019-01-25 21:11:55</time>
+          <div>根本不能运行呀，LZ能给一下main函数和G2D函数程序吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4275">
+          <strong>xyjisaw</strong>
+          <time>2019-01-25 22:58:45</time>
+          <div>matlab R2016+以上已测试，可以直接运行。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4277">
+          <strong>xyjisaw</strong>
+          <time>2019-01-25 23:01:22</time>
+          <div>已单独测试，可以运行。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4364">
+          <strong>岑博文</strong>
+          <time>2019-01-26 09:21:33</time>
+          <div>你好，这个程序可以运行出图吗</div>
+        </div>
+        
+        <div class="comment" id="comment-4377">
+          <strong>Anonymous</strong>
+          <time>2019-01-26 10:52:32</time>
+          <div>您好  这个修改障碍物  需要修改那些参数？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4431">
+          <strong>Anonymous</strong>
+          <time>2019-01-26 17:10:37</time>
+          <div>感谢楼主，可以运行了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4470">
+          <strong>xyjisaw</strong>
+          <time>2019-01-26 22:08:35</time>
+          <div>入口S，出口，01矩阵，美赛D题是多出口，代码可能需要重构</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4471">
+          <strong>xyjisaw</strong>
+          <time>2019-01-26 22:09:01</time>
+          <div>可以</div>
+        </div>
+        
+        <div class="comment" id="comment-4479">
+          <strong>Anonymous</strong>
+          <time>2019-01-26 23:34:59</time>
+          <div>请问LZ，矩阵横列不同应该怎么改，谢谢了</div>
+        </div>
+        
+        <div class="comment" id="comment-4610">
+          <strong>马斯克</strong>
+          <time>2019-01-27 16:03:06</time>
+          <div>&amp;gt;&amp;gt; F3;<br>无法执行赋值，因为左侧和右侧的元素数目不同。<br><br>出错 F3 (line 153)<br>     minPL(i)=min(PLKPLK);<br><br>请问楼主，我们只是改了G矩阵，然后就发生了以上错误，能问一下是因为什么吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-16800">
+          <strong>Anonymous</strong>
+          <time>2019-04-18 22:06:41</time>
+          <div>麻烦请问一下main函数的文件应该咋定义，具体包括哪些？谢谢了。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16801">
+          <strong>xyjisaw</strong>
+          <time>2019-04-18 22:29:36</time>
+          <div>这个不需要main()函数哦，你可以把function开头和最后的end去掉就好啦</div>
+        </div>
+        
+        <div class="comment" id="comment-19524">
+          <strong>吕董</strong>
+          <time>2020-10-05 10:23:27</time>
+          <div>哪位大佬知道，信息素矩阵为什么是Tau=ones(MM*MM,MM*MM)而不是Tau=ones(MM,MM)。</div>
+        </div>
+        
+        <div class="comment" id="comment-19988">
+          <strong>周欣沅</strong>
+          <time>2021-01-12 21:45:58</time>
+          <div>跑出来未定义函数变量或‘G2D’，是怎么回事，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19989">
+          <strong>周欣沅</strong>
+          <time>2021-01-12 21:47:58</time>
+          <div>可以问一下你们G2D怎么解决的吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19992">
+          <strong>xyjisaw</strong>
+          <time>2021-01-12 23:33:53</time>
+          <div>你可以单独把G2D作为一个文件</div>
+        </div>
+        
+        <div class="comment" id="comment-20883">
+          <strong>匿名</strong>
+          <time>2021-02-23 08:02:50</time>
+          <div>G2D这个函数是用来做什么的？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25448">
+          <strong>wu</strong>
+          <time>2022-03-08 10:46:09</time>
+          <div>我也想问这个函数是干什么的</div>
+        </div>
+        
+        <div class="comment" id="comment-25449">
+          <strong>wu</strong>
+          <time>2022-03-08 10:46:49</time>
+          <div>你好，G2D这个函数是用来干什么的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

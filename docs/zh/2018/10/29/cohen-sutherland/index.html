@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cohen-Sutherland算法概述 · OmegaXYZ</title>
+  <meta name="description" content="思想 通过对于任一端点(x,y)，根据其坐标所在的区域，赋予一个4位的二进制码，判断图形元素是否落在裁剪窗口之内并通过求交运算找出其位于内部的部分。 编码方式 注意：l为left，r为right，b为bottom，t为top （1）若x小于wxl，D0=1，否则D0=0 （2）若x大于wxr，D1=1，否则D1=0 （3）若y小于wyb，...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/10/29/cohen-sutherland/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-29</div>
+        <h1>Cohen-Sutherland算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/cg/index.html">计算机图形学</a></div>
+        <div class="article-content"><h2><strong>思想</strong></h2>
+通过对于任一端点(x,y)，根据其坐标所在的区域，赋予一个4位的二进制码，判断图形元素是否落在裁剪窗口之内并通过求交运算找出其位于内部的部分。
+<h2><strong>编码方式</strong></h2>
+<strong>注意：l为left，r为right，b为bottom，t为top</strong>
+<ul>
+ 	<li>（1）若x小于wxl，D0=1，否则D0=0</li>
+ 	<li>（2）若x大于wxr，D1=1，否则D1=0</li>
+ 	<li>（3）若y小于wyb，D2=1，否则D2=0</li>
+ 	<li>（4）若y大于wyt，D3=1，否则D3=0</li>
+</ul>
+<img class="alignnone size-full wp-image-5105" src="https://cdn.omegaxyz.com/2018/10/cohen-sutherland.png" alt="" width="448" height="286" />
+
+裁剪一条线段时，先求出端点p1和p2的编码code1和code2：
+（1）如果code1和code2均为0，则说明P1和P2均在窗口内，那么线段全部位于窗口内部，应取之。
+（2）如果code1和code2经过按位与运算后的结果code1&amp;code2不等于0，说明P1和P2同时在窗口的上方、下方、左方或右方，那么线段全部位于窗口的外部，应弃之。
+（3）当（1）和（2）不满足时，确保p1在窗口外部：若p1在窗口内，则交换p1和p2的坐标值和编码。
+（4）求出直线段与窗口边界的交点，并用该交点的坐标值替换p1的坐标值。也即在交点s处把线段一分为二。考虑到p1是窗口外的一点，因此可以去掉p1s。转(2)。
+（5）用直线扫描转换算法画出当前的直线段p1p2。
+（6）算法结束。
+<h2><strong>算法的流程图</strong></h2>
+<img class="alignnone size-full wp-image-5106" src="https://cdn.omegaxyz.com/2018/10/cohen-sutherland2.png" alt="" width="905" height="743" />
+<h2><strong>缺陷</strong></h2>
+（1）但是是对于在裁剪窗口直线内的线段，求交过程复杂，并且包含加、乘法、除法、浮点运算等，不利于硬件实现。
+（2）由于采用编码思想，涉及到按位与运算，对程序的实现有特殊的要求；
+（3）全部舍弃的判断只适合于那些仅在窗口同一侧（后左、或右、或上、或下）的线段。对于在裁剪窗口直线内的线段此算法不是很方便。
+<h2><strong>参考</strong></h2>
+<a href="https://blog.csdn.net/sinat_34686158/article/details/78745216">https://blog.csdn.net/sinat_34686158/article/details/78745216</a>
+
+<a href="https://blog.csdn.net/vincent2610/article/details/47948737">https://blog.csdn.net/vincent2610/article/details/47948737</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

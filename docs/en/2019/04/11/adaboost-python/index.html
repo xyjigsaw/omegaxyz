@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to AdaBoost and Python application · OmegaXYZ</title>
+  <meta name="description" content="AdaBoost AdaBoost integrates multiple multi-classifiers and uses a weighted majority voting method to increase the weight of weak classifiers with small classification error rates and reduce the weight of weak classifiers with large classification error rates. The general process of AdaBoost (1) Collect data: any method can be applied (2) Prepare data: depends on the type of weak classifier used (3) Analyze data: any method can be used (4) Training algorithm: Most of AdaBoost&#x27;s time is spent training...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/04/11/adaboost-python/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-11</div>
+        <h1>Introduction to AdaBoost and Python application</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>AdaBoost</strong></h2>AdaBoost integrates multiple multi-classifiers and uses a weighted majority voting method to increase the weight of weak classifiers with small classification error rates and reduce the weight of weak classifiers with large classification error rates.<h2><strong>General process of AdaBoost</strong></h2>(1) Collect data: any method can be applied
+(2) Prepare data: depends on the type of weak classifier used
+(3) Analyze data: any method can be used
+(4) Training algorithm: AdaBoost spends most of its time on training, and the classifier will train weak classifiers on the same data set multiple times.
+(5) Test algorithm: Calculate the error rate of classification
+(6) Use algorithm: Like SVM, AdaBoost predicts one of two categories.<h2 id="算法流程"><strong>Algorithm process</strong></h2>
+<img alt="" class="alignnone wp-image-5681" height="686" src="https://cdn.omegaxyz.com/2019/04/adaboost2.png" width="809"/>
+<h2><strong>Training samples (Li Hang statistical learning method)</strong></h2>
+<img alt="" class="alignnone size-full wp-image-5680" height="72" src="https://cdn.omegaxyz.com/2019/04/adaboost1.png" width="249"/>If the classifier that needs to be used is x &lt; v or x &gt; v<table>
+<thead>
+<tr>
+<th>serial number</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>y</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="算法流程"><strong>Python implementation</strong></h2>
+<div class="MathJax_Display">
+<pre><code class="language-python">import numpy as np
+
+
+class Classifier:
+    def __init__(self):
+        self.v = 0
+        self.left = 0  # 该分类器有两种情况，一种是x &gt; v为1，另一种是x &lt; v为1
+
+    def train(self, x, y, w):
+        min_loss = 1
+        for v in np.arange(0.5, 10, 1):
+            for left in [0, 1]:
+                if left == 0:
+                    label = (((x &lt; v) - 0.5) * 2 != y)  # (0 - 0.5)*2 = -1
+                else:
+                    label = (((x &gt; v) - 0.5) * 2 != y)
+                loss = sum(label * w)
+                if loss &lt; min_loss:
+                    min_loss = loss
+                    self.v = v
+                    self.left = left
+        return min_loss
+
+    def test(self, x):
+        if self.left == 0:
+            return ((x &lt; self.v) - 0.5)*2
+        else:
+            return ((x &gt; self.v) - 0.5)*2
+
+
+class AdaBoost:
+    def __init__(self, classifier=Classifier):
+        self.classifier = classifier
+        self.pool = []  # 分类器集合
+        self.alphas = []
+
+    def train(self, x, y):
+        num = x.shape[0]
+        M = 3
+        W = np.array([1 / num] * num)
+        print('  Weight:', W)
+        for m in range(M):
+            classifier_m = self.classifier()
+            e_m = classifier_m.train(x, y, W)  # 计算错误率
+            print('GEN:', m, 'Error:', e_m, '\n')
+            alpha_m = 1 / 2 * np.log((1-e_m)/e_m)  # 分类器m的系数
+            G_m = classifier_m.test(x)
+            W = W * np.exp(- alpha_m * y * G_m)  # 更新权重
+            W = W / np.sum(W)  # 规范化
+            print('  Weight:', W)
+            self.pool.append(classifier_m)
+            self.alphas.append(alpha_m)  # 系数存储
+
+    def test(self, x):
+        n = x.shape[0]
+        results = np.zeros(n)
+        for alpha, classifier in zip(self.alphas, self.pool):
+            results += alpha * classifier.test(x)
+        return ((results &gt; 0) - 0.5) * 2
+
+
+x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+y = [1, 1, 1, -1, -1, -1, 1, 1, 1, -1]
+x = np.array(x)
+y = np.array(y)
+ab = AdaBoost()
+ab.train(x, y)
+print('TEST: ', ab.test(x))</code></pre>
+</div>
+ 
+<h2><strong>result</strong></h2>
+<img alt="" class="alignnone wp-image-5682" height="241" src="https://cdn.omegaxyz.com/2019/04/adaboost3.png" width="635"/>
+<h2><strong>refer to</strong></h2>
+https://blog.csdn.net/u013859301/article/details/79483126
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSP连数据库登录检查用户名和密码模板 · OmegaXYZ</title>
+  <meta name="description" content="JSP全名为Java Server Pages，中文名叫java服务器页面，其根本是一个简化的Servlet设计，它是由Sun Microsystems公司倡导、许多公司参与一起建立的一种动态网页技术标准。JSP技术有点类似ASP技术，它是在传统的网页HTML（标准通用标记语言的子集）文件(*.htm,*.html)中插入Java程序段(...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/17/jsp-login/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-17</div>
+        <h1>JSP连数据库登录检查用户名和密码模板</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/html/index.html">HTML</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/jsp/index.html">jsp</a></div>
+        <div class="article-content">JSP全名为Java Server Pages，中文名叫java服务器页面，其根本是一个简化的Servlet设计，它是由Sun Microsystems公司倡导、许多公司参与一起建立的一种动态网页技术标准。JSP技术有点类似ASP技术，它是在传统的网页HTML（标准通用标记语言的子集）文件(*.htm,*.html)中插入Java程序段(Scriptlet)和JSP标记(tag)，从而形成JSP文件，后缀名为(*.jsp)。 用JSP开发的Web应用是跨平台的，既能在Linux下运行，也能在其他操作系统上运行。
+
+下面给出了JSP连数据库登录检查用户名和密码模板
+
+<strong>登录页代码index.jsp：</strong>
+
+注意这里的css要自己哦，要不然太丑了。
+<pre ><code class="language-default">&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;文档管理系统-登录&lt;/title&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="main"&gt;
+    &lt;div class="login"&gt;
+        &lt;h1&gt;文档管理系统&lt;/h1&gt;
+        &lt;div class="inset"&gt;
+            &lt;!--start-main--&gt;
+            &lt;form id="form1" name="form1" method="post" action="loginCheck.jsp"&gt;
+                &lt;div&gt;
+                    &lt;h2&gt;用户登录&lt;/h2&gt;
+                    &lt;span&gt;&lt;label&gt;用户名&lt;/label&gt;&lt;/span&gt;
+                    &lt;span&gt;&lt;input type="text" class="textbox" name="username" id="username" placeholder="请输入用户名"&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;span&gt;&lt;label&gt;密码&lt;/label&gt;&lt;/span&gt;
+                    &lt;span&gt;&lt;input type="text" class="password" name="password" placeholder="请输入密码"&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="sign"&gt;
+                    &lt;input type="submit" value="登录" class="submit" name="Submit" /&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!--//end-main--&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;!--徐奕：开源协议：MIT License (MIT) Copyright © 2018 --&gt;</code></pre>
+<strong>密码检查代码loginCheck.jsp: </strong>
+<pre ><code class="language-default">&lt;%@ page import="java.sql.*" %&gt;
+&lt;body&gt;
+&lt;%
+    String username=new String(request.getParameter("username").getBytes("ISO8859_1"),"GBK");
+    String password=new String(request.getParameter("password").getBytes("ISO8859_1"),"GBK");
+    try {
+        // 加载数据库驱动，注册到驱动管理器
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        // 数据库连接字符串
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=t_customer";
+        // 数据库用户名
+        String usename = "xy";
+        // 数据库密码
+        String psw = "123456";
+        // 创建Connection连接
+
+        Connection conn = DriverManager.getConnection(url,usename,psw);
+        // 判断数据库连接是否为空
+        if(conn != null){
+            String sql="select * from t_customer where name='"+username+"' and password='"+ password + "'";
+            Statement stmt = conn.createStatement();
+            ResultSet rs=stmt.executeQuery(sql);
+            if(rs.next()){
+                application.setAttribute("name",username);
+                String description = rs.getString("description");
+                application.setAttribute("description",description);
+                response.sendRedirect("frame.jsp");
+            }else{
+                response.sendRedirect("loginFailed.jsp");
+%&gt;
+&lt;a href="javascript:history.back()"&gt;返回&lt;/a&gt;
+&lt;%
+            }
+            // 输出连接信息
+            //out.println("数据库连接成功！");
+            // 关闭数据库连接
+            conn.close();
+        }else{
+            // 输出连接信息
+            System.out.println("数据库连接失败！");
+        }
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+%&gt;
+&lt;/body&gt;</code></pre>
+<strong>登录失败代码loginFailed.jsp:</strong>
+<pre ><code class="language-default">&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta http-equiv="refresh" content="3;url=index.jsp"&gt;
+    &lt;title&gt;登录失败&lt;/title&gt;
+    &lt;script type="text/javascript"&gt;
+        function info() {
+//循环执行,1秒执行一次
+            window.setInterval("daojishi()", 1000);
+        }
+        function daojishi() {
+            if(document.getElementById("msg").innerHTML!=1){
+                document.getElementById("msg").innerHTML=document.getElementById("msg").innerHTML-1;
+            }
+        }
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="info()"&gt;
+用户名或密码错误,&lt;span id="msg"&gt;3&lt;/span&gt;秒返回登录页面
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

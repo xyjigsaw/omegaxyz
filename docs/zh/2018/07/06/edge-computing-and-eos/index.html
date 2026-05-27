@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>边缘计算与嵌入式系统 · OmegaXYZ</title>
+  <meta name="description" content="边缘计算简介 边缘计算(Edge computing )是一种在物理上靠近数据生成的位置处理数据的方法，即事物和人所在的现场区域如家庭和远程办公室内。融合网络、计算、存储、应用核心能力的开放平台，就近提供边缘智能服务，满足行业数字化在敏捷连接、实时业务、数据优化、应用智能、安全与隐私保护等方面的关键需求。 边缘运算将原本完全由中心节点处理...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/06/edge-computing-and-eos/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-06</div>
+        <h1>边缘计算与嵌入式系统</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a><a class="pill" href="../../../../tag/embedded-system/index.html">嵌入式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<ol>
+ 	<li>
+<h1><strong>边缘计算简介</strong></h1>
+</li>
+</ol>
+边缘计算(Edge computing )是一种在物理上靠近数据生成的位置处理数据的方法，即事物和人所在的现场区域如家庭和远程办公室内。融合网络、计算、存储、应用核心能力的开放平台，就近提供边缘智能服务，满足行业数字化在敏捷连接、实时业务、数据优化、应用智能、安全与隐私保护等方面的关键需求。
+
+边缘运算将原本完全由中心节点处理大型服务加以分解[4]，切割成更小与更容易管理的部分，分散到边缘节点去处理。边缘节点更接近于用户终端装置，可以加快资料的处理与传送速度，减少延迟。
+
+<img class="alignnone size-full wp-image-4706 aligncenter" src="https://cdn.omegaxyz.com/2018/07/edgecomputing1.png" alt="" width="426" height="403" />
+<p style="text-align: center;"><strong>            </strong><strong>图1：边缘计算模型</strong></p>
+
+<ol start="2">
+ 	<li>
+<h1><strong>边缘计算的起源</strong></h1>
+</li>
+</ol>
+以云计算模型为核心的大数据处理阶段称为集中式大数据处理时代[1]，该阶段特征主要表现为大数据的计算和存储均在云计算中心 数据中心采用集中方式执行，因为云计算中心具有较强的计算和存储能力.这种资源集中的大数据处理方式可以为用户节省大量开销，创造出有效的规模经济效益.但是，云计算中心的集中式处理模式在万物互联的时代表现出其固有的问题，如下表：
+<p style="text-align: center;">                      表1：云计算的主要问题</p>
+
+<table>
+<tbody>
+<tr>
+<td width="37">1</td>
+<td width="516">线性增长的集中式云计算能力无法匹配爆炸式增长的海量边缘数据。</td>
+</tr>
+<tr>
+<td width="37">2</td>
+<td width="516">从网络边缘设备传输到云数据中心的海量数据增加了传输带宽的负载量，造成网络延迟时间较长。</td>
+</tr>
+<tr>
+<td width="37">3</td>
+<td width="516">边缘设备数据涉及个人隐私和安全的问题变得尤为突出。</td>
+</tr>
+<tr>
+<td width="37">4</td>
+<td width="516">边缘设备具有有限电能，数据传输造成终端设备电能消耗较大等。</td>
+</tr>
+</tbody>
+</table>
+这时边缘计算就应运而生。与云计算不同的是，在边缘计算当中，数据不用再传到遥远的云端，在边缘侧就能解决，更适合实时的数据分析和智能化处理，也更加高效而且安全。
+
+海量数据中，由于商业用户和消费者对效率和速度的要求越来越高，低延迟已经成了标配。为了满足这种需求，一种新的计算方式：边缘计算进入了大众视野。“边缘计算能在正确的时间将正确的数据放在正确的位置，支持快速和安全访问。
+
+&nbsp;
+<ol start="3">
+ 	<li>
+<h1><strong>嵌入式系统与边缘计算</strong></h1>
+</li>
+</ol>
+<strong> </strong>
+<h2><strong>3.1 嵌入式系统概述</strong></h2>
+嵌入式系统（Embedded system），是以应用为中心，以计算机技术为基础，并且软硬件可剪裁，适用于应用系统对功能、可靠性、成本、体积、功耗有严格要求的专用计算机系统。
+
+<img class="alignnone size-full wp-image-4707 aligncenter" src="https://cdn.omegaxyz.com/2018/07/edgecomputing2.png" alt="" width="564" height="268" />
+<p style="text-align: center;"><strong>图2：嵌入式系统的基本组成</strong></p>
+&nbsp;
+<h2><strong>3.2 嵌入式系统的发展历史</strong></h2>
+从上世纪70年代嵌入式系统问世以来，先后经过了从单片机到嵌入式CPU再到嵌入式操作系统几大发展阶段。进入二十一世纪，嵌入式系统正在经历信息化、智能化、网络化的发展，以适应日益变化的需求。嵌入式系统的市场是巨大的，嵌入式系统的应用几乎无处不在：移动通信、数字办公、家电应用、交通运输、互动娱乐等无不有它的踪影。现在人工智能的兴起，对数据的处理需求又上升到一个高度，人工智能逐渐从云端向嵌入端迁移，基于边缘计算环境的的嵌入式系统因运而生。（如树莓派、具有边缘计算能力的处理器、基于边缘计算的摄像头等）
+<h2><strong>3.3 嵌入式系统应用到边缘计算</strong></h2>
+在边缘计算环境下的嵌入硬件需要有边缘计算功能的模块作为协处理单元 简称边缘计算硬件单元。接着需要将边缘计算硬件单元集成到原有的嵌入式系统硬件平台上 配以相应的嵌入式软件支撑技术，实现具有边缘计算能力的嵌入式系统。
+
+根据我的理解基于边缘计算的嵌入式系统有以下两种形式
+<p style="text-align: center;"><strong>表2：基于边缘计算的嵌入式系统的形式</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="28">①</td>
+<td width="525">自身为边缘节点不能进行边缘大数据运算，数据需要上传到边缘服务器进行处理</td>
+</tr>
+<tr>
+<td width="28">②</td>
+<td width="525">既是边缘节点又是边缘服务器，可以在搜集数据的同时对数据进行处理</td>
+</tr>
+</tbody>
+</table>
+比如智能家居，首先将嵌入式系统部署到生活中的家居产品上[1]。智能家居收集用户所产生的数据，在<strong>家庭内部的边缘网关</strong>上运行嵌入式边缘操作系统处理数据，降低数据传输带宽的负载。同时利用嵌入式系统对用户的家居数据实时更新，为用户提供良好的应用体验。
+<p style="text-align: center;">         <img class="alignnone size-full wp-image-4708" src="https://cdn.omegaxyz.com/2018/07/edgecomputing3.png" alt="" width="663" height="278" /></p>
+<p style="text-align: center;"><strong>图3：智能家居嵌入式系统模块</strong></p>
+
+<h2><strong>3.4 嵌入式硬件的要求</strong></h2>
+<strong>    </strong><strong>传感控制层：</strong>这一层包含大量的传感器、控制部件(比如开关等)和测量部件(比如电表等)，另外还有通信部件。这些通信部件可能是独立的，也可能是和其它部件结合在一起的。
+
+<strong>    </strong><strong>网络层：</strong>这一层主要实现融合和互联，它的功能除了网络联接和管理之外，还包括边缘计算，进行现场处理，同时保障业务在本地的存活。本地存活和现场处理对物联网尤其是工业和民用大型设施是非常重要的。此外，协议转换也是这一层的重要功能。这些协议来自于各个行业历史上的积累，所以需要在网关上做协议的转换，将数据统一承载在 IP 网络上向外传输。
+
+<strong>敏捷控制器：</strong>这一层将网关送上来的数据进行统一的处理，向上送给应用层。并对下层的网络、传感器、控制部件、测量部件、计算资源进行管理，提供网络布署、配置的自动化工具。
+
+<strong>业务应用层：</strong>这一层是各种各样的行业应用。
+<h2>3.5 边缘计算环境下嵌入式系统与人工智能</h2>
+如今，全球正迈向数字化新时代。以云计算、大数据、人工智能(AI)与物联网为代表的数字技术如火如荼地发展。到2019年，将有约40%的原始数据需要在边缘处理，而现在几乎没有安全保护措施。现在人工智能正向嵌入式系统迁移。例如苹果A11 Bionic人工智能处理器，亚马逊智能音箱Echo，这些新科技都具有强大的边缘计算能力。以谷歌、苹果为主导的手持人工智能，边缘计算人工智能已成为行业趋势，这就是嵌入式人工智能。所谓的嵌入式人工智能，其最大的特征就是人工智能本地化，可以摆脱网络的束缚。
+
+基于边缘计算的嵌入式智能交通：智能交通控制系统[1]实时分析由监控摄像头和传感器收集的数据并自动做出决策。随着交通数据量的增加用户对交通信息的实时性需求也在提高，若传输这些数据到云计算中心，将造成带宽浪费和延时等待，也不能优化基于位置识别的服务。在边缘服务器上运行智能交通控制系统来实时分析数据根据路面的实况，利用智能交通信号灯减轻路面车辆拥堵状况或改变行车路线。
+<p style="text-align: center;"><strong>表3：智能交通运用到的人工智能与边缘嵌入式技术</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="94">1</td>
+<td width="459">自动驾驶汽车嵌入式技术</td>
+</tr>
+<tr>
+<td width="94">2</td>
+<td width="459">交通控制调度系统（信号灯）</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<ol start="4">
+ 	<li>
+<h1><strong>观点与看法</strong></h1>
+</li>
+</ol>
+<h2><strong>4.1 边缘数据安全</strong></h2>
+当今的边缘环境下的嵌入式系统常常处理应用代码(IP)和大量数据等敏感信息，因此安全是其设计的一个主要关注因素。因此在嵌入式系统上保留加密边缘数据并让用户拥有这些数据是一种较好保护隐私数据的方案[4]。对于处在网络边缘设备所收集的数据，应该在边缘计算后有选择地删除数据。另外，在嵌入式系统上增加特定的加密算法和安全协议等安全措施也是中不错的选择。
+<h2><strong>4.2 人工智能与嵌入式系统的处理能力</strong></h2>
+人工智能技术很多依赖于深度学习，而要对数据进行精确的处理，深度学习所构建的神经网络必须要有很多层。基于这样的认知，Google推出了张量处理单元（TPU）类似于GPU，但张量处理能力比GPU要更好。
+
+同样地，在边缘计算中融合了人工智能，而其配套的嵌入式系统的计算能力也必须随之提升，类似与iPhone X搭载的A11处理器能够很好地解决这种问题。但是，再过几年，处理的数据可能按指数级增长，这对将来的嵌入式系统是一种挑战。
+
+当然如果是边缘服务器来计算边缘节点的数据则需要良好的近距离信息通讯能力，这也对边缘节点的设备配置提出了要求。
+<h2><strong>4.3 移动边缘计算</strong></h2>
+个人认为，诸如智能手机的嵌入式系统，其边缘计算能力可以在未来提升5G用户体验并能提高增强现实（AR）的应用场景。[2][3]除了高带宽和低延时的5G应用需求驱动，嵌入式系统的内容感知、网络能力开放能力与边缘计算有很大的联系。
+<h2><strong>4.4 嵌入式边缘计算的社会价值</strong></h2>
+在《大国重器2》的第六集《赢在互联网中》介绍了我国杭州率先使用中国天网的人脸识别技术，使用上万个摄像头，通过人脸库检索系统对检测到的面部图像进行身份认证，依次比对，在短短4秒钟就搜索到了走失老人。
+
+《大国重器2》中走失的老人是在离家4小时后的5KM范围内找到的，5KM范围内就有10万人口，涉及上千个高清摄像头。以一个普通100万像素的高清摄像头为例，它每个小时会产生1G的数据，1000个摄像头每小时会产生1T流量，4小时会产生4T流量。大家想象一下在4T的数据量下，搜索10万人中的一个人，还要对每个人每一帧的面部进行逐一识别，这个计算量即使是云计算也需要大量时间进行处理的。
+
+边缘计算的使用，即强化摄像头终端的运算处理能力，可让其所搭载的人脸识别功能不再依赖云端服务器，避免耗费时间上传图像，节省了大量带宽资源。而且通过在本地设备上直接完成脸部辨识，进而让识别过程缩短至1.5秒内。
+
+通过这样一个例子，我们可以看到将嵌入式系统与边缘计算技术融入到社会生活中，社会效率必将大大提高，有益于推进我国实现社会主义现代化的进程。
+
+&nbsp;
+<h1 style="text-align: center;"><strong>参考文献</strong></h1>
+[1] 施巍松, 孙辉, 曹杰,等. 边缘计算:万物互联时代新型计算模型[J]. 计算机研究与发展, 2017, 54(5):907-924.
+
+[2] 戴晶, 陈丹, 范斌. 移动边缘计算促进5G发展的分析[J]. 邮电设计技术, 2016(7):4-8.
+
+[3] Hu Y C, Patel M, Sabella D, et al. Mobile edge computing—A key technology towards 5G[J]. ETSI white paper, 2015, 11(11): 1-16.
+
+[4] Shi W, Dustdar S. The promise of edge computing[J]. Computer, 2016, 49(5): 78-81.
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

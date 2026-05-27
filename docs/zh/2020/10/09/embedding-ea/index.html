@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于Embedding的实体对齐前瞻 · OmegaXYZ</title>
+  <meta name="description" content="摘录论文 ：Sun, Zequn, et al. &quot;A Benchmarking Study of Embedding-based Entity Alignment for Knowledge Graphs.&quot; arXiv preprint arXiv:2003.07743 (2020). 无监督实体对齐 Unsupervised ent...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/10/09/embedding-ea/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-10-09</div>
+        <h1>基于Embedding的实体对齐前瞻</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><strong>摘录论文</strong>：Sun, Zequn, et al. "A Benchmarking Study of Embedding-based Entity Alignment for Knowledge Graphs." arXiv preprint arXiv:2003.07743 (2020).
+<h2><strong>无监督实体对齐 Unsupervised entity alignment</strong></h2>
+目前大多数方法需要seed alignment作为监督。因此，研究无监督的实体对齐是一个有意义的方向。一种可能的解决方案是合并辅助功能或资源，并从它们中进行远程监督，例如区分性特征（人员主页和产品介绍图片）以及预训练。此外，诸如对抗训练等无监督的跨语言单词对齐的最新进展也值得研究。另一种可能的解决方案是使用主动学习来减轻数据标记的负担。
+<h2><strong>长尾实体对齐 Long-tail entity alignment</strong></h2>
+对于长尾实体的嵌入，除了使用更高级的图神经网络外，注入更多特征（例如多模式数据和分类法）也将有所帮助。由于KG尚不完善，因此通过统一框架共同训练链接预测和实体对齐可能会同时利用这两项任务的监督。从开放式网络中提取更多信息以丰富长尾实体也是一个潜在的方向。
+<h2><strong>大规模实体对齐 Large-scale entity alignment</strong></h2>
+随着实体数量的增加，成本将成倍增长。由于候选空间很大且没有分区，因此很难在非常大的KG上运行基于嵌入的方法。
+<h2><strong>非欧式空间的实体对齐 Entity alignment in non-Euclidean spaces</strong></h2>
+<h2><strong>补充</strong></h2>
+https://omegaxyz.com/2020/04/06/knowledge-fusion/
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

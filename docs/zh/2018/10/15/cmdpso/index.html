@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于拥挤距离与变异支配的多目标PSO算法 · OmegaXYZ</title>
+  <meta name="description" content="这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说CMDPSO。 CMDPSO全称是Crowding，Mutation，Dominance PSO算法。 NSPSO算法概述与实现 https:...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/10/15/cmdpso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-15</div>
+        <h1>基于拥挤距离与变异支配的多目标PSO算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说CMDPSO。
+
+CMDPSO全称是Crowding，Mutation，Dominance PSO算法。
+<h2><strong>NSPSO算法概述与实现</strong></h2>
+https://omegaxyz.com/2018/09/01/nspso/
+
+&nbsp;
+
+https://omegaxyz.com/2018/09/22/nspso_matlab/
+<h2><strong>PSO算法</strong></h2>
+https://omegaxyz.com/2018/01/17/matlab_pso/
+<h2><strong>个体拥挤距离</strong></h2>
+在同一层Fk中需要进行选择性排序，按照个体拥挤距离(crowding distance)大小排序。个体拥挤距离是Fk上与i相邻的个体i+1和i-1之间的距离，其计算步骤为：
+①对同层的个体距离初始化，令L[i]d=0（表示任意个体i的拥挤距离）。
+②对同层的个体按照第m个目标函数值升序排列。
+③对于处在排序边缘上的个体要给予其选择优势。
+④对于排序中间的个体，求拥挤距离：
+
+<img class="alignnone size-medium wp-image-354" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" sizes="(max-width: 300px) 100vw, 300px" srcset="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png 300w, https://cdn.omegaxyz.com/2017/04/NSGA2-1.png 626w" alt="" width="300" height="25" />
+
+（其中：L[i+1]m为第i+1个体的第m目标函数值fmax，fmin分别为集合中第m目标函数的最大和最小值。）
+⑤对于不同的目标函数，重复②到④的步骤，得到个体i的拥挤距离L[i]d，有限选择拥挤距离较大的个体，可以是计算结果在目标空间均匀地分布，维持群体的多样性。
+<h2><strong>伪代码</strong></h2>
+<img class="alignnone size-full wp-image-5089" src="https://cdn.omegaxyz.com/2018/10/CMDPSOFS.png" alt="" width="395" height="618" />
+
+<strong>注意archive中存的是每一代的精英粒子集合</strong>
+<h2><strong>具体流程</strong></h2>
+<ul>
+ 	<li>①划分数据集</li>
+ 	<li>②初始化精英集合和存档Archive</li>
+ 	<li>③计算拥挤距离</li>
+ 	<li>④二进制锦标赛选择一个一个精英个体来作为gbest指导更新</li>
+ 	<li>⑤更新粒子</li>
+ 	<li>⑥使用变异算子</li>
+ 	<li>⑦粒子真实评价</li>
+ 	<li>⑧将LeaderSet加入存档</li>
+ 	<li>⑨迭代完成后计算存档中的两个目标值</li>
+</ul>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3979">
+          <strong><a href="https://templerun.co" rel="nofollow">temple run</a></strong>
+          <time>2018-11-29 18:29:03</time>
+          <div>I have been waiting for this information for a long time. Thank you very much for the great post.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

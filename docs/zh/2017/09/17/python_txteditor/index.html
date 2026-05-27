@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python使用wxpython制作简单文本编辑器 · OmegaXYZ</title>
+  <meta name="description" content="下面的python代码实现了一个简单的文本编辑器，可以实现编辑加载和保存操作。 真个界面是实用wxpython来构建的。wxpython是一个GUI图形界面的库。允许Python程序员很方便的创建完整的、功能键全的GUI用户界面。 另外这个文本编辑器还有些不足，包括利用os.exists()来新建文件，但是对已创建的文件效果是可以的。我将...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/17/python_txteditor/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-17</div>
+        <h1>Python使用wxpython制作简单文本编辑器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">下面的python代码实现了一个简单的文本编辑器，可以实现编辑加载和保存操作。
+
+真个界面是实用wxpython来构建的。wxpython是一个GUI图形界面的库。允许Python程序员很方便的创建完整的、功能键全的GUI用户界面。
+
+另外这个文本编辑器还有些不足，包括利用os.exists()来新建文件，但是对已创建的文件效果是可以的。我将在下一代文本编辑器增加各种功能。
+
+这个文本编辑器没有什么实用价值，仅当学习。
+
+下面给出代码：
+<pre ><code class="language-python">import wx
+import os
+
+app = wx.App()
+win = wx.Frame(None, title="TXT Editor", size=(1000, 666))
+
+bkg = wx.Panel(win)
+
+def openFile(evt):
+    dlg = wx.FileDialog(
+        win,
+        "Open",
+        "",
+        "",
+        "All files (*.*)|*.*",
+        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+    filepath = ''
+    if dlg.ShowModal() == wx.ID_OK:
+        filepath = dlg.GetPath()
+    else:
+        return
+    filename.SetValue(filepath)
+    fopen = open(filepath)
+    fcontent = fopen.read()
+    contents.SetValue(fcontent)
+    fopen.close()
+
+
+def saveFile(evt):
+
+    fcontent = contents.GetValue()
+    fopen = open(filename.GetValue(), 'w')
+    fopen.write(fcontent)
+    fopen.close()
+    win = wx.Frame(None, title='TXT Editor')
+    button = wx.Button(win, label='保存成功')
+    win.Show()
+
+openBtn = wx.Button(bkg, label='浏览')
+openBtn.Bind(wx.EVT_BUTTON, openFile)
+
+saveBtn = wx.Button(bkg, label='保存')
+saveBtn.Bind(wx.EVT_BUTTON, saveFile)
+
+filename = wx.TextCtrl(bkg, style=wx.TE_READONLY)
+contents = wx.TextCtrl(bkg, style=wx.TE_MULTILINE)
+
+hbox = wx.BoxSizer()
+hbox.Add(openBtn, proportion=0, flag=wx.LEFT | wx.ALL, border=5)
+hbox.Add(filename, proportion=1, flag=wx.EXPAND | wx.TOP | wx.BOTTOM, border=5)
+hbox.Add(saveBtn, proportion=0, flag=wx.LEFT | wx.ALL, border=5)
+
+bbox = wx.BoxSizer(wx.VERTICAL)
+bbox.Add(hbox, proportion=0, flag=wx.EXPAND | wx.ALL)
+bbox.Add(contents, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.BOTTOM | wx.RIGHT, border=5)
+
+bkg.SetSizer(bbox)
+win.Show()
+app.MainLoop()
+</code></pre>
+效果图：
+<img class="alignnone wp-image-1943" src="https://cdn.omegaxyz.com/2017/09/text-editor-300x195.jpg" alt="" width="505" height="328" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

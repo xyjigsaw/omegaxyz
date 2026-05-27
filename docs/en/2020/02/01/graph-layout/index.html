@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to visualization graph layout algorithm · OmegaXYZ</title>
+  <meta name="description" content="Fruchterman Reingold (FR) The FR algorithm treats all nodes as electrons, and each node receives the action of two forces: 1. Coulomb force (repulsive force) of other nodes \(f_{a}(d)=\frac{d^{2}}{k}\) 2. Edge-to-point Hooker force (gravity).  \(f_{r}(d)=\frac{-k^{2}}{d}\) This algorithm follows two simple principles: Nodes connected by edges should...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/02/01/graph-layout/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-01</div>
+        <h1>Introduction to visualization graph layout algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Fruchterman Reingold (FR)</strong></h2>The FR algorithm treats all nodes as electrons, and each node receives the action of two forces:
+
+1. Coulomb force (repulsion) of other nodes
+
+ \(f_{a}(d)=\frac{d^{2}}{k}\)
+
+2. Edge-to-point Hooker’s force (gravity).
+
+ \(f_{r}(d)=\frac{-k^{2}}{d}\)<strong>The algorithm follows two simple principles:</strong>Nodes connected by edges should be close to each other; nodes should not be too close to each other. The FR algorithm is based on particle physics theory, simulating the nodes in the graph as atoms, and calculating the positional relationship between nodes by simulating the force field between atoms. The algorithm calculates the speed and acceleration of nodes by considering the interaction of attraction and repulsion between atoms. According to the movement laws similar to atoms or planets, the system eventually enters a state of dynamic equilibrium.<img alt="" class="alignnone wp-image-6375" height="354" src="https://cdn.omegaxyz.com/2020/02/FR-Algorithm.png" width="400"/>
+<h2><strong>OpenOrd</strong></h2>OpenOrd is an open source algorithm for large-scale graph layout, from the paper OpenOrd: An Open-Source Toolbox for Large Graph Layout. This is a force-directed layout algorithm designed to handle very large graph structures.<img alt="" class="alignnone wp-image-6377" height="379" src="https://cdn.omegaxyz.com/2020/02/openOrd.png" width="400"/>The left (a) shows the Swiss roll data set, which is composed of 20,000 points randomly selected from the Swiss roll copy manifest19,30.
+Middle (b) shows a force-directed layout obtained from Swiss roll using the VxOrd 20 Nearest Neighbors algorithm.
+Only nodes are plotted, and the graph is colored to illustrate the global structure of entanglement tangling.
+The correctly drawn graph structure is shown on the right (c), generated using the multilevel version of OpenOrd.<img alt="" class="alignnone size-full wp-image-6376" height="176" src="https://cdn.omegaxyz.com/2020/02/OpenOrd-demo.png" width="645"/>For details, please refer to<a href="https://cloud.tencent.com/developer/article/1483027">https://cloud.tencent.com/developer/article/1483027</a>
+<h2><strong>Yifan Hu</strong></h2>Yifan Hu laid it out for Hu Yifan, which is suitable for very large graphics. It is characterized by coarsening the graphics, reducing the amount of calculation, and running faster.<img alt="" class="alignnone wp-image-6378" height="376" src="https://cdn.omegaxyz.com/2020/02/YifanHu.png" width="400"/>Yifan Hu's homepage:<a href="http://www.yifanhu.net/index.html">http://www.yifanhu.net/index.html</a>
+<h2><strong>refer to</strong></h2>
+<ul>
+<li>Peking University graph visualization: http://vis.pku.edu.cn/graphvis/zh-cn/index.html</li>
+<li>Gephi practical tutorial: https://blog.csdn.net/meifannao789456/article/details/94581967</li>
+</ul>
+ </div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18534">
+          <strong><a href="https://www.resobang.cn" rel="nofollow">头条新闻</a></strong>
+          <time>2020-02-03 01:42:21</time>
+          <div>文章不错非常喜欢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

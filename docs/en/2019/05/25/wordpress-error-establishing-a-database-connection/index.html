@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WordPress database error establishing a database connection error · OmegaXYZ</title>
+  <meta name="description" content="As a webmaster who cannot afford a large server and can only use Alibaba Cloud student machines, I often encounter the error establishing a database connection. This is an error when establishing a database connection. It&#x27;s very frustrating to get this error because all of a sudden we haven&#x27;t moved anything at all. Why does this error occur? The database login credentials are incorrect or changed, the database server is unresponsive, and the database is damaged. ...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/25/wordpress-error-establishing-a-database-connection/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-25</div>
+        <h1>WordPress database error establishing a database connection error</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/wordpress/index.html">wordpress</a></div>
+        <div class="article-content">As a webmaster who cannot afford a large server and can only use Alibaba Cloud student machines, I often encounter the error establishing a database connection.
+
+This is an error when establishing a database connection. It's very frustrating to get this error because all of a sudden we haven't moved anything at all.<img alt="" class="alignnone wp-image-5801" height="334" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection2.png" width="630"/>
+<h2><strong>Why does this error occur?</strong></h2>
+<ol>
+<li>The database login credentials are incorrect or changed, the database server is unresponsive, and the database is damaged.</li>
+<li>Database connection errors may also occur when website traffic is too heavy.</li>
+<li>The server is affected by multiple services. You can access other services to see if they are normal and determine whether it is caused by the database server.</li>
+<li>Whether the user's permissions are sufficient.</li>
+<li>Whether remote connection rejection is set up.</li>
+</ol>
+<h2><strong>How to solve</strong></h2>
+<strong><span style="color: #ff0000;">Restart the server! ! ! This method is the most effective!</span></strong>So besides restarting, do we have any other methods?
+
+The first thing you should do is make sure you are getting the same error on both the frontend of your site and the backend of your site (wp-admin). If the error message is the same on both pages "Error establishing database connection". We can follow the steps below.
+
+Visit http://domain name/wp-admin/maint/repair.php
+
+You can see:<img alt="" class="alignnone wp-image-5799" height="209" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection.png" width="634"/>Note that you can use the FTP tool to download wp-config.php and then upload it again<img alt="" class="alignnone size-full wp-image-5800" height="190" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection1.png" width="2458"/>Add the following code in the wp-config.php file:<pre><code class="language-php">define('WP_ALLOW_REPAIR', true);</code></pre>Note that the location of the added code is best in the middle.<img alt="" class="alignnone wp-image-5804" height="329" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection5.png" width="626"/>After saving, we visit the following url again:
+
+http://domain name/wp-admin/maint/repair.php
+
+You can see:<img alt="" class="alignnone wp-image-5802" height="302" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection3.png" width="622"/>The main function of accessing this URL is to repair and optimize the damaged database.<span style="color: #ff0000;"><strong>After the modification is completed, we need to delete the code added above from the wp-config.php file. (If not deleted, it will pose a threat to the system) The method is also to use FTP.</strong></span>If you change the root password or database user password, you also need to change this file wp-config.php. Make sure the username and password for the configured database are correct.<pre><code class="language-php">define('DB_NAME', '数据库名');
+define('DB_USER', '数据库用户名');
+define('DB_PASSWORD', '数据库密码');
+define('DB_HOST', '主机');</code></pre>
+<span style="color: #ff0000;"><strong>Note: Before any operation on the database, please make a backup to avoid accidents.</strong></span></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

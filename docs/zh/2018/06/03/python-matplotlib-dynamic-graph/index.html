@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python使用matplotlib画动态图 · OmegaXYZ</title>
+  <meta name="description" content="机器学习需要使用python实现相应的算法，因此学习了Matplotlib中的画图。 当然为了能显示机器学习中每次迭代的效果与收敛速度，需要画出动态图形。 下面给出两个例子，分别可以画出动态条形图和动态折线图（使用两种不同的方法）。 注意要使用到plt.pause(time)函数。 动态条形图 基本原理是将数据放入数组，然后每次往数组里面...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/03/python-matplotlib-dynamic-graph/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-03</div>
+        <h1>Python使用matplotlib画动态图</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">机器学习需要使用python实现相应的算法，因此学习了Matplotlib中的画图。
+
+当然为了能显示机器学习中每次迭代的效果与收敛速度，需要画出动态图形。
+
+下面给出两个例子，分别可以画出动态条形图和动态折线图（使用两种不同的方法）。
+
+注意要使用到plt.pause(time)函数。
+<h3><strong>动态条形图</strong></h3>
+基本原理是将数据放入数组，然后每次往数组里面增加一个数，清除之前的图，重新画出图像。
+
+<strong>代码：</strong>
+<pre ><code class="language-python">import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+y1 = []
+for i in range(50):
+    y1.append(i)  # 每迭代一次，将i放入y1中画出来
+    ax.cla()   # 清除键
+    ax.bar(y1, label='test', height=y1, width=0.3)
+    ax.legend()
+    plt.pause(0.1)</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4466" src="https://cdn.omegaxyz.com/2018/06/matplotlib1.gif" alt="" width="545" height="403" />
+<h3><strong>动态折线图</strong></h3>
+基本原理是使用一个长度为2的数组，每次替换数据并在原始图像后追加。
+
+<strong>代码：</strong>
+<pre ><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+plt.axis([0, 100, 0, 1])
+plt.ion()
+
+xs = [0, 0]
+ys = [1, 1]
+
+for i in range(100):
+    y = np.random.random()
+    xs[0] = xs[1]
+    ys[0] = ys[1]
+    xs[1] = i
+    ys[1] = y
+    plt.plot(xs, ys)
+    plt.pause(0.1)
+</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4467" src="https://cdn.omegaxyz.com/2018/06/matplotlib2.gif" alt="" width="540" height="410" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

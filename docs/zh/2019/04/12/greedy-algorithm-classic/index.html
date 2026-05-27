@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>贪心算法经典例题 · OmegaXYZ</title>
+  <meta name="description" content="简介 贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。 贪心算法不是对所有问题都能得到整体最优解，关键是贪心策略的选择，选择的贪心策略必须具备无后效性，即某个状态以前的过程不会影响以后的状态，只与当前状态有关。 FatMouse&#x27; Tra...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/12/greedy-algorithm-classic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-12</div>
+        <h1>贪心算法经典例题</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。
+
+贪心算法不是对所有问题都能得到整体最优解，关键是贪心策略的选择，选择的贪心策略必须具备无后效性，即某个状态以前的过程不会影响以后的状态，只与当前状态有关。
+<h2 class="postTitle"><strong>FatMouse' Trade</strong></h2>
+<strong>FatMouse' Trade</strong>
+Time Limit: 2000/1000 MS (Java/Others)    Memory Limit: 65536/32768 K (Java/Others)
+Total Submission(s): 33703    Accepted Submission(s): 10981
+
+<strong>Problem Description</strong>
+FatMouse prepared M pounds of cat food, ready to trade with the cats guarding the warehouse containing his favorite food, JavaBean.
+The warehouse has N rooms. The i-th room contains J[i] pounds of JavaBeans and requires F[i] pounds of cat food. FatMouse does not have to trade for all the JavaBeans in the room, instead, he may get J[i]* a% pounds of JavaBeans if he pays F[i]* a% pounds of cat food. Here a is a real number. Now he is assigning this homework to you: tell him the maximum amount of JavaBeans he can obtain.
+
+<strong>Input</strong>
+The input consists of multiple test cases. Each test case begins with a line containing two non-negative integers M and N. Then N lines follow, each contains two non-negative integers J[i] and F[i] respectively. The last test case is followed by two -1's. All integers are not greater than 1000.
+
+<strong>Output</strong>
+For each test case, print in a single line a real number accurate up to 3 decimal places, which is the maximum amount of JavaBeans that FatMouse can obtain.
+
+<strong>Sample Input</strong>
+5 3
+7 2
+4 3
+5 2
+20 3
+25 18
+24 15
+15 10
+-1 -1
+
+<strong>Sample Output</strong>
+13.333
+31.500
+<h3><strong>贪心思想</strong></h3>
+从每傍食物最便宜的开始
+<h3><strong>C++代码</strong></h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+
+using namespace std;
+
+struct bean{
+    double pound;
+    double value;
+    double perv;
+    bool operator &lt; (const bean &amp;A)const{
+        return perv &gt; A.perv;
+    }
+}buff[100];
+
+int main(){
+    int n;
+    double m;
+    while(cin&gt;&gt;m&gt;&gt;n){
+        if(m == -1 &amp;&amp; n == -1)break;
+        for(int i = 0; i &lt; n; i++){
+            scanf("%lf%lf", &amp;buff[i].pound, &amp;buff[i].value);
+            buff[i].perv = buff[i].pound/buff[i].value;
+        }
+        sort(buff, buff + n);
+        int id = 0;
+        double ans = 0;
+        while(m &gt; 0 &amp;&amp; id &lt; n){
+            if(m &gt; buff[id].value){
+                m -= buff[id].value;
+                ans += buff[id].pound;
+            }else{
+                ans += m*buff[id].perv;
+                m = 0;
+            }
+            id++;
+        }
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+    return 0;
+}
+/*
+5 3
+7 2
+4 3
+5 2
+20 3
+25 18
+24 15
+15 10
+-1 -1
+*/</code></pre>
+<h2 class="title-article"><strong>今年暑假不AC</strong></h2>
+“今年暑假不AC？”
+“是的。”
+“那你干什么呢？”
+“看世界杯呀，笨蛋！”
+“@#$%^&amp;*%...”
+
+确实如此，世界杯来了，球迷的节日也来了，估计很多ACMer也会抛开电脑，奔向电视了。
+作为球迷，一定想看尽量多的完整的比赛，当然，作为新时代的好青年，你一定还会看一些其它的节目，比如新闻联播（永远不要忘记关心国家大事）、非常6+7、超级女生，以及王小丫的《开心辞典》等等，假设你已经知道了所有你喜欢看的电视节目的转播时间表，你会合理安排吗？（目标是能看尽量多的完整节目）
+
+<strong>Input</strong>
+
+输入数据包含多个测试实例，每个测试实例的第一行只有一个整数n(n&lt;=100)，表示你喜欢看的节目的总数，然后是n行数据，每行包括两个数据Ti_s,Ti_e (1&lt;=i&lt;=n)，分别表示第i个节目的开始和结束时间，为了简化问题，每个时间都用一个正整数表示。n=0表示输入结束，不做处理。
+
+<strong>Output</strong>
+
+对于每个测试实例，输出能完整看到的电视节目的个数，每个测试实例的输出占一行。Sample Input
+12
+1 3
+3 4
+0 7
+3 8
+15 19
+15 20
+10 15
+8 18
+6 12
+5 10
+4 14
+2 9
+0
+<h3><strong>贪心思想</strong></h3>
+按照结束时间的早晚来，先看结束时间早的
+<h3><strong>C++代码</strong></h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+struct prog{
+    int start;
+    int endx;
+    bool operator &lt; (const prog &amp;A)const{
+        return endx &lt; A.endx;
+    }
+}buff[10000];
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n == 0)break;
+        int ans = 1, time = 0;
+        for(int i = 0; i &lt; n; i++){
+            cin&gt;&gt;buff[i].start&gt;&gt;buff[i].endx;
+        }
+        sort(buff, buff + n);
+        time = buff[0].endx;
+        for(int i = 1; i &lt; n; i++){
+            if(buff[i].start &gt;= time){
+                ans++;
+                time = buff[i].endx;
+            }
+        }
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

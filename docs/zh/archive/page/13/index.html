@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全部文章 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../index.html">主页</a><a href="../../index.html">文章</a><a href="../../../pages/index.html">页面</a><a href="../../../categories/index.html">分类</a><a href="../../../search/index.html">搜索</a>
+          <a href="../../../../en/archive/page/13/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>全部文章</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2018-05-11</time>
+      <div>
+        <h2><a href="../../../2018/05/11/fcfs/index.html">操作系统FCFS调度算法C语言实现</a></h2>
+        <p>FCFS 调度算法原理 FCFS是最简单的调度算法，该算法既可用于作业调度，也可用于进程调度。当在作业调度中采用该算法时，系统将按照作业到达的先后次序来进行调度，或者说它是优先考虑在系统中等待时间最长的作业，而不管该作业所需执行的时间的长短，从后备作业队列中选择几个最先进入该队列的作业，将它们调入内存，为它们分配资源和创建进程。然后把它放...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-10</time>
+      <div>
+        <h2><a href="../../../2018/05/10/ts_surrogate_pso_fs/index.html">基于训练集动态代理模型的PSO特征选择算法</a></h2>
+        <p>问题 ①基于演化计算的Wrapper特征选择算法在计算量上耗费很大。 ②基于PSO演化计算的特征选择算法在演化效率上有显著提高，但是评价过程的时间依旧很长。 贡献 作者提出了一种应用聚类到训练集上的动态代理模型，有助于获取数据集上的特征来使选出的特征更好。 DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-09</time>
+      <div>
+        <h2><a href="../../../2018/05/09/information_entropy_alpha/index.html">英文字母信息熵与冗余度计算Python实现</a></h2>
+        <p>26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。 公式: H(信息熵) = -∑ P i log 2 (P i ); P i :为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2 n = X 的话,那么logX = n; 所以可以看出所谓信...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-08</time>
+      <div>
+        <h2><a href="../../../2018/05/08/drop3_agg/index.html">基于训练集的代理模型生成算法（DROP3、AGG）</a></h2>
+        <p>DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思想：利用KNN算法及排序来去除噪音实例 算法步骤 ①先去除训练集上所有KNN算法错误分类的特征 ②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序 ③去除上述距离较远的实例 ④去除不影响其它实例预测结果的实例 示例 Agglomerative C...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-07</time>
+      <div>
+        <h2><a href="../../../2018/05/07/information_entropy/index.html">信息熵（香农熵）概述</a></h2>
+        <p>简介 1948 年，香农提出了“信息熵”(Shannon entropy/Information entropy) 的概念，才解决了对信息的量化度量问题。一条信息的信息量大小和它的不确定性有直接的关系。比如说，我们要搞清楚一件非常非常不确定的事，或是我们一无所知的事情，就需要了解大量的信息。相反，如果我们对某件事已经有了较多的了解，我们不...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-06</time>
+      <div>
+        <h2><a href="../../../2018/05/06/producer_consumer_c/index.html">生产者与消费者问题C语言实现</a></h2>
+        <p>实验目的 ①实现生产者—消费者问题的模拟，以便更好的理解此经典进程同步问题。生产者－消费者问题是典型的PV操作问题，假设系统中有一个比较大的缓冲池，生产者的任务是只要缓冲池未满就可以将生产出的产品放入其中，而消费者的任务是只要缓冲池未空就可以从缓冲池中拿走产品。缓冲池被占用时，任何进程都不能访问。 ②每一个生产者都要把自己生产的产品放入缓...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-05</time>
+      <div>
+        <h2><a href="../../../2018/05/05/vs_debug/index.html">Visual Studio断点调试显示变量信息</a></h2>
+        <p>Visual Studio是一个很好用的IDE，利用debug进行调试不但能快速发现错误，更能提升编程效率。 下面采用Visual Studio debug中step into调试斐波那契数列，追踪函数内部变量。 ①首先一定要注意先建立一个工程文件 ②编辑好代码后双击代码侧边设置断点 ③右键断点，选择命中条件（when hit） ④此时出...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-04</time>
+      <div>
+        <h2><a href="../../../2018/05/04/cellular_automata/index.html">元胞自动机概述与MATLAB实现</a></h2>
+        <p>什么是元胞自动机？ 元胞自动机(cellular automata，CA) 是一种时间、空间、状态都离散，空间相互作用和时间因果关系为局部的网格动力学模型，具有模拟复杂系统时空演化过程的能力。它能构建随时间推移发生状态转移的系统，细胞存在于一维或多维网格中，每个细胞都有一个或多个状态，每个细胞都有邻居（即邻近的细胞）。 元胞自动机分类 平...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-03</time>
+      <div>
+        <h2><a href="../../../2018/05/03/online_feature_selection/index.html">在线特征选择概述</a></h2>
+        <p>在线学习（online learning） 在监督学习的在线方法下，对于多层感知器突触权值的调整是以样例-样例为基础的，用来最小化的代价函数是全体瞬时误差能量。和批量学习一样，在线学习的学习曲线是通过足够大量的随机选取的初始条件上的总体平均来计算的。对于给定的网络结构，在线学习下获得的学习曲线和批量学习下获得的学习曲线有着很大的不同。 给...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-02</time>
+      <div>
+        <h2><a href="../../../2018/05/02/batch_and_online_learning/index.html">批量学习与在线学习概述</a></h2>
+        <p>一、批量学习（batch learning） 在监督学习的批量方法中，多层感知器的突出权值的调整在训练样本集合的所有N个例子都出现后进行，这构成了训练的一个回合。换句话说，批量学习的代价函数是由平均误差能量定义的。多层感知器的突触权值的调整是以回合-回合为基础的。相应地，学习曲线的一种实现方式是通过描绘平均误差能量对回合数的图形而得到，对...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-01</time>
+      <div>
+        <h2><a href="../../../2018/05/01/perceptron/index.html">神经网络感知机概述</a></h2>
+        <p>定义 假设输入空间(特征向量)为X⊆Rn，输出空间为Y={-1, +1}。输入x∈X表示实例的特征向量，对应于输入空间的点；输出y∈Y表示示例的类别。由输入空间到输出空间的函数为 f(x)=sign( w⋅x +b) 称为感知机。其中，参数w叫做权值向量weight，b称为偏置bias。w⋅x表示w和x的点积 ∑i=wixi=w1x1+w...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-30</time>
+      <div>
+        <h2><a href="../../../2018/04/30/cpp_inheritance/index.html">C++继承详解</a></h2>
+        <p>三种继承 C++有下面三种形式的继承 （1） 公有继承(public) 公有继承的特点是基类的公有成员和保护成员作为派生类的成员时，它们都保持原有的状态，而基类的私有成员仍然是私有的，不能被这个派生类的子类所访问。 （2） 私有继承(private) 私有继承的特点是基类的公有成员和保护成员都作为派生类的私有成员，并且不能被这个派生类的子...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-29</time>
+      <div>
+        <h2><a href="../../../2018/04/29/cpp_static_member/index.html">C++静态成员详解</a></h2>
+        <p>静态成员是解决同一个类的不同对象之间数据和函数共享问题的。 实例属性 ：一个类的所有对象具有相同的属性，属性值可以不同。 类属性 ：描述类的所有对象共同特征，对于任何对象其属性值相同。 静态数据成员 用关键字static声明 该类的所有对象维护该成员的同一个拷贝 必须在类外定义和初始化，用(::)来指明所属的类。 类名::标识符 静态成员...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-28</time>
+      <div>
+        <h2><a href="../../../2018/04/28/data_model_cmp/index.html">常用数据模型的对比分析</a></h2>
+        <p>第一章 数据模型概述 数据模型（Data Model）是数据特征的抽象。数据（Data）是描述事物的符号记录，模型（Model)是现实世界的抽象。数据模型从抽象层次上描述了系统的静态特征、动态行为和约束条件，为数据库系统的信息表示与操作提供了一个抽象的框架。数据模型所描述的内容有三部分：数据结构、数据操作和数据完整性约束。 第二章 数据模...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-27</time>
+      <div>
+        <h2><a href="../../../2018/04/27/tensorboard_tensorflow/index.html">TensorBoard显示TensorFlow流程图</a></h2>
+        <p>TensorFlow 涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。 为了更方便 TensorFlow 程序的理解、调试与优化，Google发布了一套叫做 TensorBoard 的可视化工具。你可以用 TensorBoard 来展现你的 TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。 如...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-26</time>
+      <div>
+        <h2><a href="../../../2018/04/26/tensorflow_mnist_simple/index.html">TensorFlow手写识别入门</a></h2>
+        <p>原文地址 ： MNIST For ML Beginners 翻译： linbojin python3源码：OmegaXYZ.com 当我们开始学习编程的时候，第一件事往往是学习打印&quot;Hello World&quot;。就好比编程入门有Hello World，机器学习入门有MNIST。 MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-25</time>
+      <div>
+        <h2><a href="../../../2018/04/25/de_python/index.html">差分进化算法Python实现</a></h2>
+        <p>DE 算法主要用于求解连续变量的全局优化问题，其主要工作步骤与其他进化算法基本一致，主要包括变异(Mutation)、交叉(Crossover)、选择(Selection)三种操作。算法的基本思想是从某一随机产生的初始群体开始，利用从种群中随机选取的两个个体的差向量作为第三个个体的随机变化源，将差向量加权后按照一定的规则与第三个个体求和而...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-24</time>
+      <div>
+        <h2><a href="../../../2018/04/24/differential_evolution_intro/index.html">差分进化算法 (Differential Evolution)概述</a></h2>
+        <p>DE算法简介 Differential Evolution（DE）是由Storn等人于1995年提出的，和其它演化算法一样，DE是一种模拟生物进化的随机模型，通过反复迭代，使得那些适应环境的个体被保存了下来。但相比于进化算法，DE保留了基于种群的全局搜索策略，采用实数编码、基于差分的简单变异操作和一对一的竞争生存策略，降低了遗传操作的复杂...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-23</time>
+      <div>
+        <h2><a href="../../../2018/04/23/fs_filter/index.html">特征选择Filter方法详解</a></h2>
+        <p>Filter（筛选法）通过分析特征子集内部的特点来衡量特征的分类能力，与后面的采用何种分类器无关，这类方法通常需要评价特征相关性的评分函数和阈值判别法来选择出得分最高的特征子集。通过文献调研，根据选择特征子集方式的不同，可以继续划分为基于特征排序（Feature Ranking）和基于特征空间搜索(Space Search)两类。 基于特...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-22</time>
+      <div>
+        <h2><a href="../../../2018/04/22/one-hot/index.html">One-Hot编码详解与Python实现</a></h2>
+        <p>one-hot的基本思想：将离散型特征的每一种取值都看成一种状态，若你的这一特征中有N个不相同的取值，那么我们就可以将该特征抽象成N种不同的状态，one-hot编码保证了每一个取值只会使得一种状态处于“激活态”，也就是说这N种状态中只有一个状态位值为1，其他状态位都是0。 举个例子，假设我们以浏览器为例，我们想要研究的类别为 浏览器：[&quot;...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-21</time>
+      <div>
+        <h2><a href="../../../2018/04/21/crossover_mutation/index.html">遗传算法的交叉变异详解</a></h2>
+        <p>交叉 二进制编码交叉 单点交叉 单点交叉又称为简单交叉，它是指在个体编码串中只随机设置一个交叉点，然后在该点相互交换两个配体个体的部分染色体。图1为单点交叉运算的示意图。 两点交叉 两点交叉是指在个体编码串中随机设置了两个交叉点，然后再进行部分基因交换。两点交叉的具体操作过程是:①在相互配对的两个个体编码串中随机设置两个交叉点；②交换两个...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-20</time>
+      <div>
+        <h2><a href="../../../2018/04/20/tensorflow_intro/index.html">TensorFlow基本语句与概念</a></h2>
+        <p>文章转载自极客学院： http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html TensorFlow简介 是 开发的一款神经网络的 外部的结构包，也是一个采用 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-19</time>
+      <div>
+        <h2><a href="../../../2018/04/19/2nn_tensorflow_py/index.html">TensorFlow神经网络函数拟合实例（基于Python）</a></h2>
+        <p>本文通过TensorFlow生成双层神经网络，对二次函数进行拟合。 双层神经网络如下图所示。 weights代表神经元的权重，activation_function是激活函数sgn或sigmoid或relu函数 构建神经网络的函数 主要步骤： ①生成测试数据集，利用numpy来生成坐标轴的点，并在点上添加噪音。 ②添加占位符 ③添加隐藏层...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-18</time>
+      <div>
+        <h2><a href="../../../2018/04/18/how_to_do_fs_experiment/index.html">机器学习如何做特征选择实验</a></h2>
+        <p>特征选择是一种数据预处理过程，优秀的特征能够提升分类器的性能。 在现实世界中，有很多类包含很多特征，比如生物的DNA，在利用不同算法选出较少的特征子集后，如何评价选出来的特征是至关重要的。 从多数特征选择论文中提取以下几点。 ①不同特征选择算法在不同数据集上的错误率 ②不同特征选择算法在不同数据集上选出解的数目 说明： 很显然，以上两点是...</p>
+      </div>
+    </article>
+    </div><nav class="terms"><a class="pill" href="../12/index.html">Previous</a><a class="pill" href="../14/index.html">Next</a></nav></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../assets/site.js"></script>
+</body>
+</html>

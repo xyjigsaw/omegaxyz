@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open and closed principles of object-oriented design · OmegaXYZ</title>
+  <meta name="description" content="Definition of the Open-Closed Principle Software entities like classes, modules and functions should be open for extension but closed for modifications. A software entity such as classes, modules and functions should be open for extension but closed for modifications. From a software engineering perspective, it will have good reusability and...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/14/面向对象设计原则之开闭原则/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-14</div>
+        <h1>Open and closed principles of object-oriented design</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Definition of the Open/Closed Principle</strong></h2>Software entities like classes, modules and functions should be open for extension but closed for modifications.
+
+A software entity such as a class, module, and function should be open for extension and closed for modification.
+
+From a software engineering perspective, it will have two major characteristics: good reusability and good maintainability. The opening and closing principle is the "opening and closing principle" in object-oriented design.<strong><span style="color: #ff0000">Reusable design</span></strong>" is one of the most important principles in object-oriented design.<strong>This principle proposed by Bertrand Meyer in 1988 did not even occur to him, but it would influence the development of software design for 30 years and establish the basic appearance of modern object-oriented programming.</strong>
+<h2><strong>What is the opening and closing principle?</strong></h2>The open-close principle clearly tells us: software implementation should be open to extensions and closed to modifications. This means that a software entity should achieve changes through extensions, rather than through modifications to existing code.<h2><strong>Why use the open-closed principle?</strong></h2>First: The open-close principle is very famous. As long as it is object-oriented programming, the open-close principle will be emphasized during development.
+
+Second: the opening and closing principle is the most basic design principle. The other five design principles are all specific forms of the opening and closing principle. That is to say, the other five design principles are tools and methods to guide design, and the opening and closing principle is its spiritual leader. According to the name of the Java language, the opening and closing principles are abstract classes, while the other five principles are concrete implementation classes.
+
+Third: The opening and closing principle can improve reusability
+In object-oriented design, all logic is combined from atomic logic, rather than independently implementing a set of business logic in a class. Only such code can be reused. The smaller the logic granularity, the greater the possibility of reuse. Why reuse it? Reuse can reduce code duplication, avoid the same logic being scattered in multiple corners, reduce the workload of maintainers and reduce the chance of bugs when the system changes. How can we improve the reuse rate? Designers need to reduce the logic granularity until a piece of logic cannot be divided.
+
+Fourth: The opening and closing principle can improve maintainability
+After a piece of software is mass-produced, the maintenance personnel's job is not only to maintain the data, but also to extend the program. The maintenance personnel are most happy to extend a class rather than modify a class. It is very painful for the maintenance personnel to understand the original code and then modify it. Don't let them wander in the original code ocean and then modify it. That is torture and destruction for the maintenance personnel.
+
+Fifth: Requirements for object-oriented development
+Everything is an object. We must abstract everything into objects and then operate on the objects. However, everything develops and changes. If there are changes, we must have strategies to deal with them. How to deal with them quickly? This requires taking into account as many changing factors as possible at the beginning of the design, and then leaving the interface waiting for "possibility" to become "reality".<h2><strong>How to use the open-closed principle</strong></h2>
+<h3><strong>①Abstract constraints</strong></h3>Abstraction is a general description of a set of things without specific implementation, which means that it can have many possibilities and can change as needs change. Therefore, through interfaces or abstract classes, a set of potentially changing behaviors can be constrained and open to extensions, which contains three levels of meaning:
+
+Constraint diffusion through interfaces or abstract classes limits the boundaries of extensions and does not allow public methods that do not exist in interfaces or abstract classes.
+
+For parameter types and reference objects, try to use interfaces or abstract classes instead of implementation classes. This is mainly a requirement to implement the Liskov substitution principle.
+
+Keep the abstraction layer as stable as possible and do not modify it once it is determined.<h3><strong>②Metadata control module behavior</strong></h3>Programming is a hard and tiring job, so how can you reduce stress? The answer is to use metadata as much as possible to control the behavior of the program and reduce repeated development. What is metadata? The data used to describe the environment and data are generally called configuration parameters. The parameters can be obtained from files or from the database.<h3><strong>③Develop project charter</strong></h3>In a team, it is very important to establish a project charter, because the charter is a convention that all developers must abide by. For the project, convention is better than configuration. This is more efficient than constraining through interfaces or abstract classes, without reducing extensibility at all.<h3><strong>④Package changes</strong></h3>There are two meanings to change encapsulation:
+(1) Encapsulate the same changes into an interface or abstract class
+(2) Encapsulate different changes into different interfaces or abstract classes. There should not be two different changes appearing in the same interface or abstract class.
+Encapsulating changes, that is, protected changes, identifies points where change or instability is expected, and we create stable interfaces for those change points.<h2><strong>Examples of open and closed principles</strong></h2><strong>Original class diagram:</strong>
+<img alt="" class="alignnone wp-image-4584 size-full" height="425" src="https://cdn.omegaxyz.com/2018/06/OCP2.jpg" width="551"/>After the project is launched, the books are sold normally, but we often have to sell books at discounts for various reasons. This is a change. How should we deal with such a change in demand?
+
+We have the following three methods to solve this problem:<strong>Modify interface</strong>In the IBook interface, a method getOffPrice() is added, which is specially used for discount processing. All implementation classes implement this method. But for such a modification method, the implementation class NovelBook needs to be modified. At the same time, the IBook interface should be stable and reliable and should not change frequently, otherwise the interface's role as a contract will be lost. Therefore, this solution is rejected.<strong>Modify implementation class</strong>Modify the method of the NovelBook class to implement discount processing directly in the getPrice() method. This method is problematic. For example, what if we only need to read the pre-discount price of the book in the getPrice() method? Isn't this a problem? Of course, we can also add the getOffPrice() method, which can also meet its needs, but there are two methods of reading prices, so this solution is not an optimal solution.<strong><span style="color: #ff0000">Change through expansion</span></strong>We can add a subclass OffNovelBook and override the getPrice method. This method requires few modifications, has no impact on the existing code, and has few risks. It is a good method.
+
+Below is the modified class diagram:<img alt="" class="alignnone size-full wp-image-4583" height="451" src="https://cdn.omegaxyz.com/2018/06/OCP1.jpg" width="514"/>
+<strong>References:</strong><a href="https://blog.csdn.net/hfreeman2008/article/details/52344022">https://blog.csdn.net/hfreeman2008/article/details/52344022</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>操作系统线程（进程）同步Java实例 · OmegaXYZ</title>
+  <meta name="description" content="阅读本文请先看Java线程类： https://omegaxyz.com/2018/04/09/java_threading/ Java提供Executor接口来执行线程池中的任务，提供ExecutorService接口来管理和控制任务。 ExecutorService executor = Executors.newCachedThre...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/10/os_java_sync/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-10</div>
+        <h1>操作系统线程（进程）同步Java实例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content">阅读本文请先看Java线程类：<a href="https://omegaxyz.com/2018/04/09/java_threading/">https://omegaxyz.com/2018/04/09/java_threading/</a>
+
+Java提供Executor接口来执行线程池中的任务，提供ExecutorService接口来管理和控制任务。
+<strong>ExecutorService executor = Executors.newCachedThreadPool();</strong>语句将为每个等待的任务创建一个新线程，所有的任务都能并发地执行。
+注意要用shutdown()对执行器进行关闭。
+
+假设创建并启动100个线程，每个线程都往一个账户中添加一个便士，以及一个用于创建和启动线程的主类。
+当所有线程访问同一个数据源时就会出现数据破坏的问题。因此要用关键字synchronized对deposit()线程进行保护（加锁，互斥信号量）
+
+<strong>实例代码：</strong>
+<pre ><code class="language-java">import java.util.concurrent.*;
+
+public class AccountWithoutSync {
+  private static Account account = new Account();
+
+  public static void main(String[] args) {
+    ExecutorService executor = Executors.newCachedThreadPool();
+
+    // Create and launch 100 threads
+    for (int i = 0; i &lt; 100; i++) {
+      executor.execute(new AddAPennyTask());
+    }
+
+    executor.shutdown();
+
+    // Wait until all tasks are finished
+    while (!executor.isTerminated()) {
+    }
+
+    System.out.println("What is balance? " + account.getBalance());
+  }
+
+  // A thread for adding a penny to the account
+  private static class AddAPennyTask implements Runnable {
+    public void run() {
+      account.deposit(1);
+    }
+  }
+
+  // An inner class for account
+  private static class Account {
+    private int balance = 0;
+
+    public int getBalance() {
+      return balance;
+    }
+
+    public synchronized void deposit(int amount) {
+      balance += amount;
+
+      // This delay is deliberately added to magnify the
+      // data-corruption problem and make it easy to see.
+      try {
+        Thread.sleep(5);
+      }
+      catch (InterruptedException ex) {
+      }
+
+      balance = newBalance;
+    }
+  }
+}</code></pre>
+或者对run()这样修改：
+<pre ><code class="language-java">public void run() {
+    Synchronized (account){
+          Account.deposit(1);
+    }
+}</code></pre></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

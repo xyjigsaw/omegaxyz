@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>差分分组的合作协同进化的大规模优化算法概述 · OmegaXYZ</title>
+  <meta name="description" content="合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/29/ccdifferential_grouping/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-29</div>
+        <h1>差分分组的合作协同进化的大规模优化算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最低限度。我们在数学上展示这样一个分解策略如何从部分可分性的定义中产生。实证研究表明，这样的近最优的分解可以大大提高大规模的全局优化问题的解决方案的质量。最后，我们展示了这样一个自动分解是如何产生对多样的子成分的分布的更好的近似，导致一个对多样的子成分的计算预算的更高效的分配。
+
+<strong>索引词：合作协同进化，大规模优化，问题分解，不可分性，数值优化</strong>
+
+&nbsp;
+
+在科学和工程中，优化问题通常很复杂，而且解决方案用直接的方法不能很容易找到。因此，寻找各种方法简化复杂的问题是必要的。决策变量的数量是复杂优化问题的一个主要因素。有很多方法解决有大量决策变量的大规模问题。其中一个方法是将最初的大规模问题分解成一组更小、更简单的子问题，而这些更容易处理，更容易解决。一旦完成这样的分解，整个问题可以由单独优化单个子问题而解决。这种所谓的“分而治之”的策略可以追溯到Ren´e Descartes的一本著名的书A Discourse on Method 。分解的有效性在许多经典优化方法有所确定。 本文的重点是使用自动分解来研究实值函数的大规模全局优化。进化算法(EAs)[6]是有效的优化方法，已被广泛用于解决各种优化问题。然而，随着问题维数的增加，他们的表现迅速恶化[8]。这被称为“维数灾难”。合作协同进化(CC)被Potter和De Jong[10]提出，是作为一个在进化算法中的显式的问题分解的方法。应用CC的一个主要困难是好的分解策略的选择。此外，优化的性能可能是对选择的分解策略敏感。Salomon发现变量之间的相互依赖可以极大地影响在连续域的优化算法的性能。在经典遗传算法的研究中，这些变化的相互依赖关系被称为链接或异位显性，这在二元GAs的上下文中进行了广泛的研究。 CC的分解策略是与在早期的遗传算法中基因排序问题非常相似的。染色体上基因的排序对进化算法（EAs）的性能有重大影响。Goldberg等人进行的一项实验中，表明良好的基因排序决定一个简单的遗传算法的成功与失败。基因排序和进化算法（EAs）的性能之间的依赖关系与基因交互问题直接相关。 尽管分解对进化算法（EAs）的性能起着至关重要的作用，但是对一个给定问题的结构的知识往往是不足以来实际设计合适的分解策略。因此需要设计新的程序以能够利用问题的隐藏结构来自动找到合适的分解。 除了近最优的分解能对CC的性能产生影响，最近已被证明可以量化的子成分对全局适应值的贡献。一旦这个贡献信息被计算出，计算预算可以根据它们的贡献在子成分中分配，这是与传统的CC在所有子成分平均分配计算预算不同的。已经表明，基于贡献的方案优于传统CC。 在本文中，我们提出一个称为差分分组的分解方法，它允许自动、近最优地分解决策变量。更具体地说，我们有以下研究目标：
+1) 提供一个确定相互作用变量的理论基础，并提出一种算法，高精度地组合相互作用变量。
+2) 设计一个自动分解机制，能同样适用于传统的和进化的优化算法。
+3) 展示一个在解决有高达1000个决策变量的大规模全局优化问题时，一个近最优的分解是多有效的。
+4) 展示一个结合基于贡献的合作协同进化的自动近最优分解策略是如何进一步提高优化过程的性能，特别是在解决大 规模问题上。
+
+差分分组算法：
+
+显示定理1如何识别交互变量并将其分到相同的子成分。
+
+先检查第一个决策变量之间与所有其他决策变量两两之间的相互作用开始。如果该算法检测到第一个变量和其他变量之间的交互，它从所有的决策变量中将其排除。重复这个过程，直到所有与第一变量交互的变量被检测出来，形成第一个子成分，如果没有检测到交互，那么该变量是一个可分离变量。其余变量重复这个过程。
+
+&nbsp;
+
+使用CC的差分分组算法
+
+第一阶段：分组阶段
+
+生成子成分。
+
+第二阶段：优化阶段
+
+子成分优化
+
+原文为Cooperative Co-Evolution With Differential Grouping for Large Scale Optimization IEEE</div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-3701">
+          <strong>Sky</strong>
+          <time>2018-06-06 14:42:03</time>
+          <div>请问有《Large scale evolutionary optimization using cooperative coevolution》这篇文章中DECC-G的matlab代码么</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3705">
+          <strong>xyjisaw</strong>
+          <time>2018-06-06 23:37:34</time>
+          <div>哎呀买这个你Google搜索文章名+MATLAB关键字就能找到了</div>
+        </div>
+        
+        <div class="comment" id="comment-18863">
+          <strong>龙广林</strong>
+          <time>2020-04-30 16:34:40</time>
+          <div>大佬，有CCGDE3的代码吗？想做对比试验。急求</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18864">
+          <strong>xyjisaw</strong>
+          <time>2020-04-30 17:09:23</time>
+          <div>抱歉，没有</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

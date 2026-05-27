@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++求set的交集和并集 · OmegaXYZ</title>
+  <meta name="description" content="Python中求集合的交集并集是十分方便了，但在C++中还是有困难的。 set里面有set_intersection（取集合交集）、set_union（取集合并集）、set_difference（取集合差集）、set_symmetric_difference（取集合对称差集）等函数。共有5个参数，前4个参数一样分别是集合a.begin()...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/26/cpp_union_intersection/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-26</div>
+        <h1>C++求set的交集和并集</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content">Python中求集合的交集并集是十分方便了，但在C++中还是有困难的。
+
+set里面有set_intersection（取集合交集）、set_union（取集合并集）、set_difference（取集合差集）、set_symmetric_difference（取集合对称差集）等函数。共有5个参数，前4个参数一样分别是集合a.begin(),end和b.begin,end。
+
+第5个参数是保存的位置或者直接输出。
+<ul>
+ 	<li>保存到set或vector: 将集合A、B取合集后的结果存入集合C中</li>
+</ul>
+<pre ><code class="language-c++">set_union(A.begin(),A.end(),B.begin(),B.end(),inserter(C1 , C1.begin()));</code></pre>
+<ul>
+ 	<li>输出: 将A、B取合集后的结果直接输出，（cout," "）双引号里面是输出你想用来间隔集合元素的符号或是空格。</li>
+</ul>
+<pre ><code class="language-c++">set_union(A.begin(),A.end(),B.begin(),B.end(),ostream_iterator&lt;int&gt;(cout," “));</code></pre>
+<strong>注意有些编译器需要导入</strong>
+<div>
+<div>#include&lt;bits/stdc++.h&gt;</div>
+<div>才能运行，不单单只是&lt;set&gt;</div>
+</div>
+<div>
+
+<hr />
+
+</div>
+<h2><strong>例题 PAT 甲 </strong>1063 Set Similarity （25 分）</h2>
+<div class="problemListItem_2867x">
+<div class="problem_2tXnk">
+<div class="ques-view">
+
+Given two sets of integers, the similarity of the sets is defined to be <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">N</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">c</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span><span class="mord mathrm">/</span><span class="mord"><span class="mord mathit">N</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">t</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span><span class="mbin">×</span><span class="mord mathrm">1</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">%</span></span></span></span>, where <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">N</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">c</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> is the number of distinct common numbers shared by the two sets, and <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">N</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">t</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> is the total number of distinct numbers in the two sets. Your job is to calculate the similarity of any given pair of sets.
+<h3 id="input-specification-">Input Specification:</h3>
+Each input file contains one test case. Each case first gives a positive integer <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">5</span><span class="mord mathrm">0</span></span></span></span>) which is the total number of sets. Then <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> lines follow, each gives a set with a positive <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord mathrm mtight">4</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>) and followed by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> integers in the range [<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathrm">0</span><span class="mpunct">,</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord mathrm mtight">9</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>]. After the input of sets, a positive integer <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">K</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">2</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>) is given, followed by <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">K</span></span></span></span> lines of queries. Each query gives a pair of set numbers (the sets are numbered from 1 to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span>). All the numbers in a line are separated by a space.
+<h3 id="output-specification-">Output Specification:</h3>
+For each query, print in one line the similarity of the sets, in the percentage form accurate up to 1 decimal place.
+<h3 id="sample-input-">Sample Input:</h3>
+<pre><code class="lang-in">3
+3 99 87 101
+4 87 101 5 87
+7 99 101 18 5 135 18 99
+2
+1 2
+1 3
+</code></code></pre>
+<h3 id="sample-output-">Sample Output:</h3>
+<pre><code class="lang-out">50.0%
+33.3%
+</code></code></pre>
+</div>
+</div>
+<div class="problemInfo_jpKfZ">
+<div>作者: CHEN, Yue</div>
+<div>单位: 浙江大学</div>
+<div>时间限制: 500 ms</div>
+<div>内存限制: 64 MB</div>
+<div>代码长度限制: 16 KB</div>
+</div>
+</div>
+<div></div>
+<h3><strong>代码：</strong></h3>
+<pre ><code class="language-c++">#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+set&lt;int&gt; s1;
+set&lt;int&gt; s2;
+
+int main(){
+    int num, t, x;
+    cin&gt;&gt;num;
+    vector&lt;set&lt;int&gt; &gt; pool(num+1);
+    for(int i = 0; i &lt; num; i++){
+        cin&gt;&gt;t;
+        while(t--){
+            cin&gt;&gt;x;
+            pool[i].insert(x);
+        }
+    }
+    int check;
+    cin&gt;&gt;check;
+    while(check--){
+        int a, b;
+        cin&gt;&gt;a&gt;&gt;b;
+        vector&lt;int&gt; ANS1;
+        vector&lt;int&gt; ANS2;
+        set_union(pool[a-1].begin(),pool[a-1].end(),pool[b-1].begin(),pool[b-1].end(), inserter(ANS1,ANS1.begin()));
+        set_intersection(pool[a-1].begin(),pool[a-1].end(),pool[b-1].begin(),pool[b-1].end(), inserter(ANS2,ANS2.begin()));
+        printf("%.1f%%\n", ANS2.size()*1.0/ANS1.size()*100);
+    }
+    return 0;
+}</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

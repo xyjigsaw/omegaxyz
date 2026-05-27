@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basic Linux commands · OmegaXYZ</title>
+  <meta name="description" content="Since I joined the robotics club and got involved in Linux knowledge, I started writing my first article about Linux today. Introduction to Linux (Baidu Encyclopedia): https://baike.baidu.com/item/linux/27050?fr=aladdin Basic operating commands: 1. Instructions to display the date: date 2. Instructions to display the calendar: cal 3. Simple and easy-to-use calculator: bc 4. Several important hot...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/07/linux_instruct/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-07</div>
+        <h1>Basic Linux commands</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
+        <div class="article-content">Since I joined the robotics club and got involved in Linux knowledge, I started writing my first article about Linux today.
+
+Introduction to Linux (Baidu Encyclopedia):<a href="https://baike.baidu.com/item/linux/27050?fr=aladdin">https://baike.baidu.com/item/linux/27050?fr=aladdin</a>
+<strong>Basic operation commands:</strong>1. Instruction to display date: date
+2. Instruction to display calendar: cal
+3. Simple and easy-to-use calculator: bc
+4. Several important hot keys [Tab], [ctrl]-c, [ctrl]-d
+[Tab] button---has the functions of "command completion" and "file completion"
+[Ctrl]-c key---"stop" the current program
+[Ctrl]-d key---usually represents: "End Of File, EOF or End OfInput"; in addition, it can also be used to replace exit
+5.man
+To exit, use q.
+man -f man
+6. Data is written to disk synchronously: sync
+Enter sync, and the data that has not been updated in the memory will be written to the hard disk; therefore, this command is important before the system is shut down or restarted! Better to do it a few times!
+7. Commonly used shutdown command: shutdown
+In addition, it should be noted that the time parameter must be added to the command, otherwise the shutdown will automatically jump to run-level 1 (which is the login situation for single-person maintenance), which will be nerve-wracking! Here are some examples of time parameters:
+Reboot, shutdown: reboot, halt, poweroff
+8. Switch execution level: init
+There are seven execution levels in Linux:
+--run level 0: shutdown
+--run level 3: plain text mode
+--run level 5: Contains graphical interface mode
+--run level 6: Restart
+Use the init command to switch between modes:
+9. Change the group to which the file belongs: chgrp
+10. Change file owner: chown
+He can also directly modify the name of the group
+11. Change file permissions: chmod
+There are two ways to set permissions. You can use numbers or symbols to change permissions.
+--Number type changes file permissions:
+--Symbol type changes file permissions:
+12. View version information, etc.
+13. Change directory: cd
+14. Display the current directory: pwd
+15. Create a new directory: mkdir
+16. Delete the "empty" directory: rmdir
+17. Display of files and directories: ls
+18. Copy files or directories: cp
+19. Remove files or directories: rm
+20. Move files and directories, or rename them: mv
+21. Get the file name and directory name of the path: basename, dirname
+22. Display the file content starting from the first line: cat
+23. Display from the last line: tac (it can be seen that tac is cat written backwards)
+24. When displaying, output the line number: nl
+25. Display file content page by page: more
+26. Similar to more, but better than more, it can turn pages forward: less
+27. Only look at the first few lines: head
+28. Only look at the last few lines: tail
+29. Read the file content in binary format: od
+30. Modify the file time or create a new file: touch
+31. File default permission: umask
+32. Hidden attributes of configuration files: chattr
+33. Display hidden attributes of files: lsattr
+34. Observe file type: file
+35. Look for [execution block]: which
+36. Find specific files: whereis
+37. Find specific files: locate
+38. Find a specific file: find
+39. Compress files and read compressed files: gzip, zcat
+40. Compress files and read compressed files: bzip2, bzcat
+41. Compress files and read compressed files: tar
+
+---------------------------------------------The following content is reproduced-------------------------------------------------------------<a href="https://www.cnblogs.com/probemark/p/5831663.html">https://www.cnblogs.com/probemark/p/5831663.html</a>
+<strong>1.</strong><strong>uptime</strong><strong>Order</strong>In Linux, the uptime command shows how long your system has been running and how many users are currently logged in. It also shows load averages at intervals of 1 minute, 5 minutes, and 15 minutes.<pre># uptime
+ 08:16:26 up 22 min,  1 user, <strong> </strong>load average: 0.00, 0.03, 0.22</pre>
+<strong>Check uptime version</strong>The uptime command has no options other than uptime (uptime) and version (version). If the time is less than 1 day, it only gives information in the form of hours:mins.<pre>[tecmint@linuxprobe ~]$ uptime -V
+ procps version 3.2.8</pre>
+<strong>2.</strong><strong>w</strong><strong>Order</strong>This command will display the currently logged in users and their processes, as well as the load average. Additionally, it shows login name, tty name, remote host, login time, idle time, JCPU, PCPU, commands and processes.<pre># w
+08:27:44 up 34 min,  1 user,  load average: 0.00, 0.00, 0.08
+USER    TTY    FROM     LOGIN@   IDLE   JCPU   PCPU WHAT
+tecmint  pts/0    192.168.50.1     07:59    0.00s  0.29s  0.09s w
+
+ <strong>Available options</strong>
+ -h：不显示标题。
+
+ -s：不显示JCPU和PCPU。
+
+ -f：不显示字段信息。
+
+ -V：（大写V）－显示版本。</pre>
+<strong>3.users</strong><strong>Order</strong>The users command displays the currently logged in users. This command has no other parameters except help and version.<pre># users
+ Tecmint</pre>
+<strong>4.who</strong><strong>Order</strong>The who command only returns the user name, date, time and host information; the who command is similar to the w command, but unlike the w command, who does not output information about the operations performed by the user. You may wish to take a closer look at the difference between the two commands who and w.<pre># who
+ tecmint  pts/0        2010-09-18 07:59 (192.168.50.1)
+</pre>
+<pre># w
+ 08:43:58 up 50 min,  1 user,  load average: 0.64, 0.18, 0.06
+ USER    TTY    FROM    LOGIN@   IDLE   JCPU   PCPU WHAT
+ tecmint  pts/0    192.168.50.1     07:59    0.00s  0.43s  0.10s w
+
+ <strong>who command options</strong>
+
+ -b：显示上一次系统重启日期和时间。
+
+ -r：显示当前的运行级别。
+
+ -a，–all：显示累积的所有信息。</pre>
+<strong>5.whoami</strong><strong>Order</strong>The whoami command outputs the name of the current user; you can also use the "who am i" command to display the current user. If you use the sudo command to log in as the root user, the "whoami" command returns that the root user is the current user. If you want to know which user is logged in, use the "who am i" command.<pre># whoami
+ tecmint</pre>
+<strong>6.ls</strong><strong>Order</strong>The ls command displays a list of files in human-readable format.<pre># ls -l
+ total 114
+ dr-xr-xr-x.   2 root root  4096 Sep 18 08:46 bin
+ dr-xr-xr-x.   5 root root  1024 Sep  8 15:49 boot
+</pre>Sort files by last modified time.<pre># ls -ltr
+ total 40
+ -rw-r--r--. 1 root root  6546 Sep 17 18:42 install.log.syslog
+ -rw-r--r--. 1 root root 22435 Sep 17 18:45 install.log
+ -rw-------. 1 root root  1003 Sep 17 18:45 anaconda-ks.cfg
+</pre>
+<strong>7.crontab</strong><strong>Order</strong>You can use the crontab command and the -l option to list the current user's scheduled tasks.<pre># crontab -l
+ 00 10 * * * /bin/ls &gt;/ls.txt
+</pre>You can use the -e option to edit crontab. In the following example, you will use the VI editing tool to open the scheduled task, make the necessary changes, and press the :wq key to exit. This will automatically save the settings.<pre># crontab -e
+</pre>
+<strong>8.less</strong><strong>Order</strong>The less command allows quick viewing of files; you can page up and down, and press "q" to exit the less window.<pre># less install.log
+ Installing setup-2.8.14-10.el6.noarch
+ warning: setup-2.8.14-10.el6.noarch: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY
+ Installing filesystem-2.4.30-2.1.el6.i686
+ Installing ca-certificates-2010.63-3.el6.noarch
+ Installing xml-common-0.6.3-32.el6.noarch
+ nstalling tzdata-2010l-1.el6.noarch
+ Installing iso-codes-3.16-2.el6.noarch
+</pre>
+<strong>9.more</strong><strong>Order</strong>The more command allows you to quickly view files and display detailed information in percentages. You can page up and down, and press "q" to exit the more window.<pre># more install.log
+ Installing setup-2.8.14-10.el6.noarch
+ warning: setup-2.8.14-10.el6.noarch: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY
+ Installing filesystem-2.4.30-2.1.el6.i686
+ Installing ca-certificates-2010.63-3.el6.noarch
+ Installing xml-common-0.6.3-32.el6.noarch
+ Installing tzdata-2010l-1.el6.noarch
+ Installing iso-codes-3.16-2.el6.noarch
+ --More--(10%)
+</pre>
+<strong>10.cp</strong><strong>Order</strong>Copies files from source to destination, keeping the same mode.<pre># cp -p fileA fileB
+</pre>You will be prompted before overwriting the file.<pre># cp -i fileA fileB
+</pre>
+<strong>11.mv</strong><strong>Order</strong>Rename fileA to fileB; the -i option will prompt before overwriting; if the file already exists, confirmation will be asked.<pre># mv -i fileA fileB
+</pre>
+<strong>12.cat</strong><strong>Order</strong>The cat command is used to view multiple files at the same time.<pre># cat fileA fileB
+</pre>If a file cannot be displayed on one screen/page, you can use the cat command to combine the more and less commands to view the file content.<pre># cat install.log | less
+      or
+# cat install.log | more
+</pre>
+<strong>13.cd</strong><strong>Command (switch directory)</strong>With the help of the cd command (switch directory), it will go to the fileA directory.<pre># cd /fileA
+</pre>
+<strong>14.pwd</strong><strong>Command (output working directory)</strong>The pwd command returns the current working directory.<pre class=""># pwd
+/root
+</pre>
+<strong>15.sort</strong><strong>Order</strong>Sorts a text file line by line in ascending order. If the -r option is used, it will be sorted in descending order.<pre><code class="language-default">#sort&amp;nbsp;fileA.txt
+#sort&amp;nbsp;-r&amp;nbsp;fileA.txt
+</code></pre>
+<strong>16.vi</strong><strong>Order</strong>For most UNIX-like operating systems, vi is the most popular text editor. The following example uses the -R option to open a file in read-only mode and press ":q" to exit the vi window.<pre># vi -R /etc/shadows
+</pre>
+<strong>17.ssh</strong><strong>Command (Secure Shell)</strong>The ssh command is used to log in to a remote host; for example, the following ssh example will use the user as narad to connect to the host (192.168.50.2).<pre># ssh narad@192.168.50.2
+</pre>To check the ssh version, use the option -V (uppercase) to display the ssh version.<pre># ssh -V
+OpenSSH_5.3p1, OpenSSL 1.0.0-fips 29 Mar 2010
+</pre>
+<strong>18.ftp</strong><strong>or sftp</strong><strong>Order</strong>The ftp or sftp command is used to connect to a remote ftp host; ftp refers to the file transfer protocol, and sftp is the secure file transfer protocol. For example, the following command will connect to the ftp host (192.168.50.2).<pre># ftp 192.168.50.2
+# sftp 192.168.50.2
+</pre>Just as you can use mput to upload multiple files to a remote host, we can also use mget to download multiple files from a remote host.<pre># ftp &gt; mput *.txt
+# ftp &gt; mget *.txt
+</pre>
+<strong>19.service</strong><strong>Order</strong>The service command calls the script located in the /etc/init.d/ directory and executes the script. There are two ways to start any service; for example, we use the service command to start a service named httpd.<pre># service httpd start
+# /etc/init.d/httpd start
+</pre>
+<strong>20.free</strong><strong>Order</strong>The free command displays information about idle memory, total memory, and swap memory. The unit is bytes.<pre># free
+ total           used      <strong>    </strong>  free         shared     buffers    cached
+ Mem:       1030800     735944     294856          0      51648     547696
+ -/+ buffers/cache:     136600     894200
+ Swap:      2064376          0    2064376
+</pre>The free command using the -t option displays the total memory used and the memory that can be used, in bytes.<pre># free  -t
+ total       used       free     shared    buffers     cached
+ Mem:       1030800     736096     294704          0      51720     547704
+ -/+ buffers/cache:     136672     894128
+ Swap:      2064376          0    2064376
+ Total:     3095176     736096    2359080
+</pre>
+<strong>21.top</strong><strong>Order</strong>The top command shows the processor activity of the system and also shows the tasks managed by the kernel in real time. It shows the processor and memory used. If you use the top command with the "u" option, this will display specific user process details, as shown below: Press "O" (capital) to sort the way you want, press "q" to exit the top screen.<pre># top -u tecmint
+ <span class="keyword">top - 11:13:11 up  3:19,  2 users,  load average: 0.00, 0.00, 0.00
+ Tasks: 116 total,   1 running, 115 sleeping,   0 stopped,   0 zombie
+ Cpu(s):  0.0%us,  0.3%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+ Mem:   1030800k total,   736188k used,   294612k free,    51760k buffers
+ Swap:  2064376k total,        0k used,  2064376k free,   547704k cached
+
+ PID <span class="func">USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+ 1889 tecmint   20   0 11468 1648  920 S  0.0  0.2   0:00.59 sshd
+ 1890 tecmint   20   0  5124 1668 1416 S  0.0  0.2   0:00.44 bash
+ 6698 tecmint   20   0 11600 1668  924 S  0.0  0.2   0:01.19 sshd
+ 6699 tecmint   20   0  5124 1596 1352 S  0.0  0.2   0:00.11 bash</span></span></pre>
+<strong>22.tar</strong><strong>Order</strong>The tar command is used to compress files and folders under Linux; for example, the following command will create a compressed archive in the /home directory with the file name archive-name.tar.<pre># tar -cvf archive-name.tar /home
+</pre>To decompress a tar archive, use the options shown below.<pre># tar -xvf archive-name.tar
+</pre>
+<strong>23.grep</strong><strong>Order</strong>grep searches files for specific strings; only displays the tecmint user in the /etc/passwd file. We can use the -i option to ignore case.<pre># grep tecmint /etc/passwd
+ tecmint:x:500:500::/home/tecmint:/bin/bash
+</pre>
+<strong>24.find</strong><strong>Order</strong>The find command is used to search for files, strings, and directories; in the following example, the find command searches for the tecmint word in the "/" partition and returns the output.<pre># find / -name tecmint
+ /var/spool/mail/tecmint
+ /home/tecmint
+ /root/home/tecmint
+</pre>
+<strong>25.lsof</strong><strong>Order</strong>lsof means "list all open files"; below, the lsof command lists all files opened by the tecmint user.<pre># lsof -u tecmint 
+ COMMAND  PID    USER   FD   TYPE     DEVICE SIZE/OFF   NODE NAME  
+ sshd    1889 tecmint  cwd    DIR      253,0     4096      2 /  
+ sshd    1889 tecmint  txt    REG      253,0   532336 298069 /usr/sbin/sshd  
+ sshd    1889 tecmint  DEL    REG      253,0          412940 /lib/libcom_err.so.2.1  
+ sshd    1889 tecmint  DEL    REG      253,0          393156 /lib/ld-2.12.so  
+ sshd    1889 tecmint  DEL    REG      253,0          298643 /usr/lib/libcrypto.so.1.0.0  
+ sshd    1889 tecmint  DEL    REG      253,0          393173 /lib/libnsl-2.12.so  
+ sshd    1889 tecmint  DEL    REG      253,0          412937 /lib/libkrb5support.so.0.1  
+ sshd    1889 tecmint  DEL    REG      253,0          412961 /lib/libplc4.so</pre>
+<strong>26.last</strong><strong>Order</strong>With the last command, we can observe user activities in the system; this command can also be executed as a normal user. It will display complete user information, such as terminal, time, date, system restart or startup, and kernel version. This is a practical command for troubleshooting.<pre># last 
+ tecmint  pts/1        192.168.50.1     Tue Sep 18 08:50   still logged in  
+ tecmint  pts/0        192.168.50.1     Tue Sep 18 07:59   still logged in  
+ reboot   system boot  2.6.32-279.el6.i Tue Sep 18 07:54 - 11:38  (03:43)  
+ root     pts/1        192.168.50.1     Sun Sep 16 10:40 - down   (03:53)  
+ root     pts/0        :0.0             Sun Sep 16 10:36 - 13:09  (02:32)  
+ root     tty1         :0               Sun Sep 16 10:07 - down   (04:26)  
+ reboot   system boot  2.6.32-279.el6.i Sun Sep 16 09:57 - 14:33  (04:35)  
+ narad    pts/2        192.168.50.1     Thu Sep 13 08:07 - down   (01:15) 
+</pre>You can use last with username to find out the activity of a specific user as shown below.<pre># last tecmint 
+ tecmint  pts/1        192.168.50.1     Tue Sep 18 08:50   still logged in  
+ tecmint  pts/0        192.168.50.1     Tue Sep 18 07:59   still logged in  
+ tecmint  pts/1        192.168.50.1     Thu Sep 13 08:07 - down   (01:15)  
+ tecmint  pts/4        192.168.50.1     Wed Sep 12 10:12 - 12:29  (02:17) 
+</pre>
+<strong>27.ps</strong><strong>Order</strong>The ps command displays information about processes running on the system; the following example only displays the init process.<pre># ps -ef | grep init
+ root         1     0  0 07:53 ?        00:00:04 /sbin/init
+ root      7508  6825  0 11:48 pts/1    00:00:00 grep init
+</pre>
+<strong>28.kill</strong><strong>Order</strong>Use the kill command to terminate the process; first use the ps command to find the process ID, as shown below, and then use the kill -9 command to terminate the process.<pre># ps -ef | grep init
+ root         1     0  0 07:53 ?        00:00:04 /sbin/init
+ root      7508  6825  0 11:48 pts/1    00:00:00 grep init
+# kill- 9 7508
+</pre>
+<strong>29.rm</strong><strong>Order</strong>The rm command is used to clear or delete files without prompting for confirmation.<pre># rm filename
+</pre>Use the -i option to confirm before deletion; use the "-r" and "-f" options to forcefully delete the file without confirming it.<pre># rm -i test.txt
+rm: remove regular file `test.txt'?
+</pre>
+<strong>30.mkdir</strong><strong>Order</strong>The mkdir command is used to create directories under Linux.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件工程内聚详解 · OmegaXYZ</title>
+  <meta name="description" content="简介 内聚标志一个模块内各个元素彼此结合的紧密程度，它是信息隐蔽和局部化概念的自然扩展。内聚是从功能角度来度量模块内的联系，一个好的内聚模块应当恰好做一件事。它描述的是模块内的功能联系。 内聚和耦合是密切相关的，同其他模块存在高耦合的模块意味着低内聚，而高内聚的模块意味着该模块同其他模块之间是低耦合。 在进行软件设计时，应力争做到高内聚，...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/10/se-cohesion/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-10</div>
+        <h1>软件工程内聚详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h3><strong>简介</strong></h3>
+内聚标志一个模块内各个元素彼此结合的紧密程度，它是信息隐蔽和局部化概念的自然扩展。内聚是从功能角度来度量模块内的联系，一个好的内聚模块应当恰好做一件事。它描述的是模块内的功能联系。
+
+内聚和耦合是密切相关的，同其他模块存在高耦合的模块意味着低内聚，而高内聚的模块意味着该模块同其他模块之间是低耦合。
+
+在进行软件设计时，应力争做到高内聚，低耦合。
+
+<img class="alignnone size-full wp-image-4521" src="https://cdn.omegaxyz.com/2018/06/cohesion.png" alt="" width="1003" height="680" />
+<h3><strong>偶然性内聚</strong></h3>
+定义：一个模块执行多个完全不相关的操作，则具有偶然性内聚。
+
+缺点①可维护性差②模块不可重用
+
+矫正：将模块分成更小的模块，每个模块执行一个操作。
+
+举例：一个函数内调用读取文件与打印当前时间。
+<h3><strong>逻辑性内聚</strong></h3>
+定义：这种模块把几种相关的功能组合在一起， 每次被调用时，由传送给模块参数来确定该模块应完成哪一种功能 。
+
+举例：void fun(int a)  当a==1输出“OK”当a==其它值时输出“ERROR”。（其它情况多参数可能屏蔽其它实参）
+<h3><strong>时间性内聚</strong></h3>
+定义：把需要同时执行的动作组合在一起形成的模块称为时间内聚模块。
+
+缺点：难以重用
+<h3><strong>过程性内聚</strong></h3>
+定义：构件或者操作的组合方式是，允许在调用前面的构件或操作之后，马上调用后面的构件或操作，即使两者之间没有数据进行传递。简单的说就是如果一个模块内的处理元素是相关的，而且必须以特定次序执行则称为过程内聚。
+
+缺点：难以重用
+
+解决方案：将模块分割成多个单独的操作。
+<h3><strong>通信性内聚</strong></h3>
+定义：执行一系列与产品要遵循的步骤顺序有关的操作，并且，如果所有操作都对相同的数据进行，则该模块具有通信性内聚。
+
+举例：计算速度并且将其发送到打印机并输出结果。
+
+缺点：难以重用
+
+解决方案：将模块分割成多个单独的操作。
+<h3><strong>功能性内聚</strong></h3>
+模块内所有元素的各个组成部分全部都为完成同一个功能而存在，共同完成一个单一的功能，模块已不可再分。即模块仅包括为完成某个功能所必须的所有成分，这些成分紧密联系、缺一不可。
+
+优点：它的功能明确。判断一个模块是否功能内聚，一般从模块名称就能看出。如果模块名称只有一个动词和一个特定的目标（单数名词），一般来说就是功能内聚，如：“计算水费”、“计算产值”等模块。功能内聚一般出现在软件结构图的较低层次上。
+<h3><strong>信息性内聚</strong></h3>
+定义：如果模块进行许多操作，每个都有各自的入口点，每个操作的代码相对独立，而且所有的操作都对相同的数据结构完成。
+
+注意：①逻辑性内聚的各个操作是互相纠缠的，而信息性内聚模块各操作代码是完全独立的。②信息性内聚的模块主要用来实现一种抽象的数据类型。
+<h3><strong>总结</strong></h3>
+1、功能内聚：实现一个功能。
+2、信息内聚：完成多个功能，各个功能在同一数据结构上操作。
+3、通信内聚：模块内各功能部分使用了相同的输入数据或产生相同的输出数据。
+4、过程内聚：把流程图中某一部分划出组成模块，即过程内聚，如循环部分、判定部分、计算部分分成三个模块。
+5、时间内聚：又称为经典内聚，大多为多功能模块，模块的各个功能的执行与时间有关，如初始化模块和终止模块。
+6、逻辑内聚：把几种相关的功能组合在一起，由传送给模块的判定参数来确定执行哪一种功能。
+7、偶然内聚：模块内各部分之间没有联系，或即使有联系，也很松散，是内聚程序最低的模块</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

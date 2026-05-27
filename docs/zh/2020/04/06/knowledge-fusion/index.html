@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>知识融合（实体对齐）笔记 · OmegaXYZ</title>
+  <meta name="description" content="知识融合包括以下几个部分 本体匹配（ontology matching） 侧重发现模式层等价或相似的类、属性或关系，也成为本体映射（mapping）、本体对齐（alignment） 实体对齐（entity alignment） 侧重发现指称真实世界相同对象的不同实例，也称为实体消解（resolution）、实例匹配（instance ma...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/04/06/knowledge-fusion/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-04-06</div>
+        <h1>知识融合（实体对齐）笔记</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>知识融合包括以下几个部分</strong></h2>
+<strong>本体匹配（ontology matching）</strong>
+
+侧重发现模式层等价或相似的类、属性或关系，也成为本体映射（mapping）、本体对齐（alignment）
+
+<strong>实体对齐（entity alignment）</strong>
+
+侧重发现指称真实世界相同对象的不同实例，也称为实体消解（resolution）、实例匹配（instance matching）
+
+<strong>知识融合（knowledge fusion）</strong>
+
+一般通过冲突检测、真值发现等技术消解知识图谱融合过程中的冲突，再对知识进行关联与合并，最终形成一个一致的结果
+
+<hr />
+
+<h2><strong>实体对齐</strong></h2>
+目前在知识融合方面，基于嵌入表示的实体对齐是研究的热点。更多基于嵌入的实体对齐方法可以参考<a href="https://www.aminer.cn/research_report/5cecc3f41976c5c87c8bee63">Aminer</a>的文章。
+
+例如：
+
+<b>1. MuGNN</b><b>[1]</b>
+
+分为两步，①补全缺失的关系来调和结构差异 ②通过pooling技术组合不同通道的输出。
+
+<b>2. RDGCN</b><b>[2]</b>
+
+通过KG与其对偶关系对应之间的注意力交互来处理关系信息。
+
+<b>3. AliNet</b><b>[3]</b>
+
+由于相同实体的邻域结构经常是非同构的，综合考虑了邻域和泛邻域的信息。
+
+<strong>4. OAG:LinKG[5]</strong>
+
+将两个有着上亿级别节点的网络——AMiner和微软学术进行了对齐，这项研究综合利用了LSTM、GNN、哈希等技术，能够高效处理多种类型的节点以及不同类型的信息，并且将对齐效果达到了可以应用的级别（总体F1值96.81）。
+
+<hr />
+
+<h2><strong>知识融合的挑战</strong></h2>
+1.基于嵌入的深度学习算法结合知识推理（描述逻辑、约束规则）
+
+2.多模态知识图谱融合
+
+3.大规模知识图谱的融合与更新
+
+<hr />
+
+<h2><strong>可用工具</strong></h2>
+<ul>
+ 	<li>实体对齐的前沿算法的开源实现：<a href="https://github.com/nju-websoft/OpenEA/">https://github.com/nju-websoft/OpenEA/</a></li>
+ 	<li>本体对齐—Falcon-AO，需要输入owl文件：<a href="http://ws.nju.edu.cn/falcon-ao">http://ws.nju.edu.cn/falcon-ao</a></li>
+ 	<li>实体对齐—Dedupe，Python库，用户标记极少数据，轻量级的快速训练：pip install dedupe或者<a href="https://github.com/datamade/dedupe">https://github.com/datamade/dedupe</a></li>
+</ul>
+
+<hr />
+
+<h2><strong>参考</strong></h2>
+<ul>
+ 	<li>[1] Multi-channel graph neural network for entity alignment. ACL, 2019</li>
+ 	<li>[2] Relation-aware entity alignment for heterogeneous knowledge graphs. IJCAI, 2019</li>
+ 	<li>[3] Knowledge Graph Alignment Network with Gated Multi-hop Neighborhood Aggregation. AAAI, 2020</li>
+ 	<li>[4] <a href="https://github.com/nju-websoft/KnowledgeGraphFusion">南大知识融合PPT</a></li>
+ 	<li>[5] OAG: Toward Linking Large-scale Heterogeneous Entity Graphs. KDD 2019</li>
+</ul>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

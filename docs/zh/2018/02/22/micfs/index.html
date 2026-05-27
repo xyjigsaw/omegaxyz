@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于MIC（最大互信息系数）的特征选择 · OmegaXYZ</title>
+  <meta name="description" content="最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。 之前写了一个MIC的介绍，里面包含了MIC的原理，链接： https://omegaxyz.com/2018/01/18/mic/ 利用到的MATLAB包安装请参见： https://omegaxyz.com/2018/02/2...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/22/micfs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-22</div>
+        <h1>基于MIC（最大互信息系数）的特征选择</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。
+
+之前写了一个MIC的介绍，里面包含了MIC的原理，链接：<a href="https://omegaxyz.com/2018/01/18/mic/">https://omegaxyz.com/2018/01/18/mic/</a>
+
+利用到的MATLAB包安装请参见：<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>
+
+特征选择步骤
+
+①计算不同维度（特征）之间的MIC值，MIC值越大，说明这两个维度越接近。
+②寻找那些与其他维度MIC值较小的维度，根据阈值选出这些特征。
+③利用SVM训练
+④训练结果在测试集上判断错误率
+
+minepy的安装请参照：<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>
+
+MATLAB代码：
+<pre ><code class="language-default">clc
+load train_F.mat;
+load train_L.mat;
+load test_F.mat;
+load test_L.mat;
+Dim = 22;
+MIC_matrix = zeros(Dim, Dim);
+for i = 1:Dim
+    for j = 1:Dim
+        X_v = reshape(train_F(:,i),1,size(train_F(:,i),1));
+        Y_v = reshape(train_F(:,j),1,size(train_F(:,j),1));
+        [A, ~] = mine(X_v, Y_v);
+        MIC_matrix(i, j) = A.mic;
+    end
+end
+MIC_matrix(MIC_matrix&gt;0.4) = 0;
+MIC_matrix(MIC_matrix~=0) = 1;
+inmodel = sum(MIC_matrix);
+threshold = sum(inmodel)/Dim;
+inmodel(inmodel &lt;= threshold) = 0;
+inmodel(inmodel &gt; threshold) = 1;
+
+model = libsvmtrain(train_L,train_F(:,inmodel));
+[predict_label, ~, ~] = libsvmpredict(test_L,test_F(:,inmodel),model); 
+error=0;
+for j=1:length(test_L)
+    if(predict_label(j,1) ~= test_L(j,1))
+        error = error+1;
+    end
+end
+error = error/length(test_L);
+</code></pre>
+<div class="footer-bar"><aside id="custom_html-7" class="widget_text widget inner-padding widget_custom_html">
+<div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </strong></span>
+<span style="color: #ff0000;"><strong>文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</strong></span></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a style="color: #ff0000;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a>-版权所有 转载请注明出处</strong></span></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

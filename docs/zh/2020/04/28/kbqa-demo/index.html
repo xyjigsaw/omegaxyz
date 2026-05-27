@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于知识图谱的问答系统Demo · OmegaXYZ</title>
+  <meta name="description" content="简介 基于知识图谱的问答系统，即KBQA。其中一个简单的实现方法是根据用户输入的自然语言问句，转化为图数据库中的关系查询，最终将数据库中的实体及关系呈现给用户。 下面给出了一个KBQA的Demo。 实现依赖 Python 3.6+ Apache Jena Fuseki SPARQLWrapper refo jiaba 实例数据 此知识图谱...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/04/28/kbqa-demo/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-04-28</div>
+        <h1>基于知识图谱的问答系统Demo</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/github/index.html">Github</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+基于知识图谱的问答系统，即KBQA。其中一个简单的实现方法是根据用户输入的自然语言问句，转化为图数据库中的关系查询，最终将数据库中的实体及关系呈现给用户。
+
+下面给出了一个KBQA的Demo。
+<h2><strong>实现依赖</strong></h2>
+<ul>
+ 	<li>Python 3.6+</li>
+ 	<li>Apache Jena Fuseki</li>
+ 	<li>SPARQLWrapper</li>
+ 	<li>refo</li>
+ 	<li>jiaba</li>
+</ul>
+<h2><strong>实例数据</strong></h2>
+此知识图谱的主题为COVID-2019的知识查询。三元组数据来自<a href="http://openkg.cn/" target="_blank" rel="noopener noreferrer">OpenKG</a>的新冠数据集。
+<h2><strong>实现流程</strong></h2>
+<ol>
+ 	<li>数据提取：下载OpenKG提供的json-ld数据，通过脚本将json-ld数据转化为RDF格式的数据，RDF数据已经上传至本实例中，用户可以直接使用。</li>
+ 	<li>数据存储：采用<a href="http://jena.apache.org/documentation/fuseki2/" target="_blank" rel="noopener noreferrer">Apache Jena Fuseki</a>，Apache Jena Fuseki是一个SPARQL服务，支持多种操作系统。可以存储RDF数据，并通过SPARQL查询语句查询数据库中的关系。这里将上面给出的RDF数据导入至Jena中。</li>
+ 	<li>规则编写：Python编写数据库查询语句与规则。规则采用refo，可以直接从Python中下载该包，这一步是自然语言转为结构化的规则的关键。</li>
+ 	<li>数据查询：通过refo生成的SPARQL查询语句传递到Jena中便可以查到相关的实体关系了，最终反馈给用户。</li>
+</ol>
+需要注意的是此代码实现仓促，编写的规则内容较少，没有对输出进行规范表示。
+<h2><strong>代码</strong></h2>
+<a href="https://github.com/xyjigsaw/COVID19-KBQA-DEMO">https://github.com/xyjigsaw/COVID19-KBQA-DEMO</a>
+
+项目中包含了数据和代码，数据需要自己导入到Jena中。为了简便系统，这里<strong>没有</strong>给出前端代码。
+
+<img class="alignnone wp-image-6629" src="https://cdn.omegaxyz.com/2020/04/KBQA-DEMO.png" alt="" width="738" height="104" />
+
+前端代码如顶部图片所示。
+<h2><strong>参考</strong></h2>
+<ol>
+ 	<li>https://blog.csdn.net/keyue123/article/details/85266355</li>
+</ol>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-19901">
+          <strong>郭文素</strong>
+          <time>2020-12-29 11:53:55</time>
+          <div>求这个项目加上包括前端的完整代码，想学习学习，感谢博主大大</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19902">
+          <strong>xyjisaw</strong>
+          <time>2020-12-29 12:28:18</time>
+          <div>文章里面提供了github链接哦</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

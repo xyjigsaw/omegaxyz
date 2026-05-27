@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编语言排序算法 · OmegaXYZ</title>
+  <meta name="description" content="问题 用变量传递参数键盘输入字符串到缓冲区后，对缓冲区内容降序排序并输出（冒泡排序） 流程 ①把字符串通过键盘输入到缓冲区 ②对字符串按照ASCII码降序排序（子程序） ③对排序后的字符串输出（子程序） 难点 排序算法的多重循环实现 代码 结果">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/16/assembly-bubble-sort/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-16</div>
+        <h1>汇编语言排序算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content"><h2><strong>问题</strong></h2>
+用变量传递参数键盘输入字符串到缓冲区后，对缓冲区内容降序排序并输出（冒泡排序）
+<h2><strong>流程</strong></h2>
+①把字符串通过键盘输入到缓冲区
+②对字符串按照ASCII码降序排序（子程序）
+③对排序后的字符串输出（子程序）
+<h2><strong>难点</strong></h2>
+排序算法的多重循环实现
+<h2><strong>代码</strong></h2>
+<pre ><code class="language-asm">;author XY
+
+;数据区
+Data segment
+;注意此处一定要按照顺序写
+buff db 16	;缓冲区大小
+numb db '?' ;输入的数量自动统计
+arry db 16 dup('?') ;缓冲区的内容一共16个字符
+Data ends
+;---------------------------
+
+Code segment
+assume cs:code,ds:data
+main proc far
+push ds
+sub ax,ax
+push ax
+mov ds,ax
+lea dx,buff
+mov ah,10 ;即0A键盘输入至缓冲区
+int 21h
+call order
+ret
+main endp
+;---------------------------
+
+order proc near
+mov cl,numb
+mov ch,0
+mov di,cx
+lp1:mov cx,di	;外循环由di控制
+	mov bx,0	;下标
+lp2:mov al,arry[bx]	;内循环由cx控制
+	cmp al,arry[bx+1]
+	jge cont
+	xchg al,arry[bx+1]
+	mov arry[bx],al
+cont:inc bx
+	 loop lp2
+	 dec di
+	 jnz lp1
+call output
+ret
+order endp
+;---------------------------
+output proc near
+mov bl,numb
+mov bh,0
+mov byte ptr[arry+bx],'$'
+mov dx,offset arry
+mov ah,9
+int 21h
+ret
+output endp
+Code ends
+end main
+</code></pre>
+<h2><strong>结果</strong></h2>
+<img class="alignnone size-full wp-image-4756" src="https://cdn.omegaxyz.com/2018/07/assemblysort.jpg" alt="" width="646" height="124" />
+
+<img class="alignnone size-full wp-image-4757" src="https://cdn.omegaxyz.com/2018/07/assemblysort2.jpg" alt="" width="646" height="128" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

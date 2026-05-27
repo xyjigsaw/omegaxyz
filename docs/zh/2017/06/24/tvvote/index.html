@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>课程设计电视大赛投票系统 · OmegaXYZ</title>
+  <meta name="description" content="电视大赛观众投票及排名系统的设计与实现( 8学时) 问题描述： 在很多的电视大赛中，通常当选手表演结束后，现场观众通过手中的按键对参赛选手进行投票，然后对选手获得的票数进行统计，从高到低进行降序排序，从而自动产生冠军、亚军和季军。要求编写算法模拟实现上述系统的功能。 1.基本要求 （1）首先输入参赛选手的人数（范围为1-9个），然后根据人...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/24/tvvote/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-24</div>
+        <h1>课程设计电视大赛投票系统</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><div id="pl-1145" class="panel-layout">
+<div id="pg-1145-0" class="panel-grid panel-no-style">
+<div id="pgc-1145-0-0" class="panel-grid-cell" data-weight="1">
+<div id="panel-1145-0-0-0" class="so-panel widget widget_sow-editor panel-first-child panel-last-child" data-index="0">
+<div class="so-widget-sow-editor so-widget-sow-editor-base">电视大赛观众投票及排名系统的设计与实现( 8学时)
+<em><strong>问题描述：</strong></em>在很多的电视大赛中，通常当选手表演结束后，现场观众通过手中的按键对参赛选手进行投票，然后对选手获得的票数进行统计，从高到低进行降序排序，从而自动产生冠军、亚军和季军。要求编写算法模拟实现上述系统的功能。
+<em><strong>1.基本要求</strong></em>
+（1）首先输入参赛选手的人数（范围为1-9个），然后根据人数通过malloc函数来分配存放选手信息的顺序表；
+（2）将选手的编号和姓名依此存入顺序表中；
+（3）观众通过按键进行投票，按’1’为1号选手投票，按’2’为2号选手投票，以此类推，以按’0’作为投票结束标志；
+（4）投票结束后进行排序，在此采用各种排序算法，然后为每个选手计算名次，得票相同的名次也相同；
+<em><strong>2.重点、难点</strong></em>
+重点：
+（1）参赛选手数据结构的设计；
+（2）排序算法的设计；
+难点：各种排序算法的性能分析与比较
+<em><strong>3.作业及课外学习要求：</strong></em>
+按照题意要求独立进行设计，设计结束后要按要求写出课程设计报告。
+本知识点的讲授和学习，可以支撑“毕业要求4研究”中的“指标点4.1能够运用科学的研究方法对复杂软件工程问题进行需求分析研究；指标点4.2熟悉复杂软件系统的开发和应用环境，研究制定合理的软件设计与开发方案。指标点4.3能够对原型验证方法进行研究与分析，合理验证软件系统”的指标达成度进行评估。使学生在解决具体问题的过程中，能够灵活熟练地选择合适的数据结构及设计有效的算法，从而加深对常用数据结构的理解，强化学生的逻辑思维能力和动手能力，巩固良好的编程习惯，掌握工程软件设计的基本方法，为后续课程的学习打下坚实基础。代码：
+<pre ><code class="language-c++">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;cstring&gt;
+#include"xy_setting.h"
+
+using namespace std;
+
+int number=0,n=0,flag=0;
+void msgbox()
+{
+    printf("===============================\n");
+    printf("= 参赛人数：%d                 =\n",number);
+    printf("= 有效投票数：%d               =\n",n);
+    printf("= 基本操作：                  =\n");
+    if(flag==0)
+        printf("= 开始投票：----S             =\n");
+    else
+        printf("= 已投票，是否补投----Y       =\n");
+    printf("= 投票情况(编号排序）----A    =\n");
+    printf("= Ranking ----R               =\n");
+    printf("= 退出系统 ----E              =\n");
+    printf("===============================\n");
+}
+class player
+{
+public:
+    int num;
+    char name[30];
+    int score;
+    int ranking;
+};
+
+class ope
+{
+public:
+    void init(player *a,int number);
+    void output_info(player *a,int number);
+    void outcome(player *a,int number);
+    void voting(player *a,int number);
+    void shell_insert(player *a,int n,int dk);
+    void shell_sort(player *a,int n,int t);
+    void sort_outcome(player *a,int number);
+};
+
+void ope::shell_insert(player *a,int n,int dk)
+{
+    for(int i=dk+1;i&lt;=n;i++)
+    {
+        int j;
+        if(a[i].score&gt;a[i-dk].score)
+        {
+            strcpy(a[0].name,a[i].name);
+            a[0].score=a[i].score;
+            a[0].num=a[i].num;
+            for(j=i-dk;j&amp;&amp;a[j].score&lt;a[0].score;j-=dk)
+            {
+                strcpy(a[j+dk].name,a[j].name);
+                a[j+dk].score=a[j].score;
+                a[j+dk].num=a[j].num;
+            }
+            strcpy(a[j+dk].name,a[0].name);
+            a[j+dk].score=a[0].score;
+            a[j+dk].num=a[0].num;
+        }
+    }
+}
+void ope::shell_sort(player *a,int n,int t)
+{
+    int i;
+    for(;t&gt;=1;t/=2)
+    {
+        ope::shell_insert(a,n,t);
+        for(i=1;i&lt;=n;i++)
+            a[i].ranking=i;
+        for(i=1;i&lt;n;i++)
+            if(a[i+1].score==a[i].score)
+                a[i+1].ranking=a[i].ranking;
+    }
+}
+void ope::output_info(player *a,int number)
+{
+    cout&lt;&lt;"\n输出选手信息:\n编号  姓名\n";
+    for(int i=1;i&lt;=number;i++)
+    {
+        printf(" %d    %s\n",a[i].num,a[i].name);
+    }
+}
+void ope::init(player *a,int number)
+{
+    int i=1;
+    cur_sys();
+    cout&lt;&lt;endl&lt;&lt;"输入选手姓名:"&lt;&lt;endl;
+    while(i&lt;=number)
+    {
+        cin&gt;&gt;a[i].name;
+        a[i].num=i;
+        a[i].score=a[i].ranking=0;
+        i++;
+    }
+    ope::output_info(a,number);
+    cout&lt;&lt;endl&lt;&lt;"初始化成功!!!"&lt;&lt;endl;
+}
+
+void ope::outcome(player *a,int number)
+{
+    cout&lt;&lt;"输出选手得票情况(未排序):\n";
+    for(int i=1;i&lt;=number;i++)
+    {
+        printf("选手00%d得票数为%d;\n",a[i].num,a[i].score);
+    }
+}
+
+void ope::sort_outcome(player *a,int number)
+{
+    cout&lt;&lt;"\n排名:已排序"&lt;&lt;endl;
+    ope::shell_sort(a,number,number);
+    for(int i=1;i&lt;=number;i++)
+    {
+        {
+        printf("第%d名为00%d号选手%s,得票数为%d;\n",
+               a[i].ranking,a[i].num,a[i].name,a[i].score);
+        }
+    }
+}
+void ope::voting(player *a,int number)
+{
+    if(flag==0)
+        cout&lt;&lt;"\n输入选手编号进行投票,按0结束。\n";
+    else
+        cout&lt;&lt;"\n补投开始：输入选手编号,按0结束。\n";
+    flag=1;
+    int vote;
+    while(scanf("%d",&amp;vote)&amp;&amp;vote)
+    {
+        if(vote&gt;0&amp;&amp;vote&lt;=number)
+        {
+            a[vote].score++;
+            n++;
+            cur_sys();
+            cout&lt;&lt;"请继续，按0结束"&lt;&lt;endl;
+        }
+        else if(vote==0)break;
+        else
+        {
+            cur_sys();
+            cout&lt;&lt;"请继续，按0结束"&lt;&lt;endl;
+            continue;
+        }
+    }
+    cout&lt;&lt;"投票成功!"&lt;&lt;endl;
+}
+
+int main()
+{
+    char a;
+    player *p=NULL;
+    ope dol;
+    msgbox();
+    cout&lt;&lt;"未初始化无法操作\n请输入总人数：";
+    while(cin&gt;&gt;number)
+    {
+        if(number&gt;0)
+            break;
+        else cout&lt;&lt;"输入错误，重新输入"&lt;&lt;endl;
+    }
+    p=(player *)malloc(sizeof(player)*number);
+    dol.init(p,number);
+    system("pause");
+    cur_sys();
+    cout&lt;&lt;"输入操作\n-";
+    while(cin&gt;&gt;a)
+    {
+        switch(a)
+        {
+            case 'A':dol.outcome(p,number);cur_sys2();cout&lt;&lt;"输入操作\n-";break;
+            case 'S':dol.voting(p,number);cur_sys2();cout&lt;&lt;"输入操作\n-";break;
+            case 'Y':dol.voting(p,number);cur_sys2();cout&lt;&lt;"输入操作\n-";break;
+            case 'R':dol.sort_outcome(p,number);cur_sys2();cout&lt;&lt;"输入操作\n：";break;
+            case 'E':exit(0);break;
+            default: continue;
+        }
+    }
+    cout&lt;&lt;"谢谢使用！！！";
+}</code></pre>
+<img class="alignnone wp-image-1146" src="https://cdn.omegaxyz.com/2017/06/tvvoting1-298x300.jpg" sizes="(max-width: 500px) 100vw, 500px" srcset="https://cdn.omegaxyz.com/2017/06/tvvoting1-298x300.jpg 298w, https://cdn.omegaxyz.com/2017/06/tvvoting1-150x150.jpg 150w, https://cdn.omegaxyz.com/2017/06/tvvoting1-90x90.jpg 90w, https://cdn.omegaxyz.com/2017/06/tvvoting1.jpg 666w" alt="" width="500" height="503" />
+
+</div>
+</div>
+</div>
+</div>
+</div></div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-64">
+          <strong>Anonymous</strong>
+          <time>2017-06-27 10:56:25</time>
+          <div>打电话给邹海，明令要求不可以用C++。。。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-66">
+          <strong>xyjisaw</strong>
+          <time>2017-06-28 09:08:31</time>
+          <div>OK！！！</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

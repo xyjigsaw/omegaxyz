@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An overview of evolutionary (evolutionary) computation · OmegaXYZ</title>
+  <meta name="description" content="Evolutionary Computing 1.1 The History and Current Situation of Evolutionary Computing In the 1950s, when computer performance was still far behind, Darwin&#x27;s theory of evolution was applied to automatic problem solving [1]. In the United States, Fogel proposed the idea of ​​evolutionary programming [2], which was later called the genetic algorithm (GA). The GA algorithm is influenced by the natural selection mechanism of &quot;survival of the fittest&quot; and the transmission law of genetic information in the process of biological evolution. It simulates this process through program iteration, and regards the problem to be solved as...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/01/20/evolutionary-computing/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-20</div>
+        <h1>An overview of evolutionary (evolutionary) computation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>evolutionary computation</strong></h2>
+<h3><strong>1.1 </strong><strong>The history and current situation of evolutionary computation</strong></h3>In the 1950s, when computer performance was far behind, Darwin's theory of evolution was applied to automated problem solving.<sup>[1]</sup>. In the United States, Fogel proposed the idea of ​​evolutionary programming<sup> [2]</sup>, which was later called the genetic algorithm (GA). The GA algorithm is influenced by the natural selection mechanism of "survival of the fittest" and the transmission law of genetic information in the process of biological evolution. It simulates this process iteratively through the program, regards the problem to be solved as the environment, and seeks the optimal solution through natural evolution in a population composed of some possible solutions.<sup>[3]</sup>, these theories developed independently for about 15 years.
+
+Before the 1980s, it did not attract much attention because it was not mature enough and was limited by the small capacity and slow computing speed of computers at that time, and it did not develop practical application results.
+
+By the early 1990s, genetic programming (GP)<sup>[4]</sup>was also proposed, so evolutionary computing, represented by genetic algorithms, genetic programming, evolutionary strategies and evolutionary planning, began to officially appear as a discipline, integrating new evolutionary algorithms and promoting great development in the field of machine learning. At the same time, based on the ideas of Darwin's theory of evolution, evolutionary algorithms are emerging one after another and are in the ascendant, such as the particle swarm algorithm (PSO).<sup>[5]</sup>, Ant Colony Algorithm (ACO)<sup>[6]</sup>, Artificial Bee Colony Algorithm (ABC)<sup>[7]</sup>etc. These algorithms are all stochastic optimization algorithms based on swarm intelligence and are widely used in many fields.<h3><strong>1.2 </strong><strong>Traditional evolutionary computation classification</strong></h3>There are four categories of traditional evolutionary computation, namely genetic algorithms, genetic programming, evolutionary strategies and evolutionary planning.<sup>[1]</sup>. In this section, we will focus on genetic algorithms.
+
+The genetic algorithm starts from a population that represents a set of possible potential solutions to the problem, and a population is composed of a certain number of individuals that are genetically encoded (generally including real number encoding and binary encoding). Each individual is actually an entity with characteristic chromosomes. As the main carrier of genetic material, chromosomes are a collection of multiple genes. Their internal expression is a certain combination of genes, which determines the external expression of the individual's shape. After the first-generation population is generated, in accordance with the principles of survival of the fittest and survival of the fittest, successive generations of evolution produce better and better approximate solutions. In each generation, individuals are selected according to their fitness in the problem domain, and combined crossover and mutation are performed with the help of genetic operators of natural genetics to generate a population that represents a new solution set. This process will lead to a population that is more adaptable to the environment than the previous generation, like natural evolution. The optimal individual in the last generation population can be decoded and used as an approximate optimal solution to the problem. There is the classic GA algorithm in the single-objective field, and the NSGA2 algorithm based on fast non-dominated sorting and crowding distance selection in the multi-objective field.<sup>[8]</sup>. Algorithm 1 gives the pseudocode of the basic genetic algorithm.<img alt="" class="alignnone wp-image-5361" height="345" src="https://cdn.omegaxyz.com/2019/01/EC3.png" width="452"/>As a method of solving parameter optimization problems, evolutionary strategies and evolutionary programming imitate the principles of biological evolution and assume that no matter what changes occur in genes, the results (traits) will always follow a Gaussian distribution with zero mean and a certain variance.
+
+The essence of genetic programming is that using generalized hierarchical computer programs to describe problems is more suitable for solving a class of complex nonlinear problems caused by various uncertain factors.<h3><strong>1.3 </strong><strong>Algorithms based on swarm intelligence (represented by PSO)</strong></h3>Because evolutionary computing has strategic flexibility and adaptability to problems, it is often used to solve optimization problems in science and engineering fields. Evolutionary computing usually has great advantages over classical optimization algorithms.
+
+Among them, the PSO algorithm based on swarm intelligence was proposed by Kennedy and Eberhart, which is a stochastic optimization algorithm.<sup>[5]</sup>. In the particle swarm algorithm, each particle has a position vector and a velocity vector. The position vector represents a candidate solution, and the velocity vector represents the speed and direction that the particle needs to move in the next generation. Each vector consists of n real values, where n is the dimension of the current problem. Each particle estimates its degree of excellence through the fitness function value. The optimal solution searched by each particle is called pbest (local optimal solution), and the optimal solution searched in all generations of the entire particle swarm is called gbest (global optimal solution).
+
+The particle's position and velocity are updated via the following formulas (1) and (2):<img alt="" class="wp-image-5359 aligncenter" height="135" src="https://cdn.omegaxyz.com/2019/01/EC1.png" width="794"/>where sum is the value of the d-th dimension of the i-th particle at time t, and sum is the acceleration constant between [0,1]. Particle swarm optimization has the characteristics of fast speed, high efficiency, and is suitable for real-valued optimization. However, it is easy to fall into local optimality when dealing with high-dimensional data, especially multi-modal problems. In response to this situation, there is a lot of research and work to deal with this problem<sup>[10,11,12]</sup>.
+
+The pseudocode of the particle swarm algorithm is shown in Algorithm 2.<img alt="" class="alignnone wp-image-5360" height="354" src="https://cdn.omegaxyz.com/2019/01/EC2.png" width="438"/>
+<h3><strong>1.4 </strong><strong>Limitations and improvements of evolutionary algorithms</strong></h3>In today's big data era, data is large in scale and high in dimensionality. In large-scale high-dimensional optimization problems, ordinary evolutionary algorithms can easily fall into local optima, such as the high-dimensional traveling salesman problem. When the dimension of a city is greater than 100, optimization is very difficult; in feature selection problems, when the dimension of features reaches more than 10,000 dimensions, due to the redundancy and irrelevance of features, not only is it easy to fall into local optima, but the calculation time consumption is unimaginable, and optimization is basically impossible.
+
+Therefore, for large-scale data, evolutionary algorithms need to rely on effective global search technology and divide-and-conquer agent technology for problem solving.<sup>[18]</sup>.
+
+For problems falling into local optimality, scientific researchers have proposed many methods, such as the differential evolution algorithm proposed by Storn et al. in 1995.<sup>[19]</sup>(Differential Evolution), like other evolutionary algorithms, DE is a stochastic model that simulates biological evolution. Through repeated iterations, individuals that adapt to the environment are preserved. However, compared with evolutionary algorithms, DE retains the global search strategy based on the population, and uses real number encoding, simple mutation operations based on differences, and one-to-one competition survival strategies to reduce the complexity of genetic operations. At the same time, DE's unique memory ability allows it to dynamically track the current search situation to adjust its search strategy. It has strong global convergence ability and robustness, and does not require the use of characteristic information of the problem. It is suitable for solving some optimization problems in complex environments that cannot be solved using conventional mathematical programming methods.<sup>[20]</sup>. In addition, of course, there are many other global optimization techniques proposed, such as the NSGA2 algorithm.<sup>[8]</sup>, NSPSO and CMDPSO based on PSO<sup>[21]</sup>,The above two PSO algorithms use non-dominated sorting, ,crowded distance selection, and mutation operators to ,improve the global search technology of the PSO algorithm.
+
+There are also many algorithms to solve problems that consume huge amounts of computing time. For example, there are multi-objective evolutionary algorithms based on decomposition that use the divide-and-conquer idea.<sup>[22]</sup>(MOEA/D), which was proposed by Zhang Qingfu et al. in 2007. MOEA/D converts a multi-objective optimization problem into multiple scalar sub-problems, and each sub-problem consists of a uniformly distributed weight vector. For each new solution generated, the solution near the sub-problem is replaced based on the aggregation function.
+
+In addition, many researchers use cooperative coevolution algorithms (Cooperative Coevolution) and agent model-based evolutionary algorithms to improve the performance of evolutionary calculations. The main idea of ​​cooperative co-evolution is to decompose large-scale problems into groups of smaller sub-problems. The existing algorithms include CCPSO and MLCC.<sup>[23,24]</sup>. The idea of ​​the algorithm based on the proxy model is to use part of the data to proxy evaluate another part of the data or to use the proxy model to achieve the effect of approximate population evaluation to reduce computing consumption. Common ones include CPS and SMEA algorithms.<sup>[25,26]</sup>。
+<h2><strong>References</strong></h2>[1] Eiben A E, Schoenauer M. Evolutionary computing[J]. Information Processing Letters, 2002, 82(1): 1-6.
+
+[2] L.J. Fogel, A.J. Owens, M.J. Walsh, Artificial Intelligence through Simulated Evolution, John Wiley, New York, 1966.
+
+[3] Whitley D. A genetic algorithm tutorial[J]. Statistics and computing, 1994, 4(2): 65-85.
+
+[4] Altenberg L. The evolution of evolvability in genetic programming[J]. Advances in genetic programming, 1994, 3: 47-74.
+
+[5] Eberhart R, Kennedy J. A new optimizer using particle swarm theory[C]//Micro Machine and Human Science, 1995. MHS'95., Proceedings of the Sixth International Symposium on. IEEE, 1995: 39-43.
+
+[6] Dorigo M, Birattari M. Ant colony optimization[M]//Encyclopedia of machine learning. Springer, Boston, MA, 2011: 36-39.
+
+[7] Karaboga D, Basturk B. On the performance of artificial bee colony (ABC) algorithm[J]. Applied soft computing, 2008, 8(1): 687-697.
+
+[8] Deb K, Pratap A, Agarwal S, et al. A fast and elitist multiobjective genetic algorithm: NSGA-II[J]. IEEE transactions on evolutionary computation, 2002, 6(2): 182-197.
+
+[9] Mayr E. Behavior Programs and Evolutionary Strategies: Natural selection sometimes favors a genetically" closed" behavior program, sometimes an" open" one[J]. American scientist, 1974, 62(6): 650-659.
+
+[10] Ghamisi P, Benediktsson J A. Feature selection based on hybridization of genetic algorithm and particle swarm optimization[J]. IEEE Geoscience and Remote Sensing Letters, 2015, 12(2): 309-313.
+
+[11] Tran B, Xue B, Zhang M. A New Representation in PSO for Discretization-Based Feature Selection.[J]. IEEE Transactions on Cybernetics, 2017, PP(99):1-14.
+
+[12] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Transactions on Cybernetics, 2013, 43(6):1656-1671.
+
+[13] Zhao Yuhua, Ren Weimin, Li Kebo. About Hamilton's shortest path algorithm [J]. Dongfang Electric Review, 2004, 18(1):42-46.
+
+[14] Hastings W K. Monte Carlo sampling methods using Markov chains and their applications[J]. Biometrika, 1970, 57(1):97-109.
+
+[15] Mao Yong, Zhou Xiaobo, Xia Zheng, et al. Review of feature selection algorithm research [J]. Pattern Recognition and Artificial Intelligence, 2007, 20(2):211-218.
+
+[16] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Transactions on Cybernetics, 2013, 43(6):1656-1671.
+
+[17] Hochbaum D S. Approximation algorithms for NP-hard problems[M]. PWS Publishing Co., 1996.
+
+[18] Ghaddar B, Naoum-Sawaya J. High Dimensional Data Classification and Feature Selection using Support Vector Machines[J]. European Journal of Operational Research, 2017:S0377221717307713.
+
+[19] Das S, Suganthan P N. Differential Evolution: A Survey of the State-of-the-Art[J]. IEEE Transactions on Evolutionary Computation, 2011, 15(1):4-31.
+
+[20] Storn R. Differential evolution design of an IIR-filter[C]// IEEE International Conference on Evolutionary Computation. 1996.
+
+[21] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Trans Cybern, 2013, 43(6):1656-1671.
+
+[22] Zhang Q, Li H. MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition[J]. IEEE Transactions on Evolutionary Computation, 2007, 11(6):712-731.
+
+[23] Yang, K. Tang, and X. Yao, “Multilevel cooperative coevolution for large scale optimization,” in Proc. IEEE Congr. Evol. Comput., Jun. 2008, pp. 1663–1670.
+
+[24] N. Omidvar, X. Li, Z. Yang, and X. Yao, “Cooperative coevolution for large scale optimization through more frequent random grouping,” in Proc. IEEE Congr. Evol. Comput., Jul. 2010,1754–1761.
+
+[25] Liu B, Zhang Q, Gielen G. A Surrogate-Model-Assisted Evolutionary Algorithm for Computationally Expensive Design Optimization Problems with Inequality Constraints[M]// Simulation-Driven Modeling and Optimization. 2016.
+
+[26] Zhang J, Zhou A, Tang K, et al. Preselection via classification: A case study on evolutionary multiobjective optimization[J]. Information Sciences, 2018, 465: 388-403.
+
+[27] Chandrashekar G, Sahin F. A survey on feature selection methods[J]. Computers &amp; Electrical Engineering, 2014, 40(1): 16-28.
+
+[28] Zhang X, Zheng X, Cheng R, et al. A competitive mechanism based multi-objective particle swarm optimizer with fast convergence[J]. Information Sciences, 2018, 427: 63-76.
+
+[29] Lee C, Lee G G. Information gain and divergence-based feature selection for machine learning-based text categorization[M]. Pergamon Press, Inc. 2006.
+
+[30] Lichman M. UCI machine learning repository [Online], avail-able: http://archive.ics.uci.edu/ml, November 10, 2015.
+
+[31] Cheng R, Jin Y. A competitive swarm optimizer for large scale optimization[J]. IEEE transactions on cybernetics, 2015, 45(2): 191-204.
+
+[32] Kearns M, Ron D. Algorithmic stability and sanity-check bounds for leave-one-out cross-validation[J]. Neural computation, 1999, 11(6): 1427-1453.
+
+[33] TSPLib [Online],http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/, 2018</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

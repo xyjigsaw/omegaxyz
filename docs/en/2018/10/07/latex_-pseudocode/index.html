@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LaTeX pseudocode editing template · OmegaXYZ</title>
+  <meta name="description" content="Introduction LaTeX (LATEX, transliterated as &quot;Lateh&quot;) is a typesetting system based on ΤΕΧ, developed by American computer scientist Leslie Lamport in the early 1980s. Using this format, even users without knowledge of typesetting and programming can give full play to the powerful functions provided by TeX, and can produce many book-quality printed materials in a few days or even hours. For generating complex tables and mathematical formulas, this...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/10/07/latex_-pseudocode/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-07</div>
+        <h1>LaTeX pseudocode editing template</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/latex/index.html">LaTeX</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>
+<strong>LaTeX</strong>(LATEX, transliterated as "Lateh") is a typesetting system based on ΤΕΧ, developed by American computer scientist Leslie Lamport in the early 1980s. Using this format, even users without knowledge of typesetting and programming can give full play to the powerful functions provided by TeX, and can generate many book-quality printed materials in a few days or even hours. This is especially true for generating complex tables and mathematical formulas. It is therefore ideally suited for producing high print quality scientific and mathematical documents. This system is equally suitable for producing all other kinds of documents, from simple letters to full books.<hr/>
+<h2><strong>Template 1</strong></h2>
+<pre><code class="language-default">\documentclass[11pt]{article}
+\usepackage{CJK}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+ 
+\floatname{algorithm}{Algorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+ 
+\begin{document}
+\begin{CJK*}{UTF8}{gkai}
+%SetUp函数
+    \begin{algorithm}
+        \caption{算法整体框架}
+        \begin{algorithmic}[1] %每行显示行号
+        %\Require Input
+        %\Ensure Output
+        \State $种群 \gets 0$
+            \Function {"FuncName"}{}
+                %if
+                \If {"condition"}  "text"   \EndIf
+                \State
+                
+                % if else
+                \If  {"condition"}   "text"   
+                \Else   "text"    
+                \EndIf\State                
+                
+                %if  elseif else
+                \If  {"condition"}     "text"   
+                \ElsIf {"condition"}   "text"       
+                \Else   "text"  
+                \EndIf\State
+                
+                %for
+                \For{"condition"}   "text"   \EndFor\State
+                
+                %forall
+                \ForAll {"condition"}  "text"  \EndFor\State
+                
+                %while
+                \While {"condition"}  "text"  \EndWhile\State
+                
+                %repeat
+                \Repeat "text"  \Until {"condition"}\State
+                
+                %loop
+                \Loop "text"  \EndLoop\State
+                %return
+                \Return $Result$
+            \EndFunction
+ 
+        \end{algorithmic}
+    \end{algorithm}
+\end{CJK*}
+\end{document}
+
+</code></pre>Effect:<img alt="" class="alignnone size-full wp-image-5065" height="777" src="https://cdn.omegaxyz.com/2018/10/LaTeX1.png" width="753"/>
+<h2><strong>Template 2</strong></h2>
+<pre><code class="language-default">\documentclass[11pt]{article}
+\usepackage{CJK}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+
+\floatname{algorithm}{算法}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+\renewcommand{\algorithmicensure}{\textbf{输出:}}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gkai}
+    \begin{algorithm}
+        \caption{用归并排序求逆序数}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require $Array$数组，$n$数组大小
+            \Ensure 逆序数
+            \Function {MergerSort}{$Array, left, right$}
+                \State $result \gets 0$
+                \If {$left &lt; right$}
+                    \State $middle \gets (left + right) / 2$
+                    \State $result \gets result +$ \Call{MergerSort}{$Array, left, middle$}
+                    \State $result \gets result +$ \Call{MergerSort}{$Array, middle, right$}
+                    \State $result \gets result +$ \Call{Merger}{$Array,left,middle,right$}
+                \EndIf
+                \State \Return{$result$}
+            \EndFunction
+            \State
+            \Function{Merger}{$Array, left, middle, right$}
+                \State $i\gets left$
+                \State $j\gets middle$
+                \State $k\gets 0$
+                \State $result \gets 0$
+                \While{$i&lt;middle$ \textbf{and} $j&lt;right$}
+                    \If{$Array[i]&lt;Array[j]$}
+                        \State $B[k++]\gets Array[i++]$
+                    \Else
+                        \State $B[k++] \gets Array[j++]$
+                        \State $result \gets result + (middle - i)$
+                    \EndIf
+                \EndWhile
+                \While{$i&lt;middle$}
+                    \State $B[k++] \gets Array[i++]$
+                \EndWhile
+                \While{$j&lt;right$}
+                    \State $B[k++] \gets Array[j++]$
+                \EndWhile
+                \For{$i = 0 \to k-1$}
+                    \State $Array[left + i] \gets B[i]$
+                \EndFor
+                \State \Return{$result$}
+            \EndFunction
+        \end{algorithmic}
+    \end{algorithm}
+\end{CJK*}
+\end{document}</code></pre>Effect:<img alt="" class="alignnone size-full wp-image-5066" height="770" src="https://cdn.omegaxyz.com/2018/10/LaTeX2.png" width="742"/>
+<hr/>
+<h2><strong>LaTeX online editing</strong></h2>
+<a href="https://www.overleaf.com/">https://www.overleaf.com/</a>
+<hr/>
+<h2><strong>refer to</strong></h2>
+<a href="https://www.cnblogs.com/hqium/p/6439312.html">https://www.cnblogs.com/hqium/p/6439312.html</a>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>遗传算法的交叉变异详解 · OmegaXYZ</title>
+  <meta name="description" content="交叉 二进制编码交叉 单点交叉 单点交叉又称为简单交叉，它是指在个体编码串中只随机设置一个交叉点，然后在该点相互交换两个配体个体的部分染色体。图1为单点交叉运算的示意图。 两点交叉 两点交叉是指在个体编码串中随机设置了两个交叉点，然后再进行部分基因交换。两点交叉的具体操作过程是:①在相互配对的两个个体编码串中随机设置两个交叉点；②交换两个...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/21/crossover_mutation/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-21</div>
+        <h1>遗传算法的交叉变异详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
+        <div class="article-content"><h1>交叉</h1>
+<h2>二进制编码交叉</h2>
+<h3>单点交叉</h3>
+单点交叉又称为简单交叉，它是指在个体编码串中只随机设置一个交叉点，然后在该点相互交换两个配体个体的部分染色体。图1为单点交叉运算的示意图。
+
+<img class="alignnone size-full wp-image-4112" src="https://cdn.omegaxyz.com/2018/04/one-point-crossover.jpg" alt="" width="400" height="143" />
+<h3>两点交叉</h3>
+两点交叉是指在个体编码串中随机设置了两个交叉点，然后再进行部分基因交换。两点交叉的具体操作过程是:①在相互配对的两个个体编码串中随机设置两个交叉点；②交换两个个体在所设定的两个交叉点之间的部分染色体。图2为两点交叉运算示意图。
+
+<img class="alignnone size-full wp-image-4113" src="https://cdn.omegaxyz.com/2018/04/two-point-crossover.jpg" alt="" width="381" height="154" />
+<h3>多点交叉</h3>
+或称广义交叉，是指在个体编码串中随机设置多个交叉点，然后进行基因交换。其操作过程与单点交叉和两点交叉相类似。
+<h3>均匀交叉</h3>
+也称一致交叉，是指两个配对个体的每个基因座上的基因都以相同的交叉概率进行交换，从而形成两个新的个体。其具体运算是通过设置一屏蔽字来确定新个体的各个基因如何由哪一个父代个体来提供。主要操作过程如下：①随机产生一个与个体编码串长度等长的屏蔽字W=w1w2Lw1Lw1，其中L为个体编码串长度；②由上述规则从A、B两个父代个体中产生出两个新的子代个体A′、B′。若ωi=0，则A′在第i个基因座上的基因值继承A的对应基因值，B′在第i个基因座上的基因值继承B的对应基因值；若ωi=1，则A′在第i个基因座上的基因值继承B的对应基因值，B′在第i个基因座上的基因值继承A的对应基因值。
+<h3>均匀两点交叉</h3>
+是指两个配体A、B中随机产生两个交叉点，然后按随机产生的0、1、2三个整数进行基因交换，从而形成两个新的个体[4]。当随机数是0时，配体的前面部分交叉;当随机数是1时，配体的中间部分交叉;当随机数是2时，配体的后面部分交叉。
+
+<strong>还有其他的交叉算子，如：缩小代理交叉、洗牌交叉等。</strong>
+
+<hr />
+
+<h2>适合浮点数编码的交叉算子</h2>
+浮点数编码方法是指个体的每个基因值用某一范围内的一个浮点数来表示，个体的编码长度等于其决策变量的个数。除上述所述的适合二进制编码方法的交叉算子可用于浮点数编码方法的交叉操作中，还使用以下主要的交叉算子。
+<h3>离散交叉</h3>
+是指在个体之间交换变量的值，子个体的每个变量可按等概率随机地挑选父个体。
+<h3>算术交叉</h3>
+是指由两个个体的线性组合而产生出两个新的个体。算术交叉的操作对象一般是由浮点数编码所表示的个体.其定义为两个向量（染色体）的组合:x1=λ1x1+λ2x2；x2=λ1x2+λ2x1，其中λ1、λ2称为乘子。特殊情况有：
+
+①当λ1=λ2=0.5时，Davis称其为平均交叉，Schwefel称其为中间交叉（intermediatecrossover）；
+
+②把乘子作为区间[-d，1+d]上的随机数时，Muh-lenbein和Schlierkamp-Voosen称其为扩展中间交叉；
+<h3>启发式交叉</h3>
+如果父个体1和父个体2，而父个体1有较好的适应度，则如下函数产生子个体:子个体=父个体2+Radio3（父个体1-父个体2)。其中Radio指定子代离较好适应度的父代有多远，其缺省值为1.2。
+
+<strong>还有适合序号编码的交叉算子，如部分匹配交叉、顺序交叉、循环交叉、基于位置交换等。</strong>
+
+<hr />
+
+<h1>变异</h1>
+变异算子的基本内容是对群体中的个体串的某些基因座上的基因值作变动。依据个体编码表示方法的不同，可以有以下的算法：
+
+a)实值变异
+
+b)二进制变异。
+
+一般来说，变异算子操作的基本步骤如下：
+
+a)对群中所有个体以事先设定的变异概率判断是否进行变异
+
+b)对进行变异的个体随机选择变异位进行变异。
+
+遗传算法引入变异的目的有两个:一是使遗传算法具有局部的随机搜索能力。当遗传算法通过交叉算子已接近最优解邻域时，利用变异算子的这种局部随机搜索能力可以加速向最优解收敛。显然，此种情况下的变异概率应取较小值，否则接近最优解的积木块会因变异而遭到破坏。二是使遗传算法可维持群体多样性，以防止出现未成熟收敛现象。此时收敛概率应取较大值。
+
+遗传算法中，交叉算子因其全局搜索能力而作为主要算子，变异算子因其局部搜索能力而作为辅助算子。遗传算法通过交叉和变异这对相互配合又相互竞争的操作而使其具备兼顾全局和局部的均衡搜索能力。所谓相互配合.是指当群体在进化中陷于搜索空间中某个超平面而仅靠交叉不能摆脱时，通过变异操作可有助于这种摆脱。所谓相互竞争，是指当通过交叉已形成所期望的积木块时，变异操作有可能破坏这些积木块。如何有效地配合使用交叉和变异操作，是目前遗传算法的一个重要研究内容。
+
+基本变异算子是指对群体中的个体码串随机挑选一个或多个基因座并对这些基因座的基因值做变动(以变异概率P.做变动)，(0，1)二值码串中的基本变异操作如下：
+
+基因位下方标有*号的基因发生变异。
+
+变异率的选取一般受种群大小、染色体长度等因素的影响，通常选取很小
+
+遗传算法的值，一般取0.001－0.1。
+<h1>参考文献</h1>
+邓春燕. 遗传算法的交叉算子分析[J]. 农业网络信息, 2009(5):124-126.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

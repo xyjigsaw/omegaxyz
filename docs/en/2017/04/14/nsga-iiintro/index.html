@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of NSGA-II multi-objective genetic algorithm · OmegaXYZ</title>
+  <meta name="description" content="What is NSGA-II Non dominated sorting genetic algorithm -II NSGA-II is one of the most popular multi-objective genetic algorithms at present. It reduces the complexity of the non-dominated sorting genetic algorithm, has the advantages of fast running speed and good convergence of the solution set, and has become the benchmark for the performance of other multi-objective optimization algorithms. NSGA-Ⅱ is improved on the basis of the first generation of non-dominated sorting genetic algorithm. Its improvements are mainly aimed at...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/14/nsga-iiintro/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-14</div>
+        <h1>Overview of NSGA-II multi-objective genetic algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
+        <div class="article-content">What is NSGA-II
+
+Non dominated sorting genetic algorithm -II
+NSGA-II is one of the most popular multi-objective genetic algorithms at present. It reduces the complexity of the non-inferior sorting genetic algorithm, has the advantages of fast running speed and good convergence of solution sets, and has become the benchmark for the performance of other multi-objective optimization algorithms.
+NSGA-Ⅱ is improved on the basis of the first generation of non-dominated sorting genetic algorithm. Its improvements are mainly aimed at the three aspects mentioned above:
+① A fast non-dominated sorting algorithm is proposed. On the one hand, it reduces the computational complexity. On the other hand, it merges the parent population with the offspring population, allowing the next generation population to be selected from double the space, thus retaining all the best individuals;
+②Introduce elite strategies to ensure that some excellent population individuals will not be discarded during the evolution process, thereby improving the accuracy of the optimization results;
+③ The use of crowding degree and crowding degree comparison operator not only overcomes the shortcomings in NSGA that require artificially specified shared parameters, but also uses it as a comparison standard between individuals in the population, so that individuals in the quasi-Pareto domain can evenly expand to the entire Pareto domain, ensuring the diversity of the population.
+
+The purpose of the algorithm: select N individuals (M&gt;N) from the current M individuals.
+NSGA-II key algorithm (steps)
+1. First find pareto solutions for M individuals. Then get the set of F1, F2...etc. these pareto.
+2. Put all the individuals of F1 into N. If N is not full, continue to put F2 until there are Fk that cannot be put into the N (space) that has already been put into F1, F2,...,F(k-1). At this time, Fk is solved.
+3. For the individuals in Fk, find the crowding distance Lk[i] (crowding distance) of each individual in Fk, sort them in descending order according to Lk[i] in fk, and put them into N until N is full.
+
+NSGA-II key subroutine algorithm
+1. Fast non-dominated sorting algorithm
+The key to multi-objective optimization problems is to find the Pareto optimal solution set. NSGA-II fast non-dominated sorting stratifies the population M according to the level of individual non-inferior solutions to obtain Fi. The effect is to make the solution close to the pareto optimal solution. This is a cyclic fitness value grading process. First, find the non-dominated solution set in the group, marked as F1, assign all its individuals to the non-dominated order irank=1 (where irank is the non-dominated order value of individual i), and remove it from the entire group M. Then continue to find the non-dominated solution set in the remaining group, marked as F2. The individuals in F2 are assigned irank=2. Continue in this way until the entire population is stratified and the non-dominated order values ​​in the Fi layer are the same.
+2. Individual crowding distance
+Selective sorting is required in the same layer of Fk, sorting according to the individual crowding distance. The individual crowding distance is the distance between individuals i+1 and i-1 adjacent to i on Fk. Its calculation steps are:
+① Initialize the distance between individuals in the same layer, let L[i]d=0 (representing the crowding distance of any individual i).
+②Arrange the individuals in the same layer in ascending order according to the m-th objective function value.
+③ Give selective advantages to individuals on the edge of sorting.
+④For the individuals in the middle of the ranking, find the crowding distance:<img alt="" class="alignnone size-medium wp-image-354" height="25" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" width="300"/>(Where: L[i+1]m is the m-th objective function value fmax of the i+1-th individual, and fmin are the maximum and minimum values of the m-th objective function in the set respectively.)
+⑤ For different objective functions, repeat steps ② to ④ to obtain the crowding distance L[i]d of individual i. By limited selection of individuals with larger crowding distances, the calculation results can be evenly distributed in the target space and the diversity of the group can be maintained.
+3. Elite strategy selection algorithm
+Keep the excellent individuals in the parent generation and directly enter the offspring to prevent the Pareto optimal solution from being lost.
+The selection index optimizes the population Ri synthesized by the parent Ci and the offspring Di to form a new parent Ci+1.
+First eliminate the solutions with unfeasible program test flags in the parent generation, and then put the entire population into Ci+1 from low to high according to the non-dominated order value irank, until Fk in a certain layer exceeds the limit of N. Finally, fill Ci+1 according to the crowding distance until the number of populations reaches N.
+
+Note:
+In multi-objective planning, due to conflicts and incomparability between goals, a solution may be the best for one goal, but may be worse for other goals. Pareto proposed the concept of multi-objective solutions (Non-dominated set) in 1986. Its definition is: assuming that any two solutions S1 and S2 are better than S2 for all goals, then we say S1 dominates S2. If the solution of S1 is not dominated by other solutions, then S1 is called a non-dominated solution (undominated solution), also called a Pareto solution. The set of these non-dominated solutions is the so-called Pareto Front. All solutions located in the Pareto front are not dominated by solutions outside the Pareto Front (and other solutions within the Pareto Front curve). Therefore, these non-dominated solutions have the least goal conflict compared with other solutions and can provide decision makers with a better choice space. Improving any objective function based on a non-dominated solution will inevitably weaken at least one other objective function.<em>Please indicate the source for non-commercial reprints of original articles, and please contact us for commercial reprints.</em></div>
+        <section class="comments"><h2>Comments (22)</h2>
+        <div class="comment" id="comment-16978">
+          <strong>小小</strong>
+          <time>2019-05-17 12:27:22</time>
+          <div>如果问题有等式约束和不等式约束，写在哪里呀？如果想要写在自定义评价函数里面，怎么实现呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16980">
+          <strong>xyjisaw</strong>
+          <time>2019-05-17 12:39:39</time>
+          <div>应该写到环境选择中，也就是评价之前，可以直接拿一个函数进行约束。</div>
+        </div>
+        
+        <div class="comment" id="comment-17149">
+          <strong>刘影影</strong>
+          <time>2019-06-27 15:28:08</time>
+          <div>你好，在NSGA2中，不等式约束条件和等式约束条件只写在initialize variables 函数中，可以吗？后面产生的子代能保证也在此约束条件之内吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17152">
+          <strong>xyjisaw</strong>
+          <time>2019-06-27 23:36:15</time>
+          <div>可以呀</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17158">
+          <strong>彭超华</strong>
+          <time>2019-06-30 23:24:31</time>
+          <div>作者大大，能加一下您的QQ吗，刚刚入门的小白有两个问题想问您。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17163">
+          <strong>xyjisaw</strong>
+          <time>2019-07-02 19:39:25</time>
+          <div>你可以直接在留言板留言呀</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17217">
+          <strong>Anonymous</strong>
+          <time>2019-07-16 15:41:55</time>
+          <div>谢谢了啊，我再想想</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17469">
+          <strong>骁</strong>
+          <time>2019-09-05 00:04:45</time>
+          <div>博主您好，我实在不明白评价函数里g(x)代表什么意思，博主可以帮我简单实现 下面的多目标吗?万分感谢<br>min   f(1)=2*x(1)+5*x(2);<br>          f(2)=4*x(1)+x(2);<br> s.t   -x(1)-x(2)&amp;lt;=-7;<br>        0&amp;lt;=x(1)&amp;lt;=5;<br>        0&amp;lt;=x(2)&amp;lt;=6;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17497">
+          <strong>xyjisaw</strong>
+          <time>2019-09-05 08:32:46</time>
+          <div>评价函数与算法没有关系，是自己设置的，本质上是两个目标。</div>
+        </div>
+        
+        <div class="comment" id="comment-17755">
+          <strong>宁</strong>
+          <time>2019-09-20 16:09:14</time>
+          <div>博主您好，要解决的问题中，变量是变化的但有时遇到某些条件会设置为0，那这个属于等式约束嘛，还是将这个变量的变化放在目标函数当中呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17777">
+          <strong>xyjisaw</strong>
+          <time>2019-09-23 15:03:57</time>
+          <div>都可以</div>
+        </div>
+        
+        <div class="comment" id="comment-17791">
+          <strong>Anonymous</strong>
+          <time>2019-09-24 10:43:55</time>
+          <div>博主，目标函数有约束怎么办，目标函数y给个范围，要在范围里求，那这个范围怎么加进去，谢谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17796">
+          <strong>xyjisaw</strong>
+          <time>2019-09-24 15:26:55</time>
+          <div>建议上谷歌学术或者知网查看带约束的进化多目标算法。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18083">
+          <strong>蜻</strong>
+          <time>2019-10-17 17:30:20</time>
+          <div>你好 请问你做出来了吗 我也在学习这个方法  ，如果能够指点一下的话，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18172">
+          <strong>Anonymous</strong>
+          <time>2019-11-07 17:24:52</time>
+          <div>你好，你的问题解决了吗？能不能加我qq1339230417向你请教一下</div>
+        </div>
+        
+        <div class="comment" id="comment-19243">
+          <strong>李志</strong>
+          <time>2020-07-28 21:57:15</time>
+          <div>您好，我在做一些关于映射的问题，变量是映射结果，可以表示为[0,1,0,3,4,5,0,2]，通过这个结果可以求出两个函数值。我现在虽然有交叉变异，但是迭代到后边，每次留下的映射结果有好多重复的结果，并且算出来的拥挤度好多是INF或者0，不知道该怎么解决，希望大佬可以指点一二，非常感谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19245">
+          <strong>xyjisaw</strong>
+          <time>2020-07-29 11:03:15</time>
+          <div>重复结果说明已经收敛了或者陷入了局部最优，出现拥挤度INF是正常的。建议提高变异概率，或者换一个演化计算的方法，NSGA2也是有局限性的。</div>
+        </div>
+        
+        <div class="comment" id="comment-19328">
+          <strong>张丹丹</strong>
+          <time>2020-08-19 10:53:56</time>
+          <div>你好，请问在源代码中加约束的问题您这边解决了吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19329">
+          <strong>张丹丹</strong>
+          <time>2020-08-19 10:55:10</time>
+          <div>你好，请问在源代码中添加约束的算法您这边实现了吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19332">
+          <strong>xyjisaw</strong>
+          <time>2020-08-19 14:14:00</time>
+          <div>源代码中我没加约束呢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19549">
+          <strong>李</strong>
+          <time>2020-10-21 21:47:03</time>
+          <div>你好，这是我的qq，方便加一下讨论一下吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19556">
+          <strong>xyjisaw</strong>
+          <time>2020-10-22 23:53:08</time>
+          <div>抱歉，现在不做这个方向了。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

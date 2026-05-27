@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly experiment 4-2 (32-bit addition, subtraction, multiplication and division problems) · OmegaXYZ</title>
+  <meta name="description" content="Use 16-bit instructions to compile programs to handle the four 32-bit arithmetic operations of addition, subtraction, multiplication and division. This article calculates the value of (3*X+Y-Z)/5. The values ​​are: The quotient after dividing by 5 is 3, and the remainder is 2. The register status of the first four steps is ZF=0 SF=0 CF=0 OF=0. The last few steps AL=03, DL=02 are consistent.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/05/assemblyexperiment4_2/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-05</div>
+        <h1>Assembly experiment 4-2 (32-bit addition, subtraction, multiplication and division problems)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">Use 16-bit instructions to compile programs to handle the four 32-bit arithmetic operations of addition, subtraction, multiplication and division.
+
+This article calculates the value of (3*X+Y-Z)/5
+
+The values are:<pre><code class="language-asm">x dw 7;大家自己定义一下数据，最好不要雷同哦！！！
+y dw -3
+z dw 1</code></pre>After dividing by 5, the quotient is 3, leaving a remainder of 2<pre><code class="language-asm">data segment
+x dw 7;自己定义数据，最好不要雷同！！！
+y dw -3
+z dw 1
+v dd ?
+data ends;定义数据段，其中X,Y,Z为一个字节，V为32位结果双字
+code segment
+ assume cs:code,ds:data
+start:
+mov ax,data
+mov ds,ax
+mov ax,3
+imul x;IMUL结果保存在AX和DX中
+mov cx,ax
+mov bx,dx;转移到CX和DX中
+mov ax,y
+cwd;将Y扩展为32位，以下若干行相同
+add cx,ax
+adc bx,dx
+mov ax,z
+cwd
+sub cx,ax
+sbb bx,dx
+mov ax,cx
+mov dx,bx
+mov cx,5
+idiv cx
+lea bx,v;取V的地址
+mov [bx],dx
+mov [bx+2],ax;将结果保存在[bx]到[bx+4]的内存位置32位
+mov ah,4ch
+int 21h
+code ends
+end start</code></pre>Register status for the first four steps
+
+ZF=0 SF=0 CF=0 OF=0<img alt="" class="alignnone wp-image-687" height="317" src="https://cdn.omegaxyz.com/2017/05/assembly4_21-300x156.png" width="610"/>final steps<img alt="" class="alignnone wp-image-688" height="316" src="https://cdn.omegaxyz.com/2017/05/assembly4_22-300x156.png" width="608"/>AL=03, DL=02 consistent</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-49">
+          <strong>Anonymous</strong>
+          <time>2017-06-14 14:50:40</time>
+          <div>第29行和第30行，低位应该是ax，高位是dx</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

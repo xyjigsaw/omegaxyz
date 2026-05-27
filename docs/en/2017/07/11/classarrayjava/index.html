@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creation and calling of JAVA &quot;class&quot; array · OmegaXYZ</title>
+  <meta name="description" content="The creation and calling of JAVA &quot;class&quot; arrays is different compared to C++. Let’s first look at the creation of such a class array. Note: bookFeature is a class. Error 1: BookFeature[] List=new bookFeature[MAXSIZE] is defined in the constructor method bookList(); This is not possible. JAVA requires that each variable be initialized, and such a line must be added to the constructor method...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/07/11/classarrayjava/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>Creation and calling of JAVA &quot;class&quot; array</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">The creation and calling of JAVA "class" arrays is different compared to C++.
+
+Let’s first look at the creation of such an array-like
+
+Note: bookFeature is a class
+
+Error 1:<pre><code class="language-java">class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	public bookList(){
+		bookNum=0;
+		bookFeature[] List=new bookFeature[MAXSIZE];
+		}
+	}</code></pre>Here bookFeature[] List=new bookFeature[MAXSIZE] is defined in the construction method bookList();
+
+This is not possible. JAVA requires that each variable must be initialized. It must be<strong>Constructor</strong>Add this line of code:<pre><code class="language-java">for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();</code></pre>Is this enough? Next look at error 2
+
+Error 2:<pre><code class="language-java">class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List;
+	public bookList(){
+		bookNum=0;
+		bookFeature[] List=new bookFeature[MAXSIZE];
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}</code></pre>BookFeature[] List is defined here first; and then in the construction method, this is not possible. The array variable here must be placed in the object.
+
+Both errors will report java.lang.NullPointerException<img alt="" class="alignnone wp-image-1396" height="201" src="https://cdn.omegaxyz.com/2017/07/classarray1-300x84.png" width="718"/>
+<strong>Remember arrays are objects in JAVA! ! !</strong>The following gives the correct declaration of an array-like<pre><code class="language-java">import java.util.*;
+class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List=new bookFeature[MAXSIZE];
+	public bookList(){
+		bookNum=0;
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

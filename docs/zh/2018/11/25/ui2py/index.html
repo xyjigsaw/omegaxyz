@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyqt5将图形设计生成的ui文件转化为py文件 · OmegaXYZ</title>
+  <meta name="description" content="Qt Creator是跨平台的 Qt IDE， Qt Creator 是 Qt 被 Nokia 收购后推出的一款新的轻量级集成开发环境（IDE）。此 IDE 能够跨平台运行，支持的系统包括 Linux（32 位及 64 位）、Mac OS X 以及 Windows。根据官方描述，Qt Creator 的设计目标是使开发人员能够利用 Qt...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/25/ui2py/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-25</div>
+        <h1>pyqt5将图形设计生成的ui文件转化为py文件</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/pyqt/index.html">PyQt</a></div>
+        <div class="article-content">Qt Creator是跨平台的 Qt IDE， Qt Creator 是 Qt 被 Nokia 收购后推出的一款新的轻量级集成开发环境（IDE）。此 IDE 能够跨平台运行，支持的系统包括 Linux（32 位及 64 位）、Mac OS X 以及 Windows。根据官方描述，Qt Creator 的设计目标是使开发人员能够利用 Qt 这个应用程序框架更加快速及轻易的完成开发任务。
+
+使用Qt Creator或designer图形界面画出的图形会产生ui界面，需要将ui文件转化为py文件。下面给出了步骤。
+
+①打开qt creator选择一个模板
+
+<img class="alignnone  wp-image-5165" src="https://cdn.omegaxyz.com/2018/11/qt1.png" alt="" width="640" height="395" />
+
+②选择模板配置直到完成
+
+<img class="alignnone  wp-image-5166" src="https://cdn.omegaxyz.com/2018/11/qt2.png" alt="" width="641" height="408" />
+
+<img class="alignnone  wp-image-5167" src="https://cdn.omegaxyz.com/2018/11/qt3.png" alt="" width="641" height="408" />
+
+③进入主界面
+
+<img class="alignnone  wp-image-5168" src="https://cdn.omegaxyz.com/2018/11/qt4.png" alt="" width="646" height="408" />
+
+下面是xml的ui文件
+
+<img class="alignnone  wp-image-5169" src="https://cdn.omegaxyz.com/2018/11/qt6.png" alt="" width="646" height="408" />
+
+画一些控件
+
+<img class="alignnone  wp-image-5170" src="https://cdn.omegaxyz.com/2018/11/qt7.png" alt="" width="647" height="409" />
+
+保存后会有3个文件
+
+<img class="alignnone  wp-image-5171" src="https://cdn.omegaxyz.com/2018/11/qt8.png" alt="" width="476" height="149" />
+
+④进入保存的文件夹，打开终端（CMD）
+
+输入命令（MAC 与Windows均可）
+<p class="p1"><strong><span class="s1">pyuic5 -o qttest.py qttest.ui</span></strong></p>
+将ui文件转化为py文件
+
+刚刚画出的Python代码：
+<pre ><code class="language-python"># -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'qttest.ui'
+#
+# Created by: PyQt5 UI code generator 5.11.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_qttest(object):
+    def setupUi(self, qttest):
+        qttest.setObjectName("qttest")
+        qttest.resize(800, 600)
+        self.centralwidget = QtWidgets.QWidget(qttest)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(110, 300, 114, 32))
+        self.pushButton.setObjectName("pushButton")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(300, 40, 59, 16))
+        self.label.setObjectName("label")
+        self.timeEdit = QtWidgets.QTimeEdit(self.centralwidget)
+        self.timeEdit.setGeometry(QtCore.QRect(240, 190, 118, 22))
+        self.timeEdit.setObjectName("timeEdit")
+        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
+        self.dateEdit.setGeometry(QtCore.QRect(400, 350, 110, 22))
+        self.dateEdit.setObjectName("dateEdit")
+        qttest.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(qttest)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
+        self.menubar.setObjectName("menubar")
+        qttest.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(qttest)
+        self.statusbar.setObjectName("statusbar")
+        qttest.setStatusBar(self.statusbar)
+
+        self.retranslateUi(qttest)
+        QtCore.QMetaObject.connectSlotsByName(qttest)
+
+    def retranslateUi(self, qttest):
+        _translate = QtCore.QCoreApplication.translate
+        qttest.setWindowTitle(_translate("qttest", "MainWindow"))
+        self.pushButton.setText(_translate("qttest", "PushButton"))
+        self.label.setText(_translate("qttest", "QT TEST"))
+</code></pre>
+⑤此时解释器已经能够运行了，为了能够显示界面需要增加下面的主函数和pyqt的包
+<pre ><code class="language-python">if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    widget = QWidget(None)
+    Ui_Form().setupUi(widget)
+    sys.exit(app.exec_())
+    pass
+</code></pre>
+注意相应的<strong>名称</strong>也要改。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

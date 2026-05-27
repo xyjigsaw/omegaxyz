@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于WMD（词移距离）的句子相似度分析MATLAB代码 · OmegaXYZ</title>
+  <meta name="description" content="WMD简介 词移距离（Word Mover’s Distance） https://omegaxyz.com/2018/11/22/wmd/ WMD MATLAB代码 注意emd_mex是调用搬土距离的库Earth Mover&#x27;s Distance RWMD（Relaxed word moving distance ） 先去掉一个约束，计...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/09/wmd-matlab/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-09</div>
+        <h1>基于WMD（词移距离）的句子相似度分析MATLAB代码</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>WMD简介</strong></h2>
+<strong>词移距离（Word Mover’s Distance）</strong>
+
+https://omegaxyz.com/2018/11/22/wmd/
+<h2><strong>WMD MATLAB代码</strong></h2>
+注意emd_mex是调用搬土距离的库Earth Mover's Distance
+<pre ><code class="language-matlab">%徐奕 E21614061
+clc
+clear
+tic;
+load_file = 'bbcsport.mat'; % 数据集为bbcsport
+save_file = 'wmd_d_bbcsport.mat';
+
+%X每个单元对应一个文档，是一个[d,u]矩阵，
+%其中d是嵌入单词的维数bbcsport中的是300，u是该文档中Unique单词的数量
+%每一列是特定单词的word2vec向量。
+%Y是文档的标签
+%BOW_X单元阵列中的每个单元格都是与文档对应的向量。
+%向量的大小是文档中Unique单词的数量，每个条目是每个Unique单词出现的频率。
+%indices 每个单元格对应于一个文档，它本身就是一个{1,u}单元格，其中每个条目是对应于每个Unique单词的实际单词
+%TR每一行对应于训练集的随机分割，每个条目是相对于完整数据集的索引。
+
+load(load_file)
+docNum = length(BOW_X); %文档的数量 
+
+WMD = zeros(docNum,docNum);
+
+parfor i = 1:docNum %并行运行
+    E_distance = zeros(1,docNum); %用来存放当前文档与其他文档的距离
+    for j = (i+1):docNum
+        if isempty(BOW_X{i}) || isempty(BOW_X{j})
+            E_distance(j) = Inf;  % 错误处理
+        else
+        x1 = BOW_X{i}./sum(BOW_X{i}); %归一化
+        x2 = BOW_X{j}./sum(BOW_X{j}); %归一化
+        %%% 求欧式距离
+        D = distance(X{i}, X{j}); %计算两个文档间的距离（计算X{i}和{j}中的任意列向量之间的两两平方距离矩阵）
+        D(D &lt; 0) = 0; %设置下限
+        D = sqrt(D);  %开方
+        [emd,flow]=emd_mex(x1,x2,D); %调用搬土距离的库Earth Mover's Distance，求WMD
+        E_distance(j) = emd;
+        end
+    end
+    WMD(i,:) = E_distance; %存放到外部变量
+end
+
+ %% 根据距离矩阵计算相似度，使用归一化
+similarVar = -WMD;
+maxs = max(similarVar);
+mins = min(similarVar);
+for i = 1:size(WMD,1)
+    for j = 1:length(WMD(i,:))
+        similarVar(i,j) = (similarVar(i,j)-mins)/(maxs-mins);
+    end
+end
+toc
+%% 保存数据与文件
+save('wmd_sim',similarVar);
+save(save_file,'WMD');
+</code></pre>
+<h2><strong>RWMD（Relaxed word moving distance ）</strong></h2>
+先去掉一个约束，计算相应的WMD，最终取最大值。
+
+这两个 relax 过的优化问题的解，恰好对应于词向量矩阵的行空间和列空间上的最近邻问题，也是很好算的。最后定义 RWMD 为这两个 relaxed 优化问题的两个目标值中的最大值。
+<h2><strong>RWMD MATLAB代码</strong></h2>
+<strong>本代码不需要任何外部包</strong>
+<pre ><code class="language-matlab">%徐奕 E21614061
+clc
+clear
+tic;
+addpath('emd')
+load_file = 'bbcsport.mat'; % 数据集为bbcsport
+save_file = 'rwmd_bbcsport.mat';
+load(load_file)
+%X每个单元对应一个文档，是一个[d,u]矩阵，
+%其中d是嵌入单词的维数bbcsport中的是300，u是该文档中Unique单词的数量
+%每一列是特定单词的word2vec向量。
+
+%Y是文档的标签
+
+%BOW_X单元阵列中的每个单元格都是与文档对应的向量。
+%向量的大小是文档中Unique单词的数量，每个条目是每个Unique单词出现的频率。
+
+%indices 每个单元格对应于一个文档，它本身就是一个{1,u}单元格，其中每个条目是对应于每个Unique单词的实际单词
+
+%TR每一行对应于训练集的随机分割，每个条目是相对于完整数据集的索引。
+docNum = length(BOW_X); % 读取文档的数量
+RWMD = zeros(docNum,docNum); % 最终的生成矩阵
+parfor i = 1:docNum %并行运行
+    E_distance = zeros(1,docNum); % 计算单个文档与其他文档的距离
+    for j = (i+1):docNum
+        if isempty(BOW_X{i}) || isempty(BOW_X{j}) % 错误处理
+            E_distance(j) = Inf;
+        else
+            x1 = BOW_X{i}./sum(BOW_X{i}); % 归一化
+            x2 = BOW_X{j}./sum(BOW_X{j}); % 归一化
+            DD = distance(X{i}, X{j});  % 计算两个文档间的距离（计算X{i}和{j}中的任意列向量之间的两两平方距离矩阵）
+            m1 = sqrt(max(min(DD,[],1),0));
+            m2 = sqrt(max(min(DD,[],2),0));
+            dist1 = m1*x2'; % 只保留约束1
+            dist2 = m2'*x1'; % 只保留约束2
+            E_distance(j) = max(dist1,dist2); % 根据论文，对于RWMD，需要选择两个目标中最大的值
+        end
+    end
+    RWMD(i,:) = E_distance; %存储
+    fprintf("doc %d done!\n",i);
+end
+
+RWMD = RWMD + RWMD'; % 上三角加上下三角
+ %% 根据距离矩阵计算相似度，归一化
+similarVar = -RWMD;
+maxs = max(similarVar);
+mins = min(similarVar);
+for i = 1:size(RWMD,1)
+    for j = 1:length(RWMD(i,:))
+        similarVar(i,j) = (similarVar(i,j)-mins)/(maxs-mins);
+    end
+end
+
+%% 保存数据与文件
+toc;
+save(save_file,'RWMD');
+save('rwmd_sim', 'similarVar');
+</code></pre>
+<h2><strong>上述两个代码的distance函数</strong></h2>
+<pre ><code class="language-matlab">function dist=distance(X,x)
+% dist=distance(X,x)
+% 计算X和中的任意列向量之间的两两平方距离矩阵
+[D,~] = size(X);
+if(nargin&gt;=2)
+    [d,~] = size(x);
+     if(D~=d)
+         error('注意维度要相等!\n');
+     end
+     X2 = sum(X.^2,1);
+     x2 = sum(x.^2,1);
+     dist = bsxfun(@plus,X2.',bsxfun(@plus,x2,-2*X.'*x));
+else
+    [D,N] = size(X);
+    s=sum(X.^2,1);
+    dist=bsxfun(@plus,s',bsxfun(@plus,s,-2*X.'*X));
+end</code></pre>
+<h2><strong>数据集来源</strong></h2>
+<a href="http://mlg.ucd.ie/datasets/bbc.html">http://mlg.ucd.ie/datasets/bbc.html</a>
+<h2><strong>结果</strong></h2>
+生成的WMD距离矩阵（左），归一化后可以转化为相似度矩阵（右）
+
+<img class="alignnone wp-image-5198" src="https://cdn.omegaxyz.com/2018/12/wmd-mat1.png" alt="" width="682" height="284" />
+
+<strong>结果举例：</strong>找出的相似的两个文本，下面的相似度为47.78%（与文档1最相似）
+
+<img class="alignnone wp-image-5199" src="https://cdn.omegaxyz.com/2018/12/wmd-mat2.png" alt="" width="732" height="367" />
+
+其中用不同颜色标注的是有明显相似特征的句子。
+<h2><strong>分析</strong></h2>
+通过下面的文档相似度矩阵可以发现，文档与文档间的相似度较小，这是因为数据集是真实世界的数据集，即BBC SPORT中没有两篇完全一样的报道。另外，BBC SPORT共有5个不同的类别，从实验结果可以看到相同类别间的相似度远远大于不同类别间的相似度，因此，WMD对文本分类是有一定的效果。
+
+另外从作者的论文中实验结果可以看到，基于KNN的词移距离算法相对于大多数其他主流文本相似度分析算法来说，错误率要少很多，因此，在工业界，使用WMD来做NLP处理是非常有前景的。
+
+最后，根据由于WMD是无监督学习，通过有监督学习的论文（Supervised word mover's distance）中可以发现，加上了监督机制后错误率还能再下降一个层次。
+
+需要指出的是，不能简单地添加基于度量学习的监督矩阵，一方面，在计算过程中梯度可能不存在，另一方面，基于KNN的SWMD将会耗费大量的时间，因此需要采取相关措施来解决这些问题。
+
+SWMD简介：
+
+https://omegaxyz.com/2018/11/27/swmd/
+
+&nbsp;
+<h2><strong>参考资料</strong></h2>
+Kusner M, Sun Y, Kolkin N, et al. From word embeddings to document distances[C]//International Conference on Machine Learning. 2015: 957-966.
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-33972">
+          <strong>Elias</strong>
+          <time>2023-05-15 11:09:29</time>
+          <div>你好，请问一下，计算欧式距离D的作用是什么，我看wmd的源码里输入参数没有D，只有两组数据及其对应权值。</div>
+        </div>
+        
+        <div class="comment" id="comment-33981">
+          <strong>Elias</strong>
+          <time>2023-05-15 19:41:26</time>
+          <div>你好，我知道D的作用了，但我找到的emd的matlab源码，但里面有个函数是C语言的，请问能不能分享一下你的emd源码</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

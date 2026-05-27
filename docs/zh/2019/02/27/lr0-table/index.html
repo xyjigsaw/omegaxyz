@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译原理自动生成LR(0)分析表Python实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。 这种句柄之后不含任何符号的前缀称为活前缀。 在LR分析工作过程中的任何时候，栈里的文法符号（自栈底而上）X 1 X 2 …X m 应该构成活前缀，把输入串的剩余部分配上之后即应成为规范句型（如果整个输入串确实构...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/27/lr0-table/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-27</div>
+        <h1>编译原理自动生成LR(0)分析表Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。
+
+这种句柄之后不含任何符号的前缀称为活前缀。
+
+在LR分析工作过程中的任何时候，栈里的文法符号（自栈底而上）X<sub>1</sub>X<sub>2</sub>…X<sub>m</sub>应该构成活前缀，把输入串的剩余部分配上之后即应成为规范句型（如果整个输入串确实构成一个句子）。因此，只要输入串的已扫描部分保持可归约成一个活前缀，那就意味着所扫描过的部分没有错误。
+
+对于一个文法G，我们可以构造一个有限自动机，它能识别G的所有活前缀，然后把这个自动机转变成LR分析表，按照该LR分析表进行LR分析，就能保证在分析的过程中，如果分析的句子是正确的，栈里的文法符号（自栈底而上）始终构成活前缀。
+
+假若一个文法G的拓广文法的活前缀识别自动机中的每个状态（项目集）不存在下述情况：（1）既含移进项目又含归约项目；（2）含有多个归约项目，则称G是一个LR（0）文法。该自动机的状态集合即为该文法的LR（0）项目集规范族。
+
+构造识别文法活前缀DFA有3种方法：
+
+（1）根据形式定义求出活前缀的正则表达式，然后由此正则表达式构造NFA再确定为DFA；
+
+（2）求出文法的所有项目，按一定规则构造识别活前缀的NFA再确定化为DFA；
+
+（3）使用闭包函数（CLOSURE）和转向函数(GO(I,X))构造文法G’的LR(0)的项目集规范族，再由转换函数建立状态之间的连接关系来得到识别活前缀的DFA。
+
+&nbsp;
+
+符号串的前缀是指该符号串的任意首部，包括空串ε。例如，对于符号串abc，其前缀有ε，a，ab，abc。如果输入串没有错误的话，一个规范句型的活前缀是该句型的一个前缀，但它不含句柄之后的任何符号。之所以称为活前缀，是因为在该前缀后联接尚未输入的符号串可以构成一个规范句型。
+
+活前缀与句柄的关系如下：
+
+（1）活前缀已含有句柄的全部符号，表明产生式A→β的右部β已出现在栈顶。
+
+（2）活前缀只含句柄的一部分符号，表明A→β<sub>1</sub>β<sub>2</sub>的右部子串β<sub>1</sub>已出现在栈顶，期待从输入串中看到β<sub>2</sub>推出的符号。
+
+（3）活前缀不含有句柄的任何符号，此时期望A→β的右部所推出的符号串。
+
+在文法G的每个产生式的右部（候选式）的任何位置上添加一个圆点，所构成的每个产生式称为LR（0）项目。如产生式A® xyz有如下项目：A®.xyz，A®x.yz，A®xy.z，A®xyz.。为刻划分析过程中的文法的每一个产生式的右部符号已有多大一部分被识别（出现在栈顶），可以用这种标有圆点的产生式来确定。
+
+（1）A→β.刻划产生式A→β的右部β已出现在栈顶。
+
+（2）A→β<sub>1</sub>.β<sub>2  </sub>刻划A→β<sub>1</sub>β<sub>2</sub>的右部子串β<sub>1</sub>已出现在栈顶，期待从输入串中看到β<sub>2</sub>推出的符号。
+
+（3）A→.β 刻划没有句柄的任何符号在栈顶，此时期望A→β的右部所推出的符号串。
+
+（4）对于A→ε的LR(0)项目只有A→．。
+
+设文法G=（V<sub>T</sub>，V<sub>N</sub>，S，P）是一个上下文无关文法，若存在一个规范推导SAw12w（其中A12P），则称项目A12对活前缀=1是有效的，即LR(0) 有效项目。
+
+从直观意义上讲，一个LR(0)项目指明了在分析过程中的某一步我们看到产生式的多大部分被识别，LR(0)项目中的圆点可看成是分析栈栈顶与输入串的分界线，圆点左边为已进入分析栈的部分，右边是当前输入或继续扫描的符号串。
+
+不同的LR(0)项目，反映了分析栈顶的不同情况。我们根据LR(0)项目的作用不同，将其分为四类：
+
+（1）归约项目：
+
+表现形式：A→a.
+
+这类LR(0)项目表示句柄a恰好包含在栈中，即当前栈顶的部分内容构成了所期望的句柄，应按A→a进行归约。
+
+（2）接受项目：
+
+表现形式：→a.
+
+其中是文法惟一的开始符号。这类LR(0)项目实际是特殊的归约项目，表示分析栈中内容恰好为a，用→a进行归约，则整个分析成功。
+
+（3）移进项目：
+
+表现形式：A→a.（bV<sub>T</sub>）
+
+这类LR(0)项目表示分析栈中是不完全包含句柄的活前缀，为构成恰好有句柄的活前级，需将b移进分析栈。
+
+（4）待约项目：
+
+表现形式：A→α.Bβ  （BV<sub>N</sub>）
+
+这类LR(0)项目表示分析栈中是不完全包含句柄的活前缀，为构成恰好有句柄的活前缀，应把当前输入字符串中的相应内容先归约到B。
+
+&nbsp;
+
+在给出LR(0)项目的定义和分类之后，我们从这些LR(0)项目出发，来构造能识别文法所有前缀的有限自动机。其步骤是：首先构造能识别文法所有活前缀的非确定的有限自动机，再将其确定化和最小化，最终得到所需的确定的有限自动机。
+
+由文法G的LR(0)项目构造识别文法G的所有活前缀的非确定有限自动机的方法：
+
+（1）规定含有文法开始符号的产生式（设→A）的第一个LR(0)项目（即→.A）为NFA的惟一初态。
+
+（2）令所有LR(0)项目分别对应NFA的一个状态且LR(0)项目为归约项目的对应状态为终态。
+
+（3）若状态i和状态j出自同一文法G的产生式且两个状态LR(0)项目的圆点只相差一个位置，即：
+
+若i为X→X<sub>1</sub>X<sub>2</sub>·…X<sub>i-1</sub>·X<sub>i</sub>…X<sub>n</sub>， j为 X→X<sub>1</sub>X<sub>2</sub>…X<sub>i</sub>·X<sub>i+1</sub>…X<sub>n</sub>，则从状态i引一条标记为X<sub>i</sub>的弧到状态j。
+
+（4）若状态i为待约项目（设X→α·Aβ），则从状态i引ε弧到所有A→·r的状态。
+
+&nbsp;
+
+为了使“接受”状态易于识别，我们通常将文法G进行拓广。
+
+假定文法G是一个以S为开始符号的文法，我们构造一个，它包含了整个G，但它引进了一个不出现在G中的非终结符，并加进一个新产生式→S，以→S为开始符号。那么，我们称是G的拓广文法。
+
+这样，便会有一个仅含项目→S的状态，这就是惟一的“接受”态。
+
+如果I是文法G＇的一个项目集，定义和构造I的闭包CLOSURE(I)如下：
+<ul>
+ 	<li>I的项目都在CLOSURE(I)中。</li>
+ 	<li>若A→a.Bb属于CLOSURE(I)，则每一形如B→<strong>.</strong>g的项目也属于CLOSURE(I)。</li>
+ 	<li>重复（2）直到CLOSURE(I)不再扩大。</li>
+</ul>
+&nbsp;
+
+定义转换函数如下：
+
+GO（I，X）= CLOSURE（J）
+
+其中：I为包含某一项目集的状态，X为一文法符号，J={ A→aX .b | A→a.X b∈I}。
+
+圆点不在产生式右部最左边的项目称为核，惟一的例外是S′→.S，因此用GOTO（I，X）状态转换函数得到的J为转向后状态闭包项目集的核。
+
+使用闭包函数（CLOSURE）和转换函数(GO(I,X))构造文法G’的LR(0)的项目集规范族，步骤如下：
+
+&nbsp;
+<ul>
+ 	<li>置项目S′→.S为初态集的核，然后对核求闭包CLOSURE（{S′→.S}）得到初态的闭包项目集。</li>
+ 	<li>对初态集或其他所构造的项目集应用转换函数GO(I，X)= CLOSURE(J)求出新状态J的闭包项目集。</li>
+ 	<li>重复（2）直到不出现新的项目集为止。</li>
+</ul>
+计算LR（0）项目集规范族C={I<sub>0</sub>，I<sub>1</sub> , ... In }的算法伪代码如下：
+
+Procedure itemsets(G’);
+
+Begin  C := { CLOSURE ({S’®.S})}
+
+Repeat
+
+For C 中每一项目集I和每一文法符号X
+
+Do  if  GO(I,X) 非空且不属于C
+
+Then 把 GO(I,X) 放入C中
+
+Until C 不再增大
+
+End;
+
+一个项目集可能包含多种项目，若移进和归约项目同时存在，则称移进-归约冲突，若
+
+归约和归约项目同时存在，则称归约-归约冲突。下面看一个具体的例子：
+
+&nbsp;
+
+我们希望能根据识别文法的活前缀的DFA建立LR分析器，因此，需要研究这个DFA的每个项目集（状态）中的项目的不同作用。
+
+我们说项目A→β<sub>1</sub>.β<sub>2</sub>对活前缀αβ<sub>1</sub>是有效的，其条件是存在规范推导。一般而言，同一项目可能对几个活前缀都是有效的（当一个项目出现在几个不同的集合中时便是这种情形）。若归约项目A→β<sub>1</sub>.对活前缀是有效的，则它告诉我们应把符号串归约为A，即把活前缀变成αA。若移进项目A→β<sub>1</sub>.β<sub>2</sub>对活前缀是有效的，则它告诉我们，句柄尚未形成，因此，下一步动作应是移进。但是，可能存在这样的情形，对同一活前缀，存在若干项目对它都是有效的。而且它们告诉我们应做的事情各不相同，互相冲突。这种冲突通过向前多看几个输入符号，或许能够获得解决。
+
+对于每个活前缀，我们可以构造它的有效项目集。实际上，一个活前缀γ的有效项目集正是从上述的DFA的初态出发，经读出γ后而到达的那个项目集（状态）。换言之，在任何时候，分析栈中的活前缀X<sub>1</sub>X<sub>2</sub>…X<sub>m</sub>的有效项目集正是栈顶状态S<sub>m</sub>所代表的那个集合。这是LR分析理论的一条基本定理。实际上，栈顶的项目集（状态）体现了栈里的一切有用信息——历史。
+
+前面我们已经对LR（0）文法进行了定义,下面我们来看一下LR（0）分析表是如何构造的。
+
+对于LR（0）文法，我们可以直接从它的项目集规范族C和活前缀识别自动机的状态转换函数GO构造出LR分析表。下面是构造LR（0）分析表的算法。
+
+假定C={I<sub>0</sub>, I<sub>1</sub>,…，In}，令每个项目集I<sub>k</sub>的下标k为分析器的一个状态，因此，G'的LR(0)分析表含有状态0，1，…，n。令那个含有项目S'→．S的I<sub>k</sub>的下标k为初态。ACTION子表和GOTO子表可按如下方法构造：
+
+（1）若项目A→α.aβ属于I<sub>k</sub>且GO (I<sub>k</sub>, a)= I<sub>j</sub>, a为终结符，则置ACTION[k, a]为“把状态j和符号a移进栈”，简记为“s<sub>j</sub>”；
+
+（2）若项目A→α．属于I<sub>k</sub>，那么，对任何终结符a，置ACTION[k，a]为“用产生式A→α进行规约”，简记为“r<sub>j</sub>”；其中，假定A→α为文法G'的第j个产生式；
+
+（3）若项目S'→S．属于I<sub>k</sub>, 则置ACTION[k, #]为“接受”，简记为“acc”；
+
+（4）若GO (I<sub>k</sub>, A)= I<sub>j</sub>, A为非终结符，则置GOTO[k, A]=j；
+
+（5）分析表中凡不能用上述1至4填入信息的空白格均置上“出错标志”。
+
+按上述算法构造的含有ACTION和GOTO两部分的分析表，如果每个入口不含多重定义，则称它为文法G的一张LR(0)分析表。具有LR(0)表的文法G称为一个LR（0）文法，LR(0)文法是无二义的。
+
+&nbsp;
+<h2><strong>实验流程图</strong></h2>
+<h3><strong>构造分析表流程图</strong></h3>
+<img class="alignnone  wp-image-5533" src="https://cdn.omegaxyz.com/2019/02/lr0-table1.png" alt="" width="496" height="277" />
+<h3><strong>文法识别流程图</strong></h3>
+<img class="alignnone  wp-image-5534" src="https://cdn.omegaxyz.com/2019/02/lr0-table2.png" alt="" width="518" height="323" />
+<h2><strong>Python代码</strong></h2>
+<ul>
+ 	<li><strong>数据结构：</strong>本次实验使用python语言编写，所有的数据结构均用列表表示。</li>
+</ul>
+<strong>包括文法grammar，项目集itemSet，DFA状态，终结符与终结符以及二维数组LRO分析表LR0TABLE</strong>
+<ul>
+ 	<li><strong>闭包函数closure,</strong>闭包函数的输入时一个项目，通过读取全局变量项目集来求一个项目的项目集，不使用递归，通过判断每次的闭包是否发生变化，如果不发生变化则说明结束。</li>
+ 	<li><strong>Goto</strong><strong>函数，</strong>输入当前项目与转换的字母，通过将点后移一位获得转化后的状态，如果GOTO失败返回-1.</li>
+</ul>
+<pre ><code class="language-python">import copy
+import wx
+import wx.grid
+import time
+
+
+grammar = []
+itemSet = []
+DFA = []
+Vn = []
+Vt = []
+
+
+def closure(item):
+    global itemSet
+    dot = []
+    dot.append(item)
+    olddot = []
+    while len(dot) != len(olddot):
+        olddot = copy.deepcopy(dot)
+        temp = []
+        for i in range(len(dot)):
+            for j in range(len(itemSet)):
+                if dot[i].index('·')+1 &lt; len(dot[i]) and dot[i][dot[i].index('·')+1] == itemSet[j][0] and itemSet[j][itemSet[j].index('&gt;')+1] == '·':
+                    temp.append(itemSet[j])
+        for k in range(len(temp)):
+            if temp[k] not in dot:
+                dot.append(temp[k])
+    return dot
+
+
+def goto(item, a):
+    global itemSet
+    for i in range(len(item)):
+        if item[i] == '·' and i!= len(item)-1:
+            if item[i+1] == a:
+                item2 = item[:i]+item[i+1]+'·'+item[i+2:]
+                if item2 in itemSet:
+                    return item2
+    return -1
+
+
+def findItem(item):
+    global DFA
+    for i in range(len(DFA)):
+        if item in DFA[i]:
+            return i
+    return -1
+
+
+n = int(input('输入个数'))
+for i in range(n):
+    temp = input()
+    if i == 0:
+        grammar.append('S\'-&gt;'+temp[0])
+    grammar.append(temp)
+    for j in range(len(temp)):
+        if temp[j].isupper() and temp[j] not in Vn:
+            Vn.append(temp[j])
+        elif temp[j].islower() and temp[j] not in Vt:
+            Vt.append(temp[j])
+Vn.sort()
+Vt.sort()
+
+for i in range(len(grammar)):
+    flag = 0
+    for j in range(len(grammar[i])):
+        if grammar[i][j] == '&gt;':
+            flag = 1
+        if flag == 1 and grammar[i][j] != '&gt;':
+            temp = grammar[i][:j]+'·'+grammar[i][j:]
+            itemSet.append(temp)
+    itemSet.append(grammar[i]+'·')
+
+
+print(grammar)
+DFA.append(closure(itemSet[0]))
+
+oldDFA = []
+
+while len(oldDFA) != len(DFA):
+    oldDFA = copy.deepcopy(DFA)
+    temp = []
+    tDFA = []
+    for i in range(len(DFA)):
+        for j in range(len(DFA[i])):
+            position = DFA[i][j].index('·')
+            if position != len(DFA[i][j]) - 1:
+                # print('@',goto(DFA[i][j], DFA[i][j][position+1]))
+                tDFA.append(closure(goto(DFA[i][j], DFA[i][j][position+1])))
+    for k in range(len(tDFA)):
+        if tDFA[k] not in DFA:
+            DFA.append(tDFA[k])
+
+
+print(DFA)
+
+for i in range(len(DFA)):
+    for j in range(len(DFA[i])):
+        if len(DFA[i][j][-1]) == '·' and len(DFA[i]) != 1:
+            print('非LR(0)文法')
+            break
+
+print(len(DFA))
+DFAtable = []
+
+for i in range(len(DFA)):
+    table = []
+    for j in range(len(DFA[i])):
+        position = DFA[i][j].index('·')
+        if position == len(DFA[i][j])-1:
+            temp = DFA[i][j][:-1]
+
+            table = [grammar.index(temp)]*(len(Vt)+1)
+            break
+        for k in range(len(Vt)):
+            if DFA[i][j][position+1] == Vt[k]:
+                temp = Vt[k]+'S'+str(findItem(goto(DFA[i][j], Vt[k])))
+                table.append(temp)
+        for m in range(len(Vn)):
+            if DFA[i][j][position+1] == Vn[m]:
+                temp = Vn[m]+str(findItem(goto(DFA[i][j], Vn[m])))
+                table.append(temp)
+    DFAtable.append(table)
+
+
+# 判断是否为LR(0)文法
+flag = 0
+for i in range(len(DFAtable)):
+    for j in range(len(DFAtable)):
+        if len(DFA[i][j]) &gt; 2:
+            print('非LR(0)文法')
+            flag = 1
+            break
+    if flag == 1:
+        break
+
+print(DFAtable)
+
+VtVn = Vt + ['#'] + Vn
+LR0TABLE = [[' ' for col in range(len(VtVn))] for row in range(len(DFA)+1)]
+
+print('------------------------------------------------')
+print('状态\t\t\t\tAction\t\t\t\t GOTO')
+
+for i in range(len(VtVn)):
+    LR0TABLE[0][i] = VtVn[i]+' '
+
+
+for i in range(len(DFAtable)):
+    if 0 in DFAtable[i]:
+        LR0TABLE[2][VtVn.index('#')] = 'acc'
+        continue
+    for j in range(len(DFAtable[i])):
+        try:
+            LR0TABLE[i+1][VtVn.index(DFAtable[i][j][0])] = DFAtable[i][j][1:]
+        except:
+            for k in range(len(Vt)+1):
+                LR0TABLE[i+1][k] = 'r'+str(DFAtable[i][j])
+
+print('     ')
+for i in range(len(LR0TABLE)):
+    print('    ',end=' ')
+    for j in range(len(LR0TABLE[i])):
+        print(LR0TABLE[i][j], end='     ')
+    print('')
+
+
+class GridFrame(wx.Frame):
+    def __init__(self, parent):
+        global LR0TABLE
+
+        wx.Frame.__init__(self, parent)
+
+        # Create a wxGrid object
+        grid = wx.grid.Grid(self, -1)
+
+        # Then we call CreateGrid to set the dimensions of the grid
+        # (100 rows and 10 columns in this example)
+        grid.CreateGrid(len(LR0TABLE)+5, len(VtVn)+5)
+
+        # We can set the sizes of individual rows and columns
+        # in pixels
+
+        grid.SetCellValue(0, 0, '状态')
+        grid.SetCellValue(0, 1, '-')
+        grid.SetCellValue(0, 2, 'ACTION')
+        grid.SetCellValue(0, 3, '-')
+        grid.SetCellValue(0, 4, '-')
+        grid.SetCellValue(0, 5, '-')
+        grid.SetCellValue(0, 6, 'GOTO')
+        grid.SetCellValue(0, 7, '-')
+        grid.SetCellValue(0, 8, '-')
+
+        for i in range(len(LR0TABLE)):
+            grid.SetCellValue(i+2, 0, str(i))
+            for j in range(len(LR0TABLE[i])):
+                grid.SetCellValue(i+1, j+1, LR0TABLE[i][j])
+
+        self.Show()
+
+
+app = wx.App(0)
+frame = GridFrame(None)
+app.MainLoop()
+
+string = input('输入一个句子：')
+string += '#'
+status = [0]
+oper = ['#']
+action = []
+
+flag = 0
+while flag != 1:
+    symbol = string[0]
+    try:
+        if LR0TABLE[status[-1] + 1][VtVn.index(symbol)] != ' ' and LR0TABLE[status[-1] + 1][VtVn.index(symbol)][
+            0] != 'r':
+            if LR0TABLE[status[-1] + 1][VtVn.index(symbol)] == 'acc':
+                flag = 1
+                print('接受！')
+                break
+            status.append(int(LR0TABLE[status[-1] + 1][VtVn.index(symbol)][-1]))
+            oper.append(symbol)
+            string = string[1:]
+            # action.append(LR0TABLE[status[-1] + 1][VtVn.index(symbol)])
+            print(status)
+            print(oper)
+            print('')
+
+        elif LR0TABLE[status[-1] + 1][VtVn.index(symbol)][0] == 'r':
+            position = int(LR0TABLE[status[-1] + 1][VtVn.index(symbol)][1])
+            Vnc = grammar[position][0]
+            Grlen = len(grammar[position]) - grammar[position].index('&gt;') - 1
+            status = status[:-Grlen]
+            oper = oper[:-Grlen]
+            oper.append(Vnc)
+            addx = int(LR0TABLE[status[-1] + 1][VtVn.index(Vnc)])
+            status.append(int(addx))
+            print(status)
+            print(oper)
+            print('')
+            # action.append(str(LR0TABLE[status[-1] + 1][VtVn.index(symbol)]))
+        else:
+            print('错误')
+            break
+    except ValueError as e:
+        print('错误')
+
+
+'''
+E-&gt;aA
+E-&gt;bB
+A-&gt;cA
+A-&gt;d
+B-&gt;cB
+B-&gt;d
+'''
+
+'''
+S-&gt;rD
+D-&gt;D,i
+D-&gt;i
+'''
+
+</code></pre>
+&nbsp;
+<h2><strong>测试</strong></h2>
+<strong>测试文法</strong>
+
+<strong>E-&gt;aA
+E-&gt;bB
+A-&gt;cA
+A-&gt;d
+B-&gt;cB
+B-&gt;d</strong>
+
+<strong>测试句子(可接受)：</strong>
+
+<strong>bccd</strong>
+
+<strong>生成的项目集</strong>
+
+[["S'-&gt;·E", 'E-&gt;·aA', 'E-&gt;·bB'], ["S'-&gt;E·"], ['E-&gt;a·A', 'A-&gt;·cA', 'A-&gt;·d'], ['E-&gt;b·B', 'B-&gt;·cB', 'B-&gt;·d'], ['E-&gt;aA·'], ['A-&gt;c·A', 'A-&gt;·cA', 'A-&gt;·d'], ['A-&gt;d·'], ['E-&gt;bB·'], ['B-&gt;c·B', 'B-&gt;·cB', 'B-&gt;·d'], ['B-&gt;d·'], ['A-&gt;cA·'], ['B-&gt;cB·']]
+
+<strong>实验生成的表</strong>
+
+<strong>（图形界面显示）</strong>
+
+<img class="alignnone  wp-image-5535" src="https://cdn.omegaxyz.com/2019/02/lr0-table3.png" alt="" width="662" height="249" />
+
+<strong>句子分析：bccd</strong>
+
+可以看到符号栈与分析栈每次不同的状态,最终该句子被接受
+
+<strong>上面为状态栈，下面为符号栈</strong>
+
+<img class="alignnone  wp-image-5537" src="https://cdn.omegaxyz.com/2019/02/lr0-table5.png" alt="" width="431" height="446" />
+
+&nbsp;
+<h2><strong>遇到的问题和难点</strong></h2>
+<ul>
+ 	<li>本次实验使用需要写出闭包函数closure与goto函数，有两种方法一种是使用递归，另一种是使用while语句，每次往集合中写入一个项目求闭包直到不发生变化为止。</li>
+ 	<li>第二个难点是根据DFA画出分析表，本次实验将DFA节点与边分开来存储，在画表时使用index索引函数找到对应的边。</li>
+ 	<li>第三个难点是判断句型是否是LR（0）文法，由于是模拟，在实验中不仅需要知道分析表，还需要知道原来的文法、终结符与非终结符。实验中采用将ACTION判断与GOTO判断分开来的方法。</li>
+</ul>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

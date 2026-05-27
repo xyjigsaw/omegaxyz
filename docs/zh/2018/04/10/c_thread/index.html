@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C语言多线程运行详解 · OmegaXYZ</title>
+  <meta name="description" content="pthread_t：用来定义一个线程类型的变量 用法 pthread_t x1; pthread_create：建立线程，它有4个参数 pthread_create(&amp;temp, NULL, print_b, NULL); 第一个参数为指向线程标识符的指针，第二个参数用来设置线程属性，第三个参数是线程运行函数的起始地址，最后一个参数是运行...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/10/c_thread/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-10</div>
+        <h1>C语言多线程运行详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><div id="contents">
+<div class="main clearfix bgf">
+<div class="w750 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>pthread_t：用来定义一个线程类型的变量</strong>
+
+用法 pthread_t x1;
+<div id="contents">
+<div class="main clearfix bgf">
+<div class="w750 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>pthread_create：建立线程，它有4个参数</strong>
+
+pthread_create(&amp;temp, NULL, print_b, NULL);
+
+第一个参数为指向线程标识符的指针，第二个参数用来设置线程属性，第三个参数是线程运行函数的起始地址，最后一个参数是运行函数的参数。这里，我们的函数thread不需要参数，所以最后一个参数设为空指针。第二个参数我们也设为空指针，这样将生成默认属性的线程。
+<div id="contents">
+<div class="main clearfix bgf">
+<div class="w750 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>pthread_join：用来等待一个线程的结束，也可以理解为线程开始</strong>
+
+第一个参数为被等待的线程标识符，第二个参数为一个用户定义的指针，它可以用来存储被等待线程的返回值。
+
+pthread_join(threadPool[i], &amp;result);
+<div id="contents">
+<div class="main clearfix bgf">
+<div class="w750 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>pthread_exit：一个线程的结束有两种途径，一种函数结束了，调用它的线程也就结束了;另一种方式是通过函数pthread_exit来实现</strong>
+
+下面代码是C语言多（3个及以上）线程（建立线程池）实现：
+
+<strong>就像生产者和消费者问题一样，需要多个生产者和消费者。</strong>
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;windows.h&gt;
+
+
+void * print_a(void *a){
+    int i;
+    for(i = 0;i &lt; 10; i++){
+        Sleep(1000);
+        printf("aa\n");
+    }
+    return NULL;
+
+}//1号进程
+
+void * print_b(void *b){
+    int i;
+    for(i=0;i&lt;20;i++){
+        Sleep(1000);
+        printf("bb\n");
+    }
+    return NULL;
+}//2号进程
+
+
+int main()
+{
+    int aNum=5;
+    int bNum=3;
+    pthread_t threadPool[aNum+bNum];//创建一个线程池，大小为aNum+bNum
+
+    int i;
+    for(i = 0; i &lt; aNum; i++){
+        pthread_t temp;
+        if(pthread_create(&amp;temp, NULL, print_a, NULL) == -1){
+            printf("ERROR");
+            exit(1);
+        }
+        threadPool[i] = temp;
+    }//创建a进程放入线程池
+
+
+    for(i = 0; i &lt; bNum; i++){
+        pthread_t temp;
+        if(pthread_create(&amp;temp, NULL, print_b, NULL) == -1){
+            printf("ERROR");
+            exit(1);
+        }
+        threadPool[i+aNum] = temp;
+    }//创建b进程放入线程池
+
+
+    void * result;
+    for(i = 0; i &lt; aNum+bNum; i++){
+        if(pthread_join(threadPool[i], &amp;result) == -1){
+            printf("fail to recollect\n");
+            exit(1);
+        }
+    }//运行线程池
+    return 0;
+}
+
+</code></pre>
+结果：
+
+<img class="alignnone size-full wp-image-3992" src="https://cdn.omegaxyz.com/2018/04/C_threading.jpg" alt="" width="212" height="400" />
+
+&nbsp;
+
+&nbsp;
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3627">
+          <strong>xianyu</strong>
+          <time>2018-04-16 21:52:49</time>
+          <div>优秀</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kmeans聚类选择最优K值python实现 · OmegaXYZ</title>
+  <meta name="description" content="Kmeans算法中K值的确定是很重要的。 下面利用python中sklearn模块进行数据聚类的K值选择 数据集自制数据集，格式如下： 维度为3。 ①手肘法 手肘法的核心指标是SSE(sum of the squared errors，误差平方和)， 其中，Ci是第i个簇，p是Ci中的样本点，mi是Ci的质心（Ci中所有样本的均值），SS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/03/k-means-find-k/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-03</div>
+        <h1>kmeans聚类选择最优K值python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content">Kmeans算法中K值的确定是很重要的。
+<h2><strong>下面利用python中sklearn模块进行数据聚类的K值选择</strong></h2>
+数据集自制数据集，格式如下：
+
+<img class="alignnone  wp-image-4967" src="https://cdn.omegaxyz.com/2018/08/kmeansdatas-e1624606602101.jpg" alt="" width="322" height="241" />
+
+维度为3。
+<h2><strong>①手肘法</strong></h2>
+手肘法的核心指标是SSE(sum of the squared errors，误差平方和)，
+
+<img class="alignnone wp-image-4980" src="https://cdn.omegaxyz.com/2018/09/SSE.png" alt="" width="284" height="80" />
+
+其中，Ci是第i个簇，p是Ci中的样本点，mi是Ci的质心（Ci中所有样本的均值），SSE是所有样本的聚类误差，代表了聚类效果的好坏。
+
+手肘法的核心思想是：随着聚类数k的增大，样本划分会更加精细，每个簇的聚合程度会逐渐提高，那么误差平方和SSE自然会逐渐变小。并且，当k小于真实聚类数时，由于k的增大会大幅增加每个簇的聚合程度，故SSE的下降幅度会很大，而当k到达真实聚类数时，再增加k所得到的聚合程度回报会迅速变小，所以SSE的下降幅度会骤减，然后随着k值的继续增大而趋于平缓，也就是说SSE和k的关系图是一个手肘的形状，而这个肘部对应的k值就是数据的真实聚类数。当然，这也是该方法被称为手肘法的原因。
+
+<strong>python代码：</strong>
+<pre ><code class="language-python">import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import xlrd
+
+# 从Excel中读取数据存入数组
+rawData = xlrd.open_workbook('kmeansdata.xlsx')
+table = rawData.sheets()[0]
+data = []
+for i in range(table.nrows):
+    if i == 0:
+        continue
+    else:
+        data.append(table.row_values(i)[1:])
+featureList = ['Age', 'Gender', 'Degree']
+mdl = pd.DataFrame.from_records(data, columns=featureList)
+
+# '利用SSE选择k'
+SSE = []  # 存放每次结果的误差平方和
+for k in range(1, 9):
+    estimator = KMeans(n_clusters=k)  # 构造聚类器
+    estimator.fit(np.array(mdl[['Age', 'Gender', 'Degree']]))
+    SSE.append(estimator.inertia_)
+X = range(1, 9)
+plt.xlabel('k')
+plt.ylabel('SSE')
+plt.plot(X, SSE, 'o-')
+plt.show()</code></pre>
+<strong>效果图：</strong>
+
+<img class="alignnone size-full wp-image-4979" src="https://cdn.omegaxyz.com/2018/09/KMEANS-SSE.png" alt="" width="656" height="553" />
+
+显然，肘部对于的k值为3，故对于这个数据集的聚类而言，最佳聚类数应该选3。
+<h2><strong>②轮廓系数法</strong></h2>
+该方法的核心指标是轮廓系数（Silhouette Coefficient），某个样本点Xi的轮廓系数定义如下：
+
+<img class="alignnone size-full wp-image-4981" src="https://cdn.omegaxyz.com/2018/09/SC1.png" alt="" width="161" height="82" />
+
+其中，a是Xi与同簇的其他样本的平均距离，称为凝聚度，b是Xi与最近簇中所有样本的平均距离，称为分离度。而最近簇的定义是
+
+<img class="alignnone size-full wp-image-4982" src="https://cdn.omegaxyz.com/2018/09/SC2.png" alt="" width="330" height="72" />
+
+其中p是某个簇Ck中的样本。事实上，简单点讲，就是用Xi到某个簇所有样本平均距离作为衡量该点到该簇的距离后，选择离Xi最近的一个簇作为最近簇。
+
+求出所有样本的轮廓系数后再求平均值就得到了<span style="color: #ff0000;"><strong>平均轮廓系数</strong></span>。平均轮廓系数的取值范围为[-1,1]，且簇内样本的距离越近，簇间样本距离越远，平均轮廓系数越大，聚类效果越好。那么，很自然地，平均轮廓系数最大的k便是最佳聚类数。
+
+<strong>python代码：</strong>
+<pre ><code class="language-python">import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
+import xlrd
+
+# 从Excel中读取数据存入数组
+rawData = xlrd.open_workbook('kmeansdata.xlsx')
+table = rawData.sheets()[0]
+data = []
+for i in range(table.nrows):
+    if i == 0:
+        continue
+    else:
+        data.append(table.row_values(i)[1:])
+featureList = ['Age', 'Gender', 'Degree']
+mdl = pd.DataFrame.from_records(data, columns=featureList)
+
+
+Scores = []  # 存放轮廓系数
+for k in range(2, 9):
+    estimator = KMeans(n_clusters=k)  # 构造聚类器
+    estimator.fit(np.array(mdl[['Age', 'Gender', 'Degree']]))
+    Scores.append(silhouette_score(np.array(mdl[['Age', 'Gender', 'Degree']]), estimator.labels_, metric='euclidean'))
+X = range(2, 9)
+plt.xlabel('k')
+plt.ylabel('轮廓系数')
+plt.plot(X, Scores, 'o-')
+plt.show()
+</code></pre>
+<strong>效果图：</strong>
+
+<img class="alignnone size-full wp-image-4983" src="https://cdn.omegaxyz.com/2018/09/SC3.png" alt="" width="656" height="553" />
+
+可以看到，轮廓系数最大的k值是3，这表示我们的最佳聚类数为3。
+
+<strong>说明：建议比较两个方法选出的K值，如果没有特殊情况的话，建议首先考虑用手肘法。</strong>
+
+<strong>参考资料：</strong><a href="https://blog.csdn.net/qq_15738501/article/details/79036255">https://blog.csdn.net/qq_15738501/article/details/79036255</a>
+
+<strong>姊妹篇：python进行kmeans聚类</strong>
+
+https://omegaxyz.com/2018/08/28/python%E5%88%A9%E7%94%A8sklearn%E8%BF%9B%E8%A1%8Ckmeans%E8%81%9A%E7%B1%BB/
+<h2></h2></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

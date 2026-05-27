@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于柯西和高斯分布的单目标PSO · OmegaXYZ</title>
+  <meta name="description" content="目的： 为了解决大规模优化问题，基于柯西和高斯分布抽样的PSO算法能够在 搜索效率和收敛性 方面保持平衡， 由于柯西和高斯分布的选择的概率不同，比单纯的仅用高斯分布更新位置能 更好保持粒子多样性 。 与传统 PSO 的不同点： ①摒弃了传统PSO中的速度更新公式。 ②采用柯西和高斯分布抽样来更新粒子位置。 ③根据个体最优和环形拓扑最优更新...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/09/cauchy_and_gaussian-based_pso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-09</div>
+        <h1>基于柯西和高斯分布的单目标PSO</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content"><b>目的：</b>为了解决大规模优化问题，基于柯西和高斯分布抽样的PSO算法能够在<b>搜索效率和收敛性</b>方面保持平衡，
+
+由于柯西和高斯分布的选择的概率不同，比单纯的仅用高斯分布更新位置能<b>更好保持粒子多样性</b>。
+
+<b>与传统</b><b>PSO</b><b>的不同点：</b> <b> </b>
+
+①摒弃了传统PSO中的速度更新公式。
+
+②采用柯西和高斯分布抽样来更新粒子位置。
+
+③根据个体最优和环形拓扑最优更新粒子位置。
+
+<strong>传统PSO：</strong>
+
+<img class="alignnone wp-image-2741 size-full" src="https://cdn.omegaxyz.com/2018/01/old_pso.png" alt="" width="639" height="131" />
+
+改进的PSO：
+
+<img class="alignnone wp-image-2739 size-full" src="https://cdn.omegaxyz.com/2018/01/new_pso.png" alt="" width="1102" height="332" />
+
+<img class="alignnone wp-image-2740 size-full" src="https://cdn.omegaxyz.com/2018/01/new_pso2.png" alt="" width="822" height="291" />
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18659">
+          <strong>龙时雨</strong>
+          <time>2020-03-12 11:09:43</time>
+          <div>老哥请问您有这篇论文的出处，不知道篇论文的名称叫什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18660">
+          <strong>xyjisaw</strong>
+          <time>2020-03-12 11:24:09</time>
+          <div>Cooperative Coevolution PSO for Large Scale Optimization, USTC, Xin Yao</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

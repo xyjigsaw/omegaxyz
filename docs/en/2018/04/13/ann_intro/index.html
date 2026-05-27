@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of neural network model · OmegaXYZ</title>
+  <meta name="description" content="What is an Artificial Neural Network? Artificial neural networks are based on a set of connected units or nodes called artificial neurons (simplified versions of biological neurons found in animal brains). Each connection between artificial neurons (a simplified version of a synapse) can transmit signals from one to another. The artificial neuron that receives the signal can process it and then send out a signal to the artificial neurons connected to it. In a common ANN implementation, the signals at the connections between artificial neurons are real, and the output of each artificial neuron is passed through its...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/13/ann_intro/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-13</div>
+        <h1>Detailed explanation of neural network model</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1><strong>What is artificial neural network</strong></h1>Artificial neural networks are based on a set of connected units or nodes called artificial neurons (simplified versions of biological neurons found in animal brains). Each connection between artificial neurons (a simplified version of a synapse) can transmit signals from one to another. The artificial neuron that receives the signal can process it and then send out a signal to the artificial neurons connected to it.
+
+In a common ANN implementation, the signals at the connections between artificial neurons are real numbers, and the output of each artificial neuron is calculated as a nonlinear function of the sum of its inputs. Artificial neurons and connections often have weights that adjust as learning proceeds. Weight increases or decreases the strength of the signal at the connection. Artificial neurons might have a threshold and only send a signal when the summed signal exceeds that threshold. Typically, artificial neurons are organized in layers. Different layers may perform different types of transformations on their inputs. Possibly after multiple passes through the layers, the signal propagates from the first (input) to the last (output) layer.
+
+The original goal of the ANN method was to solve problems in the same way as the human brain. However, over time, attention focused on matching specific tasks, leading to biological biases. Artificial neural networks have been used in a variety of tasks, including computer vision, speech recognition, machine translation, social network filtering, game boards and video games, and medical diagnosis.<h2><strong>system</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4013" height="807" src="https://cdn.omegaxyz.com/2018/04/category.jpg" width="1823"/>
+<h1><strong>neural network model</strong></h1>
+<h2><strong>Single layer neuron model</strong></h2>The neuron model includes input and output. The connection is the most important thing in the neuron. Each connection has a weight.
+The training algorithm of a neural network is to train the weights so that the weights are adjusted to the optimal value so that the network's prediction effect is better.<img alt="" class="alignnone size-full wp-image-4015" height="437" src="https://cdn.omegaxyz.com/2018/04/CNN1.jpg" width="750"/>Ai represents the input and wi represents the weight.<img alt="" class="alignnone size-full wp-image-4016" height="305" src="https://cdn.omegaxyz.com/2018/04/CNN2.jpg" width="530"/>Weighted transfer: [w1, w2,…,wn]*[a1,a2,…..an] corresponds to multiplication.<img alt="" class="alignnone size-full wp-image-4020" height="445" src="https://cdn.omegaxyz.com/2018/04/单层CNN.jpg" width="406"/>Finally, there is an output z=sgn(∑wi*ai)
+Note that sgn is a sign function.<img alt="" class="alignnone size-full wp-image-4049" height="219" src="https://cdn.omegaxyz.com/2018/04/sgnfun.jpg" width="475"/>
+<strong>(The left side is the sgn function and the right side is the sigmoid function, which will be used later)</strong>It can be seen that z is the value of a function g superimposed on the linear weighted sum of the input and weight values. In the MP model, the function g is the sgn function, which is the sign function. This function outputs 1 when the input is greater than 0, otherwise it outputs 0.
+Of course, one neuron can elicit multiple outputs with the same value, with the purpose of transmitting them to more other neurons.
+
+Now the output of more neurons can be seen as the input of another neuron. The figure below is a single layer neural network.<img alt="" class="alignnone size-full wp-image-4022" height="615" src="https://cdn.omegaxyz.com/2018/04/单层CNN3.jpg" width="928"/>Now we can see that this single layer neural network can be extended to matrix multiplication.
+The input variable is [a1, a2, a3]T (representing the column vector composed of a1, a2, a3)
+The left side of the equation is [z1, z2]T, represented by the vector z.
+Therefore, the output formula can be rewritten as:<strong>Z</strong> = sgn(<strong>W</strong> * <strong>a</strong>)
+This formula is a matrix operation in a neural network that calculates the next layer from the previous layer.<h2><strong>Extended to two-layer neural network</strong></h2>It should be noted that in the two-layer neural network, we no longer use the sgn function as the function g, but use the smoothing function sigmoid as the function g. We also call the function g the activation function.<img alt="" class="alignnone size-full wp-image-4023" height="534" src="https://cdn.omegaxyz.com/2018/04/双层CNN1.jpg" width="777"/>
+<h2><strong>Multi-layer neural network (detailed explanation in another article)</strong></h2>In 2006, Hinton published a paper in Science and related journals, proposing the concept of "deep belief network" for the first time. Different from traditional training methods, "deep belief network" has a "pre-training" process, which can easily allow the weights in the neural network to find a value close to the optimal solution, and then use "fine-tuning" technology to optimize the training of the entire network. The use of these two technologies greatly reduces the time for training multi-layer neural networks. He gave the learning method related to multi-layer neural networks a new term - "deep learning".<img alt="" class="alignnone size-full wp-image-4019" height="865" src="https://cdn.omegaxyz.com/2018/04/CNNX.jpg" width="1091"/>When training multi-layer neural networks, a series of studies have found that the ReLU function is easier to converge and has better prediction performance when training multi-layer neural networks. Therefore, currently in deep learning, the most popular nonlinear function is the ReLU function. The ReLU function is not a traditional nonlinear function, but a piecewise linear function. The expression is very simple, that is, y=max(x,0). In short, when x is greater than 0, the output is the input, and when x is less than 0, the output remains 0. The design of this function is inspired by the linear response of biological neurons to excitation, and the simulation that they no longer respond when it falls below a certain threshold.<h2><strong>Compare</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4014" height="1259" src="https://cdn.omegaxyz.com/2018/04/cmp.jpg" width="1896"/>
+<h1><strong>Conclusions</strong></h1>
+<p class="_tgt" data-v-3c4f858a=""><span data-group="0" data-v-3c4f858a="">The world of computing has made huge gains on neural networks.</span><span data-group="-1" data-v-3c4f858a="">Their ability to learn makes them very flexible and powerful.</span><span data-group="-2" data-v-3c4f858a="">Furthermore, it is not necessary to design an algorithm to perform a specific task;</span><span data-group="-3" data-v-3c4f858a="">That is, there is no need to understand the internal mechanics of the task.</span><span data-group="-4" data-v-3c4f858a="">They are also well suited for real-time systems as their fast response and computation times are due to their parallel architecture.</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-group="2" data-v-3c4f858a="">Neural networks also aid research in other fields such as neurology and psychology.</span><span data-group="1" data-v-3c4f858a="">They are often used to model parts of living things and study the inner mechanisms of the brain.</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-group="4" data-v-3c4f858a="">Perhaps the most exciting aspect of neural networks is the possibility of generating some kind of "conscious" network.</span><span data-group="3" data-v-3c4f858a="">There are many scientists who believe that simplicity is a "mechanical" property and that "conscious" neural networks are a realistic possibility.</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-group="6" data-v-3c4f858a="">Finally, I would like to state that even though neural networks have great potential, we will only get the best results when they are integrated with computing, artificial intelligence, fuzzy logic and related topics.</span></p>
+<h1><strong>References</strong></h1>
+①<a href="https://www.cnblogs.com/subconscious/p/5058741.html">https://www.cnblogs.com/subconscious/p/5058741.html</a>
+
+②<a href="https://www.doc.ic.ac.uk/~nd/surprise_96/journal/vol4/cs11/report.html">https://www.doc.ic.ac.uk/~nd/surprise_96/journal/vol4/cs11/report.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

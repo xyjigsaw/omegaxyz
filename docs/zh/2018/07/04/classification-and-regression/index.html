@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习分类与回归 · OmegaXYZ</title>
+  <meta name="description" content="分类 ，即classification：a process in which you put something into the group or class it belongs to，这是指将某物放入其所属的组或类的过程。 回归 ，即regression：the relation between selected values of...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/04/classification-and-regression/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-04</div>
+        <h1>机器学习分类与回归</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><strong>分类</strong>，即classification：a process in which you put something into the group or class it belongs to，这是指将某物放入其所属的组或类的过程。
+
+<strong>回归</strong>，即regression：the relation between selected values of x and observed values of y (from which the most probable value of y can be predicted for any value of x)打个比方，如果父亲很矮，他的儿子也一般不会比父亲矮，而会向一般人的均值靠拢，当时这位英国遗传学家将这现象称为<b>回归。</b>
+
+<strong>在计算机科学中，对于如何区分二者，其他回答已经说得很好了。如何区分类与回归，看的不是输入，而是输出的连续与否（一种评判标准），或者这样说，<b>回归与分类的根本区别在于输出空间是否为一个度量空间</b>。</strong>
+
+<strong>举几个例子（来自知乎）：</strong>
+
+<strong>1. Logistic Regression 和 Linear Regression：</strong>
+<ul>
+ 	<li>Linear Regression： 输出一个标量 wx+b，这个值是连续值，所以可以用来处理回归问题。</li>
+ 	<li>Logistic Regression：把上面的 wx+b 通过 sigmoid函数映射到(0,1)上，并划分一个阈值，大于阈值的分为一类，小于等于分为另一类，可以用来处理二分类问题。</li>
+ 	<li>更进一步：对于N分类问题，则是先得到N组w值不同的 wx+b，然后归一化，比如用 softmax函数，最后变成N个类上的概率，可以处理多分类问题。</li>
+</ul>
+<strong>2. Support Vector Regression 和 Support Vector Machine:</strong>
+<ul>
+ 	<li>SVR：输出 wx+b，即某个样本点到分类面的距离，是连续值，所以是回归模型。</li>
+ 	<li>SVM：把这个距离用 sign(·) 函数作用，距离为正(在超平面一侧)的样本点是一类，为负的是另一类，所以是分类模型。</li>
+</ul>
+<strong>3. 神经网络用于 分类 和 回归:</strong>
+<ul>
+ 	<li>用于回归：最后一层有m个神经元，每个神经元输出一个标量，m个神经元的输出可以看做向量 v，现全部连到一个神经元上，则这个神经元输出wv+b，是一个连续值，可以处理回归问题，跟上面 Linear Regression 思想一样。</li>
+ 	<li>用于N分类：现在这m个神经元最后连接到 N 个神经元，就有 N 组w值不同的 wv+b，同理可以归一化（比如用 softmax ）变成
+N个类上的概率。</li>
+</ul>
+拓展： 上面的例子其实都是从 prediction 的角度举例的，如果从training角度来看，分类模型和回归模型的目标函数不同，分类常见的是 log loss, hinge loss, 而回归是 square loss
+
+<strong>比较图：</strong>
+
+<img class="alignnone size-full wp-image-4689" src="https://cdn.omegaxyz.com/2018/07/c-and-r.jpg" alt="" width="725" height="154" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

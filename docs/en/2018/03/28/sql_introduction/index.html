@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to SQL and basic syntax · OmegaXYZ</title>
+  <meta name="description" content="SQL is a standard computer language for accessing and manipulating databases. What is SQL? SQL stands for Structured Query Language SQL gives us the ability to access databases SQL is an ANSI standard computer language What can SQL do? SQL executes queries against the database SQL can retrieve data from the database SQL can insert new records in the database SQL can update data in the database SQL can delete records from the database...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/28/sql_introduction/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-28</div>
+        <h1>Introduction to SQL and basic syntax</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content"><strong>SQL is a standard computer language for accessing and manipulating databases.</strong>
+<div>
+<h2>What is SQL?</h2>
+<ul>
+<li>SQL stands for Structured Query Language</li>
+<li>SQL gives us the ability to access the database</li>
+<li>SQL is an ANSI standard computer language</li>
+</ul>
+</div>
+<div>
+<h2>What can SQL do?</h2>
+<ul>
+<li>SQL executes queries against the database</li>
+<li>SQL can retrieve data from the database</li>
+<li>SQL can insert new records in the database</li>
+<li>SQL can update data in the database</li>
+<li>SQL to delete records from database</li>
+<li>SQL can create a new database</li>
+<li>SQL can create a new table in the database</li>
+<li>SQL can create stored procedures in the database</li>
+<li>SQL can create views in the database</li>
+<li>SQL can set permissions on tables, stored procedures and views</li>
+</ul>
+</div>
+<div>
+<h2>SQL is a standard - but...</h2>SQL is an ANSI standard computer language used to access and operate database systems. SQL statements are used to retrieve and update data in the database. SQL works with database programs such as MS Access, DB2, Informix, MS SQL Server, Oracle, Sybase and other database systems.
+
+Unfortunately, there are many different versions of the SQL language, but in order to be compatible with the ANSI standard, they must jointly support some major keywords (such as SELECT, UPDATE, DELETE, INSERT, WHERE, etc.) in a similar way.<p class="note">Note: In addition to the SQL standard, most SQL database programs have their own proprietary extensions!</p>References:<a href="http://www.w3school.com.cn/sql/sql_intro.asp">http://www.w3school.com.cn/sql/sql_intro.asp</a>
+<div>
+<h2>database table</h2>A database usually contains one or more tables. Each table is identified by a name (such as "Customers" or "Orders"). A table contains records (rows) with data.
+
+The following example is a table named "Persons":<table class="dataintable">
+<tbody>
+<tr>
+<th>Id</th>
+<th>LastName</th>
+<th>FirstName</th>
+<th>Address</th>
+<th>City</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Adams</td>
+<td>John</td>
+<td>Oxford Street</td>
+<td>London</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bush</td>
+<td>George</td>
+<td>Fifth Avenue</td>
+<td>New York</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Carter</td>
+<td>Thomas</td>
+<td>Changan Street</td>
+<td>Beijing</td>
+</tr>
+</tbody>
+</table>The table above contains three records (one for each person) and five columns (Id, Last Name, First Name, Address, and City).</div>
+<div>
+<h2>SQL statement</h2>Most of the work you need to perform on the database is done by SQL statements.
+
+The following statement selects data from the LastName column in the table:<pre class="">SELECT LastName FROM Persons</pre>The result set looks like this:<table class="dataintable">
+<tbody>
+<tr>
+<th>LastName</th>
+</tr>
+<tr>
+<td>Adams</td>
+</tr>
+<tr>
+<td>Bush</td>
+</tr>
+<tr>
+<td>Carter</td>
+</tr>
+</tbody>
+</table>In this tutorial, we will teach you about different SQL statements.</div>
+<div>
+<h2>Important matters</h2>Be sure to remember,<em>SQL is not case sensitive</em>！
+
+</div>
+<div>
+<h2>Semicolon after SQL statement?</h2>Some database systems require a semicolon at the end of each SQL command. Semicolons are not used in our tutorials.
+
+A semicolon is the standard way in database systems to separate each SQL statement so that more than one statement can be executed in the same request to the server.
+
+If you are using MS Access and SQL Server 2000, you do not have to use a semicolon after each SQL statement, although some database software requires a semicolon.</div>
+<div>
+<h2>SQL DML and DDL</h2>SQL can be divided into two parts: data manipulation language (DML) and data definition language (DDL). SQL (Structured Query Language) is a syntax for executing queries. But the SQL language also contains syntax for updating, inserting, and deleting records.
+
+Query and update instructions form the DML part of SQL:<ul>
+<li><em>SELECT</em>- Get data from database table</li>
+<li><em>UPDATE</em>- Update data in database tables</li>
+<li><em>DELETE</em>- Delete data from database table</li>
+<li><em>INSERT INTO</em>- Insert data into database table</li>
+</ul>The Data Definition Language (DDL) part of SQL gives us the ability to create or delete tables. We can also define indexes (keys), specify links between tables, and impose constraints between tables.
+
+The most important DDL statements in SQL:<ul>
+<li><em>CREATE DATABASE</em>-Create new database</li>
+<li><em>ALTER DATABASE</em>- Modify database</li>
+<li><em>CREATE TABLE</em>- Create new table</li>
+<li><em>ALTER TABLE</em>- Alter (change) database tables</li>
+<li><em>DROP TABLE</em>- Delete table</li>
+<li><em>CREATE INDEX</em>- Create index (search key)</li>
+<li><em>DROP INDEX</em>- delete index</li>
+</ul>
+</div>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于量子遗传的函数寻优算法MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="量子遗传算法就是基于量子计算原理的一种遗传算法。将量子的态矢量表达引入了遗传编码，利用量子逻辑门实现染色体的演化，实现了比常规遗传算法更好的效果。 量子遗传算法建立在量子的态矢量表示的基础之上，将量子比特的几率幅表示应用于染色体的编码，使得一条染色体可以表达多个态的叠加，并利用量子逻辑门实现染色体的更新操作，从而实现了目标的优化求解。 M...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/02/quantum/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-02</div>
+        <h1>基于量子遗传的函数寻优算法MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">量子遗传算法就是基于量子计算原理的一种遗传算法。将量子的态矢量表达引入了遗传编码，利用量子逻辑门实现染色体的演化，实现了比常规遗传算法更好的效果。
+
+量子遗传算法建立在量子的态矢量表示的基础之上，将量子比特的几率幅表示应用于染色体的编码，使得一条染色体可以表达多个态的叠加，并利用量子逻辑门实现染色体的更新操作，从而实现了目标的优化求解。
+
+Matlab代码：
+
+①QuantumMain.m
+<pre ><code class="language-matlab">clc;
+clear all;
+close all;
+%----------------参数设置-----------------------
+MAXGEN=200;                        % 最大遗传代数
+sizepop=40;                        % 种群大小
+lenchrom=[20 20];          % 每个变量的二进制长度
+trace=zeros(1,MAXGEN);
+%--------------------------------------------------------------------------      
+best=struct('fitness',0,'X',[],'binary',[],'chrom',[]);   % 最佳个体 记录其适应度值、十进制值、二进制编码、量子比特编码
+%% 初始化种群
+chrom=InitPop(sizepop*2,sum(lenchrom));
+%% 对种群实施一次测量 得到二进制编码
+binary=collapse(chrom); 
+%% 求种群个体的适应度值，和对应的十进制值
+[fitness,X]=FitnessFunction(binary,lenchrom);         % 使用目标函数计算适应度
+%% 记录最佳个体到best
+[best.fitness bestindex]=max(fitness);     % 找出最大值
+best.binary=binary(bestindex,:);
+best.chrom=chrom([2*bestindex-1:2*bestindex],:);
+best.X=X(bestindex,:);
+trace(1)=best.fitness;
+fprintf('%d\n',1)
+%% 进化
+for gen=2:MAXGEN
+    fprintf('%d\n',gen)  %提示进化代数
+    %% 对种群实施一次测量
+    binary=collapse(chrom);
+    %% 计算适应度
+    [fitness,X]=FitnessFunction(binary,lenchrom);
+    %% 量子旋转门
+    chrom=Qgate(chrom,fitness,best,binary);
+    [newbestfitness,newbestindex]=max(fitness);    % 找到最佳值
+    % 记录最佳个体到best
+    if newbestfitness&gt;best.fitness
+        best.fitness=newbestfitness;
+        best.binary=binary(newbestindex,:);
+        best.chrom=chrom([2*newbestindex-1:2*newbestindex],:);
+        best.X=X(newbestindex,:);
+    end
+    trace(gen)=best.fitness;
+end
+
+%% 画进化曲线
+plot(1:MAXGEN,trace);
+title('进化过程');
+xlabel('进化代数');
+ylabel('每代的最佳适应度');
+
+%% 显示优化结果
+disp(['最优解X：',num2str(best.X)])
+disp(['最大值Y:',num2str(best.fitness)]);
+
+</code></pre>
+②Qgate.m
+<pre ><code class="language-matlab">function chrom=Qgate(chrom,fitness,best,binary)
+%% 量子旋转门调整策略
+% 输入  chrom：更新前的量子比特编码
+%     fitness：适应度值
+%        best：当前种群中最优个体
+%      binary：二进制编码
+% 输出  chrom：更新后的量子比特编码
+sizepop=size(chrom,1)/2;
+lenchrom=size(binary,2);
+for i=1:sizepop
+    for j=1:lenchrom
+        A=chrom(2*i-1,j);   % α
+        B=chrom(2*i,j);     % β
+        x=binary(i,j);
+        b=best.binary(j);
+        if ((x==0)&amp;(b==0))||((x==1)&amp;(b==1))
+            delta=0;                  % delta为旋转角的大小
+            s=0;                        % s为旋转角的符号，即旋转方向
+        elseif (x==0)&amp;(b==1)&amp;(fitness(i)&lt;best.fitness)
+            delta=0.01*pi;
+            if A*B&gt;0
+                s=1;
+            elseif A*B&lt;0
+                s=-1;
+            elseif A==0
+                s=0;
+            elseif B==0
+                s=sign(randn);
+            end
+        elseif (x==0)&amp;(b==1)&amp;(fitness(i)&gt;=best.fitness)
+            delta=0.01*pi;
+            if A*B&gt;0
+                s=-1;
+            elseif A*B&lt;0
+                s=1;
+            elseif A==0
+                s=sign(randn);
+            elseif B==0
+                s=0;
+            end
+        elseif (x==1)&amp;(b==0)&amp;(fitness(i)&lt;best.fitness)
+            delta=0.01*pi;
+            if A*B&gt;0
+                s=-1;
+            elseif A*B&lt;0
+                s=1;
+            elseif A==0
+                s=sign(randn);
+            elseif B==0
+                s=0;
+            end
+        elseif (x==1)&amp;(b==0)&amp;(fitness(i)&gt;=best.fitness)
+            delta=0.01*pi;
+            if A*B&gt;0
+                s=1;
+            elseif A*B&lt;0
+                s=-1;
+            elseif A==0
+                s=0;
+            elseif B==0
+                s=sign(randn);
+            end
+        end
+        e=s*delta;       % e为旋转角
+        U=[cos(e) -sin(e);sin(e) cos(e)];      % 量子旋转门
+        y=U*[A B]';        % y为更新后的量子位
+        chrom(2*i-1,j)=y(1);
+        chrom(2*i,j)=y(2);
+    end
+end
+</code></pre>
+③Objfunction.m
+<pre ><code class="language-matlab">function [Y,X]=Objfunction(x,lenchrom)
+%% 目标函数
+% 输入     x：二进制编码
+%   lenchrom：各变量的二进制位数
+% 输出     Y：目标值
+%          X：十进制数
+bound=[-3.0 12.1;4.1 5.8];   % 函数自变量的范围
+%% 将binary数组转化成十进制数组
+X=bin2decFun(x,lenchrom,bound);
+%% 计算适应度-函数值
+Y=sin(4*pi*X(1))*X(1)+sin(20*pi*X(2))*X(2);</code></pre>
+④InitPop.m
+<pre ><code class="language-matlab">function chrom=InitPop(M,N)
+%% 初始化种群-量子比特编码
+% M:为种群大小×2，(α和β)
+% N:为量子比特编码长度
+for i=1:M
+    for j=1:N
+        chrom(i,j)=1/sqrt(2);
+    end
+end</code></pre>
+⑤FitnessFunction.m
+<pre ><code class="language-matlab">function [fitness,X]=FitnessFunction(binary,lenchrom)
+%% 适应度函数
+% 输入  binary：二进制编码
+%     lenchrom：各变量的二进制位数
+% 输出 fitness：适应度
+%            X：十进制数（待优化参数）
+sizepop=size(binary,1);
+fitness=zeros(1,sizepop);
+num=size(lenchrom,2);
+X=zeros(sizepop,num);
+for i=1:sizepop
+    [fitness(i),X(i,:)]=Objfunction(binary(i,:),lenchrom);         % 使用目标函数计算适应度
+end
+</code></pre>
+⑥collapse.m
+<pre ><code class="language-matlab">function binary=collapse(chrom)
+%% 对种群实施一次测量 得到二进制编码
+% 输入chrom ：为量子比特编码
+% 输出binary：二进制编码
+[M,N]=size(chrom);  %得到种群大小 和编码长度
+M=M/2;  % 种群大小
+binary=zeros(M,N);  %二进制编码大小初始化
+for i=1:M
+    for j=1:N
+        pick=rand;  %产生【0,1】随机数
+        if pick&gt;(chrom(2.*i-1,j)^2)    % 随机数大于α的平方
+            binary(i,j)=1;
+        else
+            binary(i,j)=0;
+        end
+    end
+end</code></pre>
+⑦bin2decFun.m
+<pre ><code class="language-matlab">function X=bin2decFun(x,lenchrom,bound)
+%% 二进制转化成十进制
+% 输入      x：二进制编码
+%    lenchrom：各变量的二进制位数
+%       bound：各变量的范围
+% 输出      X：十进制数
+M=length(lenchrom);
+n=1;
+X=zeros(1,M);
+for i=1:M
+    for j=lenchrom(i)-1:-1:0
+        X(i)=X(i)+x(n).*2.^j;
+        n=n+1;
+    end
+end
+X=bound(:,1)'+X./(2.^lenchrom-1).*(bound(:,2)-bound(:,1))'; 
+</code></pre>
+结果：
+
+<img class="alignnone size-full wp-image-3912" src="https://cdn.omegaxyz.com/2018/04/quantum.jpg" alt="" width="569" height="514" />
+
+<strong>参考文献：</strong>
+
+史峰. MATLAB智能算法30个案例分析[M]. 北京航空航天大学出版社, 2011.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

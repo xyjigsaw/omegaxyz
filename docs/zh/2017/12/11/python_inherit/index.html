@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python类继承（调用父类成员与方法） · OmegaXYZ</title>
+  <meta name="description" content="python中类的初始化方法是__init__()，因此父类子类的初始化方法都是这个，如果子类不实现这个函数，初始化时调用父类的初始化函数，如果子类实现这个函数，就覆盖了父类的这个函数，既然继承父类，就要在这个函数里显式调用一下父类的__init__()，这跟C++,jAVA不一样，他们是自动调用父类初始化函数的。 调用父类函数有以下方法...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/12/11/python_inherit/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-12-11</div>
+        <h1>Python类继承（调用父类成员与方法）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">python中类的初始化方法是__init__()，因此父类子类的初始化方法都是这个，如果子类不实现这个函数，初始化时调用父类的初始化函数，如果子类实现这个函数，就覆盖了父类的这个函数，既然继承父类，就要在这个函数里显式调用一下父类的__init__()，这跟C++,jAVA不一样，他们是自动调用父类初始化函数的。
+
+调用父类函数有以下方法：
+<pre ><code class="language-python">class Animal():
+    def __init__(self, name):
+        self.name = name
+
+    def saySomething(self):
+        print("I am " + self.name)
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def saySomething(self):
+        print ("I am "+ self.name + ", and I can bark")
+</code></pre>
+1.直接写类名调用： parent_class.parent_attribute(self)
+
+2.用 super(type, obj).method(arg)方法调用：super(child_class, child_object).parent_attribute(arg) 【不需要写self】
+
+3.在类定义中调用本类的父类方法，可以直接 super().parent_method(arg) 【个人推崇这种写法】
+
+样例如下：
+<pre ><code class="language-python">class Animal():
+    def __init__(self, name):
+        self.name = name
+
+    def saySomething(self):
+        print("I am " + self.name)
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def saySomething(self):
+        print ("I am "+ self.name + ", and I can bark")
+
+    def animal_say_1(self):
+        # 子类调用父类的方法
+        #  方式1
+        super(Dog, self).saySomething()
+
+    def animal_say_2(self):
+        #  方式2 [推荐]
+        super().saySomething()
+    
+    def animal_say_3(self):
+        # 方式3
+        Animal.saySomething(self)
+
+
+if __name__ == "__main__":
+    dog = Dog("Blake")
+    dog.saySomething()
+    dog.animal_say_1()
+    dog.animal_say_2()
+    dog.animal_say_3()
+    # 子类对象调用被覆盖的父类方法
+    super(Dog, dog).saySomething()
+
+'''
+输出结果如下：
+python python_class_inheritance_example.py
+I am Blake, and I can bark
+I am Blake
+I am Blake
+I am Blake
+I am Blake
+'''
+</code></pre>
+如果要调用父类的成员记住在父类中不能是私有变量，及self.__NAME是不能在子类中调用的！</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

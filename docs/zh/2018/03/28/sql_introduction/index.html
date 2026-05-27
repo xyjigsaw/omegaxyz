@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQL简介与基本语法 · OmegaXYZ</title>
+  <meta name="description" content="SQL 是用于访问和处理数据库的标准的计算机语言。 什么是 SQL？ SQL 指结构化查询语言 SQL 使我们有能力访问数据库 SQL 是一种 ANSI 的标准计算机语言 SQL 能做什么？ SQL 面向数据库执行查询 SQL 可从数据库取回数据 SQL 可在数据库中插入新的记录 SQL 可更新数据库中的数据 SQL 可从数据库删除记录...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/28/sql_introduction/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-28</div>
+        <h1>SQL简介与基本语法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content"><strong>SQL 是用于访问和处理数据库的标准的计算机语言。</strong>
+<div>
+<h2>什么是 SQL？</h2>
+<ul>
+ 	<li>SQL 指结构化查询语言</li>
+ 	<li>SQL 使我们有能力访问数据库</li>
+ 	<li>SQL 是一种 ANSI 的标准计算机语言</li>
+</ul>
+</div>
+<div>
+<h2>SQL 能做什么？</h2>
+<ul>
+ 	<li>SQL 面向数据库执行查询</li>
+ 	<li>SQL 可从数据库取回数据</li>
+ 	<li>SQL 可在数据库中插入新的记录</li>
+ 	<li>SQL 可更新数据库中的数据</li>
+ 	<li>SQL 可从数据库删除记录</li>
+ 	<li>SQL 可创建新数据库</li>
+ 	<li>SQL 可在数据库中创建新表</li>
+ 	<li>SQL 可在数据库中创建存储过程</li>
+ 	<li>SQL 可在数据库中创建视图</li>
+ 	<li>SQL 可以设置表、存储过程和视图的权限</li>
+</ul>
+</div>
+<div>
+<h2>SQL 是一种标准 - 但是...</h2>
+SQL 是一门 ANSI 的标准计算机语言，用来访问和操作数据库系统。SQL 语句用于取回和更新数据库中的数据。SQL 可与数据库程序协同工作，比如 MS Access、DB2、Informix、MS SQL Server、Oracle、Sybase 以及其他数据库系统。
+
+不幸地是，存在着很多不同版本的 SQL 语言，但是为了与 ANSI 标准相兼容，它们必须以相似的方式共同地来支持一些主要的关键词（比如 SELECT、UPDATE、DELETE、INSERT、WHERE 等等）。
+<p class="note">注释：除了 SQL 标准之外，大部分 SQL 数据库程序都拥有它们自己的私有扩展！</p>
+参考资料：<a href="http://www.w3school.com.cn/sql/sql_intro.asp">http://www.w3school.com.cn/sql/sql_intro.asp</a>
+<div>
+<h2>数据库表</h2>
+一个数据库通常包含一个或多个表。每个表由一个名字标识（例如“客户”或者“订单”）。表包含带有数据的记录（行）。
+
+下面的例子是一个名为 "Persons" 的表：
+<table class="dataintable">
+<tbody>
+<tr>
+<th>Id</th>
+<th>LastName</th>
+<th>FirstName</th>
+<th>Address</th>
+<th>City</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Adams</td>
+<td>John</td>
+<td>Oxford Street</td>
+<td>London</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bush</td>
+<td>George</td>
+<td>Fifth Avenue</td>
+<td>New York</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Carter</td>
+<td>Thomas</td>
+<td>Changan Street</td>
+<td>Beijing</td>
+</tr>
+</tbody>
+</table>
+上面的表包含三条记录（每一条对应一个人）和五个列（Id、姓、名、地址和城市）。
+
+</div>
+<div>
+<h2>SQL 语句</h2>
+您需要在数据库上执行的大部分工作都由 SQL 语句完成。
+
+下面的语句从表中选取 LastName 列的数据：
+<pre class="">SELECT LastName FROM Persons</code></pre>
+结果集类似这样：
+<table class="dataintable">
+<tbody>
+<tr>
+<th>LastName</th>
+</tr>
+<tr>
+<td>Adams</td>
+</tr>
+<tr>
+<td>Bush</td>
+</tr>
+<tr>
+<td>Carter</td>
+</tr>
+</tbody>
+</table>
+在本教程中，我们将为您讲解各种不同的 SQL 语句。
+
+</div>
+<div>
+<h2>重要事项</h2>
+一定要记住，<em>SQL 对大小写不敏感</em>！
+
+</div>
+<div>
+<h2>SQL 语句后面的分号？</h2>
+某些数据库系统要求在每条 SQL 命令的末端使用分号。在我们的教程中不使用分号。
+
+分号是在数据库系统中分隔每条 SQL 语句的标准方法，这样就可以在对服务器的相同请求中执行一条以上的语句。
+
+如果您使用的是 MS Access 和 SQL Server 2000，则不必在每条 SQL 语句之后使用分号，不过某些数据库软件要求必须使用分号。
+
+</div>
+<div>
+<h2>SQL DML 和 DDL</h2>
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。
+
+查询和更新指令构成了 SQL 的 DML 部分：
+<ul>
+ 	<li><em>SELECT</em> - 从数据库表中获取数据</li>
+ 	<li><em>UPDATE</em> - 更新数据库表中的数据</li>
+ 	<li><em>DELETE</em> - 从数据库表中删除数据</li>
+ 	<li><em>INSERT INTO</em> - 向数据库表中插入数据</li>
+</ul>
+SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。
+
+SQL 中最重要的 DDL 语句:
+<ul>
+ 	<li><em>CREATE DATABASE</em> - 创建新数据库</li>
+ 	<li><em>ALTER DATABASE</em> - 修改数据库</li>
+ 	<li><em>CREATE TABLE</em> - 创建新表</li>
+ 	<li><em>ALTER TABLE</em> - 变更（改变）数据库表</li>
+ 	<li><em>DROP TABLE</em> - 删除表</li>
+ 	<li><em>CREATE INDEX</em> - 创建索引（搜索键）</li>
+ 	<li><em>DROP INDEX</em> - 删除索引</li>
+</ul>
+</div>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

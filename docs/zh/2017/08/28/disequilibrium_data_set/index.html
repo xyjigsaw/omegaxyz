@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习非平衡数据集概述 · OmegaXYZ</title>
+  <meta name="description" content="定义：不平衡数据集：在分类等问题中，正负样本，或者各个类别的样本数目不一致。 研究不平衡类通常认为不平衡意味着少数类只占比10~20%。实际上，一些数据集远比这更不平衡。例如： 1. 每年大约有2%的信用卡账户被欺骗。（大多数欺诈检测领域严重不平衡。） 2. 状态医疗甄别通常在大量不存在此状态的人口中检测极少数有此状态的人（比如美国的HI...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/08/28/disequilibrium_data_set/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-28</div>
+        <h1>机器学习非平衡数据集概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">定义：不平衡数据集：在分类等问题中，正负样本，或者各个类别的样本数目不一致。
+
+<img class="alignnone wp-image-1836" src="https://cdn.omegaxyz.com/2017/08/disequilibrium2-300x206.png" alt="" width="657" height="451" />
+
+研究不平衡类通常认为不平衡意味着少数类只占比10~20%。实际上，一些数据集远比这更不平衡。例如：
+
+1. 每年大约有2%的信用卡账户被欺骗。（大多数欺诈检测领域严重不平衡。）
+
+2. 状态医疗甄别通常在大量不存在此状态的人口中检测极少数有此状态的人（比如美国的HIV携带者仅占0.4%）。
+
+3. 磁盘驱动器故障每年约1%。
+
+4. 网络广告的转化率估计在10<sup>-3</sup>到10<sup>-6</sup>之间。
+
+5. 工厂生产故障率通常约0.1%。
+
+直观的影响就是，用这些不平衡的数据训练出来的模型，其预测结果偏向于训练数据中数据比较多的那一类，在人脸检测的例子中，就是检测器的检测结果大部分都偏向于没有检测到人脸图像。
+另外一个不平衡数据集，就是信用卡欺诈交易，如果平均的抽取数据，则大部分的数据都是非欺诈交易，只有非常少的部分数据是欺诈交易
+
+影响：不平衡的数据集上做训练和测试，其得到的准确率是虚高的，比如在不平衡数据中，正负样本的比例为9：1时，当它的精度为90%时，我们很有理由怀疑它将所有的类别都判断为数据多的那一类。
+
+&nbsp;
+
+1. 不要用精确度（或错误率）去评估你的分类器。有两个严重的问题。第一，精确度简单的以0.5为阈值来处理二分类，但当数据非平衡时这通常是错的。第二，分类精确度是基于误差的一个简单计数，你应该知道得更多。你应该知道哪些类、在哪儿被混淆。如果你不明白这些点，阅读<a href="http://www.svds.com/classifiers2/" target="_blank" rel="noopener">The Basics of Classifier Evaluation, Part 2</a>可能会有用。你可以用一个ROC曲线，或者一个PR曲线来可视化你的分类器性能。
+
+2. 不要用score和predict从分类器获取硬分类（标签），而应该用proba和predict_proba获取概率估计。
+
+3. 当你获得概率估计后，不要盲目的以0.5为阈值来划分类别。观察性能曲线，来确定将要采样的阈值。早期的论文有许多错误发生就是因为研究人员简单的以0.5截断。
+
+4. 不管你训练什么，总是在自然分布上测试。见
+
+<code>sklearn.cross_validation.StratifiedKFold</code>
+
+5. 你可能不需要概率估计来分类，但是当你需要时，使用校准。见
+
+sklearn.calibration.CalibratedClassifierCV
+
+以下是来自博客<a href="http://blog.csdn.net/chenriwei2/article/details/49227205">http://blog.csdn.net/chenriwei2/article/details/49227205</a> 的解决方法
+
+解决方法：8种
+
+1.收集更多的数据：好处：更够揭露数据类别的本质差别，增加样本少的数目以便后面的数据重采样。
+
+2.尝试改变性能评价标准：
+当数据不平衡时，准确度已经失去了它原有的意义，
+可以参考的度量标准有：1&gt; 混淆矩阵CM 2&gt;精度 3&gt;召回率 4&gt;F1 分数（权衡精度和召回率）；5.Kappa 6，ROC曲线
+
+3.重采样数据：
+1，拷贝一部分样本偏少的数据多分，已达到平衡（过采样）；
+2，删除一部分样本偏多的数据，以使得达到平衡（欠采样）；
+在实际中，过采样和欠采样都会使用的。
+在测试中，如果样本总数比较多，可以用欠采样的数据进行测试，如果样本总数比较少，可以用过采样的数据进行测试；另外应该测试随机采样的数据和非随机采样的数据，同时，测试不同比例正负样本的数据。
+
+4.生成合成数据：
+最简单的是，随机采样样本数目比较少的属性，
+另外一个比较出名的方法为：SMOTE：它是一种过采样的方法，它从样本比较少的类别中创建新的样本实例，一般，它从相近的几个样本中，随机的扰动一个特征，
+
+5.使用不同的算法：
+不要试图用一个方法解所有的问题，尝试一些其他不同的方法，比如决策树一般在不平衡数据集上表现的比较的好。
+
+6.尝试惩罚模型:
+意思就是添加新的惩罚项到cost函数中，以使得小样本的类别被判断错误的cost更大，迫使模型重视小样本的数据。
+比如：带惩罚项的SVM
+
+7.使用不同的视角：
+不平衡的数据集，有专门的邻域和算法做这个，可以参考他们的做法和术语。
+比如：异常检测。
+
+8.尝试新的改进：
+比如：1.把样本比较多的类别，分解为一些更多的小类别，比如：原始我们想区分数字0和其它数字这二分类问题，我们可以把其它数字在分为9类，变成0–9的分类问题；
+
+&nbsp;
+
+英文原文:<a href="https://www.svds.com/learning-imbalanced-classes/">https://www.svds.com/learning-imbalanced-classes/</a>
+
+原文翻译:<a href="http://blog.csdn.net/zhangf666/article/details/53364465">http://blog.csdn.net/zhangf666/article/details/53364465</a>
+<h3>资源和进一步阅读</h3>
+1. 几种Jupyter notebooks说明了非平衡学习的各方面。
+
+◎采样的高斯：<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/Gaussians.ipynb" target="_blank" rel="noopener"><code>Gaussians.ipynb</code></a>
+
+◎Wallance方法：<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/blagging.py" target="_blank" rel="noopener"><code>blagging.py</code></a>
+
+◎<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/ImbalancedClasses.ipynb" target="_blank" rel="noopener"><code>ImbalancedClasses.ipynb</code></a>
+
+2. MATLAB代码：<a href="http://web.mit.edu/rudin/www/code/BoxDrawingsCode.zip" target="_blank" rel="noopener">http://web.mit.edu/rudin/www/code/BoxDrawingsCode.zip</a>
+
+3. R孤立森林：<a href="https://sourceforge.net/projects/iforest/" target="_blank" rel="noopener">https://sourceforge.net/projects/iforest/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

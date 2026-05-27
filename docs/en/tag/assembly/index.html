@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编语言 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ is a long-running notebook for study and research across programming, machine learning, knowledge engineering, mathematics, and personal ideas. It is now a static site: lighter pages, steadier links, and preserved formulas and media.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">Home</a><a href="../../archive/index.html">Archive</a><a href="../../pages/index.html">Pages</a><a href="../../categories/index.html">Categories</a><a href="../../search/index.html">Search</a>
+          <a href="../../../zh/tag/assembly/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>汇编语言</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2018-07-31</time>
+      <div>
+        <h2><a href="../../2018/07/31/hamming-code-assembly/index.html">Hamming code assembly language implementation</a></h2>
+        <p>Author: Xu Yi, Qiu Kang Introduction to Hamming code The performance of Hamming code is to detect one bit error. It is developed based on the idea of ​​parity check code. It adds r check bits to K bits of data to form a new codeword of K+r bits, and distributes each binary bit of the data to several different parity check groups. In this way, when one of the bits changes, it will cause parity errors in several related groups. Through different combinations of these error groups, it is possible to indicate which bit has an error, so that error correction can be performed. use...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-17</time>
+      <div>
+        <h2><a href="../../2018/07/17/assembly-gcd/index.html">Assembly language euclidean division method to find the greatest common divisor</a></h2>
+        <p>Euclidean division, also known as Euclidean algorithm, is a method of finding the greatest common divisor. Its specific method is: divide a larger number with a smaller number, then divide the divisor with the remainder (the first remainder), then divide the first remainder with the remainder (the second remainder), and so on until the final remainder is 0. If you are looking for the greatest common divisor of two numbers, then the final divisor is the greatest common divisor of the two numbers. Main subroutines in assembly ①Main program...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-16</time>
+      <div>
+        <h2><a href="../../2018/07/16/assembly-bubble-sort/index.html">Assembly language sorting algorithm</a></h2>
+        <p>Problem: Use variables to pass parameter keyboard input string into the buffer, sort the contents of the buffer in descending order and output (bubble sort) Process ① Input the string into the buffer through the keyboard ② Sort the string in descending order according to the ASCII code (subroutine) ③ Output the sorted string (subroutine) Difficulty Multi-loop implementation of the sorting algorithm Code results</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-26</time>
+      <div>
+        <h2><a href="../../2017/11/26/汇编程序16位带符号变量计算/index.html">Assembler 16-bit signed variable calculation</a></h2>
+        <p>Write a complete program using 16-bit instructions and test it on the computer to calculate W=(x+y)*z, where all variables are 16-bit signed variables. Pay attention to the use of directives. Use 16-bit instructions to compile programs to handle the four 32-bit arithmetic operations of addition, subtraction, multiplication and division. For the value of (3*X+Y-Z)/5 calculated in this article, please see https://omegaxyz.com/2017/05/05/assemblyexperiment4_2/</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-26</time>
+      <div>
+        <h2><a href="../../2017/11/26/as_ram_16/index.html">16-bit pseudo-instruction assembler to view memory</a></h2>
+        <p>[Experimental content] Use 16-bit instructions to write a complete program to implement the following data definition statements and related instructions. Check the definition of memory data under debug, and track the value of each register in a single step. Question: ORG 0 ARRAY LABEL BYTE DA1 DW 2, 9, 14, 3, 315H, -6 DA2 DB 7, ‘ABCDEDFG’ LEN = $-DA2 ORG 100H DA3 DW DA...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-26</time>
+      <div>
+        <h2><a href="../../2017/11/26/as_pseudo_instruction/index.html">Assembly directives</a></h2>
+        <p>Pseudo-instructions: Pseudo-instructions are instructions that tell the compiler how to compile. It neither controls the operation of the machine nor is it compiled into machine code. It can only be recognized by the assembler and instruct the compiler how to translate the source program. The biggest difference between pseudo-instructions and instructions is that pseudo-instructions only work when compiling, while instructions only work when the program is running. 1. EQU (Equate) The general format is: Label: EQU operand The instruction function is to assign a label to the operand, and the values ​​on both sides are completely equal. ...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-26</time>
+      <div>
+        <h2><a href="../../2017/05/26/assemblycalculator/index.html">Calculator written in assembly language</a></h2>
+        <p>The calculator implements simple addition, subtraction, multiplication and division operations (positive numbers less than 65536) ① Enter arithmetic equations from the keyboard ② Compound arithmetic such as 3+5*7 is not accepted ③ Press the ‘=’ sign to output the result ④ Press the ‘C’ sign to clear CLEAR The program is divided into input module, judgment module, calculation module and output module. Others: Some features have been added. ① Ability to obtain the negative number obtained by subtracting two positive numbers. ② Ability to calculate the remainder in division. ③ More beautiful. The code is too long due to the addition of some features.</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-26</time>
+      <div>
+        <h2><a href="../../2017/05/26/assemblyexperiment6_2/index.html">Assembly experiment 6-2 (copying positive and negative numbers to different arrays)</a></h2>
+        <p>Separate the positive and negative numbers in the word array ARRAY, copy the positive numbers to the PDATA array: copy the negative numbers to the NDATA array, and count the positive and negative numbers respectively.</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-19</time>
+      <div>
+        <h2><a href="../../2017/05/19/assemblyexperiment7_2/index.html">Assembly experiment 7-2 (input 7-digit binary number to display characters)</a></h2>
+        <p>Experimental requirements: Enter a 7-digit binary number from the keyboard, display the corresponding character, and press Enter to exit the loop and terminate the program. Enter 0110011, that is, 33H is the code for 3. Note that you only need to enter 7 digits, and the first 0 is omitted.</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-17</time>
+      <div>
+        <h2><a href="../../2017/05/17/assemblyans6_10/index.html">&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapter 6 to Chapter 10</a></h2>
+        <p>The answers on the Internet are from the first edition, and have been reorganized. &quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press, Second Edition Chapter 6 to Chapter 10 Liu Huiting, Wang Qingsheng Editor-in-Chief Exercises and Reference Answers Please refer to Chapter 1 to Chapter 5: https://omegaxyz.com/2017/05/04/assemblyans1_5/ Exercise 6 6.1 Draw a diagram to illustrate the data in the memory space shown in the following data definition statements, and answer the register values. OR...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-05</time>
+      <div>
+        <h2><a href="../../2017/05/05/assemblyexperiment4_2/index.html">Assembly experiment 4-2 (32-bit addition, subtraction, multiplication and division problems)</a></h2>
+        <p>Use 16-bit instructions to compile programs to handle the four 32-bit arithmetic operations of addition, subtraction, multiplication and division. This article calculates the value of (3*X+Y-Z)/5. The values ​​are: The quotient after dividing by 5 is 3, and the remainder is 2. The register status of the first four steps is ZF=0 SF=0 CF=0 OF=0. The last few steps AL=03, DL=02 are consistent.</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-05</time>
+      <div>
+        <h2><a href="../../2017/05/05/assemblyexperiment4_3/index.html">Assembly Experiment 4-3 (String Comparison and Search)</a></h2>
+        <p>The answers are for reference only, it is better for everyone to write their own. (Assembly language implementation) Use string processing instructions to compile programs to handle comparison and search of strings and display the results. Requirements: (1) In the string comparison function, one string is defined in the data segment, and the other string is input from the keyboard when the program is executed. The keyboard buffer must be defined. Indicate locations of inequality. (2) Find a character in the string and indicate the location where it is found. First question: Test: The string in the code is www....</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-04</time>
+      <div>
+        <h2><a href="../../2017/05/04/assemblyans1_5/index.html">&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapters 1 to 5</a></h2>
+        <p>The answers on the Internet are from the first edition, which has been reorganized. &quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Liu Huiting, Wang Qingsheng Editor-in-Chief Exercises and reference answers For Chapter 6 to Chapter 10, please refer to: https://omegaxyz.com/2017/05/17/assemblyans6_10/ Chapter 1 to Chapter 5 Check and edit: xyjigsaw Exercise 1 1.1 What is machine language? What is assembly language? simple...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-28</time>
+      <div>
+        <h2><a href="../../2017/04/28/assemblyexperiment4_4/index.html">Assembly experiment 4-4 (AL byte content reverse sorting)</a></h2>
+        <p>Please comment if there are any errors or issues, thank you! ! Note that it is binary. We mainly examine assembly shift RCL and RCR instructions. SHL(Shift Left): Logical shift left. SHR(Shift Right): Logical shift right. SAL(Shift Arithmetic Left): Arithmetic shift left. SAR(Shift Arithmetic Right): Arithmetic shift right. Among them, SHL and SAL...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-28</time>
+      <div>
+        <h2><a href="../../2017/04/28/assemblyexperiment4_1/index.html">Assembly experiment 4-1 (data segment searches for ASCII code and echoes it)</a></h2>
+        <p>Experimental requirements: Pre-store 16 hexadecimal ASCII codes in the data segment, with the first address being ASC. Input a hexadecimal number from the keyboard to BX, use ASC[BX] (register relative addressing) addressing mode to find the ASCII code of the corresponding digit, and take out the display. Assembly code snippet: The experimental results are displayed in MASM FOR WINDOWS. Enter the number 5, and return the number 5. Enter the letter A, and return the letter A. Debugging: 1. Enter 5 and assign it to al,...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-07</time>
+      <div>
+        <h2><a href="../../2017/04/07/如何在win10-64位下搭载汇编环境-包含64位机可以使用的e/index.html">How to install assembly environment under win10 64-bit (including edit commands that can be used on 64-bit machines)</a></h2>
+        <p>Online tutorials can only use the debug command in win10 and cannot use the edit command. After searching for a long time, I finally found the edit source file that can be used under 64-bit machines and inserted it into the MASM package downloaded from the Internet. Assembly file https://pan.baidu.com/s/1w27JQtrklbaM4ZpzGVZr7A First, download the file and install DOSBox0.74. Be careful not to install it on the C drive. Download the MAS...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

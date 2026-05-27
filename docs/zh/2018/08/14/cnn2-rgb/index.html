@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>卷积神经网络CNN概述下（RGB图像卷积与单层神经网络） · OmegaXYZ</title>
+  <meta name="description" content="以下内容转载自： https://blog.csdn.net/ice_actor/article/details/78648780 侵删！！！ 黑白图像卷积请参考： https://omegaxyz.com/2018/06/02/cnn1/ 彩色图像的卷积 以上讲述的卷积都是灰度图像的，如果想要在RGB图像上进行卷积，过滤器的大小不在是3...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/14/cnn2-rgb/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-14</div>
+        <h1>卷积神经网络CNN概述下（RGB图像卷积与单层神经网络）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/cnn/index.html">CNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><strong>以下内容转载自：</strong><a href="https://blog.csdn.net/ice_actor/article/details/78648780">https://blog.csdn.net/ice_actor/article/details/78648780</a>
+
+<em><strong>侵删！！！</strong></em>
+
+<strong>黑白图像卷积请参考：</strong>
+
+https://omegaxyz.com/2018/06/02/cnn1/
+<h2 id="4彩色图像的卷积"><strong>彩色图像的卷积</strong></h2>
+以上讲述的卷积都是灰度图像的，如果想要在RGB图像上进行卷积，过滤器的大小不在是3*3而是有3*3*3，最后的3对应为通道数（channels），卷积生成图像中每个像素值为3*3*3过滤器对应位置和图像对应位置相乘累加，过滤器依次在RGB图像上滑动，最终生成图像大小为4*4。
+<img class="alignnone  wp-image-4932" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb11.png" alt="" width="1202" height="544" />
+另外一个问题是，如果我们在不仅仅在图像总检测一种类型的特征，而是要同时检测垂直边缘、水平边缘、45度边缘等等，也就是多个过滤器的问题。如果有两个过滤器，最终生成图像为4*4*2的立方体，这里的2来源于我们采用了两个过滤器。如果有10个过滤器那么输出图像就是4*4*10的立方体。
+<img class="alignnone  wp-image-4933" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb12.png" alt="" width="1213" height="571" />
+<h2 id="5单层卷积网络"><strong>单层卷积网络</strong></h2>
+通过上一节的讲述，图像通过两个过滤器得到了两个4*4的矩阵，在两个矩阵上分别加入偏差<span id="MathJax-Element-10-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-111" class="math"><span id="MathJax-Span-112" class="mrow"><span id="MathJax-Span-113" class="msubsup"><span id="MathJax-Span-114" class="mi">b</span><span id="MathJax-Span-115" class="mn">1</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">b1</span></span>和<span id="MathJax-Element-11-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-116" class="math"><span id="MathJax-Span-117" class="mrow"><span id="MathJax-Span-118" class="msubsup"><span id="MathJax-Span-119" class="mi">b</span><span id="MathJax-Span-120" class="mn">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">b2</span></span>,然后对加入偏差的矩阵做非线性的Relu变换，得到一个新的4*4矩阵，这就是单层卷积网络的完整计算过程。用公式表示：
+<div class="MathJax_Display"><img class="alignnone size-full wp-image-4919 aligncenter" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb.png" alt="" width="196" height="97" /></div>
+其中输入图像为<span id="MathJax-Element-14-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: 400; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: 0px; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; color: #333333; font-family: -apple-system, 'SF UI Text', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif, SimHei, SimSun; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-style: initial; text-decoration-color: initial; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;[&lt;/mo&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-173" class="math"><span id="MathJax-Span-174" class="mrow"><span id="MathJax-Span-175" class="msubsup"><span id="MathJax-Span-176" class="mi">a</span><span id="MathJax-Span-177" class="texatom"><span id="MathJax-Span-178" class="mrow"><span id="MathJax-Span-179" class="mo">[</span><span id="MathJax-Span-180" class="mn">0</span><span id="MathJax-Span-181" class="mo">]</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">a[0]</span></span>,过滤器用<span id="MathJax-Element-15-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: 400; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: 0px; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; color: #333333; font-family: -apple-system, 'SF UI Text', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif, SimHei, SimSun; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-style: initial; text-decoration-color: initial; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;[&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-182" class="math"><span id="MathJax-Span-183" class="mrow"><span id="MathJax-Span-184" class="msubsup"><span id="MathJax-Span-185" class="mi">w</span><span id="MathJax-Span-186" class="texatom"><span id="MathJax-Span-187" class="mrow"><span id="MathJax-Span-188" class="mo">[</span><span id="MathJax-Span-189" class="mn">1</span><span id="MathJax-Span-190" class="mo">]</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">w[1]</span></span>表示，对图像进行线性变化并加入偏差得到矩阵<span id="MathJax-Element-16-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: 400; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: 0px; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; color: #333333; font-family: -apple-system, 'SF UI Text', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif, SimHei, SimSun; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-style: initial; text-decoration-color: initial; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;z&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;[&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-191" class="math"><span id="MathJax-Span-192" class="mrow"><span id="MathJax-Span-193" class="msubsup"><span id="MathJax-Span-194" class="mi">z</span><span id="MathJax-Span-195" class="texatom"><span id="MathJax-Span-196" class="mrow"><span id="MathJax-Span-197" class="mo">[</span><span id="MathJax-Span-198" class="mn">1</span><span id="MathJax-Span-199" class="mo">]</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">z[1]</span></span>，<span id="MathJax-Element-17-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: 400; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: 0px; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; color: #333333; font-family: -apple-system, 'SF UI Text', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif, SimHei, SimSun; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-style: initial; text-decoration-color: initial; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;[&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-200" class="math"><span id="MathJax-Span-201" class="mrow"><span id="MathJax-Span-202" class="msubsup"><span id="MathJax-Span-203" class="mi">a</span><span id="MathJax-Span-204" class="texatom"><span id="MathJax-Span-205" class="mrow"><span id="MathJax-Span-206" class="mo">[</span><span id="MathJax-Span-207" class="mn">1</span><span id="MathJax-Span-208" class="mo">]</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">a[1]</span></span>是应用Relu激活后的结果。
+<img class="alignnone  wp-image-4934" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb13.png" alt="" width="1258" height="706" />
+<ul>
+ 	<li><strong>如果有10个过滤器参数个数有多少个呢？</strong>
+每个过滤器都有3*3*3+1=28个参数，3*3*3为过滤器大小，1是偏差系数，10个过滤器参数个数就是28*10=280个。不论输入图像大小参数个数是不会发生改变的。</li>
+</ul>
+<img class="alignnone wp-image-4920" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb2.png" alt="" width="455" height="356" />
+
+<img class="alignnone wp-image-4921" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb3.png" alt="" width="1030" height="540" />
+<h2 id="6简单卷积网络示例"><strong>简单卷积网络示例</strong></h2>
+<img class="alignnone wp-image-4927" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb4.png" alt="" width="712" height="296" />
+
+<img class="alignnone wp-image-4928" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb5.png" alt="" width="1111" height="574" />、
+
+<strong>卷积神经网络层的类型：</strong>
+<ul>
+ 	<li>卷积层(convolution,conv)</li>
+ 	<li>池化层(pooling,pool)</li>
+ 	<li>全连接层(Fully connected,FC)</li>
+</ul>
+<h2 id="7池化层"><strong>池化层</strong></h2>
+最大池化（Max pooling）
+最大池化思想很简单，以下图为例，把4*4的图像分割成4个不同的区域，然后输出每个区域的最大值，这就是最大池化所做的事情。其实这里我们选择了2*2的过滤器，步长为2。在一幅真正的图像中提取最大值可能意味着提取了某些特定特征，比如垂直边缘、一只眼睛等等。
+
+<img class="alignnone wp-image-4922" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb6.png" alt="" width="1255" height="544" />
+
+以下是一个过滤器大小为3*3，步长为1的池化过程，具体计算和上面相同，最大池化中输出图像的大小计算方式和卷积网络中计算方法一致，如果有多个通道需要做池化操作，那么就分通道计算池化操作。
+
+<img class="alignnone wp-image-4923" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb7.png" alt="" width="1214" height="627" />
+
+平均池化和最大池化唯一的不同是，它计算的是区域内的平均值而最大池化计算的是最大值。在日常应用使用最多的还是最大池化。
+
+<img class="alignnone wp-image-4924" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb8.png" alt="" width="1196" height="560" />
+
+池化的超参数：步长、过滤器大小、池化类型最大池化or平均池化
+<h2 id="8卷积神经网络示例"><strong>卷积神经网络示例</strong></h2>
+以下是一个完整的卷积神经网络，用于手写字识别，这并不是一个LeNet-5网络，但是设计令该来自于LeNet-5。
+
+<img class="alignnone wp-image-4925" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb9.png" alt="" width="1229" height="660" />
+网络各层参数个数表：
+
+<img class="alignnone wp-image-4926" src="https://cdn.omegaxyz.com/2018/08/cnn-rgb10.png" alt="" width="1169" height="530" />
+
+转载自CSDN：<a href="https://blog.csdn.net/ice_actor/article/details/78648780">https://blog.csdn.net/ice_actor/article/details/78648780</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

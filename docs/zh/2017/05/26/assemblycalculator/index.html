@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>使用汇编语言编写的计算器 · OmegaXYZ</title>
+  <meta name="description" content="计算器实现简单的加减乘除运算（小于65536的正数） ①从键盘输入算数的等式 ②不接受复合算数如3+5*7 ③按‘=’号输出结果 ④按‘C’号作为CLEAR清零 程序分为输入模块，判断模块，计算模块，输出模块。 其他：增加了一些特性 ①能够得出两个正数相减得到的负数 ②能够计算除法中的余数 ③比较美观 代码过长由于增加了一些特性">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/26/assemblycalculator/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-26</div>
+        <h1>使用汇编语言编写的计算器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">计算器实现简单的加减乘除运算（小于65536的正数）
+
+①从键盘输入算数的等式
+
+②不接受复合算数如3+5*7
+
+③按‘=’号输出结果
+
+④按‘C’号作为CLEAR清零
+
+程序分为输入模块，判断模块，计算模块，输出模块。
+
+其他：增加了一些特性
+
+①能够得出两个正数相减得到的负数
+
+②能够计算除法中的余数
+
+③比较美观
+
+代码过长由于增加了一些特性
+
+<img class="alignnone wp-image-824" src="https://cdn.omegaxyz.com/2017/05/2017-05-26-300x203.png" alt="" width="671" height="454" />
+<pre ><code class="language-asm">DATA SEGMENT
+divisors DW 10000, 1000, 100, 10, 1
+results DB 0,0,0,0,0,"$" ;存放五位数ASCII码
+data ends
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE
+MAIN PROC FAR
+MOV AX,DATA
+MOV DS,AX
+
+NOW:
+MOV AX,0
+CALL INPUT
+
+PUSH BX
+;------------------------
+CMP AL,'+'
+JZ PLUS
+CMP AL,'-'
+JZ MINUS
+CMP AL,'*'
+JZ BY
+CMP AL,'/'
+JZ DIVD
+
+PLUS:
+CALL INPUT
+POP AX
+ADD AX,BX
+JMP NEXT
+
+MINUS:
+CALL INPUT
+POP AX
+CMP AX,BX
+JL LESS
+SUB AX,BX
+JMP NEXT
+LESS:
+SUB AX,BX
+NEG AX
+PUSH AX
+MOV DL,'-'
+MOV AH,02H
+INT 21H
+POP AX
+JMP NEXT
+
+BY:
+CALL INPUT
+POP AX
+MUL BX
+JMP NEXT
+
+DIVD:
+CALL INPUT
+POP AX
+CMP AX,BX
+JL LESS2
+DIV BX
+JMP NEXT
+LESS2:
+PUSH AX
+MOV DL,30H
+MOV AH,02H
+INT 21H
+MOV DL,'~'
+MOV AH,02H
+INT 21H
+POP AX
+JMP NEXT
+;---------------------------
+NEXT:
+
+CALL OUTPUT
+JMP NOW
+MOV AH,4CH
+INT 21H
+RET
+MAIN ENDP
+;---------------------
+INPUT PROC NEAR
+MOV BX,0
+NUM:
+MOV AH,1
+INT 21H
+CMP AL,'C'
+JZ CLEAR
+CMP AL,'+'
+JZ EXIT
+CMP AL,'-'
+JZ EXIT
+CMP AL,'*'
+JZ EXIT
+CMP AL,'/'
+JZ EXIT
+
+SUB AL,30H
+JL EXIT
+CMP AL,9
+JG EXIT
+CBW
+XCHG AX,BX
+MOV CX,10
+MUL CX
+XCHG AX,BX
+ADD BX,AX
+JMP NUM
+
+CLEAR:
+MOV DL,0DH
+MOV AH,2
+INT 21H
+MOV DL,0AH
+MOV AH,2
+INT 21H
+MOV AX,0
+MOV BX,0
+JMP NUM
+
+EXIT:RET
+INPUT ENDP
+;----------------------
+OUTPUT PROC NEAR
+mov si, offset divisors
+mov di, offset results 
+mov cx,5 
+CAL:
+mov dx,0 
+div word ptr [si]
+add al,30H
+mov byte ptr [di],al 
+inc di 
+add si,2 
+mov ax,dx 
+LOOP CAL
+mov cx,4 
+mov di, offset results 
+NZ:
+cmp byte ptr [di],'0' 
+jne print
+inc di 
+loop NZ
+print:
+mov dx,di 
+MOV AH,9
+INT 21H
+RET
+OUTPUT ENDP
+;---------------------
+CODE ENDS
+END MAIN
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>百练-2016研究生推免上机考试（待续） · OmegaXYZ</title>
+  <meta name="description" content="作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭， 无法看到是否AC（以下代码可能无法通过全部测试用例） ，如有错误，请指出，O(∩_∩)O谢谢。 A:石头剪刀布 全局题号4973 提交次数222 尝试人数100 通过人数95 总时间限制: 1000ms 内存限制: 65...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/03/bailian-tm201602/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-03</div>
+        <h1>百练-2016研究生推免上机考试（待续）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭，<strong><span style="color: #ff0000;">无法看到是否AC（以下代码可能无法通过全部测试用例）</span></strong>，如有错误，请指出，O(∩_∩)O谢谢。
+
+<img class="alignnone wp-image-5858" src="https://cdn.omegaxyz.com/2019/06/bailian-tm2016.png" alt="" width="876" height="421" />
+<h2><strong>A:石头剪刀布</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号4973 提交次数222 尝试人数100 通过人数95</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>石头剪刀布是常见的猜拳游戏。石头胜剪刀，剪刀胜布，布胜石头。如果两个人出拳一样，则不分胜负。
+
+一天，小A和小B正好在玩石头剪刀布。已知他们的出拳都是有周期性规律的，比如：“石头-布-石头-剪刀-石头-布-石头-剪刀……”，就是以“石头-布-石头-剪刀”为周期不断循环的。请问，小A和小B比了N轮之后，谁赢的轮数多？</dd>
+ 	<dt>输入</dt>
+ 	<dd>输入包含三行。
+第一行包含三个整数：N，NA，NB，分别表示比了N轮，小A出拳的周期长度，小B出拳的周期长度。0 &lt; N,NA,NB &lt; 100。
+第二行包含NA个整数，表示小A出拳的规律。
+第三行包含NB个整数，表示小B出拳的规律。
+其中，0表示“石头”，2表示“剪刀”，5表示“布”。相邻两个整数之间用单个空格隔开。</dd>
+ 	<dt>输出</dt>
+ 	<dd>输出一行，如果小A赢的轮数多，输出A；如果小B赢的轮数多，输出B；如果两人打平，输出draw。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>10 3 4
+0 2 5
+0 5 0 2</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre>A</code></pre>
+</dd>
+ 	<dt>提示</dt>
+ 	<dd>对于测试数据，猜拳过程为：
+A：0 2 5 0 2 5 0 2 5 0
+B：0 5 0 2 0 5 0 2 0 5
+A赢了4轮，B赢了2轮，双方打平4轮，所以A赢的轮数多。</dd>
+</dl>
+C++代码
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+int judge(int x, int y){
+    if(x == y)return 0;
+    if((x == 0 &amp;&amp; y == 2) || (x == 2 &amp;&amp; y == 5)|| (x == 5 &amp;&amp; y == 0))return 1;
+    if((x == 2 &amp;&amp; y == 0) || (x == 5 &amp;&amp; y == 2)|| (x == 0 &amp;&amp; y == 5))return -1;
+    return -1;
+}
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    int a, b;
+    cin&gt;&gt;a&gt;&gt;b;
+    int awin = 0, bwin = 0;
+    vector&lt;int&gt; apool(a);
+    vector&lt;int&gt; bpool(b);
+    for(int i = 0; i &lt; a; i++)cin&gt;&gt;apool[i];
+    for(int i = 0; i &lt; b; i++)cin&gt;&gt;bpool[i];
+    for(int i = 0; i &lt; n; i++){
+        if(judge(apool[i % a], bpool[i % b]) == 1)awin++;
+        else if(judge(apool[i % a], bpool[i % b]) == -1)bwin++;
+    }
+    if(awin == bwin)printf("draw\n");
+    else{
+        printf("%s\n", awin &gt; bwin ? "A" : "B");
+    }
+    return 0;
+}</code></pre>
+
+<hr />
+
+<div id="pageTitle">
+<h2><strong>B:字符串判等</strong></h2>
+</div>
+<div id="topMenu">
+
+<span style="color: #ff0000;"><strong>全局题号1745 提交次数246 尝试人数97 通过人数90</strong></span>
+
+</div>
+<div class="problem-page col-9">
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>判断两个由大小写字母和空格组成的字符串在忽略大小写，且忽略空格后是否相等。</dd>
+ 	<dt>输入</dt>
+ 	<dd>两行，每行包含一个字符串。</dd>
+ 	<dt>输出</dt>
+ 	<dd>若两个字符串相等，输出YES，否则输出NO。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>a A bb BB ccc CCC
+Aa BBbb CCCccc
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">YES</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int main(){
+    string a, tempa = "";
+    string b, tempb = "";
+    getline(cin, a);
+    getline(cin, b);
+    for(int i = 0; i &lt; a.length(); i++){
+        if(a[i] == ' ')continue;
+        else tempa += toupper(a[i]);
+    }
+    for(int i = 0; i &lt; b.length(); i++){
+        if(b[i] == ' ')continue;
+        else tempb += toupper(b[i]);
+    }
+    printf("%s\n", tempa == tempb ? "YES" : "NO");
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>C:图像旋转</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号8065 提交次数174 尝试人数98 通过人数94</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>输入一个n行m列的黑白图像，将它顺时针旋转90度后输出。</dd>
+ 	<dt>输入</dt>
+ 	<dd>第一行包含两个整数n和m，表示图像包含像素点的行数和列数。1 &lt;= n &lt;= 100，1 &lt;= m &lt;= 100。
+接下来n行，每行m个整数，表示图像的每个像素点灰度。相邻两个整数之间用单个空格隔开，每个元素均在0~255之间。</dd>
+ 	<dt>输出</dt>
+ 	<dd>m行，每行n个整数，为顺时针旋转90度后的图像。相邻两个整数之间用单个空格隔开。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>3 3
+1 2 3
+4 5 6
+7 8 9</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">7 4 1
+8 5 2
+9 6 3</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int a[101][101];
+int b[101][101];
+
+int main(){
+    int m, n;
+    cin&gt;&gt;m&gt;&gt;n;
+    for(int i = 0; i &lt; m; i++){
+        for(int j = 0; j &lt; n; j++){
+            cin&gt;&gt;a[i][j];
+            b[j][n - i - 1] = a[i][j];
+        }
+    }
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; m; j++){
+            printf("%d%s", b[i][j], j == m - 1 ? "\n" : " ");
+        }
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>D:棋盘问题</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号323 提交次数131 尝试人数52 通过人数26</strong></span>
+<div class="problem-page col-9">
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>在一个给定形状的棋盘（形状可能是不规则的）上面摆放棋子，棋子没有区别。要求摆放时任意的两个棋子不能放在棋盘中的同一行或者同一列，请编程求解对于给定形状和大小的棋盘，摆放k个棋子的所有可行的摆放方案C。</dd>
+ 	<dt>输入</dt>
+ 	<dd>输入含有多组测试数据。
+每组数据的第一行是两个正整数，n k，用一个空格隔开，表示了将在一个n*n的矩阵内描述棋盘，以及摆放棋子的数目。 n &lt;= 8 , k &lt;= n
+当为-1 -1时表示输入结束。
+随后的n行描述了棋盘的形状：每行有n个字符，其中 # 表示棋盘区域， . 表示空白区域（数据保证不出现多余的空白行或者空白列）。</dd>
+ 	<dt>输出</dt>
+ 	<dd>对于每一组数据，给出一行输出，输出摆放的方案数目C （数据保证C&lt;2^31）。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>2 1
+#.
+.#
+4 4
+...#
+..#.
+.#..
+#...
+-1 -1
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">2
+1
+</code></pre>
+</dd>
+</dl>
+</div>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+using namespace std;
+
+bool visit[10]; //用来标记每一列是否有棋子
+char matrix[10][10];
+
+int n, k, ans;
+
+void DFS(int x, int cnum){
+    if(cnum &gt;= k){ //如果棋子已经用完，记录方案数加1
+        ans++;
+        return;
+    }
+    for(int i = x; i &lt; n; i++){ //从x行开始进行，因此下面只需要对列进行递归
+        for(int j = 0; j &lt; n; j++){
+            if(!visit[j] &amp;&amp; matrix[i][j] == '#'){ //如果这一列没有被访问，且在棋盘上
+                visit[j] = true;
+                DFS(i + 1, cnum + 1); //搜索下一列
+                visit[j] = false;
+            }
+        }
+    }
+}
+
+int main(){
+    while(cin&gt;&gt;n&gt;&gt;k){
+        if(n == -1 &amp;&amp; k == -1)break;
+        ans = 0;
+        fill(visit, visit + n, false);
+        fill(matrix[0], matrix[0] + n * n, 0);
+        for(int i = 0; i &lt; n; i++){
+            scanf("%s", matrix[i]);
+        }
+        DFS(0, 0);
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+}
+</code></pre>
+&nbsp;
+
+<hr />
+
+<h2><strong>G:Tangled in Cables</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号1077 提交次数126 尝试人数56 通过人数41</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>You are the owner of SmallCableCo and have purchased the franchise rights for a small town. Unfortunately, you lack enough funds to start your business properly and are relying on parts you have found in an old warehouse you bought. Among your finds is a single spool of cable and a lot of connectors. You want to figure out whether you have enough cable to connect every house in town. You have a map of town with the distances for all the paths you may use to run your cable between the houses. You want to calculate the shortest length of cable you must have to connect all of the houses together.</dd>
+ 	<dt>输入</dt>
+ 	<dd>Only one town will be given in an input.
+<ul>
+ 	<li>The first line gives the length of cable on the spool as a real number.</li>
+ 	<li>The second line contains the number of houses, N</li>
+ 	<li>The next N lines give the name of each house's owner. Each name consists of up to 20 characters {a–z,A–Z,0–9} and contains no whitespace or punctuation.</li>
+ 	<li>Next line: M, number of paths between houses</li>
+ 	<li>next M lines in the form</li>
+</ul>
+&lt; house name A &gt; &lt; house name B &gt; &lt; distance &gt;
+Where the two house names match two different names in the list above and the distance is a positive real number. There will not be two paths between the same pair of houses.</dd>
+ 	<dt>输出</dt>
+ 	<dd>The output will consist of a single line. If there is not enough cable to connect all of the houses in the town, output
+Not enough cable
+If there is enough cable, then output
+Need &lt; X &gt; miles of cable
+Print X to the nearest tenth of a mile (0.1).</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>100.0
+4
+Jones
+Smiths
+Howards
+Wangs
+5
+Jones Smiths 2.0
+Jones Howards 4.2
+Jones Wangs 6.7
+Howards Wangs 4.0
+Smiths Wangs 10.0</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">Need 10.2 miles of cable</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+double cableLen = 0;
+int n, m;
+int father[501];
+
+struct node{
+    string src;
+    string dst;
+    double val;
+};
+
+int findFather(int x){
+    while(x != father[x])x = father[x];
+    return x;
+}
+
+bool unionSet(int x, int y){
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        father[fy] = fx;
+        return true;
+    }
+    return false;
+}
+
+bool cmp(node a, node b){return a.val &lt; b.val;}
+
+int main(){
+    double anslen = 0;
+    int k = 0, i = 0;
+    scanf("%lf%d", &amp;cableLen, &amp;n);
+    unordered_map&lt;string, int&gt; name;
+    for(int i = 0; i &lt; n; i++){
+        string str;
+        cin&gt;&gt;str;
+        father[i] = i;
+        name[str] = i;
+    }
+    scanf("%d", &amp;m);
+    vector&lt;node&gt; pool(m);
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;pool[i].src&gt;&gt;pool[i].dst&gt;&gt;pool[i].val;
+    }
+    sort(pool.begin(), pool.end(), cmp);
+    while(k &lt; n - 1){
+        if(unionSet(name[pool[i].src], name[pool[i].dst])){
+            anslen += pool[i].val;
+            k++;
+        }
+        i++;
+    }
+    if(anslen &lt;= cableLen)
+        printf("Need %.1f miles of cable\n", anslen);
+    else printf("%s\n", "Not enough cable");
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+&nbsp;
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

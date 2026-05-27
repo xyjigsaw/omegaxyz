@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python量化选股框架 · OmegaXYZ</title>
+  <meta name="description" content="量化选股就是采用数量的方法判断某个公司是否值得买入的行为。根据某个方法，如果该公司满足了该方法的条件，则放入股票池，如果不满足，则从股票池中剔除。量化选股的方法有很多种，总的来说，可以分为公司估值法、趋势法和资金法三大类。 参考资料：McCarthy E. &quot; Augmented Intelligence&quot;: Combining Huma...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/19/quantitative_investment_py1/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-19</div>
+        <h1>Python量化选股框架</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">量化选股就是采用数量的方法判断某个公司是否值得买入的行为。根据某个方法，如果该公司满足了该方法的条件，则放入股票池，如果不满足，则从股票池中剔除。量化选股的方法有很多种，总的来说，可以分为公司估值法、趋势法和资金法三大类。
+<pre ><code class="language-python">import numpy as np
+# 在这个方法中编写任何的初始化逻辑。context对象将会在你的算法策略的任何方法之间做传递。
+def init(context):
+    # 查询revenue前十名的公司的股票并且他们的pe_ratio在55和60之间。打fundamentals的时候会有auto-complete方便写查询代码。
+    fundamental_df = get_fundamentals(
+        query(
+            fundamentals.income_statement.revenue, fundamentals.eod_derivative_indicator.pe_ratio
+        ).filter(
+            fundamentals.eod_derivative_indicator.pe_ratio &gt; 55
+        ).filter(
+            fundamentals.eod_derivative_indicator.pe_ratio &lt; 60
+        ).order_by(
+            fundamentals.income_statement.revenue.desc()
+        ).limit(
+            10
+        )
+    )
+ 
+    # 将查询结果dataframe的fundamental_df存放在context里面以备后面只需：
+    context.fundamental_df = fundamental_df
+ 
+    # 实时打印日志看下查询结果，会有我们精心处理的数据表格显示：
+    logger.info(context.fundamental_df)
+    update_universe(context.fundamental_df.columns.values)
+ 
+    # 对于每一个股票按照平均现金买入：
+    context.stocks = context.fundamental_df.columns.values
+    stocks_number = len(context.stocks)
+    context.average_percent = 0.99 / stocks_number
+    logger.info("Calculated average percent for each stock is: %f" % context.average_percent)
+    context.fired = False
+ 
+ 
+# 你选择的证券的数据更新将会触发此段逻辑，例如日或分钟历史数据切片或者是实时数据切片更新
+def handle_bar(context, bar_dict):
+    # 开始编写你的主要的算法逻辑
+ 
+    # bar_dict[order_book_id] 可以拿到某个证券的bar信息
+    # context.portfolio 可以拿到现在的投资组合状态信息
+ 
+    # 使用order_shares(id_or_ins, amount)方法进行落单
+ 
+    # TODO: 开始编写你的算法吧！
+ 
+    # 对于选择出来的股票按照平均比例买入：
+    if not context.fired:
+        for stock in context.stocks:
+            order_target_percent(stock, context.average_percent)
+            logger.info("Bought: " + str(context.average_percent) + " % for stock: " + str(stock))
+        context.fired = True
+</code></pre>
+参考资料：McCarthy E. " Augmented Intelligence": Combining Human Intelligence and Technology[J]. CFA Institute Magazine, 2017, 28(3).</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7 sorting algorithms for data structures (no radix sort) · OmegaXYZ</title>
+  <meta name="description" content="1. Experiment purpose: Master the basic ideas of various sorting methods, including direct insertion sort, Hill sort, bubble sort, quick sort, simple selection sort, heap sort, merge sort, etc., and be able to implement them in high-level languages. By comparing the efficiency of these algorithms, we can deepen our understanding of the algorithms. 2. Experimental principle 3. Experimental content Use random numbers (between 1-100) to generate 10 key values ​​​​of data elements to be sorted). ① Use direct insertion sorting and Hill sorting methods to sort the above data to be sorted...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/23/datastructure_sort/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-23</div>
+        <h1>7 sorting algorithms for data structures (no radix sort)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>1. Experimental purpose
+Master the basic ideas of various sorting methods, including direct insertion sort, Hill sort, bubble sort, quick sort, simple selection sort, heap sort, merge sort, etc., and be able to implement them in high-level languages. By comparing the efficiency of these algorithms, we can deepen our understanding of the algorithms.
+2. Experimental principles<img alt="" class="alignnone wp-image-808" height="444" src="https://cdn.omegaxyz.com/2017/05/11-300x218.png" width="611"/>
+<img alt="" class="alignnone wp-image-809" height="398" src="https://cdn.omegaxyz.com/2017/05/22-300x194.png" width="616"/>
+<img alt="" class="alignnone wp-image-810" height="429" src="https://cdn.omegaxyz.com/2017/05/33-300x209.png" width="616"/>
+<img alt="" class="alignnone wp-image-811" height="423" src="https://cdn.omegaxyz.com/2017/05/44-300x207.png" width="613"/>
+<img alt="" class="alignnone wp-image-812" height="435" src="https://cdn.omegaxyz.com/2017/05/55-300x212.png" width="616"/>
+<img alt="" class="alignnone wp-image-813" height="449" src="https://cdn.omegaxyz.com/2017/05/66-300x219.png" width="615"/>
+<img alt="" class="alignnone wp-image-814" height="458" src="https://cdn.omegaxyz.com/2017/05/77-300x223.png" width="616"/>3.Experimental content
+Use random numbers (between 1-100) to generate 10 key values ​​of the data elements to be sorted).
+① Use direct insertion sorting and Hill sorting methods to sort the above data to be sorted and output the ordered sequence;
+② Use bubble sorting and quick sorting methods to sort the above data to be sorted and output the ordered sequence;
+③ Use simple selection sorting and heap sorting methods to sort the above data to be sorted and output the ordered sequence;
+④ Use the merge sort method to sort the above data to be sorted and output the sorted sequence;
+
+Header file:<pre><code class="language-c++">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;cstdlib&gt;
+
+#define MAXSIZE 100
+
+using namespace std;
+
+typedef int KeyType;
+typedef int InfoType;
+
+typedef struct{
+    KeyType key;
+    InfoType otherinfo;
+}RedType;
+
+typedef struct{
+    RedType r[MAXSIZE+1];
+    int length;
+}SqList;</code></pre>
+<h1>①Insertion sort</h1>
+<pre><code class="language-c++">void InsertSort(SqList &amp;L)
+{
+    int i,j,a=0,b=0;
+    for(i=1;i&lt;=L.length;++i)
+    {
+        if(L.r[i].key&lt;L.r[i-1].key)
+        {
+            L.r[0]=L.r[i];
+            L.r[i]=L.r[i-1];
+            a++;
+        }
+        for(j=i-2;L.r[0].key&lt;L.r[j].key;--j)
+            L.r[j+1]=L.r[j];b++;
+        L.r[j+1]=L.r[0];
+    }
+    cout&lt;&lt;"比较次数:"&lt;&lt;a&lt;&lt;"移动次数:"&lt;&lt;b&lt;&lt;endl;
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-800" height="472" src="https://cdn.omegaxyz.com/2017/05/1-300x253.png" width="560"/>
+<h1>②Half insertion sort</h1>
+<pre><code class="language-c++">void BInsertSort(SqList &amp;L)
+{
+    int low,high,m;
+    for(int i=2;i&lt;=L.length;++i)
+    {
+        L.r[0]=L.r[i];
+        low=1;high=i-1;
+        while(low&lt;=high)
+        {
+            m=(low+high)/2;
+            if(L.r[0].key&lt;L.r[m].key)high=m-1;
+            else low=m+1;
+        }
+        for(int j=i-1;j&gt;=high+1;--j)
+            L.r[j+1]=L.r[j];
+        L.r[high+1]=L.r[0];
+    }
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-801" height="436" src="https://cdn.omegaxyz.com/2017/05/2-300x238.png" width="550"/>
+<h1>③Select sort</h1>
+<pre><code class="language-c++">void SelectSort(SqList &amp;L)
+{
+    int j,k;
+    for(int i=1;i&lt;=L.length;++i)
+    {
+        k=i;
+        for(j=i+1;j&lt;=L.length;j++)
+            if(L.r[j].key&lt;L.r[k].key)k=j;
+        if(k!=i)
+        {
+            L.r[0].key=L.r[i].key;
+            L.r[i].key=L.r[k].key;
+            L.r[k].key=L.r[0].key;
+        }
+    }
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-802" height="436" src="https://cdn.omegaxyz.com/2017/05/3-300x238.png" width="550"/>
+<h1>④Bubble sorting</h1>
+<pre><code class="language-c++">void BubbleSort(SqList &amp;L)
+{
+    int i,j;
+    for(i=1;i&lt;=L.length;++i)
+    {
+        for(j=1;j&lt;L.length-i+1;++j)
+        {
+            if(L.r[j+1].key&lt;L.r[j].key)
+            {
+                L.r[0].key=L.r[j].key;
+                L.r[j].key=L.r[j+1].key;
+                L.r[j+1].key=L.r[0].key;
+            }
+        }
+    }
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-803" height="449" src="https://cdn.omegaxyz.com/2017/05/4-300x245.png" width="550"/>
+<h1>⑤Quick sort</h1>
+<pre><code class="language-c++">int Partition(SqList &amp;L,int low,int high)
+{
+    L.r[0]=L.r[low];
+    KeyType pivotkey=L.r[low].key;
+    while(low&lt;high)
+    {
+        while(low&lt;high&amp;&amp;L.r[high].key&gt;=pivotkey)--high;
+        L.r[low]=L.r[high];
+        while(low&lt;high&amp;&amp;L.r[low].key&lt;=pivotkey)++low;
+        L.r[high]=L.r[low];
+    }
+    L.r[low]=L.r[0];
+    return low;
+}
+
+void QSort(SqList &amp;L,int low,int high)
+{
+    if(low&lt;high)
+    {
+        int pivotloc=Partition(L,low,high);
+        QSort(L,low,pivotloc-1);
+        QSort(L,pivotloc+1,high);
+    }
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-804" height="449" src="https://cdn.omegaxyz.com/2017/05/5-300x245.png" width="550"/>
+<h1>⑥Hill sorting</h1>
+<pre><code class="language-c++">void ShellInsert(SqList &amp;L,int dk)
+{
+        int i,j;
+        for(i=dk+1;i&lt;=L.length;++i)
+        {
+            if(L.r[i].key&lt;L.r[i-dk].key){L.r[0]=L.r[i];
+            for(j=i-dk;j&gt;0&amp;&amp;L.r[0].key&lt;L.r[j].key;j-=dk)
+                L.r[j+dk]=L.r[j];
+            L.r[j+dk]=L.r[0];
+            }
+        }
+}
+
+void ShellSort(SqList &amp;L,int dlta[],int t)
+{
+    for(int k=0;k&lt;t;++k)
+        ShellInsert(L,dlta[k]);
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-805" height="478" src="https://cdn.omegaxyz.com/2017/05/6-300x260.png" width="552"/>
+<h1>⑦Heap sorting</h1>
+<pre><code class="language-c++">typedef SqList HeapType;
+void HeapAdjust(HeapType &amp;H,int s,int m)
+{
+    RedType rc=H.r[s];int j;
+    for(j=2*s;j&lt;=m;j*=2)
+    {
+        if(j&lt;m&amp;&amp;H.r[j].key&lt;H.r[j+1].key)++j;
+        if(!(rc.key&lt;H.r[j].key))break;
+        H.r[s]=H.r[j];s=j;
+    }
+    H.r[s]=rc;
+}
+void HeapSort(HeapType &amp;H)
+{
+    int i;
+    RedType temp;
+    for(i=H.length/2;i&gt;0;--i)
+        HeapAdjust(H,i,H.length);
+    for(i=H.length;i&gt;1;--i)
+    {
+        temp=H.r[1];
+        H.r[1]=H.r[i];
+        H.r[i]=temp;
+        HeapAdjust(H,1,i-1);
+    }
+</code></pre>
+<img alt="" class="alignnone wp-image-806" height="424" src="https://cdn.omegaxyz.com/2017/05/7-300x231.png" width="551"/>
+<h1>⑧Merge sort</h1>
+<pre><code class="language-default">void Merge(RedType SR[],RedType &amp;TR[],int i,int m,int n)
+{
+    int j,k;
+    for(j=m+1,k=i;i&lt;=m&amp;&amp;j&lt;=n;++k)
+    {
+        if(SR[i].key&lt;=SR[j].key)
+            TR[k]=SR[i++];
+        else
+            TR[k]=SR[j++];
+    }
+    int t;
+    if(i&lt;=m)
+    {
+        for(t=i;t&lt;=m;t++)
+            TR[k+t-i]=SR[t];
+    }
+    if(j&lt;=n)
+    {
+        for(t=j;t&lt;=m;t++)
+            TR[k+t-j]=SR[t];
+    }
+}
+
+void MSort(RedType SR[],RedType *TR1,int s,int t)
+{
+    int m;
+    RedType TR2[MAXSIZE+1];
+    if(s==t)TR1[s]=SR[s];
+    else{
+        m=(s+t)/2;
+        MSort(SR,TR2,s,m);
+        MSort(SR,TR2,m+1,t);
+        Merge(TR2,TR1,s,m,t);
+    }
+}
+void MergeSort(SqList &amp;L)
+{
+    MSort(L.r,L.r,1,L.length);
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-807" height="477" src="https://cdn.omegaxyz.com/2017/05/8-300x260.png" width="550"/>random generating function<pre><code class="language-c++">void RandSqList(SqList &amp;L)
+{
+    int n,max,min;
+    printf("输入顺序表的大小\n");
+    cin&gt;&gt;n;
+    printf("输入最小值和最大值\n");
+    cin&gt;&gt;min&gt;&gt;max;
+    L.length=n;
+    printf("随机产生%d个数\n",n);
+    for(int i=1;i&lt;=L.length;++i)
+    {
+        L.r[i].key=rand()%(max-min+1);
+        L.r[i].key+=min;
+    }
+    printf("顺序表创建成功!\n");
+}
+</code></pre>Output function<pre><code class="language-c++">void Output(SqList L)
+{
+    printf("输出：\n");
+    for(int i=1;i&lt;=L.length;i++)
+        cout&lt;&lt;"data"&lt;&lt;"["&lt;&lt;i&lt;&lt;"]"&lt;&lt;": "&lt;&lt;L.r[i].key&lt;&lt;endl;
+}
+</code></pre>4. Experiment summary
+(1) If n is small (for example, n&lt;50), direct insertion sort, bubble sort or simple selection sort can be used. If there is a lot of data in the record and the movement is time-consuming, a simple selection sorting method should be used.
+
+(2) If the initial state of the records is basically ordered according to the key code, it is appropriate to use direct insertion sort or bubble sort.
+
+(3) If n is large, an improved sorting method should be used, such as quick sort, heap sort or merge sort. The time complexity of these sorting algorithms is O(nlog2n), but in terms of average performance, quick sort is considered to be the best sorting method in internal sorting based on comparing record keys. Unfortunately, the worst-case time complexity of quick sort is O(n2), and the worst-case time complexity of heap sort and merge sort is still O(nlog2n). Both heap sort and quick sort are unstable sorts. If stable sorting is required, merge sorting can be used.
+
+(4) Radix sorting can complete the sorting of n records in O (d×n) time. d refers to the number of single logical keys, which is generally much less than n. However, radix sorting is only suitable for keys with obvious structural characteristics such as strings and integers.
+
+(5) The sorting algorithms discussed previously, except for radix sorting, are all implemented on sequential storage. When the amount of information in the record itself is large, in order to avoid spending a lot of time moving data, a linked list can be used as a storage structure. Both insertion sort and merge sort are easy to implement on linked lists, but some sorting methods, such as quick sort and heap sort, are difficult to implement on linked lists.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

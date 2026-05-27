@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyqt5创建菜单栏、状态栏和工具栏 · OmegaXYZ</title>
+  <meta name="description" content="菜单栏、状态栏与工具栏是人机交互的基本形式。一个好的交互界面一般都有部分的人机交互接口。QMainWindow类提供了一个应用主窗口。默认创建一个拥有状态栏、工具栏和菜单栏的经典应用窗口骨架。通过QMainWindow你可以添加自己的QToolBars、QDockWidgets、QMenuBar、QStatusBar等。 代码： 效果：...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/29/pyqt5_qmainwindow/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-29</div>
+        <h1>pyqt5创建菜单栏、状态栏和工具栏</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/pyqt/index.html">PyQt</a></div>
+        <div class="article-content">菜单栏、状态栏与工具栏是人机交互的基本形式。一个好的交互界面一般都有部分的人机交互接口。QMainWindow类提供了一个应用主窗口。默认创建一个拥有状态栏、工具栏和菜单栏的经典应用窗口骨架。通过QMainWindow你可以添加自己的QToolBars、QDockWidgets、QMenuBar、QStatusBar等。
+
+<img class="alignnone  wp-image-5185" src="https://cdn.omegaxyz.com/2018/11/QMainWindow.png" alt="" width="410" height="369" />
+
+<strong>代码：</strong>
+<pre ><code class="language-python">import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMenuBar, QAction, qApp, QTextEdit
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QCoreApplication
+
+
+class Test(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        textEdit = QTextEdit()
+        self.setCentralWidget(textEdit)
+
+        # 创建一个Action
+        exitAction = QAction(QIcon('exit.png'), 'Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('退出程序')
+        exitAction.triggered.connect(self.close)
+
+        # 底部状态栏
+        self.statusBar().showMessage('状态栏')
+
+        # 顶部菜单栏
+        menubar = self.menuBar()
+        menubar.setNativeMenuBar(False)
+        fileMenu = menubar.addMenu('File')
+        fileMenu.addAction(exitAction)
+
+        # 次顶部的工具栏
+        toolbar = self.addToolBar('Exit')
+        toolbar.addAction(exitAction)
+
+        self.setGeometry(300, 300, 400, 400)
+        self.setWindowTitle('QMainWindow')
+        self.show()
+        pass
+
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    example = Test()
+    sys.exit(app.exec_())
+    pass</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone  wp-image-5184" src="https://cdn.omegaxyz.com/2018/11/menubar.png" alt="" width="354" height="375" />
+
+注意最右侧是工具栏。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

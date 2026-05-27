@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>监督学习与无监督学习 · OmegaXYZ</title>
+  <meta name="description" content="机器学习如果按照训练样本标签的有无可以分为以下两种常用方法。 有 监督学习 (supervised learning)和 无监督学习 (unsupervised learning)。 以机器学习中的分类(classification)来说，输入的训练数据有特征（feature），有标签（label）。在分类过程中，如果所有训练数据都有标签...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/05/supervised_learning/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-05</div>
+        <h1>监督学习与无监督学习</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">机器学习如果按照训练样本标签的有无可以分为以下两种常用方法。
+有<strong>监督学习</strong>(supervised learning)和<strong>无监督学习</strong>(unsupervised learning)。
+
+以机器学习中的分类(classification)来说，输入的训练数据有特征（feature），有标签（label）。在分类过程中，如果所有训练数据都有标签，则为有监督学习（supervised learning）。如果数据没有标签，显然就是无监督学习（unsupervised learning）了，也即聚类（clustering）。
+
+监督学习，就是通过已有的训练样本（即已知数据以及其对应的输出）去训练得到一个最优模型（这个模型属于某个函数的集合，最优则表示在某个评价准则下是最佳的），再利用这个模型将所有的输入映射为相应的输出，对输出进行简单的判断从而实现分类的目的，也就具有了对未知数据进行分类的能力。
+典型的例子就是KNN、SVM。
+
+KNN算法：<a href="https://omegaxyz.com/2018/01/08/knn/?hilite=%27KNN%E7%AE%97%E6%B3%95%27">https://omegaxyz.com/2018/01/08/knn/?hilite=%27KNN%E7%AE%97%E6%B3%95%27</a>
+
+SVM算法：<a href="https://omegaxyz.com/tag/svm/">https://omegaxyz.com/tag/svm/</a>
+
+无监督学习（或者叫非监督学习）则是另一种。它与监督学习的不同之处，在于我们事先没有任何训练样本，而需要直接对数据进行建模。
+无监督学习里典型的例子就是聚类了。
+
+k-means聚类算法：<a href="https://omegaxyz.com/2018/01/27/kmeans/?hilite=%27%E8%81%9A%E7%B1%BB%27">https://omegaxyz.com/2018/01/27/kmeans/?hilite=%27%E8%81%9A%E7%B1%BB%27</a>
+
+因此，learning家族的整体构造是这样的：
+有监督学习（分类，回归）
+<strong>↕</strong>
+半监督学习（分类，回归），transductive learning（分类，回归）
+<strong>↕</strong>
+半监督聚类（有标签数据的标签不是确定的，类似于：肯定不是xxx，很可能是yyy）
+<strong>↕</strong>
+无监督学习（聚类）</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

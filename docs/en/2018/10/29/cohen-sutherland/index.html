@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of the Cohen-Sutherland algorithm · OmegaXYZ</title>
+  <meta name="description" content="Idea: By assigning a 4-bit binary code to any endpoint (x, y) according to the area where its coordinates are located, it is judged whether the graphic element falls within the clipping window and the internal part is found through the intersection operation. Coding method Note: l is left, r is right, b is bottom, t is top (1) If x is less than wxl, D0=1, otherwise D0=0 (2) If x is greater than wxr, D1=1, otherwise D1=0 (3) If y is less than wyb,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/10/29/cohen-sutherland/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-29</div>
+        <h1>Overview of the Cohen-Sutherland algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/cg/index.html">计算机图形学</a></div>
+        <div class="article-content"><h2><strong>Thought</strong></h2>By assigning a 4-bit binary code to any endpoint (x, y) according to the area where its coordinates are located, it is judged whether the graphic element falls within the clipping window and its internal part is found through an intersection operation.<h2><strong>encoding method</strong></h2>
+<strong>Note: l is left, r is right, b is bottom, t is top</strong>
+<ul>
+<li>(1) If x is less than wxl, D0=1, otherwise D0=0</li>
+<li>(2) If x is greater than wxr, D1=1, otherwise D1=0</li>
+<li>(3) If y is less than wyb, D2=1, otherwise D2=0</li>
+<li>(4) If y is greater than wyt, D3=1, otherwise D3=0</li>
+</ul>
+<img alt="" class="alignnone size-full wp-image-5105" height="286" src="https://cdn.omegaxyz.com/2018/10/cohen-sutherland.png" width="448"/>When cutting a line segment, first find the codes code1 and code2 of the endpoints p1 and p2:
+(1) If code1 and code2 are both 0, it means that P1 and P2 are both within the window, then all line segments are located inside the window and should be taken.
+(2) If the result code1&amp;code2 after the bitwise AND operation of code1 and code2 is not equal to 0, it means that P1 and P2 are above, below, left or right of the window at the same time, then all line segments are located outside the window and should be discarded.
+(3) When (1) and (2) are not satisfied, ensure that p1 is outside the window: if p1 is within the window, exchange the coordinate values ​​and codes of p1 and p2.
+(4) Find the intersection point of the straight line segment and the window boundary, and replace the coordinate value of p1 with the coordinate value of the intersection point. That is, the line segment is divided into two at the intersection point s. Considering that p1 is a point outside the window, p1s can be removed. Go to (2).
+(5) Use the straight line scan conversion algorithm to draw the current straight line segment p1p2.
+(6) The algorithm ends.<h2><strong>Algorithm flow chart</strong></h2>
+<img alt="" class="alignnone size-full wp-image-5106" height="743" src="https://cdn.omegaxyz.com/2018/10/cohen-sutherland2.png" width="905"/>
+<h2><strong>defect</strong></h2>(1) However, for line segments within the straight line of the clipping window, the intersection process is complicated and includes addition, multiplication, division, floating point operations, etc., which is not conducive to hardware implementation.
+(2) Due to the adoption of coding ideas, which involve bitwise AND operations, there are special requirements for program implementation;
+(3) The judgment of discarding all is only suitable for line segments that are only on the same side of the window (back left, or right, or top, or bottom). This algorithm is not very convenient for line segments within the straight line of the clipping window.<h2><strong>refer to</strong></h2>
+<a href="https://blog.csdn.net/sinat_34686158/article/details/78745216">https://blog.csdn.net/sinat_34686158/article/details/78745216</a>
+<a href="https://blog.csdn.net/vincent2610/article/details/47948737">https://blog.csdn.net/vincent2610/article/details/47948737</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

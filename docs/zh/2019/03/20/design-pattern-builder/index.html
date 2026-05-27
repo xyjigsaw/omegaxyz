@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设计模式——生成器Builder模式 · OmegaXYZ</title>
+  <meta name="description" content="定义 将一个复杂的对象，分成多分，使同样的构建过程，能有不同的表示，这样的设计模式被称为建造者模式。 参与者 Builder 为创建一个Product对象的各个部件指定抽象接口，稳定某一过程 ConcreteBuilder 实现Builder的接口以构造和装配该产品的各个部件 定义并明确它所创建的表示 提供一个检索产品的接口 Direct...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/20/design-pattern-builder/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-20</div>
+        <h1>设计模式——生成器Builder模式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>定义</strong></h2>
+将一个复杂的对象，分成多分，使同样的构建过程，能有不同的表示，这样的设计模式被称为建造者模式。
+<h2><strong>参与者</strong></h2>
+<div>Builder</div>
+<div>为创建一个Product对象的各个部件指定抽象接口，稳定某一过程</div>
+<div></div>
+<div>ConcreteBuilder</div>
+<div>实现Builder的接口以构造和装配该产品的各个部件</div>
+<div>定义并明确它所创建的表示</div>
+<div>提供一个检索产品的接口</div>
+<div></div>
+<div>Director</div>
+<div>构造一个使用Builder接口的对象</div>
+<div></div>
+<div>Product</div>
+<div>表示被构造的复杂对象。ConcreteBuilder创建该产品的内部表示并定义它的装配过程。</div>
+<div>包含定义组成部件的类，包括将这些部件装配成最终产品的接口。</div>
+<div></div>
+<h2><strong>适用性</strong></h2>
+<div>
+<ul>
+ 	<li>当创建复杂对象的算法应该独立于该对象的组成部分时。</li>
+ 	<li>构造过程必须允许被构造的对象有不同的表示时。</li>
+ 	<li>创建一些复杂对象，这些对象内部构建间的建造顺序通常是稳定的，但对象内部的构建通常面临着复杂的变化。</li>
+</ul>
+<div>
+<div></div>
+<h2><strong>效果</strong></h2>
+<ul>
+ 	<li>建造模式的使用使得产品的内部表象可以独立的变化。使用建造者模式可以使客户端不必知道产品内部组成的细节。</li>
+ 	<li>每个特定的建造者都独立于其它建造者和程序的其余部分，这提高拉模块化程度，并使得添加其建造者变的灵活简单。</li>
+ 	<li>因为每一个建造者都是根据数据来逐步构造出最终的产品的，因此对建造者构造的每个最终产品从头到尾有更好的控制能力。</li>
+</ul>
+<h2><strong>模板代码</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+class Product{
+public:
+    vector&lt;int&gt; pool;
+    void Add(int part){
+        pool.push_back(part);
+    }
+    void show(){
+        cout&lt;&lt;"Show Product: "&lt;&lt;endl;
+        for(int i = 0; i &lt; pool.size(); i++){
+            cout&lt;&lt;pool[i]&lt;&lt;" ";
+        }
+        cout&lt;&lt;endl;
+    }
+};
+
+class Builder{
+public:
+    virtual void BuildA() = 0;
+    virtual void BuildB() = 0;
+    virtual Product* GetResult(){
+        return NULL;
+    }
+};
+
+class ConcreteBuilder1: public Builder{
+public:
+    void BuildA(){
+        product-&gt;Add(1);
+    }
+    void BuildB(){
+        product-&gt;Add(2);
+    }
+    Product* GetResult(){
+        return product;
+    }
+private:
+    Product* product = new Product();
+};
+
+class Director{
+public:
+    void Construct(Builder *builder){
+        builder-&gt;BuildA();
+        builder-&gt;BuildB();
+    }
+};
+
+int main(){
+    Director *d = new Director();
+    Builder *b = new ConcreteBuilder1();
+    d-&gt;Construct(b);
+    Product *pro = b-&gt;GetResult();
+    pro-&gt;show();
+
+    return 0;
+}</code></pre>
+</div>
+</div>
+&nbsp;
+<h2><strong>实例代码</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+class ComputerBuilder{
+public:
+    string CPU;
+    string GPU;
+    string RAM;
+
+    virtual void BuildCPU() = 0;
+    virtual void BuildGPU() = 0;
+    virtual void BuildRAM() = 0;
+};
+
+class AppleBuilder: public ComputerBuilder{
+    void BuildCPU(){
+        CPU = "Intel i9 Apple Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;CPU&lt;&lt;endl;
+    }
+    void BuildGPU(){
+        GPU = "RTX-2080 Apple Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;GPU&lt;&lt;endl;
+    }
+    void BuildRAM(){
+        RAM = "DDR4 5T Apple Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;RAM&lt;&lt;endl;
+    }
+};
+
+class DellBuilder: public ComputerBuilder{
+    void BuildCPU(){
+        CPU = "Intel i10 Dell Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;CPU&lt;&lt;endl;
+    }
+    void BuildGPU(){
+        GPU = "GTX-1080Ti Dell Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;GPU&lt;&lt;endl;
+    }
+    void BuildRAM(){
+        RAM = "DDR4 2T Dell Inc.";
+        cout&lt;&lt;"制造"&lt;&lt;RAM&lt;&lt;endl;
+    }
+};
+
+class ComputerDirector{
+public:
+    ComputerDirector(ComputerBuilder* c){
+        _c = c;
+    }
+    void CreateComputer(){
+        _c-&gt;BuildCPU();
+        _c-&gt;BuildGPU();
+        _c-&gt;BuildRAM();
+    }
+
+private:
+    ComputerBuilder * _c;
+};
+
+int main(){
+    ComputerBuilder *cbapple = new AppleBuilder();
+    ComputerDirector *cd = new ComputerDirector(cbapple);
+    cd-&gt;CreateComputer();
+    cout&lt;&lt;endl;
+    ComputerBuilder *cbdell = new DellBuilder();
+    ComputerDirector *cd2 = new ComputerDirector(cbdell);
+    cd2-&gt;CreateComputer();
+    return 0;
+}</code></pre>
+&nbsp;
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

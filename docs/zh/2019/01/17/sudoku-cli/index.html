@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C语言命令行数独游戏 · OmegaXYZ</title>
+  <meta name="description" content="特性及功能 设计一个命令行界面的游戏，登入游戏界面后，应该有游戏规则说明，按键说明。 进入游戏前应该有难度选择：1表示简单、2表示中等、3表示困难。 在游戏主界面中有可以循环输入数独值、可以连续玩好几局直到退出、检查结果、查看答案、新开一局的功能。 信息提示功能：输入错误时应有提示、游戏失败或获取胜利时应有庆祝界面等。 代码 效果 登入游...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/17/sudoku-cli/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-17</div>
+        <h1>C语言命令行数独游戏</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cgame/index.html">C语言游戏</a><a class="pill" href="../../../../tag/hci/index.html">HCI</a></div>
+        <div class="article-content"><h2><strong>特性及功能</strong></h2>
+<ol>
+ 	<li>设计一个命令行界面的游戏，登入游戏界面后，应该有游戏规则说明，按键说明。</li>
+ 	<li>进入游戏前应该有难度选择：1表示简单、2表示中等、3表示困难。</li>
+ 	<li>在游戏主界面中有可以循环输入数独值、可以连续玩好几局直到退出、检查结果、查看答案、新开一局的功能。</li>
+ 	<li>信息提示功能：输入错误时应有提示、游戏失败或获取胜利时应有庆祝界面等。</li>
+</ol>
+<h2><strong>代码</strong></h2>
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdio&gt;
+#include &lt;time.h&gt;
+#include &lt;cstdlib&gt;
+#include&lt;windows.h&gt;
+using namespace std;
+int a[15][15],ans_pre,ans[15][15],b[15][15];
+bool square[10][10],lie[10][10],hang[10][10],flag[15][15];
+bool check;
+bool f[15];
+int c[15];
+int difficult;
+
+void SetColor(unsigned short ForeColor=7,unsigned short BackGroundColor=0)
+{
+	HANDLE hCon=GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hCon,ForeColor|BackGroundColor);
+}
+int ge(int x,int y)
+{
+    return(((x-1)/3)*3+(y-1)/3+1);
+}
+
+int print(){
+	SetColor(15);
+	cout&lt;&lt;"\n    ";
+	for(int i=1;i&lt;=9;i++){
+        cout&lt;&lt;i&lt;&lt;"   ";
+	}
+    cout&lt;&lt;endl;
+	printf("  ㄘ━━━┳━━━┳━━━");
+	SetColor(9);
+	printf("┳");
+	SetColor(15);
+	printf("━━━┳━━━┳━━━");
+	SetColor(9);
+	printf("┳");
+	SetColor(15);
+	printf("━━━┳━━━┳━━━┓");
+
+    cout&lt;&lt;"\t\t\ta -- 输入指定位置的值";
+    cout&lt;&lt;endl;
+    for(int i=1;i&lt;=9;i++)
+    {
+        cout&lt;&lt;" "&lt;&lt;i;
+        for(int j=1;j&lt;=9;j++)
+        {
+        	if(a[i][j]==0)
+			{
+				if(j==4||j==7) SetColor(9);
+					cout&lt;&lt;"┃   ";
+				SetColor(15);
+				if (j==9)  cout&lt;&lt;"┃";
+			}else
+			{
+				if(j==4||j==7) SetColor(9);
+				cout&lt;&lt;"┃ ";
+				SetColor(15);
+				if(b[i][j]==0) SetColor(4);
+				cout&lt;&lt;a[i][j]&lt;&lt;" ";
+				SetColor(15);
+				if (j==9) cout&lt;&lt;"┃";
+			}
+		}
+        cout&lt;&lt;endl;
+        if(i==3||i==6)
+		{
+			SetColor(9);
+			cout&lt;&lt;"  ┣━━━╋━━━╋━━━";
+        	cout&lt;&lt;"╋";
+			cout&lt;&lt;"━━━╋━━━╋━━━";
+			cout&lt;&lt;"╋" ;
+			cout&lt;&lt;"━━━╋━━━╋━━━┫";
+			SetColor(15);
+			if(i==6){
+                cout&lt;&lt;"\t\t\td -- 再来一局";
+			}
+			SetColor(9);
+			cout&lt;&lt;endl;
+			continue;
+		}
+        if(i!=9)
+        {
+        	cout&lt;&lt;"  ┣━━━╋━━━╋━━━";
+        	SetColor(9);
+        	cout&lt;&lt;"╋";
+        	SetColor(15);
+			cout&lt;&lt;"━━━╋━━━╋━━━";
+			SetColor(9);
+			cout&lt;&lt;"╋" ;
+			SetColor(15);
+			cout&lt;&lt;"━━━╋━━━╋━━━┫";
+			if(i==2){
+                cout&lt;&lt;"\t\t\tb -- 撤回上一个值";
+			}
+			if(i==4){
+                cout&lt;&lt;"\t\t\tc -- 查看答案";
+			}
+			if(i==8){
+                cout&lt;&lt;"\t\t\te -- 退出游戏";
+			}
+			cout&lt;&lt;endl;
+		}
+
+        else
+        {
+   			SetColor(15);
+			printf("  ┗━━━┻━━━┻━━━");
+			SetColor(9);
+			printf("┻");
+			SetColor(15);
+			printf("━━━┻━━━┻━━━");
+			SetColor(9);
+			printf("┻");
+			SetColor(15);
+			printf("━━━┻━━━┻━━━┛\n");
+		}
+        SetColor(15);
+    }
+}
+
+int print_y(){
+	SetColor(15);
+    cout&lt;&lt;"\n    ";
+	for(int i=1;i&lt;=9;i++){
+        cout&lt;&lt;i&lt;&lt;"   ";
+	}
+    cout&lt;&lt;endl;
+	printf("  ㄘ━━━┳━━━┳━━━");
+	SetColor(9);
+	printf("┳");
+	SetColor(15);
+	printf("━━━┳━━━┳━━━");
+	SetColor(9);
+	printf("┳");
+	SetColor(15);
+	printf("━━━┳━━━┳━━━┓");
+
+    cout&lt;&lt;"\t\t\ta -- 输入指定位置的值";
+    cout&lt;&lt;endl;
+    for(int i=1;i&lt;=9;i++)
+    {
+        cout&lt;&lt;" "&lt;&lt;i;
+        for(int j=1;j&lt;=9;j++)
+        {
+        	if(ans[i][j]==0)
+			{
+				if(j==4||j==7) SetColor(9);
+					cout&lt;&lt;"┃   ";
+				SetColor(15);
+				if (j==9)  cout&lt;&lt;"┃";
+			}else
+			{
+				if(j==4||j==7) SetColor(9);
+				cout&lt;&lt;"┃ ";
+				SetColor(15);
+				if(b[i][j]==0) SetColor(4);
+				cout&lt;&lt;ans[i][j]&lt;&lt;" ";
+				SetColor(15);
+				if (j==9) cout&lt;&lt;"┃";
+			}
+		}
+        cout&lt;&lt;endl;
+        if(i==3||i==6)
+		{
+			SetColor(9);
+			cout&lt;&lt;"  ┣━━━╋━━━╋━━━";
+        	cout&lt;&lt;"╋";
+			cout&lt;&lt;"━━━╋━━━╋━━━";
+			cout&lt;&lt;"╋" ;
+			cout&lt;&lt;"━━━╋━━━╋━━━┫";
+			SetColor(15);
+			if(i==6){
+                cout&lt;&lt;"\t\t\td -- 再来一局";
+			}
+			SetColor(9);
+			cout&lt;&lt;endl;
+			continue;
+		}
+        if(i!=9)
+        {
+        	cout&lt;&lt;"  ┣━━━╋━━━╋━━━";
+        	SetColor(9);
+        	cout&lt;&lt;"╋";
+        	SetColor(15);
+			cout&lt;&lt;"━━━╋━━━╋━━━";
+			SetColor(9);
+			cout&lt;&lt;"╋" ;
+			SetColor(15);
+			cout&lt;&lt;"━━━╋━━━╋━━━┫";
+			if(i==2){
+                cout&lt;&lt;"\t\t\tb -- 撤回上一个值";
+			}
+			if(i==4){
+                cout&lt;&lt;"\t\t\tc -- 查看答案";
+			}
+			if(i==8){
+                cout&lt;&lt;"\t\t\te -- 退出游戏";
+			}
+			cout&lt;&lt;endl;
+		}
+
+        else
+        {
+   			SetColor(15);
+			printf("  ┗━━━┻━━━┻━━━");
+			SetColor(9);
+			printf("┻");
+			SetColor(15);
+			printf("━━━┻━━━┻━━━");
+			SetColor(9);
+			printf("┻");
+			SetColor(15);
+			printf("━━━┻━━━┻━━━┛\n");
+		}
+        SetColor(15);
+    }
+}
+int dfs(int x,int y)
+{
+    if(!check) return 0;
+    if(x==0&amp;&amp;y==9)
+    {
+     //   print();
+        check=false;
+        return 0;
+    }
+    if(a[x][y]==0)
+    for(int j=1;j&lt;=9;j++)
+    {
+    	int i=c[j];
+        if(square[ge(x,y)][i]&amp;&amp;lie[y][i]&amp;&amp;hang[x][i])
+        {
+            square[ge(x,y)][i]=false;
+            lie[y][i]=false;
+            hang[x][i]=false;
+            ans[x][y]=i;
+
+            if(y==1) dfs(x-1,9);else dfs(x,y-1);
+
+            square[ge(x,y)][i]=true;
+            lie[y][i]=true;
+            hang[x][i]=true;
+            if(!check) return 0;
+        }
+    }
+    if(!check) return 0;
+    if(a[x][y]!=0) if(y==1) dfs(x-1,9);else dfs(x,y-1);
+}
+
+int work(int x){
+	if(x==10)
+	{
+		return 0;
+	}
+	int i=1;
+	int y=rand()%9+1;
+	while(!f[y]) y=rand()%9+1;
+	f[y]=false;
+	c[x]=y;
+	work(x+1);
+}
+void init(){
+	srand(time(NULL));
+    memset(a,0,sizeof(a));
+    memset(lie,true,sizeof(lie));
+    memset(hang,true,sizeof(hang));
+    memset(square,true,sizeof(square));
+    memset(f,true,sizeof(f));
+    check=true;
+    work(1);
+    memset(a,sizeof(a),0);
+    check=true;
+    dfs(9,9);
+    memcpy(a,ans,sizeof(ans));
+//    print();
+    cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl;
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t****************游戏难度选择***************"&lt;&lt;endl;
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;                                       &gt;&gt;"&lt;&lt;endl;
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;              0 -- 返回                &gt;&gt;"&lt;&lt;endl;
+    SetColor(2);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;              1 -- 简单                &gt;&gt;"&lt;&lt;endl;
+    SetColor(9);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;              2 -- 中等                &gt;&gt;"&lt;&lt;endl;
+    SetColor(13);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;              3 -- 困难                &gt;&gt;"&lt;&lt;endl;
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;                                       &gt;&gt;"&lt;&lt;endl;
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t*******************************************"&lt;&lt;endl;
+    printf("\t\t\t\t输入难度等级：");
+    difficult=0;
+    while(difficult&gt;3||difficult&lt;1) cin&gt;&gt;difficult;
+}
+
+void rule(){
+    SetColor(3);
+    cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"\t\t\t***********************************数独游戏规则**********************************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                                                                             &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;              数独游戏在9×9的方格内进行，分为3×3的小方格被称为区。         &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;              数独游戏首先从已经填入数字的格子开始，                         &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;              用1至9之间的数字填满空格，一个格子只能填入一个数字             &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                 每个数字在每一行只能出现一次；                              &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                 每个数字在每一列只能出现一次；                              &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                 每个数字在每一区只能出现一次；                              &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;              总结这些规则，即每个数字在每一行，每一列和每一区只能出现一次   &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                                                                             &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t*********************************************************************************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t\t";
+
+}
+
+void button(){
+    SetColor(3);
+    cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"\t\t\t************************数独游戏按键说明*****************************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                                                                 &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;        进入游戏后要输入3个数，所在行、所在列、所在值。          &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;            3个数分别用空格隔开                                  &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;            输完后用回车键进行确定                               &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t*********************************************************************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t\t";
+
+}
+
+void welcome(){
+    SetColor(3);
+    cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"\t\t\t\t*************欢迎进入数独游戏*************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;                                      &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;           a-进入数独游戏             &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;           b-游戏规则说明             &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;           c-按键说明                 &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;           d-退出游戏                 &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t&lt;&lt;                                      &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t******************************************\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t\t\t请输入：";
+    char a;
+    cin&gt;&gt;a;
+    switch(a){
+        case'a':system("cls");break;
+        case'b':system("cls");rule();break;
+        case'c':system("cls");button();break;
+        case'd':init();
+    }
+}
+
+
+void run(){
+	int sum=0;
+	switch(difficult){
+		case 1:sum=20;
+				break;
+		case 2:sum=40;
+				break;
+		case 3:sum=60;
+				break;
+
+	}
+	int i=1;
+	while(i&lt;=sum)
+	{
+		int x,y;
+		x=rand()%9+1;
+		y=rand()%9+1;
+		while(a[x][y]==0)
+		{
+			x=rand()%9+1;
+			y=rand()%9+1;
+		}
+		a[x][y]=0;
+		i++;
+	}
+}
+
+void success(){
+    cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"\t\t\t************************庆祝****************************\n";
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                                                    &gt;&gt;\n";
+    SetColor(13);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                   恭喜你答对了                     &gt;&gt;\n";
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                   总计时为：                       &gt;&gt;\n";
+    SetColor(3);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                   12分钟13秒                       &gt;&gt;\n";
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t&lt;&lt;                                                    &gt;&gt;\n";
+    cout&lt;&lt;"\t\t\t********************************************************\n";
+    SetColor(15);
+    cout&lt;&lt;"\t\t\t\t\t";
+}
+
+int main()
+{
+	success();
+	system("pause");
+	welcome();
+	init();
+	run();
+	system("cls");
+	memcpy(b,a,sizeof(a));
+	print();
+	int xx,yy,zz;
+	int exitf=0;
+	char flag;
+	cout&lt;&lt;" 请选择：";
+	while(cin&gt;&gt;flag)
+	{
+
+		switch(flag){
+        case 'a':{
+            cout&lt;&lt;" 输入坐标（先纵后横）键入值，格式为 x y value\n\n";
+            cin&gt;&gt;xx&gt;&gt;yy&gt;&gt;zz;
+            if(xx==0&amp;&amp;yy==0&amp;&amp;zz==0)
+            {
+                system("cls");
+                print_y();
+                break;
+            }
+            if(b[xx][yy]==0) a[xx][yy]=zz;
+            system("cls");
+            print();
+            if(b[xx][yy]!=0)
+            {
+                SetColor(4);
+                cout&lt;&lt;"此处已经被填写.\n";
+                SetColor(15);
+            }
+            break;
+        }
+        case 'b':{
+            zz=0;
+            if(xx==0&amp;&amp;yy==0&amp;&amp;zz==0)
+            {
+                system("cls");
+                print_y();
+                break;
+            }
+            if(b[xx][yy]==0) a[xx][yy]=zz;
+            system("cls");
+            print();
+            if(b[xx][yy]!=0)
+            {
+                SetColor(4);
+                cout&lt;&lt;"此处已经被填写.\n";
+                SetColor(15);
+            }
+            break;
+
+        }
+        case 'c':{
+            xx=0;
+            yy=0;
+            zz=0;
+            if(xx==0&amp;&amp;yy==0&amp;&amp;zz==0)
+            {
+                system("cls");
+                print_y();
+                break;
+            }
+            if(b[xx][yy]==0) a[xx][yy]=zz;
+            system("cls");
+            print();
+            if(b[xx][yy]!=0)
+            {
+                SetColor(4);
+                cout&lt;&lt;"此处已经被填写.\n";
+                SetColor(15);
+            }
+            break;
+        }
+        case 'd':{
+            system("cls");
+            welcome();
+            init();
+            run();
+            system("cls");
+            memcpy(b,a,sizeof(a));
+            print();
+        }
+        case 'e':{
+            exitf = 1;
+            break;
+        }
+		}
+		if(exitf==1){
+            break;
+		}
+		cout&lt;&lt;" 请选择：";
+	}
+	    system("pause");
+}</code></pre>
+<h2><strong>效果</strong></h2>
+<h3>登入游戏界面</h3>
+你会看到有四个选项：a、b、c、e；
+
+<img class="alignnone wp-image-5327" src="https://cdn.omegaxyz.com/2019/01/shudu1.png" alt="" width="344" height="224" />
+
+如果你按“b”：
+
+<img class="alignnone wp-image-5328" src="https://cdn.omegaxyz.com/2019/01/shudu2.png" alt="" width="514" height="172" />
+
+如果你按“c”：
+
+<img class="alignnone wp-image-5329" src="https://cdn.omegaxyz.com/2019/01/shudu3.png" alt="" width="552" height="143" />
+
+如果你按“e”,则退出游戏；
+
+如果你按“a”,则出现游戏难度选择界面：
+
+<img class="alignnone wp-image-5330" src="https://cdn.omegaxyz.com/2019/01/shudu4.png" alt="" width="506" height="206" />
+<h3>游戏难度选择</h3>
+对于上图，如果你按“0”,则返回上一级目录 ；
+
+如果你按1~3，则进入游戏主界面。按“1”时，数独有20个空格，按“2”时，数独有40个空格，按“3”时，数独有60个空格。
+<h3>进入游戏主界面</h3>
+<img class="alignnone wp-image-5331" src="https://cdn.omegaxyz.com/2019/01/shudu5.png" alt="" width="687" height="372" />
+
+如果按“a”，这开始输入要填数字的横纵坐标和其值,。 输入后的值用红色标注，区分刚开始自动生成的字符；如果输入的位置原题中就有数字则会有“此处已经被填写”的提示。
+
+<img class="alignnone wp-image-5332" src="https://cdn.omegaxyz.com/2019/01/shudu6.png" alt="" width="513" height="249" />
+
+<img class="alignnone wp-image-5334" src="https://cdn.omegaxyz.com/2019/01/shudu8.png" alt="" width="475" height="285" />
+
+如果获胜则出现图3.9并且生成总答题时间。
+
+<img class="alignnone wp-image-5335" src="https://cdn.omegaxyz.com/2019/01/shudu9.png" alt="" width="652" height="209" />
+
+如果按“c”，则根据DFS算法输出数独答案：
+
+<img class="alignnone wp-image-5336" src="https://cdn.omegaxyz.com/2019/01/shudu10.png" alt="" width="515" height="309" />
+
+<strong>注明：人机交互实验1</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

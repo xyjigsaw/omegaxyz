@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>并查集应用——PAT甲级2019春季 · OmegaXYZ</title>
+  <meta name="description" content="并查集适用问题举例 1、已知，有n个人和m对好友关系 2、如果两个人是直接的或者间接的好友（好友的好友的好友。。。），那么他们属于一个集合，就是一个朋友圈中 3、写出程序，求这n个人中一共有多少个朋友圈 更详细请查看 https://omegaxyz.com/2019/02/25/union-find/?hilite=%27并查集%27...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/19/telefraud-detection-pat-advanced-3/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-19</div>
+        <h1>并查集应用——PAT甲级2019春季</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content"><h2><strong>并查集适用问题举例</strong></h2>
+<ul>
+ 	<li>1、已知，有n个人和m对好友关系</li>
+ 	<li>2、如果两个人是直接的或者间接的好友（好友的好友的好友。。。），那么他们属于一个集合，就是一个朋友圈中</li>
+ 	<li>3、写出程序，求这n个人中一共有多少个朋友圈</li>
+</ul>
+<strong>更详细请查看</strong>
+
+https://omegaxyz.com/2019/02/25/union-find/?hilite=%27并查集%27
+<h2><strong>PAT-2019年春季考试-甲级-3</strong></h2>
+Telefraud（电信诈骗） remains a common and persistent problem in our society. In some cases, unsuspecting victims lose their entire life savings. To stop this crime, you are supposed to write a program to detect those suspects from a huge amount of phone call records.
+
+A person must be detected as a suspect if he/she makes more than <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">K</span></span></span></span> short phone calls to <strong>different</strong> people everyday, but no more than 20% of these people would call back. And more, if two suspects are calling each other, we say they might belong to the same gang. <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">A</span></span></span></span> makes a <strong>short</strong> phone call to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">B</span></span></span></span> means that the total duration of the calls from <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">A</span></span></span></span> to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">B</span></span></span></span> is no more than 5 minutes.
+<h3 id="input-specification-">Input Specification:</h3>
+Each input file contains one test case. For each case, the first line gives 3 positive integers <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">K</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">5</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>, the threshold（阈值） of the amount of short phone calls), <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord mathrm mtight">3</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>, the number of different phone numbers), and <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord mathrm mtight">5</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>, the number of phone call records). Then <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> lines of one day's records are given, each in the format:
+<pre><code>caller receiver duration
+</code></code></pre>
+where <code>caller</code> and <code>receiver</code> are numbered from 1 to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span>, and <code>duration</code> is no more than 1440 minutes in a day.
+<h3 id="output-specification-">Output Specification:</h3>
+Print in each line all the detected suspects in a gang, in ascending order of their numbers. The gangs are printed in ascending order of their first members. The numbers in a line must be separated by exactly 1 space, and there must be no extra space at the beginning or the end of the line.
+
+If no one is detected, output <code>None</code> instead.
+<h3 id="sample-input-1-">Sample Input 1:</h3>
+<pre><code class="lang-in">5 15 31
+1 4 2
+1 5 2
+1 5 4
+1 7 5
+1 8 3
+1 9 1
+1 6 5
+1 15 2
+1 15 5
+3 2 2
+3 5 15
+3 13 1
+3 12 1
+3 14 1
+3 10 2
+3 11 5
+5 2 1
+5 3 10
+5 1 1
+5 7 2
+5 6 1
+5 13 4
+5 15 1
+11 10 5
+12 14 1
+6 1 1
+6 9 2
+6 10 5
+6 11 2
+6 12 1
+6 13 1
+</code></code></pre>
+<h3 id="sample-output-1-">Sample Output 1:</h3>
+<pre><code class="lang-out">3 5
+6
+</code></code></pre>
+<strong>Note:</strong> In sample 1, although <code>1</code> had 9 records, but there were 7 distinct receivers, among which <code>5</code> and <code>15</code> both had conversations lasted more than 5 minutes in total. Hence <code>1</code> had made 5 short phone calls and didn't exceed the threshold 5, and therefore is not a suspect.
+<h3 id="sample-input-2-">Sample Input 2:</h3>
+<pre><code class="lang-in">5 7 8
+1 2 1
+1 3 1
+1 4 1
+1 5 1
+1 6 1
+1 7 1
+2 1 1
+3 1 1
+</code></code></pre>
+<h3 id="sample-output-2-">Sample Output 2:</h3>
+<pre class=""><code class="lang-out">None</code></code></pre>
+<h3>C++代码：</h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+#include&lt;map&gt;
+
+using namespace std;
+
+int durcnt[1010][1010]; //统计总通话时间
+int father[1010]; //并查集father
+
+int findFather(int n){
+    int a = n;
+    while(a != father[a])a = father[a];
+    while(n != father[n]){
+        int z = n;
+        n = father[n];
+        father[z] = a;
+    }
+    return a;
+}
+
+void setUnion(int x, int y){
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        if(fy &lt; fx) swap(fx, fy); //序号较小的作为leader
+        father[fy] = fx;
+    }
+}
+
+void init(int n){
+    for(int i = 1; i &lt;= n; i++)father[i] = i;
+}
+
+int main(){
+    map&lt;int, vector&lt;int&gt; &gt; gangs;
+    vector&lt;int&gt; suspects;
+    int K, N, M;
+    cin&gt;&gt;K&gt;&gt;N&gt;&gt;M;
+    init(N);
+    int c, r, d;
+    for(int i = 0; i &lt; M; i++){
+        cin&gt;&gt;c&gt;&gt;r&gt;&gt;d;
+        durcnt[c][r] += d;
+    }
+
+    //判断是否是诈骗团伙
+    for(int i = 1; i &lt;= N; i++){
+        int sumDiff = 0, rcall = 0;
+        for(int j = 1; j &lt;= N; j++){
+            if(durcnt[i][j] &gt; 0 &amp;&amp; durcnt[i][j] &lt;= 5){
+                sumDiff++;
+                if(durcnt[j][i] &gt; 0)rcall++;
+            }
+        }
+        if(sumDiff &gt; K &amp;&amp; 1.0 * rcall / sumDiff &lt;= 0.2)suspects.push_back(i);
+    }
+    
+    //找出每一个团伙的成员
+    for(int i = 0; i &lt; suspects.size(); i++){
+        for(int j = i; j &lt; suspects.size(); j++){
+            if(durcnt[suspects[i]][suspects[j]] &gt; 0 &amp;&amp; durcnt[suspects[j]][suspects[i]] &gt; 0){
+                setUnion(suspects[i], suspects[j]); //同一个团伙的合并
+            }
+        }
+    }
+    for(int i = 0; i &lt; suspects.size(); i++){
+        int leader = findFather(suspects[i]);
+        gangs[leader].push_back(suspects[i]);
+    }
+    if(gangs.size() == 0)cout&lt;&lt;"None"&lt;&lt;endl;
+    else{
+        for(int i = 0; i &lt; gangs.size(); i++){
+            sort(gangs[i].begin(), gangs[i].end());
+            for(int j = 0; j &lt; gangs[i].size(); j++){
+                printf("%d%s", gangs[i][j], j == gangs[i].size() - 1 ? "\n" : " ");
+            }
+        }
+    }
+    return 0;
+}
+</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

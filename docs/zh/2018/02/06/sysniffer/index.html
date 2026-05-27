@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python课程设计Windows系统资源探测器 · OmegaXYZ</title>
+  <meta name="description" content="一、需求分析 （1）文件夹动态监控： Windows系统C盘是系统盘，存储着很多重要的数据文件，可用空间一开始很充足，但是电脑在使用一段时间后，我们会发现C盘空间越来越大。这是Windows系统的一个通病，于是我希望制作一个能够对选定文件夹实时监测的程序，这个程序不同于Windows自身自带的资源管理器，它能够动态且自动监测文件夹中文件的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/06/sysniffer/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-06</div>
+        <h1>Python课程设计Windows系统资源探测器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/windows/index.html">Windows</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>一、需求分析</h1>
+<strong>（1）文件夹动态监控：</strong>Windows系统C盘是系统盘，存储着很多重要的数据文件，可用空间一开始很充足，但是电脑在使用一段时间后，我们会发现C盘空间越来越大。这是Windows系统的一个通病，于是我希望制作一个能够对选定文件夹实时监测的程序，这个程序不同于Windows自身自带的资源管理器，它能够动态且自动监测文件夹中文件的创建、修改与删除的变化（当然程序需要一直挂在后台），并把文件变化的时间和路径反馈给用户，使用户能在第一时间知晓究竟是哪些文件是系统盘（或者是其他磁盘）变大的始作俑者。
+
+<strong>（2）临时文件探测与CPU监控：</strong>我们常用的系统优化软件往往有捆绑安装与投送广告的倾向，360安全卫士，鲁大师，QQ电脑管家这种问题尤为严重。在此我便设想制作一个能够简单集成我们常用的鲁大师实时系统监测和系统临时文件探测与清理的GUI小程序，来避免像360捆绑安装和开机自启动的这些问题。
+
+<strong>（3）资源管理器：</strong>有时候，我们会需要了解一个文件夹的大小，存储文件的数量及大小，Windows自带的资源管理器能够做到这一点，但是它有一个缺陷，便是一次只能查找到当前文件夹中的大文件，而不能找到当前文件夹中子文件夹中的大文件，考虑到360安全卫士里面有一个查找大文件的工具，于是我便想利用Python进行实现。
+
+<strong>（4）文件探查：</strong>对于一个敲代码的学生来说，我们常常需要获取一个文件的MD5码值及其他相关信息，右键文件属性能看到大部分信息，但是不能查看到它的加密信息，于是在GUI程序里面我便集成了MD5码，SAH1码的查询功能，方便对文件进行校验。
+
+<strong>（5）自动关机：</strong>一到夜间4G的速度就从几百kb/s降到了几十kb/s，因此我们常常需要开启电脑热点来给手机续航。但是，上铺的我们在熄灯之后不想再下来把电脑关了，这时就需要对电脑定时关机。其实，Windows电脑可以用控制台命令和创建计划任务对电脑实现定时关机，但是对控制台命令来说，很多人不知道如何操作输入指令（at 03:00 /every:M,T,W,Th,F,S,Su shutdown -s -t 30从星期一至星期天,每天凌晨3点关机，关机前有30秒时间提示！）；对计划任务来说，首先得打开控制面板，创建新任务，然后把指令什么的输进去，特别是在win10电脑中，当初我找计划任务这个面板找了很久，这样很费功夫。另外如果我们想取消定时关机，那么对于Windows电脑来说也是一个很麻烦的事。于是在GUI程序中，我增加一个定时关机的功能，能够设置与取消定时关机，更重要的是能够在关机之前保存。（此部分不是重点）
+
+<span style="color: #ff0000;"><em><strong>声明：原创（参考资料附后）</strong></em></span>
+<h1>二、程序分析与设计</h1>
+<h2>（1）程序运行与事件触发机制</h2>
+即将要做的GUI程序包含多个函数功能，更重要的是要对系统进行动态监控。考虑到GUI程序在执行动态更新函数时，如果函数的执行时间过长，则会导致程序进入假死状态，无法操作和移动窗口。这时就需要进行多线程编程。通过对threading模块的研究，我将每种不同的功能的事件触发模块进行分块，并最终集成在一个主界面中。
+另外对于事件所触发的功能则放在另外一个类中，外部定义一个类（class WorkerThread(Thread)）用来执行主界面使用类中的事件。主函数中需要执行的事件将通过参数传入外部多线程类中同步执行。外部多线程类产生的消息将通过wx.lib.pubsub中的pub来传递给已订阅该消息的主函数及其模块。
+<strong>图例：</strong>
+
+<img class="wp-image-3230 size-full aligncenter" src="https://cdn.omegaxyz.com/2018/02/sysniffer_demo1.png" alt="" width="530" height="351" />
+
+&nbsp;
+<h2>（2）文件夹动态监控模块</h2>
+工欲善其事，必先利其器。需要动态监控，我首先选择了watchdog和logging两个模块。首先我用watchdog来监控指定目录/文件的变化，如添加删除文件或目录、修改文件内容、重命名文件或目录等，每种变化都会产生一个事件，且有一个特定的事件类与之对应。
+但是查找到watchdog的使用手册我发现，watchdog的消息只能通过系统警告发送到控制台中，不能以普通的str字符串类型的数据传送给控制台，因此，我利用logging模块中的logging.info等消息使得先写入外部数据库文件，然后程序再从数据库文件中读取数据并利用多线程传送到GUI界面中。
+另外为了防止重复输出数据库中的信息，我再使用一个函数对立面的消息进行甄别和筛选。并增加了用户选择功能，使用户选择所需要监控的文件操作：文件创建，文件修改或者是文件删除。
+
+图例：<img class="wp-image-3231 size-full aligncenter" src="https://cdn.omegaxyz.com/2018/02/sysniffer_demo2.png" alt="" width="659" height="254" />
+<h2>（3）文件探查模块</h2>
+对于文件资源查找的这部分就稍微简单了，利用上课所学的os.walk()的知识对文件夹进行遍历。为了获取文件的大小，我另外增加了两个数组，FileSize和BigFile在遍历的过程中，将文件的大小和路径保存起来，这样用户如果要查找大文件的话直接利用根据用户指定的文件大小从FileSize中提取出来。
+为了使用户获得MD5码和SHA1码的值，我导入了hashlib这个模块，这样就不要我费尽心思得写MD5的算法，并且这样的效率还很高（所以人生苦短，我用python）。
+<h2>（4）临时文件探查与删除模块</h2>
+这一部分一开始我想利用os.walk()的同时对文件名进行甄别，如果是临时文件，那么就删除，否则跳过。
+百度搜索了一下关于Python如何清理垃圾文件的脚本（参考资料另附），我看到大家的思路都是这样，我研究了网上比较流行的一个脚本（如图）
+
+<img class="size-full wp-image-3232 aligncenter" src="https://cdn.omegaxyz.com/2018/02/sysniffer_demo3.png" alt="" width="723" height="396" />
+
+我发现有些文件由于系统权限问题无法删除这样这样会导致异常。另外用户也不能自我选定需要删除的垃圾文件。因此我在GUI程序中首先增加了异常处理，另外增加用户选择功能，保护用户重要的文件不被删除。
+<h2>（5）硬件排行模块</h2>
+首先我选定了一个硬件天梯网站进行爬虫操作（如图）
+
+<img class="alignnone size-full wp-image-3233" src="https://cdn.omegaxyz.com/2018/02/sysniffer_demo4.png" alt="" width="931" height="357" />
+
+这个网站是静态的而且结构清晰。我直接利用BeautifulSoup进行爬取。
+
+<img class="size-full wp-image-3234 aligncenter" src="https://cdn.omegaxyz.com/2018/02/sysniffer_demo5.png" alt="" width="453" height="382" />
+
+利用这样两行代码获取所需要的数据(soup = BeautifulSoup(wb_data, 'lxml')
+data = soup.find_all('tr'))另外再通过简单的处理对数据格式优化输出在GUI界面中。我增加了用户选择功能这样用户可以选择所需要抓取的排行的大小。当然我也增加了网络异常的处理机制。
+<h2>（6）CPU与内存动态更新实现</h2>
+和文件夹动态监控类似，我首先选择了psutil，模块，它能够轻松实现获取系统运行的进程和系统利用率（包括CPU、内存、磁盘、网络等）信息。利用多线程消息传递，我在初始化界面时便开始这个进程。
+本来这个只是数字的显示，但是我希望能够美化界面。想到了使用matplotlib模块来画图，但是要实现画图的动态更新即使是利用多线程也会使界面进入假死状态，而且需要修改的代码十分庞大（整个GUI界面中需要再次嵌入matplotlib的GUI界面）。因此我放弃这个想法，利用GUI界面中提供的进度条来进行CPU和内存的动态美化显示。
+<h2>（7）定时关机设置</h2>
+利用os.system模块直接写控制台命令shutdown -s -t %d和shutdown -a
+命令进行控制。这部分不是重点就不具体阐释了。
+<h1>三、程序开发与测试</h1>
+<strong>（根据测试驱动开发TDD，在功能代码之前，先编写测试代码，因此这里的开发与测试放在一起写）</strong>
+
+<span style="color: #ff0000;"><strong>开发环境：Python3 based on Pycharm2017.2.2</strong></span>
+<span style="color: #ff0000;"> <strong>GUI选择：wxpython</strong></span>
+<h2>（1）主界面</h2>
+<strong>功能：</strong>
+①各功能触发器设计
+②CPU与内存动态显示
+③菜单栏设计
+④定时关机模块
+⑤界面透明度（美化）
+⑥意见反馈
+
+<img class="alignnone size-full wp-image-3235" src="https://cdn.omegaxyz.com/2018/02/sysniffer_main.png" alt="" width="860" height="600" />
+
+主界面测试：
+①显示电脑的基本信息正常
+<img class="alignnone size-full wp-image-3236" src="https://cdn.omegaxyz.com/2018/02/sysniffer_bar1.png" alt="" width="463" height="40" />
+②内存与CPU显示正常
+<img class="alignnone size-full wp-image-3237" src="https://cdn.omegaxyz.com/2018/02/sysniffer_bar2.png" alt="" width="368" height="65" />
+③事件触发正常
+④定时关机与取消正常
+<img class="alignnone size-full wp-image-3239" src="https://cdn.omegaxyz.com/2018/02/sysniffer_shut1.png" alt="" width="393" height="200" />       <img class="alignnone size-full wp-image-3240" src="https://cdn.omegaxyz.com/2018/02/sysniffer_shut2.png" alt="" width="398" height="140" />
+⑤菜单栏事件触发正常
+<img class="alignnone size-full wp-image-3238" src="https://cdn.omegaxyz.com/2018/02/sysniffer_menu.png" alt="" width="244" height="164" />
+⑥浏览器打开与界面透明度测试正常
+
+<img class="alignnone size-full wp-image-3241" src="https://cdn.omegaxyz.com/2018/02/sysniffer_trans.png" alt="" width="499" height="83" />
+<h2>（2）文件夹动态监控界面</h2>
+<strong>功能：</strong>
+①文件探查类型选择
+②文件夹选择
+③文件操作停止
+④文件夹清空与复制到剪切板
+<img class="alignnone size-full wp-image-3242" src="https://cdn.omegaxyz.com/2018/02/sysniffer_dic1.png" alt="" width="1040" height="700" />
+文件夹动态监控界面测试：
+①当没有选择文件时显示错误
+
+<img class="alignnone size-full wp-image-3243" src="https://cdn.omegaxyz.com/2018/02/sysniffer_mon2.png" alt="" width="670" height="310" />
+
+②选择指定的文件夹并监控
+在指定文件夹下创建新的文本文件并改名为Python测试文件
+<img class="alignnone size-full wp-image-3244" src="https://cdn.omegaxyz.com/2018/02/sysniffer_mon3.png" alt="" width="759" height="260" />
+删除文件
+
+<img class="alignnone size-full wp-image-3245" src="https://cdn.omegaxyz.com/2018/02/sysniffer_mon4.png" alt="" width="496" height="257" />
+
+<img class="alignnone size-full wp-image-3246" src="https://cdn.omegaxyz.com/2018/02/sysniffer_mon5.png" alt="" width="794" height="238" />
+
+③复制到剪切板，清空面板与停止操作
+<img class="alignnone size-full wp-image-3247" src="https://cdn.omegaxyz.com/2018/02/sysniffer_mon6.png" alt="" width="735" height="355" />
+<h2>（3）临时文件探测工具</h2>
+<strong>功能：</strong>
+①选择并检测系统垃圾
+②选择并删除系统垃圾
+<img class="alignnone size-full wp-image-3248" src="https://cdn.omegaxyz.com/2018/02/sysniffer_rub1.png" alt="" width="1040" height="700" />
+测试：
+
+<img class="alignnone size-full wp-image-3249" src="https://cdn.omegaxyz.com/2018/02/sysniffer_rub2.png" alt="" width="1040" height="700" />
+<h2>（4）硬件排行模块</h2>
+<strong>功能：</strong>
+①根据指定数量查找所需要的排名信息
+②复制到剪切板
+
+<img class="alignnone size-full wp-image-3250" src="https://cdn.omegaxyz.com/2018/02/sysniffer_web1.png" alt="" width="1000" height="500" />
+
+测试：
+
+<img class="alignnone size-full wp-image-3251" src="https://cdn.omegaxyz.com/2018/02/sysniffer_web2.png" alt="" width="1000" height="500" />
+
+<img class="alignnone size-full wp-image-3252" src="https://cdn.omegaxyz.com/2018/02/sysniffer_web3.png" alt="" width="1000" height="500" />
+<h2>（5）文件信息探查</h2>
+<strong>功能：</strong>
+①查看磁盘信息
+②查看文件信息（包括修改时间，MD5码等）
+③文件夹信息查看
+④输出文件夹文件
+⑤查找大文件
+<img class="alignnone size-full wp-image-3253" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file1.png" alt="" width="1040" height="650" />
+测试：
+①磁盘信息查看正常
+<img class="alignnone size-full wp-image-3254" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file2.png" alt="" width="760" height="303" />
+分盘信息显示盘符，格式，权限
+②文件信息检测
+这里我选择一个大的电影文件进行检测
+<img class="alignnone size-full wp-image-3255" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file3.png" alt="" width="1040" height="650" />
+正确显示文件信息
+③文件夹信息检测并输出文件
+<img class="alignnone size-full wp-image-3256" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file4.png" alt="" width="1040" height="650" />
+文件夹信息检测结果正常
+
+④输出大文件
+先选择文件大小：
+<img class="alignnone size-full wp-image-3257" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file5.png" alt="" width="346" height="164" />
+正确输出：
+<img class="alignnone size-full wp-image-3258" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file6.png" alt="" width="1040" height="650" />
+⑤停止操作
+下面我选择一个文件特别多的文件夹进行检测
+文件夹太多，用户不想看了需要进行停止操作
+
+<img class="alignnone size-full wp-image-3259" src="https://cdn.omegaxyz.com/2018/02/sysniffer_file7.png" alt="" width="1040" height="650" />
+正常！
+<h2>（6）界面美化</h2>
+界面美化与透明度设置均使用wxpython中提供的方法和函数
+图片来自外部依赖文件
+
+<img class="alignnone size-full wp-image-3260" src="https://cdn.omegaxyz.com/2018/02/sysniffer_b.png" alt="" width="932" height="345" />
+<h2>（7）程序打包</h2>
+利用Pyinstaller对程序进行打包
+打包命令：pyinstaller -F -w Sysniffer.spec
+打包后的文件：
+
+<img class="alignnone size-full wp-image-3261" src="https://cdn.omegaxyz.com/2018/02/sysniffer_pyin.png" alt="" width="707" height="167" />
+运行时请打开Sysniffer.exe文件，其它文件不要移动位置，否则外部依赖项加载会失败。
+<h1>四、程序评价</h1>
+该GUI程序实现了文件夹动态监控、文件信息探查、临时文件探查与清理、硬件排行抓取、定时关机的功能。
+经过三次大版本的修改与功能的增加，最终实现了Sysniffer3.1系统资源探测器程序，最终得分<span style="color: #ff0000;">99</span>。
+<h1>五、参考文献</h1>
+① Python 模块学习：threading 多线程<a href="http://python.jobbole.com/81546/">http://python.jobbole.com/81546/</a>
+② tinkerGUI 垃圾清理<a href="http://blog.csdn.net/u013511642/article/details/50588121">http://blog.csdn.net/u013511642/article/details/50588121</a>
+③ Python 笔记之 psutil 模块<a href="http://www.cnblogs.com/liuyao/p/5678157.html">http://www.cnblogs.com/liuyao/p/5678157.html</a>
+④ wxpython 官网<a href="http://www.wxpython.org/">http://www.wxpython.org/</a>
+⑤ Python 模块学习：logging 日志 <a href="http://www.cnblogs.com/dkblog/archive/2011/08/26/2155018.html">http://www.cnblogs.com/dkblog/archive/2011/08/26/2155018.html</a>
+⑥ Pyinstaller 打包学习：<a href="http://www.pyinstaller.org/">http://www.pyinstaller.org/</a>
+<h1>程序下载</h1>
+关注图灵技术域微信公众号回复：sysniffer或点击此链接：<a href="http://download.csdn.net/download/xyisv/10236804">http://download.csdn.net/download/xyisv/10236804</a>
+
+&nbsp;
+<div class="footer-bar"><aside id="custom_html-7" class="widget_text widget inner-padding widget_custom_html">
+<div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>代码采用<span style="color: #0000ff;"><a style="color: #0000ff;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a></span>授权 </strong></span>
+<span style="color: #ff0000;"><strong>文章采用知识共享许可协议<span style="color: #0000ff;"><a style="color: #0000ff;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a></span>授权</strong></span></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <span style="color: #0000ff;"><a style="color: #0000ff;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a></span>-版权所有 转载请注明出处</strong></span></div>
+<div></div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

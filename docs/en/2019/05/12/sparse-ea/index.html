@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to multi-objective evolutionary algorithms based on sparse large-scale matrices · OmegaXYZ</title>
+  <meta name="description" content="Introduction You can see that the featured image in this article is an extremely sparsely connected neural network, which is obtained by the algorithm SparseEA we are about to introduce in the paper. This paper was published by BIMK&#x27;s Tian Tian, ​​Zhang Xingyi and others in the journal IEEE Transactions on Evolutionary Computation (SCI Area 1) on April 2019. The paper proposes a multi-objective algorithm to solve large-scale sparse problems. Large-scale...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/12/sparse-ea/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-12</div>
+        <h1>Introduction to multi-objective evolutionary algorithms based on sparse large-scale matrices</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>You can see that the featured image in this article is an extremely sparsely connected neural network, which is obtained by the algorithm SparseEA we are about to introduce in the paper.
+
+This paper was published by BIMK's Tian Tian, ​​Zhang Xingyi and others in the journal IEEE Transactions on Evolutionary Computation (SCI Area 1) on April 2019.<img alt="" class="alignnone wp-image-5770" height="175" src="https://cdn.omegaxyz.com/2019/05/sparse-ea1.png" width="768"/>
+<div>The paper proposes a multi-objective algorithm to solve the problem of large-scale sparsity, which exists in many fields: machine learning, data mining, and neural networks.</div>
+<div>The author mainly discusses four specific issues</div>
+<ul>
+<li>①Feature selection</li>
+<li>②Pattern mining</li>
+<li>③Key node detection</li>
+<li>④Neural network training</li>
+</ul>
+<div>Although the above four problems exist in different fields, they are all multi-objective problems, and the solution sets of their pareto surfaces are all sparse. For example, for large-scale feature selection problems, less than 100 features can be selected out of 10,000 dimensions, and the compression rate reaches 99%, which is a typical sparse problem.</div>
+<h2><strong>specific questions</strong></h2>
+<div><img alt="" class="alignnone wp-image-5771" height="320" src="https://cdn.omegaxyz.com/2019/05/sparse-ea2.png" width="708"/></div>
+<div><img alt="" class="alignnone wp-image-5772" height="324" src="https://cdn.omegaxyz.com/2019/05/sparse-ea3.png" width="718"/></div>
+<h2><strong>Algorithmic Contribution</strong></h2>
+<ul>
+<li>① Designed a new population initialization strategy (according to the sparse large-scale characteristics, a good frontier can be obtained)</li>
+<li>② Designed a new genetic operator based on the sparsity of pareto solution set</li>
+</ul>
+<h2><strong>Specific algorithm</strong></h2>
+<h3><strong>Algorithm framework</strong></h3>A framework similar to NSGA2<img alt="" class="alignnone wp-image-5777" height="357" src="https://cdn.omegaxyz.com/2019/05/sparse-ea8.png" width="450"/>
+<h3><strong>Initialization strategy</strong></h3>
+<div>In order to integrate the two encodings, two vectors need to be introduced, one is the decision variable vector dec (actually the evolutionary solution, for 01 encoding, it can be set to all 1), and the other is the mask vector mask (actually a 01 vector, used to record the quality of each dimension, and the good ones are set to 1). The final decision variable is the inner product of the two.</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjUwMTgtMTU1NzY2MDM4NDc5NCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLkuLoifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLpm4YifSx7ImNoYXIiOiLmiJAifSx7ImNoYXIiOiLkuKQifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLnvJYifSx7ImNoYXIiOiLnoIEifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLpnIAifSx7ImNoYXIiOiLopoEifSx7ImNoYXIiOiLlvJUifSx7ImNoYXIiOiLlhaUifSx7ImNoYXIiOiLkuKQifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLvvIwifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI4NTY0LTE1NTc2NjA2OTMwOTgiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5YazIn0seyJjaGFyIjoi562WIn0seyJjaGFyIjoi5Y+YIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoi5ZCRIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoiZCIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiYyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yIIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlrp4iLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IumZhSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5LiKIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLmmK8iLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6Iui/myIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5YyWIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuinoyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlr7kiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuS6jiIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMCIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi57yWIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLnoIEiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuadpSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi6K+0Iiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLvvIwiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuWPryIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5LulIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlhagiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6Iue9riIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yJIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1MDE5LTE1NTc2NjA3MDI5NDIiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5Y+mIn0seyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5o6pIn0seyJjaGFyIjoi56CBIn0seyJjaGFyIjoi5ZCRIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoibSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiYSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoicyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yIIn0seyJjaGFyIjoi5a6eIn0seyJjaGFyIjoi6ZmFIn0seyJjaGFyIjoi5LiKIn0seyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoiMCJ9LHsiY2hhciI6IjEifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnlKgifSx7ImNoYXIiOiLmnaUifSx7ImNoYXIiOiLorrAifSx7ImNoYXIiOiLlvZUifSx7ImNoYXIiOiLmr48ifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLnu7QifSx7ImNoYXIiOiLluqYifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlpb0ifSx7ImNoYXIiOiLlnY8ifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLlpb0ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLnva4ifSx7ImNoYXIiOiIxIn0seyJjaGFyIjoi77yJIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNTAyMi0xNTU3NjYwNzMzNDc1IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuacgCJ9LHsiY2hhciI6Iue7iCJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuWGsyJ9LHsiY2hhciI6IuetliJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IuaYryJ9LHsiY2hhciI6IuS4pCJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuWGhSJ9LHsiY2hhciI6IuenryJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==-->
+<img alt="" class="alignnone wp-image-5773" height="667" src="https://cdn.omegaxyz.com/2019/05/sparse-ea4.png" width="422"/>The result after initialization:<img alt="" class="alignnone wp-image-5774" height="352" src="https://cdn.omegaxyz.com/2019/05/sparse-ea5.png" width="440"/>It can be seen that through this initialization strategy, a good distribution that approximates the pareto surface is obtained.<h3><strong>crossover mutation operator</strong></h3>
+<div>This cross mutation is the core of the algorithm. It flips one element in the 0 element or one element in the non-0 element with the same probability each time in the binary vector mask. The flipping is performed based on the fitness value of the decision variable. Therefore, the generated children will not have the same number of 0s and 1s, and the sparsity of the children can be maintained.</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjU2MTAtMTU1NzY2MjI5NDE2NyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLov5kifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLkuqQifSx7ImNoYXIiOiLlj4kifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLlvIIifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLnrpcifSx7ImNoYXIiOiLms5UifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLmoLgifSx7ImNoYXIiOiLlv4MifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLlroMifSx7ImNoYXIiOiLmr48ifSx7ImNoYXIiOiLmrKEifSx7ImNoYXIiOiLlnKgifSx7ImNoYXIiOiLkuowifSx7ImNoYXIiOiLov5sifSx7ImNoYXIiOiLliLYifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiJtIn0seyJjaGFyIjoiYSJ9LHsiY2hhciI6InMifSx7ImNoYXIiOiJrIn0seyJjaGFyIjoi5LitIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5LulIn0seyJjaGFyIjoi5ZCMIn0seyJjaGFyIjoi5qC3In0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5qaCIn0seyJjaGFyIjoi546HIn0seyJjaGFyIjoi5q+PIn0seyJjaGFyIjoi5qyhIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoiMCJ9LHsiY2hhciI6IuWFgyJ9LHsiY2hhciI6Iue0oCJ9LHsiY2hhciI6IuS4rSJ9LHsiY2hhciI6Iue/uyJ9LHsiY2hhciI6Iui9rCJ9LHsiY2hhciI6IuS4gCJ9LHsiY2hhciI6IuS4qiJ9LHsiY2hhciI6IuWFgyJ9LHsiY2hhciI6Iue0oCJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuaIliJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IuWcqCJ9LHsiY2hhciI6IumdniJ9LHsiY2hhciI6IjAifSx7ImNoYXIiOiLlhYMifSx7ImNoYXIiOiLntKAifSx7ImNoYXIiOiLkuK0ifSx7ImNoYXIiOiLnv7sifSx7ImNoYXIiOiLovawifSx7ImNoYXIiOiLkuIAifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLlhYMifSx7ImNoYXIiOiLntKAifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnv7sifSx7ImNoYXIiOiLovawifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLmoLkifSx7ImNoYXIiOiLmja4ifSx7ImNoYXIiOiLlhrMifSx7ImNoYXIiOiLnrZYifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLpgIIifSx7ImNoYXIiOiLlupQifSx7ImNoYXIiOiLluqYifSx7ImNoYXIiOiLlgLwifSx7ImNoYXIiOiLov5sifSx7ImNoYXIiOiLooYwifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLjgIIifSx7ImNoYXIiOiLlm6AifSx7ImNoYXIiOiLmraQifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnlJ8ifSx7ImNoYXIiOiLmiJAifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlrZAifSx7ImNoYXIiOiLku6MifSx7ImNoYXIiOiLkuI0ifSx7ImNoYXIiOiLkvJoifSx7ImNoYXIiOiLmnIkifSx7ImNoYXIiOiLlkIwifSx7ImNoYXIiOiLmoLcifSx7ImNoYXIiOiLmlbAifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiIwIn0seyJjaGFyIjoi5ZKMIn0seyJjaGFyIjoiMSJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuW5tiJ9LHsiY2hhciI6IuS4lCJ9LHsiY2hhciI6IuWPryJ9LHsiY2hhciI6IuS7pSJ9LHsiY2hhciI6IuS/nSJ9LHsiY2hhciI6IuaMgSJ9LHsiY2hhciI6IuWtkCJ9LHsiY2hhciI6IuS7oyJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IueogCJ9LHsiY2hhciI6IueWjyJ9LHsiY2hhciI6IuW6piJ9LHsiY2hhciI6IuOAgiJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==-->
+<img alt="" class="alignnone wp-image-5775" height="878" src="https://cdn.omegaxyz.com/2019/05/sparse-ea6.png" width="427"/>The result after using crossover mutation:<img alt="" class="alignnone wp-image-5776" height="325" src="https://cdn.omegaxyz.com/2019/05/sparse-ea7.png" width="418"/>It can be seen that through this strategy, the sparsity is improved, and fewer and fewer dimensions are set to 1.<h2><strong>other</strong></h2>For the experimental part, the author designed a specific test suite, and the results are very optimistic, so I won’t go into details here.<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjM3ODgtMTU1NzY2MDMxNjYyOCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaAifSx7ImNoYXIiOiLorr4ifSx7ImNoYXIiOiLorqEifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLmlrAifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLnvqQifSx7ImNoYXIiOiLliJ0ifSx7ImNoYXIiOiLlp4sifSx7ImNoYXIiOiLljJYifSx7ImNoYXIiOiLnrZYifSx7ImNoYXIiOiLnlaUifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIxMjk2LTE1NTc2NjAzMzc1NjkiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi4pGhIn0seyJjaGFyIjoi6K6+In0seyJjaGFyIjoi6K6hIn0seyJjaGFyIjoi5LqGIn0seyJjaGFyIjoi5pawIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5Z+6In0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoicCJ9LHsiY2hhciI6ImEifSx7ImNoYXIiOiJyIn0seyJjaGFyIjoiZSJ9LHsiY2hhciI6InQifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoi6KejIn0seyJjaGFyIjoi6ZuGIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi5oCnIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi6YGXIn0seyJjaGFyIjoi5LygIn0seyJjaGFyIjoi566XIn0seyJjaGFyIjoi5a2QIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX1d-->
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6Ijg0MTctMTU1NzY1OTI4MTk4NyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLorroifSx7ImNoYXIiOiLmlocifSx7ImNoYXIiOiLmj5AifSx7ImNoYXIiOiLlh7oifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLkuIAifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLop6MifSx7ImNoYXIiOiLlhrMifSx7ImNoYXIiOiLlpKcifSx7ImNoYXIiOiLop4QifSx7ImNoYXIiOiLmqKEifSx7ImNoYXIiOiLnqIAifSx7ImNoYXIiOiLnlo8ifSx7ImNoYXIiOiLpl64ifSx7ImNoYXIiOiLpopgifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlpJoifSx7ImNoYXIiOiLnm64ifSx7ImNoYXIiOiLmoIcifSx7ImNoYXIiOiLnrpcifSx7ImNoYXIiOiLms5UifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI5NjgwLTE1NTc2NTkzNzk2NDciLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5aSnIn0seyJjaGFyIjoi6KeEIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi5a2YIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi6K64In0seyJjaGFyIjoi5aSaIn0seyJjaGFyIjoi6aKGIn0seyJjaGFyIjoi5Z+fIn0seyJjaGFyIjoi77yaIn0seyJjaGFyIjoi5py6In0seyJjaGFyIjoi5ZmoIn0seyJjaGFyIjoi5a2mIn0seyJjaGFyIjoi5LmgIn0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi5pWwIn0seyJjaGFyIjoi5o2uIn0seyJjaGFyIjoi5oyWIn0seyJjaGFyIjoi5o6YIn0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi56WeIn0seyJjaGFyIjoi57uPIn0seyJjaGFyIjoi572RIn0seyJjaGFyIjoi57ucIn0seyJjaGFyIjoi44CCIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNjgxNy0xNTU3NjU5NDM5NjM5IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuS9nCJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IuS4uyJ9LHsiY2hhciI6IuimgSJ9LHsiY2hhciI6IuiuqCJ9LHsiY2hhciI6IuiuuiJ9LHsiY2hhciI6IuS6hiJ9LHsiY2hhciI6IuWbmyJ9LHsiY2hhciI6IuS4qiJ9LHsiY2hhciI6IuWFtyJ9LHsiY2hhciI6IuS9kyJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IumXriJ9LHsiY2hhciI6IumimCJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjcxNDMtMTU1NzY1OTUwMTY1OSIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaAifSx7ImNoYXIiOiLnibkifSx7ImNoYXIiOiLlvoEifSx7ImNoYXIiOiLpgIkifSx7ImNoYXIiOiLmi6kifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI2MDI4LTE1NTc2NTk1MTA1MzAiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi4pGhIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi5byPIn0seyJjaGFyIjoi5oyWIn0seyJjaGFyIjoi5o6YIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNTU5MS0xNTU3NjU5NTM1MzYxIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuKRoiJ9LHsiY2hhciI6IuWFsyJ9LHsiY2hhciI6IumUriJ9LHsiY2hhciI6IuiKgiJ9LHsiY2hhciI6IueCuSJ9LHsiY2hhciI6IuajgCJ9LHsiY2hhciI6Iua1iyJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjE4NDItMTU1NzY1OTU0NjM0MiIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaMifSx7ImNoYXIiOiLnpZ4ifSx7ImNoYXIiOiLnu48ifSx7ImNoYXIiOiLnvZEifSx7ImNoYXIiOiLnu5wifSx7ImNoYXIiOiLorq0ifSx7ImNoYXIiOiLnu4MifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1MjI0LTE1NTc2NTk2ODcwMDkiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5LiKIn0seyJjaGFyIjoi6Z2iIn0seyJjaGFyIjoi5ZubIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi6ZeuIn0seyJjaGFyIjoi6aKYIn0seyJjaGFyIjoi6Jm9In0seyJjaGFyIjoi54S2In0seyJjaGFyIjoi5a2YIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi5LiNIn0seyJjaGFyIjoi5ZCMIn0seyJjaGFyIjoi6aKGIn0seyJjaGFyIjoi5Z+fIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5L2GIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5a6DIn0seyJjaGFyIjoi5LusIn0seyJjaGFyIjoi6YO9In0seyJjaGFyIjoi5bGeIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi5aSaIn0seyJjaGFyIjoi55uuIn0seyJjaGFyIjoi5qCHIn0seyJjaGFyIjoi6ZeuIn0seyJjaGFyIjoi6aKYIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5a6DIn0seyJjaGFyIjoi5LusIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoicCJ9LHsiY2hhciI6ImEifSx7ImNoYXIiOiJyIn0seyJjaGFyIjoiZSJ9LHsiY2hhciI6InQifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoi6Z2iIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi6KejIn0seyJjaGFyIjoi6ZuGIn0seyJjaGFyIjoi6YO9In0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi44CCIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX1d--></div>
+        <section class="comments"><h2>Comments (8)</h2>
+        <div class="comment" id="comment-16973">
+          <strong>tian</strong>
+          <time>2019-05-16 10:44:11</time>
+          <div>你好，请问能否回复一下此篇论文的DOI或者有效链接啊，google搜不到，感觉是不是撤回了啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16974">
+          <strong>xyjisaw</strong>
+          <time>2019-05-16 11:52:10</time>
+          <div>上个月刚过审，可能还没更新，太巧了<br>你评论的时候我刚把代码写好</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17174">
+          <strong>Anonymous</strong>
+          <time>2019-07-04 14:34:39</time>
+          <div>如果可以的话，能提供以下实现的代码学习吗 <br>hellokangkang@yahoo.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17185">
+          <strong>xyjisaw</strong>
+          <time>2019-07-06 23:41:09</time>
+          <div>可以啊，月底我有时间到时候联系</div>
+        </div>
+        
+        <div class="comment" id="comment-18079">
+          <strong>Wenhao</strong>
+          <time>2019-10-17 11:01:06</time>
+          <div>你好，能麻烦你提供一下实现的代码以供学习吗？谢谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18080">
+          <strong>xyjisaw</strong>
+          <time>2019-10-17 11:34:08</time>
+          <div>直接找论文作者吧，百度搜索BIMK实验室，里面有代码。</div>
+        </div>
+        
+        <div class="comment" id="comment-35218">
+          <strong>赵微</strong>
+          <time>2023-08-21 15:53:54</time>
+          <div>您好，我可以问下，为什么代码中 for i = 1 : 1+4*REAL，这个为什么是1：1+4*REAL么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-35893">
+          <strong>yuki</strong>
+          <time>2023-10-15 10:12:33</time>
+          <div>您好，可以麻烦提供一份代码用来学习吗，没有在BIMK网站上找到，谢谢！<br>1094559939@qq.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of the particle swarm optimization (PSO) algorithm · OmegaXYZ</title>
+  <meta name="description" content="PSO (PSO - Particle Swarm Optimization) (population-based stochastic optimization technology algorithm) Particle swarm algorithm imitates the swarming behavior of insects, beasts, birds, fish, etc. These groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members. Kennedy and Eberhart proposed the main design ideas and two aspects of particle swarm algorithm...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/04/introductionofpso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-04</div>
+        <h1>Overview of the particle swarm optimization (PSO) algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content">PSO (PSO——Particle Swarm Optimization) (population-based stochastic optimization technology algorithm)
+The particle swarm algorithm imitates the swarming behavior of insects, herds, birds, fish, etc. These groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members.
+Kennedy and Eberhart proposed that the main design ideas of the particle swarm algorithm are closely related to two aspects of research:<strong>One is evolutionary algorithm</strong>, the particle swarm algorithm uses the population method to search like the evolutionary algorithm, which allows it to search more areas in the solution space of the objective function to be optimized at the same time.<strong>The second is artificial life</strong>, that is, the study of artificial systems with life characteristics. The main tool it uses is computers, and the main method is to use computer programming to simulate.
+When Millonas used the theory of artificial life to study the behavior of social animals, he proposed five basic principles on how to use computers to build swarm artificial life systems with cooperative behavior:
+(1) ProximityPrinciple: The group should be able to perform simple spatial and temporal operations.
+(2) Quality Principle: The group should be able to feel changes in quality factors in the surrounding environment and respond to them.
+(3) Principle of Diverse Response: Groups should not limit their access to resources to a narrow range.
+(4) Principle of Stability: Groups should not change their behavior patterns with every change in the environment.
+(5) Principle of Adaptability: When the rewards brought by changing the behavioral pattern are worthwhile, the group should change its behavioral pattern.
+Principles 4 and 5 are two sides of the same problem. The particle swarm system meets the above five principles.
+In the past ten years, a lot of research has been carried out on particle swarm algorithm. Many people at home and abroad have reviewed the particle swarm algorithm from many aspects. There have been many monographs on particle swarm algorithm and doctoral dissertations with particle swarm algorithm as the main research content.<strong>Relationship to multiple goals</strong>In a multi-objective optimization problem, each objective function can be optimized independently and then the optimal value is found for each objective. However, it is rare to find a perfect solution that is optimal for all objectives, because the objectives often conflict with each other, and only Pareto optimal solutions can be found.
+The information sharing mechanism in the PSO algorithm is very different from other population-based optimization tools. In the genetic algorithm (GA), chromosomes exchange information with each other through crossover, which is a two-way information sharing mechanism. However, in the PSO algorithm, only gBest (or nBest) provides information to other particles, which is a one-way information sharing mechanism. Due to the point attraction characteristics, the traditional PSO algorithm cannot simultaneously locate multiple optimal points that constitute the Pareto front. Although multiple optimal solutions can be obtained by giving different weights to all objective functions, combining them and running them multiple times, there is still hope for a way to find a set of Pareto optimal solutions at the same time.
+In the PSO algorithm, a particle is an independent agent that searches the problem space based on its own experience and that of its peers. The former is the cognitive part of the particle update formula, and the latter is the social part. Both of them play a key role in guiding the search of particles. Therefore, choosing the appropriate social and cognitive guides (gBest and pBest) is the key point of the MO-PSO algorithm. The selection of cognitive leaders should follow the same rules as the traditional PSO algorithm. The only difference is that the leader should be determined according to Pareto dominance. The selection of social leaders involves two steps. The first step is to build a candidate pool from which to select leaders. In the traditional PSO algorithm, the leader is selected from the pBest of neighbors. The more common method in the MO-PSO algorithm is to use an external pool to store more Pareto optimal solutions. The second step is to choose a facilitator. The selection of gBest should meet the following two criteria: first, it should be able to provide effective guidance for particles to obtain better convergence speed; second, it should also provide balanced search along the Pareo front to maintain the diversity of the population. Two typical methods are usually used in the literature: (1) roulette selection mode, which randomly selects according to certain criteria, with the purpose of maintaining the diversity of the population; (2) quantitative criteria: determine social leaders according to some process that does not involve random selection.
+Moore first studied the application of PSO algorithm in multi-objective optimization, emphasizing the importance of both individual and group search, but did not adopt any method to maintain diversity. Based on the concept of non-inferior optimality, Coello applies an external "container" to record the found non-dominated vectors and uses these solutions to guide the flight of other particles. Fieldsend uses a data structure called a domination tree to sort the optimal particles. Parsopoulos applied the weight aggregation method. Hu applies dynamic neighborhoods and uses extended memory to optimize each objective sequentially in lexicon order. Ray uses an aggregation mechanism to maintain diversity and a multi-level filter to handle constraints. Lu uses a dynamic population strategy. Bartz-Beielstein uses archiving techniques to improve algorithm performance. Li used the main mechanism in the NSGA-II algorithm in the PSO algorithm to determine the local optimal particle between the local optimal particle and its descendant particles; and based on this, he proposed a new algorithm that uses the max-min strategy in the fitness value function to determine Pareto dominance. Zhang Libiao uses the average value of each optimal position under multiple objective functions to guide the flight of particles. Pulido uses multiple subpopulations and adopts clustering techniques to solve multi-objective programming problems. Mahfouf uses a weighted aggregation method to calculate the fitness value of particles, and determines the search to guide particles accordingly. Salazar-Lechuga uses fitness sharing technology to guide the search for particles. Gong proposed the concept of particle angle and used the minimum particle angle and particle density to determine the local optimal and global optimal particles. Based on the AER model, Zhang proposed a new intelligent PSO model to drive the population toward the Pareto optimal solution set. Ho proposes a new fitness value allocation mechanism and uses the service life (Age) variable to save and select the optimal history record. Huang applied the CLPSO algorithm to multi-objective planning. Ho proposed another scale-independent fitness value function based on Pareto, and used an intelligent motion mechanism (IMM) based on orthogonal experimental design to determine the next movement of the particle. Branke systematically studied the impact of various individual optimal particle selection methods on the performance of the MOPSO algorithm. Zhang Yong considered the key role of the reserve set update strategy in the multi-objective PSO algorithm and proposed a two-stage reserve set update strategy.
+Yuan Ping proposed a distributed PSO algorithm - the divided domain multi-objective PSO algorithm (DRMPSO), and applied it to the base station optimization problem. The Vector Evaluation PSO algorithm (VEPSO) is an algorithm inspired by the Vector Evaluation Genetic Algorithm (VEGA). In the VEPSO algorithm, each population only uses one of multiple objective functions for evaluation, and at the same time, various groups interact with each other. By assigning each population to a network PC, the VEPSO algorithm can be directly parallelized to accelerate convergence. Vlachogiannis applies the parallel VEPSO algorithm to determine the contribution of generators to the transmission system. Xiong Shengwu took advantage of the information transfer mechanism of the PSO algorithm, introduced archiving technology commonly used in multi-objective evolutionary algorithms into the PSO algorithm, and adopted environmental selection and pairing selection strategies, so that the entire group converged on the Pareto optimal solution set while maintaining appropriate selection pressure.
+Since the calculation of fitness value consumes a lot of computing resources, in order to reduce the amount of calculation, it is necessary to reduce the number of fitness value evaluations. Reyes-Sierra used fitness value inheritance and estimation techniques to achieve this goal, and compared the effects of fifteen fitness value inheritance techniques and four estimation techniques when applied to the multi-objective PSO algorithm.
+There are two main methods to maintain diversity in MOPSO: sigma method and ε-dominance method. Villalobos-Arias introduces binning in the objective function space to form clusters to maintain diversity.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

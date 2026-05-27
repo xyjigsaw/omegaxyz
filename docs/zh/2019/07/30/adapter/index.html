@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>适配器模式C++实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 适配器模式： 将一个类的接口转换成客户希望的另一个接口。适配器模式让那些接口不兼容的类可以一起工作 适配器模式的别名为包装器(Wrapper)模式，它既可以作为类结构型模式，也可以作为对象结构型模式。在适配器模式定义中所提及的接口是指广义的接口，它可以表示一个方法或者方法的集合。 结构： 客户端使用的Target类需要使用一个已经存...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/07/30/adapter/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-30</div>
+        <h1>适配器模式C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<strong>适配器模式：</strong>将一个类的接口转换成客户希望的另一个接口。适配器模式让那些接口不兼容的类可以一起工作
+
+适配器模式的别名为包装器(Wrapper)模式，它既可以作为类结构型模式，也可以作为对象结构型模式。在适配器模式定义中所提及的接口是指广义的接口，它可以表示一个方法或者方法的集合。
+
+<strong>结构：</strong>
+<ul>
+ 	<li>客户端使用的Target类需要使用一个已经存在的接口Adaptee类，可以用两种方法实现：</li>
+ 	<li>1、构造Adapter类继承Target类，并实现Adaptee接口（适配器模式的类版本）</li>
+ 	<li>2、将一个Adaptee实例作为Adapter的组成部分（适配器模式的对象版本）</li>
+</ul>
+<strong>类适配器模式结构图：</strong>
+
+<img class="alignnone  wp-image-5924" src="https://cdn.omegaxyz.com/2019/07/class-adapter.png" alt="" width="523" height="286" />
+
+<strong>对象适配器结构图：</strong>
+
+<img class="alignnone  wp-image-5926" src="https://cdn.omegaxyz.com/2019/07/object-adapter.png" alt="" width="534" height="294" />
+
+<strong>适配器模式的适用性：</strong>
+<ul>
+ 	<li>想使用一个已经存在的类，但它的接口不符合需求。</li>
+ 	<li>想创建一个可以复用的类，该类可以与其它不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作。</li>
+ 	<li>想使用一些已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口。对象适配器可以适配它的父类接口。</li>
+</ul>
+<strong>具体可参考：</strong>
+
+https://omegaxyz.com/2018/06/27/design-pattern-adapter/?hilite=%27适配器%27
+<h2><strong>实例</strong></h2>
+分别利用类版本和对象版本的适配器模式模拟实现ps2接口和usb接口的转换。
+
+我们手中有个ps2插头的设备，但是主机上只有usb插头的接口，实现一个适配器将ps2接口转换为usb接口。其中，<strong>ps2</strong><strong>接口表示为：</strong>
+<pre ><code class="language-default">class Ps2{
+virtual void isPs2();
+}
+
+class Usb{
+Virtual void isusb();
+}。
+</code></pre>
+<h3><strong>实验UML图</strong></h3>
+<img class="alignnone  wp-image-5923" src="https://cdn.omegaxyz.com/2019/07/class-adapter-uml.png" alt="" width="582" height="336" />
+
+<img class="alignnone  wp-image-5925" src="https://cdn.omegaxyz.com/2019/07/object-adapter-uml.png" alt="" width="571" height="370" />
+<h3><strong>代码</strong></h3>
+<ul>
+ 	<li><strong>target</strong><strong>为：usb</strong></li>
+ 	<li><strong>Adaptee</strong><strong>为：Ps2</strong></li>
+ 	<li><strong>Adapter</strong><strong>类公有继承target，私有继承Adaptee</strong></li>
+</ul>
+<strong>类适配器模式代码</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+
+/*
+分别利用类版本和对象版本的适配器模式模拟实现ps2接口和usb接口的转换。
+我们手中有个ps2插头的设备，但是主机上只有usb插头的接口，实现一个适配器将ps2接口转换为usb接口。其中，ps2接口表示为：
+class Ps2{
+    virtual void isPs2();
+}
+Usb接口表示为：
+class Usb{
+    Virtual void isusb();
+}。
+*/
+
+
+class Usb{ //target
+public:
+    virtual void isusb(){
+        cout&lt;&lt;"USB接口"&lt;&lt;endl;
+    };
+};
+
+class Ps2{ //adaptee
+public:
+    void isPs2(){
+        cout&lt;&lt;"Ps2"&lt;&lt;endl;
+    };
+};
+
+class Adapter: public Usb, private Ps2{
+    void isusb(){
+        isPs2();
+    }
+};
+
+
+
+int main(){
+    Usb* usb = new Adapter();
+    usb-&gt;isusb();
+    return 0;
+}</code></pre>
+<strong>对象适配器代码</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+
+using namespace std;
+
+class Ps2{ //adaptee
+public:
+    void isPs2(){
+        cout&lt;&lt;"Ps2"&lt;&lt;endl;
+    };
+};
+
+class Usb{ //target
+public:
+    virtual void isusb(){
+        cout&lt;&lt;"USB接口"&lt;&lt;endl;
+    };
+};
+
+class Adapter: public Usb{
+public:
+    void isusb(){
+        ps2-&gt;isPs2();
+    }
+private:
+    Ps2 * ps2 = new Ps2();
+};
+
+int main(){
+    Usb* usb = new Adapter();
+    usb-&gt;isusb();
+    return 0;
+}</code></pre>
+两个均调用的为SpecificRequest();
+<h2><strong>总结</strong></h2>
+①本次实验掌握并编码了适配器模式的类与对象的两种不同方法。
+
+②在实现类适配器和对象适配器时，注意，对象适配器模式中的“目标接口”和“适配者类”的代码同类适配器模式一样，只要修改适配器类和客户端的代码即可。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

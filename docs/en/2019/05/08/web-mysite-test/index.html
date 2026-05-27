@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Link Test – Omegaxyz.com Test Report · OmegaXYZ</title>
+  <meta name="description" content="Introduction to Web Testing Web-based system testing is different from traditional software testing. It not only needs to check and verify whether it runs according to the design requirements, but also tests whether the display of the system on different users&#x27; browsers is appropriate. Web testing requires the following aspects: 1. Functional testing 2. Performance testing (including load/stress testing) 3. User interface testing 4. Compatibility testing 5. Security testing 6. Interface testing Link testing Links are the...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/08/web-mysite-test/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-08</div>
+        <h1>Web Link Test – Omegaxyz.com Test Report</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><h2><strong>Introduction to Web Testing</strong></h2>Web-based system testing is different from traditional software testing. It not only needs to check and verify whether it runs according to the design requirements, but also tests whether the display of the system on different users' browsers is appropriate.
+
+Web testing requires the following aspects:<ul>
+<li>1. Functional testing</li>
+<li>2. Performance testing (including load/stress testing)</li>
+<li>3. User interface testing</li>
+<li>4.Compatibility testing</li>
+<li>5. Security testing</li>
+<li>6. Interface testing</li>
+</ul>
+<h2><strong>link test</strong></h2>Links are a main feature of Web application systems. They are the main means of switching between pages and guiding users to pages with unknown addresses. Link testing can be divided into three aspects. First, test whether all links actually link to the linked page as indicated; secondly, test whether the linked page exists; finally, ensure that there are no orphan pages on the web application system. The so-called orphan page means that there is no link pointing to the page, and it can only be accessed by knowing the correct URL address.
+
+Link testing can be automated and there are many tools available for this. Link testing must be completed during the integration testing phase, that is, link testing is performed after all pages of the entire Web application system are developed.<h2><strong>Xenu</strong></h2>The following uses Xenu for connection testing:
+
+Xenu is a green software used to detect the validity of website links. It is simple to use, supports up to 100 threads (Parallel threads), and the detection speed is very fast. When testing 100,630 6-layer connections on a website, it only took 1 hour and 40 minutes to use the default 100 threads. Of course, it consumes more network resources.
+
+Common status<ul class="custom_dot para-list list-paddingleft-1">
+<li class="list-dot list-dot-paddingleft">
+<div class="para">ok, mail host ok: indicates that the link is normal;</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">timeout, no connection, no such host: indicates that the access has timed out or cannot be accessed (it does not mean that it is an empty link);</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">not found: If it is not found, it means that it is not found, that is, an empty link.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">no info to return: No object is returned, that is, an empty page.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">no object data: There is no object data, which is common in access errors such as 400 errors when accessing the server.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">keep same verb: The URL is consistent, such as &lt;a href="URL link A"&gt;URL link A&lt;/a&gt;. After the software recognizes this status, it is recommended to check it in the source code. If there is only a form similar to the example just now, there is no need to worry. If there are other forms of links, you need to check whether they meet the SEO optimization standards before making modifications.</div></li>
+</ul>
+<dl class="lemma-reference collapse nslog-area log-set-param" data-nslog-type="2"></dl>
+<strong>Download address:</strong>http://www.baidu.com/link?url=hQEJmqu-_BJ-0BoXpTXUuOx9qQY3t9ArGkygu5L-BFj4WtkQy_9sas1ZCRzQS3oG&amp;wd=&amp;eqid=e0cc85d60001dd78000000045cd19ac2
+<h2><strong>test report</strong></h2>
+<img alt="" class="alignnone wp-image-5736" height="266" src="https://cdn.omegaxyz.com/2019/05/mytest1.png" width="662"/>
+<img alt="" class="alignnone size-full wp-image-5737" height="1208" src="https://cdn.omegaxyz.com/2019/05/mytest2.png" width="2492"/>
+<img alt="" class="alignnone wp-image-5738" height="412" src="https://cdn.omegaxyz.com/2019/05/mytest3.png" width="479"/>You can see that most of the links on the omegaxyz.com website cannot be read. If you look carefully, you will find that the majority of errors are of the not found type below.<img alt="" class="alignnone wp-image-5739" height="317" src="https://cdn.omegaxyz.com/2019/05/mytest4.png" width="578"/>It turns out that the #wechat part, namely Broken page-local links (also named 'anchors', 'fragment identifiers'), accounts for the majority. However, this anchor is used as a trick on this website.<img alt="" class="alignnone wp-image-5741" height="94" src="https://cdn.omegaxyz.com/2019/05/wechat.png" width="272"/>
+<strong>Click above to follow the public account Turing Technology Domain (bottom of the page)</strong>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

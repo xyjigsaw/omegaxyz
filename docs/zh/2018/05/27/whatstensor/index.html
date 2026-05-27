@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tensor（张量）的简介与运用 · OmegaXYZ</title>
+  <meta name="description" content="张量 （Tensor）是一个很重要的概念。在 TensorFlow 中所有的数据都用张量来表示，当然张量可以被简单得理解为多维数组。 其中零阶张量表示标量（scalar），一阶张量表示向量（vector），n阶张量就是n阶数组。但是张量在TensorFlow中的实现并不想Numpy那样是数组的形式， 而只是运算结果的引用，即是一种计算过程...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/27/whatstensor/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-27</div>
+        <h1>Tensor（张量）的简介与运用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><strong>张量</strong>（Tensor）是一个很重要的概念。在<strong>TensorFlow</strong>中所有的数据都用张量来表示，当然张量可以被简单得理解为多维数组。
+
+其中零阶张量表示标量（scalar），一阶张量表示向量（vector），n阶张量就是n阶数组。但是张量在TensorFlow中的实现并不想Numpy那样是数组的形式，<strong>而只是运算结果的引用，即是一种计算过程。</strong>
+
+下面是一个实例：
+<pre ><code class="language-python">import tensorflow as tf
+
+a = tf.constant([1.0, 2.0], name="a")
+b = tf.constant([2.0, 3.0], name="b")
+result = tf.add(a, b, name="add")
+print(result)
+# Tensor("add:0", shape=(2,), dtype=float32)
+with tf.Session() as sess:
+    print(sess.run(result)</code></pre>
+<strong>计算结果：</strong>
+
+Tensor("add:0", shape=(2,), dtype=float32)
+
+[3. 5.]
+
+可以看到其计算结果是一个结构
+
+<strong>add代表的是名称（节点名称），0代表是来自节点的第几个输出</strong>
+
+<strong>shape是数组的结构，是一个一维数组，它的长度为2</strong>
+
+<strong>dtype是数据类型，注意要是a和b的类型不匹配此代码将无法执行</strong>
+
+当然result只是定义了这样一个运算，实际上没有执行，需要session来run才能看到最终结果。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

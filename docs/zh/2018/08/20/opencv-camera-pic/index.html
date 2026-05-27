@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenCV人脸识别-静态图片与动态摄像头 · OmegaXYZ</title>
+  <meta name="description" content="简介 环境：Python3+OpenCV3.4 在OpenCV中主要使用了两种特征（即两种方法）进行人脸检测，Haar特征和LBP特征。使用已经训练好的XML格式的分类器进行人脸检测。在OpenCV的安装目录下的sources文件夹里的data文件夹里可以看到下图所示的内容（opencv\sources\data\haarcascades...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/20/opencv-camera-pic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-20</div>
+        <h1>OpenCV人脸识别-静态图片与动态摄像头</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/opencv/index.html">OpenCV</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+环境：Python3+OpenCV3.4
+
+在OpenCV中主要使用了两种特征（即两种方法）进行人脸检测，Haar特征和LBP特征。使用已经训练好的XML格式的分类器进行人脸检测。在OpenCV的安装目录下的sources文件夹里的data文件夹里可以看到下图所示的内容（opencv\sources\data\haarcascades ）：
+
+<img class="alignnone size-full wp-image-4948" src="https://cdn.omegaxyz.com/2018/08/opencvdata.jpg" alt="" width="688" height="412" />
+
+文件夹的名字“haarcascades”、“hogcascades”和“lbpcascades”分别表示通过“haar”、“hog”和“lbp”三种不同的特征而训练出的分类器："haar"特征主要用于人脸检测，“hog”特征主要用于行人检测，“lbp”特征主要用于人脸识别，“eye”特征主要用于眼睛的检测识别。
+<h2><strong>OpenCV介绍</strong></h2>
+https://omegaxyz.com/2018/08/19/python3-opencv/
+<h2><strong>静态图片人脸识别代码</strong></h2>
+<pre ><code class="language-python">import cv2
+
+# 指定图片的人脸识别然后存储
+img = cv2.imread("./opencvpic/1.jpg")
+
+color = (0, 255, 0)
+
+grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+classfier = cv2.CascadeClassifier("./data/haarcascade_frontalface_alt2.xml")
+
+faceRects = classfier.detectMultiScale(grey, scaleFactor=1.2, minNeighbors=3, minSize=(32, 32))
+if len(faceRects) &gt; 0:  # 大于0则检测到人脸
+    for faceRect in faceRects:  # 单独框出每一张人脸
+        x, y, w, h = faceRect
+        cv2.rectangle(img, (x - 10, y - 10), (x + w + 10, y + h + 10), color, 40)  # 控制绿色框的粗细
+
+# 写入图像
+cv2.imwrite('./opencvpic/aaa.jpg', img)</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone  wp-image-4950" src="https://cdn.omegaxyz.com/2018/08/2.jpg" alt="" width="626" height="352" />             <img class="alignnone  wp-image-4951" src="https://cdn.omegaxyz.com/2018/08/aaa.jpg" alt="" width="626" height="353" />
+<h2><strong>动态摄像头人脸识别</strong></h2>
+按帧数读取图片
+<pre ><code class="language-python">import cv2
+
+cap = cv2.VideoCapture(0)
+face_cascade = cv2.CascadeClassifier(r'./data/haarcascade_frontalface_default.xml') # 加载人脸特征库
+
+while(True):
+    ret, frame = cap.read() # 读取一帧的图像
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # 转灰
+
+    faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.15, minNeighbors = 5, minSize = (5, 5)) # 检测人脸
+    for(x, y, w, h) in faces:
+        cv2.rectangle(gray, (x, y), (x + w, y + h), (0, 255, 0), 2) # 用矩形圈出人脸
+
+    cv2.imshow('Face Recognition', gray)
+    if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+        break
+
+cap.release() # 释放摄像头
+cv2.destroyAllWindows()</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4952" src="https://cdn.omegaxyz.com/2018/08/opencvcamera.jpg" alt="" width="800" height="651" /></div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-3827">
+          <strong><a href="http://www.mebugs.cm" rel="nofollow">米虫博客</a></strong>
+          <time>2018-08-21 10:57:12</time>
+          <div>虽然不明白，但是感觉最后一张图好厉害的样子，哈啊哈</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3832">
+          <strong>xyjisaw</strong>
+          <time>2018-08-24 14:55:23</time>
+          <div>哈哈哈哈</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

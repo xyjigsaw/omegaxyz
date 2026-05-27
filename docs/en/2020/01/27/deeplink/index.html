@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User identity linking method - DeepLink · OmegaXYZ</title>
+  <meta name="description" content="Paper: DeepLink: A Deep Learning Approach for User Identity Linkage UIL (User Identity Linkage): User identity link, using methods to discover the same user or entity across social platforms. That is, same object recognition across social platforms, UIL plays a great role in user behavior prediction, identity recognition and privacy protection. Summary At present, in order to deal with...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/27/deeplink/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-27</div>
+        <h1>User identity linking method - DeepLink</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<strong>Paper: DeepLink: A Deep Learning Approach for User Identity Linkage</strong>
+<strong>UIL (User Identity Linkage): User identity link, which uses methods to discover the same user or entity across social platforms. That is, same object recognition across social platforms, UIL plays a great role in user behavior prediction, identity recognition and privacy protection.</strong>
+<h2><strong>Summary</strong></h2>Currently, in order to handle user identity links, a learning framework based on user introduction (portrait), user content generation and user behavior is adopted that relies on the extraction of relevant features from multiple social platforms. The problem is that these features are based on prior knowledge and vary greatly between different platforms and applications. Therefore, the author in the paper uses a deep neural network to automatically extract and represent UIL features, which is DeepLink. DeepLink represents network nodes as vectors by sampling the network in order to better obtain the local and global structure of the network. These structures, in turn, enable alignment of anchors through deep neural networks (note that fully aligned networks almost do not exist in the real world, so we utilize partially aligned anchor nodes (labeled data) to map the user latent space of two SNGs.). Utilizing the binary learning paradigm, gradient learning is used for knowledge transfer and association updating.<strong>keywords</strong>：user identity linkage, social networks, deep learning, reinforcement learning
+<h2><strong>What does DeepLink need to gain?</strong></h2>
+<img alt="" class="alignnone wp-image-6354" height="236" src="https://cdn.omegaxyz.com/2020/01/deeplink-UIL.png" width="450"/>DeepLink needs to obtain this function φ_u. However, since each social network graph (SNG) is unknown to other SNGs, this mapping function is difficult to obtain. Therefore, Graph Mapping Function is used to approximate φ_u in most UIL implementations.<img alt="" class="alignnone wp-image-6352" height="114" src="https://cdn.omegaxyz.com/2020/01/deeplink-GMF.png" width="451"/>
+<h2><strong>UIL problem classification</strong></h2>
+<strong>Feature-based methods:</strong>Utilize domain knowledge and user activities to deeply understand artificial feature engineering.<strong>Web-based approach:</strong>Using network structure to describe user associations across social platforms has recently attracted widespread attention and research.<h3><strong>Limitations of current methods</strong></h3>No comprehensive framework is provided to address the heterogeneity of users and different social network platforms (which are independent).
+User representation: It is difficult to capture the underlying semantic relationships between users based on network structure, and many existing works focus on cross-platform behavior prediction and association based on transfer learning.
+Lack of labeled data: Obtaining a set of users with the same identity across platforms is not easy.<h2><strong>Algorithm overview</strong></h2>① Use random walk strategy to generate node sequence samples to construct a corpus.
+② In the initialization step, each node is embedded and represented in a low-dimensional latent space, and two mapping functions are pre-trained from G→G′ using anchor points.
+③ Use policy gradient-based methods to learn cross-network node alignment based on aligned anchor node pairs in a supervised manner (using known alignments).<h2><strong>DeepLink’s contribution</strong></h2>DeepLink utilizes deep neural networks to learn the latent semantics of user activities and network structures in an end-to-end manner, thereby avoiding labor-intensive feature engineering and being easily generalized to various OSNs.
+DeepLink utilizes semi-supervised graph regularization to predict the context (neighborhood structure) of nodes in the network. Encode the structural information of anchor nodes to achieve network alignment.
+DeepLink uses a dual learning process to improve identity linking performance and improves the supervised training algorithm. This not only exploits unlabeled anchor nodes but also improves the mapping between multiple networks through a reinforcement learning process. Additionally, the number of required alignment (marker) anchor nodes can be significantly reduced.
+To demonstrate the effectiveness of DeepLink, the authors conducted experiments on real and synthetic datasets. The results show that DeepLink can significantly improve the accuracy of identity recognition compared with state-of-the-art methods. For example, in terms of link accuracy, top-1 can reach 30% and top-5 can reach 40%.<h2><strong>Algorithm details</strong></h2>
+<h3><strong>DeepLink composition</strong></h3>
+<img alt="" class="alignnone wp-image-6351" height="291" src="https://cdn.omegaxyz.com/2020/01/deeplink-framework.png" width="1000"/>
+<ul>
+<li>Network Sampling: Form "corpus" through network sampling to maintain the network structure to the greatest extent: for efficiency, a simple random walk strategy is used here to detect the network structure and generate social sequences.</li>
+<li>Users Latent Space Embedding: Use network embedding (Embedding) to represent each node in the network as a vector in a low-dimensional space: use the Skip-gram model to update the social representation (maximizing log-likelihood estimation).</li>
+<li>Unsupervised Automapping: Input anchor point vectors into a deep neural network to train a nonlinear transformation of cross-network user alignment: After obtaining the potential embedding space of each social network, DeepLink uses two multi-layer perceptrons (MLP) to learn the mapping function in any two anchor-based social networks.</li>
+<li>Supervised Linkage Dual Learning: Use the dual learning process to improve UIL performance and improve supervised training algorithms.</li>
+</ul>
+<img alt="" class="alignnone wp-image-6353" height="610" src="https://cdn.omegaxyz.com/2020/01/deeplink-algorithm.png" width="700"/>
+<strong>refer to:</strong>www.shujuren.org/article/780.html</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

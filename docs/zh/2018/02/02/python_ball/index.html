@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python弹球游戏（tkinter模块编写） · OmegaXYZ</title>
+  <meta name="description" content="python弹球游戏，能够选择难度和分数控制。 程序利用tkinter模块编写（说到这里吐槽一下tkinter模块，虽然tkinter是python自带的模块，但是编写手感真没有wxpython好，一个原因是tkinter模块较复杂定义了交互界面还要pack，位置也难调整，更重要的是界面没有wxpython好看） python3代码： 效...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/02/python_ball/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-02</div>
+        <h1>Python弹球游戏（tkinter模块编写）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/tkinter/index.html">tkinter</a></div>
+        <div class="article-content">python弹球游戏，能够选择难度和分数控制。
+
+程序利用tkinter模块编写（说到这里吐槽一下tkinter模块，虽然tkinter是python自带的模块，但是编写手感真没有wxpython好，一个原因是tkinter模块较复杂定义了交互界面还要pack，位置也难调整，更重要的是界面没有wxpython好看）
+
+python3代码：
+<pre ><code class="language-python">from tkinter import *
+from tkinter import messagebox
+
+import random
+import time
+
+
+class Ball:
+    def __init__(self, canvas, paddle, color):
+        self.canvas = canvas
+        self.paddle = paddle
+        self.id = canvas.create_oval(10, 10, 25, 25, fill=color)
+        self.canvas.move(self.id, 245, 100)
+        startx = [-3, -2, -1, 1, 2, 3]
+        random.shuffle(startx)
+        self.x = startx[0]
+        self.y = -3
+        self.canvas_height = self.canvas.winfo_height()
+        self.canvas_width = self.canvas.winfo_width()
+        self.hit_bottom = False
+
+    def draw(self):
+        self.canvas.move(self.id, self.x, self.y)
+        pos = self.canvas.coords(self.id)   # top-left bottom-right
+        if pos[1] &lt;= 0 or self.hit_paddle(pos) == True:
+            self.y = -self.y
+        if pos[0] &lt;= 0 or pos[2] &gt;= self.canvas_width:
+            self.x = -self.x
+        if pos[3] &gt;= self.canvas_height:
+            self.hit_bottom = True
+
+    def hit_paddle(self, pos):
+        global score
+        paddle_pos = self.canvas.coords(self.paddle.id)
+        if pos[2] &gt;= paddle_pos[0] and pos[0] &lt;= paddle_pos[2]:
+            if pos[3] &gt;= paddle_pos[1] and pos[3] &lt;= paddle_pos[3]:
+                score += 1
+                return True
+        return False
+
+
+class Paddle:
+    def __init__(self, canvas, color,width):
+        self.canvas = canvas
+        self.id = canvas.create_rectangle(0, 0, width, 10, fill=color)
+        self.x = 0
+        self.y = 0
+        self.canvas.move(self.id, 200, 300)
+        self.canvas_width = self.canvas.winfo_width()
+        self.canvas.bind_all("&lt;Key-Left&gt;", self.turn_left)
+        self.canvas.bind_all("&lt;Key-Right&gt;", self.turn_right)
+
+    def draw(self):
+        pos = self.canvas.coords(self.id)
+        if pos[0] + self.x &gt;= 0 and pos[2] + self.x &lt;= self.canvas_width:
+            self.canvas.move(self.id, self.x, 0)
+        # self.x = 0
+
+    def turn_left(self, event):
+        self.x = -4
+
+    def turn_right(self, event):
+        self.x = 4
+
+width = 0
+
+
+def test1():
+    global width2
+    width2 = 200
+
+
+def test2():
+    global width2
+    width2 = 100
+
+width2 = 100
+score = 0
+tk = Tk()
+tk.title("Game")
+tk.resizable(0, 0)  # not resizable
+tk.wm_attributes("-topmost", 1)  # at top
+btn1 = Button(tk, text='简单', command=test1)
+btn2 = Button(tk, text='难', command=test2)
+
+
+btn1.pack(side='left')
+btn2.pack(side='left')
+canvas = Canvas(tk, width=500, height=350, bd=0, highlightthickness=0)
+canvas.pack()
+canvas.create_line(1, 0, 1, 600, fill='red')
+tk.update()
+paddle = Paddle(canvas, 'blue', width2)
+ball = Ball(canvas, paddle, 'red')
+while True:
+    if ball.hit_bottom == False:
+        ball.draw()
+        paddle.draw()
+    else:
+        messagebox.showinfo(title='失败！', message="你的分数为：" + str(score))
+        break
+    tk.update_idletasks()
+    tk.update()
+    time.sleep(0.01)</code></pre>
+效果图：
+
+<img class="alignnone size-full wp-image-3226" src="https://cdn.omegaxyz.com/2018/02/pball1.jpg" alt="" width="711" height="488" />
+
+<img class="alignnone size-full wp-image-3227" src="https://cdn.omegaxyz.com/2018/02/pball2.jpg" alt="" width="221" height="210" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

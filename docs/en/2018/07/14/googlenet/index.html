@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of Convolutional Neural Network GoogLeNet · OmegaXYZ</title>
+  <meta name="description" content="Name The name of the paper is Going Deeper with Convolutions, inspired by &quot;We need to go deeper.&quot; I won&#x27;t say the source yet. The name of the CNN algorithm proposed in the paper is GoogLeNet. GoogLeNet is a deep neural network structure developed by Google. Why is it not called GoogleNet but GoogLeNet? It is said to be to pay homage to LeN...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/14/googlenet/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-14</div>
+        <h1>Overview of Convolutional Neural Network GoogLeNet</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/cnn/index.html">CNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>name</strong></h2>The name of the paper is<strong>Going Deeper with Convolutions, inspired by "We need to go deeper." I won't say the source yet.</strong>The name of the CNN algorithm proposed in the paper is GoogLeNet. GoogLeNet is a deep neural network structure developed by Google. Why not call it GoogleNet instead of GoogLeNet? It is said to pay tribute to LeNet, so it was named GoogLeNet.<strong>Application areas:</strong>Image recognition and classification.<h2><strong>Problem raising and analysis</strong></h2>
+<h3><strong>Motivation and high-level considerations</strong></h3>The most direct way to improve performance is to increase SIZE, that is, increase depth and width. This is a simple and safe way to train high-quality models, especially on large labeled training sets. However, this simple approach has two major drawbacks.<ul>
+<li>① As parameters increase, it is easy to lead to overfitting when there is insufficient data.</li>
+<li>② The computing resource requirements are high, and many parameters will tend to 0 during the training process, which is a waste of resources.</li>
+</ul>
+<h3><strong>Solution</strong></h3><strong>solve</strong>The most basic method for the above two problems is to use<strong>Sparse connections instead of fully connected layers</strong>(fully-connected layers), this method is even used during the convolution process.<h3><strong>Theoretical basis</strong></h3>A probability distribution can be represented by a large sparse neural network. The optimal structure is constructed by analyzing the statistical correlation of the activation states of the upper layer and aggregating neurons whose outputs are highly correlated. This is consistent with the Hebbian law in biology: "The responses of certain neurons are basically the same, being excited or inhibited at the same time."
+
+Of course, this is also problematic. The basic structure of the computer will be very inefficient when encountering coefficient data calculations. Using sparse matrices will greatly reduce the efficiency.<strong>Target:</strong>Design one that can take advantage of sparsity while ensuring efficient use of computing resources.<h2><strong>Inception model</strong></h2>
+<h3><strong>Model composition</strong></h3>Inception naming<a href="https://knowyourmeme.com/memes/we-need-to-go-deeper">https://knowyourmeme.com/memes/we-need-to-go-deeper</a>This sentence was originally used in a science fiction movie<strong>"Inception"</strong>appears in<strong>The English name of "Inception" is "<em>Inception</em>”</strong>The characters Dom Cobb (played by Leonardo DiCaprio) and Robert Fisher (played by Cillian Murphy) tell the story of implanting a thought in a person's mind.<img alt="" class="alignnone wp-image-4781 size-full" height="107" src="https://cdn.omegaxyz.com/2018/07/GoogLeNet2.png" width="393"/>What I said at the beginning<strong>We need to go deeper</strong>Also an expression from the movie Inception, which often uses screenshots from the movie to show image macros and vertical multi-panes.<img alt="" class="alignnone wp-image-4785 size-full" height="241" src="https://cdn.omegaxyz.com/2018/07/we-need-to-go-deeper.png" width="434"/>Original Inception version V0:<img alt="" class="alignnone size-full wp-image-4782" height="319" src="https://cdn.omegaxyz.com/2018/07/GoogLeNet3.png" width="579"/>Inception's framework started as a case study, evaluating the hypothetical output of a complex network to approximate the topology of the algorithm.<strong>main idea</strong>It is to consider how the optimal local coefficient structure of a convolutional vision network approximates and covers easily accessible dense parts.
+
+This structure stacks commonly used convolutions (1x1, 3x3, 5x5) and pooling operations (3x3) together. It should be noted that the size of the convolution and pooling is the same, and the channels are increased. On the one hand, it increases the width of the network, and on the other hand, it increases the adaptability of the network at its most scale.
+
+The network convolutional layer can extract every detailed information of the input, and the 5x5 filter can also cover most of the input of the receiving layer. Pooling operations can also be performed to reduce space size and reduce overfitting. On top of these layers, a ReLu operation must be performed after each convolutional layer to increase nonlinear features.<strong>In order to reduce the calculation amount of the convolution kernel, a 1x1 convolution kernel needs to be added before 3x3 and 5x5 and after the maximum pooling. This leads to the revised Inception V1</strong>
+<img alt="" class="alignnone size-full wp-image-4783" height="325" src="https://cdn.omegaxyz.com/2018/07/GoogLeNet4.png" width="594"/>The main purpose of 1x1 convolution is to reduce dimensionality and is also used to correct linear activation (ReLU). For example, the output of the previous layer is 100x100x128. After passing through a 5x5 convolution layer with 256 channels (stride=1, pad=2), the output data is 100x100x256, where the parameters of the convolution layer are 128x5x5x256= 819200. And if the output of the previous layer first passes through a 1x1 convolution layer with 32 channels, and then passes through a 5x5 convolution layer with 256 outputs, then the output data is still 100x100x256, but the amount of convolution parameters has been reduced to 128x1x1x32 + 32x5x5x256= 204800, which is reduced by approximately 4 times.<h3><strong>detailed explanation</strong></h3>(1) GoogLeNet adopts a modular structure (Inception structure) to facilitate addition and modification;
+(2) The network finally uses average pooling to replace the fully connected layer. This idea comes from NIN (Network in Network). Facts have proved that this can increase the accuracy by 0.6%. However, a fully connected layer is actually added at the end, mainly to facilitate flexible adjustment of the output;
+(3) Although full connection is removed, Dropout is still used in the network;
+(4) In order to avoid gradient disappearance, the network adds two additional auxiliary softmax to conduct the gradient forward (auxiliary classifier). The auxiliary classifier uses the output of an intermediate layer for classification and adds a smaller weight (0.3) to the final classification result. This is equivalent to model fusion. At the same time, it adds a back-propagated gradient signal to the network and provides additional regularization, which is very beneficial to the training of the entire network. In actual testing, these two additional softmax will be removed.<h3><strong>The details of the network structure diagram are as follows</strong></h3><img alt="" class="alignnone wp-image-4784 size-full" height="514" src="https://cdn.omegaxyz.com/2018/07/GoogLeNet5.png" width="790"/>
+<h2><strong>GoogLeNet overall structure diagram and analysis</strong></h2>
+<h3><strong>GoogLeNet network structure detailed table is analyzed as follows</strong></h3><strong>0.Input</strong>The original input image is 224x224x3, and all are preprocessed by zero-meaning (the mean is subtracted from each pixel of the image).<strong>1. The first layer (convolutional layer)</strong>Use a 7x7 convolution kernel (sliding step size 2, padding 3), 64 channels, output 112x112x64, perform ReLU operation after convolution
+
+After 3x3 max pooling (step size is 2), the output is ((112 - 3+1)/2)+1=56, that is, 56x56x64, and then perform the ReLU operation<strong>2. The second layer (convolutional layer)</strong>Use a 3x3 convolution kernel (sliding step size is 1, padding is 1), 192 channels, the output is 56x56x192, and perform ReLU operation after convolution
+
+After 3x3 max pooling (step size 2), the output is ((56 - 3+1)/2)+1=28, which is 28x28x192, and then perform the ReLU operation<strong>3a, third layer (Inception 3a layer)</strong>Divided into four branches, convolution kernels of different scales are used for processing.
+
+(1) 64 1x1 convolution kernels, then RuLU, output 28x28x64
+
+(2) 96 1x1 convolution kernels, used as dimensionality reduction before the 3x3 convolution kernel, become 28x28x96, and then perform ReLU calculation, and then perform 128 3x3 convolutions (padding is 1), output 28x28x128
+
+(3) 16 1x1 convolution kernels, used as dimensionality reduction before the 5x5 convolution kernel, become 28x28x16. After the ReLU calculation, 32 5x5 convolutions (padding is 2) are performed, and the output is 28x28x32
+
+(4) The pool layer uses a 3x3 kernel (padding is 1), outputs 28x28x192, and then performs 32 1x1 convolutions to output 28x28x32.
+
+Connect the four results and connect the third dimension of the four output results in parallel, that is, 64+128+32+32=256, and the final output is 28x28x256<strong>3b, third layer (Inception 3b layer)</strong>(1) 128 1x1 convolution kernels, then RuLU, output 28x28x128
+
+(2) 128 1x1 convolution kernels, used as dimensionality reduction before the 3x3 convolution kernel, become 28x28x128, perform ReLU, and then perform 192 3x3 convolutions (padding is 1), output 28x28x192
+
+(3) 32 1x1 convolution kernels, used as dimensionality reduction before the 5x5 convolution kernel, become 28x28x32. After the ReLU calculation, 96 5x5 convolutions (padding is 2) are performed, and the output is 28x28x96
+
+(4) The pool layer uses a 3x3 kernel (padding is 1), outputs 28x28x256, and then performs 64 1x1 convolutions to output 28x28x64.
+
+Connect the four results and connect the third dimension of the four output results in parallel, that is, 128+192+96+64=480, and the final output is 28x28x480<strong>fourth floor</strong>(4a, 4b, 4c, 4d, 4e), the fifth layer (5a, 5b)... are similar to 3a and 3b and will not be repeated here.<img alt="" class="alignnone size-full wp-image-4780" height="5045" src="https://cdn.omegaxyz.com/2018/07/GoogLeNet1.jpg" width="1132"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

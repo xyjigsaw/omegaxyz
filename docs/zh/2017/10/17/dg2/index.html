@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一个更快更准确的差分分组大规模黑盒子优化算法概述 · OmegaXYZ</title>
+  <meta name="description" content="DG2有两个主要部分 ①生成原始交互关系结构矩阵 包含了每对变量的|∆(1) − ∆(2)|这个阈值 ②寻找一个合适的阈值ǫ将原始交互关系结构矩阵Λ转变为处理过的矩阵Θ Θij 取 1 如果 Λij &gt; ǫ 需要指出的是不像DG，DG2的阈值是在大量函数值和原始交互关系矩阵的基础上获得信息的。这个由ISM函数生成。 ③将变量分成不可再分的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/17/dg2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-17</div>
+        <h1>一个更快更准确的差分分组大规模黑盒子优化算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a></div>
+        <div class="article-content">DG2有两个主要部分
+
+①生成原始交互关系结构矩阵
+
+包含了每对变量的|∆(1) − ∆(2)|这个阈值
+
+②寻找一个合适的阈值ǫ将原始交互关系结构矩阵Λ转变为处理过的矩阵Θ
+
+Θij 取 1 如果 Λij &gt; ǫ
+
+需要指出的是不像DG，DG2的阈值是在大量函数值和原始交互关系矩阵的基础上获得信息的。这个由ISM函数生成。
+
+③将变量分成不可再分的子成分which is performed by identifying the connected components of the graph with the node adjacency matrix of Θ
+
+作者关注到两大问题
+
+①寻找一个高效的ISM函数生成矩阵，尽量减少函数评估
+
+②寻找一个有效的阈值寻找方法来提高分解的正确率
+
+&nbsp;
+
+A 提高DG算法的效率
+
+减少函数重复计算
+
+对于一个n维函数，总交互关系为n(n-1)/2，定理1说明了每个比较需要计算4次，因此，总的评估数量为2n(n-1)次
+
+假定这个函数有3个决策变量f(x1, x2, x3)总评价次数为12次
+
+<img class="alignnone  wp-image-2208" src="https://cdn.omegaxyz.com/2017/10/DG2-300x58.png" alt="" width="543" height="105" />
+
+x1↔x2:∆(1)=f(a′, b, c)−f(a, b, c),∆(2)=f(a′, b′, c)−f(a, b′, c)
+
+x1↔x3:∆(1)=f(a′, b, c)−f(a, b, c),∆(2)=f(a′, b, c′)−f(a, b, c′)
+
+x2↔x3:∆(1)=f(a, b′, c)−f(a, b, c),∆(2)=f(a, b′, c′)−f(a, b, c′),
+
+<img class="alignnone wp-image-2209 size-full" src="https://cdn.omegaxyz.com/2017/10/DG22.png" alt="" width="405" height="309" />
+
+由图可知只需要7个点就能满足
+
+为了计算∆(1)和∆(2)需要四个不同的点来组成一个矩形，为了计算∆(1)，一个基点(a,b,c)，
+
+和(a’,b,c)，为了寻找x1和x2交互关系，因此同样地差分函数∆(1)来评估x2，所以找到了(a’,b’,c’)和(a,b’,c)。其中点(a,b,c)使用了三次。只有一维不同的点(a’, b, c), (a, b’, c),(a, b, c’)
+
+重复了两次，两位不同的点出现了一次。因此，为了计算i维和j维的交互关系作者将到了
+
+n(n+1)/2+1次。详细见ISM方程。
+
+B提高分组准确性。分组准确性取决于ǫ，理论上，这个值可以被设置为0，如果∆(1)和∆(2)的差分为正，说明了两个变量间有交互关系。然而由于存在舍入偏差会导致分组准确率下降。
+
+持续更新，更多内容请阅读原文DG2: A Faster and More Accurate Differential Grouping for Large-Scale Black-Box Optimization</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

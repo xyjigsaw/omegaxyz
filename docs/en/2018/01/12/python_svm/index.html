@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python support vector machine (SVM) example · OmegaXYZ</title>
+  <meta name="description" content="SVM (Support Vector Machine) refers to support vector machine, which is a common discrimination method. In the field of machine learning, it is a supervised learning model, usually used for pattern recognition, classification and regression analysis. There is a libsvm toolkit written by Lin Zhiren in Matlab that can perform SVM training very well. In Python, we have the sklearn toolkit for machine learning algorithm training, Scikit-Lea...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/12/python_svm/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-12</div>
+        <h1>Python support vector machine (SVM) example</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="article-content">SVM (Support Vector Machine) refers to support vector machine, which is a common discrimination method. In the field of machine learning, it is a supervised learning model, usually used for pattern recognition, classification and regression analysis.
+
+There is a libsvm toolkit written by Lin Zhiren in Matlab that can perform SVM training very well. In Python we have<strong>sklearn toolkit</strong>For machine learning algorithm training, the Scikit-Learn library has implemented all basic machine learning algorithms.
+
+The following content is referenced from<a href="https://www.cnblogs.com/luyaoblog/p/6775342.html">https://www.cnblogs.com/luyaoblog/p/6775342.html</a>blog, and updated the Python2 code in the original article to the Python3 code.
+
+The following is<strong>by</strong><strong>Iris Orchid Data</strong><strong>Set as example:</strong>Since the Iris original data set downloaded from the UCI database looks like this, the first four columns are feature columns, and the fifth column is a category column. There are three categories: Iris-setosa, Iris-versicolor, and Iris-virginica.<img alt="" class="alignnone size-medium wp-image-2774" height="300" src="https://cdn.omegaxyz.com/2018/01/iris-283x300.png" width="283"/>You need to use numpy to split it.
+
+Data set download address:<a href="http://archive.ics.uci.edu/ml/machine-learning-databases/iris/">http://archive.ics.uci.edu/ml/machine-learning-databases/iris/</a>Just download iris.data.
+
+Python3 code:<pre><code class="language-python">from sklearn import svm
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import colors
+from sklearn.model_selection import train_test_split
+
+
+def iris_type(s):
+    it = {b'Iris-setosa': 0, b'Iris-versicolor': 1, b'Iris-virginica': 2}
+    return it[s]
+
+
+path = 'C:\\Users\\dell\\desktop\\iris.data'  # 数据文件路径
+data = np.loadtxt(path, dtype=float, delimiter=',', converters={4: iris_type})
+
+x, y = np.split(data, (4,), axis=1)
+x = x[:, :2]
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1, train_size=0.6)
+
+# clf = svm.SVC(C=0.1, kernel='linear', decision_function_shape='ovr')
+clf = svm.SVC(C=0.8, kernel='rbf', gamma=20, decision_function_shape='ovr')
+clf.fit(x_train, y_train.ravel())
+
+print(clf.score(x_train, y_train))  # 精度
+y_hat = clf.predict(x_train)
+
+print(clf.score(x_test, y_test))
+y_hat2 = clf.predict(x_test)
+
+x1_min, x1_max = x[:, 0].min(), x[:, 0].max()  # 第0列的范围
+x2_min, x2_max = x[:, 1].min(), x[:, 1].max()  # 第1列的范围
+x1, x2 = np.mgrid[x1_min:x1_max:200j, x2_min:x2_max:200j]  # 生成网格采样点
+grid_test = np.stack((x1.flat, x2.flat), axis=1)  # 测试点
+
+mpl.rcParams['font.sans-serif'] = [u'SimHei']
+mpl.rcParams['axes.unicode_minus'] = False
+
+cm_light = mpl.colors.ListedColormap(['#A0FFA0', '#FFA0A0', '#A0A0FF'])
+cm_dark = mpl.colors.ListedColormap(['g', 'r', 'b'])
+
+grid_hat = clf.predict(grid_test)  # 预测分类值
+grid_hat = grid_hat.reshape(x1.shape)  # 使之与输入的形状相同
+
+alpha = 0.5
+plt.pcolormesh(x1, x2, grid_hat, cmap=cm_light)  # 预测值的显示
+plt.plot(x[:, 0], x[:, 1], 'o', alpha=alpha, color='blue', markeredgecolor='k')
+plt.scatter(x_test[:, 0], x_test[:, 1], s=120, facecolors='none', zorder=10)  # 圈中测试集样本
+plt.xlabel(u'花萼长度', fontsize=13)
+plt.ylabel(u'花萼宽度', fontsize=13)
+plt.xlim(x1_min, x1_max)
+plt.ylim(x2_min, x2_max)
+plt.title(u'SVM分类', fontsize=15)
+plt.show()
+</code></pre>1. split(data, split position, axis=1 (horizontal split) or 0 (vertical split)).
+
+2. x = x[:, :2] is to make the later drawing more intuitive, so only the first two columns of eigenvalue vectors are used for training.
+
+3. sklearn.model_selection.train_test_split randomly divides the training set and test set. train_test_split(train_data,train_target,test_size=number, random_state=0)
+
+Parameter explanation:
+
+train_data: sample feature set to be divided
+
+train_target: the sample results to be divided
+
+test_size: sample proportion, if it is an integer, it is the number of samples
+
+random_state: is the seed of random numbers.
+
+Random number seed: In fact, it is the number of the random number. When the experiment needs to be repeated, it is guaranteed to get the same set of random numbers. For example, if you fill in 1 every time and the other parameters are the same, the random array you get will be the same. But filling in 0 or leaving it blank will be different every time. The generation of random numbers depends on the seed, and the relationship between the random number and the seed follows the following two rules: different seeds produce different random numbers; the same seed produces the same random number even if the instances are different.<strong>When kernel='linear', it is a linear kernel. The larger C, the better the classification effect, but it may overfit (defaul C=1).</strong>
+<strong>When kernel='rbf' (default), it is a Gaussian kernel. The smaller the gamma value, the more continuous the classification interface is; the larger the gamma value, the more "scattered" the classification interface is, and the classification effect is better, but there may be overfitting.</strong>Linear classification results:<img alt="" class="alignnone wp-image-2775 size-full" height="543" src="https://cdn.omegaxyz.com/2018/01/iris_linear.jpg" width="639"/>RBF kernel function classification results:<img alt="" class="alignnone wp-image-2776 size-full" height="545" src="https://cdn.omegaxyz.com/2018/01/iris_rbf.jpg" width="641"/>Accuracy:<img alt="" class="alignnone wp-image-2777 size-full" height="98" src="https://cdn.omegaxyz.com/2018/01/iris_accracy.png" width="420"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

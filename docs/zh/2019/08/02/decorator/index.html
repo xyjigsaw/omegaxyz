@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>装饰模式C++实现（decorator） · OmegaXYZ</title>
+  <meta name="description" content="简介 动态地给一个对象添加一些额外的职责。 就增加功能来说，装饰模式比生成子类更为灵活。 动机 有时我们希望给某个对象而不是整个类添加一些功能。 使用继承机制是添加功能的一种有效途径，但不够灵活，用户不能控制对组件添加功能的方式和时机。 一种较为灵活的方式是将组件嵌入另一个对象中，由这个对象添加功能，我们称这个嵌入的对象为装饰。 这个装饰...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/08/02/decorator/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-02</div>
+        <h1>装饰模式C++实现（decorator）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<ul>
+ 	<li>动态地给一个对象添加一些额外的职责。</li>
+ 	<li>就增加功能来说，装饰模式比生成子类更为灵活。</li>
+</ul>
+<h2><strong>动机</strong></h2>
+<ul>
+ 	<li>有时我们希望给某个对象而不是整个类添加一些功能。</li>
+ 	<li>使用继承机制是添加功能的一种有效途径，但不够灵活，用户不能控制对组件添加功能的方式和时机。</li>
+ 	<li>一种较为灵活的方式是将组件嵌入另一个对象中，由这个对象添加功能，我们称这个嵌入的对象为装饰。</li>
+ 	<li>这个装饰与它所装饰的组件接口一致，因此它对使用该组件的客户透明。</li>
+</ul>
+<h2><strong>适用性</strong></h2>
+<ul>
+ 	<li>在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责。</li>
+ 	<li>处理那些可以撤销的职责。</li>
+ 	<li>当不能采用生成子类的方法进行扩充时。
+<ul>
+ 	<li>可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。</li>
+ 	<li>类定义被隐藏，或类定义不能用于生成子类。</li>
+</ul>
+</li>
+</ul>
+<h2><strong>结构</strong></h2>
+<img class="alignnone  wp-image-5931" src="https://cdn.omegaxyz.com/2019/08/decorator1.png" alt="" width="593" height="393" />
+<h3><strong>装饰模式的参与者</strong></h3>
+<ul>
+ 	<li>Component
+<ul>
+ 	<li>定义一个对象接口，可以给这些对象动态地添加职责。</li>
+</ul>
+</li>
+ 	<li>ConcreteComponent
+<ul>
+ 	<li>定义一个对象，可以给这个对象添加一些职责。</li>
+</ul>
+</li>
+ 	<li>Decorator
+<ul>
+ 	<li>维持一个指向Component对象的指针，并定义一个与Component接口一致的接口。</li>
+</ul>
+</li>
+ 	<li>ConcreteDecorator
+<ul>
+ 	<li>向组件添加职责。</li>
+</ul>
+</li>
+</ul>
+<strong> </strong>
+<h3><strong>装饰模式的协作</strong></h3>
+<ul>
+ 	<li>Decorator将请求转发给它的Component对象，并有可能在转发请求前后执行一些附加动作。</li>
+</ul>
+<h3><strong>效果</strong></h3>
+<ul>
+ 	<li>比静态继承更灵活</li>
+ 	<li>避免在层次结构高层的类有太多的特征</li>
+ 	<li>Decorator与它的Component不一样</li>
+ 	<li>有许多小对象</li>
+</ul>
+<h3><strong>注意点</strong></h3>
+<ul>
+ 	<li>如果只有一个ConcreteComponent类而没有Component类，那么Decorator类可以是ConcreteComponent的一个子类。</li>
+ 	<li>同理，如果只有一个ConcreteDecorator类，那么就没有必要建立一个单独的Decorator类，而可以把Decorator和ConcreteDecorator合并成一个类。</li>
+</ul>
+<h2><strong>实例</strong></h2>
+给定两种初始的汽车类，例如丰田和沃尔沃，利用装饰模式分别给它们添加新的功能，其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+<h3><strong>UML图</strong></h3>
+<img class="alignnone  wp-image-5932" src="https://cdn.omegaxyz.com/2019/08/decorator2.png" alt="" width="817" height="576" />
+<h3><strong>代码与函数</strong></h3>
+Component：<strong>Car</strong><strong>类</strong>
+
+ConcreteComponent：<strong>TOYOTA</strong><strong>、</strong><strong>VOLOVO</strong><strong>类</strong>
+
+Decorator：<strong>Function</strong><strong>类</strong>
+
+ConcreteDecorator：<strong>Navigator</strong><strong>、</strong><strong>SelfDrive</strong><strong>、</strong><strong>VoiceControl</strong><strong>类</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+/*
+给定两种初始的汽车类，例如丰田和沃尔沃，
+利用装饰模式分别给它们添加新的功能，
+其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+*/
+
+class Car{//Component
+public:
+    virtual void showInfo() = 0;
+};
+
+class TOYOTA: public Car{
+public:
+    TOYOTA(){}
+    TOYOTA(string name){
+        this-&gt;name = name;
+    }
+    void showInfo(){
+        cout&lt;&lt;name&lt;&lt;endl;
+    }
+private:
+    string name;
+};
+
+class  VOLOVO: public Car{
+public:
+    VOLOVO(){}
+    VOLOVO(string name){
+        this-&gt;name = name;
+    }
+    void showInfo(){
+        cout&lt;&lt;name&lt;&lt;endl;
+    }
+private:
+    string name;
+};
+
+class Function: public Car{//Decorator
+protected:
+    Car* car;
+public:
+    void Decorate(Car* car){
+        this-&gt;car = car;
+    }
+    void showInfo(){
+        if(car != NULL)car-&gt;showInfo();
+    }
+};
+
+//其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+
+class Navigator: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"导航 ";
+        Function::showInfo();
+    }
+};
+
+class SelfDrive: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"自动驾驶 ";
+        Function::showInfo();
+    }
+};
+
+class VoiceControl: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"语音控制 ";
+        Function::showInfo();
+    }
+};
+
+
+//其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+int main(){
+    Car* toyota = new TOYOTA("丰田卡罗拉");
+    Navigator* na = new Navigator();
+    SelfDrive* sd = new SelfDrive();
+    na-&gt;Decorate(toyota);
+    sd-&gt;Decorate(na);
+    sd-&gt;showInfo();
+    cout&lt;&lt;endl;
+    
+    Car* volovo = new VOLOVO("沃尔沃S90");
+    Navigator* na2 = new Navigator();
+    VoiceControl* vc = new VoiceControl();
+    na2-&gt;Decorate(volovo);
+    vc-&gt;Decorate(na2);
+    vc-&gt;showInfo();
+
+    return 0;
+}</code></pre>
+<h3><strong>总结</strong></h3>
+①本次实验通过Car的实例掌握并编码了装饰模式。
+
+②注意如果只有一个ConcreteComponent类而没有Component类，那么Decorator类可以是ConcreteComponent的一个子类。在本次实验中，<strong>有TOYOTA和VOLOVO两个具体的类</strong>，因此需要一个<strong>Component的Car类来定义接口</strong>。
+
+③由②可知，如果只有一个ConcreteDecorator类，那么就没有必要建立一个单独的Decorator类，而可以把Decorator和ConcreteDecorator合并成一个类。在本次实验中有<strong>Navigator、SelfDrive、VoiceControl</strong>三个具体的装饰类。
+
+④在客户端中，要最后一个添加的职责，用来是包装好了的车对象，因此需要由最后一个装饰的实例显示结果。
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

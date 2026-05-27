@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data structure Huffman tree and encoding · OmegaXYZ</title>
+  <meta name="description" content="1. Experimental purpose: Construct a Huffman tree, and find the encoding of the Huffman tree based on the constructed Huffman tree; 2. Basic ideas 1. Arrange each English letter from small to large according to the frequency of occurrence, with the smallest on the left, to form a sequence 2. Each letter represents a terminal node (leaf node), compare the frequency of occurrence of each letter, add the minimum two letter frequencies to form a new node, delete the two letters from the sequence, and add the generated node to the letter queue 3. Repeat the above...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/03/huffmancoding/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-03</div>
+        <h1>Data structure Huffman tree and encoding</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">1. Experimental purpose
+
+Construct a Huffman tree, and find the Huffman tree code based on the constructed Huffman tree;
+2. Basic ideas
+
+1. Arrange each English letter from small to large according to the frequency of occurrence, with the smallest on the left to form a sequence
+2. Each letter represents a terminal node (leaf node), compare the frequency of occurrence of each letter, add the minimum two letter frequencies to form a new node, delete the two letters from the sequence, and add the generated node to the letter queue
+3. Repeat the previous two steps until there are no letters in the sequence
+To encode:
+1. Give all left links '0' and right links '1' of the Huffman tree
+2. Record the codes of all letters in order from the root of the tree to the leaves<strong>3. Basic code</strong>1.Huffman.h file<pre><code class="language-c++">typedef struct{
+	int weight;
+	int parent,lchild,rchild;
+}HTNode,*HuffmanTree;
+
+typedef char **HuffmanCode;
+
+void HuffmanCoding(HuffmanTree &amp;HT,HuffmanCode &amp;HC,int *w,int n);
+void HuffmanSelect(HuffmanTree HT,int k,int &amp;s1,int &amp;s2);
+</code></pre>2. Main functions
+①select function<pre><code class="language-c++">void HuffmanSelect(HuffmanTree HT,int n,int &amp;s1,int &amp;s2)
+{  
+	int minn=10000000,maxx=10000000;  
+    s1=s2=0;  
+	for(int i=1; i&lt;=n; i++)  
+	{  
+	    if(HT[i].parent==0)  
+	    {  
+           if(HT[i].weight&lt;minn)  
+	       {  
+               minn=HT[i].weight;s1=i;  	            }  
+	       }  
+	    }  
+	    int t=HT[s1].weight;  
+	    HT[s1].weight=maxx;  
+	    minn=99999998;  
+	    for(int i=1; i&lt;=n; i++)  
+	    {  
+	        if(HT[i].parent==0)  
+	        {  
+	            if(HT[i].weight&lt;minn)  
+	            {  
+	                minn=HT[i].weight;  
+	                s2=i;  
+	            }  
+	        }  
+	    }  
+	    HT[s1].weight=t;  
+}  
+</code></pre>②Encoding function<pre><code class="language-c++">void HuffmanCoding(HuffmanTree &amp;HT,HuffmanCode &amp;HC,int *w,int n)
+{
+	if(n&lt;=1)return;
+	int m=2*n-1;
+	HT=(HuffmanTree)malloc((m+1)*sizeof(HTNode));
+	int i;
+	for(i=1;i&lt;=n;i++)
+	{
+		HT[i].weight=w[i];
+		HT[i].parent=HT[i].rchild=HT[i].lchild=0;
+	}
+	for(;i&lt;=m;i++)
+	{
+		HT[i].weight=HT[i].parent=HT[i].rchild=HT[i].lchild=0;
+	}
+	int s1=0,s2=0;
+	for(i=n+1;i&lt;=m;i++)
+	{
+		HuffmanSelect(HT,i-1,s1,s2);
+		HT[s1].parent=i;HT[s2].parent=i;
+		HT[i].lchild=s1;HT[i].rchild=s2;
+		HT[i].weight=HT[s1].weight+HT[s2].weight;
+	}
+	HC=(HuffmanCode)malloc((n+1)*sizeof(char*));
+	char *cd;
+	cd=(char *)malloc(n*sizeof(char));
+	cd[n-1]='\0';
+	int start;
+	for(i=1;i&lt;=n;++i)
+	{
+		start=n-1;
+		int c=0;int f=0;
+		for(c=i,f=HT[i].parent;f!=0;c=f,f=HT[f].parent)
+		{
+			if(HT[f].lchild==c) 
+				cd[--start]='0';
+			else 
+				cd[--start]='1';
+		}
+		HC[i]=(char*)malloc((n-start)*sizeof(char));
+		strcpy(HC[i],&amp;cd[start]);
+	}
+	free(cd);
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-661" height="432" src="https://cdn.omegaxyz.com/2017/05/Huffman1-300x238.png" width="545"/></div>
+        <section class="comments"><h2>Comments (3)</h2>
+        <div class="comment" id="comment-28">
+          <strong>Anonymous</strong>
+          <time>2017-05-12 16:58:27</time>
+          <div>太强了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-75">
+          <strong>Anonymous</strong>
+          <time>2017-07-08 19:00:30</time>
+          <div>太强了</div>
+        </div>
+        
+        <div class="comment" id="comment-113">
+          <strong>pp</strong>
+          <time>2017-09-06 20:10:57</time>
+          <div>太强了</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

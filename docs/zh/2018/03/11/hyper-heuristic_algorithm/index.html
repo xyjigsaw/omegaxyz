@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>超启发式算法 · OmegaXYZ</title>
+  <meta name="description" content="什么是启发式算法？ 一个基于直观或经验构造的算法，在可接受的花费(指计算时间、占用空问等)下给出待解决优化问题每一个实例的一个可行解，该可行解与最优解的偏离程度不一定事先可以预计 。 启发式算法是一种技术，这种技术使得在可接受的计算费用内去寻找最好的解，但不一定能保证所得解的可行性和最优性，甚至大多数情况下，无法阐述所得解同最优解的近似程...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/11/hyper-heuristic_algorithm/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-11</div>
+        <h1>超启发式算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content"><strong>什么是启发式算法？ </strong>
+
+一个基于直观或经验构造的算法，在可接受的花费(指计算时间、占用空问等)下给出待解决优化问题每一个实例的一个可行解，该可行解与最优解的偏离程度不一定事先可以预计 。
+
+启发式算法是一种技术，这种技术使得在可接受的计算费用内去寻找最好的解，但不一定能保证所得解的可行性和最优性，甚至大多数情况下，无法阐述所得解同最优解的近似程度。
+
+超启发式算法（Hyper-Heuristic Algorithm）提供了一种高层次启发式方法，通过管理或操纵一系列低层次启发式算法（Low-Level Heuristics，LLH），以产生新的启发式算法。
+
+<strong>超启发式算法vs.传统启发式算法：</strong>
+
+<img class="alignnone size-full wp-image-3712" src="https://cdn.omegaxyz.com/2018/03/HHA1.jpg" alt="" width="781" height="268" />
+
+<img class="alignnone size-full wp-image-3713" src="https://cdn.omegaxyz.com/2018/03/HHA2.jpg" alt="" width="546" height="212" />
+
+如上图给出了超启发式算法的概念模型。该模型分为两个层面：在问题域层面上，应用领域专家根据自己的背景知识，在智能计算专家协助下，提供一系列LLH和问题的定义、评估函数等信息；在高层次启发式方法层面上，智能计算专家设计高效的管理操纵机制，运用问题域所提供的LLH算法库和问题特征信息，构造出新的启发式算法。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

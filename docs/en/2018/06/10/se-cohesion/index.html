@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of software engineering cohesion · OmegaXYZ</title>
+  <meta name="description" content="Introduction Cohesion marks how closely the elements within a module are integrated with each other. It is a natural extension of the concepts of information concealment and localization. Cohesion measures the connections within a module from a functional perspective. A good cohesive module should do exactly one thing. It describes the functional connections within the module. Cohesion and coupling are closely related. A module with high coupling with other modules means low cohesion, while a module with high cohesion means low coupling with other modules. When designing software, you should strive to achieve high cohesion...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/10/se-cohesion/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-10</div>
+        <h1>Detailed explanation of software engineering cohesion</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h3><strong>Introduction</strong></h3>Cohesion marks how closely the elements within a module are integrated with each other. It is a natural extension of the concepts of information hiding and localization. Cohesion measures the connections within a module from a functional perspective. A good cohesive module should do exactly one thing. It describes the functional connections within the module.
+
+Cohesion and coupling are closely related. A module with high coupling with other modules means low cohesion, while a module with high cohesion means low coupling with other modules.
+
+When designing software, you should strive to achieve high cohesion and low coupling.<img alt="" class="alignnone size-full wp-image-4521" height="680" src="https://cdn.omegaxyz.com/2018/06/cohesion.png" width="1003"/>
+<h3><strong>serendipitous cohesion</strong></h3>Definition: A module that performs multiple completely unrelated operations has accidental cohesion.
+
+Disadvantages ① Poor maintainability ② Modules cannot be reused
+
+Correction: Split the module into smaller modules, each performing an operation.
+
+Example: Call within a function to read a file and print the current time.<h3><strong>logical cohesion</strong></h3>Definition: This kind of module combines several related functions together. Each time it is called, the parameters passed to the module determine which function the module should complete.
+
+Example: void fun(int a) When a==1, it outputs "OK" and when a==other values, it outputs "ERROR". (In other cases, multiple parameters may block other actual parameters)<h3><strong>temporal cohesion</strong></h3>Definition: A module formed by combining actions that need to be executed simultaneously is called a temporal cohesion module.
+
+Disadvantages: Difficult to reuse<h3><strong>process cohesion</strong></h3>Definition: The combination of components or operations allows the subsequent component or operation to be called immediately after the previous component or operation is called, even if no data is transferred between the two. Simply put, if the processing elements within a module are related and must be executed in a specific order, it is called process cohesion.
+
+Disadvantages: Difficult to reuse
+
+Solution: Split the module into separate operations.<h3><strong>communicative cohesion</strong></h3>Definition: A module performs a series of operations related to the sequence of steps to be followed by the product, and if all operations are performed on the same data, the module has communicative cohesion.
+
+Example: Calculate the speed and send it to the printer and output the result.
+
+Disadvantages: Difficult to reuse
+
+Solution: Split the module into separate operations.<h3><strong>functional cohesion</strong></h3>All components of all elements in the module exist to complete the same function and jointly complete a single function. The module can no longer be divided. That is, the module only includes all the components necessary to complete a certain function. These components are closely related and indispensable.
+
+Pros: Its functionality is clear. To determine whether a module has functional cohesion, it can usually be seen from the module name. If the module name has only one verb and a specific goal (singular noun), it is generally functional cohesion, such as "calculate water bills", "calculate output value" and other modules. Functional cohesion generally occurs at lower levels of software architecture diagrams.<h3><strong>informational cohesion</strong></h3>Definition: If a module performs many operations, each has its own entry point, the code for each operation is relatively independent, and all operations are performed on the same data structure.
+
+Note: ① The various operations of logical cohesion are intertwined with each other, while the operation codes of the informational cohesion module are completely independent. ②Informational cohesion modules are mainly used to implement an abstract data type.<h3><strong>Summary</strong></h3>1. Functional cohesion: implement a function.
+2. Information cohesion: Complete multiple functions, and each function operates on the same data structure.
+3. Communication cohesion: Each functional part within the module uses the same input data or generates the same output data.
+4. Process cohesion: A certain part of the flow chart is divided into modules, that is, process cohesion. For example, the loop part, the judgment part, and the calculation part are divided into three modules.
+5. Temporal cohesion: Also known as classic cohesion, most of them are multi-functional modules. The execution of each function of the module is related to time, such as initialization module and termination module.
+6. Logical cohesion: Combine several related functions together, and determine which function to execute based on the decision parameters sent to the module.
+7. Accidental cohesion: There is no connection between the parts in the module, or even if there is a connection, it is very loose. It is the module with the lowest cohesion program.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

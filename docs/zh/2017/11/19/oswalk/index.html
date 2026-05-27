@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python利用os.walk遍历文件夹 · OmegaXYZ</title>
+  <meta name="description" content="之前写过用普通方法遍历文件夹 https://omegaxyz.com/2017/09/19/pythongetfiles/ 的方法，上周python课老师直接用os.walk()方法遍历，省事了多。 os.walk这个某块是遍历一个目录常用的模块，它返回一个包含3个元素的元祖:dirpath,dirnames,filenames.dir...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/19/oswalk/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-19</div>
+        <h1>Python利用os.walk遍历文件夹</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">之前写过用普通方法遍历文件夹<a href="https://omegaxyz.com/2017/09/19/pythongetfiles/">https://omegaxyz.com/2017/09/19/pythongetfiles/</a>的方法，上周python课老师直接用os.walk()方法遍历，省事了多。
+
+os.walk这个某块是遍历一个目录常用的模块，它返回一个包含3个元素的元祖:dirpath,dirnames,filenames.dirpath是以string字符串形式返回该目录下所有的绝对路径；dirnames是以列表list形式返回每一个绝对路径下的文件夹名字；filesnames是以列表list形式返回该路径下所有文件名字。
+<pre ><code class="language-python">import os 
+
+def visitDir2(path):
+    if not os.path.isdir(path):
+        print('Error:"',path,'" is not a directory or does not exist.')
+        return
+    list_dirs = os.walk(path)                #os.walk返回一个元组，包括3个元素：
+                                                           #所有路径名、所有目录列表与文件列表
+    for root, dirs, files in list_dirs:       #遍历该元组的目录和文件信息
+        for d in dirs: 
+            print(os.path.join(root, d))     #获取完整路径
+        for f in files: 
+            print(os.path.join(root, f))     #获取文件绝对路径
+
+visitDir2('h:\\music')</code></pre>
+<img class="alignnone wp-image-2477 size-full" src="https://cdn.omegaxyz.com/2017/11/oswalk.jpg" alt="" width="557" height="313" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

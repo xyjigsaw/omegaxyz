@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>解释器模式C++实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 给定⼀个语⾔，定义它的⽂法的⼀种表示，并定义 ⼀个解释器，这个解释器使⽤该表示来解释语⾔中的句⼦。 解释器模式的动机 搜索匹配⼀个模式的字符串是⼀个常见问题。 正则表达式是描述字符串模式的⼀种标准语⾔。 使⽤⼀种通⽤的搜索算法来解释执⾏⼀个正则表达式，该正则表达式定义了待匹配字符串的集合。 解释器模式描述了如何为简单的语⾔定义⼀个⽂...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/14/design-pattern-interpreter/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-14</div>
+        <h1>解释器模式C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+给定⼀个语⾔，定义它的⽂法的⼀种表示，并定义 ⼀个解释器，这个解释器使⽤该表示来解释语⾔中的句⼦。
+<h2><strong>解释器模式的动机</strong></h2>
+<ul>
+ 	<li>搜索匹配⼀个模式的字符串是⼀个常见问题。</li>
+ 	<li>正则表达式是描述字符串模式的⼀种标准语⾔。</li>
+ 	<li>使⽤⼀种通⽤的搜索算法来解释执⾏⼀个正则表达式，该正则表达式定义了待匹配字符串的集合。</li>
+ 	<li>解释器模式描述了如何为简单的语⾔定义⼀个⽂法，如何在该语⾔中表示⼀个句⼦，以及如何解释这些句⼦。</li>
+</ul>
+<h2><strong>结构</strong></h2>
+<img class="alignnone  wp-image-6215" src="https://cdn.omegaxyz.com/2020/01/design-pattern-interpreter2.png" alt="" width="498" height="338" />
+
+<strong>解释器模式主要包含如下几个角色</strong>
+<ul>
+ 	<li><strong>AbstractExpression: </strong>抽象表达式。声明一个抽象的解释操作，该接口为抽象语法树中所有的节点共享。</li>
+ 	<li><strong>TerminalExpression: </strong>终结符表达式。实现与文法中的终结符相关的解释操作。实现抽象表达式中所要求的方法。文法中每一个终结符都有一个具体的终结表达式与之相对应。</li>
+ 	<li><strong>NonterminalExpression: </strong>非终结符表达式。为文法中的非终结符相关的解释操作。</li>
+ 	<li><strong>Context: </strong>环境类。包含解释器之外的一些全局信息。</li>
+ 	<li><strong>Client: </strong>客户类。</li>
+</ul>
+抽象语法树描述了如何构成一个复杂的句子，通过对抽象语法树的分析，可以识别出语言中的终结符和非终结符类。 在解释器模式中由于每一种终结符表达式、非终结符表达式都会有一个具体的实例与之相对应，所以系统的扩展性比较好。
+
+<hr />
+
+<h2><strong>实例</strong></h2>
+利用解释器模式，打印并计算实现浮点数的四则运算。
+
+<strong>例如，对于如下表达式：</strong>
+
+3+（（4*6）-（7/2））
+
+<strong>输出：</strong>
+
+3+（（4*6）-（7/2））=23.5
+<h3><strong>实验UML图</strong></h3>
+<img class="alignnone  wp-image-6213" src="https://cdn.omegaxyz.com/2020/01/design-pattern-interpreter1-e1578918777143.png" alt="" width="672" height="404" />
+<h3><strong>代码</strong></h3>
+为了使表达式显示出来需要增加一个括号类。最高的抽象接口是Expression,加减乘除括号变量常量均继承自Expression类。
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;map&gt;
+using namespace std;
+
+class Context;
+class Variable;
+
+class Expression{
+private: 
+    
+public: 
+    virtual double interpret(Context *con) = 0;
+    virtual void display(Context *con) = 0;
+};
+
+class Bracket :public Expression{
+public:
+	Bracket(Expression * n){
+		exp = n;
+	}
+	double interpret(Context *con){
+		return exp-&gt;interpret(con);
+	}
+	void display(Context *con){
+		cout &lt;&lt; "(";
+		exp-&gt;display(con);
+		cout &lt;&lt; ")";
+	}
+private:
+	Expression * exp;
+};
+
+
+
+class Context{
+private: 
+    map&lt;Variable*, double&gt; valueMap;
+public: 
+    void addValue(Variable *x, double y){
+        double yi = y;
+        valueMap[x]  = yi;
+    }
+    
+    double LookupValue(Variable *x){
+        double i = valueMap[x];
+        return i;
+    }
+};
+
+class Variable : public  Expression{
+public:  
+    void display(Context *con){
+        cout&lt;&lt;con-&gt;LookupValue(this);
+    }
+    double interpret(Context *con){
+        return con-&gt;LookupValue(this);
+    }
+};
+
+
+class Add : public Expression{
+private: 
+    Expression *left, *right;
+public: 
+    Add(Expression *leftx, Expression *rightx){
+        left =  leftx;
+        right = rightx;
+    }
+    void display(Context *con){
+        left-&gt;display(con);
+        cout&lt;&lt;" + ";
+        right-&gt;display(con);
+    }
+    double interpret(Context *con){
+        return left-&gt;interpret(con) + right-&gt;interpret(con);
+    }
+};
+
+class Substract : public Expression{
+private: 
+    Expression *left, *right;
+public: 
+    Substract(Expression *leftx, Expression *rightx){
+        left =  leftx;
+        right = rightx;
+    }
+    void display(Context *con){
+        left-&gt;display(con);
+        cout&lt;&lt;" - ";
+        right-&gt;display(con);
+    }
+    double interpret(Context *con){
+        return left-&gt;interpret(con) - right-&gt;interpret(con);
+    }
+};
+
+class Multiply : public Expression{
+private: 
+    Expression *left, *right;
+public: 
+    Multiply(Expression *leftx, Expression *rightx){
+        left =  leftx;
+        right = rightx;
+    }
+    void display(Context *con){
+        left-&gt;display(con);
+        cout&lt;&lt;" * ";
+        right-&gt;display(con);
+    }
+    double interpret(Context *con){
+        return left-&gt;interpret(con) * right-&gt;interpret(con);
+    }
+};
+
+class Division : public Expression{
+private: 
+    Expression *left, *right;
+public: 
+    Division(Expression *leftx, Expression *rightx){
+        left =  leftx;
+        right = rightx;
+    }
+    void display(Context *con){
+        left-&gt;display(con);
+        cout&lt;&lt;" / ";
+        right-&gt;display(con);
+    }
+    double interpret(Context *con){
+        return left-&gt;interpret(con) / right-&gt;interpret(con);
+    }
+};
+
+
+
+class Constant : public Expression{
+private: 
+    int i;
+public: 
+    Constant(int a){
+        i = a;
+    }
+    double interpret(Context *con){
+        return i;
+    }
+};
+
+
+//3 + ((4*6) - (7/2))
+int main(){
+    Expression *ex;
+    Context  *con  =  new Context();
+    Variable *a = new Variable();
+    Variable *b = new Variable();
+    Variable *c = new Variable();
+    Variable *d = new Variable();
+    Variable *e = new Variable();
+    con-&gt;addValue(a, 3);
+    con-&gt;addValue(b, 4);
+    con-&gt;addValue(c, 6);
+    con-&gt;addValue(d, 7);
+    con-&gt;addValue(e, 2);
+    ex = new Add(a, new Bracket(new Substract(new Bracket(new Multiply(b, c)), new Bracket(new Division(d, e)))));
+    ex-&gt;display(con);
+    cout&lt;&lt;" =  "&lt;&lt;ex-&gt;interpret(con)&lt;&lt;endl;
+    return 0;
+}</code></pre>
+<h3><strong>结果</strong></h3>
+<img class="alignnone  wp-image-6216" src="https://cdn.omegaxyz.com/2020/01/design-pattern-interpreter3.png" alt="" width="433" height="103" />
+
+<hr />
+
+<h2><strong>总结</strong></h2>
+Context在本次实验中可以不用——除了上述用于表示表达式的类以外，通常在解释器模式中还提供了一个环境类Context，用于存储一些全局信息，通常在Context中包含了一个HashMap或ArrayList等类型的集合对象（也可以直接由HashMap等集合类充当环境类），存储一系列公共信息，如变量名与值的映射关系（key/value）等，用于在进行具体的解释操作时从中获取相关信息。</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18865">
+          <strong>peter</strong>
+          <time>2020-05-01 00:14:11</time>
+          <div>多态很有意思。<br>但是这个不能算解释器的哦~嘿嘿</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18868">
+          <strong>xyjisaw</strong>
+          <time>2020-05-01 08:44:25</time>
+          <div>这是设计模式中的解释器模式。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

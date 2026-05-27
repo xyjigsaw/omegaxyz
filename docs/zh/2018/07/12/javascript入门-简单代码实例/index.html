@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript入门——简单代码实例 · OmegaXYZ</title>
+  <meta name="description" content="JavaScript ，也称ECMAScript，是一种基于对象和事件驱动并具有相对安全性并广泛用于客户端网页开发的脚本语言，同时也是一种广泛用于客户端Web开发的脚本语言。 JavaScript是世界上最流行的脚本语言，因为你在电脑、手机（Android、iOS）、平板上浏览的所有的网页，以及无数基于HTML5的手机App，交互逻辑都是...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/12/javascript入门-简单代码实例/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-12</div>
+        <h1>JavaScript入门——简单代码实例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a></div>
+        <div class="article-content"><strong>JavaScript</strong>，也称ECMAScript，是一种基于对象和事件驱动并具有相对安全性并广泛用于客户端网页开发的脚本语言，同时也是一种广泛用于客户端Web开发的脚本语言。
+
+JavaScript是世界上最流行的脚本语言，因为你在电脑、手机（Android、iOS）、平板上浏览的所有的网页，以及无数基于HTML5的手机App，交互逻辑都是由JavaScript驱动的。
+
+简单地说，JavaScript是一种运行在浏览器中的解释型的编程语言。
+
+更多简介参考：
+
+https://omegaxyz.com/2018/06/16/javascript-introduction/
+
+<strong>下面给出单独的JS代码及嵌入到HTML中的JS代码用做简单实例测试，可以进入HTML测试页面测试代码。</strong>
+
+https://omegaxyz.com/onlinetools/web-running/
+<h2><strong>①生成简单文本及HTML标签、循环</strong></h2>
+以99乘法表为例
+<pre ><code class="language-js">document.write("&lt;table border='1' bordercolor= 'red'&gt;");
+for(var i = 1; i &lt;= 9; i++){
+  document.write('&lt;tr&gt;');
+  for(var j = 1; j &lt;= i; j++){
+    document.write('&lt;td&gt;');
+    document.write(j+'*'+i+'='+i*j+'&lt;/td&gt;');
+  }
+  document.write('&lt;/tr&gt;');
+}
+document.write('&lt;/table&gt;');</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4732" src="https://cdn.omegaxyz.com/2018/07/99js.png" alt="" width="572" height="260" />
+<h2><strong>②显示警告框</strong></h2>
+<pre ><code class="language-xhtml">&lt;html&gt;
+&lt;head&gt;
+&lt;script type="text/javascript"&gt;
+function disp_alert()
+{
+alert("我是警告框！！")
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;input type="button" onclick="disp_alert()" value="显示警告框" /&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2><strong>③检查浏览器版本</strong></h2>
+<pre ><code class="language-js">&lt;script type="text/javascript"&gt;
+var browser=navigator.appName
+var b_version=navigator.appVersion
+var version=parseFloat(b_version)
+document.write("浏览器名称："+ browser)
+document.write("&lt;br /&gt;")
+document.write("浏览器版本："+ version)</code></pre>
+<h2><strong>④自动时钟</strong></h2>
+使用日期类Date
+
+使用setTimeout来计时
+<pre ><code class="language-xhtml">&lt;html&gt;
+&lt;head&gt;
+&lt;script type="text/javascript"&gt;
+function startTime()
+{
+var today=new Date()
+var h=today.getHours()
+var m=today.getMinutes()
+var s=today.getSeconds()
+// add a zero in front of numbers&lt;10
+m=checkTime(m)
+s=checkTime(s)
+document.getElementById('txt').innerHTML=h+":"+m+":"+s
+t=setTimeout('startTime()',500)
+}
+
+function checkTime(i)
+{
+if (i&lt;10) 
+  {i="0" + i}
+  return i
+}
+&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body onload="startTime()"&gt;
+&lt;div id="txt"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+②、③、④来源于：<a href="http://www.w3school.com.cn/example/jseg_examples.asp">http://www.w3school.com.cn/example/jseg_examples.asp</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

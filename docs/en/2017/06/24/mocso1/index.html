@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-objective CSO algorithm (MOCSO) understanding · OmegaXYZ</title>
+  <meta name="description" content="MOCSO (Multi-Objective Competitive Swarm Optimizer) is a variant of PSO (Particle Swarm Optimization) Competitive Particle Swarm Optimization Algorithm (MOCSO) based on multi-objective optimization Abstract: In evolutionary computation, exploring effective multi-objective optimization techniques is worthy of attention. We propose a multi-objective optimization algorithm based on the recently developed swarm intelligence paradigm. Based on this algorithm, we propose a...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/06/24/mocso1/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-24</div>
+        <h1>Multi-objective CSO algorithm (MOCSO) understanding</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content">MOCSO（M<a>ulti-Objective </a>Competitive Swarm Optimizer) is a variant of PSO (Particle Swarm Optimization algorithm)
+
+Competitive particle swarm optimization algorithm (MOCSO) based on multi-objective optimization
+Summary:
+In evolutionary computation, exploring effective multi-objective optimization techniques is worthy of attention. We propose a multi-objective optimization algorithm based on the recently developed swarm intelligence paradigm. On the basis of this algorithm, we propose a guided learning strategy for learning update fitting to accelerate the convergence speed and avoid the reduction of diversity of multi-objective optimization algorithms. The chosen method randomly selects two solutions within the existing population to guide each particle's flight. The particles in most particle swarm optimization algorithms are usually judged based on previous information (P best and G best). The performance of this algorithm is verified through comparison with several state-of-the-art multi-objective evolutionary algorithms, including three existing multi-objective particle swarm optimization algorithms and three popular multi-objective algorithms based on genetic algorithms. Experimental results show that this algorithm has the superiority of multi-objective optimization.
+
+Keywords: multi-objective optimization, competitive swarm algorithm, multi-objective evolutionary algorithm, swarm intelligence algorithm.
+
+Competitive Particle Optimization Algorithm
+
+The main difference from PSO: the pairwise competition mechanism (two solutions randomly selected from elite particles in the existing group) is used to guide the search instead of pbest &amp;gbest
+
+Main contributions:
+1. A competition mechanism strategy based on the leader particle to update particles. Two solutions randomly selected from elite particles in the existing population can better balance convergence and diversity.
+2. No additional storage space is required to record historical information. It is different from OMOPSO, SMPSO, CMPSO and MMPSO.
+
+Main steps:<img alt="" class="alignnone wp-image-1138" height="562" src="https://cdn.omegaxyz.com/2017/06/MOCSO1-159x300.png" width="298"/>Main algorithm:<img alt="" class="alignnone wp-image-1139" height="315" src="https://cdn.omegaxyz.com/2017/06/MOCSO2-300x169.png" width="559"/>
+<img alt="" class="alignnone wp-image-1140" height="443" src="https://cdn.omegaxyz.com/2017/06/MOCSO3-300x238.png" width="558"/>
+<img alt="" class="alignnone wp-image-1141" height="398" src="https://cdn.omegaxyz.com/2017/06/MOCSO4-300x295.png" width="405"/></div>
+        <section class="comments"><h2>Comments (4)</h2>
+        <div class="comment" id="comment-18128">
+          <strong>Anonymous</strong>
+          <time>2019-10-26 19:59:15</time>
+          <div>请问这个算法的论文是哪个，是《A competitive mechanism based multi-objective particle swarm optimizer with fast convergence》这篇论文吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18134">
+          <strong>xyjisaw</strong>
+          <time>2019-10-28 10:11:11</time>
+          <div>是的</div>
+        </div>
+        
+        <div class="comment" id="comment-21856">
+          <strong>H</strong>
+          <time>2021-04-04 14:01:42</time>
+          <div>有代码吗?</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21883">
+          <strong>xyjisaw</strong>
+          <time>2021-04-07 10:30:50</time>
+          <div>百度搜索BIMK有的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

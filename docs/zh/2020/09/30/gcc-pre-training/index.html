@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GCC图神经网络预训练概述 · OmegaXYZ</title>
+  <meta name="description" content="Paper GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training Conference : KDD Keywords : Contrastive Learning, Instance Discrimination, Transferability, Pre-...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/09/30/gcc-pre-training/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-09-30</div>
+        <h1>GCC图神经网络预训练概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/english/index.html">English</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
+        <div class="article-content"><h2><strong>Paper</strong></h2>
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training
+
+<strong>Conference</strong>: KDD
+
+<strong>Keywords</strong>: Contrastive Learning, Instance Discrimination, Transferability, Pre-training
+<h2><strong>Recent Work</strong></h2>
+However, most representation learning work on graphs has thus far focused on learning representations for one single graph or a fixed set of graphs and very limited work can be transferred to out-of-domain data and tasks.
+<h2><strong>Challenge</strong></h2>
+How to design the pre-training task such that the universal structural patterns in and across networks can be captured and further transferred?
+<h2><strong>Main idea</strong></h2>
+The idea of pre-training is to use the pre-trained model as a good initialization for fine-tuning over (different) tasks on unseen datasets. Contrastive learning is another idea. Here are three critical steps. (1) Define instances in graphs (2) Define similar instance pairs in and across graphs (3) Choose the proper graph encoders.
+<h2><strong>Contributions</strong></h2>
+(1) Formalize the problem of GNN pre-training
+(2) Regard pre-training as instance discrimination to capture the universal and transferable structural patterns from multiple input graphs
+(3) GCC framework is proposed
+(4) Experiments
+<h2><strong>Requirements</strong></h2>
+(1) Structural Similarity, it maps vertices with similar local network topologies close to each other in the vector space.
+(2) Transferability, it is compatible with vertices and graphs unseen by the pre-training algorithm.
+<h2><strong>Steps</strong></h2>
+Ideally, given a (diverse) set of input graphs, such as the Facebook social graph and the DBLP co-author graph, we aim to pre-train a GNN on them with a self-supervised task, and then fine-tune it on different graphs for different graph learning tasks, such as node classification on the US-Airport graph.
+<h2><strong>Compared Algorithms</strong></h2>
+RolX
+Panther++
+GraphWave
+<h2><strong>Some thoughts</strong></h2>
+Combine attributes
+BERT-GRAPH
+Remove nodes with noise
+Aggregate nodes as a new instance
+<h2><strong>More Papers About Pre-Training</strong></h2>
+Strategies for Pre-training Graph Neural Networks. 2020. ICLR
+GPT-GNN: Generative Pre-Training of Graph Neural Networks. 2020. KDD
+Pre-TrainingGraphNeuralNetworksfor Generic Structural Feature Extraction. 2020
+Self-supervised Learning: Generative or Contrastive. 2020.
+Gaining insight into SARS-CoV-2 infection and COVID-19 severity using self-supervised edge features and Graph Neural Networks. 2020. ICML
+When Does Self-Supervision Help Graph Convolutional Networks? 2020. ICML
+Multi-Stage Self-Supervised Learning for Graph Convolutional Networks on Graphs with Few Labeled Nodes. 2020. AAAI
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training. 2020. KDD
+Self-Supervised Graph Representation Learning via Global Context Prediction. 2020.
+Contrastive Multi-View Representation Learning on Graphs. 2020.
+Self-supervised Training of Graph Convolutional Networks. 2020.
+Self-supervised Learning on Graphs: Deep Insights and New Directions. 2020.
+GRAPH-BERT: Only Attention is Needed for Learning Graph Representations. 2020.
+Graph Neural Distance Metric Learning with GRAPH-BERT. 2020.
+Segmented GRAPH-BERT for Graph Instance Modeling. 2020.
+<h2><strong>Reference</strong></h2>
+https://zhuanlan.zhihu.com/p/150456349
+
+<hr />
+
+关键词: 对比学习，实例辨析，可转移性，预训练
+
+图神经网络预训练的图对比编码
+
+最近工作:
+然而，到目前为止，大多数关于图的表示学习工作都集中在学习单个图或一组固定图的表示，非常有限的工作可以转移到域外的数据和任务。
+
+挑战:
+如何设计预训练任务，使网络内和网络间的通用结构模式被捕获并进一步转移?
+
+主要思想:
+预训练的想法是使用预训练的模型作为一个良好的初始化，对未见数据集上的(不同的)任务进行微调。对比学习是另一种观点。这里有三个关键步骤。(1)在图中定义实例(2)在图中或图中定义相似的实例对(3)选择合适的图编码器。
+
+&nbsp;
+
+贡献:
+1. 将GNN预培训问题形式化
+2. 将预训练作为实例识别，从多个输入图中获取通用的、可转移的结构模式
+3.GCC框架的提出
+4. 实验
+
+要求:
+(1)结构相似性，它将具有相似局部网络拓扑的顶点映射到向量空间中。
+(2)可转移性，可以兼容预训练算法未发现的顶点和图。
+
+步骤:
+理想情况下,给定一组(多样化)的输入图,如Facebook的社交图和DBLP合著者图,我们的目标是上pre-train GNN他们self-supervised任务,然后调整图上不同的图表对不同学习任务,如在美国机场节点分类图。
+
+算法相比:
+RolX
+Panther++
+GraphWave
+
+一些想法:
+结合属性
+BERT-GRAPH
+去除带有噪声的节点
+将节点聚合为一个新实例
+
+&nbsp;
+
+&nbsp;
+
+更多关于预培训的论文:
+
+Strategies for Pre-training Graph Neural Networks. 2020. ICLR
+GPT-GNN: Generative Pre-Training of Graph Neural Networks. 2020. KDD
+Pre-TrainingGraphNeuralNetworksfor Generic Structural Feature Extraction. 2020
+Self-supervised Learning: Generative or Contrastive. 2020.
+Gaining insight into SARS-CoV-2 infection and COVID-19 severity using self-supervised edge features and Graph Neural Networks. 2020. ICML
+When Does Self-Supervision Help Graph Convolutional Networks? 2020. ICML
+Multi-Stage Self-Supervised Learning for Graph Convolutional Networks on Graphs with Few Labeled Nodes. 2020. AAAI
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training. 2020. KDD
+Self-Supervised Graph Representation Learning via Global Context Prediction. 2020.
+Contrastive Multi-View Representation Learning on Graphs. 2020.
+Self-supervised Training of Graph Convolutional Networks. 2020.
+Self-supervised Learning on Graphs: Deep Insights and New Directions. 2020.
+GRAPH-BERT: Only Attention is Needed for Learning Graph Representations. 2020.
+Graph Neural Distance Metric Learning with GRAPH-BERT. 2020.
+Segmented GRAPH-BERT for Graph Instance Modeling. 2020.
+
+参考:
+https://zhuanlan.zhihu.com/p/150456349
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA operation of very large numbers (BigInteger class) · OmegaXYZ</title>
+  <meta name="description" content="If you want to perform very large number calculations or high-precision floating point number calculations, you can use the BigInteger class in the java.math package. They are all immutable. Note that these are numbers of arbitrary size and precision. Be sure to import java.math.*; at the beginning of the code. Result: m*n=6172856528105800233049127757055209998353469602134 76104...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/07/11/javabignum/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>JAVA operation of very large numbers (BigInteger class)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">If you want to perform very large number calculations or high-precision floating point number calculations, you can use the BigInteger class in the java.math package. They are all immutable.
+
+Note that these are numbers of arbitrary size and precision.
+
+Be sure to import java.math.*; at the beginning of the code;<pre><code class="language-java">import java.math.*;
+public class javaLang {
+	public static void main(String[] args){
+		BigInteger m=new BigInteger("425287628746279647233986234525425423535345363534532463563463554");
+		BigInteger n=new BigInteger("1451454524154154278278278272278272727278272121541213");
+		BigInteger x=m.multiply(n);
+		System.out.println(x);
+		System.out.println("*********************************************");
+		System.out.println(factorial(100));
+	}
+	
+	public static BigInteger factorial(long n){
+		BigInteger result=BigInteger.ONE;
+		for(int i=1;i&lt;=n;i++){
+			result=result.multiply(new BigInteger(i+""));
+		}
+		return result;
+	}
+}
+</code></pre>Result:
+
+m*n=6172856528105800233049127757055209998353469602134
+
+76104253756703980080448006260985623488512735497261974037104350466897480350834451002
+*********************************************
+100!=933262154439441526816992388562667004907159682643816214685
+
+9296389521759999322991560894146397615651828625369792082722375825
+
+1185210916864000000000000000000000000</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

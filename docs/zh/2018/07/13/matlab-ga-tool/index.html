@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB遗传算法工具箱简介 · OmegaXYZ</title>
+  <meta name="description" content="MATLAB 是美国MathWorks公司出品的商业数学软件，用于算法开发、数据可视化、数据分析以及数值计算的高级技术计算语言和交互式环境，主要包括MATLAB和Simulink两大部分。MATLAB软件是一个功能很强大的工具，其中可以使用GA工具箱进行遗传算法的数据优化，下面给出具体的操作简单的实例。 ①利用GUI打开并使用MATLAB...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/13/matlab-ga-tool/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-13</div>
+        <h1>MATLAB遗传算法工具箱简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">MATLAB 是美国MathWorks公司出品的商业数学软件，用于算法开发、数据可视化、数据分析以及数值计算的高级技术计算语言和交互式环境，主要包括MATLAB和Simulink两大部分。MATLAB软件是一个功能很强大的工具，其中可以使用GA工具箱进行遗传算法的数据优化，下面给出具体的操作简单的实例。
+<h2><strong>①利用GUI打开并使用MATLAB遗传算法工具箱。</strong></h2>
+<h3><strong>打开MATLAB选择应用程序，点击Optimization。</strong></h3>
+<img class="alignnone size-full wp-image-4764" src="https://cdn.omegaxyz.com/2018/07/MATLABga1.png" alt="" width="1253" height="148" />
+<h3><strong>打开后显示优化界面</strong><strong>第一个solver选择ga</strong></h3>
+<img class="alignnone size-full wp-image-4765" src="https://cdn.omegaxyz.com/2018/07/MATLABga2.png" alt="" width="1305" height="904" />
+
+<strong>函数（注意是单目标只能有一个函数输出值）的MATLAB代码填入Fitness Funtion，输入变量值为2，其它设置options可以使用自定义，也可以使用默认，这里我的种群设置为200。设置完后点击start</strong>
+
+<img class="alignnone size-full wp-image-4766" src="https://cdn.omegaxyz.com/2018/07/MATLABga3.png" alt="" width="1305" height="904" />
+
+<strong>我优化的函数代码：</strong>
+<pre ><code class="language-matlab">function f=GA_demo(x)
+f1=4*x(1).^3+4*x(1)*x(2)+2*x(2).^2-42*x(1)-14;
+f2=4*x(2).^3+4*x(1)*x(2)+2*x(1).^2-26*x(1)-22;
+f=f1.^2+f2.^2;</code></pre>
+<h3><strong>常用的options</strong></h3>
+<table>
+<thead>
+<tr>
+<th align="center">选项</th>
+<th align="center">功能</th>
+<th align="center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">CrossoverFraction</td>
+<td align="center">交叉的概率</td>
+<td align="center">0-1的小数</td>
+</tr>
+<tr>
+<td align="center">EliteCount</td>
+<td align="center">用于精英原则，
+每次遗传中一定会活下来的个体的个数</td>
+<td align="center">正整数</td>
+</tr>
+<tr>
+<td align="center">FitnessLimit</td>
+<td align="center">适应度的范围</td>
+<td align="center">标量/ {-Inf}</td>
+</tr>
+<tr>
+<td align="center">Generations</td>
+<td align="center">迭代遗传的次数</td>
+<td align="center">正整数</td>
+</tr>
+<tr>
+<td align="center">InitialPopulation</td>
+<td align="center">初始种群</td>
+<td align="center">可以用上一次遗传生成的种群
+作为下一次GA的初始种群</td>
+</tr>
+</tbody>
+</table>
+<strong>当然MATLAB官方说这个优化工具箱将在未来的版本中去除，请留意。</strong>
+
+<img class="alignnone size-full wp-image-4768" src="https://cdn.omegaxyz.com/2018/07/MATLABga5.png" alt="" width="426" height="125" />
+<h2><strong>②利用命令运行GA工具箱</strong></h2>
+种群大小200
+精英解的数量20
+交叉率0.75
+迭代次数1000
+停止代数（stall generations）与适应度函数值偏差（function tolerance）。若在Stallgenerations设定的代数内，适应度函数值的加权平均变化值小于function tolerance，算法停止
+
+<strong>优化的函数是上面GUI中给出的函数</strong>
+<pre ><code class="language-matlab">clear
+clc
+fitnessfcn = @GA_demo;
+% 适应度函数句柄
+nvars = 2;% 个体的变量数目
+options = gaoptimset('PopulationSize',200,'EliteCount',20,'CrossoverFraction',0.75,'Generations',1000,'StallGenLimit',500,'TolFun',1e-100,'PlotFcns',{@gaplotbestf,@gaplotbestindiv}); %参数设置
+[x_best,fval] =ga(fitnessfcn,nvars,[],[],[],[],[],[],[],options);   % 调用ga函数</code></pre>
+<strong>运行时的结果：</strong>
+<img class="alignnone size-full wp-image-4767" src="https://cdn.omegaxyz.com/2018/07/MATLABga4.gif" alt="" width="558" height="606" />
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-17117">
+          <strong>杨森</strong>
+          <time>2019-06-21 16:29:19</time>
+          <div>你好，我想优化一个具有四个变量的函数方程式，但是我用遗传算法工具箱时，他总提示我输入变量不足，我想向你请教，希望你可以教教我·</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17118">
+          <strong>xyjisaw</strong>
+          <time>2019-06-21 20:08:18</time>
+          <div>我也不大清楚呀，你可以仔细研读MATLAB文档</div>
+        </div>
+        
+        <div class="comment" id="comment-24549">
+          <strong>lich</strong>
+          <time>2021-10-26 16:21:39</time>
+          <div>二元决策变量该如何进行修改？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

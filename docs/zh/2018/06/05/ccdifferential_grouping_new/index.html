@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>差分分组的合作协同进化的大规模优化算法详解 · OmegaXYZ</title>
+  <meta name="description" content="合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/05/ccdifferential_grouping_new/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-05</div>
+        <h1>差分分组的合作协同进化的大规模优化算法详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最低限度。我们在数学上展示这样一个分解策略如何从部分可分性的定义中产生。实证研究表明，这样的近最优的分解可以大大提高大规模的全局优化问题的解决方案的质量。最后，我们展示了这样一个自动分解是如何产生对多样的子成分的分布的更好的近似，导致一个对多样的子成分的计算预算的更高效的分配。
+
+<strong>索引词：合作协同进化，大规模优化，问题分解，不可分性，数值优化</strong>
+
+概述：
+
+https://omegaxyz.com/2017/09/29/ccdifferential_grouping/
+
+MATLAB代码：
+
+https://omegaxyz.com/2017/10/25/cooperative_coevolution_matlab/
+<h2><b>差分分组算法</b><b>：如何</b><b>识别交互变量并将其</b><b>分到</b><b>相同的子</b><b>成分</b></h2>
+检查第一个决策变量之间与所有其他决策变量两两之间的相互作用，如果该算法检测到第一个变量和其他变量之间的交互，它从所有的决策变量中将其排除。
+
+重复这个过程，直到所有与第一变量交互的变量被检测出来，形成第一个子成分，如果没有检测到交互，那么该变量是一个可分离变量。
+
+交互判断公式：<img class="alignnone size-full wp-image-4483" src="https://cdn.omegaxyz.com/2018/06/DG2.png" alt="" width="429" height="112" />
+
+其余变量重复这个过程，直到所有组分完。
+
+<strong>图示：</strong>
+
+<img class="alignnone size-full wp-image-4482" src="https://cdn.omegaxyz.com/2018/06/DG1.jpg" alt="" width="627" height="450" />
+
+<strong>如果|△1-△2|&gt;σ则代表相关</strong>
+<h2><strong>应用到协同进化：</strong></h2>
+第一阶段：分组阶段
+
+生成子成分
+
+第二阶段：优化阶段
+
+子成分优化
+
+<img class="alignnone  wp-image-4484" src="https://cdn.omegaxyz.com/2018/06/DGCC.png" alt="" width="492" height="363" />
+
+<strong>原文为Cooperative Co-Evolution With Differential Grouping for Large Scale Optimization IEEE</strong>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

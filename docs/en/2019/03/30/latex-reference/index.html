@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LaTeX scientific research literature citation compilation and style adjustment · OmegaXYZ</title>
+  <meta name="description" content="Abstract Citing literature is an important step in standard writing. The loss of document citations directly leads to the suspicion of plagiarism in the work. Next, the author gives the steps for citing documents in Google Scholar and Baidu Scholar, and the specific operation methods for generating BibTeX to LaTeX. Literature search: Log in to Google Scholar or Baidu Scholar and select the corresponding article, as shown in the figure below: Google citation Baidu citation Click and select the format you need (very important, it depends on the requirements of the journal you are submitting to, if...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/03/30/latex-reference/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-30</div>
+        <h1>LaTeX scientific research literature citation compilation and style adjustment</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/latex/index.html">LaTeX</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Summary</strong></h2>Citing literature is an important step in standard writing. The loss of literature citations directly leads to the suspicion of plagiarism in the work. Next, the author gives the steps to cite the literature in Google Scholar and Baidu Scholar, and generate<strong><em>BibTeX</em></strong>To the specific operation method in LaTeX.<hr/>
+<h2><strong>Literature search</strong></h2>Log in to Google Scholar or Baidu Scholar and select the corresponding article, as shown in the figure below:
+
+Google Quotes<img alt="" class="alignnone wp-image-5641" height="115" src="https://cdn.omegaxyz.com/2019/03/reference4.jpg" width="510"/>Baidu citation<img alt="" class="alignnone wp-image-5638" height="140" src="https://cdn.omegaxyz.com/2019/03/reference1.jpg" width="532"/>Click to select the format you need (<strong><span style="color: #ff0000;">It is very important. It depends on the requirements of the journal you are submitting to. If it is not standardized, it may be rejected by the editorial department for reformat.</span></strong>)
+
+In this way, you can add citations after the article you need (just copy and paste)<img alt="" class="alignnone wp-image-5639" height="212" src="https://cdn.omegaxyz.com/2019/03/reference2.jpg" width="437"/>
+<img alt="" class="alignnone wp-image-5642" height="250" src="https://cdn.omegaxyz.com/2019/03/reference5.jpg" width="429"/>
+<hr/>
+<h2><strong>BibTex import bib file</strong></h2>Of course, many times we will use the more professional article writing tool LaTeX to write papers. At this time, automatic management and numbering of references becomes very important, because when revising, we may add a reference or delete a reference.<strong>First select BibTex (lower left corner of the picture below)</strong>
+<img alt="" class="alignnone wp-image-5639" height="177" src="https://cdn.omegaxyz.com/2019/03/reference2.jpg" width="365"/>BibTex style is as follows (like json)<img alt="" class="alignnone wp-image-5640" height="108" src="https://cdn.omegaxyz.com/2019/03/reference3.jpg" width="507"/>When importing LaTeX, first create a .bib file<span class="token p"><strong>Write the references that need to be cited in .bib format, such as referencet.bib file, as follows:</strong></span><span class="token pre">Create a new txt file and change the suffix to .bib</span>The content is as shown in the picture, which contains two papers.<img alt="" class="alignnone wp-image-5643" height="254" src="https://cdn.omegaxyz.com/2019/03/reference6.png" width="478"/>
+<hr/>
+<h2><strong>Write LaTeX code, automatic numbering and management</strong></h2>The part quoted by the bib file: (This part is best placed before \end)<pre><code class="language-default">\bibliographystyle{splncs04} %这是一个样式文件
+\bibliography{reference} %其中reference为reference.bib文件。</code></pre>The part written in the document: (just use \cite{})<pre><code class="language-default">This is a test\cite{Akundi2018Information} of reference. 
+Machine learning and artificial\cite{Dong2018Packet} intelligence are worse than mathematics.</code></pre>
+<strong>Note that the \cite{} braces should be filled with the content after @ in BibTex</strong>
+<pre><code class="language-default">\documentclass{article}  % 选择模版，这里是使用Latex自带的article模版
+    \author{Reacubeth}
+    \title{First Test}
+\begin{document} 
+\maketitle
+
+This is a test\cite{Akundi2018Information} of reference. 
+Machine learning and artificial\cite{Dong2018Packet} intelligence are worse than mathematics.
+
+\bibliographystyle{splncs04} %这是一个样式文件
+\bibliography{reference} %其中reference为reference.bib文件
+
+\end{document} 
+</code></pre>
+<hr/>
+<h2><strong>Compile (emphasis)</strong></h2>Since the .aux file is required to generate references correctly, it needs to be compiled multiple times.<h3><strong>First compile, mode Latex, etc.</strong></h3>After compilation, the .aux file is generated. At this time, the .pdf that pops up will have the problem of missing references, as shown below<img alt="" class="alignnone wp-image-5644" height="184" src="https://cdn.omegaxyz.com/2019/03/reference7.png" width="512"/>
+<h3><strong>Compile for the second time, switch mode BibTex</strong></h3>
+<img alt="" class="alignnone wp-image-5645" height="301" src="https://cdn.omegaxyz.com/2019/03/reference8.png" width="172"/>Generated based on .aux file<h3><strong>Compile for the third time, switch mode to LaTeX</strong></h3>At this point, the reference is missing, though? Can't get rid of it<img alt="" class="alignnone wp-image-5646" height="391" src="https://cdn.omegaxyz.com/2019/03/reference9.png" width="604"/>
+<h3><strong>The last compilation, the mode remains LaTeX</strong></h3>Successfully compiled<img alt="" class="alignnone wp-image-5647" height="301" src="https://cdn.omegaxyz.com/2019/03/referenceX.png" width="467"/>
+<hr/>
+<h2><strong>style adjustment</strong></h2>Style files are generally of .cls or .bst type. Specific style files can be obtained from the journal submission official website.
+
+The above example references are in splncs04 style, which is suitable for conference papers including LNCS. If you need to adjust it to IEEEtran style, replace it in the first line below.<pre><code class="language-default">\bibliographystyle{IEEEtran} %换风格
+\bibliography{reference} %其中reference为reference.bib文件。</code></pre>
+<span style="color: #ff0000;"><strong>Note that if other styles of pdf have been generated previously, it will not work when compiling directly after changing the code. Because of the cache files .aux and .bbl, you need to delete all previous cache files and follow the above steps again.</strong></span>As a result, you can see that the style of the reference has been adjusted.<img alt="" class="alignnone wp-image-5648" height="368" src="https://cdn.omegaxyz.com/2019/03/referenceIEEE.png" width="529"/>
+<hr/>
+<h2><strong>statement</strong></h2>The LaTeX version is the latest full version of the official website with a size of 6G<strong>Please understand if there are any differences in operation.</strong>
+<hr/>
+<h2><strong>refer to</strong></h2>
+<a href="https://blog.csdn.net/qiang12qiang12/article/details/79105053">https://blog.csdn.net/qiang12qiang12/article/details/79105053</a>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>马尔科夫毯（Markov Blankets） · OmegaXYZ</title>
+  <meta name="description" content="提到马尔可夫毯，就会有一堆从名字上看很相近的概念，比如马尔可夫链（Markov Chain, MC）、隐马尔可夫模型（Hidden Markov Model, HMM）、马尔可夫随机场（MarkovRandom Field, MRF）等等。其实，马尔可夫毯与这些概念不同，它是一个局部的概念，而不是一个整体模型级别的概念。以下内容主要参考【...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/27/markov-blanket/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-27</div>
+        <h1>马尔科夫毯（Markov Blankets）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/discrete-mathematics/index.html">离散数学</a><a class="pill" href="../../../../tag/naivebayes/index.html">朴素贝叶斯</a></div>
+        <div class="article-content">提到马尔可夫毯，就会有一堆从名字上看很相近的概念，比如马尔可夫链（Markov Chain, MC）、隐马尔可夫模型（Hidden Markov Model, HMM）、马尔可夫随机场（MarkovRandom Field, MRF）等等。其实，马尔可夫毯与这些概念不同，它是一个局部的概念，而不是一个整体模型级别的概念。以下内容主要参考【何宪. 基于贝叶斯网络的马尔可夫毯发现算法研究[D]. 电子科技大学, 2012.】，更多内容请参阅原文献。
+
+首先看马尔可夫毯的定义：
+
+<img class="alignnone wp-image-2525 size-full" src="https://cdn.omegaxyz.com/2017/11/Markov-blankets3.png" alt="" width="860" height="136" />
+
+这种纯符号的定义看起来有些抽象，形象一点说，把一个随机变量全集U分成互斥的三部分，变量X以及集合A和B，三个子集没有交集，并集即为全集U；如果说给定集合A时，变量X与集合B没有任何关系，则称集合A为变量X的马尔可夫毯。在式(2-16)中，集合MB即为我说的集合A，{U-MB-{X}}即为我说的集合B，符号“⊥”表示“独立”，符号“|”表示在给定xx条件下，因此式(2-16)可读为“在给定集合MB时，变量X与{U-MB-{X}}独立”。
+
+打个比方说，全集U是整个社会，X是你个人，MB就是你生活圈子里的人。按照哲学的说法，万事万物都是有联系的；但是，你并不会与社会里的所有人有什么关系，而是通过你的生活圈子和他们有间接的关系，即当给定你的生活圈子以后，你和社会其余的人是没啥关系的（独立的）。
+
+维基百科：
+
+<img class="alignnone wp-image-2523 size-full" src="https://cdn.omegaxyz.com/2017/11/Markov-blankets1.png" alt="" width="240" height="274" /><img class="alignnone size-medium wp-image-2524" src="https://cdn.omegaxyz.com/2017/11/Markov-blankets2-163x300.png" alt="" width="163" height="300" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

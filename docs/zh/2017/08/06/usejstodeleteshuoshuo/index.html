@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>利用JavaScript批量删除QQ空间说说（只需一个浏览器） · OmegaXYZ</title>
+  <meta name="description" content="每个人都有历史，记录说说是保存瞬间思想的最好方式，但时间久了，我们发现从前的灵光闪现是多么的好笑，于是我们开始删说说，可是说说那么多，哎算了重注册一个QQ号吧。 别这样，这里教你一种快速删说说的方法，无需下载任何软件（但还是推荐使用360、QQ或谷歌浏览器比较好），只需要在电脑上打开QQ空间。按下键盘上的F12键（注意是功能键哦！！！），...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/08/06/usejstodeleteshuoshuo/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-06</div>
+        <h1>利用JavaScript批量删除QQ空间说说（只需一个浏览器）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a></div>
+        <div class="article-content">每个人都有历史，记录说说是保存瞬间思想的最好方式，但时间久了，我们发现从前的灵光闪现是多么的好笑，于是我们开始删说说，可是说说那么多，哎算了重注册一个QQ号吧。
+
+别这样，这里教你一种快速删说说的方法，无需下载任何软件（但还是推荐使用360、QQ或谷歌浏览器比较好），只需要在电脑上打开QQ空间。按下键盘上的F12键（注意是功能键哦！！！），浏览器会自动打开一个界面后转到Console（控制台）选项卡，粘贴代码按下Enter键进行删除说说。需要保持在这个页面不要切换到其他网页。
+
+<img class="alignnone wp-image-1567" src="https://cdn.omegaxyz.com/2017/08/QQzone2-300x95.jpg" alt="" width="872" height="276" />
+
+这样这一页的说说就自动删除了哦！！！
+
+JavaScript删除说说代码：
+<pre ><code class="language-js">var delay = 1000;
+
+function del() {
+    document.querySelector('.app_canvas_frame').contentDocument.querySelector('.del_btn').click();
+    setTimeout("yes()", delay);
+}
+
+function yes() {
+    document.querySelector('.qz_dialog_layer_btn').click();
+    setTimeout("del()", delay);
+}
+
+del();</code></pre>
+如果还没有学会的给我留言哦，QQ交流！！！</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of software engineering coupling · OmegaXYZ</title>
+  <meta name="description" content="Coupling is also called inter-block connection. It refers to a measure of the closeness of interconnection between modules in a software system structure. The closer the connection between modules, the stronger the coupling, and the worse the independence of the module. The level of coupling between modules depends on the complexity of the interface between modules, the calling method and the information transferred. Content Coupling (Content Coupling) If the following situations occur, content coupling occurs between two modules. (If one of the two modules directly references the contents of the other module)...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/12/se-coupling/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-12</div>
+        <h1>Detailed explanation of software engineering coupling</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content">Coupling is also called inter-block connection. It refers to a measure of the closeness of interconnection between modules in a software system structure.
+
+The closer the connection between modules, the stronger the coupling, and the worse the independence of the module. The level of coupling between modules depends on the complexity of the interface between modules, the calling method and the information transferred.<ul>
+<li><strong>Content Coupling</strong>Content coupling occurs between two modules if the following situations occur. (If one of the two modules directly references the content of the other module)<ol>
+<li>One module directly accesses the internal data of another module;</li>
+<li>One module does not go to another module through the normal entrance;</li>
+<li>The two modules have some overlap in program code (can only appear in assembly language);</li>
+<li>A module has multiple entries.</li>
+</ol>
+</li>
+</ul>Example: Module P modifies a statement of module Q, and module P branches to a local label of module Q.
+
+Disadvantages: Both modules need to be reused when reusing.<ul>
+<li><strong>Common Coupling</strong>If a group of modules all access the same common data environment, the coupling between them is called common coupling. The common data environment can be a global data structure, a shared communication area, a public coverage area of ​​memory, etc.</li>
+</ul>Disadvantages; ① Conflicts with structured programming, the code is unreadable ② Modifications to global variables must be consistent ③ Difficult to reuse ④ Unsafe, serious data exposure<ul>
+<li><strong>External Coupling</strong>When a group of modules all access the same global simple variable instead of the same global data structure, and the information about the global variable is not passed through the parameter table, it is called external coupling.</li>
+<li><strong>Control Coupling</strong>If one module obviously controls the selection of the function of another module by transmitting control information such as switches, flags, names, etc., it is control coupling.</li>
+</ul>Disadvantages: The two modules are not independent.<span style="color: #ff0000;">Note: Control coupling is related to logical cohesion.</span>
+<ul>
+<li><strong>Stamp Coupling</strong>If a group of modules passes record information through parameter tables, it is imprinted coupling. It is a substructure of a certain data structure, not a simple variable (the data structure is passed as a parameter).</li>
+</ul>
+<span style="color: #ff0000;">Note: Imprint coupling occurs when a data structure is passed as a parameter, but the called module uses only part of the component.</span>
+<ul>
+<li><strong>Data Coupling</strong>If one module accesses another module and exchanges input and output information with each other through data parameters (not control parameters, public data structures or external variables), then this coupling is called data coupling. (All parameters are similar data items)</li>
+</ul>
+<span style="color: #ff0000;">Note: Data coupling occurs when a data structure is passed as a parameter, but the entire data element is used by the called module. Differences from imprint coupling.</span>
+<ul>
+<li><strong>Nondirect Coupling</strong>If there is no direct relationship between two modules, the connection between them is completely realized through the control and calling of the main module, which is indirect coupling. This coupled module has the strongest independence.</li>
+</ul>
+ 
+
+https://omegaxyz.com/2018/06/10/se-cohesion/</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One-Hot编码详解与Python实现 · OmegaXYZ</title>
+  <meta name="description" content="one-hot的基本思想：将离散型特征的每一种取值都看成一种状态，若你的这一特征中有N个不相同的取值，那么我们就可以将该特征抽象成N种不同的状态，one-hot编码保证了每一个取值只会使得一种状态处于“激活态”，也就是说这N种状态中只有一个状态位值为1，其他状态位都是0。 举个例子，假设我们以浏览器为例，我们想要研究的类别为 浏览器：[&quot;...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/22/one-hot/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-22</div>
+        <h1>One-Hot编码详解与Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">one-hot的基本思想：将离散型特征的每一种取值都看成一种状态，若你的这一特征中有N个不相同的取值，那么我们就可以将该特征抽象成N种不同的状态，one-hot编码保证了每一个取值只会使得一种状态处于“激活态”，也就是说这N种状态中只有一个状态位值为1，其他状态位都是0。
+
+举个例子，假设我们以浏览器为例，我们想要研究的类别为
+<ul>
+ 	<li>浏览器：["Firefox"，"Chrome"，"Safari"，"Internet Explorer"]</li>
+</ul>
+共有4个类别，我们使用one-hot对其编码就会得到：
+
+Firefox: [1, 0, 0, 0]
+Chorme: [0, 1, 0, 0]
+Safari: [0, 0, 1, 0]
+IE: [0, 0, 0, 1]
+
+如果出现多个特征
+
+比如：
+<ul>
+ 	<li>性别：["male"，"female"]</li>
+</ul>
+那么对于实例（Firefox, female）编码即为[1, 0, 0, 0, 0, 1]，即将两个类别的One-Hot编码组装在一起了。
+
+<strong>当然这样的缺点就是编码向量太稀疏了。</strong>
+
+Python实现：
+<pre ><code class="language-python">browser = ["Firefox", "Chrome", "Safari", "Internet Explorer"]
+gender = ["male", "female"]
+
+
+def onehotEncoding(instance1, instance2, class1, class2):
+    temp1, temp2 = [0] * len(class1), [0] * len(class2)
+    temp1[class1.index(instance1)] = 1
+    temp2[class2.index(instance2)] = 1
+    return temp1 + temp2
+
+for i in browser:
+    for j in gender:
+        print(onehotEncoding(i, j, browser, gender))
+</code></pre>
+结果：
+
+<img class="alignnone size-full wp-image-4118" src="https://cdn.omegaxyz.com/2018/04/onehot1.jpg" alt="" width="175" height="195" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件测试——白盒测试 · OmegaXYZ</title>
+  <meta name="description" content="一、问题描述 针对三角形的形状判定程序设计测试用例，进行白盒测试。假定这里构成三角形的边取值只能为大于0的实数。 程序判定的类型有： 二、实验目的 掌握白盒测试的原理与基本方法； 掌握使用逻辑覆盖和基路径测试等设计测试用例的方法； 掌握单元测试的方法步骤； 掌握控制流图的画法和通过控制流图找出基本路径的方法。 三、实验环境 语言：C++...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/20/software-whitebox-test/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-20</div>
+        <h1>软件测试——白盒测试</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>一、问题描述</h1>
+针对三角形的形状判定程序设计测试用例，进行白盒测试。假定这里构成三角形的边取值只能为大于0的实数。
+
+程序判定的类型有：
+
+<img class="alignnone  wp-image-6284" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test3.png" alt="" width="419" height="169" />
+<h1>二、实验目的</h1>
+<ol>
+ 	<li>掌握白盒测试的原理与基本方法；</li>
+ 	<li>掌握使用逻辑覆盖和基路径测试等设计测试用例的方法；</li>
+ 	<li>掌握单元测试的方法步骤；</li>
+ 	<li>掌握控制流图的画法和通过控制流图找出基本路径的方法。</li>
+</ol>
+<h1>三、实验环境</h1>
+语言：C++
+
+平台：Visual Studio Code
+<h1>四、程序代码</h1>
+此代码将三角形判断模块单独分开，其中，在判断三角形的同时计算了三角形的周长和面积。共分为下面几个模块（具体将体现在流程图中）
+<pre ><code class="language-c++">#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+#include&lt;cctype&gt;
+#include&lt;iostream&gt;
+
+using namespace std;
+
+void clearData(float a, float b, float c){
+    //数据清洗
+    if (a &lt; 0 || b &lt; 0 || c &lt; 0)printf("输入不合法\n");
+}
+
+void calMetric(float a, float b, float c){
+    //计算周长和面积
+    float s, area;
+    s = (a + b + c) / 2;        
+    area = (float)sqrt(s *(s - a)*(s - b)*(s - c)); //计算三角形的面积
+    printf("面积是:%.2f\n", area);                 //计算三角形的周长
+    printf("周长是:%.2f\n", float(a + b + c));
+}
+
+void judge(float a, float b, float c){
+    //判断构成的三角形
+    if (a + b &gt; c &amp;&amp; b + c &gt; a &amp;&amp; a + c &gt; b){//两边之和大于第三边
+        calMetric(a, b, c);
+        if (a == b &amp;&amp; a == c)                           //判断三条边是否相等
+            printf("等边三角形\n");                      //输出等边三角形                                                           
+        else if (a == b || a == c || b == c)            //判断是否有两边相等                                                             
+            printf("等腰三角形\n");                  //等腰三角形
+        else if ((a*a+b*b==c*c)||(a*a+c*c==b*b)||(b*b+c*c==a*a))        
+            printf("直角三角形\n");                      //直角三角形
+        else
+            printf("普通三角形\n");                      //普通三角形 
+    }
+    else
+        printf("边长%f %f %f不能构成三角形！\n", a, b, c);//两边之和小于第三边不能组成三角形
+}
+
+float input(){
+    //输入模块
+    float a;
+    cin&gt;&gt;a;
+    return a;
+}
+
+void Triangle(float a, float b, float c){
+    clearData(a, b, c);
+    judge(a, b, c);
+}
+
+int main(){
+    float a, b, c;
+    while(1){
+        printf("请输入三角形的三条边：");
+        a = input();
+        b = input();
+        c = input();
+        if(a == 0 || b == 0 || c == 0)break;
+        Triangle(a,b,c);
+    }
+    return 0;
+}
+</code></pre>
+<h1>五、程序流程图</h1>
+分析：程序功能应该为①先从键盘输入数据，按空格分开②若不合法则输出当前输入不能构成三角形、若合法则判断分别是否能构成三角形③是否为等边三角形、等腰三角形、直角三角形、普通三角形④在判断过程中计算面积与周长最后输出结果。共有<strong>4个模块</strong>程序流程图如下，其中带有判定的<strong>模块为2个，一个为三角形判断模块，另一个数据输入清洗模块。由于数据清洗模块直接规定了数据输入范围与类型，一次性判断输入是否合法，只有一个if语句，因此不再进行具体的白盒测试，下面主要对三角形判断模块进行白盒测试</strong>（Mi代表模块，Ji代表控制语句）：
+
+<img class="wp-image-6282 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test1.png" alt="" width="470" height="681" />
+<h1>六、针对三角形判断模块的白盒测试：</h1>
+映射的控制流图为：
+
+<img class="wp-image-6283 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test2.png" alt="" width="374" height="570" />
+<h2>1.语句覆盖</h2>
+设计若干个测试用例，运行所测程序，使得每条可执行语句至少被执行一次。测试用例如下：
+<table width="600">
+<tbody>
+<tr>
+<td width="55">序号</td>
+<td width="125">输入（a, b, c）</td>
+<td width="84">期望输出</td>
+<td width="67">周长</td>
+<td width="65">面积</td>
+<td width="109">覆盖流</td>
+<td width="94">测试结果</td>
+</tr>
+<tr>
+<td width="55">Case1</td>
+<td width="125">2 3 4</td>
+<td width="84">普通</td>
+<td width="67">9.0</td>
+<td width="65">2.9</td>
+<td width="109">1 2 3 5 7 9 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case2</td>
+<td width="125">3 3 3</td>
+<td width="84">等边</td>
+<td width="67">9.0</td>
+<td width="65">3.9</td>
+<td width="109">1 2 3 5 6 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case3</td>
+<td width="125">2 2 3</td>
+<td width="84">等腰</td>
+<td width="67">7.0</td>
+<td width="65">1.98</td>
+<td width="109">1 2 3 5 7 8 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case4</td>
+<td width="125">3 4 5</td>
+<td width="84">直角</td>
+<td width="67">12.0</td>
+<td width="65">6.0</td>
+<td width="109">1 2 3 5 7 9 10 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case6</td>
+<td width="125">-1 -2 -2</td>
+<td width="84">不构成</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 4 11</td>
+<td width="94">通过</td>
+</tr>
+</tbody>
+</table>
+<h2>2.判定覆盖</h2>
+设计足够多的测试用例，使得被测程序中的每个判断的“真”、“假”分支至少被执行一次。本软件共5个判定分支J1/J2/J3/J4/J5，测试用例如下：
+<table width="600">
+<tbody>
+<tr>
+<td width="55">序号</td>
+<td width="125">输入（a, b, c）</td>
+<td width="84">期望输出</td>
+<td width="67">周长</td>
+<td width="65">面积</td>
+<td width="109">覆盖流</td>
+<td width="94">测试结果</td>
+</tr>
+<tr>
+<td width="55">Case7</td>
+<td width="125">2 3 4</td>
+<td width="84">普通</td>
+<td width="67">9.0</td>
+<td width="65">2.9</td>
+<td width="109">1 2 3 5 7 9 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case8</td>
+<td width="125">3 3 3</td>
+<td width="84">等边</td>
+<td width="67">9.0</td>
+<td width="65">3.9</td>
+<td width="109">1 2 3 5 6 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case9</td>
+<td width="125">2 2 3</td>
+<td width="84">等腰</td>
+<td width="67">7.0</td>
+<td width="65">1.98</td>
+<td width="109">1 2 3 5 7 8 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case10</td>
+<td width="125">3 4 5</td>
+<td width="84">直角</td>
+<td width="67">12.0</td>
+<td width="65">6.0</td>
+<td width="109">1 2 3 5 7 9 10 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case11</td>
+<td width="125">-1 -2 -2</td>
+<td width="84">不构成</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 4 11</td>
+<td width="94">通过</td>
+</tr>
+<tr>
+<td width="55">Case12</td>
+<td width="125">2 2 4</td>
+<td width="84">不构成</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 2 4 11</td>
+<td width="94">通过</td>
+</tr>
+</tbody>
+</table>
+<h2>3.条件覆盖</h2>
+设计足够多的测试用例，使得被测试程序中的每个判断语句中的每个逻辑条件的可能取值至少被满足一次。测试用例如下：
+<table width="577">
+<tbody>
+<tr>
+<td width="59">序号</td>
+<td width="108">输入（a, b, c）</td>
+<td width="78">期望输出</td>
+<td width="189">满足条件</td>
+<td width="142">测试结果</td>
+</tr>
+<tr>
+<td width="59">Case13</td>
+<td width="108">2 2 2</td>
+<td width="78">等边</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a == c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case14</td>
+<td width="108">1 2 3</td>
+<td width="78">不构成</td>
+<td width="189">a&lt;=c
+
+ba
+
+a+c&gt;b
+
+输入合法</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case15</td>
+<td width="108">-1 -2 -2</td>
+<td width="78">不构成</td>
+<td width="189">输入不合法</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case16</td>
+<td width="108">3 4 5</td>
+<td width="78">直角</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case17</td>
+<td width="108">2 2 1</td>
+<td width="78">等腰</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+</tr>
+<tr>
+<td width="59">Case18</td>
+<td width="108">1 2 2</td>
+<td width="78">等腰</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case19</td>
+<td width="108">2 1 2</td>
+<td width="78">等腰</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a == c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case20</td>
+<td width="108">5 3 4</td>
+<td width="78">直角</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case21</td>
+<td width="108">3 5 4</td>
+<td width="78">直角</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case22</td>
+<td width="108">3 5 7</td>
+<td width="78">普通</td>
+<td width="189">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case23</td>
+<td width="108">3 2 1</td>
+<td width="78">不构成</td>
+<td width="189">a&gt;c
+
+b&gt;a
+
+a+c&lt;=b
+
+输入合法</td>
+<td width="142">通过</td>
+</tr>
+<tr>
+<td width="59">Case24</td>
+<td width="108">2 3 1</td>
+<td width="78">不构成</td>
+<td width="189">a&gt;c
+
+b&lt;=a
+
+a+c&gt;b
+
+输入合法</td>
+<td width="142">通过</td>
+</tr>
+</tbody>
+</table>
+<h2>4.判定-条件覆盖</h2>
+设计足够多的测试用例，使得被测试程序中的每个判断本身的判定结果至少被满足一次，同时，每个逻辑条件的可能值也至少被满足一次，即同时满足100%的判定覆盖和100%的条件覆盖的标准。本软件共5个判定分支J1/J2/J3/J4/J5，测试用例如下：
+<table width="577">
+<tbody>
+<tr>
+<td width="59">序号</td>
+<td width="92">输入（a, b, c）</td>
+<td width="76">期望输出</td>
+<td width="161">满足条件</td>
+<td width="95">判定J1-J5</td>
+<td width="95">测试结果</td>
+</tr>
+<tr>
+<td width="59">Case25</td>
+<td width="92">2 2 2</td>
+<td width="76">等边</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a == c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+F
+
+T</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case26</td>
+<td width="92">1 2 3</td>
+<td width="76">不构成</td>
+<td width="161">a&lt;=c
+
+ba
+
+a+c&gt;b
+
+输入合法</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case27</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">不构成</td>
+<td width="161">输入不合法</td>
+<td width="95">F</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case28</td>
+<td width="92">3 4 5</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+&nbsp;</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case29</td>
+<td width="92">2 2 1</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">通过
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+</tr>
+<tr>
+<td width="59">Case30</td>
+<td width="92">1 2 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case31</td>
+<td width="92">2 1 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a == c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case32</td>
+<td width="92">5 3 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+&nbsp;</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case33</td>
+<td width="92">3 5 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+&nbsp;</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case34</td>
+<td width="92">3 5 7</td>
+<td width="76">普通</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+F
+
+&nbsp;</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case35</td>
+<td width="92">3 2 1</td>
+<td width="76">不构成</td>
+<td width="161">a&gt;c
+
+b&gt;a
+
+a+c&lt;=b
+
+输入合法</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case36</td>
+<td width="92">2 3 1</td>
+<td width="76">不构成</td>
+<td width="161">a&gt;c
+
+b&lt;=a
+
+a+c&gt;b
+
+输入合法</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+<h2>5.条件组合覆盖</h2>
+设计足够多的测试用例，使得被测试程序中的每个判定的所有可能条件取值的组合至少被满足一次。
+<table width="577">
+<tbody>
+<tr>
+<td width="59">序号</td>
+<td width="92">输入（a, b, c）</td>
+<td width="76">期望输出</td>
+<td width="161">满足的条件组合</td>
+<td width="95">程序流</td>
+<td width="95">测试结果</td>
+</tr>
+<tr>
+<td width="59">Case37</td>
+<td width="92">2 2 2</td>
+<td width="76">等边</td>
+<td width="161">输入合法
+
+a&gt;c
+
+a == b
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="95">1 2 3 5 6 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case38</td>
+<td width="92">1 2 3</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case39</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">不构成</td>
+<td width="161">输入不合法</td>
+<td width="95">1 4 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case40</td>
+<td width="92">3 4 5</td>
+<td width="76">直角</td>
+<td width="161">输入合法
+
+a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case41</td>
+<td width="92">2 2 1</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+</tr>
+<tr>
+<td width="59">Case42</td>
+<td width="92">1 2 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case43</td>
+<td width="92">2 1 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a == c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case44</td>
+<td width="92">5 3 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case45</td>
+<td width="92">3 5 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case46</td>
+<td width="92">3 5 7</td>
+<td width="76">普通</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case47</td>
+<td width="92">3 2 1</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+<tr>
+<td width="59">Case48</td>
+<td width="92">2 3 1</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+<h2>6.基本路径覆盖</h2>
+<ul>
+ 	<li>画出程序流图（如上图所示）注意控制流图是退化了的流程图，将流程图中执行语句、判定语句、开始、结束等退化成节点，将流程线退化成一个节点到另一个节点的带箭头的弧线。</li>
+ 	<li>根据程序的控制流图计算出该流图的圈复杂度为6，则基本路径至少为</li>
+ 	<li>导出测试路径。</li>
+</ul>
+路径一：1-4-11
+
+路径二：1-2-3-5-7-9-11
+
+路径三：1-2-3-5-6-11
+
+路径四：1-2-3-5-7-8-11
+
+路径五：1-2-3-5-7-9-11
+
+路径六：1-2-3-5-7-9-10-11
+<h1>七、测试过程</h1>
+根据测试计划的测试用例，进行测试，由于条件组合测试最为完备，因此下面采用<strong>条件组合测试</strong>的测试用例进行测试，结果如下。
+
+<strong>条件组合覆盖</strong>
+<table width="577">
+<tbody>
+<tr>
+<td width="59">序号</td>
+<td width="92">输入（a, b, c）</td>
+<td width="76">期望输出</td>
+<td width="161">满足的条件组合</td>
+<td width="95">程序流</td>
+<td width="95">测试结果</td>
+</tr>
+<tr>
+<td width="59">Case37</td>
+<td width="92">2 2 2</td>
+<td width="76">等边</td>
+<td width="161">输入合法
+
+a&gt;c
+
+a == b
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="95">1 2 3 5 6 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case38</td>
+<td width="92">1 2 3</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case39</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">不构成</td>
+<td width="161">输入不合法</td>
+<td width="95">1 4 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case40</td>
+<td width="92">3 4 5</td>
+<td width="76">直角</td>
+<td width="161">输入合法
+
+a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case41</td>
+<td width="92">2 2 1</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a == b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case42</td>
+<td width="92">1 2 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case43</td>
+<td width="92">2 1 2</td>
+<td width="76">等腰</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a == c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case44</td>
+<td width="92">5 3 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case45</td>
+<td width="92">3 5 4</td>
+<td width="76">直角</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case46</td>
+<td width="92">3 5 7</td>
+<td width="76">普通</td>
+<td width="161">a&gt;c、b+c&gt;a、a+c&gt;b
+
+a &lt;&gt; b、a &lt;&gt; c、b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+输入合法
+
+&nbsp;</td>
+<td width="95">1 2 3 5 7 9 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case47</td>
+<td width="92">3 2 1</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case48</td>
+<td width="92">2 3 1</td>
+<td width="76">不构成</td>
+<td width="161">输入合法
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">通过</td>
+</tr>
+</tbody>
+</table>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

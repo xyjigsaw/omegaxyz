@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript实现随机图片 · OmegaXYZ</title>
+  <meta name="description" content="在很多网站中，有很多顶部特色图像，每次进入时图像显示的都不一样，即实现图片随机展示。仔细分析一下可知，改特效实现的原理应该是在HTML中嵌入JavaScript代码，将图片地址存入数组，然后通过随机数产生随机索引，再调用写入函数，这样就可以随机化图片。 这篇文章主要介绍了JS实现页面载入时随机显示图片效果,涉及javascript基于随机...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/24/javascript-random-pic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-24</div>
+        <h1>JavaScript实现随机图片</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/html/index.html">HTML</a></div>
+        <div class="article-content">在很多网站中，有很多顶部特色图像，每次进入时图像显示的都不一样，即实现图片随机展示。仔细分析一下可知，改特效实现的原理应该是在HTML中嵌入JavaScript代码，将图片地址存入数组，然后通过随机数产生随机索引，再调用写入函数，这样就可以随机化图片。
+<div id="contents">
+<div class="main clearfix bgf">
+<div class="w750 fl">
+<div class="article-content border">
+<div class="art_desc mt10">
+<div id="art_demo">这篇文章主要介绍了JS实现页面载入时随机显示图片效果,涉及javascript基于随机数与数组的页面元素动态修改相关操作技巧,需要的朋友可以参考下。</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div></div>
+<div>代码：</div>
+<div>
+<pre ><code class="language-default">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type="text/javascript"&gt;
+    //&lt;!CDATA[
+    var pic = [];
+    pic[0] = "https://cdn.omegaxyz.com/2018/06/new.jpg";
+    pic[1] = "https://cdn.omegaxyz.com/2018/01/tensorflow.jpg";
+    pic[2] = "https://cdn.omegaxyz.com/2017/06/htmlandcss.jpg";
+    pic[3] = "https://cdn.omegaxyz.com/2018/07/tbp.jpg";
+
+    var randomBgIndex = Math.round( Math.random() * 3 );
+
+    //输出随机的背景图
+    //document.write('&lt;style&gt;body{background:url(' + bodyBgs[randomBgIndex] + ') no-repeat 50% 0}&lt;/style&gt;');
+    document.write("&lt;img src=" + pic[randomBgIndex] + " width='400'&gt;")
+    //]]&gt;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+注意这里用document.write()函数写HTML语句。
+
+复制上述代码并点击下方的链接测试一下：
+
+https://omegaxyz.com/onlinetools/web-running/
+
+&nbsp;
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

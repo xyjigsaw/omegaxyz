@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C Language Game 4: Gambling Machine Dice · OmegaXYZ</title>
+  <meta name="description" content="A small game written in C language - gambling machine, suitable for people who learn C language to learn from. (A C language to write a small game-gambling machines, suitable for learning C language people learn.) http://www.pudn.com/Download/item/i...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/04/c_gambler/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-04</div>
+        <h1>C Language Game 4: Gambling Machine Dice</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cgame/index.html">C语言游戏</a></div>
+        <div class="article-content"><div class="item-intro">A small game written in C language - gambling machine, suitable for people who learn C language to learn from.
+(A C language to write a small game- gambling machines, suitable for learning C language people learn.)</div>
+<div><a href="http://www.pudn.com/Download/item/id/2568776.html">http://www.pudn.com/Download/item/id/2568776.html</a></div>
+<div></div>
+<div>
+<div>The following are the rules of gambling</div>
+<div>The banker (and casino owner) and the player (and the player) each have 1,000 yuanbao as prompt funds.</div>
+<div>There are three ways for players to place bets:</div>
+<div>(1) Buy big (2) Buy small (3) Buy leopard</div>
+<div>The differences between these three methods are introduced one by one below:</div>
+<div>Bet big: If the sum of the three dice rolled by the player is greater than 11, the player wins, otherwise the banker wins</div>
+<div>Buy small: If the sum of the three dice rolled by the player is less than 11, the player wins, otherwise the banker wins</div>
+<div>Buy a leopard: If the three dice thrown by the player have the same number, the player wins, otherwise the banker wins.</div>
+<div>The odds of buying big and small are both 2, that is, the loser will pay twice the amount of gold he bet to the winner, and the odds of buying leopard are 10</div>
+<div>The number of ingots for player and bet must be between 10 and 100 ingots</div>
+<div>The player can press the q key at any time to end gambling, otherwise it will continue until one party loses all their ingots.</div>
+<div>The game rules are introduced</div>
+<div>Have a nice time</div>
+<div>Code:</div>
+<div>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+#include&lt;math.h&gt;
+#include&lt;conio.h&gt;
+
+int a,b,c,bet,betmoney;
+int playermoney=1000,dearmoney=1000;
+void showtoscreen()
+{
+	printf("下面介绍赌博规则:\n");
+	printf("*************************************************************\n");
+    printf("庄家(及赌场老板)和玩家(及玩家)各有1000元宝作为提示资金\n");
+	printf("闲家下注的方式有三种：\n");
+	printf("(1) 买大     (2)买小    (3)买豹子\n");
+	printf("下面逐一介绍这三种方式的不同:\n\n");
+	printf("买大: 如果闲家所掷的三枚骰子的点数之和大于11，则闲家赢，否则庄家赢\n");
+	printf("买小:如果闲家所掷的三枚骰子的点数之和小于11，则闲家赢，否则庄家赢\n");
+	printf("买豹子:如果闲家所掷出的三枚骰子点数相等，则闲家赢，否则庄家赢\n");
+	printf("买大和买小的赔率都为2，即输家一下注元宝的两倍赔给赢家，买豹子的赔率是10\n");
+	printf("闲家和下注的元宝数必须在10到100元宝之间\n");
+	printf("闲家可随时按q键结束赌博，否则继续进行，直到一方的元宝输完为止\n");
+	printf("游戏规则介绍完毕\n");
+	printf("祝你玩得愉快\n");
+}
+int Getbet()
+{
+	int bettype;
+	printf("\n请选择下注方式");
+	printf("1.买大  2.买小  3.买豹子\n");
+	printf("请下注:");
+    scanf("%d",&amp;bettype);
+	if((bettype==1)||(bettype==2)||(bettype==3))
+	{
+		return bettype;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+
+int getAmount()
+{
+	int betmoney;
+	printf("你要压多少元宝，最少10个，最多100个.");
+    scanf("%d",&amp;betmoney);
+	if(betmoney&lt;10)
+	{
+		return 10;
+	}
+	if(betmoney&gt;100)
+	{
+		return 100;
+	}
+	return betmoney;
+}
+
+void Throw()
+{
+	printf("欢迎体验赌博机，按键盘任意键掷出骰子\n");
+	getch();
+	srand(time(0));
+	while(!kbhit())
+	{
+       a=rand()%6+1;
+	   b=rand()%6+1;
+       system("cls");
+	   c=rand()%6+1;
+	   printf("骰子在转动:..................按键盘上的任意键来终止转动\n");
+	   printf("第一粒骰子:%d\n第二粒骰子:%d\n第三例骰子:%d\n",a,b,c);
+
+	}
+    getchar();
+
+}
+
+int judge(int a,int b,int c)
+{
+	if(a==b&amp;&amp;a==c)
+	{
+		return 3;
+	}
+	if(a+b+c&gt;11)
+	{
+		return 1;
+	}
+	if(a+b+c&lt;11)
+	{
+		return 2;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void moneycale()
+{
+	if(judge(a,b,c)==3)
+	{
+        betmoney=betmoney*10;
+		if(bet==3)
+		{
+          playermoney+=betmoney;
+		  dearmoney-=betmoney;
+		  printf("豹子，10赔率，玩家赢了%d,玩家还有%d元宝，庄家还剩%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+		else
+		{
+           playermoney-=betmoney;
+		    dearmoney+=betmoney;
+			printf("豹子，10赔率，玩家输了%d,玩家还剩%d元宝，庄家还有%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+	}
+	else if(judge(a,b,c)==2)
+	{
+       betmoney=betmoney*2;
+		if(bet==2)
+		{
+          playermoney+=betmoney;
+		  dearmoney-=betmoney;
+		  printf("小，2赔率，玩家赢了%d,玩家还有%d元宝，庄家还剩%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+		else
+		{
+           playermoney-=betmoney;
+		    dearmoney+=betmoney;
+			printf("小，2赔率，玩家输了%d,玩家还剩%d元宝，庄家还有%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+	}
+	else if(judge(a,b,c)==1)
+	{
+        betmoney=betmoney*2;
+		if(bet==1)
+		{
+          playermoney+=betmoney;
+		  dearmoney-=betmoney;
+		  printf("大，2赔率，玩家赢了%d,玩家还有%d元宝，庄家还剩%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+		else
+		{
+           playermoney-=betmoney;
+		    dearmoney+=betmoney;
+			printf("大，2赔率，玩家输了%d,玩家还剩%d元宝，庄家还有%d元宝\n",betmoney,playermoney,dearmoney);
+		}
+	}
+	else
+	{
+		printf("平局，玩家还有%d,庄家还有%d\n",playermoney,dearmoney);
+	}
+}
+
+int  checkmoney(int pm,int dm)
+{
+	if(pm&lt;=0)
+	{
+		if(pm==0)
+		{
+			printf("你输光了所有的元宝，被赶出赌场\n");
+		}
+		else
+		{
+			printf("你欠赌场老板%d元宝\n",abs(pm));
+		}
+		return 0;
+	}
+	if(dm&lt;=0)
+	{
+		if(dm==0)
+		{
+			printf("老板输光了所有的元宝，\n");
+		}
+		else
+		{
+			printf("老板欠赌场老板%d元宝\n",abs(dm));
+		}
+		return 0;
+	}
+	return 1;
+}
+
+
+int main()
+{
+	int Chekmoney;
+	char ch;
+    showtoscreen();
+	for(;;)
+	{
+		if(playermoney&lt;10)
+		{
+			printf("你的元宝不足10个，不能在赌博了。\n");
+			break;
+		}
+		if(dearmoney&lt;10)
+		{
+			printf("你的元宝不足10个，不能在赌博了。\n");
+			break;
+		}
+		bet=Getbet();
+        repeat:betmoney=getAmount();
+	     if(betmoney&gt;playermoney)
+		 {
+			 printf("你没有这么多元宝，请重新输入。");
+			 goto repeat;
+		 }
+		 if(betmoney&gt;dearmoney)
+		 {
+			 printf("老板没有这么多元宝，请重新输入。");
+			 goto repeat;
+		 }
+		Throw();
+		moneycale();
+		getchar();
+		Chekmoney=checkmoney(playermoney,dearmoney);
+		if(Chekmoney==0)
+			break;
+		printf("继续玩吗？退出请按q，否则继续\n\n");
+		ch=getch();
+		if(ch=='q')
+		   break;
+	}
+	return 0;
+}
+</code></pre>
+ 
+
+</div>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

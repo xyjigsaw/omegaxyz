@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of feature discretization and selection EPSO algorithm · OmegaXYZ</title>
+  <meta name="description" content="Introduction to EPSO The main idea of ​​EPSO is to use BBPSO to directly evolve a tangent point that can be any value within the corresponding eigenvalue range [MinF···MaxF]. The position of each particle represents a candidate solution, which is an n-dimensional real vector corresponding to the dimension of the problem. Figure 2 gives an example of a particle position and its corresponding candidate solution. In this example, the first dimension of the particle, representing the cut point of the first characteristic (F1), needs to have a value in the range [8.5,25...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/08/08/fdfs-epso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-08</div>
+        <h1>Detailed explanation of feature discretization and selection EPSO algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><strong>Introduction to EPSO</strong></h2>
+<div>The main idea of ​​EPSO is to use BBPSO to directly evolve a tangent point that can be any value within the corresponding eigenvalue range [MinF···MaxF]. The position of each particle represents a candidate solution, which is an n-dimensional real vector corresponding to the dimension of the problem. Figure 2 gives an example of a particle position and its corresponding candidate solution. In this example, the first dimension of the particle, representing the cut point of the first characteristic (F1), needs to have a value in the range [8.5, 25.7]. If the update point of a feature F is outside this range, it will be set to the nearest boundary.</div>
+<div><img alt="" class="alignnone size-full wp-image-4845" height="196" sizes="(max-width: 431px) 100vw, 431px" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png" srcset="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png 431w, https://cdn.omegaxyz.com/2018/07/PSOFDFS3-300x136.png 300w" width="431"/></div>
+<div></div>
+<div></div>
+<h2><strong>detail</strong></h2>The particles (individuals) in the population are the cut-points<img alt="" class="alignnone size-full wp-image-4896" height="372" src="https://cdn.omegaxyz.com/2018/08/epso1.png" width="762"/>Next, select a particle, which is a set of tangent points, and perform the following operations:<img alt="" class="alignnone size-full wp-image-4897" height="656" src="https://cdn.omegaxyz.com/2018/08/epso2.png" width="708"/>If all the values ​​of a feature are set to 0 or 1, then it can be considered an irrelevant feature because it cannot distinguish the categories in the instance. Feature selection will remove these features. (The 2nd and 3rd dimensions of the above two examples are removed)<img alt="" class="alignnone size-full wp-image-4898" height="667" src="https://cdn.omegaxyz.com/2018/08/epso3.png" width="978"/>
+<img alt="" class="alignnone size-full wp-image-4899" height="630" src="https://cdn.omegaxyz.com/2018/08/epso4.png" width="864"/>
+<h2><strong>step</strong></h2>
+<div>
+<div>(1) Particle initialization: Due to the huge search space of multi-variable discretization on high-dimensional data. This means that for those features that were not selected among the initial candidates, their cut points will be set to the maximum value of the corresponding feature. For other selected features, their cut points are initialized using the best entropy-based cut point that satisfies the MDLP. In principle, they can be initialized based on any value within the range of the corresponding characteristic. However, a completely random initial cut point may result in slower convergence. Furthermore, the information gain of a feature’s optimal cut point is an indicator of its relevance. Therefore, features with larger information gain have a greater probability of being selected during the initialization process.</div>
+<div></div>
+<div>(2) Particle evaluation: Based on the cut points generated by the particles, the training data is converted into a new training set of discrete values ​​and a smaller number of features, thanks to the elimination of features whose cut points are equal to the minimum or maximum values. For example, in Figure 2, the cut point of F3 is equal to its maximum value and the cut point of F5 is equal to its minimum value, both features will be discarded.</div>
+<div></div>
+<div>The discretization and FS solution of each particle are then evaluated based on the classification accuracy of the transformed training set. By evaluating the entire discrete data, the proposed method can evaluate the segmentation points of all selected features while taking feature interactions into account. The fitness function uses balanced classification accuracy, as follows:</div>
+</div>
+<div><img alt="" class="alignnone size-full wp-image-4846" height="57" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS4.png" width="225"/></div>
+<div>
+<div>where c is the number of classes of the problem, TPi is the number of correctly identified instances in class i, |Si| is the sample size of class i, and the weight of all classes is 1/c.</div>
+</div>
+<div></div>
+<div>
+<h2><strong>References</strong></h2>
+<div></div>
+<div>Article: "A New Representation in PSO for Discretization-Based Feature Selection"</div>
+<div></div>
+<div>Authors: Binh Tran, Student Member, IEEE, Bing Xue, Member, IEEE, and Mengjie Zhang, Senior Member, IEEE</div>
+</div>
+<div></div>
+<h2><strong>More content</strong></h2>
+https://omegaxyz.com/2018/07/27/pso-fdfs/</div>
+        <section class="comments"><h2>Comments (4)</h2>
+        <div class="comment" id="comment-3808">
+          <strong><a href="http://www.xinwentoutiao.net" rel="nofollow">今日新闻</a></strong>
+          <time>2018-08-10 01:25:41</time>
+          <div>文章不错非常喜欢</div>
+        </div>
+        
+        <div class="comment" id="comment-3810">
+          <strong><a href="http://www.baiwanlian.net/" rel="nofollow">百万链</a></strong>
+          <time>2018-08-10 10:50:55</time>
+          <div>有幸访问到贵站，“百万链”期待你的加入！</div>
+        </div>
+        
+        <div class="comment" id="comment-3985">
+          <strong><a href="https://templerun.co" rel="nofollow">temple run</a></strong>
+          <time>2018-12-01 18:22:55</time>
+          <div>The article is very interesting, the steps are very detailed and specific.</div>
+        </div>
+        
+        <div class="comment" id="comment-10771">
+          <strong>365cent</strong>
+          <time>2019-03-06 12:57:57</time>
+          <div>不明觉厉，大佬</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

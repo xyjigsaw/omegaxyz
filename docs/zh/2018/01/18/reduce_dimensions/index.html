@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特征选择与特征提取（降维） · OmegaXYZ</title>
+  <meta name="description" content="特征选择和降维 1、相同点和不同点 特征选择和降维有着些许的相似点，这两者达到的效果是一样的，就是试图去减少特征数据集中的属性(或者称为特征)的数目；但是两者所采用的方式方法却不同：降维的方法主要是通过属性间的关系，如组合不同的属性得新的属性，这样就改变了原来的特征空间；而特征选择的方法是从原始特征数据集中选择出子集，是一种包含的关系，没...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/18/reduce_dimensions/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-18</div>
+        <h1>特征选择与特征提取（降维）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">特征选择和降维
+
+1、相同点和不同点
+
+特征选择和降维有着些许的相似点，这两者达到的效果是一样的，就是试图去减少特征数据集中的属性(或者称为特征)的数目；但是两者所采用的方式方法却不同：降维的方法主要是通过属性间的关系，如组合不同的属性得新的属性，这样就改变了原来的特征空间；而特征选择的方法是从原始特征数据集中选择出子集，是一种包含的关系，没有更改原始的特征空间。
+
+2、降维的主要方法
+
+Principal Component Analysis(主成分分析)，详细见“简单易学的机器学习算法——主成分分析(PCA)”
+
+Singular Value Decomposition(奇异值分解)，详细见“简单易学的机器学习算法——SVD奇异值分解”
+
+Sammon's Mapping(Sammon映射)
+
+<!--more-->
+
+特征提取和特征选择都是从原始特征中找出最有效（同类样本的不变性、不同样本的鉴别性、对噪声的鲁棒性）的特征
+
+特征提取：将原始特征转换为一组具有明显物理意义（Gabor、几何特征[角点、不变量]、纹理[LBP HOG]）或者统计意义或核的特征
+
+特征选择：从特征集合中挑选一组最具统计意义的特征，达到降维
+
+两者作用：
+
+1 减少数据存储和输入数据带宽
+
+2 减少冗余
+
+3 低纬上分类性往往会提高
+
+4 能发现更有意义的潜在的变量，帮助对数据产生更深入的了解</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting started with PyTorch · OmegaXYZ</title>
+  <meta name="description" content="Getting Started with PyTorch PyTorch is a Python package built on top of the Torch library, designed to accelerate deep learning applications. PyTorch provides a NumPy-like abstraction to represent tensors (or multidimensional arrays) that can take advantage of GPUs to accelerate training. PyTorch can be regarded as numpy with GPU support, and it can also be regarded as a powerful deep neural network with automatic derivation function. In addition to...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/01/12/pytorch-introduction/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-12</div>
+        <h1>Getting started with PyTorch</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a></div>
+        <div class="article-content"><h2><strong>Getting started with PyTorch</strong></h2>PyTorch is a Python package built on top of the Torch library designed to accelerate deep learning applications. PyTorch provides a NumPy-like abstraction to represent tensors (or multidimensional arrays) that can take advantage of GPUs to accelerate training.
+
+PyTorch can be regarded as numpy with GPU support, and also as a powerful deep neural network with automatic derivation function. In addition to Facebook, it has also been adopted by organizations such as Twitter, CMU and Salesforce.<h2><strong>Basic knowledge</strong></h2>
+<strong>The difference between scalars, vectors, and tensors is very clear in the figure below.</strong>
+<img alt="" class="alignnone wp-image-5271" height="263" src="https://cdn.omegaxyz.com/2019/01/tensor.png" width="474"/>The key data structure of PyTorch is tensors, which are multi-dimensional arrays. Its function is similar to NumPy's ndarray object. As follows, we can use torch.Tensor() to create a tensor.<pre><code class="language-python"># Generate a 2-D pytorch tensor (i.e., a matrix)
+pytorch_tensor = torch.Tensor(10, 20)
+print("type: ", type(pytorch_tensor), " and size: ", pytorch_tensor.shape )</code></pre>If you need a NumPy-compatible representation, or you want to create a PyTorch tensor from an existing NumPy object.<pre><code class="language-python"># Convert the pytorch tensor to a numpy array:
+numpy_tensor = pytorch_tensor.numpy()
+print("type: ", type(numpy_tensor), " and size: ", numpy_tensor.shape) 
+# Convert the numpy array to Pytorch Tensor:
+print("type: ", type(torch.Tensor(numpy_tensor)), " and size: ", torch.Tensor(numpy_tensor).shape)</code></pre>
+<h2><strong>PyTorch and TensorFlow</strong></h2>For now, TensorFlow is clearly preferred over PyTorch for various reasons.
+
+TensorFlow is large, experienced and best suited for practical applications. is the obvious choice for most machine learning and deep learning experts because of the vast number of features it offers and most importantly, its proven application in the market. It has better community support and multi-language API is available. It has a good documentation base and makes it easy to produce thanks to the code from preparation to use. Therefore, it is more suitable for people who want to start deep learning, or organizations looking to develop deep learning models.
+
+Although PyTorch is relatively new and has a small community, it is fast and efficient. In short, it gives you all the advantages of Python's usefulness and ease of use. Due to its efficiency and speed, it is a great choice for small research-based projects. As mentioned earlier, companies like Facebook, Twitter, and others are using PyTorch to train deep learning models. However, its use has not yet become mainstream. PyTorch's potential is obvious, but it's not ready to take on the TensorFlow beast. However, given its growth, the day is not far away when PyTorch will be further optimized and offer more features until comparisons with TensorFlow can be made.<h2><strong>pytorch entry code</strong></h2>
+<pre><code class="language-python">import torch
+
+dtype = torch.FloatTensor
+# dtype = torch.cuda.FloatTensor # Uncomment this to run GPU
+
+# N is batch size; D_in is input dimenssion
+# H is hidden demenssion; D_out is output dimension
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# create random input and output data
+x = torch.randn(N, D_in).type(dtype)
+y = torch.randn(N, D_out).type(dtype)
+
+# Randomly initialize weights
+w1 = torch.randn(D_in, H).type(dtype)
+w2 = torch.randn(H, D_out).type(dtype)
+
+learning_rate = 1e-6
+
+for t in range(500):
+    # Forward pss: compute predicted y
+    h = x.mm(w1)
+    h_relu = h.clamp(min=0)
+    y_pred = h_relu.mm(w2)
+
+    # compute and print loss
+    loss = (y_pred - y).pow(2).sum()
+    print(t, loss)
+
+    # backprop to compute gradients of w1 and w2 with respect to loss
+    grad_y_pred = 3.0 * (y_pred - y)
+    grad_w2 = h_relu.t().mm(grad_y_pred)
+    grad_h_relu = grad_y_pred.mm(w2.t())
+    grad_h = grad_h_relu.clone()
+    grad_h[h&lt;0] = 0
+    grad_w1 = x.t().mm(grad_h)
+
+    # update weights using gradient descent
+    w1 -= learning_rate * grad_w1
+    w2 -= learning_rate * grad_w2
+</code></pre>
+<strong>pytorch official website:</strong><a href="https://pytorch.org/">https://pytorch.org/</a>
+<h2></h2></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

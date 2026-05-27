@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decision tree overview · OmegaXYZ</title>
+  <meta name="description" content="Abstract Decision Tree is a decision analysis method that uses the known probability of occurrence of various situations to calculate the probability that the expected value of the net present value is greater than or equal to zero by forming a decision tree, evaluates project risks, and determines its feasibility. It is a graphical method that intuitively uses probability analysis. Because this kind of decision branch is drawn graphically like the branches of a tree, it is called a decision tree. In machine learning, a decision tree is a prediction model that represents a mapping relationship between object attributes and object values. E...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/10/decision_tree/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-10</div>
+        <h1>Decision tree overview</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>Summary</h1>Decision Tree is a decision analysis method that based on the known probability of occurrence of various situations, forms a decision tree to calculate the probability that the expected value of the net present value is greater than or equal to zero, evaluates project risks, and determines its feasibility. It is a graphical method that intuitively uses probability analysis. Because this kind of decision branch is drawn graphically like the branches of a tree, it is called a decision tree. In machine learning, a decision tree is a prediction model that represents a mapping relationship between object attributes and object values. Entropy = How messy the system is, using algorithm ID3, C4.5 and C5.0 spanning tree algorithms use entropy. This measure is based on the concept of entropy in informatics theory.
+A decision tree is a tree structure in which each internal node represents a test on an attribute, each branch represents a test output, and each leaf node represents a category.
+Classification tree (decision tree) is a very commonly used classification method. It is a kind of supervised learning. The so-called supervised learning is to give a bunch of samples, each sample has a set of attributes and a category. These categories are determined in advance, and then through learning, a classifier can be obtained that can correctly classify new objects. Such machine learning is called supervised learning.<h1>Decision tree popular explanation</h1>In layman's terms, the idea of ​​decision tree classification is similar to finding objects. Now imagine that a girl’s mother wants to introduce a boyfriend to the girl, so she has the following dialogue:<strong><em>Daughter: How old are you?</em></strong>
+<strong><em>Mother: 26.</em></strong>
+<strong><em>Daughter: Are you handsome?</em></strong>
+<strong><em>Mother: Very handsome.</em></strong>
+<strong><em>Daughter: Is the income high?</em></strong>
+<strong><em>Mother: Not very high, just average.</em></strong>
+<strong><em>Daughter: Are you a civil servant?</em></strong>
+<strong><em>Mother: Yes, I work at the tax bureau.</em></strong>
+<strong><em>Daughter: Okay, I’ll go meet you.</em></strong>This girl's decision-making process is a typical classification tree decision-making. It is equivalent to dividing men into two categories based on age, appearance, income and whether they are civil servants: seen and not seen. Assume that this girl's requirements for a man are: under 30 years old, above average appearance, and a high-income earner or a civil servant with above-average income, then the girl's decision-making logic can be represented by the following diagram:<img alt="" class="alignnone size-full wp-image-3396" height="696" src="https://cdn.omegaxyz.com/2018/02/decision_tree1.jpg" width="789"/>This picture can basically be regarded as a decision tree. It is said to be "basically can be calculated" because the judgment conditions in the picture are not quantified, such as income, medium, low, etc. It cannot be regarded as a decision tree in the strict sense. If all the conditions are quantified, it will become a real decision tree.<h1>Decision tree construction</h1>Unlike the Bayesian algorithm, the decision tree construction process does not rely on domain knowledge and uses an attribute selection metric to select attributes that best divide tuples into different classes. The construction of the so-called decision tree is to perform attribute selection measurement to determine the topological structure between each feature attribute.
+
+The key step in constructing a decision tree is splitting attributes. The so-called split attribute is to construct different branches according to different divisions of a certain characteristic attribute at a certain node. The goal is to make each split subset as "pure" as possible. To be as "pure" as possible is to try to make the items to be classified in a split subset belong to the same category. Split properties are divided into three different cases:
+
+1. The attributes are discrete values and do not require the generation of a binary decision tree. At this time, each division of attributes is used as a branch.
+
+2. The attributes are discrete values ​​and require the generation of a binary decision tree. At this time, a subset of the attribute division is used for testing, and it is divided into two branches according to "belongs to this subset" and "does not belong to this subset".
+
+3. The attribute is a continuous value. At this time, a value is determined as the split point split_point, and two branches are generated according to &gt;split_point and &lt;=split_point.
+
+The key content of constructing a decision tree is the attribute selection metric. The attribute selection metric is a selection splitting criterion. It is a heuristic method to "best" divide the data D of the training set of given class labels into individual classes. It determines the topology and the choice of split_point.
+
+There are many attribute selection metric algorithms, generally using the top-down recursive divide-and-conquer method and adopting a greedy strategy without backtracking. There are two common algorithms, ID3 and C4.5.
+
+The specific algorithm will be explained in detail in another article.<h1>Additional information</h1>This situation may occur during the construction of a decision tree: all attributes are used up as splitting attributes, but some subsets are not pure sets, that is, the elements in the set do not belong to the same category. In this case, since no more information is available, these subsets are generally "<a>majority vote</a>”, that is, use the category with the most occurrences in this subset as this node category, and then use this node as a leaf node.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

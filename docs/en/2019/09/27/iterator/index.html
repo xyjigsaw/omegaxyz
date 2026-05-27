@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iterator pattern C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Introduction Provides a way to sequentially access the individual elements of an aggregate object without exposing the object&#x27;s internal representation. Motivation An aggregate object such as a List should provide a way to allow others to access its elements without exposing its internal structure. Depending on your needs, you may want to traverse this list in different ways. The iterator pattern can solve these problems. The key idea of ​​this pattern is to separate access and traversal of the list from the list object and put it into an iterator...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/09/27/iterator/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-09-27</div>
+        <h1>Iterator pattern C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>
+<ul>
+<li>Provides a way to sequentially access the individual elements of an aggregate object without exposing the object's internal representation.</li>
+</ul>
+<h2><strong>motivation</strong></h2>
+<ul>
+<li>An aggregate object such as a List should provide a way for others to access its elements without exposing its internal structure.</li>
+<li>Depending on your needs, you may want to traverse this list in different ways.</li>
+<li>The iterator pattern can solve these problems. The key idea of ​​this pattern is to separate access and traversal of the list from the list object and put it into an iterator object. The iterator class defines an interface for accessing the elements of the list.</li>
+<li>For example, a list class (List) may require a list iterator class. The relationship between them is as follows:</li>
+</ul>
+<img alt="" class="wp-image-5975 aligncenter" height="221" src="https://cdn.omegaxyz.com/2019/09/iterator1.png" width="550"/>
+<ul>
+<li>Note that iterators and lists are coupled together, and the client object must know that the traversal is a list and not some other aggregate structure.</li>
+<li>It would be nice to have a way to change the aggregate class without changing the client code. This goal can be achieved by generalizing the iterator concept to polymorphic iteration.</li>
+</ul>
+<img alt="" class="wp-image-5976 aligncenter" height="296" src="https://cdn.omegaxyz.com/2019/09/iterator2.png" width="610"/>
+
+ 
+<h2><strong>applicability</strong></h2>
+<ul>
+<li>Access the interior of an aggregate object without exposing its internal representation.</li>
+<li>Supports multiple traversals of aggregate objects.</li>
+<li>Provides a unified interface for traversing different aggregate structures.<strong> </strong></li>
+</ul>
+<h2><strong>structure</strong></h2>
+<img alt="" class="wp-image-5977 aligncenter" height="403" src="https://cdn.omegaxyz.com/2019/09/iterator3.png" width="596"/>
+<h2><strong>participants</strong></h2>
+<ul>
+<li>Iterator
+<ul>
+<li>Iterators define the interface for accessing and traversing elements</li>
+</ul>
+</li>
+<li>ConcreteIterator
+<ul>
+<li>Concrete iterator implements the iterator interface</li>
+<li>Keep track of the current position while traversing the aggregate</li>
+</ul>
+</li>
+<li>Aggregate
+<ul>
+<li>Aggregation defines an interface that creates corresponding iterator objects</li>
+</ul>
+</li>
+<li>ConcreteAggregate
+<ul>
+<li>The concrete aggregate implements the interface that creates the corresponding iterator. This operation returns an appropriate instance of ConcreteIterator.</li>
+</ul>
+</li>
+</ul>
+<strong> </strong>
+<h2><strong>cooperation</strong></h2>
+<ul>
+<li>ConcreteIterator keeps track of the current object in the aggregate and can calculate successor objects to be traversed.</li>
+</ul>
+<h2><strong>Effect</strong></h2>
+<ul>
+<li>It supports traversing a collection in different ways</li>
+<li>Iterators simplify the interface of aggregates</li>
+<li>There can be multiple traversals on the same aggregate</li>
+</ul>
+<h2><strong>Example</strong></h2>Implement a linked list class (define your own data structure, do not use the data structure that comes with the language). Each node in the linked list stores an int variable and a double variable. Use the iterator pattern to implement an external iterator, which can traverse the linked list from beginning to end or from end to beginning and print the data in each node.<h3><strong>Experimental UML diagram</strong></h3>
+<img alt="" class="alignnone size-full wp-image-5978" height="564" src="https://cdn.omegaxyz.com/2019/09/iterator4.png" width="964"/>
+<h3><strong>code</strong></h3>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+class Node{
+private:
+    int val1;
+    double val2;
+    Node *next;
+    Node *pre;
+public:
+    Node(){
+        next = NULL;
+        pre = NULL;
+    };
+    Node(int x1, double x2){
+        next = NULL;
+        pre = NULL;
+        val1 = x1;
+        val2 = x2;
+    }
+    void SetNext(Node *n){
+        next = n;
+    };
+    Node *GetNext(){
+        return next;
+    }
+    void SetPre(Node *n){
+        pre = n;
+    }
+    Node *GetPre(){
+        return pre;
+    }
+    int getVal1(){
+        return val1;
+    }
+    double getVal2(){
+        return val2;
+    }
+};
+
+template&lt;class Node&gt;
+class Iterator{
+public:
+    Iterator() {};
+    virtual ~Iterator() {};
+    virtual Node* first() = 0;
+    virtual Node* last() = 0;
+    virtual Node* next() = 0;
+    virtual Node* pre() = 0;
+    virtual Node* nowPos() = 0;
+    virtual int len() = 0;
+    virtual void SetDirect(bool s) = 0;
+};
+
+template&lt;class Node&gt;
+class Aggregate{
+public:
+    Aggregate() {};
+    virtual ~Aggregate() {};
+    virtual Iterator&lt;Node&gt;* createIterator() = 0;
+    virtual Node* GetFirst() = 0;
+    virtual Node* GetLast() = 0;
+    virtual int GetSum() = 0;
+    virtual void Insert(int a, double b) = 0;
+    virtual void Init() = 0;
+}; 
+
+template&lt;class Node&gt;
+class ConcreteIterator : public Iterator&lt;Node&gt;{
+public:
+    ConcreteIterator(Aggregate&lt;Node&gt; *a) :aggr(a){
+        cur = aggr-&gt;GetFirst()-&gt;GetNext();
+    };
+    ~ConcreteIterator() {};
+    Node* first(){
+        Node * p = new Node();
+        p = aggr-&gt;GetFirst()-&gt;GetNext();
+        return p;
+    }
+
+    Node* last(){
+        Node * p = new Node();
+        p = aggr-&gt;GetLast();
+        return p;
+    }
+
+    Node* pre(){
+        Node * p = cur-&gt;GetPre();
+        cur = cur-&gt;GetPre();
+        return p;
+    }
+
+    Node* nowPos(){
+        return cur;
+    }
+
+    Node* next(){
+        Node * p =  cur-&gt;GetNext();
+        cur = cur-&gt;GetNext();
+        return p;
+    }
+
+    void SetDirect(bool s){
+        if(s){
+            cur = aggr-&gt;GetFirst()-&gt;GetNext();
+        }else{
+            cur = aggr-&gt;GetLast();
+        }
+    }
+
+    int len(){
+        return aggr-&gt;GetSum();
+    }
+
+private:
+    Aggregate&lt;Node&gt; *aggr;
+    Node* cur;
+};
+
+template&lt;class Node&gt;
+class LinkList : public Aggregate&lt;Node&gt;{
+private:
+    Node* first;
+    Node* last;
+    int sum;
+public:
+    Iterator&lt;Node&gt;* createIterator(){
+        return new ConcreteIterator&lt;Node&gt;(this);
+    }
+    LinkList(){
+        first = NULL;
+        last = NULL;
+        sum = 0;
+    }
+    Node* GetFirst(){
+        return first;
+    }
+    Node* GetLast(){
+        return last;
+    }
+    int GetSum(){
+        return sum;
+    }
+    void Init(){
+        first = new Node();
+    }
+    void Insert(int a, double b){
+        Node *p = first;
+        Node *s = new Node(a, b);
+        for (int i = 0; i &lt; sum; i++){
+            p = p-&gt;GetNext();
+        }
+        s-&gt;SetNext(NULL);
+        s-&gt;SetPre(p);
+        p-&gt;SetNext(s);
+        last = s;
+        sum++;
+    }
+    ~LinkList(){}
+};
+
+int main(){
+    Aggregate&lt;Node&gt; * aggr = new LinkList&lt;Node&gt;();
+    aggr-&gt;Init();
+    aggr-&gt;Insert(1, 2.1);
+    aggr-&gt;Insert(2, 4.2);
+    aggr-&gt;Insert(3, 6.3);
+    aggr-&gt;Insert(4, 8.4);
+    aggr-&gt;Insert(8, 16.5);
+    
+    
+
+    Iterator&lt;Node&gt; * it = aggr-&gt;createIterator();
+    
+    cout&lt;&lt;"正序"&lt;&lt;endl;
+    it-&gt;SetDirect(true);
+    while(it-&gt;nowPos()!= NULL){
+        cout&lt;&lt;it-&gt;nowPos()-&gt;getVal1()&lt;&lt;"  "&lt;&lt;it-&gt;nowPos()-&gt;getVal2()&lt;&lt;endl;
+        it-&gt;next();
+    }
+    cout&lt;&lt;"倒序"&lt;&lt;endl;
+    it-&gt;SetDirect(false);
+    do{
+        cout&lt;&lt;it-&gt;nowPos()-&gt;getVal1()&lt;&lt;"  "&lt;&lt;it-&gt;nowPos()-&gt;getVal2()&lt;&lt;endl;
+        it-&gt;pre();
+    }while(it-&gt;nowPos()!= it-&gt;first()-&gt;GetPre());
+    return 0;
+}</code></pre>
+<h3><strong>Experimental results</strong></h3>
+<img alt="" class="alignnone wp-image-5979" height="223" src="https://cdn.omegaxyz.com/2019/09/iterator5.png" width="408"/>
+<h3><strong>Summary</strong></h3>①Since the iterator of this experiment is a linked list and needs to be traversed from beginning to end or from end to beginning, this linked list is essentially a<strong>doubly linked list</strong>.
+
+② Iterators need to be used for traversal instead of updating the structure of the linked list itself, so the iterators need to encapsulate the previous, next, current node, head node, and tail node positions.
+
+③Since it is a linked list, you need to give nodes when creating the linked list and inserting<strong>dynamic allocation</strong>space, otherwise it will not operate properly.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

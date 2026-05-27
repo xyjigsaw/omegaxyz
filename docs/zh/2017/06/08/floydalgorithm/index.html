@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>弗洛伊德(Floyd)算法原理 · OmegaXYZ</title>
+  <meta name="description" content="弗洛伊德算法属于动态规划 其状态转移方程如下map[i , j] =min{ map[i , k] + map[k , j] , map[i , j] }； map[i , j]表示 i 到 j 的最短距离，K是穷举 i , j 的断点，map[n , n]初值应该为0，或者按照题目意思来做。 当然，如果这条路没有通的话，还必须特殊处理，...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/08/floydalgorithm/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-08</div>
+        <h1>弗洛伊德(Floyd)算法原理</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a></div>
+        <div class="article-content">弗洛伊德算法属于动态规划
+其状态转移方程如下map[i , j] =min{ map[i , k] + map[k , j] , map[i , j] }；
+map[i , j]表示 i 到 j 的最短距离，K是穷举 i , j 的断点，map[n , n]初值应该为0，或者按照题目意思来做。
+当然，如果这条路没有通的话，还必须特殊处理，比如没有map[i , k]这条路。
+
+<strong>算法步骤</strong>
+1，从任意一条单边路径开始。所有两点之间的距离是边的权，如果两点之间没有边相连，则权为无穷大。
+2，对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比已知的路径更短。如果是更新它。
+把图用邻接矩阵G表示出来，如果从Vi到Vj有路可达，则G[i,j]=d，d表示该路的长度；否则G[i,j]=无穷大。定义一个矩阵D用来记录
+所插入点的信息，D[i,j]表示从Vi到Vj需要经过的点，初始化D[i,j]=j。把各个顶点插入图中，比较插点后的距离与原来的距离，
+G[i,j] = min( G[i,j], G[i,k]+G[k,j] )，如果G[i,j]的值变小，则D[i,j]=k。在G中包含有两点之间最短道路的信息，而在D中则包含了最短通路径的信息。
+<pre ><code class="language-c++">void ShortestPath_Floyd(MGraph G, Pathmatrix *P, ShortPathTable *D)  
+{  
+    int v, w, k;  
+    //初始化  
+    for(v = 0; v &lt; G.numVertexes; ++v)  
+    {  
+            for(w = 0; w &lt; G.numVertexes; ++w)  
+            {  
+                (*D)[v][w] = G.matrix[v][w];  
+                (*p)[v][w] = w;  
+            }  
+          
+    }  
+  
+    //如果经过下标为k顶点路径比原来两点间路径更短  
+    //将当前两点间权值设置为更小的一个  
+    for(k = 0; k &lt; G.numVertexes; ++k)  
+    {  
+        for(v = 0; v &lt; G.numVertexes; ++v)  
+        {  
+            for(w = 0; w &lt; G.numVertexes; ++w)  
+            {  
+                    if((*D)[v][w] &gt; (*D)[v][k] + (*D)[k][w])  
+                    {  
+                      
+                    (*D)[v][w] = (*D)[v][k] + (*D)[k][w];  
+                    //路径直射经过下标为k的顶点  
+                    (*P)[v][w] = (*P)[v][k];  
+                    }  
+            }  
+        }  
+    }  
+}</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generator pattern and prototype pattern C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Generator pattern The generator pattern can separate the internal representation of a product from the product generation process, so that a building process can generate product objects with different internal representations. The structure of the Builder pattern: Builder role: Provides an abstract interface to standardize the construction of each component of the product object. In general, this interface is independent of the application&#x27;s business logic. In the pattern, the one who directly creates the product object is the concrete builder (Concrete...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/07/23/builder-prototype-cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-23</div>
+        <h1>Generator pattern and prototype pattern C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>generator pattern</strong></h2>The generator pattern can separate the internal representation of a product from the product generation process, so that a building process can generate product objects with different internal representations.<strong>Builder pattern structure:</strong>
+<img alt="" class="alignnone wp-image-5912" height="205" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-1.png" width="489"/>
+<strong>Builder role:</strong>Provide an abstract interface to standardize the construction of each component of the product object. In general, this interface is independent of the application's business logic. The one who directly creates product objects in the pattern is the ConcreteBuilder role. The concrete builder class must implement the methods required by this interface: one is the construction method, and the other is the result return method.<strong>Concrete Builder role:</strong>This role is filled by classes that are closely related to the application and create product instances when called by the application. The main tasks completed by this role include: implementing the interface provided by the Builder role and completing the process of creating product instances step by step.
+
+After the building process is complete, provide examples of the product.<strong>Director role:</strong>Classes that assume this role invoke the concrete builder role to create product objects. The director does not have specific knowledge of the product class. It is the specific builder object that really has specific knowledge of the product class.
+
+Product role: Products are complex objects under construction.<hr/>
+<h2><strong>Prototype pattern</strong></h2>In the prototype mode, the created object realizes the creation process by requesting the prototype object to copy the prototype object itself. Of course, the created object needs to know the type of the prototype object. This means that the created object only needs to know the type of the prototype object to obtain more prototype instance objects. There is no need to care at all about how these prototype objects are created.<img alt="" class="alignnone wp-image-5913" height="233" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-2.png" width="454"/>Shallow copy: Use a known instance to assign values ​​to the member variables of the newly created instance one by one. This method is called shallow copy.
+
+Deep copy: When the copy constructor of a class not only copies the values ​​of all non-reference member variables of the object, it also creates new instances for the member variables of the reference type and initializes them to the formal parameter instance values.<hr/>
+<h2><strong>Example</strong></h2>Use the generator pattern to simulate the production of IBM computers. The main structure of IBM computers is expressed as follows:<strong>class IBM{</strong>
+<strong>  string monitor=”IBM</strong><strong>monitor</strong><strong>”;</strong>
+<strong>  string keyboard=”IBM</strong><strong>keyboard</strong><strong>”;</strong>
+<strong>  string mouse=”IBM</strong><strong>mouse</strong><strong>”;</strong>
+<strong>  Motherboard* MB;</strong>
+<strong>  void display();</strong>
+<strong>}</strong>
+<strong>in</strong><strong>MB</strong><strong>It is a motherboard class, its main structure is as follows:</strong>
+<strong>class Motherboard{</strong>
+<strong>string CPU;</strong>
+<strong>string RAM;</strong>
+<strong>}</strong>That is, the motherboard contains the CPU and RAM. display is a function that prints each component, mainly used to check whether it is produced correctly.
+
+The construction sequence is to produce the motherboard first, then the monitor, keyboard and mouse.
+
+After using the generator mode to produce the first IBM computer, the prototype mode was used to make two more copies of the computer.<h3><strong>UML</strong></h3>
+<img alt="" class="alignnone wp-image-5914" height="304" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-3.png" width="555"/>
+<h3><strong>code</strong></h3>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+
+class Motherboard{
+public:
+    string CPU;
+    string RAM;
+    Motherboard* Clone(){
+        return new Motherboard(*this);
+    }
+};
+
+class IBM{
+public:
+    IBM(){
+        MB = new Motherboard();
+    }
+    string monitor;
+    string keyboard;
+    string mouse;
+    Motherboard* MB;
+    void display(){
+        cout&lt;&lt;"-------------------------"&lt;&lt;endl;
+        cout&lt;&lt;"IBM电脑配置："&lt;&lt;endl;
+        cout&lt;&lt;"主板："&lt;&lt;MB-&gt;CPU&lt;&lt;" "&lt;&lt;MB-&gt;RAM&lt;&lt;endl;
+        cout&lt;&lt;"显示器："&lt;&lt;monitor&lt;&lt;endl;
+        cout&lt;&lt;"键盘："&lt;&lt;keyboard&lt;&lt;endl;
+        cout&lt;&lt;"鼠标："&lt;&lt;mouse&lt;&lt;endl;
+        cout&lt;&lt;"-------------------------"&lt;&lt;endl&lt;&lt;endl;
+    }
+
+    void SetMotherboard(string CPU, string RAM){
+        this-&gt;MB-&gt;CPU = CPU;
+        this-&gt;MB-&gt;RAM = RAM;
+    }
+
+    void SetMonitor(string monitor){
+        this-&gt;monitor = monitor;
+    }
+
+    void SetKeyboard(string keyboard){
+        this-&gt;keyboard = keyboard;
+    }
+
+    void SetMouse(string mouse){
+        this-&gt;mouse = mouse;
+    }
+
+    IBM* Clone(){
+        IBM* obj = new IBM();
+        obj-&gt;MB = MB-&gt;Clone();
+        obj-&gt;monitor = monitor;
+        obj-&gt;keyboard = keyboard;
+        obj-&gt;mouse = mouse;
+        return obj;
+    }
+private:
+    /*IBM(Motherboard* mo){
+        this-&gt;MB = mo-&gt;Clone();
+    }*/
+};
+
+class Builder{
+public:
+    virtual void BuildMotherboard() = 0;
+    virtual void BuildMonitor() = 0;
+    virtual void BuildKeyboard() = 0;
+    virtual void BuildMouse() = 0;
+    virtual IBM* GetResult(){
+        return NULL;
+    }
+};
+
+class IBMBuilder: public Builder{
+public:
+    IBMBuilder(){
+        _IBM = new IBM();
+    }
+    void BuildMotherboard(){
+        _IBM-&gt;MB-&gt;CPU = "IBM的CPU";
+        _IBM-&gt;MB-&gt;RAM = "IBM的RAM";
+        cout&lt;&lt;"安装"&lt;&lt;"IBM的主板"&lt;&lt;endl;
+    }
+    void BuildMonitor(){
+        _IBM-&gt;monitor = "IBM的显示器";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;monitor&lt;&lt;endl;
+    }
+    void BuildKeyboard(){
+        _IBM-&gt;keyboard = "IBM的键盘";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;keyboard&lt;&lt;endl;
+    }
+    void BuildMouse(){
+        _IBM-&gt;mouse = "IBM的鼠标";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;mouse&lt;&lt;endl&lt;&lt;endl;
+    }
+    IBM* GetResult(){
+        return _IBM;
+    }
+private:
+    IBM* _IBM;
+};
+
+class IBMDirector{
+public:
+    void Construct(Builder* builder){
+        builder-&gt;BuildMotherboard();
+        builder-&gt;BuildMonitor();
+        builder-&gt;BuildKeyboard();
+        builder-&gt;BuildMouse();
+    }
+};
+
+
+int main(){
+    cout&lt;&lt;endl&lt;&lt;endl;
+    IBMDirector* director = new IBMDirector();
+    Builder* b1 = new IBMBuilder();
+    director-&gt;Construct(b1);
+    IBM* ibm1 = b1-&gt;GetResult();
+    
+    
+    //实验下面两个为克隆部分，为了验证是深拷贝，对clone出来的结果进行更改
+    IBM* ibm_clone1 = ibm1-&gt;Clone();
+    ibm_clone1-&gt;SetMotherboard("ibm_clone1 CPU", "ibm_clone1 RAM");
+    ibm_clone1-&gt;SetMonitor("ibm_clone1 显示器");
+    ibm_clone1-&gt;SetKeyboard("ibm_clone1 键盘");
+    ibm_clone1-&gt;SetMouse("ibm_clone1 鼠标");
+
+    IBM* ibm_clone2 = ibm1-&gt;Clone();
+    ibm_clone2-&gt;SetMotherboard("ibm_clone2 CPU", "ibm_clone2 RAM");
+    ibm_clone2-&gt;SetMonitor("ibm_clone2 显示器");
+    ibm_clone2-&gt;SetKeyboard("ibm_clone2 键盘");
+    ibm_clone2-&gt;SetMouse("ibm_clone2 鼠标");
+
+    ibm1-&gt;display();
+    ibm_clone1-&gt;display();
+    ibm_clone2-&gt;display();
+    return 0;
+}
+</code></pre>
+<strong>The last two parts of the experimental client are clone parts. In order to verify that it is a deep copy, the results of the clone are changed, and the final verification result is correct.</strong>
+<h3><strong>result</strong></h3>
+<img alt="" class="alignnone wp-image-5915" height="319" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-4.png" width="519"/>
+<h3><strong>Summary</strong></h3>①When new an IBM object, please note that a Motherboard must be initialized in the class code (as shown in the figure below)<img alt="" class="alignnone wp-image-5916" height="162" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-5.png" width="249"/>Otherwise, when the following statement calls MB (an object of the motherboard), no space will be allocated, resulting in a Segmentation fault: 11 error.
+
+② In prototype mode, there must be a Clone function. Note that the embedded Motherboard must be cloned together. Otherwise, different pointers on the client will point to the same object, which is the difference between deep copy and shallow copy.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

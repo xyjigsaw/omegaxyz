@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>百练-2018计算机学科夏令营上机考前练习（待续） · OmegaXYZ</title>
+  <meta name="description" content="作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭， 无法看到是否AC（以下代码可能无法通过全部测试用例） ，如有错误，请指出，O(∩_∩)O谢谢。 地址： http://bailian.openjudge.cn/xlylx2018/ A:判决素数个数 全局题号2178 提...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/30/bailian-xlylx2018/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-30</div>
+        <h1>百练-2018计算机学科夏令营上机考前练习（待续）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭，<strong>无法看到是否AC（以下代码可能无法通过全部测试用例）</strong>，如有错误，请指出，O(∩_∩)O谢谢。
+
+<img class="alignnone wp-image-5832" src="https://cdn.omegaxyz.com/2019/05/bailian-xlylx2018.png" alt="" width="719" height="447" />
+
+<strong>地址：</strong>
+
+<a href="http://bailian.openjudge.cn/xlylx2018/">http://bailian.openjudge.cn/xlylx2018/</a>
+<h2><strong>A:判决素数个数</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号2178 提交次数95 尝试人数32 通过人数28</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>输入两个整数X和Y，输出两者之间的素数个数（包括X和Y）。</dd>
+ 	<dt>输入</dt>
+ 	<dd>两个整数X和Y（1 &lt;= X,Y &lt;= 10<sup>5</sup>）。</dd>
+ 	<dt>输出</dt>
+ 	<dd>输出一个整数，表示X，Y之间的素数个数（包括X和Y）。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>1 100</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">25</code></pre>
+</dd>
+</dl>
+<dl class="problem-params"></dl>
+C++代码
+<pre ><code class="language-c++">/* Bailian3177 判决素数个数 */
+ 
+#include &lt;stdio.h&gt;
+ 
+void swap(int *a, int *b)
+{
+    int t;
+ 
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+ 
+int isprime(int n){
+    int i;
+ 
+    for(i=3; i*i&lt;=n; i+=2)
+        if(n % i == 0)
+            return 0;
+ 
+    return 1;
+}
+ 
+int main(void)
+{
+    int x, y, sum=0, i;
+ 
+    scanf("%d%d", &amp;x, &amp;y);
+ 
+    if(x &gt; y)
+        swap(&amp;x, &amp;y);
+    if(x &lt;= 2) {
+        x = 3;
+        sum = 1;
+    } else {
+        if(x % 2 == 0)
+            x++;
+        sum = 0;
+    }
+    for(i=x; i&lt;=y; i+=2)
+        if(isprime(i))
+            sum++;
+ 
+    printf("%d\n", sum);
+ 
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>B:编码字符串</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号12556 提交次数56 尝试人数32 通过人数32</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>在数据压缩中，一个常用的方法是行程长度编码压缩。对于一个待压缩的字符串，我们可以依次记录每个字符及重复的次数。例如，待压缩的字符串为"aaabbbbcbb"，压缩结果为(a,3)(b,4)(c,1)(b,2)。这种压缩对于相邻数据重复较多的情况有效，如果重复状况较少，则压缩的效率较低。
+
+现要求根据输入的字符串，首先将字符串中所有大写字母转化为小写字母，然后将字符串进行压缩。</dd>
+ 	<dt>输入</dt>
+ 	<dd>一个字符串，长度大于0，且不超过1000，全部由大写或小写字母组成。</dd>
+ 	<dt>输出</dt>
+ 	<dd>输出为编码之后的字符串，形式为：(a,3)(b,4)(c,1)(d,2)，即每对括号内分别为小写字符及重复的次数，不含任何空格。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>aAABBbBCCCaaaaa</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">(a,3)(b,4)(c,3)(a,5)</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;string&gt;
+using namespace std;
+
+int main(){
+    string str;
+    cin&gt;&gt;str;
+    string ans = "";
+    int cnt = 1;
+    for(int i = 0; i &lt; str.length(); i++){
+        if(tolower(str[i]) == tolower(str[i + 1]) &amp;&amp; i + 1 &lt; str.length()){
+            cnt++;
+        }else{
+            cout&lt;&lt;'(';
+            cout&lt;&lt;char(tolower(str[i]));
+            cout&lt;&lt;",";
+            cout&lt;&lt;to_string(cnt);
+            cout&lt;&lt;")"; 
+            cnt = 1;
+        }
+    }
+    cout&lt;&lt;endl;
+    
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>C:Safecracker</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号250 提交次数35 尝试人数17 通过人数13</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>"The item is locked in a Klein safe behind a painting in the second-floor library. Klein safes are extremely rare; most of them, along with Klein and his factory, were destroyed in World War II. Fortunately old Brumbaugh from research knew Klein's secrets and wrote them down before he died. A Klein safe has two distinguishing features: a combination lock that uses letters instead of numbers, and an engraved quotation on the door. A Klein quotation always contains between five and twelve distinct uppercase letters, usually at the beginning of sentences, and mentions one or more numbers. Five of the uppercase letters form the combination that opens the safe. By combining the digits from all the numbers in the appropriate way you get a numeric target. (The details of constructing the target number are classified.) To find the combination you must select five letters v, w, x, y, and z that satisfy the following equation, where each letter is replaced by its ordinal position in the alphabet (A=1, B=2, ..., Z=26). The combination is then vwxyz. If there is more than one solution then the combination is the one that is lexicographically greatest, i.e., the one that would appear last in a dictionary."
+
+v - w<sup>2</sup>+ x<sup>3</sup>- y<sup>4</sup>+ z<sup>5</sup>= target
+
+"For example, given target 1 and letter set ABCDEFGHIJKL, one possible solution is FIECB, since 6 - 9<sup>2</sup>+ 5<sup>3</sup>- 3<sup>4</sup>+ 2<sup>5</sup>= 1. There are actually several solutions in this case, and the combination turns out to be LKEBA. Klein thought it was safe to encode the combination within the engraving, because it could take months of effort to try all the possibilities even if you knew the secret. But of course computers didn't exist then."
+
+"Develop a program to find Klein combinations in preparation for field deployment. Use standard test methodology as per departmental regulations.</dd>
+ 	<dt>输入</dt>
+ 	<dd>Input consists of one or more lines containing a positive integer target less than twelve million, a space, then at least five and at most twelve distinct uppercase letters. The last line will contain a target of zero and the letters END; this signals the end of the input.</dd>
+ 	<dt>输出</dt>
+ 	<dd>For each line output the unique Klein combination, or 'no solution' if there is no correct combination. Use the exact format shown below."</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>1 ABCDEFGHIJKL
+11700519 ZAYEXIWOVU
+3072997 SOUGHT
+1234567 THEQUICKFROG
+0 END</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">LKEBA
+YOXUZ
+GHOST
+no solution
+</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;cmath&gt;
+using namespace std;
+
+string ans, s;
+int target;
+bool visit[20];
+
+//v - w2+ x3- y4+ z5= target 
+void DFS(int cnt, char *tempchar){
+    if(cnt == 5){
+        int num = 0; //记录计算的值
+        string t = "";
+        for(int i = 0; i &lt; cnt; i++){
+            t += tempchar[i];
+            if(i % 2 == 1)num -= powl(tempchar[i] - 'A' + 1, i + 1); //计算式子
+            if(i % 2 == 0)num += powl(tempchar[i] - 'A' + 1, i + 1);
+        }
+        if(num == target &amp;&amp; t &gt; ans) ans = t; //判断是否满足等式且字母序较大
+        return;
+    }
+    for(int i = 0; i &lt; s.length(); i++){ //对于每个字母
+        if(visit[i])continue;
+        visit[i] = true;
+        tempchar[cnt] = s[i];
+        DFS(cnt + 1, tempchar);
+        visit[i] = false; //回溯
+    }
+}
+
+
+int main(){
+    while(cin&gt;&gt;target&gt;&gt;s){
+        if(target == 0 &amp;&amp; s == "END")break;
+        ans = "";
+        char tempchar[5]; //存储待判断的值
+        fill(visit, visit + 20, 0);
+        DFS(0, tempchar);
+        if(ans == "")cout&lt;&lt;"no solution"&lt;&lt;endl;
+        else cout&lt;&lt;ans&lt;&lt;endl;
+
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>D:怪盗基德的滑翔翼</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号4977 提交次数51 尝试人数20 通过人数18</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>怪盗基德是一个充满传奇色彩的怪盗，专门以珠宝为目标的超级盗窃犯。而他最为突出的地方，就是他每次都能逃脱中村警部的重重围堵，而这也很大程度上是多亏了他随身携带的便于操作的滑翔翼。
+
+有一天，怪盗基德像往常一样偷走了一颗珍贵的钻石，不料却被柯南小朋友识破了伪装，而他的滑翔翼的动力装置也被柯南踢出的足球破坏了。不得已，怪盗基德只能操作受损的滑翔翼逃脱。
+
+<img src="http://media.openjudge.cn/images/upload/1340073200.jpg" />
+
+假设城市中一共有N幢建筑排成一条线，每幢建筑的高度各不相同。初始时，怪盗基德可以在任何一幢建筑的顶端。他可以选择一个方向逃跑，但是不能中途改变方向（因为中森警部会在后面追击）。因为滑翔翼动力装置受损，他只能往下滑行（即：只能从较高的建筑滑翔到较低的建筑）。他希望尽可能多地经过不同建筑的顶部，这样可以减缓下降时的冲击力，减少受伤的可能性。请问，他最多可以经过多少幢不同建筑的顶部（包含初始时的建筑）？</dd>
+ 	<dt>输入</dt>
+ 	<dd>输入数据第一行是一个整数K（K &lt; 100），代表有K组测试数据。
+每组测试数据包含两行：第一行是一个整数N(N &lt; 100)，代表有N幢建筑。第二行包含N个不同的整数，每一个对应一幢建筑的高度h（0 &lt; h &lt; 10000），按照建筑的排列顺序给出。</dd>
+ 	<dt>输出</dt>
+ 	<dd>对于每一组测试数据，输出一行，包含一个整数，代表怪盗基德最多可以经过的建筑数量。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>3
+8
+300 207 155 299 298 170 158 65
+8
+65 158 170 298 299 155 207 300
+10
+2 1 3 4 5 6 7 8 9 10</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">6
+6
+9</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int main(){
+    int T, n;
+    cin&gt;&gt;T;
+    while(T--){
+        cin&gt;&gt;n;
+        vector&lt;int&gt; building(n);
+        for(int i = 0; i &lt; n; i++){
+            scanf("%d", &amp;building[i]);{
+            }
+        }
+        int dpi[101];
+        int dpd[101];
+
+        int maxi = 0, maxd = 0;
+        for(int i = 0; i &lt; n; i++){
+            dpi[i] = 1;
+            for(int j = 0; j &lt; i; j++){
+                if(building[j] &lt; building[i]){
+                    dpi[i] = dpi[i] &gt; dpi[j] + 1 ? dpi[i] : dpi[j] + 1;
+                }
+            }
+            if(dpi[i] &gt; maxi)maxi = dpi[i];
+        }
+
+        for(int i = n - 1; i &gt;= 0; i--){
+            dpd[i] = 1;
+            for(int j = n - 1; j &gt; i; j--){
+                if(building[j] &lt; building[i]){
+                    dpd[i] = dpd[i] &gt; dpd[j] + 1 ? dpd[i] : dpd[j] + 1;
+                }
+            }
+            if(dpd[i] &gt; maxd)maxd = dpd[i];
+        }
+        printf("%d\n", maxi &gt; maxd ? maxi : maxd);
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

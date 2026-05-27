@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python读取系统文件夹内所有文件并统计数量 · OmegaXYZ</title>
+  <meta name="description" content="大家先看一下Python os模块中的部分函数 python 路径相关的函数 os.listdir(dirname)：列出dirname下的目录和文件 os.getcwd()：获得当前工作目录 os.curdir:返回当前目录（&#x27;.&#x27;) os.chdir(dirname):改变工作目录到dirname os.path.isdir(name...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/19/pythongetfiles/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-19</div>
+        <h1>Python读取系统文件夹内所有文件并统计数量</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">大家先看一下Python os模块中的部分函数
+
+python 路径相关的函数
+os.listdir(dirname)：列出dirname下的目录和文件
+os.getcwd()：获得当前工作目录
+os.curdir:返回当前目录（'.')
+os.chdir(dirname):改变工作目录到dirname
+os.path.isdir(name):判断name是不是一个目录，name不是目录就返回false
+os.path.isfile(name):判断name是不是一个文件，不存在name也返回false
+os.path.exists(name):判断是否存在文件或目录name
+os.path.getsize(name):获得文件大小，如果name是目录返回0
+os.path.abspath(name):获得绝对路径
+os.path.normpath(path):规范path字符串形式
+os.path.split(name):分割文件名与目录（事实上，如果你完全使用目录，它也会将最后一个目录作为文件名而分离，同时它不会判断文件或目录是否存在）
+os.path.splitext():分离文件名与扩展名
+os.path.join(path,name):连接目录与文件名或目录
+os.path.basename(path):返回文件名
+os.path.dirname(path):返回文件路径
+
+下面给出递归搜索代码（能够查找到隐藏文件，不能读取非只读性文件，代码中用异常测试跳过此类文件）
+<pre ><code class="language-python">import os
+
+def visitDir(path):
+    if not os.path.isdir(path):
+        print('Error: "', path, '" is not a directory or does not exist.')
+        return
+    else:
+        global x
+        try:
+            for lists in os.listdir(path):
+                sub_path = os.path.join(path, lists)
+                x += 1
+                print('No.', x, ' ', sub_path)
+                if os.path.isdir(sub_path):
+                    visitDir(sub_path)
+        except:
+            pass
+
+
+if __name__ == '__main__':
+    x = 0
+    visitDir('H:\\Movie&amp;Series')
+    print('Total Permission Files: ', x)
+</code></pre>
+这是我的电脑电影文件夹中的内容：
+
+<img class="alignnone wp-image-1953" src="https://cdn.omegaxyz.com/2017/09/getfiles-300x142.jpg" alt="" width="547" height="259" />
+
+另外用OS.walk遍历的方法参照
+
+<span id="sample-permalink"><a href="https://omegaxyz.com/?p=2474&amp;preview=true" target="wp-preview-2474">https://omegaxyz.com/2017/11/19/<span id="editable-post-name">oswalk</span>/</a></span> ‎</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-3850">
+          <strong>BensonX</strong>
+          <time>2018-09-21 16:53:49</time>
+          <div>6666，刚学习python菜鸟一枚，一直在网上没找到好的学习实例，在这看到了楼主的代码，简单易懂，而且针对刚学习的新手可以看懂，激动，日后暂时把你的站点当成python简单实例学习的地方了，感谢楼主的付出</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3851">
+          <strong>xyjisaw</strong>
+          <time>2018-09-22 09:13:43</time>
+          <div>谢谢支持，代码如果有问题还需要你指出。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

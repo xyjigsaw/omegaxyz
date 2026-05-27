@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB调用C/C++ · OmegaXYZ</title>
+  <meta name="description" content="Matlab是矩阵语言，如果运算可以用矩阵实现，其运算速度非常快。但若运算中涉及到大量循环，Matlab的速度令人难以忍受的。当必须使用for循环且找不到对应的矩阵运算来等效时，可以将耗时长的函数用C语言实现，并编译成Mex文件，Matlab便可以像调用内建函数一样调用C编写的函数。Mex文件其实是一种动态链接库，旧版本Matlab可以直...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/15/matlab_c_cpp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-15</div>
+        <h1>MATLAB调用C/C++</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">Matlab是矩阵语言，如果运算可以用矩阵实现，其运算速度非常快。但若运算中涉及到大量循环，Matlab的速度令人难以忍受的。当必须使用for循环且找不到对应的矩阵运算来等效时，可以将耗时长的函数用C语言实现，并编译成Mex文件，Matlab便可以像调用内建函数一样调用C编写的函数。Mex文件其实是一种动态链接库，旧版本Matlab可以直接调用.dll，新版本要调用.mexw32或.mexw64文件。
+
+编译过程需要C语言编译器，在Matlab中键入mex –setup进行安装与配置。
+
+<strong>MEX文件的源代码组成</strong>：
+
+(1)功能子程序。该过程包含了Mex文件实现计算功能的代码，是标准的C语言子程序。
+
+(2)入口子程序。该过程提供功能子程序与Matlab之间的接口，以mexFunction函数实现。<strong><span style="color: #ff0000;">注意，入口过程的名称必须是mexFunction，并且包含四个参数，即</span></strong>
+
+<strong>void mexFunction(int nlhs,mxArray*plhs[],int nrhs,const mxArray *prhs[])；</strong>
+
+nrhs(left hand side): 输入参数的个数；
+
+prhs是一个输入数组，其内容为指针，指向mxArray类型的数据（MATLAB中所有数据都是以矩阵的形式mxArray保存的）。
+
+nlhs, plhs含义类似。
+
+具体地，若在Matlab中执行[a,b]=test(c,d,e) ，则nlhs=2, nrhs=3，prhs[0]指向c，prhs[1]指向d，prhs[2]指向e(可以理解为：prhs[0]=&amp;c, prhs[1]=&amp;d, prhs[2]=&amp;e)，注意prhs是const指针数组，故不能改变其指向内容；函数返回时将plhs[0]，plhs[1]指向的内容赋给a，b(可以理解为a=*plhs[0]， b=*plhs[1])。
+
+<strong>实例:</strong>
+
+C语言函数，按照上述方式建立。
+<pre ><code class="language-c">#include "mex.h"    
+double add(double x, double y)  
+{  
+    return x + y;  
+}   
+void mexFunction(int nlhs,mxArray *plhs[], int nrhs,const mxArray *prhs[])  
+{  
+    double * a;  
+    double b, c;  
+    plhs[0] = mxCreateDoubleMatrix(1, 1, mxREAL);  
+    a = mxGetPr(plhs[0]);  
+    b = *(mxGetPr(prhs[0]));  
+    c = *(mxGetPr(prhs[1]));  
+    *a = add(b, c);  
+}</code></pre>
+接着，在MATLAB控制台输入：
+<pre ><code class="language-matlab">mex add.c</code></pre>
+格式：mex C文件.c
+
+这时，路径目录下出现：<img class="alignnone size-full wp-image-4040" src="https://cdn.omegaxyz.com/2018/04/addmex.jpg" alt="" width="292" height="18" />
+
+最后在MATLAB控制台调用add函数即可。
+
+<strong>add(2,3)</strong>
+
+当然这个简单的函数不能体现C语言的快。
+当有for循环或者大的计算函数时，调用C语言效率就会变得很高。
+
+<strong>参考资料：</strong><a href="https://blog.csdn.net/u010839382/article/details/42463237">https://blog.csdn.net/u010839382/article/details/42463237</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

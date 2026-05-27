@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Java-Web project summary · OmegaXYZ</title>
+  <meta name="description" content="Create a Java-Web project using jetbrain&#x27;s idea https://omegaxyz.com/2018/10/04/intellij-idea-java-web/ Overview of Java-MVC pattern https://omegaxyz.com/2018/10/03/javaweb-mvc/ Pitfalls passed through (to be continued) ①JSP under WEB-INF cannot pass...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/11/06/java-web项目总结/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-06</div>
+        <h1>Java-Web project summary</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/database/index.html">数据库</a></div>
+        <div class="article-content"><h2 class="title-article"><strong>Create Java-Web projects using jetbrain’s ideas</strong></h2>
+https://omegaxyz.com/2018/10/04/intellij-idea-java-web/
+<h2><strong>Overview of the Java-MVC pattern</strong></h2>
+https://omegaxyz.com/2018/10/03/javaweb-mvc/
+<h2><strong>Pitfalls passed through (to be continued)</strong></h2>① JSP under WEB-INF cannot be directly accessed through URL, otherwise these page files can easily see the source code or be called directly.<img alt="" class="alignnone size-full wp-image-5112" height="257" src="https://cdn.omegaxyz.com/2018/11/javawebx1.png" width="375"/>②When using idea to write programs, please note that the Servlet-api in Tomcat must be manually imported into External Libraries.<img alt="" class="alignnone size-full wp-image-5113" height="71" src="https://cdn.omegaxyz.com/2018/11/javawebx2.png" width="364"/>③The latest version of JDK1.9 is too new and is not adapted in many places. It is recommended to use the JDK1.8 version first, otherwise it is easy to cause problems.
+
+④ If you need to connect to the database, pay attention to the port setting of the database.
+
+c3p0.xml<pre><code class="language-default">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;c3p0-config&gt;
+    &lt;default-config&gt;
+        &lt;!-- 数据库驱动，用户名，密码等基本配置 --&gt;
+        &lt;property name="jdbcUrl"&gt;jdbc:sqlserver://localhost:1433;databaseName=t_customer&lt;/property&gt;
+        &lt;property name="driverClass"&gt;com.microsoft.sqlserver.jdbc.SQLServerDriver&lt;/property&gt;
+        &lt;property name="user"&gt;mysql&lt;/property&gt;
+        &lt;property name="password"&gt;123456&lt;/property&gt;
+
+        &lt;!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;
+        &lt;property name="acquireIncrement"&gt;3&lt;/property&gt;
+        &lt;!-- 初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;
+        &lt;property name="initialPoolSize"&gt;10&lt;/property&gt;
+        &lt;!-- 连接池中保留的最小连接数。--&gt;
+        &lt;property name="minPoolSize"&gt;2&lt;/property&gt;
+        &lt;!-- 连接池中保留的最大连接数。--&gt;
+        &lt;property name="maxPoolSize"&gt;10&lt;/property&gt;
+    &lt;/default-config&gt;
+&lt;/c3p0-config&gt;</code></pre>⑤ Whenever you write a servlet, register it in web.xml<strong>For example:</strong>
+<pre><code class="language-default">&lt;servlet&gt;
+        &lt;servlet-name&gt;CustomerServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;servlet.CustomerServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;CustomerServlet&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/CustomerServlet&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</code></pre></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-3965">
+          <strong><a href="https://fnafworld.co" rel="nofollow">fnaf world</a></strong>
+          <time>2018-11-22 11:28:42</time>
+          <div>I appreciate the Java-Web project. With many attractive gadgets.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

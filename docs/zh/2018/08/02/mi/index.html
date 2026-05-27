@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>互信息公式及概述 · OmegaXYZ</title>
+  <meta name="description" content="在概率论和信息论中，两个随机变量的 互信息（Mutual Information，简称MI） 或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Infor...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/02/mi/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-02</div>
+        <h1>互信息公式及概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">在概率论和信息论中，两个随机变量的<strong>互信息（Mutual Information，简称MI）</strong>或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Information)是度量两个事件集合之间的相关性(mutual dependence)。互信息最常用的单位是bit。
+<h2><strong>互信息的定义</strong></h2>
+<strong>正式地，两个离散随机变量 X 和 Y 的互信息可以定义为：</strong>
+<p style="text-align: center;">其中 p(x,y) 是 X 和 Y 的联合概率分布函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率分布函数。</p>
+<p style="text-align: center;">      <img class="alignnone size-full wp-image-4864" src="https://cdn.omegaxyz.com/2018/08/MI1.png" alt="" width="341" height="68" /></p>
+<p style="text-align: center;">在连续随机变量的情形下，求和被替换成了二重定积分：</p>
+<img class="wp-image-4865 aligncenter size-full" src="https://cdn.omegaxyz.com/2018/08/MI2.png" alt="" width="385" height="52" />
+
+其中 p(x,y) 当前是 X 和 Y 的联合概率密度函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率密度函数。
+
+互信息量I(xi;yj)在联合概率空间P(XY)中的统计平均值。 平均互信息I(X;Y)克服了互信息量I(xi;yj)的随机性,成为一个确定的量。如果对数以 2 为基底，互信息的单位是bit。
+
+直观上，互信息度量 X 和 Y 共享的信息：它度量知道这两个变量其中一个，对另一个不确定度减少的程度。例如，如果 X 和 Y 相互独立，则知道 X 不对 Y 提供任何信息，反之亦然，所以它们的互信息为零。在另一个极端，如果 X 是 Y 的一个确定性函数，且 Y 也是 X 的一个确定性函数，那么传递的所有信息被 X 和 Y 共享：知道 X 决定 Y 的值，反之亦然。因此，在此情形互信息与 Y（或 X）单独包含的不确定度相同，称作 Y（或 X）的熵。而且，这个互信息与 X 的熵和 Y 的熵相同。（这种情形的一个非常特殊的情况是当 X 和 Y 为相同随机变量时。）
+
+互信息是 X 和 Y 联合分布相对于假定 X 和 Y 独立情况下的联合分布之间的内在依赖性。于是互信息以下面方式度量依赖性：I(X; Y) = 0 当且仅当 X 和 Y 为独立随机变量。从一个方向很容易看出：当 X 和 Y 独立时，p(x,y) = p(x) p(y)，因此：
+
+<img class="wp-image-4866 aligncenter size-full" src="https://cdn.omegaxyz.com/2018/08/MI3.png" alt="" width="250" height="59" />
+
+此外，互信息是非负的（即 I(X;Y) ≥ 0; 见下文），而且是对称的（即 I(X;Y) = I(Y;X)）。
+<h2><strong>与其他量的关系</strong></h2>
+互信息又可以等价地表示成
+
+<img class="alignnone wp-image-4867 size-full" src="https://cdn.omegaxyz.com/2018/08/MI4.png" alt="" width="360" height="104" />
+
+其中H(X)和H(Y) 是边缘熵，H(X|Y)和H(Y|X)是条件熵，而H(X,Y)是X和Y的联合熵。注意到这组关系和并集、差集和交集的关系类似，用Venn图表示：
+
+<img class="alignnone size-full wp-image-4868" src="https://cdn.omegaxyz.com/2018/08/MI5.png" alt="" width="548" height="296" />
+
+于是，在互信息定义的基础上使用琴生不等式，我们可以证明 I(X;Y) 是非负的，因此H(X)&gt;=H(X|Y)，这里我们给出 I(X;Y) = H(Y) - H(Y|X) 的详细推导:
+
+<img class="alignnone wp-image-4869 size-full" src="https://cdn.omegaxyz.com/2018/08/MI6.png" alt="" width="587" height="322" />
+
+上面其他性质的证明类似。
+
+直观地说，如果把熵 H(Y) 看作一个随机变量不确定度的量度，那么 H(Y|X) 就是 X 没有涉及到的 Y 的部分的不确定度的量度。这就是“在 X 已知之后 Y 的剩余不确定度的量”，于是第一个等式的右边就可以读作“Y的不确定度，减去在 X 已知之后 Y 的剩余不确定度的量”，此式等价于“移除知道 X 后 Y 的不确定度的量”。这证实了互信息的直观意义为知道其中一个变量提供的另一个的信息量（即不确定度的减少量）。
+
+注意到离散情形 H(X|X) = 0，于是 H(X) = I(X;X)。因此 I(X;X) ≥ I(X;Y)，我们可以制定”一个变量至少包含其他任何变量可以提供的与它有关的信息“的基本原理。</div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-17131">
+          <strong>空白</strong>
+          <time>2019-06-25 21:47:38</time>
+          <div>那个matlab 显示<br>未定义函数或变量 &#x27;divide_dlbcl&#x27;。<br><br>出错 Untitled6 (line 2)<br>[X_train,Y_train,X_test,Y_test] = divide_dlbcl();<br>这是为什么啊</div>
+        </div>
+        
+        <div class="comment" id="comment-19024">
+          <strong>zhuzhu</strong>
+          <time>2020-06-11 10:04:12</time>
+          <div>您好，能发下dlbcl数据集吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19026">
+          <strong>xyjisaw</strong>
+          <time>2020-06-11 14:40:32</time>
+          <div>https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

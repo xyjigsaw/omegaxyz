@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>神经网络感知机概述 · OmegaXYZ</title>
+  <meta name="description" content="定义 假设输入空间(特征向量)为X⊆Rn，输出空间为Y={-1, +1}。输入x∈X表示实例的特征向量，对应于输入空间的点；输出y∈Y表示示例的类别。由输入空间到输出空间的函数为 f(x)=sign( w⋅x +b) 称为感知机。其中，参数w叫做权值向量weight，b称为偏置bias。w⋅x表示w和x的点积 ∑i=wixi=w1x1+w...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/01/perceptron/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-01</div>
+        <h1>神经网络感知机概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><h2 id="定义"><strong>定义</strong></h2>
+<div class="MathJax_Display" role="textbox" aria-readonly="true">
+
+假设输入空间(特征向量)为X⊆Rn，输出空间为Y={-1, +1}。输入x∈X表示实例的特征向量，对应于输入空间的点；输出y∈Y表示示例的类别。由输入空间到输出空间的函数为
+<p style="text-align: center;">f(x)=sign(<strong>w⋅x</strong>+b)</p>
+称为感知机。其中，参数w叫做权值向量weight，b称为偏置bias。w⋅x表示w和x的点积
+
+</div>
+<div role="textbox" aria-readonly="true">
+<p style="text-align: center;"><strong>∑i=wixi=w1x1+w2x2+...+wnxn</strong></p>
+sign为符号函数，
+
+<img class="alignnone size-full wp-image-4176 aligncenter" src="https://cdn.omegaxyz.com/2018/04/sign.jpg" alt="" width="299" height="234" />
+
+&nbsp;
+
+在二分类问题中，f(x)的值（+1或-1）用于分类xx为正样本（+1）还是负样本（-1）。感知机是一种线性分类模型，属于判别模型。我们需要做的就是找到一个最佳的满足w⋅x+b=0的w和b值，即分离超平面（separating hyperplane）。如下图，一个线性可分的感知机模型。
+
+<img class="alignnone size-full wp-image-4175 aligncenter" src="https://cdn.omegaxyz.com/2018/04/perceptron1.png" alt="" width="330" height="249" />
+
+中间的直线即w⋅x+b=0这条直线。
+
+线性分类器的几何表示有：直线、平面、超平面。
+
+</div>
+<h2 id="学习策略"><strong>学习策略</strong></h2>
+<span style="color: red;"><strong>核心：极小化损失函数。</strong></span>
+
+如果训练集是可分的，感知机的学习目的是求得一个能将训练集正实例点和负实例点完全分开的分离超平面。为了找到这样一个平面（或超平面），即确定感知机模型参数w和b，我们采用的是损失函数，同时并将损失函数极小化。
+
+对于损失函数的选择，我们采用的是误分类点到超平面的距离（可以自己推算一下，这里采用的是几何间距，就是点到直线的距离）：
+
+1∥w∥|w∗x0+b|
+
+<img class="alignnone size-full wp-image-4181" src="https://cdn.omegaxyz.com/2018/04/perceptron4.jpg" alt="" width="772" height="586" />
+
+<span style="color: red;"><strong>如果没有误分类点，则损失函数的值为0，而且误分类点越少，误分类点距离超平面就越近，损失函数值就越小</strong></span>。同时，损失函数<span id="MathJax-Element-21-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-331" class="math"><span id="MathJax-Span-332" class="mrow"><span id="MathJax-Span-333" class="mi">L</span><span id="MathJax-Span-334" class="mo">(</span><span id="MathJax-Span-335" class="mi">w</span><span id="MathJax-Span-336" class="mo">,</span><span id="MathJax-Span-337" class="mi">b</span><span id="MathJax-Span-338" class="mo">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">L(w,b)</span></span>是连续可导函数。
+<h2><strong>学习算法</strong></h2>
+感知机学习转变成求解损失函数<span id="MathJax-Element-22-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-339" class="math"><span id="MathJax-Span-340" class="mrow"><span id="MathJax-Span-341" class="mi">L</span><span id="MathJax-Span-342" class="mo">(</span><span id="MathJax-Span-343" class="mi">w</span><span id="MathJax-Span-344" class="mo">,</span><span id="MathJax-Span-345" class="mi">b</span><span id="MathJax-Span-346" class="mo">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">L(w,b)</span></span>的最优化问题。最优化的方法是随机梯度下降法（<strong>stochastic gradient descent</strong>），这里采用的就是该方法。关于梯度下降的详细内容，参考<a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">wikipedia Gradient descent</a>。下面给出一个简单的梯度下降的可视化图：
+
+<img class="alignnone size-full wp-image-4177 aligncenter" src="https://cdn.omegaxyz.com/2018/04/梯度下降.png" alt="" width="525" height="563" />
+
+上图就是随机梯度下降法一步一步达到最优值的过程，说明一下，梯度下降其实是局部最优。感知机学习算法本身是误分类驱动的，因此我们采用随机梯度下降法。首先，任选一个超平面<span id="MathJax-Element-23-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-347" class="math"><span id="MathJax-Span-348" class="mrow"><span id="MathJax-Span-349" class="msubsup"><span id="MathJax-Span-350" class="mi">w</span><span id="MathJax-Span-351" class="mn">0</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">w0</span></span>和<span id="MathJax-Element-24-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-352" class="math"><span id="MathJax-Span-353" class="mrow"><span id="MathJax-Span-354" class="msubsup"><span id="MathJax-Span-355" class="mi">b</span><span id="MathJax-Span-356" class="mn">0</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">b0</span></span>，然后使用梯度下降法不断地<strong>极小化目标函数</strong>
+
+<img class="alignnone size-full wp-image-4178 aligncenter" src="https://cdn.omegaxyz.com/2018/04/jixiaohuamubiaohanshu.png" alt="" width="319" height="68" />
+
+然后，随机选取一个误分类点，根据上面的规则，计算新的<span id="MathJax-Element-33-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;/math&gt;"><span id="MathJax-Span-499" class="math"><span id="MathJax-Span-500" class="mrow"><span id="MathJax-Span-501" class="mi">w</span><span id="MathJax-Span-502" class="mo">,</span><span id="MathJax-Span-503" class="mi">b</span></span></span><span class="MJX_Assistive_MathML" role="presentation">w,b</span></span>，然后进行更新：
+<div class="MathJax_Display" style="text-align: center;"><strong><span id="MathJax-Element-34-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; line-height: normal; font-size: 14px; text-indent: 0px; text-align: center; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;:=&lt;/mo&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;&amp;#x03B7;&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-504" class="math"><span id="MathJax-Span-505" class="mrow"><span id="MathJax-Span-506" class="mi">w</span><span id="MathJax-Span-507" class="mo">:=</span><span id="MathJax-Span-508" class="mi">w</span><span id="MathJax-Span-509" class="mo">+</span><span id="MathJax-Span-510" class="mi">η</span><span id="MathJax-Span-511" class="msubsup"><span id="MathJax-Span-512" class="mi">y</span><span id="MathJax-Span-513" class="mi">i</span></span><span id="MathJax-Span-514" class="msubsup"><span id="MathJax-Span-515" class="mi">x</span><span id="MathJax-Span-516" class="mi">i</span></span></span></span></span></strong></div>
+<div class="MathJax_Display" style="text-align: center;"><strong><span id="MathJax-Element-35-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; line-height: normal; font-size: 14px; text-indent: 0px; text-align: center; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;:=&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;&amp;#x03B7;&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;"><span id="MathJax-Span-517" class="math"><span id="MathJax-Span-518" class="mrow"><span id="MathJax-Span-519" class="mi">b</span><span id="MathJax-Span-520" class="mo">:=</span><span id="MathJax-Span-521" class="mi">b</span><span id="MathJax-Span-522" class="mo">+</span><span id="MathJax-Span-523" class="mi">η</span><span id="MathJax-Span-524" class="msubsup"><span id="MathJax-Span-525" class="mi">y</span><span id="MathJax-Span-526" class="mi">i</span></span></span></span></span></strong></div>
+其中<span id="MathJax-Element-36-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03B7;&lt;/mi&gt;&lt;/math&gt;"><span class="MJX_Assistive_MathML" role="presentation">η</span></span>是步长，大于0小于1，在统计学习中称之为学习率（<em>learning rate</em>）。这样，通过迭代可以期待损失函数<span id="MathJax-Element-37-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-530" class="math"><span id="MathJax-Span-531" class="mrow"><span id="MathJax-Span-532" class="mi">L</span><span id="MathJax-Span-533" class="mo">(</span><span id="MathJax-Span-534" class="mi">w</span><span id="MathJax-Span-535" class="mo">,</span><span id="MathJax-Span-536" class="mi">b</span><span id="MathJax-Span-537" class="mo">)</span></span></span></span>不断减小，直至为0.
+
+下面给出一个感知器学习的图，比较形象：
+
+<span style="color: red;"><strong>由于上图采取的损失函数不同，所以权值的变化式子有点区别，不过思想都是一样的。</strong></span>
+
+算法描述如下：
+
+<strong>算法：感知机学习算法原始形式</strong>
+
+输入：T={(x1,y1),(x2,y2)...(xN,yN)}（其中xi∈X=Rn，yi∈Y={-1, +1}，i=1,2...N，学习速率为η）
+输出：w, b;感知机模型f(x)=sign(w·x+b)
+(1) 初始化w0,b0，权值可以初始化为0或一个很小的随机数
+(2) 在训练数据集中选取（x_i, y_i）
+(3) 如果yi(w xi+b)≤0
+w = w + ηy_ix_i
+b = b + ηy_i
+(4) 转至（2）,直至训练集中没有误分类点
+
+解释：当一个实例点被误分类时，调整w,b，使分离超平面向该误分类点的一侧移动，以减少该误分类点与超平面的距离，直至超越该点被正确分类。
+
+<strong>伪代码描述：</strong>
+
+<img class="alignnone size-full wp-image-4179" src="https://cdn.omegaxyz.com/2018/04/perceptron2.png" alt="" width="621" height="227" />
+
+对于每个w⋅xw⋅x其实是这样子的（假设x表示的是七维）：
+
+<img class="alignnone size-full wp-image-4180 aligncenter" src="https://cdn.omegaxyz.com/2018/04/perceptron3.png" alt="" width="456" height="303" />
+<div class="MathJax_Display" role="textbox" aria-readonly="true"></div>
+对于输入的每个特征都附加一个权值，然后将相加得到一个和函数f，最后该函数的输出即为输出的y值。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

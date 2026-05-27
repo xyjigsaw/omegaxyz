@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python uses Graphviz to draw pictures · OmegaXYZ</title>
+  <meta name="description" content="Graphviz is a graphics drawing tool software developed by AT&amp;T Labs Research. Graphviz is a graphics drawing tool developed by AT&amp;T Labs Research. It can be easily used to draw structured graphics networks. It supports multiple format outputs and the quality and speed of generated pictures are good. Graphviz itself is an open source product. You can download it here, as well as its demonstration interface Graphviz in wind...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/11/23/python-graphviz/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-23</div>
+        <h1>Python uses Graphviz to draw pictures</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">Graphviz is a graphics drawing tool software developed by AT&amp;T Labs Research.<div class="para">Graphviz is a graphics drawing tool developed by AT&amp;T Labs Research. It can be easily used to draw structured graphics networks, supports multiple format output, and the quality and speed of generated images are good. Graphviz itself is an open source product, which can be downloaded here, and its demonstration interface Graphviz can run smoothly on both Windows and Linux.</div>
+<div></div>
+<div>You can use graphviz to draw flow charts, state charts, etc., which is very convenient.</div>
+<div><strong>The basic code for drawing point and edge graphs in python:</strong></div>
+<div>
+<pre><code class="language-python">from graphviz import Digraph
+
+dot = Digraph(comment='The Test Table')
+# 添加圆点A,A的标签是Dot A
+dot.node('A', 'Dot A')
+# 添加圆点 B, B的标签是Dot B
+dot.node('B', 'Dot B')
+# dot.view()
+# 添加圆点 C, C的标签是Dot C
+dot.node(name='C', label= 'Dot C',color='red')
+# dot.view()
+
+# 创建一堆边，即连接AB的两条边，连接AC的一条边。
+dot.edges(['AB', 'AC', 'AB'])
+# dot.view()
+# 在创建两圆点之间创建一条边
+dot.edge('B', 'C', 'test')
+# dot.view()
+
+# 获取DOT source源码的字符串形式
+print(dot.source)
+dot.view()
+dot.render('test-table.gv', view=True)</code></pre>
+</div>
+<strong>Effect:</strong>
+<img alt="" class="alignnone wp-image-5146" height="490" src="https://cdn.omegaxyz.com/2018/11/graphviz1.png" width="340"/>
+<strong>Draw multiple subplots:</strong>
+<pre><code class="language-python">from graphviz import Digraph
+grap_g = Digraph("G",format="pdf")
+
+
+sub_g0 = Digraph(comment="process1",graph_attr={"style":'filled',"color":'lightgrey'},node_attr={"style":"filled","color":"red"})
+sub_g0.node("a0","a0")
+sub_g0.node("a1","a1")
+sub_g0.node("a2","a2")
+sub_g0.node("a3","a3")
+sub_g0.edge("a0","a1")
+sub_g0.edge("a1","a2")
+sub_g0.edge("a2","a3")
+sub_g0.edge("a3", "a0")
+
+sub_g1 = Digraph(comment="process1",graph_attr={"style":'filled'})
+sub_g1.node("B","b0")
+sub_g1.node("C","b1")
+sub_g1.node("D","b2")
+sub_g1.node("E","b3")
+sub_g1.edges(["BC","CD","DE"])
+
+grap_g.node(
+"start", label="start",shape="Mdiamond")
+grap_g.node(
+"end", label="end", shape="Mdiamond")
+
+grap_g.subgraph(sub_g0)
+grap_g.subgraph(sub_g1)
+grap_g.edge("start","a0")
+grap_g.edge("start","B")
+
+grap_g.edge("a1","E")
+grap_g.edge("D","a3")
+
+grap_g.edge("a3","end")
+grap_g.edge("E","end")
+
+grap_g.render('test-table2.gv', view=True)
+
+from graphviz import Digraph
+
+g = Digraph('测试图片')
+g.node(name='a',color='red')
+g.node(name='b',color='blue')
+g.edge('a','b',color='green')
+g.view()
+
+</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone wp-image-5147" height="637" src="https://cdn.omegaxyz.com/2018/11/graphviz2.png" width="332"/></div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-18912">
+          <strong>炉石至善</strong>
+          <time>2020-05-07 19:38:48</time>
+          <div>类似于这样的基于graphviz的流程图绘制工具，已经有开源模块了，叫Diagrams：<br>https://pythondict.com/python-paintings/python-draw-system-architecture/</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18913">
+          <strong>xyjisaw</strong>
+          <time>2020-05-07 19:45:01</time>
+          <div>好的，走一波友链？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++继承详解 · OmegaXYZ</title>
+  <meta name="description" content="三种继承 C++有下面三种形式的继承 （1） 公有继承(public) 公有继承的特点是基类的公有成员和保护成员作为派生类的成员时，它们都保持原有的状态，而基类的私有成员仍然是私有的，不能被这个派生类的子类所访问。 （2） 私有继承(private) 私有继承的特点是基类的公有成员和保护成员都作为派生类的私有成员，并且不能被这个派生类的子...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/30/cpp_inheritance/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-30</div>
+        <h1>C++继承详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1><strong>三种继承</strong></h1>
+C++有下面三种形式的继承
+<h2>（1）<strong> 公有继承(public)</strong></h2>
+公有继承的特点是基类的公有成员和保护成员作为派生类的成员时，它们都保持原有的状态，而基类的私有成员仍然是私有的，不能被这个派生类的子类所访问。
+<h2>（2）<strong>私有继承(private)</strong></h2>
+私有继承的特点是基类的公有成员和保护成员都作为派生类的私有成员，并且不能被这个派生类的子类所访问。
+<h2>（3）<strong>保护继承(protected)</strong></h2>
+保护继承的特点是基类的所有公有成员和保护成员都成为派生类的保护成员，并且只能被它的派生类成员函数或友元访问，基类的私有成员仍然是私有的。
+
+private能够对外部和子类保密，即除了成员所在的类本身可以访问之外，别的都不能直接访问。protected能够对外部保密，但允许子类直接访问这些成员。public、private和protected对成员数据或成员函数的保护程度可以用下表来描述：
+
+<img class="alignnone size-full wp-image-4162" src="https://cdn.omegaxyz.com/2018/04/cpp_inherit2.png" alt="" width="809" height="333" />
+<h2><strong>示例代码</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+
+
+class Base    //父类
+{
+private:
+	int privateTemp;
+protected:
+	int protectedTemp;
+public:
+	int publicTemp;
+};
+
+class publicClass : public Base    //子类，继承自base,继承类型为公有继承
+{
+private:
+	int _d_pri;
+protected:
+	int _d_pro;
+public:
+	void funct()
+	{
+		int d;
+		d = privateTemp;       //error：基类中私有成员在派生类中是不可见的
+		d = protectedTemp;       //ok： 基类的保护成员在派生类中为保护成员
+		d = publicTemp;       //ok： 基类的公共成员在派生类中为公共成员
+	}
+	int _d_pub;
+};
+//总结：（1）.public继承是一个接口继承，保持is - a原则，每个父类可用的成员对子类也可用， 因为每个子类对象也都是一个父类对象。
+
+class privateClass :private Base    //基类Base的派生类C（私有继承）
+{
+public:
+	void funct()
+	{
+		int c;
+		c = privateTemp;      //error：基类中私有成员在派生类中是不可见的
+		c = protectedTemp;      //ok：基类的保护成员在派生类中为私有成员
+		c = publicTemp;      //ok：基类的公共成员在派生类中为私有成员
+	}
+};
+
+class protectedClass :protected Base   //基类Base的派生类E（保护继承）
+{
+public:
+	void funct()
+	{
+		int e;
+		e = privateTemp;    //error：基类中私有成员在派生类中是不可见的
+		e = protectedTemp;    //ok：基类的保护成员在派生类中为保护成员
+		e = publicTemp;    //ok：基类的公共成员在派生类中为保护成员
+	}
+};
+//总结：
+//（2）.基类的private成员 在派生类中是不能被访问的， 如果基类成员 不想在类外直接被访问， 但需要 在派生类中能访问， 就定义为protected。 可以看出保护成员限定符是因继承才出现的。
+//（3）. protected / private继承是一个实现继承， 基类的部分成员 并非完全成为子类接口 的一部分， 是 has - a 的关系原则， 所以非特殊情况下不会使用这两种继承关系， 在绝大多数的场景下使用的 都是公有继承。 私有继承以为这is - implemented - in - terms - of(是根据……实现的) 。 通常比组合(composition) 更低级， 但当一个派生类需要访问 基类保护成员 或需要重定义基类的虚函数时它就是合理的。
+int main()
+{
+	int a;
+	publicClass d;
+	a = d.privateTemp;     //error：公有继承基类中私有成员在派生类中是不可见的,对对象不可见
+	a = d.protectedTemp;     //error：公有继承基类的保护成员在派生类中为保护成员，对对象不可见
+	a = d.publicTemp;     //ok：公有继承基类的公共成员在派生类中为公共成员，对对象可见
+	privateClass c;
+	a = c.privateTemp;    //error：私有继承基类中私有成员在派生类中是不可见的, 对对象不可见
+	a = c.protectedTemp;    //error：私有继承基类的保护成员在派生类中为私有成员，对对象不可见
+	a = c.publicTemp;    //error：私有继承基类的公共成员在派生类中为私有成员，对对象不可见
+	protectedClass e;
+	a = e.privateTemp;    //error：保护继承基类中私有成员在派生类中是不可见的, 对对象不可见
+	a = e.protectedTemp;    //error：保护继承基类的保护成员在派生类中为保护成员，对对象不可见
+	a = e.publicTemp;    //error：保护继承基类的公共成员在派生类中为保护成员，对对象不可见
+	system("pause");
+	return 0;
+}</code></pre>
+<h2><strong>编译器具体效果</strong></h2>
+<img class="alignnone size-full wp-image-4164" src="https://cdn.omegaxyz.com/2018/04/cpp_inherit3.jpg" alt="" width="776" height="349" />
+<h2><strong>总结</strong></h2>
+（1）public继承是一个接口继承，保持is - a原则，每个父类可用的成员对子类也可用， 因为每个子类对象也都是一个父类对象。
+
+（2）基类的private成员 在派生类中是不能被访问的， 如果基类成员 不想在类外直接被访问， 但需要 在派生类中能访问， 就定义为protected。 可以看出保护成员限定符是因继承才出现的。
+（3） protected / private继承是一个实现继承， 基类的部分成员 并非完全成为子类接口 的一部分， 是 has - a 的关系原则， 所以非特殊情况下不会使用这两种继承关系， 在绝大多数的场景下使用的 都是公有继承。 私有继承以为这is - implemented - in - terms - of(是根据……实现的) 。 通常比组合(composition) 更低级， 但当一个派生类需要访问 基类保护成员 或需要重定义基类的虚函数时它就是合理的。
+
+<strong><span style="color: #ff0000;">如果想要用基类的私有成员初始化怎么办？解决方法如下。</span></strong>
+<h1><strong>如何调用基类私有成员</strong></h1>
+<span style="color: #ff0000;"><strong>首先声明一点：类的构造函数和析构函数不能被继承。</strong></span>
+
+所以要用到基类的私有成员初始化<span style="color: #ff0000;"><strong>必须在派生类中定义一个构造函数并显式调用基类的构造函数</strong></span>。
+
+加一个冒号（:），然后加上父类的带参数的构造函数。这样，在子类的构造函数被调用时，系统就会去调用父类的带参数的构造函数去构造对象。应该这样调用（Square继承自Rectangle）
+<pre ><code class="language-c++">Square(string n, double x):Rectangle(n, x, x){}</code></pre>
+<h2><strong>具体实例代码</strong></h2>
+<strong>题目：编程计算图形的面积。程序可计算圆形、长方形、正方形的面积，运行时先提示用户选择图形的类型，然后，对圆形要求用户输入半径值，对长方形要求用户输入长和宽的值，对正方形要求用户输入边长的值，计算出面积的值后将其显示出来。</strong>
+
+<strong>长方形类设计：</strong>
+
+私有变量为：名称、宽度、长度、面积。
+
+成员函数包括：构造函数、信息显示函数、求面积函数。
+
+<strong>正方形类设计：</strong>
+
+<strong>正方形类公有继承自长方形类：</strong>当类的继承方式为公有继承时，基类的公有成员和保护成员的访问属性在派生类中不变，而基类的私有成员不可直接访问。
+
+正方形类显式调用长方形类的构造函数如下：
+
+私有变量为：名称、边长、面积。
+
+成员函数包括：构造函数、信息显示函数、求面积函数。
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;stdlib.h&gt;
+#define pi 3.1415927
+using namespace std;
+
+class Rectangle{
+private:
+	string name;
+	double width;
+	double height;
+	double area;
+public:
+	Rectangle(string x, double w, double h) :name(x), width(w), height(h){}
+	void showInfo();
+	double getArea(){ return width*height; }
+
+};
+
+void Rectangle::showInfo(){
+	if (width == height){
+		cout &lt;&lt; "正方形： 边长为：" &lt;&lt; width &lt;&lt; endl;
+	}
+	else{
+		cout &lt;&lt; "长方形： 长为：" &lt;&lt; width &lt;&lt; "  宽为：" &lt;&lt; height &lt;&lt; endl;
+	}
+	cout &lt;&lt; "面积为：" &lt;&lt; getArea() &lt;&lt; endl;
+}
+
+class Square :public Rectangle{
+private:
+	string name;
+	double width;
+	double area;
+public:
+	Square(string n, double x) :Rectangle(n, x, x){}
+};
+
+
+class Circle{
+private:
+	string name;
+	double radius;
+public:
+	Circle(string x, double r) :name(x), radius(r){}
+	double getArea(){ return pi*radius*radius; }
+	void showInfo(){ cout &lt;&lt; "圆：半径为：" &lt;&lt; radius &lt;&lt; endl &lt;&lt; "面积为：" &lt;&lt; getArea() &lt;&lt; endl; }
+};
+
+
+int main()
+{
+	cout &lt;&lt; "--------------------------" &lt;&lt; endl;
+	int choice;
+	cout &lt;&lt; "选择序号建立图形\n1：长方形 2：正方形 3：圆\n";
+	cin &gt;&gt; choice;
+	while (1){
+		if (choice == 1){
+			cout &lt;&lt; "输入长和宽:";
+			int width, height;
+			cin &gt;&gt; width &gt;&gt; height;
+			Rectangle a("Rectangle", height, width);
+			a.showInfo();
+		}
+		else if (choice == 2){
+			cout &lt;&lt; "输入边长:";
+			int width2;
+			cin &gt;&gt; width2;
+			Square b("Square", width2);
+			b.showInfo();
+		}
+		else{
+			cout &lt;&lt; "输入半径：";
+			int radius;
+			cin &gt;&gt; radius;
+			Circle c("Circle", radius);
+			c.showInfo();
+		}
+		system("pause");
+		system("cls");
+		cout &lt;&lt; "选择序号建立图形\n1：长方形 2：正方形 3：圆\n";
+		cin &gt;&gt; choice;
+	}
+}
+</code></pre>
+<p style="text-align: center;"><strong><span style="color: #ff0000;">网站所有原创代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </span></strong>
+<strong><span style="color: #ff0000;">网站文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</span></strong></p></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

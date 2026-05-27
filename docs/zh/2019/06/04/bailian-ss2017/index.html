@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>百练-2017研究生上机测试（待续） · OmegaXYZ</title>
+  <meta name="description" content="作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭， 无法看到是否AC（以下代码可能无法通过全部测试用例） ，如有错误，请指出，O(∩_∩)O谢谢。 A:奖学金 全局题号7908 提交次数207 尝试人数40 通过人数32 总时间限制: 1000ms 内存限制: 65536...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/04/bailian-ss2017/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-04</div>
+        <h1>百练-2017研究生上机测试（待续）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+作为一个编程菜鸡，先刷刷前几题，八道题目争取6题有思路，5题能写出来，3题能AC（大佬勿嘲笑）。由于部分题目已经关闭，<strong><span style="color: #ff0000;">无法看到是否AC（以下代码可能无法通过全部测试用例）</span></strong>，如有错误，请指出，O(∩_∩)O谢谢。
+<h2><strong>A:奖学金</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号7908 提交次数207 尝试人数40 通过人数32</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>某小学最近得到了一笔赞助，打算拿出其中一部分为学习成绩优秀的前5名学生发奖学金。期末，每个学生都有3门课的成绩:语文、数学、英语。先按总分从高到低排序，如果两个同学总分相同，再按语文成绩从高到低排序，如果两个同学总分和语文成绩都相同，那么规定学号小的同学排在前面，这样，每个学生的排序是唯一确定的。
+
+任务：先根据输入的3门课的成绩计算总分，然后按上述规则排序，最后按排名顺序输出前五名名学生的学号和总分。注意，在前5名同学中，每个人的奖学金都不相同，因此，你必须严格按上述规则排序。例如，在某个正确答案中，如果前两行的输出数据(每行输出两个数:学号、总分) 是:
+
+7 279
+
+5 279
+
+这两行数据的含义是:总分最高的两个同学的学号依次是7号、5号。这两名同学的总分都是 279 (总分等于输入的语文、数学、英语三科成绩之和) ，但学号为7的学生语文成绩更高一些。如果你的前两名的输出数据是:
+
+5 279
+
+7 279
+
+则按输出错误处理，不能得分。</dd>
+ 	<dt>输入</dt>
+ 	<dd>包含n+1行:
+
+第1行为一个正整数n，表示该校参加评选的学生人数。
+
+第2到n+1行，每行有3个用空格隔开的数字，每个数字都在0到100之间。第j行的3个数字依次表示学号为 j-1 的学生的语文、数学、英语的成绩。每个学生的学号按照输入顺序编号为1~n (恰好是输入数据的行号减1)。
+
+所给的数据都是正确的，不必检验。
+
+50%的数据满足:各学生的总成绩各不相同；
+100%的数据满足: 6&lt;=n&lt;=300。</dd>
+ 	<dt>输出</dt>
+ 	<dd>共有5行，每行是两个用空格隔开的正整数，依次表示前5名学生的学号和总分。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>样例 #1：
+6
+90 67 80
+87 66 91
+78 89 91
+88 99 77
+67 89 64
+78 89 98
+
+样例 #2：
+8
+80 89 89 
+88 98 78
+90 67 80
+87 66 91
+78 89 91
+88 99 77
+67 89 64
+78 89 98
+
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">样例 #1：
+6 265
+4 264
+3 258
+2 244
+1 237
+
+样例 #2：
+8 265
+2 264
+6 264
+1 258
+5 258</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+struct node{
+    int id;
+    int chinese;
+    int math;
+    int eng;
+    int all;
+};
+
+bool cmp(node a, node b){
+    if(a.all != b.all)return a.all &gt; b.all;
+    else return a.chinese &gt; b. chinese;
+}
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    vector&lt;node&gt; pool(n);
+    for(int i = 0; i &lt; n; i++){
+        pool[i].id = i + 1;
+        cin&gt;&gt;pool[i].chinese&gt;&gt;pool[i].math&gt;&gt;pool[i].eng;
+        pool[i].all = pool[i].chinese + pool[i].math + pool[i].eng;
+    }
+    sort(pool.begin(), pool.end(), cmp);
+    for(int i = 0; i &lt; 5; i++){
+        cout&lt;&lt;pool[i].id&lt;&lt;" "&lt;&lt;pool[i].all&lt;&lt;endl;
+    }
+    return 0;
+}</code></pre>
+
+<hr />
+
+<h2><strong>B:高次同余方程求解</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号12750 提交次数69 尝试人数34 通过人数29</strong></span>
+
+总时间限制: 1000ms 内存限制: 65536kB描述
+
+解高次同余方程是数论里的一个基础问题。现在邀请你来解一个简单的高次同余方程，x<sup>k</sup>=1(mod n)。（注：x<sup>k</sup>=1(mod  n)的意思是x<sup>k</sup>除以n的余数为1）
+
+数据范围：n和k是整数，且0 &lt; k &lt; n &lt; 1000
+
+输入两个整数，分别为k和n。输出从小到大输出方程的所有满足0 &lt; x &lt; n的整数解x，每行输出一个。
+
+样例输入
+<pre>3 7</code></pre>
+样例输出
+<pre class="">1
+2
+4</code></pre>
+提示需要注意中间计算结果的可能范围。
+(a * b) % p = ((a % p) * (b % p)) % p
+
+样例输入：
+398 702
+样例输出
+1
+53
+649
+701
+
+C++实现
+<pre ><code class="language-c++">#include&lt;stdio.h&gt;
+
+
+int res(int x, int  k, int n){
+    if(k == 1)return x % n;
+    else return ((x % n) * res(x, k - 1, n)) % n;
+}
+
+int main(){
+    int k, n, i;
+    scanf("%d%d", &amp;k, &amp;n);
+
+    for(i = 1; i &lt; n; i++){
+        if(res(i, k, n) == 1)printf("%d\n", i);
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>C:二维数组回形遍历</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号7545 提交次数78 尝试人数35 通过人数29</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>给定一个row行col列的整数数组array，要求从array[0][0]元素开始，按回形从外向内顺时针顺序遍历整个数组。如图所示：
+
+<img class="alignnone size-full wp-image-5864" src="https://cdn.omegaxyz.com/2019/06/bailian-ss2017.gif" alt="" width="275" height="322" /></dd>
+ 	<dt>输入</dt>
+ 	<dd>输入的第一行上有两个整数，依次为row和col。
+余下有row行，每行包含col个整数，构成一个二维整数数组。
+（注：输入的row和col保证0 &lt; row &lt; 100, 0 &lt; col &lt; 100）</dd>
+ 	<dt>输出</dt>
+ 	<dd>按遍历顺序输出每个整数。每个整数占一行。</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>4 4
+1 2 3 4
+12 13 14 5
+11 16 15 6
+10 9 8 7</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int nextDir[4] = {0, 1, 2, 3};
+
+int rightCnt, downCnt, leftCnt, upCnt;
+
+int v[101][101];
+
+int main(){
+    int row, col;
+    cin&gt;&gt;row&gt;&gt;col;
+    for(int i = 0; i &lt; row; i++){
+        for(int j = 0; j &lt; col; j++){
+            scanf("%d", &amp;v[i][j]);
+        }
+    }
+    int flag = 1;
+    int cnt = row * col;
+    while(true){
+        for(int j = flag - 1; j &lt;= col - flag - 1; j++){
+            cout&lt;&lt;v[flag - 1][j]&lt;&lt;endl;
+            if(--cnt == 0)return 0;
+        }
+        for(int i = flag - 1; i &lt;= row - flag; i++){
+            cout&lt;&lt;v[i][col - flag]&lt;&lt;endl;
+            if(--cnt == 0)return 0;
+        }
+        for(int j = col - flag - 1; j &gt;= flag - 1; j--){
+            cout&lt;&lt;v[row - flag][j]&lt;&lt;endl;
+            if(--cnt == 0)return 0;
+        }
+        for(int i = row - flag - 1; i &gt;= flag; i--){
+            cout&lt;&lt;v[i][flag - 1]&lt;&lt;endl;
+            if(--cnt == 0)return 0;
+        }
+        flag++;
+    }    
+    return 0;
+}
+</code></pre>
+
+<hr />
+
+<h2><strong>H:拓扑排序</strong></h2>
+<span style="color: #ff0000;"><strong>全局题号4865 提交次数30 尝试人数17 通过人数16</strong></span>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>10000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>1000kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>给出一个图的结构，输出其拓扑排序序列，要求在同等条件下，编号小的顶点在前</dd>
+ 	<dt>输入</dt>
+ 	<dd>若干行整数，第一行有2个数，分别为顶点数v和弧数a，接下来有a行，每一行有2个数，分别是该条弧所关联的两个顶点编号</dd>
+ 	<dt>输出</dt>
+ 	<dd>若干个空格隔开的顶点构成的序列(用小写字母)</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>6 8
+1 2
+1 3
+1 4
+3 2
+3 5
+4 5
+6 4
+6 5
+</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">v1 v3 v2 v6 v4 v5</code></pre>
+</dd>
+</dl>
+C++实现
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;queue&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+
+int main(){
+    int n, m;
+    cin&gt;&gt;n&gt;&gt;m;
+    vector&lt;int&gt; vec[n + 1];
+    vector&lt;int&gt; cnt(n + 1);
+    vector&lt;bool&gt; visit(n + 1);
+    int a, b;
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;a&gt;&gt;b;
+        vec[a].push_back(b);
+        cnt[b]++;
+    }
+    queue&lt;int&gt; q;
+    for(int i = 1; i &lt;= n; i++){
+        if(cnt[i] == 0){
+            q.push(i);
+            visit[i] = true;
+            break;
+        }
+    }
+    int flag = 0;
+    while(!q.empty()){
+        int cur = q.front();
+        q.pop();
+        for(int i = 0; i &lt; vec[cur].size(); i++)cnt[vec[cur][i]]--;
+        for(int i = 1; i &lt;= n; i++){
+            if(cnt[i] == 0 &amp;&amp; visit[i] == false){
+                q.push(i);
+                visit[i] = true;
+                break;
+            }
+        }
+        printf("v%d%s", cur, ++flag == n ? "\n" : " ");
+    }
+    return 0;
+}
+</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

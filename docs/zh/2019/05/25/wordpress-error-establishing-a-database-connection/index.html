@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WordPress数据库error establishing a database connection错误 · OmegaXYZ</title>
+  <meta name="description" content="作为一个买不起大型服务器只能用阿里云学生机的站长，经常遇到error establishing a database connection错误。 这是一种建立数据库连接时的错误。出现这种错误非常令人沮丧，因为我们根本什么都没动，突然间就出现了这种错误。 为什么会出现这种错误？ 数据库登录凭证错误或已更改，数据库服务器无响应，数据库已损坏。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/25/wordpress-error-establishing-a-database-connection/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-25</div>
+        <h1>WordPress数据库error establishing a database connection错误</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/wordpress/index.html">wordpress</a></div>
+        <div class="article-content">作为一个买不起大型服务器只能用阿里云学生机的站长，经常遇到error establishing a database connection错误。
+
+这是一种建立数据库连接时的错误。出现这种错误非常令人沮丧，因为我们根本什么都没动，突然间就出现了这种错误。
+
+<img class="alignnone wp-image-5801" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection2.png" alt="" width="630" height="334" />
+<h2><strong>为什么会出现这种错误？</strong></h2>
+<ol>
+ 	<li>数据库登录凭证错误或已更改，数据库服务器无响应，数据库已损坏。</li>
+ 	<li>网站流量过大时，也会出现数据库连接错误。</li>
+ 	<li>服务器多个服务影响，可以访问其他服务看看是否正常，判断是不是数据库服务器导致的。</li>
+ 	<li>用户的权限是否足够。</li>
+ 	<li>是否设置了拒绝远程连接。</li>
+</ol>
+<h2><strong>如何解决</strong></h2>
+<strong><span style="color: #ff0000;">重启服务器！！！此种方法最为有效！</span></strong>
+
+那么除了重启，我们还有其他方法吗？
+
+首先应该做的是确保在站点的前端和站点的后端（wp-admin）上都得到相同的错误。如果错误消息在两个页面上都相同“建立数据库连接时出错”。我们可以按照下面的步骤执行。
+
+访问http://域名/wp-admin/maint/repair.php
+
+可以看到：
+
+<img class="alignnone wp-image-5799" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection.png" alt="" width="634" height="209" />
+
+注意可以用FTP工具下载wp-config.php然后再次上传
+
+<img class="alignnone size-full wp-image-5800" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection1.png" alt="" width="2458" height="190" />
+
+在wp-config.php文件中添加以下代码：
+<pre ><code class="language-php">define('WP_ALLOW_REPAIR', true);</code></pre>
+注意添加的代码的位置最好在中间。
+
+<img class="alignnone wp-image-5804" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection5.png" alt="" width="626" height="329" />
+
+保存以后，我们再次访问下面的url：
+
+http://域名/wp-admin/maint/repair.php
+
+可以看到：
+
+<img class="alignnone wp-image-5802" src="https://cdn.omegaxyz.com/2019/05/WordPress-error-establishing-a-database-connection3.png" alt="" width="622" height="302" />
+
+访问该URL的主要功能是用来修复并优化损坏的数据库。
+
+<span style="color: #ff0000;"><strong>修改完成后，我们需要从wp-config.php文件中删除上面添加的代码。（如果不删除则对系统造成威胁）方法同样是使用FTP。</strong></span>
+
+如果更改了root密码或数据库用户密码，那么还需要更改此文件wp-config.php。确保配置的数据库的用户名和密码都正确。
+<pre ><code class="language-php">define('DB_NAME', '数据库名');
+define('DB_USER', '数据库用户名');
+define('DB_PASSWORD', '数据库密码');
+define('DB_HOST', '主机');</code></pre>
+<span style="color: #ff0000;"><strong>注意任何操作数据库前，请注意备份，以免发生意外。</strong></span></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

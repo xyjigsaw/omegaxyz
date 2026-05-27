@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROC曲线/AUC曲线与混淆矩阵介绍 · OmegaXYZ</title>
+  <meta name="description" content="ROC曲线 ROC（Receiver Operating Characteristic）曲线即受试者工作特征曲线 （receiver operating characteristic curve，简称ROC曲线），又称为感受性曲线（sensitivity curve），用来评价一个二值分类器（binary classifier）的优劣。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/08/27/rocandauc/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-27</div>
+        <h1>ROC曲线/AUC曲线与混淆矩阵介绍</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/roc/index.html">ROC</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>ROC曲线</h1>
+ROC（Receiver Operating Characteristic）曲线即受试者工作特征曲线 （receiver operating characteristic curve，简称ROC曲线），又称为感受性曲线（sensitivity curve），用来评价一个二值分类器（binary classifier）的优劣。
+
+<img class="alignnone wp-image-1800" src="https://cdn.omegaxyz.com/2017/08/ROC1-300x291.png" alt="" width="606" height="588" />
+
+ROC曲线的横坐标为false positive rate（FPR），纵坐标为true positive rate（TPR）
+<h1>混淆矩阵</h1>
+接下来这张图是混淆矩阵。
+
+先理解 一下
+• 伪阳性率（FPR）
+判定为正例却不是真正例的概率
+• 真阳性率（TPR）
+判定为正例也是真正例的概率
+• 伪阴性率（FNR）
+判定为负例却不是真负例的概率
+• 真阴性率（TNR）
+判定为负例也是真负例的概率
+
+&nbsp;
+
+<img class="alignnone wp-image-1801" src="https://cdn.omegaxyz.com/2017/08/混淆矩阵-300x150.png" alt="" width="704" height="352" />
+
+<img class="alignnone  wp-image-1868" src="https://cdn.omegaxyz.com/2017/08/20160823164328727-300x106.png" alt="" width="758" height="268" />
+
+注意此图中P+N是所有的样本个数。
+接下来考察四个点：
+①(0,1)：即FPR=0, TPR=1，这意味着FN（false negative）=0，并且FP（false positive）=0。Wow，它将所有的样本都正确分类。
+②(1,0)，即FPR=1，TPR=0，这个点的预测全部错误。
+③(0,0)，即FPR=TPR=0，即FP（false positive）=TP（true positive）=0，该分类器预测所有的样本都为负样本（negative）。
+④（1,1），分类器实际上预测所有的样本都为正样本。
+
+结论：ROC曲线越接近左上角，该分类器的性能越好。
+<h1>AUC曲线</h1>
+AUC（Area Under Curve）被定义为ROC曲线下的面积，这个面积的数值不会大于1。又由于ROC曲线一般都处于y=x这条直线的上方，所以AUC的取值范围在0.5和1之间。使用AUC值作为评价标准是因为很多时候ROC曲线并不能清晰的说明哪个分类器的效果更好，而作为一个数值，对应AUC更大的分类器效果更好。为什么呢，因为ROC曲线越接近左上角，AUC面积就越大，分类器性能就越好。
+
+参考文献：孔明的博客、百度百科</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

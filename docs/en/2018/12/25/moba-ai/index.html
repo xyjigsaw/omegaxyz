@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>King of Glory AI Paper: Hierarchical Macro Strategy Model · OmegaXYZ</title>
+  <meta name="description" content="Paper and Author About the first author Bin Wu, he is now a senior researcher at Tencent AI Lab and the technical leader of the design and development of the King of Glory AI algorithm. Previously, he was also a core member of a quantitative trading project at Tencent, responsible for the design and development of machine learning algorithms. The model developed by this team has achieved 70% net income, and the return rate in the A-share market in 2017 was 5%. Real information shows that Bin Wu joined Tencent in December 2016 and has...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/12/25/moba-ai/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-25</div>
+        <h1>King of Glory AI Paper: Hierarchical Macro Strategy Model</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><h2><strong>Papers and authors</strong></h2>
+<img alt="" class="wp-image-5265 aligncenter" height="209" src="https://cdn.omegaxyz.com/2018/12/Hierarchical-Macro-Strategy-Model-for-MOBA-Game-AI.png" width="774"/>Regarding the first author Bin Wu, he is now a senior researcher at Tencent AI Lab and the technical person in charge of the design and development of the King of Glory AI algorithm.
+
+Previously, he was also a core member of a quantitative trading project at Tencent, responsible for the design and development of machine learning algorithms. The model developed by this team has achieved 70% net income, and the return rate in the A-share market in 2017 was 5%.
+
+Public information shows that Bin Wu joined Tencent in December 2016 and has been there ever since. Previously, he worked at Baidu for a year and was responsible for Duer-related projects.
+
+Bin Wu graduated from Shanghai Jiao Tong University in 2011 and received his PhD from Hong Kong University of Science and Technology in 2015.<h2><strong>Summary</strong></h2>The next challenge for gaming AI lies in real-time strategy (RTS) games. RTS games provide a partially observable game environment, allowing for greater interaction in the operating space. Mastering RTS games requires strong macro strategy and refined micro-level execution. Recently, authors have made great progress in micro-level execution, while complete solutions for macro-level strategies are still lacking.
+
+This paper proposes a novel superior-to-hierarchical macro strategy model for mastering MOBA games. By training a hierarchical macro-strategy model, agents clarify macro-strategic decisions and further guide their micro-level execution. Additionally, each agent makes independent strategic decisions while communicating with allies by utilizing a novel communication mechanism that mimics cross-agent communication. Comprehensive evaluation of a popular 5 v5 multiplayer online battle arena (MOBA) game (Honor of Kings). The author's team and the top 1% of human player teams achieved a win rate of 48%.<h2><strong>Comparison between King of Glory and Go</strong></h2>The average duration of a game of Honor of Kings is 20 minutes, which is approximately equivalent to 20,000 frames.
+
+A game of Go is usually no more than 361 moves.
+
+In each frame, players need to make a choice among dozens of options, including movement keys with 24 directions, as well as some technical keys, and some technical keys also have directions. After being greatly simplified and discretized in real time, and increasing the response time to 200ms, the order of magnitude of the action space is still 101,500.
+
+The move space of Go is about 10250.
+
+As for the state space, the resolution of the King of Glory map is 130000×130000 pixels, and the size of each hero is 1000 pixels. In each frame, each hero has a different status, such as blood volume, level, economy, etc. Even after significant simplification, there are still 1,020,000 state spaces.<img alt="" class="wp-image-5260 aligncenter" height="384" src="https://cdn.omegaxyz.com/2018/12/moba-ai4.png" width="732"/>
+<h2><strong>Game battle</strong></h2>Let’s start with the opening, one of the most intense stages. The following four attention distribution maps represent different opening strategies learned by AI. The four pictures, from left to right, are: Diao Chan (mage), Han Xin (assassin), Arthur (tank) and descendants (archer).<p align="center"><img alt="" class="alignnone size-full wp-image-5262" height="292" src="https://cdn.omegaxyz.com/2018/12/moba-ai6.png" width="1626"/></p>It can be seen that AI Diao Chan focuses on the outer tower in the middle lane in the opening stage, AI Han Xin focuses on the blue Buff in the jungle area of ​​​​their own top lane, and AI Arthur and AI offspring focus on the red buff in the jungle area of ​​​​their own bottom lane. The fifth hero AI Miyamoto Musashi who is not included will defend the outer tower of his team's top lane.
+
+This is a common start for a glorious king.
+
+As the game progresses, the AI's attention to positioning will gradually change. As you can see from the chart below, as time goes by, the positions of the various AI heroes will become closer and closer.<p align="center"><img alt="" class="alignnone size-full wp-image-5261" height="700" src="https://cdn.omegaxyz.com/2018/12/moba-ai5.png" width="1710"/></p>This division of labor and linkage is the biggest improvement of King of Glory AI this time.
+
+Talk about efficacy. After the upgrade, the King of Glory AI, in order to prove its strength, began to find humans to train with. Five AI team up to play black and compete with human players in 5v5 for 250 rounds. In the end, the AI ​​team's winning rate reached 48%.
+
+These players are all kings and belong to the top 1% of human players.
+
+Tencent stated in the paper that the number of kills obtained by the AI ​​team was 15% less than that of the human team; in terms of tower push, team battle rate and economic gain, it was equal to the human team.
+
+In the first 10 minutes of the game, the AI ​​team knocked down 2.5 more towers than the human team. After 10 minutes, due to the weak team fighting methods, the number of tower pushers on both sides gradually approached. This feature has been summarized by Tencent as: AI is close to or even better than human experts in formulating macro strategies.<h2><strong>The algorithm behind King AI</strong></h2>What skills does AI rely on to tie up with the human king?
+
+The answer is, a learning-based Hierarchical Macro Strategy model. After the training of this model, the agent that controls each hero can make decisions independently while not forgetting to communicate with teammates, becoming a top player.
+
+The "layered" in the name refers to the fact that the model is divided into an attention layer and a phase layer. The former is used to predict where the hero should go, and the latter is responsible for identifying what stage the game is in, whether it is the early stage, laning, or late stage.<p align="center"><img alt="" class="alignnone size-full wp-image-5258" height="972" src="https://cdn.omegaxyz.com/2018/12/moba-ai2.png" width="2050"/></p>Let's look first<strong>attention layer</strong>, that is, how the AI ​​determines where its hero should go.
+
+To cultivate this method, we must first have consistent experimental data, and in Glory of the King, if you want to judge whether a hero has "arrived here", the most consistent criterion is "the fight started here."
+
+Therefore, when Tencent marked the actual data, it determined the location of the next attack as the location where the hero should go now.<p align="center"><img alt="" class="alignnone wp-image-5263" height="255" src="https://cdn.omegaxyz.com/2018/12/moba-ai7.png" width="575"/></p>For example, the picture above takes Han Xin as an example, showing where the hero should go when the game starts. The left side shows the situation of the game in the initial stage s-1. The red boxes ys and ys+1 marked in the center and right side represent the positions where Han Xin carried out the first and second attacks, which is where he should go in the s-1 and s stages.
+
+The goal of AI is to learn how to prepare to go to the y position in the s-1 stage, and to go to the ys+1 position in the s stage.
+
+Using such data to practice the attention layer can allow AI to grasp the secret of hero movement.
+
+Knowing where to go is not enough. If you want to be the king, you must also be able to judge the general trend and coordinate strategies. this is<strong>period layer</strong>Things have changed.
+
+If you want to know whether the game has reached the early stage, laning stage or late stage, time alone is not enough. Fortunately, the status and stages of the main resources in the game are inseparable. For example, if the hero is still aiming to push the outer tower and defeat the tyrant (little dragon), then the game must have just started; if he hits the enemy's home, it is already in the late stage.
+
+Therefore, teaching AI to judge the general trend is also based on the impact of the enemy's main resources, including towers, tyrants, masters (baron) and crystals (base).<p align="center"><img alt="" class="alignnone wp-image-5264" height="385" src="https://cdn.omegaxyz.com/2018/12/moba-ai8.png" width="933"/></p>Part A on the left side of the figure above represents the enemy's main resources that the era layer is concerned about. What the model needs to learn from this is to judge what main resources should be attacked at the moment based on the resource status, and further determine what small goals should be achieved.
+
+For example, the blue buffs (wild monsters) shown in the right part of the picture above and the clearing of the bottom lane are all small goals in this period of pushing a tower.
+
+Being able to explain the general trend, determine the policy, and know where to go, the rest is<strong>Similar common problems among teammates</strong>.
+
+But to learn the same thing, there is really no human battle data that can be used for practice. After all, the similarities between human teammates are full of resentment.
+
+Therefore, Tencent designed a new cross-agent communication mechanism, using teammates' attention tags to train AI, so that it can learn to predict where teammates are going and make decisions accordingly.
+
+In this way, five agents in a team can cooperate, which can be regarded as a "similarity" mechanism. Tencent calls it Imitated Crossagents Communication.<strong>Reprinted and modified from:</strong>Qubits:<a href="http://hotnews.qdswwl.com/hulianwang/36143.html">http://hotnews.qdswwl.com/hulianwang/36143.html</a>
+<strong>Address:</strong><a href="https://arxiv.org/abs/1812.07887v1">https://arxiv.org/abs/1812.07887v1</a></div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-18498">
+          <strong>尹奕凡</strong>
+          <time>2020-01-29 17:18:51</time>
+          <div>2011年本科毕业，2015年博士毕业。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18499">
+          <strong>xyjisaw</strong>
+          <time>2020-01-29 22:29:38</time>
+          <div>tql...</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

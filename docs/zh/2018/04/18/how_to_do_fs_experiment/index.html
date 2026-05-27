@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习如何做特征选择实验 · OmegaXYZ</title>
+  <meta name="description" content="特征选择是一种数据预处理过程，优秀的特征能够提升分类器的性能。 在现实世界中，有很多类包含很多特征，比如生物的DNA，在利用不同算法选出较少的特征子集后，如何评价选出来的特征是至关重要的。 从多数特征选择论文中提取以下几点。 ①不同特征选择算法在不同数据集上的错误率 ②不同特征选择算法在不同数据集上选出解的数目 说明： 很显然，以上两点是...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/18/how_to_do_fs_experiment/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-18</div>
+        <h1>机器学习如何做特征选择实验</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+特征选择是一种数据预处理过程，优秀的特征能够提升分类器的性能。
+
+在现实世界中，有很多类包含很多特征，比如生物的DNA，在利用不同算法选出较少的特征子集后，如何评价选出来的特征是至关重要的。
+
+<strong>从多数特征选择论文中提取以下几点。</strong>
+<h2>①不同特征选择算法在不同数据集上的错误率</h2>
+<h2>②不同特征选择算法在不同数据集上选出解的数目</h2>
+<strong>说明：</strong>很显然，以上两点是必须的。
+<h2>③迭代次数不同情况下出现新解的个数</h2>
+<strong>说明：</strong>出现的新解越少，说明算法逐渐收敛，在同一张坐标轴上显示多个算法出现新解的个数可以有效比较算法收敛速度。虽然能比较收敛速度，但是算法不一定差。
+
+下图显示了不同数据集上的迭代次数不同情况下出现新解的个数
+
+<img class="alignnone size-full wp-image-4070" src="https://cdn.omegaxyz.com/2018/04/fse4.jpg" alt="" width="972" height="297" />
+<h2>④所有代中每个特征被选中的频率</h2>
+<strong>说明：</strong>如果某些解的频率很高，某些解的频率很低，说明此算法比较稳定。
+
+下面这张图就显示了每个特征被选中的频率。如果线条越黑，则说明此特征被选中的频率越大，如果整张图都是灰的，那么这个算法其实还有提升的空间。
+
+下图显示了CSO和PSO算法的情况
+
+<img class="alignnone size-full wp-image-4069" src="https://cdn.omegaxyz.com/2018/04/fse5.jpg" alt="" width="727" height="364" />
+
+<img class="alignnone size-full wp-image-4066" src="https://cdn.omegaxyz.com/2018/04/fse1.png" alt="" width="418" height="209" />
+<h2>⑤不同参数情况下的实验结果</h2>
+<strong>说明：</strong>比如PSO算法的c1,c2的权重值，KNN算法不同的K值等。
+<h2>⑥不同分类器（SVM,KNN）下的实验结果</h2>
+<strong>说明：</strong>KNN算法高维（大于5000维）运算会比较耗时，SVM的参数调整较麻烦。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

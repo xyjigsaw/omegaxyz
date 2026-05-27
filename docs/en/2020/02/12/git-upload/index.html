@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>git uploads local files to the warehouse (can be appended) · OmegaXYZ</title>
+  <meta name="description" content="1. (Enter the folder where the file (folder) you want to upload is located) Use the command git init to turn this directory into a warehouse that can be managed by git. 2. Add the file to the repository and use the command git add. Add it to the temporary storage area. Don&#x27;t forget the decimal point &quot;.&quot; after it, which means adding all the files in the folder. 3. Use the command git commit to tell Git to submit the file to the warehouse. The quotation marks are the submission instructions 4. Connect to the remote library...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/02/12/git-upload/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-12</div>
+        <h1>git uploads local files to the warehouse (can be appended)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/github/index.html">Github</a></div>
+        <div class="article-content"><div>
+
+1、<strong>(Enter the folder where the file (folder) you need to upload is located)</strong>Use the command git init to turn this directory into a warehouse that git can manage.<pre><code class="language-default">git init</code></pre>2. Add the file to the repository and use the command git add. Add it to the temporary storage area. Don’t forget the decimal point “.” at the end, which means to add all the files in the folder.<pre><code class="language-default">git add .</code></pre>3. Use the command git commit to tell Git to submit the file to the warehouse. Submission instructions are enclosed in quotation marks<pre><code class="language-default">git commit -m '提交文件'</code></pre>4. Connect to the remote repository (URL of your remote repository)<pre><code class="language-default">git remote add origin https://github.com/xxx/xxx</code></pre>5. Get the remote library and local synchronization merge (<span style="color: #ff4a4a;"><strong>This step must be done if the remote library is not empty, otherwise subsequent submissions will fail.</strong></span>）
+<pre><code class="language-default">git pull --rebase origin master</code></pre>6. Push the contents of the local library to the remote using the git push command, which actually pushes the current branch master to the remote. After executing this command, you will be asked to enter your username and password. Once the verification is passed, the upload will begin.<pre><code class="language-default">git push -u origin master</code></pre>7. Status query command<pre><code class="language-default">git status</code></pre>
+</div>
+<hr/>Author: Qiyiou
+Link: https://www.jianshu.com/p/5f4169e50835
+Source: Jianshu
+Copyright belongs to the author. For commercial reprinting, please contact the author for authorization. For non-commercial reprinting, please indicate the source.</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18573">
+          <strong>AffiliateLabz</strong>
+          <time>2020-02-16 08:15:50</time>
+          <div>Great content! Super high-quality! Keep it up! :)</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

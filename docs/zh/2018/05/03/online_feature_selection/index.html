@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>在线特征选择概述 · OmegaXYZ</title>
+  <meta name="description" content="在线学习（online learning） 在监督学习的在线方法下，对于多层感知器突触权值的调整是以样例-样例为基础的，用来最小化的代价函数是全体瞬时误差能量。和批量学习一样，在线学习的学习曲线是通过足够大量的随机选取的初始条件上的总体平均来计算的。对于给定的网络结构，在线学习下获得的学习曲线和批量学习下获得的学习曲线有着很大的不同。 给...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/03/online_feature_selection/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-03</div>
+        <h1>在线特征选择概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/online-learning/index.html">在线学习</a></div>
+        <div class="article-content"><h2><strong>在线学习（online learning）</strong></h2>
+在监督学习的在线方法下，对于多层感知器突触权值的调整是以样例-样例为基础的，用来最小化的代价函数是全体瞬时误差能量。和批量学习一样，在线学习的学习曲线是通过足够大量的随机选取的初始条件上的总体平均来计算的。对于给定的网络结构，在线学习下获得的学习曲线和批量学习下获得的学习曲线有着很大的不同。
+
+给定训练样本以随机的方式呈现给网络，在线学习的使用使得在多维权值空间中的搜索事实上是随机的；正是由于这个原因，在线学习方法有时被称为随机方法。
+
+<strong>优点：</strong>
+<ul>
+ 	<li>（1）容易执行</li>
+ 	<li>（2）对于大规模和困难模式分类问题它提供有效解。</li>
+ 	<li>（3）随机性使得不容易陷入局部极值点</li>
+ 	<li>（4）存储量少得多</li>
+</ul>
+<h2><strong>在线特征选择（online feature selection）即OFS</strong></h2>
+大多数关于在线学习的研究都需要使用所有的特征的训练实例。这种传统的方法不适合应用在真实世界。当数据实例是高维度或这需要访问获取完整的特征时，其计算代价会很大。为了解决这个问题，在线学习者的在线特征选择(OFS)只允许保留一个小的具有固定数量的特性分类器。
+
+OFS的<strong>关键与挑战：</strong>选择如何使用一个小的固定数量的激活特征来做出准确的预测。
+
+这个与经典的利用所有特征（all the features are active）来进行预测的在线学习是不同的。特征选择通常假定特征选择任务是以离线学习方式和所有功能进行。
+这样可能并不总是适用于某些实际问题。不同于现有的关于特征选择的研究，我们研究了在线特征选择的问题。(OFS)旨在通过一个方法解决特征选择问题。
+
+<strong>在线特征选择的目标：</strong>构造只包含小的和固定数量的特征的在线分类器。The goal of online feature selection is to develop online classifiers that involve only a small and fixed number of features.
+
+在大部分传统的在线特征选择中，当所有的训练实例在学习过程开始之前，特征被认为是一次到达一个（arrive one at a time）。他们的目的是选择一个特征子集并且每次根据目前为止给定的特征返回一个合适的模型。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

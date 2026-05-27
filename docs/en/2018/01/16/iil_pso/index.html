@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PSO algorithm based on particle interactive learning strategy (IIL-PSO) · OmegaXYZ</title>
+  <meta name="description" content="IIL-PSO algorithm idea (single target) Interswarm Interactive Learning ①Initialization: Randomly divide the particles into two groups of equal number, and initialize the position, speed, global optimal particle, and individual historical optimal array for each group of particles. ②Iteration and learning: Calculate the probability of each group of particles becoming a learned particle group. Becoming a particle in the learned particle swarm is updated the same as the ordinary PSO algorithm. Becoming a particle in the learning particle swarm not only...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/16/iil_pso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-16</div>
+        <h1>PSO algorithm based on particle interactive learning strategy (IIL-PSO)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1><strong>IIL-PSO algorithm idea (single objective)</strong></h1>
+<strong>Interswarm Interactive Learning</strong>①Initialization:
+Randomly divide the particles into two groups of equal number, and initialize the position of each group of particles.
+Velocity, global optimal particle, and individual historical optimal array.
+
+②Iteration and learning:
+Calculate the probability of each group of particles becoming the learned particle group. The particle updates that become the learned particle swarm are the same as the ordinary PSO algorithm.
+To become a particle in a learning particle swarm, you not only need to learn the experience of yourself and the particle swarm you are in, but also need to learn the experience of the particle swarm being learned.
+On this basis, in order to prevent the results of the two particle swarms from being close, the author proposed a velocity mutation strategy and a global optimal vibration strategy.<h1><strong>IILS</strong></h1>
+<strong>（Interswarm Interactive Learning Strategy）</strong>① Separate two particle groups and calculate the probability of becoming the particle group being learned.<img alt="" class="alignnone size-full wp-image-2855" height="181" src="https://cdn.omegaxyz.com/2018/01/iilpso1.png" width="531"/>T: Time parameter (the author calls it temperature, the longer the time, the closer the probability of the two particle groups)
+
+② In the learning particle swarm, the learning probability of each particle is calculated. The particles that do not need to learn are updated using a simple PSO algorithm. The particles that need to learn not only need to learn the experience of themselves and the particle swarm they are in, but also need to learn the experience of the particle swarm being learned.<img alt="" class="alignnone size-full wp-image-2856" height="90" src="https://cdn.omegaxyz.com/2018/01/iilpso2.png" width="470"/>Si: particle number
+
+N: Total number of particles in the current particle swarm<h1><strong>VMO</strong></h1>
+<strong>（Velocity Mutation Operator）</strong>Purpose: In order to prevent the global optimal results of the two particle swarms from being close to each other, the author uses a velocity mutation operator.
+
+Operation: Randomly select a particle swarm, randomly select a particle in this particle swarm and the number of dimensions that the particle needs to mutate.<h1><strong>GBVS </strong></h1>
+<strong>（Global Best Vibration Strategy）</strong>Purpose: To prevent PSO from falling into local optimality
+
+Since Gbest already has a good fitness value, only one dimension needs to be modified here.<h1><strong>flow chart</strong></h1>
+<img alt="" class="alignnone size-full wp-image-2857" height="786" src="https://cdn.omegaxyz.com/2018/01/iilpso3.png" width="888"/>
+<h1>original</h1>
+<img alt="" class="alignnone size-full wp-image-2858" height="294" src="https://cdn.omegaxyz.com/2018/01/iilpso.png" width="1403"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

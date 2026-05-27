@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>几个JAVA入门程序 · OmegaXYZ</title>
+  <meta name="description" content="持续更新 JAVA和C语言入门程序一样，代码和算法简单，唯一不同的是输入函数调用和方法、类与函数的区别。 一下几个小程序均用eclipse编写。 1.判断一个年份是否是闰年 2.Fibonacci（斐波那契数列)的第n项 3.计算a+aa+aaa+...+aaa...aaa的值 4.计算圆周率">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/05/java_do/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-05</div>
+        <h1>几个JAVA入门程序</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+持续更新
+
+JAVA和C语言入门程序一样，代码和算法简单，唯一不同的是输入函数调用和方法、类与函数的区别。
+
+一下几个小程序均用eclipse编写。
+
+<img class="alignnone wp-image-1325" src="https://cdn.omegaxyz.com/2017/07/eclipse-300x163.png" alt="" width="808" height="439" />
+<h1>1.判断一个年份是否是闰年</h1>
+<pre ><code class="language-java">import java.util.Scanner;
+public class hello {
+	public static void main(String[] arge){
+		System.out.print("请输入年份：");
+	int year;
+	Scanner xuyi=new Scanner(System.in);
+	year =xuyi.nextInt();
+	if(year&lt;0||year&gt;3000){
+		System.out.println("年份有误，程序退出！");
+		System.exit(0);
+	}
+	if((year%4==0)&amp;&amp;(year%100!=0)||(year%400==0))
+		System.out.println(year+" 2014is bissextile");
+	else
+		System.out.println(year+" is not bissextile");
+	}
+}
+</code></pre>
+<h1>2.Fibonacci（斐波那契数列)的第n项</h1>
+<pre ><code class="language-java">public class Fibonacci {
+	public static void main(String args[]){
+		int n=Integer.parseInt(args[0]);
+		Fibonacci t=new Fibonacci();
+		for(int i=1;i&lt;=n;i++){
+			t.print(i);
+		}
+	}
+
+public void print(int n){
+	int n1=1;
+	int n2=1;
+	int sum=0;
+	if(n&lt;=0){
+		System.out.println("参数错误！");
+		return;
+	}
+	if(n&lt;=2){
+		sum=1;
+	}
+	else{
+		for(int i=3;i&lt;=n;i++){
+			sum=n1+n2;
+			n1=n2;
+			n2=sum;
+			}
+		}
+		System.out.println(sum);
+	}
+}</code></pre>
+<h1>3.计算a+aa+aaa+...+aaa...aaa的值</h1>
+<pre ><code class="language-default">import java.util.*;
+public class Muti {
+	public static void main(String[] args){
+		int a;
+		int howMany;
+		Scanner scanner=new Scanner(System.in);
+			System.out.println("请输入一个1~9的a的值");
+		a=scanner.nextInt();
+		if(a&lt;1||a&gt;=10)
+		{
+			System.out.println("输入错误，请重新输入！");
+			a=scanner.nextInt();
+		}
+		System.out.println("请问要相加多少项？");
+		howMany=scanner.nextInt();
+		int sum=0;
+		int a1=a;
+		for(int i=1;i&lt;=howMany;i++){
+			sum+=a;
+			a=10*a+a1;
+		}
+		System.out.println("sum="+sum);
+	}
+}
+</code></pre>
+<h1>4.计算圆周率</h1>
+<pre ><code class="language-java">import java.util.*;
+public class pie {
+	public static void main(String[] args){
+		double pi=0;
+		double up=4;
+		double down=1;
+		for(int i=0;i&lt;1000000000;i++){
+			pi+=(up/down);
+			up*=-1.0;
+			down+=2.0;
+		}
+		System.out.println(pi);
+	}
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

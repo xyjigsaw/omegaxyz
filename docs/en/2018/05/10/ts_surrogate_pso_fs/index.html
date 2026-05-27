@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PSO feature selection algorithm based on training set dynamic surrogate model · OmegaXYZ</title>
+  <meta name="description" content="Problem ① The Wrapper feature selection algorithm based on evolutionary computing is very computationally expensive. ②The feature selection algorithm based on PSO evolutionary calculation has significantly improved the evolutionary efficiency, but the evaluation process still takes a long time. Contribution The author proposes a dynamic agent model that applies clustering to the training set, which helps to obtain features on the data set to make the selected features better. DROP3 algorithm Purpose: retain instances on class boundaries, remove instances within classes, and construct a proxy training set. Main idea...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/10/ts_surrogate_pso_fs/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-10</div>
+        <h1>PSO feature selection algorithm based on training set dynamic surrogate model</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><b>question</b></h2>①The Wrapper feature selection algorithm based on evolutionary computing is very computationally expensive.
+②The feature selection algorithm based on PSO evolutionary calculation has significantly improved the evolutionary efficiency, but the evaluation process still takes a long time.<h2><b>contribute</b></h2>The author proposes a dynamic proxy model that applies clustering to the training set, which helps to obtain features on the data set to make the selected features better.<h2><strong>DROP3 algorithm</strong></h2>Purpose: retain instances on the class boundary, remove instances within the class, and construct an agent training set
+Main idea: Use KNN algorithm and sorting to remove noisy instances<h3><b>Algorithm steps</b></h3>①First remove all features misclassified by the KNN algorithm on the training set
+
+②For two categories, calculate the distance between each instance and the nearest instance of other classes, and sort them
+
+③Remove the above distant instances
+
+④Remove instances that do not affect the prediction results of other instances<h3><strong>Example</strong></h3>
+<img alt="" class="alignnone size-full wp-image-4237" height="259" sizes="(max-width: 886px) 100vw, 886px" src="https://cdn.omegaxyz.com/2018/05/drop31.jpg" srcset="https://cdn.omegaxyz.com/2018/05/drop31.jpg 886w, https://cdn.omegaxyz.com/2018/05/drop31-300x88.jpg 300w, https://cdn.omegaxyz.com/2018/05/drop31-768x225.jpg 768w" width="886"/> <img alt="" class="alignnone size-full wp-image-4238" height="257" sizes="(max-width: 649px) 100vw, 649px" src="https://cdn.omegaxyz.com/2018/05/drop32.jpg" srcset="https://cdn.omegaxyz.com/2018/05/drop32.jpg 649w, https://cdn.omegaxyz.com/2018/05/drop32-300x119.jpg 300w" width="649"/>
+<h2><b>Agglomerative Clustering</b></h2>
+<b>Purpose:</b>Solve the problems of the DROP3 algorithm to construct a proxy model (abandoning the KNN algorithm)<img alt="" class="alignnone size-full wp-image-4239" height="343" sizes="(max-width: 482px) 100vw, 482px" src="https://cdn.omegaxyz.com/2018/05/AGG.png" srcset="https://cdn.omegaxyz.com/2018/05/AGG.png 482w, https://cdn.omegaxyz.com/2018/05/AGG-300x213.png 300w" width="482"/>
+<b>bottom-up clustering</b>First, each instance forms a class of its own, and the two nearest ones are merged into one class. The central instance of each class is selected and added to the agent training set model. (The number of classes is equal to the agent training set instance size, user settings)<h2><strong>dynamic agent model</strong></h2>
+<b>Real fitness: </b>fitness value on the original training set<b>Surrogate fitness:</b>fitness value on the surrogate model<h3><b>Purpose</b></h3>Since the feature subset will change every iteration, in order to maintain the consistency of the above two values, it must be dynamically adjusted in a timely manner.<h3><strong>Main steps</strong></h3>① Use AGG algorithm to generate multiple proxy models
+
+②Use the original training set to calculate the fitness value and find the individual with the optimal fitness value f0<b>X</b>.
+
+③Calculated in the agent pool<b>X</b>The fitness value of {f1, f2,...,fm} is obtained, and the |fi-f0| with the smallest calculated difference is obtained, and this agent is selected.
+
+④Evolution begins, every<b>IS</b>The next generation uses the selected agent model for particle evaluation and update. If gbest has the best evaluation on the original training set, if gbest does not improve, the agent with the smallest gap |fi-f0| is selected.
+
+⑤<b>IS</b>After iteration, all particles are evaluated and updated using the original training set.<h3><strong>pseudocode</strong></h3>
+<img alt="" class="alignnone size-full wp-image-4249" height="496" src="https://cdn.omegaxyz.com/2018/05/spsofs2.png" width="479"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>海明码汇编语言实现 · OmegaXYZ</title>
+  <meta name="description" content="作者：徐奕、仇康 海明码简介 海明码其性能是检测一位错，是在奇偶校验码的思想上发展起来的，它在K位数据位中加入r个校验位，形成一个K+r位的新码字，并且将数据的每个二进制位分配到几个不同的奇偶校验组中。这样，当其中一位发生变化时，会引起有关的几个组出现奇偶校验错。通过这些出错组的不同组合，就能够指明是哪一位出现了错误，从而进行纠错。 使用...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/31/hamming-code-assembly/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-31</div>
+        <h1>海明码汇编语言实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><strong>作者：徐奕、仇康</strong>
+<h2><strong>海明码简介</strong></h2>
+<p style="text-align: left;">海明码其性能是检测一位错，是在奇偶校验码的思想上发展起来的，它在K位数据位中加入r个校验位，形成一个K+r位的新码字，并且将数据的每个二进制位分配到几个不同的奇偶校验组中。这样，当其中一位发生变化时，会引起有关的几个组出现奇偶校验错。通过这些出错组的不同组合，就能够指明是哪一位出现了错误，从而进行纠错。
+使用海明码进行校验，首先需要确定校验码的位数。在本实验中，海明码只要求实现一位检错纠错，此时r位校验位能够表示2的r次方种不同的状态。为了实现一位检错纠错，需要用一种状态表示信息正确，用k+r种状态表示K位数据位和r位校验位中的每一位出错，共k+r+1种状态，因此要求：</p>
+<p style="text-align: center;"><strong>2的r次方&gt;=k+r+1</strong></p>
+<p style="text-align: left;">本实验中，设数据位为D，共4位，记为D4...D1；校验位为P，共3位，记为P3...P1；编码所得的海明码为H，共7位，记为H7...H1，且位号1表示最低位。
+海明码的编码规则是：
+（1）每个校验位Pi在海明码H中被分配在位号2的i-1次方的位置，H中的空余位上放置数据位，并按从低向高的顺序逐位依次排列分配各数据位。
+（2）海明码的每一位码Hi（包括数据位和校验位）由多个校验位校验，其关系是被校验的每一位的位号等于校验该位的各校验位的位号之和，这样安排的目的是希望校验的结果能正确反映出出错位的位号。</p>
+
+<h2 style="text-align: left;"><strong>实现细节</strong></h2>
+<p style="text-align: left;">①按位取出每一位：通过移位指令将需要取出的位移到最低位，通过AND Ri,01H指令取出保存到其它寄存器。
+②在当前取出的位上，判断当前位计算哪个校验位与校验位寄存器异或运算。例如：当前取的是数据位第四位D4，而P1=D1⊕D2⊕D4，P2=D1⊕D3⊕D4，P3=D2⊕D3⊕D4，第四位在P1,P2,P3中均需运算，此时将D4位与保存P1,P2,P3的三个寄存器进行异或运算，便可实现取位运算操作。
+③将三个校验位的值变为八位二进制数，输出结果即可。</p>
+<strong>下图是我的7位海明码的原理图，其中Pi</strong><strong>指校验位，Hi</strong><strong>指数据位</strong>
+
+H7         H6         H5          H4         H3         H2          H1
+<table style="height: 38px;" width="1329">
+<tbody>
+<tr>
+<td width="81">D4</td>
+<td width="81">D3</td>
+<td width="81">D2</td>
+<td width="81">P3</td>
+<td width="81">D1</td>
+<td width="81">P2</td>
+<td width="81">P1</td>
+</tr>
+</tbody>
+</table>
+<h2><strong>汇编代码</strong></h2>
+<pre ><code class="language-asm">DATAS SEGMENT
+	ARRAY DB 16 DUP(?)
+DATAS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    
+    MOV AX,0
+    MOV BX,0
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+1],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+2],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+3],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+4],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+5],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+6],AL
+    
+    MOV DX,0
+    MOV AX,0
+    MOV DL,ARRAY[BX+3]
+    ROL DL,1
+    MOV AL,ARRAY[BX+5]
+    ADD DL,AL
+    ROL DL,1
+    MOV AL,ARRAY[BX+6]
+	ADD DL,AL
+	MOV ARRAY[BX+7],DL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+4]
+	XOR AL,ARRAY[BX+2]
+	XOR AL,ARRAY[BX]
+	MOV ARRAY[BX+8],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+4]
+	XOR AL,ARRAY[BX+1]
+	XOR AL,ARRAY[BX]
+	MOV ARRAY[BX+9],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX]
+	XOR AL,ARRAY[BX+1]
+	XOR AL,ARRAY[BX+2]
+	MOV ARRAY[BX+10],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+10]
+	ROL AL,1
+	MOV DL,ARRAY[BX+9]
+	ADD AL,DL
+	ROL AL,1
+	MOV DL,ARRAY[BX+8]
+	ADD AL,DL;算出的结果
+	
+	MOV DL,ARRAY[BX+7]
+	XOR DL,AL
+	ADD DL,'0'
+    MOV AH,2
+    INT 21H
+    
+    
+    
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START
+</code></pre>
+<h2><strong>实验结果</strong></h2>
+第一组数据的海明码：00010010
+P1=D1⊕D2⊕D4=1
+P2=D1⊕D3⊕D4=1
+P3=D2⊕D3⊕D4=1
+<strong>P3P2P1=（111）B=07H</strong>
+
+第三组数据的海明码：001001000
+理论值：P1=D1⊕D2⊕D4=1
+P2=D1⊕D3⊕D4=1
+P3=D2⊕D3⊕D4=0
+<strong>P3P2P1=（011）B=03H</strong>
+
+<strong>以上代码是未经优化的代码</strong>
+
+<strong>本文章作为硬件实训报告的一部分</strong>
+
+<strong>部分内容撰写：仇康</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

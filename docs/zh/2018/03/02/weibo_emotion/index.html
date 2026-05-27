@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于词典的社交媒体内容的情感分析（Python实现） · OmegaXYZ</title>
+  <meta name="description" content="之前写了一篇基于NLTK情感预测的文章 https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b 情感词典是从微博、新闻、论坛等数据来源的上百万篇情感标注数据当中自动构建的情感极性词典。因为标注包括微博数据，该词典囊括了很多网络用语及非正式简称，对非规范文本也有较高的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/02/weibo_emotion/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-02</div>
+        <h1>基于词典的社交媒体内容的情感分析（Python实现）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content">之前写了一篇基于NLTK情感预测的文章<a href="https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27">https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b</a>
+
+情感词典是从微博、新闻、论坛等数据来源的上百万篇情感标注数据当中自动构建的情感极性词典。因为标注包括微博数据，该词典囊括了很多网络用语及非正式简称，对非规范文本也有较高的覆盖率。该情感词典可以用于构建社交媒体情感分析引擎，负面内容发现等应用。
+
+这是一个基于机器学习的已生成的情感词典（txt文档），<span style="color: #ff0000;">注意只能预测社交媒体等非规范性文本（文章情感预测精度有误差）</span>
+
+词典下载：<a href="https://bosonnlp.com/resources/BosonNLP_sentiment_score.zip">https://bosonnlp.com/resources/BosonNLP_sentiment_score.zip</a>
+
+python实现是利用jieba分词预测
+<pre ><code class="language-python">import time
+import jieba
+
+emotion_dic = {}
+filename = 'BosonNLP_sentiment_score.txt'  # txt文件和当前脚本在同一目录下，所以不用写具体路径
+with open(filename, 'rb') as file:
+    while True:
+        try:
+            senList = file.readline().decode('utf-8')
+            # print(senList)
+            senList = senList[:-1]
+            senList = senList.split(' ')
+            emotion_dic[senList[0]] = senList[1]
+        except IndexError:
+            break
+
+def get_emotion(score):
+    emotion_archive = ['绝望，十分愤怒，对生活不在抱有希望', '难过，失望，抑郁', '有点小难过或者小愤怒', '轻微的难受或者不屑，想得太多啦，洗洗睡觉吧', '生活也就这样吧', '有点小开心或者小激动',
+                       '蛮开心的，生活多美好', '喜笑颜开，每天的太阳都是新的，生活充满了希望']
+    if score &lt;= -3.9:
+        return emotion_archive[0]
+    elif -3.9 &lt; score &lt;= -2.5:
+        return emotion_archive[1]
+    elif -2.5 &lt; score &lt;= -1:
+        return emotion_archive[2]
+    elif -1 &lt; score &lt;= 0:
+        return emotion_archive[3]
+    elif 0 &lt;score &lt;= 1:
+        return emotion_archive[4]
+    elif 1 &lt; score &lt;= 2.5:
+        return emotion_archive[5]
+    elif 2.5 &lt; score &lt; 3.9:
+        return emotion_archive[6]
+    else:
+        return emotion_archive[7]
+
+test = "才拒绝做爱情代罪的羔羊"
+
+seg_list = jieba.cut(test, cut_all=True)
+string = "/ ".join(seg_list)
+string_list = string.split('/')
+emotion_index = 0
+time.sleep(1)
+print("-5分为极端消极，5分为非常高兴")
+
+for _ in range(len(string_list)):
+    if string_list[_] in emotion_dic:
+        emotion_index += float(emotion_dic[string_list[_]])
+print(emotion_index)
+print(get_emotion(emotion_index))
+</code></pre>
+测试文本来自陈奕迅《爱情转移》中“才拒绝做爱情代罪的羔羊”
+
+结果：
+
+<img class="alignnone size-full wp-image-3527" src="https://cdn.omegaxyz.com/2018/03/weibo_emotion.jpg" alt="" width="427" height="173" />
+
+-0.730524151526
+轻微的难受或者不屑，想得太多啦，洗洗睡觉吧
+<p style="text-align: center;"><strong><span style="color: #ff0000;">网站所有原创代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </span></strong>
+<strong><span style="color: #ff0000;">网站文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</span></strong></p>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

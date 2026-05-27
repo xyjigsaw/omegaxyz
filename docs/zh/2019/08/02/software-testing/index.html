@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件测试——测试计划 · OmegaXYZ</title>
+  <meta name="description" content="本测试计划对应的软件需求规格说明书范例请参照： https://omegaxyz.com/2019/07/23/software-specification/ PDF文档及更多软件测试内容请参考： https://github.com/xyjigsaw/software-testing 1. 简介 1.1综述 本测试针对计算机程序能力在线...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/08/02/software-testing/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-02</div>
+        <h1>软件测试——测试计划</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<span style="color: #ff0000;"><strong>本测试计划对应的软件需求规格说明书范例请参照：</strong></span>
+
+https://omegaxyz.com/2019/07/23/software-specification/
+
+PDF文档及更多软件测试内容请参考：<a href="https://github.com/xyjigsaw/software-testing">https://github.com/xyjigsaw/software-testing</a>
+<h1><strong>1. 简介</strong></h1>
+<h2><strong>1.1综述</strong></h2>
+本测试针对计算机程序能力在线测评系统PC端网页版进行测试，该测评系统网址为<a href="https://www.patest.cn/">https://www.patest.cn/</a> 用户与管理员可根据相应的权限进入该系统。本测试计划将从待测软件功能、功能分解、设计测试方法、设计测试用例与步骤等几个方面进行测试。
+
+本文档主要阐述在线考试系统测试过程中的一些细节，为在线考试系统的测试工作提供一个框架和规范。
+<h2><strong>1.2在线测评系统测试目的与测试任务</strong></h2>
+在开发本计算机程序能力在线测评系统（PTA）的过程中即时使用了许多保证软件质量的方法和技术（包括权限管理，试题分布、高并发在线测评），但开发出的软件中还会隐藏许多错误和缺陷。这对于本系统更是如此。所以，严格的软件测试对于保证本在线测评系统质量具有重要作用。
+
+软件测试的目的决定了如何去组织测试。如果测试的目的是为了尽可能多地找出错误，那么测试就应该直接针对软件比较复杂的部分或是以前出错比较多的位置。
+
+测试阶段的基本任务应该是根据软件开发各阶段的文档资料和程序的内部结构，精心设计一组“高产”的测试用例（一组输入数据和与之对应的预期的输出结果，在设计测试用例时，应包括合理的输入数据和不合理的输入数据），利用这些用例执行程序，找出软件潜在的缺陷一个好的测试用例很可能找到至今为止尚未发现的缺陷的用例；一个成功的测试则是指揭示了至今为止尚未发现的缺陷的测试。
+
+主观上由于开发人员思维的局限性，客观上由于目前开发的软件系统都由相当的复杂性，决定了在开发过程中出现软件错误是不可避免的。若能及早排除 开发中的错误，就可以排除给后期工作带来的麻烦，也就避免了付出高昂的代价，从而大大地提高了系统开发过程的效率，因此，软件测试在整个软件开发生命周期 各个环节中都是不可缺少的。
+
+本测试文档主要目的：确定项目测试的策略、范围和方法；使项目测试工作的所有参与人员（测试管理者、测试人员）对本项目测 试的目标、范围、策略、方法、组织、资源等有一个清晰的认识； 使项目测试工作的所有参与人员理解测试控制过程；从策略角度说明本项目测试的组织和管理，指导测试进展，并作为项目 测试工作实施的依据；<strong>本文档是本项目测试整个过程进行的依据、规范和标准。</strong>
+<h2><strong>1.3受众</strong></h2>
+<strong>本《测试计划》的预期读者是：</strong>
+<ul>
+ 	<li>程序教学平台开发经理</li>
+ 	<li>技术部经理</li>
+ 	<li><strong>测试部管理人员</strong></li>
+ 	<li><strong>测试组所有成员（包括</strong><strong>SQA</strong><strong>）</strong></li>
+ 	<li>开发公司授权调阅本文档的其他人员</li>
+</ul>
+&nbsp;
+
+本测试计划主要有两类<strong>主要</strong>受众：测试管理人员和测试人员。
+
+测试管理人员根据该测试计划制定进一步的计划、安排（工作任务分配、时间进度安排）和控制测试过程。
+
+测试人员通过该测试计划了解测试过程和相关信息。 测试人员根据该测试计划中制定的范围、方法确定测试需求、设计测试 用例、执行和记录测试过程并记录和报告缺陷。
+<h1><strong><a name="_Toc5655810"></a>2. 功能分析</strong></h1>
+<h2><strong><a name="_Toc5655811"></a>2.1待测软件功能</strong></h2>
+该系统是基于网络技术的一种在线测评系统。按照业务流程图可将软件分为测评系统与后台管理两大主要功能。
+
+<img class=" wp-image-5901 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-1.png" alt="" width="285" height="145" />
+<p style="text-align: center;"><strong>图</strong><strong>1.1 </strong><strong>系统结构功能图</strong></p>
+&nbsp;
+
+管理员通过网络对题库进行维护，添加试题、修改试题、删除试题等操作；考生通过系统完成考试、分数查询等操作；系统自动组卷并且完成试卷的批阅、分数的统计等操作。
+<h2><strong>2.2 功能分解</strong></h2>
+分解后的主要功能为：①登录模块，②在线考试模块，③试题管理模块，④生成试卷模块，⑤成绩查询模块，⑥系统管理模块。
+
+具体如下表所示。
+<p style="text-align: center;"><strong>表</strong><strong> 2.1 </strong><strong>功能分解总览</strong></p>
+<img class="wp-image-5902 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" alt="" width="685" height="322" />
+
+<img class="wp-image-5903 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" alt="" width="527" height="546" />
+<p style="text-align: center;"><strong>图</strong><strong>2.1 </strong><strong>功能分解后总览</strong></p>
+
+<h1><strong><a name="_Toc5655813"></a>3. 测试方法与测试策略</strong></h1>
+<h2><strong><a name="_Toc5655814"></a>3.1 测试流程</strong></h2>
+<img class="wp-image-5936 aligncenter" src="https://cdn.omegaxyz.com/2019/08/testing-plan-2.png" alt="" width="463" height="474" />
+<p style="text-align: center;"><strong>图</strong><strong>3.1 </strong><strong>测试流程图</strong></p>
+
+<h2><strong>3.2 测试方法综览</strong></h2>
+本在线测评系统测试包括：
+<ul>
+ 	<li>功能测试 测试各功能是否有缺陷</li>
+ 	<li>界面测试 测试界面在一定环境下的性能数据</li>
+ 	<li>性能测试</li>
+ 	<li>压力测试</li>
+ 	<li>安全性测试</li>
+ 	<li>测试人员执行测试时，要严格按照测试用例中的内容来执行测试工作</li>
+ 	<li>测试人员要将测试执行过程记录到测试执行记录文档中</li>
+ 	<li>测试人员要对测试中发现的问题记录到缺陷记录中</li>
+ 	<li>测试组织</li>
+</ul>
+&nbsp;
+<h2><strong>3.3 测试整体策略</strong></h2>
+<ul>
+ 	<li>以Pareto二八原理为指导。尽量做到在有限的时间里发现尽可能多的缺陷（尤其是严重缺陷）</li>
+ 	<li>测试计划与需求制定、用例设计同步进行</li>
+ 	<li>必须制定测试需求。 通过确定要测试的内容和各自的优先级、重要性，使测试设计工作更有目的性，在需求的指导下设计出更多更有效的用例。</li>
+ 	<li>逐步完善测试用例库。测试用例库的建设是一个不断完善的过程，我们要在有限的时间里，先设计出一整套的测试用例，重要的部分用例需要设计得完善一些，一般部分的则指出测试的要点，在以后的测试工作中再不断去完善测试用例库。</li>
+ 	<li>测试过程要受到控制。根据事先定义的测试执行顺序进行测试，并填写测试记录表，保证测试过程是受控的。</li>
+ 	<li>确定重点。测试重点放在各子系统的功能实现上，问题较多的省中心管理系统和证书管理系统则是重中之重。</li>
+</ul>
+&nbsp;
+<h2><strong><a name="_Toc7758693"></a><a name="_Toc5655817"></a>3.4 测试环境与工具</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 3.1</strong><strong>测试环境与工具</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>软件</strong></td>
+<td width="284"><strong>硬件</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>Browser</strong><strong>：</strong>Chrome浏览器与IE浏览器
+
+<strong>OS</strong><strong>：</strong>Window10与MacOS</td>
+<td width="284">&gt;10M带宽网络
+
+&gt;512M内存
+
+2G硬盘/SSD
+
+intel处理器</td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655818"></a>3.5 测试风险分析</strong></h2>
+<ul>
+ 	<li>测试人员对系统熟悉程度的风险：参与本项目的测试人员是第一次测试系统，有可能没有完全掌握系统测试的业务细节，这将在后面的测试设计和测试执行工作造成一些测试逃逸现象（即一些要测试的方面没有测到）。</li>
+ 	<li>系统资料方面的风险：本项目被测试的系统没有完备的开发文档，测试人员做测试设计时能够 参考的只是个人经验，可能导致测试人员在初期无法全面地对系统进行 深入的测试。</li>
+ 	<li>时间风险：本次项目时间比较短，却要完成测试规范的制定、整套测试用例的设计和执行一轮完整的测试，时间进度非常紧张，可能导致测试设计工作不够完善。</li>
+</ul>
+<h2><strong><a name="_Toc5655819"></a>3.6 测试停止准则</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 3.2</strong><strong>测试停止准则</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="284">流程</td>
+<td width="284">停止准则</td>
+</tr>
+<tr>
+<td width="284">系统理解</td>
+<td width="284">测试人员对所有被测系统/模块进行了实验，了解了计算机在线测评系统的主要功能</td>
+</tr>
+<tr>
+<td width="284">测试需求</td>
+<td width="284">所有具体测试范围已经确定；测试需求制定完成并通过测试管理人员的认可</td>
+</tr>
+<tr>
+<td width="284">测试设计</td>
+<td width="284">测试用例已经覆盖所有测试需求；测试用例已经设计完成</td>
+</tr>
+<tr>
+<td width="284">测试执行</td>
+<td width="284">所有测试用例被执行；发现的缺陷都有记录；每一过程有具体的测试报告</td>
+</tr>
+<tr>
+<td width="284">结果分析</td>
+<td width="284">完成测试分析报告</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h2><strong><a name="_Toc5655820"></a>3.7 功能与web端界面测试</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 3.3 </strong><strong>功能与web</strong><strong>端界面测试范围</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>测试内容</strong></td>
+<td width="284"><strong>测试范围</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>功能测试</strong></td>
+<td width="284">登陆界面学生登陆系统测试
+
+登陆界面老师登陆系统测试
+
+登陆界面管理员登录系统测试 学生界面查看个人信息测试
+
+学生界面修改个人信息测试
+
+学生界面参加在线测评测试
+
+学生界面查询成绩测试
+
+管理员（教师）界面查看个人信息测试
+
+管理员（教师）界面修改个人信息测试
+
+管理员（教师）界面管理成绩测试
+
+试题增删查改测试（题库管理测试）</td>
+</tr>
+<tr>
+<td width="284"><strong>web</strong><strong>端界面测试</strong></td>
+<td width="284">登陆界面测试
+
+学生界面测试
+
+管理员界面测试
+
+在线考试界面测试</td>
+</tr>
+</tbody>
+</table>
+<h1></h1>
+<p style="text-align: center;"><strong>表</strong><strong> 3.4 web</strong><strong>端界面测试细则</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="86"><strong>测试项</strong></td>
+<td width="225"><strong>子测试项</strong></td>
+<td width="95"><strong>测试结果</strong></td>
+<td width="71"><strong>说明</strong></td>
+</tr>
+<tr>
+<td rowspan="2" width="86">登陆界面</td>
+<td width="225">登陆界面学生登陆系统测试</td>
+<td rowspan="2" width="95">略</td>
+<td rowspan="2" width="71">略</td>
+</tr>
+<tr>
+<td width="225">登陆界面管理员登录系统测试</td>
+</tr>
+<tr>
+<td rowspan="4" width="86">学生界面</td>
+<td width="225">学生界面查看个人信息测试</td>
+<td rowspan="4" width="95">略</td>
+<td rowspan="4" width="71">略</td>
+</tr>
+<tr>
+<td width="225">学生界面修改个人信息测试</td>
+</tr>
+<tr>
+<td width="225">学生界面参加考试测试</td>
+</tr>
+<tr>
+<td width="225">学生界面查询成绩测试</td>
+</tr>
+<tr>
+<td rowspan="2" width="86">管理员界面</td>
+<td width="225">管理员注册学生测试</td>
+<td rowspan="2" width="95">略</td>
+<td rowspan="2" width="71">略</td>
+</tr>
+<tr>
+<td width="225">管理员管理学生信息测试</td>
+</tr>
+<tr>
+<td width="86">在线考试界面测试</td>
+<td width="225">代码编辑框与提交测试</td>
+<td width="95">略</td>
+<td width="71">略</td>
+</tr>
+</tbody>
+</table>
+<a name="_Toc5655821"></a>功能测试表：
+<p style="text-align: center;"><strong>表</strong><strong> 3.5</strong><strong>功能测试参考表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>测试编号</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>功能模块编号</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>功能描述</strong></td>
+<td colspan="8" width="372">[示例：登陆界面学生登陆系统测试]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试目标</strong></td>
+<td colspan="8" width="372">[示例：确保功能模块运行正常]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试技术</strong></td>
+<td colspan="8" width="372">[示例：黑盒测试]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>优先级</strong></td>
+<td colspan="8" width="372">[示例：高]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>开始标准</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>完成标准</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>特殊事项</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试人员（负责人）</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" rowspan="2" width="196"><strong>边界值分析</strong></td>
+<td width="53"><strong>min-</strong></td>
+<td colspan="2" width="53"><strong>min</strong></td>
+<td width="53"><strong>min+</strong></td>
+<td width="53"><strong>rand</strong></td>
+<td width="53"><strong>max-</strong></td>
+<td width="53"><strong>max</strong></td>
+<td width="53"><strong>max+</strong></td>
+</tr>
+<tr>
+<td width="53"></td>
+<td colspan="2" width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+</tr>
+<tr>
+<td rowspan="4" width="102"><strong>测试过程表</strong></td>
+<td width="94"><strong>输入</strong></td>
+<td colspan="2" width="95"><strong>期望的输出</strong></td>
+<td colspan="6" width="277"><strong>实际情况</strong></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="102"><strong>缺陷等级</strong></td>
+<td colspan="9" width="466">[示例：5-紧急]</td>
+</tr>
+<tr>
+<td width="102"></td>
+<td width="94"></td>
+<td width="53"></td>
+<td width="41"></td>
+<td width="12"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+</tr>
+</tbody>
+</table>
+<a name="_Toc5655822"></a>界面测试表：
+<p style="text-align: center;"><strong>表</strong><strong> 3.6</strong><strong>界面测试参考表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>测试编号</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>界面编号</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>界面描述</strong></td>
+<td colspan="2" width="372">[示例：登陆界面]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试目标</strong></td>
+<td colspan="2" width="372">[示例：确保登录界面正常]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试技术</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>优先级</strong></td>
+<td colspan="2" width="372">[示例：高]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>开始标准</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>完成标准</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>特殊事项</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试人员（负责人）</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td rowspan="3" width="102"><strong>测试过程表</strong></td>
+<td width="94"><strong>检查项</strong></td>
+<td width="95"><strong>期望的输出</strong></td>
+<td width="277"><strong>实际情况</strong></td>
+</tr>
+<tr>
+<td width="94">[示例：按钮]</td>
+<td width="95"></td>
+<td width="277"></td>
+</tr>
+<tr>
+<td width="94">[示例：界面元素]</td>
+<td width="95"></td>
+<td width="277"></td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655823"></a>3.8 性能测试</strong></h2>
+<ul>
+ 	<li><strong>描述：</strong>对计算机程序能力在线测评系统的响应时间、事务处理速率和其他与时间相关的需求进行评测和评估。</li>
+ 	<li><strong>分类</strong>：核实下列情况下的性能行为</li>
+</ul>
+①正常的预期工作量
+
+②高并发时的工作量
+<ul>
+ 	<li><strong>方法：</strong></li>
+</ul>
+①针对不同网络环境下的测试（十兆至百兆宽带的测试）、内部网与外部网测试
+
+②利用测试工具，模拟高并发时考试提交在线测评的状态
+
+<strong> </strong>
+
+<strong>表</strong><strong> 3.7</strong><strong>性能测试相应时间要求</strong>
+<h2><strong><a name="_Toc5655824"></a>3.9 安全性测试</strong></h2>
+<strong>表</strong><strong> 3.8</strong><strong>安全性测试项目</strong>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>大类</strong></td>
+<td width="284"><strong>细项</strong></td>
+</tr>
+<tr>
+<td rowspan="2" width="284"><strong>上传</strong></td>
+<td width="284">绕过文件上传检查功能</td>
+</tr>
+<tr>
+<td width="284">上传文件大小和次数限制</td>
+</tr>
+<tr>
+<td rowspan="11" width="284"><strong>登录功能</strong></td>
+<td width="284">注册请求是否安全传输</td>
+</tr>
+<tr>
+<td width="284">注册时密码复杂度是否后台检验</td>
+</tr>
+<tr>
+<td width="284">激活链接测试</td>
+</tr>
+<tr>
+<td width="284">重复注册</td>
+</tr>
+<tr>
+<td width="284">批量注册问题</td>
+</tr>
+<tr>
+<td width="284">登录请求是否安全传输</td>
+</tr>
+<tr>
+<td width="284">会话固定</td>
+</tr>
+<tr>
+<td width="284">关键Cookie是否HttpOnly</td>
+</tr>
+<tr>
+<td width="284">登录请求错误次数限制</td>
+</tr>
+<tr>
+<td width="284">“记住我”功能</td>
+</tr>
+<tr>
+<td width="284">本地存储敏感信息</td>
+</tr>
+<tr>
+<td rowspan="3" width="284"><strong>验证码</strong></td>
+<td width="284">验证码绕过</td>
+</tr>
+<tr>
+<td width="284">短信验证码轰炸</td>
+</tr>
+<tr>
+<td width="284">验证码的一次性</td>
+</tr>
+<tr>
+<td width="284"><strong>找回密码</strong></td>
+<td width="284">找回密码</td>
+</tr>
+<tr>
+<td width="284"><strong>SQL</strong><strong>注入测试</strong></td>
+<td width="284">SQL注入测试</td>
+</tr>
+<tr>
+<td width="284"><strong>URL</strong><strong>重定向测试</strong></td>
+<td width="284">URL重定向测试</td>
+</tr>
+<tr>
+<td rowspan="2" width="284"><strong>敏感信息泄露</strong></td>
+<td width="284">SVN信息泄露</td>
+</tr>
+<tr>
+<td width="284">页面泄露敏感信息</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h2><strong><a name="_Toc5655825"></a>3.10 压力测试</strong></h2>
+<strong>压力测试要求：</strong>
+<ul>
+ 	<li>确定存量数据的规模（用户一般会要求制造出3－5年的存量数据）；</li>
+ 	<li>确定需要进行压力测试的业务（一般是用户使用最频繁，或者业务操作复杂的业务）；</li>
+ 	<li>确定操作用户的的数量、各类操作用户的比例；</li>
+ 	<li>峰值业务量的要求（一般是1个小时内最多要处理的笔数）；</li>
+ 	<li>对实时业务响应时间的要求（如在峰值情况下，单笔业务的处理时间（如小于60秒））；</li>
+ 	<li>对于批量处理过程的时间要求（如进行日终（月终、年终）处理、与外系统间批量数据传输时的时间）。</li>
+</ul>
+<strong> </strong>
+
+<strong>压力测试场景：</strong>
+<ul>
+ 	<li>单用户运行压力测试场景；</li>
+ 	<li>多用户运行测试场景，查看系统资源消耗等调优工作开始。</li>
+</ul>
+&nbsp;
+
+<strong>压力测试工具：</strong><strong>LoadRunner</strong>
+<h1><strong><a name="_Toc5655826"></a>4. 测试用例与步骤</strong></h1>
+<h2><strong><a name="_Toc5655827"></a>4.1 登录与注册文本框测试（综合HTML5规范）</strong></h2>
+用户名
+<p style="text-align: center;"><strong>表</strong><strong> 4.1</strong><strong>登录与文本框测试表</strong><strong>1</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="42"><strong>序号</strong></td>
+<td width="183"><strong>步骤</strong></td>
+<td width="114"><strong>期望结果</strong></td>
+<td width="139"><strong>测试用例</strong></td>
+<td width="91"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="42">1.</td>
+<td width="183">输入正常的字母或数字</td>
+<td width="114">符合</td>
+<td width="139">decdsc3423r</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">2.</td>
+<td width="183">输入已存在的名称</td>
+<td width="114">跳出已存在提示</td>
+<td width="139">admin</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">3.</td>
+<td width="183">输入超长字符。例如在“名称”框中输入超过允许边界个数的字符，假设最多255个字符，尝试输入 256个字符，检查程序能否正确处理</td>
+<td width="114">跳出超出长度</td>
+<td width="139">vervcfevedfvvfdvd
+
+vdfvfdvdvdvdfvdfv
+
+vewfd4r34ewfc3wec
+
+fverfvefvcewdscvdfvd
+
+32ewfcesdv344tregfc
+
+d23465768767564534</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">4.</td>
+<td width="183">输入特殊字符集，例如，NUL及\n等</td>
+<td width="114">不合法</td>
+<td width="139">NULL</td>
+<td width="91"></td>
+</tr>
+</tbody>
+</table>
+密码
+<p style="text-align: center;"><strong>表</strong><strong> 4.2</strong><strong>登录与文本框测试表</strong><strong>2</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="42"><strong>序号</strong></td>
+<td width="183"><strong>步骤</strong></td>
+<td width="95"><strong>期望结果</strong></td>
+<td width="158"><strong>测试用例</strong></td>
+<td width="91"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="42">1.</td>
+<td width="183">输入默认值，空白，空格</td>
+<td width="95">不合法</td>
+<td width="158"></td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">2.
+
+&nbsp;</td>
+<td width="183">若只允许输入字母，尝试输入数字；反之；尝试输入字母</td>
+<td width="95"></td>
+<td width="158">132456/cdbgfvcdgh</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">3.</td>
+<td width="183">利用复制，粘贴等操作强制输入密码</td>
+<td width="95">无法粘贴于复制</td>
+<td width="158">···········</td>
+<td width="91"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h2><strong><a name="_Toc5655828"></a>4.2 代码编辑器空间测试</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 4.3</strong><strong>代码编辑器测试表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="246"><strong>步骤</strong></td>
+<td width="170"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="246">代码内容为ASCII码；同组合列表框类似，根据需求说明书确定列表的各项内容正确，没有丢失或错误</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="246">列表框的内容较多时要使用滚动条</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="246">列表框允许多选时，要分别检查shift选中条目，按ctrl选中条目和直接用鼠标选中多项条目的情况</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">4.</td>
+<td width="246">滚动条的长度根据显示信息的长度或宽度及时变换，这样有利于用户了解显示信息的位置和百分比如，word中浏览100页文档，浏览到50页时，滚动条位置应处于中间</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">5.</td>
+<td width="246">拖动滚动条，检查屏幕刷新情况，并查看是否有乱码</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">6.</td>
+<td width="246">拖动滚动条，检查屏幕刷新情况，并查看是否有乱码</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">7.</td>
+<td width="246">单击滚动条</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h2><strong><a name="_Toc5655829"></a>4.3 题库的增删查改</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 4.4</strong><strong>题库测试表</strong><strong>1</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="227"><strong>期望结果</strong></td>
+<td width="79"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">管理员点击题库</td>
+<td width="227">可以查看查看题库的所有类型</td>
+<td width="79"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">管理员点击题库，不做任何操作，点击关闭按钮</td>
+<td width="227">系统退出</td>
+<td width="79"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">管理员点击题库，连续点击保存多次提交</td>
+<td width="227">操作不会重复执行，数据不会重复提交</td>
+<td width="79"></td>
+</tr>
+</tbody>
+</table>
+增加
+<p style="text-align: center;"><strong>表</strong><strong> 4.5</strong><strong>题库测试表</strong><strong>2</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">管理员点击新增题库</td>
+<td width="198">页面将跳到新建页面，最大可以输入的汉字字数符合实际；有效字符的验证（不是所有的字符都可以保存）</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">输入所有必填项，点击保存按钮</td>
+<td width="198">可以在题库管理的列表中看到新添加的题库</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+删除
+<p style="text-align: center;"><strong>表</strong><strong> 4.6</strong><strong>题库测试表</strong><strong>3</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">管理员选择某一题库记录再点击删除按钮，并确认</td>
+<td width="198">选择的题库被删除，返回列表</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+&nbsp;</td>
+<td width="217">管理员选择某一条记录再点击删除按钮，并取消</td>
+<td width="198">选择的题库不被删除，返回列表</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+修改
+<p style="text-align: center;"><strong>表</strong><strong> 4.7</strong><strong>题库测试表</strong><strong>4</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">管理员选择某一题库记录并双击</td>
+<td width="198">弹出题库记录的详细信息</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+&nbsp;</td>
+<td width="217">修改并保存题库记录</td>
+<td width="198">可以在题库管理的列表中看到新修改的题库</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+查询
+<p style="text-align: center;"><strong>表</strong><strong> 4.8</strong><strong>题库测试表</strong><strong>5</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">在文本框里面输入题库名称</td>
+<td width="198">可以查询其题库，双击题库记录可以查看题库的详细信息</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655830"></a>4.4 试题的增删查改</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 4.9</strong><strong>试题测试表</strong><strong>1</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">管理员点击题库里面的试题管理</td>
+<td width="198">可以查看试题管理的全部列表</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">管理员点击题库里面的试题管理，不做任何操作，点击关闭按钮</td>
+<td width="198">系统退出</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">管理员点击题库里面的试题管理，连续点击保存多次提交</td>
+<td width="198">操作不会重复执行，数据不会重复提交</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+增加
+<p style="text-align: center;"><strong>表</strong><strong> 4.10</strong><strong>试题测试表</strong><strong>2</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">管理员点击题库里面的试题管理，点击新增试题管理</td>
+<td width="198">页面将跳到新建页面</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+&nbsp;</td>
+<td width="217">管理员点击题库里面的试题管理，点击新增试题管理，输入试题管理基本信息</td>
+<td width="198">最大可以输入的汉字字数符合实际；有效字符的验证（不是所有的字符都可以保存）</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">输入所有必填项，点击保存按钮</td>
+<td width="198">可以在试题管理的列表中看到新添加的试题管理</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+删除
+<p style="text-align: center;"><strong>表</strong><strong> 4.11</strong><strong>试题测试表</strong><strong>3</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">管理员选择某一试题管理记录再点击删除按钮，并确认</td>
+<td width="198">选择的试题管理被删除，返回列表</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+&nbsp;</td>
+<td width="217">管理员选择某一条试题管理记录再点击删除按钮，并取消</td>
+<td width="198">选择的试题管理不被删除，返回列表</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+修改
+<p style="text-align: center;"><strong>表</strong><strong> 4.12</strong><strong>试题测试表</strong><strong>4</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">管理员选择某一试题管理记录并双击</td>
+<td width="198">弹出试题管理记录的详细信息</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+&nbsp;</td>
+<td width="217">修改并保存试题管理记录</td>
+<td width="198">可以在试题管理的列表中看到新修改的试题管理</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+查询
+<p style="text-align: center;"><strong>表</strong><strong> 4.13</strong><strong>试题测试表</strong><strong>5</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">在文本框里面输入试题管理名称</td>
+<td width="198">可以查询其试题管理，双击试题管理记录可以查看试题管理的详细信息</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h2><a name="_Toc5655831"></a><strong>4.5 测试（考试）记录管理</strong></h2>
+<p style="text-align: center;"><strong>表</strong><strong> 4.14</strong><strong>测试记录测试表</strong><strong>1</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">管理员点击测试里面的测试记录管理</td>
+<td width="198">可以查看测试记录管理的全部列表</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">管理员点击测试里面的测试记录管理，不做任何操作，点击关闭按钮</td>
+<td width="198">系统退出</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+查询
+<p style="text-align: center;"><strong>表</strong><strong> 4.15</strong><strong>测试记录测试表</strong><strong>2</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>序号</strong></td>
+<td width="217"><strong>步骤</strong></td>
+<td width="198"><strong>期望结果</strong></td>
+<td width="107"><strong>测试结果</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;</td>
+<td width="217">在文本框里面输入测试记录管理名称</td>
+<td width="198">可以查询其测试记录管理，双击测试记录管理记录可以查看测试记录管理的详细信息</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<h1><strong>参考文献</strong></h1>
+[1]李文新, 郭炜. 北京大学程序在线评测系统及其应用[J]. 吉林大学学报:信息科学版, 2005(S2):170-177.
+
+[2] 许静, 陈宏刚, 王庆人. 软件测试方法简述与展望[J]. 计算机工程与应用, 2003, 39(13):75-78.
+
+<strong> </strong></div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-19751">
+          <strong>小可</strong>
+          <time>2020-12-09 22:02:59</time>
+          <div>能不能给把文档发我一下  拜托拜托 谢谢你(๑′ᴗ‵๑)</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

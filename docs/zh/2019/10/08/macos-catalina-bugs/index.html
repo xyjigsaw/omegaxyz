@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>macOS Catalina常见问题汇总 · OmegaXYZ</title>
+  <meta name="description" content="作为一个伪程序员，我来说说macOS Catalina的一些软件兼容性和注意点。 macOS Catalina 正式版无法使用的APP 有道词典闪退 brew版本过低的加载错误 VScode头文件有波浪线需要重新配置 报错原因： xcrun: error: invalid active developer path (/Library/D...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/10/08/macos-catalina-bugs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-10-08</div>
+        <h1>macOS Catalina常见问题汇总</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/mac/index.html">mac</a></div>
+        <div class="article-content">作为一个伪程序员，我来说说macOS Catalina的一些软件兼容性和注意点。
+
+<b>macOS Catalina 正式版无法使用的APP</b>
+<ul>
+ 	<li>有道词典闪退</li>
+</ul>
+<ul>
+ 	<li>brew版本过低的加载错误</li>
+</ul>
+<figure data-size="normal"></figure>
+<ul>
+ 	<li>VScode头文件有波浪线需要重新配置</li>
+</ul>
+<figure data-size="normal"><img class="alignnone  wp-image-5987" src="https://cdn.omegaxyz.com/2019/10/maccatalina3.png" alt="" width="841" height="600" /></figure>
+<b>报错原因：</b>
+
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing
+
+更新Xcode命令行工具
+
+在命令行输入下面语句即可
+<div class="highlight">
+<pre><code class="language-text">xcode-select --install
+</code></code></pre>
+</div>
+之后会跳出下面的界面，升级即可
+<figure data-size="normal"><img class="alignnone  wp-image-5986" src="https://cdn.omegaxyz.com/2019/10/maccatalina2.png" alt="" width="827" height="637" /></figure>
+<ul>
+ 	<li>App Store的LaTeX帮手Daum Equation Editor 由于是32位则无法使用了</li>
+</ul>
+<ul>
+ 	<li>同步推32位无法使用了</li>
+</ul>
+<ul>
+ 	<li>系统自带的Python由于是2.7的，将在不支持未来的版本（官方diss）</li>
+</ul>
+<figure data-size="normal"><img class="alignnone size-full wp-image-5985" src="https://cdn.omegaxyz.com/2019/10/maccatalina1.png" alt="" width="845" height="111" /></figure>
+<ul>
+ 	<li>控制台Python3首次加载速度特别慢</li>
+</ul>
+<ul>
+ 	<li>控制台交互式shell将从bash改为zsh</li>
+</ul>
+<figure data-size="normal"><img class="alignnone size-full wp-image-5989" src="https://cdn.omegaxyz.com/2019/10/maccatalina5.png" alt="" width="1816" height="104" /></figure>
+输入以下语句，将您的账户升级到zsh
+<div class="highlight">
+<pre><code class="language-text">chsh -s /bin/zsh
+</code></code></pre>
+</div>
+zsh在一定程度上是与Bash兼容的。但是符合bash规范的脚本无法保证被Zsh解释器正确执行。
+
+当然，如果你想回到bash，那么直接在偏好设置中修改Shell的打开方式为下图即可
+<figure data-size="normal"><img class="alignnone  wp-image-5990" src="https://cdn.omegaxyz.com/2019/10/maccatalina6.png" alt="" width="786" height="695" /></figure>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-18076">
+          <strong>吕雪阳</strong>
+          <time>2019-10-16 19:53:33</time>
+          <div>大佬</div>
+        </div>
+        
+        <div class="comment" id="comment-18244">
+          <strong>ldg</strong>
+          <time>2019-11-21 22:11:48</time>
+          <div>我说说我遇到的问题。 <br>DNS解析有问题，网页经常上不去，聊天正常。<br>32位App不能用真的很蛋疼。<br>Mac散热风扇比之前更容易就转起来！（MBP13寸的）<br>锁屏后有时候会在解锁页面卡死 只能强制重启<br>总的来说 更新后变好的方面较少（除了Appstore新增了Twitter和可以使用iPad作为分屏以外，还没发现其他的变化）不方便的地方反而变多了。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18245">
+          <strong>xyjisaw</strong>
+          <time>2019-11-21 22:32:55</time>
+          <div>确实是，要多迭代几次，另外还有很多小bug。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

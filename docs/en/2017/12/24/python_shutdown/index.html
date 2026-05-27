@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python implements scheduled shutdown of Windows computers · OmegaXYZ</title>
+  <meta name="description" content="Scheduled shutdown, function: Under Windows, the user inputs the shutdown time in a certain format, and the system automatically shuts down at the specified time. Idea: Obtain the specified time from the user input, subtract the current time from hours, minutes and seconds, and finally calculate how many seconds are left between the current time and the specified time as the time parameter of the shutdown command. Modules that need to be used: os is used to execute the set system command time is used to obtain the system time. The cmd command is needed: shutdown -s...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/12/24/python_shutdown/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-12-24</div>
+        <h1>Python implements scheduled shutdown of Windows computers</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/windows/index.html">Windows</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><span class="hljs-string">Shut down regularly,</span><span class="hljs-string">Function: Under Windows, the user inputs the shutdown time in a certain format, and the system automatically shuts down at the specified time. Idea: Obtain the specified time from the user input, subtract the current time from hours, minutes, and seconds, and finally calculate how many seconds are left between the current time and the specified time as the time parameter of the shutdown command.</span>
+<span class="hljs-string">Modules that need to be used: os is used to execute the set system command time is used to obtain the system time. The cmd command is required: shutdown -s -t xxx where xxx is the number of seconds until automatic shutdown, that is, the time parameter shutdown -a cancels the shutdown plan.</span>Code:<pre><code class="language-python">import os
+import time
+input_time = input('请输入关机时间，格式如：小时:分钟  ：')
+
+if input_time == 'off':
+    os.system('shutdown -a')
+
+h1 = int(input_time[0:2])
+m1 = int(input_time[3:5])
+
+print(h1, m1)
+mytime = time.strftime('%H:%M:%S')
+h2 = int(mytime[0:2])
+m2 = int(mytime[3:5])
+
+if h1 &gt; 24:
+    h1 = 24
+    m2 = 0
+if m1 &gt; 60:
+    m1 = 60
+if h1 &lt; h2:
+    h1 = h1 + 24
+
+s1 = (h1+(m1/60.0)-h2-(m2/60.0))*3600
+if s1 &lt;= 0:
+    print("ERROR")
+else:
+    print('距离关机还有 %d 秒' %s1)
+    os.system('shutdown -s -t %d' %s1)</code></pre>Utilizing the GUI programming interface:<img alt="" class="alignnone size-full wp-image-2630" height="72" src="https://cdn.omegaxyz.com/2017/12/pythonshutdown1.jpg" width="299"/>
+<img alt="" class="alignnone size-medium wp-image-2631" height="152" src="https://cdn.omegaxyz.com/2017/12/pythonshutdown2-300x152.jpg" width="300"/>
+<img alt="" class="alignnone size-medium wp-image-2632" height="117" src="https://cdn.omegaxyz.com/2017/12/pythonshutdown3-300x117.jpg" width="300"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

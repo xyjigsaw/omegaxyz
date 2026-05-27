@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why do some models in machine learning need to normalize data? · OmegaXYZ</title>
+  <meta name="description" content="Normalization is to map the data to the [0,1] interval, that is, to construct a bijective function from the original data set to [0,1]. Generally, when doing machine learning applications, most of the time is spent on feature processing. A very critical step is to normalize the feature data. Why normalization? The explanation given by Wikipedia: ① After normalization, the speed of gradient descent to find the optimal solution is accelerated. ② Normalization may improve the accuracy. Some classifiers need to calculate the distance between samples (such as Euclidean distance), such as KN...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/12/machine_learning_guiyihua/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-12</div>
+        <h1>Why do some models in machine learning need to normalize data?</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">Normalization is to map the data to the [0,1] interval, that is, to construct a bijective function from the original data set to [0,1].<img alt="" class="alignnone size-medium wp-image-2780" height="111" src="https://cdn.omegaxyz.com/2018/01/guiyihua-300x111.jpg" width="300"/>Generally, when doing machine learning applications, most of the time is spent on feature processing. A very critical step is to normalize the feature data. Why normalization? Explanation from Wikipedia:
+
+①<b>After normalization, the speed of gradient descent to find the optimal solution is accelerated.</b>
+<img alt="" class="alignnone wp-image-2781 size-full" height="371" src="https://cdn.omegaxyz.com/2018/01/guiyihua1.jpg" width="720"/>
+
+②<b>Normalization has the potential to improve accuracy</b>Some classifiers need to calculate the distance between samples (such as Euclidean distance), such as KNN. If a feature's value range is very large, then the distance calculation mainly depends on this feature, which is contrary to the actual situation (for example, the actual situation is that the feature with a small value range is more important).
+
+Probabilistic models do not require normalization because they do not care about the values ​​of variables, but about the distribution of variables and the conditional probabilities between variables, such as decision trees and rf. Optimization problems such as adaboost, gbdt, xgboost, svm, lr, KNN, and KMeans require normalization.
+
+More content: https://www.zhihu.com/question/20455227</div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-18438">
+          <strong>Anonymous</strong>
+          <time>2020-01-09 09:22:28</time>
+          <div>对x做这种归一化处理，在做预测时，预测样本里面如果出现比Max大的值，或者出现比Min小的值，如何处理呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18440">
+          <strong>xyjisaw</strong>
+          <time>2020-01-09 11:15:42</time>
+          <div>这个应该是预测的问题吧，在预测里面增加约束？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

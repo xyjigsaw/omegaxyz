@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapters 1 to 5 · OmegaXYZ</title>
+  <meta name="description" content="The answers on the Internet are from the first edition, which has been reorganized. &quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Liu Huiting, Wang Qingsheng Editor-in-Chief Exercises and reference answers For Chapter 6 to Chapter 10, please refer to: https://omegaxyz.com/2017/05/17/assemblyans6_10/ Chapter 1 to Chapter 5 Check and edit: xyjigsaw Exercise 1 1.1 What is machine language? What is assembly language? simple...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/04/assemblyans1_5/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-04</div>
+        <h1>&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapters 1 to 5</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">The answers on the Internet are from the first version and have been rearranged.<strong>"Assembly Language Programming Tutorial" People's Posts and Telecommunications Press Second Edition</strong>
+<strong>Liu Huiting, Wang Qingsheng Editor-in-Chief</strong>
+<strong>Exercise questions and reference answers</strong>
+<strong>For Chapters 6 to 10, please refer to:<a href="https://omegaxyz.com/2017/05/17/assemblyans6_10/">https://omegaxyz.com/2017/05/17/assemblyans6_10/</a></strong>
+<strong>Chapter 1 to Chapter 5</strong>Check and edit: xyjigsaw
+
+Topic 1
+1.1 What is a machine language? What is a compilation language? Brief description of the language of the compilation.
+The language of the machine is the assembly of the machine commands with binary codes and the rules for the use of a set of machine commands. The compilation language is an abbreviation description of the operating code in the machine command in English, and a description of the operating number by the label, variable, constant.
+Characteristics of the compilation language:
+(1) Machine-related: Poor portability but direct control of hardware.
+(2) Process is efficient.
+(3) Limitations: subject to instructions, such as considering storage units.
+(4) Debugging difficulties.
+
+1.2 What is the difference between the compilation procedure and the compilation source procedure?
+The compilation source process refers to the process prepared in the compilation language, while the compilation process specifically refers to the compilation of the compilation source process into the target document.
+1.3 Conversion of the following decimal numbers to binary and hexadecimal numbers.
+(1)67 (2) 34 (3) 254 (4) 123
+Answer: (1) 10,00011, 43 (2) 100010, 22
+(3) 1111 1110, FE (4)111 1011, 7B
+
+1.4 Convert the following binary numbers to hexadecimal and decimal numbers.
+(1)0101010101(2)10110010 (3)11111
+Answer: (1) 6D, 109 (2) B2, 178, (3) 3F, 63
+
+1.5 Calculates the hexadecimal number below and converts it to a decimal calibration.
+(1) 5A+64 (2)86-49 (3) 123-9A (4)43x2B
+Answer: (1) BE (2) 3D (3) 89 (4) B41
+
+1.6 The following decimal numbers are expressed as 8-digit binary patches according to the definition of patch.
+(1) 64 (2)-24
+Answer: (1) 0100 000 000 (2) [10011000]
+
+1.7 Each of the following is a decimal number. Please use the eight-digit binary supplement code calculation and answer the values of CF and OF in the sign repository FLAGS, and what is the number of decimals the result represents? If 16-digit supplement, what is the number of decimals? What's the value of CF and OF in FLAGS?
+(1) 85+69 (2)85+ (-69) (3)85-(-69) (4)85-(69)
+Response: 85 = 55H, 69 = 45H, 69 = BBH
+8-bit binary patch:
+(1) 85+69 = 55H+45H = 9AH = 154, CF = 0, OF = 1
+(2)85+(-69)=55H+BBH=10H=16, CF=1, OF=0
+(3) 85-(-69) = 55H-BBR = 9AH = 154, CF = 1, OF = 1
+(4) 85-(69)=55H-45H=10H=16, CF=0, OF=0
+
+16-bit binary patch:
+85 = 0055H, 69 = 0045H, -69 = 0FFBBH,
+(1) 85+69 = 0055H+0045H = 009AH = 154, CF = 0, OF = 0
+(2)85+(-69) = 0055H+0FFBBH = 010H = 16, CF = 1, OF = 0
+(3) 85-(-69) = 0055H-0FFBBH 009AH = 154, CF = 1, OF = 0
+(4) 85-(69) = 0055H-0045H = 010H = 16, CF = 0, OF = 0
+
+2.1 Brief description of the composition of the computer system.
+Response: The computer consists of the central processor CPU, the repository, the input system, the output system, which is connected to the system bus. CPU includes an operator and controller, which executes instructions and the controller is responsible for computer control. Storage is a memory component of the computer, which stores the program and data in binary form. The input-output system includes large-volume storage, such as hard drives, and other external settings, such as mouse, keyboard, monitor, etc.
+
+2.2 A brief description of the main functions of the 16-bit aircraft ' s various repositories.
+Answer: (1) Data repository: Ax, Bx, Cx, Dx; AX: As a loader, is the main repository for arithmetical operations. Stores the operation number in the multiplier command, which transmits information with external equipment in the I/O instruction. BX: The base address repository is used when the universal repository is used to calculate the memory address. CX: When a universal repository is used, it is often used to save a number and when a counter is used.
+DX: When a universal repository is used, the DX and AX are usually used in a two-word long operation, for some I/O operations, and DX is used to store the port address of I/O.
+(2) Address repository: Sp, Bp, Si, Di
+(3) A sector repository: Cs, Ds, Es, Ss; the role of a segment repository is to be used exclusively to locate the repository and to store a section address directly or indirectly.
+(4) Specialized senders: Ip, Flags; Ip repositorys are dedicated to the address of the next instruction, the Flags logo repository, or program status register. It is a repository of condition code signs, control signs and system signs.
+
+2.4 In physical mode, a physical address of 1234:2002, 1430:0042, FF00:0FFFF is written.
+Response:
+1234:2002 = 12340 + 2002 = 14342
+1430: 0042 = 14300 + 0042 = 14342
+FF00: 0FFF = FF000+0FFF = F
+2.8
+52506 = 50,000 + 2506, = 52,500 + 0006, base address maximum of 5250 and minimum of 5000.
+Paragraph address range: 000 000-o. There were 6556.
+2.9 Data stored sequentially from physical address 00100H to unit 00103H are: 12H, 34H, 56H, 78H. Please draw a map of the data storage and answer the following questions:
+(1) Writing content of 00101H byte module
+(2) Writing content of 00102H
+Answer:
+(1) 00101 = 34H
+(2)(00102)=7856H
+Topic 3
+3.1 Write steps from the establishment of a compilation of language sources to the production of enforceable documents and onboard operating orders.
+Answer: (1) Create .ASM source files with EDIT
+(2) Compilation of original documents of the .ASM document into.OBJ document by MASM
+(3) Converts the.OBJ file into.EXE file by Linking Program LINK
+(4) Run directly under DOS. EXE file or debug the .EXE file under DEBUG
+
+3.2 Listing documents. At what stage did LST arise? What is in the list document.LST?
+Response: *.LST was obtained while the compilation was *.obj and the list document reported many valuable references that had been generated in the compilation process. Mainly include source procedures and machine language lists, commands, and deviating addresses of variables, etc.
+
+3.3 Writes a statement defining a code sector called MYPRG.
+_Other Organiser
+Assume cs: MyPRG
+Start:
+MyPRG Ends
+End start
+
+3.4 What are the terms used to conclude the proceedings? What statement is used to indicate the end of the procedure and to indicate the starting point for its implementation?
+Response: End of procedure: mov ah, 4ch
+Int 21h
+End of procedure and indication of starting point for implementation: End start
+
+3.5 What is the file extension for compiling the language source programme? By changing it to the .EXE extension, can it be considered enforceable?
+Response: The source file is expanded to *.asm and the extension cannot be executed.
+
+3.6 Lists all files under subdirectorial C:\YUPRG with the expanded name .ASM, creates a subdirectorial MYPRG under the D base directory and enters the subdirectorial MyPRG, then copys the document under C:\YUPRG under D:\MYPRG. Write a DOS command to complete the above request.
+Answer: (1) List subdirectories: C:\youUPRG&gt;dir*.asm
+(2) Creation of subdirectories: D:\MD MYPRG
+(3) Copy: C:\youUPRG&gt;copyYU.asm D:\myPRG
+
+3.7 The chart below shows the implementation procedures transferred by DEBUG and answers the following questions:
+(1) What is the initial physical address of the proceedings? What's the end address?
+(2) What is the value of the CS register?
+(3) What is the function of the procedure?
+(4) Write a DEBUG command to view DS:0.
+(5) What have been the results of the implementation of the INT 21 Directive in the two parts of the procedure?
+(6) What DEBUG command should be used to run this program?
+(7) What is the value of the repository AX, DS, DX after DEBUG command-T=0-4?
+
+<img alt="" class="alignnone wp-image-664" height="196" src="https://cdn.omegaxyz.com/2017/05/assemblyans1-300x110.jpg" width="534"/>Answer: (1)0B63:0000
+(2)0B63
+(3) Display the string stored in 0B62:0000
+(4)-d 0B62:0000
+(5) The first place displays the string, the second place ends the program
+(6)-g
+(7)(AX)=0962,(DS)=0B62,(DX)=0000
+
+ 
+
+3.8 Explain the following debugging commands in the DEBUG program.
+- D , - E , - T , - G , - A , - R
+Answer: -D displays memory contents
+-E Modify the contents of the memory unit
+-T trace command
+-G run command
+-A assembly command
+-R View or modify register contents
+
+3.9 After using DEBUG to load PROG.EXE, if the program is listed as follows:
+1234:0100 MOV BX, [4000]
+1234:0104 MOV AX, [BP]
+1234:0106 MOV AH, 1
+1234:0108INT 21
+1234:010A MOV DL, AL
+1234:010C MOV AH, 2
+1234:010EINT 21
+1234:0110 RET
+The DEBUG command to list the above program is ( ).
+The value of register CS is ( ), and the physical address of the first instruction is ( ).
+If you want to modify register BX to 1200H, type the DEBUG command ( ).
+To modify the BP in the second instruction to BX, type the DEBUG command ( ).
+Answer: (1) U
+(2) 1234H
+(3) 12440H
+(4) R BX
+(5) A [0104]
+
+3.10 Briefly describe the calling method of DOS system function INT 21H.
+Answer: (1) Store the function number of the calling function in the AH register.
+(2) If necessary, set the entry parameters of the calling function.
+(3) Execute the INT 21H instruction.
+(4) If necessary, obtain the export parameters (return parameters) as specified.
+
+3.11 When using the Debug command to debug a program segment containing the "INT 21H" command, how to implement single-step execution? Why can't the "-t" command be implemented?
+Answer: The "INT 21H" instruction is a Dos system call. If you use "-t" tracking, it will enter the DOS system subroutine. If you want to execute step by step, you can use the P command or "-g=x x+1".
+
+3.12 The storage situation of the main memory data segment is as shown in the figure below. Please write the code to output the string "inspire a generation!" of the data segment.<img alt="" class="alignnone wp-image-665" height="134" src="https://cdn.omegaxyz.com/2017/05/assemblyans2-300x54.png" width="744"/>Answer: mov ax,145B
+mov ds,ax
+mov ah,09
+mov dx,0
+int 21h
+
+Exercise 4
+4.1 What is a segment address? What is a valid address? What is a physical address?
+Answer:
+
+For example, DS=6542H, the instruction mov ax,DS:[123A]; 123A is the effective address, 6542H is the segment address, 65420H+0123AH=6665A is the physical address.
+
+4.2 Indicate the addressing mode of the following instructions, array is a variable.
+(1)mov ax, 9
+(2)mov byte ptr[bx],9
+(3)mov bx,[di]
+(4)mov ax,bx
+(5)mov [si+bx],9
+(6)mov array[bx],cx
+(7)mov ax, array+9
+(8)mov ax, array[bx+di]
+Answer: (1) Immediate addressing
+(2) Register indirect addressing
+(3)Indexed addressing
+(4)Register addressing
+(5) Base address index addressing
+(6) Relative base addressing
+(7) Direct addressing
+(8) Relative base address index addressing
+
+4.3 Assume (DS) = 1200H, (SS) = 4400H, (BX) = 463DH, (BP) = 2006H, (SI) = 6A00H, displacement D = 4524H, with the AX register as the destination operand, try to write the following transfer instructions in various addressing modes, and determine the effective address EA and physical address of the source operand.
+(1) Immediate addressing
+(2) Direct addressing
+(3) Use BX register addressing; no EA
+(4) Indirect addressing using BX
+(5) Register relative addressing using BP
+(6) Base address index addressing
+(7) Relative base address index addressing
+Answer: (1) The operand does not have EA in the instruction
+(2) Direct addressing: EA=4524H, physical address=DS: 4524
+(3) Register addressing using BX: no EA
+(4) Indirect addressing using BX: EA=463DH, physical address=DS:463D
+(5) Register relative addressing using BP: MOV AX, [BP+4524], EA=2006+4524,
+Physical address=SS:EA
+(6) Base address index addressing: MOV AX, [BX+SI], EA= BX+SI, physical address=DS: EA
+(7) Relative base address index addressing: MOV AX, [4524+BX+SI], EA=4524+BX+SI,
+Physical address=DS:EA
+
+4.4 The ARRAY array is defined in the data segment, which stores five words of data in sequence. The starting address of ARRAY (the address of the first data) is 24H. Please use instructions with different addressing methods to send the fifth word to the AX register. There is no limit to the number of instructions.
+Answer: (1) Direct addressing
+MOV AX, ARRAY+8 or MOV AX, [ARRAY+8]
+(2) Indirect addressing using BX
+LEA BX, ARRAY+8; MOV AX, [BX]
+(3) Use register relative addressing of BX
+LEA BX, ARRAY; MOV AX, [BX+8]
+(4) Base address index addressing
+LEA BX, ARRAY; MOV SI, 8; MOV AX, [BX+SI]
+
+Exercise 5
+5.1 What are the functions and differences between the overflow flag OF and the carry flag CF?
+Answer: When the processor operates on two operands, it obtains the result as an unsigned number and sets the carry flag CF accordingly; at the same time, it sets the overflow flag OF according to whether it exceeds the range of signed numbers. It is up to the programmer to decide which flag should be used. In other words, if the operand participating in the operation is considered to be an unsigned number, you should care about the carry; if you think it is a signed number, you should pay attention to whether it overflows.
+
+5.2 Comparison of signed numbers. When AX &lt; BX, the program switches to label L1. If the leading instruction is CMP AX, BX, what should the subsequent instruction be? If it is regarded as two unsigned numbers to compare, what should the subsequent instructions be?
+Answer: Signed number: JL L1, unsigned number: JB L1
+
+5.3 What are the similarities and differences between the operations of the CALL instruction and the INT 21H instruction?
+Answer: CALL pushes the breakpoint into the stack, which is not necessarily a remote call. INT 21H also pushes FLAGS into the stack, and it is a remote call. The total entry address is two words in the 84H memory.
+
+5.4 In addition to using the 4CH system function call to end the execution of the program and exit, what other methods are there?
+Answer: RET instruction, INT 20H, but it must be used correctly.
+
+5.5 V is a variable. Point out the following erroneous instructions, state the cause of the error, and provide appropriate modifications.
+(1) MOV AX, [DX]
+(2) MOV DS, DATA
+(3) MOV CS,AX
+(4)MOVAX,DL
+(5) PUSH AL
+(6) ADD [BX], [DI]
+(7) LEA [BX], V
+(8) MOV [DX], OFFSET V
+(9) MOV [SI], 2
+(10) MUL BX, CX
+(11) DIV 5
+(12) MOV BYTE[SI],AX
+(13) MOV AX, [SI+DI]
+(14) SHR AX, 4
+(15) CMP 6, AX
+(16) MOV[FFFF],AX
+(17)MOV AX，BX+4
+(18) JMP FAR PRO
+Answer: (1) MOV AX, [BX]
+(2) MOV DS, BX
+(3)MOVES,AX
+(4)MOV AL,DL
+(5) PUSH AX
+(6) ADD [BX], DI
+(7) LEA BX, V
+(8) MOV DX,OFFSET V
+(9) MOV WORD PTR [SI], AX
+(10) MUL BX
+(11) DIV BX
+(12) MOV BYTE PTR [SI], 2
+(13) MOV AX, [BX+SI]
+(14) SHR AX, 1
+(15) CMP AX, 6
+(16) MOV[FFFE],AX
+(17) MOV AX，[BX+4]
+(18) JMP FAR PTR PRO
+
+5.6 The ARRAY array is defined in the data segment, which stores 4 words of data in sequence. The 4th word is sent to the AX register according to the following requirements.
+(1) Direct addressing
+(2) Indirect addressing using BX
+(3) Register relative addressing using BX and ARRAY
+(4) Base address index addressing
+(5)Other instructions other than MOV
+Answer: (1) Direct addressing
+MOV AX, ARRAY+6 or MOV AX, [ARRAY+6]
+(2) Indirect addressing using BX
+LEA BX, ARRAY+6; MOV AX, [BX]
+(3) Register relative addressing using BX and ARRAY
+LEA BX, ARRAY; MOV AX, [BX+6]
+(4) Base address index addressing
+LEA BX, ARRAY; MOV SI, 6; MOV AX, [BX+SI]
+(5)Other instructions other than MOV
+SUB AX, AX; ADD AX, [ARRAY+6]
+
+5.7 Draw the storage situation of data in the data segment. After the program is executed, what are the contents of the BX, DI, CX, and DX registers? The program is as follows:
+data segment
+array dw 20, 30, 40, 20h, 30h, -6
+buff db ‘abcd$’
+data ends
+code segment
+assume cs:code,ds:data
+start:
+mov ax, data
+mov ds, ax
+mov bx, array+1
+mov di, offset array
+mov cx, [di+5]
+mov dl, buff+3
+mov ah, 4ch
+int 21h
+code ends
+end start
+Answer: 14 00 1E 00 28 00 20 00 30 00 FA FF 61 62 63 64 $
+(BX)=1E00H, (DI)=0000H, (CX)=2000H, (DX)=0064H
+
+5.8 Set (SP)=20H under DEBUG, set AX, BX, CX, and DX to different values, push the contents of these four registers into the stack in sequence, and then pop them out of the stack into the SI, DI, BP, and BX registers in sequence. Write a program to implement the above operation, and draw the changes in SP and data in the stack after each stack instruction is executed.
+Answer:
+code segment
+assume cs:code
+start:
+pushAX
+push BX
+push CX
+Push DX
+Pop SI
+Pop DI
+Pop BP
+Pop BX
+hlt
+Code ends
+End start<img alt="" class="alignnone wp-image-666" height="132" src="https://cdn.omegaxyz.com/2017/05/assemblyans3-300x53.png" width="747"/>5.9 Find the sum and difference between 7450H and the following hexadecimal numbers, and mark the values ​​of the SF, ZF, CF, and OF flags based on the results.
+(1) 1234H (2)5678H (3)9804H (4)E0A0H
+Answer: SF, ZF, CF, OF
+(1)1234H+7450H， 1 0 0 1
+(2)5678H+7450H， 1 0 0 1
+(3)9804H+7450H， 0 0 1 0
+(4)E0A0H+7450H, 0 0 1 0
+
+5.10 There are 32-bit unsigned variables X and Y in the data segment, which are defined in the following format, where ‘? ‘Please use numerical values ​​instead, and use 16-bit instructions to write the program as required.
+XDW?,?
+YDW?,?
+ZDW? ,? ,? ,?
+(1)Z=X+Y.
+(2)Z=X-Y.
+(3)Z=|X-Y|.
+(4)Z=X×Y.
+Answer: (1) The two word data of X and Y are added, and the sum is stored in Z.
+MOVAX,X
+MOV DX，X+2
+ADD AX,Y
+ADC DX，Y+2
+MOVZ,AX
+MOV Z+2，DX
+(2)MOVAX,X
+MOV DX，X+2
+SUBAX,Y
+SBB DX，Y+2
+MOVZ,AX
+MOV Z+2，DX
+(3)MOVAX,X
+MOV DX，X+2
+SUB AX, Y
+SBB DX，Y+2
+TEST AX,8000H
+JZ Exit
+NOT AX
+NOT DX
+ADD DX,1
+ADCAX,0
+Exit: MOV Z，AX
+MOV Z+2，DX
+(4)MOVAX,X
+MUL Y
+MOVZ,AX
+MOV Z+2，DX
+MOVAX,X+2
+MUL Y
+ADD Z+2,AX
+ADCDX,0
+MOV Z+4,DX
+MOVAX,X
+MUL Y+2
+ADD Z+4，AX
+ADCDX,0
+MOV Z+6,DX
+MOVAX,X+2
+MUL Y+2
+ADD Z+6,AX
+ADCDX,0
+MOV Z+8,DX
+
+5.11 Use the shift instruction to multiply the unsigned number in AX by 5, without considering that the product may exceed 16 bits.
+Answer: MOV DX, AX
+MOV CL, 2
+SHLAX,CL
+ADD AX, DX
+
+5.12 Use the shift instruction to multiply the unsigned number in AX by 5, considering that the product may exceed 16 bits.
+Answer: MOV DX,0
+MOV BX,AX
+SHL AX, 1
+ADCDX,0
+SHLDX,1
+SHL AX, 1
+ADCDX,0
+ADD AX, BX
+ADCDX,0
+5.13 Sort the contents in AX in reverse order, that is, move the 0th position to the 15th position, move the 1st position to the 14th position,...
+Answer: Set the AX value first
+Mov di,0
+Mov bx,0
+Movsi,1
+Mov cl,2
+Ror ax,1
+K: Rol ax,cl
+Mov bx,ax
+And bx,si
+Add di,bx
+Shl,si,1
+Cmpsi,0
+j
+Mov ax,di
+
+5.14 The data segment has the following definition:
+BUFF DB ‘ABCD $EFGHIJK$ ’
+STR1 DB 12 DUP(?)
+LEN DB?
+Write a program using string instructions to complete the following operations:
+(1) Set all ‘*’ characters in the string STR1.
+(2) Transfer the string in BUFF to STR1 from left to right.
+(3) Transfer the string in BUFF to STR1 from right to left.
+(4) Compare the two strings BUFF and STR1 to see if they are equal. If they are equal, DX=1, otherwise DX=0.
+(5) Check whether there is any character $, put character $ in BUFF. The number of occurrences is counted in the BX register.
+Answer:
+(1)
+MOVAX,DATA
+MOVDS,AX
+MOV AL, ‘*’
+LEADI,STR1
+MOV CX, STR1-BUFF
+CLD
+REP STOSB
+(2)
+MOVAX,DATA
+MOVDS,AX
+MOVES,AX
+CLD
+LEA SI,BUFF
+LEADI,STR1
+MOV CX, STR1-BUFF
+REP MOVSB
+(3)
+MOVAX,DATA
+MOVDS,AX
+MOVES,AX
+STD
+LEA SI, STR1-1
+LEA DI, LEN-1
+MOV CX, STR1-BUFF
+REP MOVSB
+
+(4)
+MOVAX,DATA
+MOVDS,AX
+MOVES,AX
+CLD
+LEA SI,BUFF
+LEADI,STR1
+MOV CX, STR1-BUFF
+REPE CMPSB
+
+(5)
+MOVAX,DATA
+MOVES,AX
+MOV BX,0
+CLD
+MOV AL, ‘$’
+LEA SI,BUFF
+MOV CX, STR1-BUFF
+NEXT: REPNE SCASB
+JCXZ NO-FOUND
+INC BX
+JMP NEXT
+
+5.15 For the given values of AX and BX, if the following program segment is executed, where will the program go?
+ADD AX, BX
+JNO L1
+JNC L2
+SUB AX, BX
+JNC L3
+JNO L4
+JMP L5
+(1) AX=1234H, BX=6789H
+(2) AX=790EH, BX=8831H
+(3) AX=E002H, BX=8086H
+Answer: L1, L1, L1, L5
+
+5.16 The incomplete program segment below compares the values of AX and BX, and sends the larger number to the MAX variable. If it is an unsigned number, how should the instruction be filled in? If it is a signed number, how should the instruction be filled in?
+CMP AX, BX
+( )
+MOVMAX,AX
+( )
+L1: MOV MAX, BX
+L2:HLT
+Answer: JB L1
+JMP L2
+
+5.17 Fill in the following instructions in the brackets of the following program segments. After the program is executed, what are the contents of AX and CX?
+(1) LOOP L1
+(2) LOOPE L1
+(3)LOOPNZ L1
+MOV AX, 6
+MOV CX, 3
+L1: ROL AX, CL
+TEST AL, 3
+( )
+
+Answer: (1) AX=0180H, CX=0000
+(2)AX=0003H, CX=0002
+(3)AX=0180H, CX=0000
+
+5.18 Test the AL register. If the highest bit and the lowest bit are both 0, go to L0. If only one of the highest bit and the lowest bit is 1, go to L1. If the highest bit and the lowest bit are 1 at the same time, go to L2. Draw a flow chart and write program segments.
+Answer:
+Code segment
+Assume cs:code
+Start:
+
+R<img alt="" class="alignnone wp-image-667" height="473" src="https://cdn.omegaxyz.com/2017/05/assemblyans5-168x300.png" width="265"/>5.19 Enter an English letter from the keyboard, and the uppercase letter will be displayed and output. Draw a flow chart and write program segments.
+Answer:
+Code segment
+Assume cs:code
+Start:
+Mov ah,1
+Int 21h
+sub al,20h
+mov dl,al
+mov ah,2
+int 21h
+hlt
+code ends
+end start<img alt="" class="alignnone wp-image-668" height="538" src="https://cdn.omegaxyz.com/2017/05/assemblyans6-131x300.png" width="235"/>5.20 Enter a single digit N from the keyboard, and the display will output N numbers. Draw a flow chart and write program segments.
+Answer:
+CODE SEGMENT
+ASSUME CS:CODE
+START:
+MOVAH,1
+INT 21H
+MOVDL,AL
+AND AL, 0FH
+MOVCL,AL
+MOV CH,0
+NEXT: MOV AH,2
+INT 21H
+LOOP NEXT
+MOV 4CH
+INT 21H
+CODE ENDS
+END START<img alt="" class="alignnone wp-image-669" height="700" src="https://cdn.omegaxyz.com/2017/05/assemblyans7-126x300.png" width="294"/>5.21 There are decimal numbers represented by compressed BCD codes in the data segment. Write instructions to complete decimal additions A+B, K+J and subtractions A-B, K-J respectively. The result is placed in AX and the content of AX is answered.
+A DB 65H,
+BDB 37H
+KDB98H
+JDB69H
+Answer: (1) MOV Al,A
+MOVBl,B
+ADD AL,BL
+AAA
+SUB AL,BL
+DAS
+(2) MOV Al,K
+MOVBl,J
+ADD AL,BL
+AAA
+SUB AL,BL
+DAS
+(1)A+B=9CH,AX=0102H.A-B=2EH,AX=0028H
+(2)K+J=01H,AX=0107H.K-J=2FH,AX=0029H
+
+5.22 Use the relative base address index addressing method to find the value of the ARRAY determinant.
+ARRAY DW 2, 3, 5
+DW 1, 4, 6
+DW 2, 7, 9
+Answer:
+data segment
+Array dw 2,3,5
+dw 1,4,6
+dw 2,7,9
+data ends
+code segment
+assume cs:code,ds:data
+start:
+mov ax,data
+mov ds,ax
+mov ax,0
+mov bx,0fffah
+a: movsi,0
+add bx,6
+cmp bx,13
+j g
+
+b: add ax,array[bx][si]
+cmpsi,3
+j g
+addsi,2
+jmp b
+d:hlt
+code ends
+end start</div>
+        <section class="comments"><h2>Comments (3)</h2>
+        <div class="comment" id="comment-3602">
+          <strong><a href="http://www.sobest.net" rel="nofollow">求易</a></strong>
+          <time>2018-02-24 09:16:55</time>
+          <div>可以说非常之溜溜溜了</div>
+        </div>
+        
+        <div class="comment" id="comment-3724">
+          <strong>Anonymous</strong>
+          <time>2018-06-24 16:30:07</time>
+          <div>秀秀秀</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3725">
+          <strong>xyjisaw</strong>
+          <time>2018-06-24 23:22:25</time>
+          <div>嘿嘿</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

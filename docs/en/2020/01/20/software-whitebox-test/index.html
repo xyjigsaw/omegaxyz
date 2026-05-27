@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software testing - white box testing · OmegaXYZ</title>
+  <meta name="description" content="1. Problem description: Design test cases for the triangle shape determination program and conduct white-box testing. It is assumed that the values ​​of the sides forming the triangle here can only be real numbers greater than 0. The types of program judgment are: 2. Experimental purpose: Master the principles and basic methods of white-box testing; Master the methods of designing test cases using logic coverage and base path testing; Master the method steps of unit testing; Master the method of drawing control flow graphs and the method of finding basic paths through control flow graphs. 3. Experimental environment Language: C++...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/20/software-whitebox-test/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-20</div>
+        <h1>Software testing - white box testing</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>1. Problem description</h1>Design test cases for the triangle shape determination program and conduct white-box testing. It is assumed that the values ​​of the sides forming the triangle here can only be real numbers greater than 0.
+
+The types of program judgment are:<img alt="" class="alignnone wp-image-6284" height="169" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test3.png" width="419"/>
+<h1>2. Experimental purpose</h1>
+<ol>
+<li>Master the principles and basic methods of white box testing;</li>
+<li>Master the methods of designing test cases using logic coverage and base path testing;</li>
+<li>Master the method steps of unit testing;</li>
+<li>Master how to draw control flow graphs and how to find basic paths through control flow graphs.</li>
+</ol>
+<h1>3. Experimental environment</h1>Language: C++
+
+Platform: Visual Studio Code<h1>4. Program code</h1>This code separates the triangle judgment module separately, in which the perimeter and area of ​​the triangle are calculated while judging the triangle. It is divided into the following modules (specifically will be reflected in the flow chart)<pre><code class="language-c++">#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+#include&lt;cctype&gt;
+#include&lt;iostream&gt;
+
+using namespace std;
+
+void clearData(float a, float b, float c){
+    //数据清洗
+    if (a &lt; 0 || b &lt; 0 || c &lt; 0)printf("输入不合法\n");
+}
+
+void calMetric(float a, float b, float c){
+    //计算周长和面积
+    float s, area;
+    s = (a + b + c) / 2;        
+    area = (float)sqrt(s *(s - a)*(s - b)*(s - c)); //计算三角形的面积
+    printf("面积是:%.2f\n", area);                 //计算三角形的周长
+    printf("周长是:%.2f\n", float(a + b + c));
+}
+
+void judge(float a, float b, float c){
+    //判断构成的三角形
+    if (a + b &gt; c &amp;&amp; b + c &gt; a &amp;&amp; a + c &gt; b){//两边之和大于第三边
+        calMetric(a, b, c);
+        if (a == b &amp;&amp; a == c)                           //判断三条边是否相等
+            printf("等边三角形\n");                      //输出等边三角形                                                           
+        else if (a == b || a == c || b == c)            //判断是否有两边相等                                                             
+            printf("等腰三角形\n");                  //等腰三角形
+        else if ((a*a+b*b==c*c)||(a*a+c*c==b*b)||(b*b+c*c==a*a))        
+            printf("直角三角形\n");                      //直角三角形
+        else
+            printf("普通三角形\n");                      //普通三角形 
+    }
+    else
+        printf("边长%f %f %f不能构成三角形！\n", a, b, c);//两边之和小于第三边不能组成三角形
+}
+
+float input(){
+    //输入模块
+    float a;
+    cin&gt;&gt;a;
+    return a;
+}
+
+void Triangle(float a, float b, float c){
+    clearData(a, b, c);
+    judge(a, b, c);
+}
+
+int main(){
+    float a, b, c;
+    while(1){
+        printf("请输入三角形的三条边：");
+        a = input();
+        b = input();
+        c = input();
+        if(a == 0 || b == 0 || c == 0)break;
+        Triangle(a,b,c);
+    }
+    return 0;
+}
+</code></pre>
+<h1>5. Program flow chart</h1>Analysis: The program function should be ① Enter data from the keyboard first and separate it by spaces ② If it is illegal, it will output that the current input cannot form a triangle. If it is legal, it will judge whether it can form a triangle. ③ Whether it is an equilateral triangle, an isosceles triangle, a right-angled triangle or an ordinary triangle. ④ During the judgment process, the area and perimeter will be calculated and the final result will be output. share<strong>4 modules</strong>The program flow chart is as follows, with judgment<strong>There are 2 modules, one is the triangle judgment module and the other is the data input cleaning module. Since the data cleaning module directly stipulates the data input range and type, and only one if statement is used to determine whether the input is legal at one time, no specific white-box testing will be performed. The following mainly performs white-box testing on the triangle judgment module.</strong>(Mi represents module, Ji represents control statement):<img alt="" class="wp-image-6282 aligncenter" height="681" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test1.png" width="470"/>
+<h1>6. White box test for triangle judgment module:</h1>The mapped control flow graph is:<img alt="" class="wp-image-6283 aligncenter" height="570" src="https://cdn.omegaxyz.com/2020/01/software-whitebox-test2.png" width="374"/>
+<h2>1. Statement coverage</h2>Design several test cases and run the program under test so that each executable statement is executed at least once. The test examples are as follows:<table width="600">
+<tbody>
+<tr>
+<td width="55">serial number</td>
+<td width="125">Input (a, b, c)</td>
+<td width="84">expected output</td>
+<td width="67">perimeter</td>
+<td width="65">area</td>
+<td width="109">overlay flow</td>
+<td width="94">Test results</td>
+</tr>
+<tr>
+<td width="55">Case1</td>
+<td width="125">2 3 4</td>
+<td width="84">ordinary</td>
+<td width="67">9.0</td>
+<td width="65">2.9</td>
+<td width="109">1 2 3 5 7 9 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case2</td>
+<td width="125">3 3 3</td>
+<td width="84">Equilateral</td>
+<td width="67">9.0</td>
+<td width="65">3.9</td>
+<td width="109">1 2 3 5 6 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case3</td>
+<td width="125">2 2 3</td>
+<td width="84">Isosceles</td>
+<td width="67">7.0</td>
+<td width="65">1.98</td>
+<td width="109">1 2 3 5 7 8 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case4</td>
+<td width="125">3 4 5</td>
+<td width="84">right angle</td>
+<td width="67">12.0</td>
+<td width="65">6.0</td>
+<td width="109">1 2 3 5 7 9 10 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case6</td>
+<td width="125">-1 -2 -2</td>
+<td width="84">does not constitute</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 4 11</td>
+<td width="94">pass</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Determine coverage</h2>Design enough test cases so that each "true" and "false" branch of the judgment in the program under test is executed at least once. This software has a total of 5 decision branches J1/J2/J3/J4/J5. The test examples are as follows:<table width="600">
+<tbody>
+<tr>
+<td width="55">serial number</td>
+<td width="125">Input (a, b, c)</td>
+<td width="84">expected output</td>
+<td width="67">perimeter</td>
+<td width="65">area</td>
+<td width="109">overlay flow</td>
+<td width="94">Test results</td>
+</tr>
+<tr>
+<td width="55">Case7</td>
+<td width="125">2 3 4</td>
+<td width="84">ordinary</td>
+<td width="67">9.0</td>
+<td width="65">2.9</td>
+<td width="109">1 2 3 5 7 9 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case8</td>
+<td width="125">3 3 3</td>
+<td width="84">Equilateral</td>
+<td width="67">9.0</td>
+<td width="65">3.9</td>
+<td width="109">1 2 3 5 6 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case9</td>
+<td width="125">2 2 3</td>
+<td width="84">Isosceles</td>
+<td width="67">7.0</td>
+<td width="65">1.98</td>
+<td width="109">1 2 3 5 7 8 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case10</td>
+<td width="125">3 4 5</td>
+<td width="84">right angle</td>
+<td width="67">12.0</td>
+<td width="65">6.0</td>
+<td width="109">1 2 3 5 7 9 10 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case11</td>
+<td width="125">-1 -2 -2</td>
+<td width="84">does not constitute</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 4 11</td>
+<td width="94">pass</td>
+</tr>
+<tr>
+<td width="55">Case12</td>
+<td width="125">2 2 4</td>
+<td width="84">does not constitute</td>
+<td width="67">\</td>
+<td width="65">\</td>
+<td width="109">1 2 4 11</td>
+<td width="94">pass</td>
+</tr>
+</tbody>
+</table>
+<h2>3.Conditional coverage</h2>Design enough test cases so that the possible values ​​of each logical condition in each judgment statement in the program under test are satisfied at least once. The test examples are as follows:<table width="577">
+<tbody>
+<tr>
+<td width="59">serial number</td>
+<td width="108">Input (a, b, c)</td>
+<td width="78">expected output</td>
+<td width="189">Meet the conditions</td>
+<td width="142">Test results</td>
+</tr>
+<tr>
+<td width="59">Case13</td>
+<td width="108">2 2 2</td>
+<td width="78">Equilateral</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a == c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case14</td>
+<td width="108">1 2 3</td>
+<td width="78">does not constitute</td>
+<td width="189">a&lt;=c
+
+ba
+
+a+c&gt;b
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case15</td>
+<td width="108">-1 -2 -2</td>
+<td width="78">does not constitute</td>
+<td width="189">Input is illegal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case16</td>
+<td width="108">3 4 5</td>
+<td width="78">right angle</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case17</td>
+<td width="108">2 2 1</td>
+<td width="78">Isosceles</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case18</td>
+<td width="108">1 2 2</td>
+<td width="78">Isosceles</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case19</td>
+<td width="108">2 1 2</td>
+<td width="78">Isosceles</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a == c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case20</td>
+<td width="108">5 3 4</td>
+<td width="78">right angle</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case21</td>
+<td width="108">3 5 4</td>
+<td width="78">right angle</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case22</td>
+<td width="108">3 5 7</td>
+<td width="78">ordinary</td>
+<td width="189">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case23</td>
+<td width="108">3 2 1</td>
+<td width="78">does not constitute</td>
+<td width="189">a&gt;c
+
+b&gt;a
+
+a+c&lt;=b
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+<tr>
+<td width="59">Case24</td>
+<td width="108">2 3 1</td>
+<td width="78">does not constitute</td>
+<td width="189">a&gt;c
+
+b&lt;=a
+
+a+c&gt;b
+
+Input is legal</td>
+<td width="142">pass</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Determination-condition coverage</h2>Design enough test cases so that the judgment result of each judgment in the program under test is satisfied at least once, and at the same time, the possible value of each logical condition is also satisfied at least once, that is, the criteria of 100% judgment coverage and 100% condition coverage are met at the same time. This software has a total of 5 decision branches J1/J2/J3/J4/J5. The test examples are as follows:<table width="577">
+<tbody>
+<tr>
+<td width="59">serial number</td>
+<td width="92">Input (a, b, c)</td>
+<td width="76">expected output</td>
+<td width="161">Meet the conditions</td>
+<td width="95">Determine J1-J5</td>
+<td width="95">Test results</td>
+</tr>
+<tr>
+<td width="59">Case25</td>
+<td width="92">2 2 2</td>
+<td width="76">Equilateral</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a == c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+F
+
+T</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case26</td>
+<td width="92">1 2 3</td>
+<td width="76">does not constitute</td>
+<td width="161">a&lt;=c
+
+ba
+
+a+c&gt;b
+
+Input is legal</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case27</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is illegal</td>
+<td width="95">F</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case28</td>
+<td width="92">3 4 5</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+ </td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case29</td>
+<td width="92">2 2 1</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case30</td>
+<td width="92">1 2 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case31</td>
+<td width="92">2 1 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a == c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+T
+
+F</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case32</td>
+<td width="92">5 3 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+ </td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case33</td>
+<td width="92">3 5 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+T
+
+ </td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case34</td>
+<td width="92">3 5 7</td>
+<td width="76">ordinary</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">T
+
+T
+
+F
+
+F
+
+F
+
+ </td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case35</td>
+<td width="92">3 2 1</td>
+<td width="76">does not constitute</td>
+<td width="161">a&gt;c
+
+b&gt;a
+
+a+c&lt;=b
+
+Input is legal</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case36</td>
+<td width="92">2 3 1</td>
+<td width="76">does not constitute</td>
+<td width="161">a&gt;c
+
+b&lt;=a
+
+a+c&gt;b
+
+Input is legal</td>
+<td width="95">T
+
+F
+
+\\\</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+<h2>5.Conditional combination coverage</h2>Design enough test cases so that all possible combinations of condition values ​​for each decision in the program under test are satisfied at least once.<table width="577">
+<tbody>
+<tr>
+<td width="59">serial number</td>
+<td width="92">Input (a, b, c)</td>
+<td width="76">expected output</td>
+<td width="161">combination of conditions that are met</td>
+<td width="95">program flow</td>
+<td width="95">Test results</td>
+</tr>
+<tr>
+<td width="59">Case37</td>
+<td width="92">2 2 2</td>
+<td width="76">Equilateral</td>
+<td width="161">Input is legal
+
+a&gt;c
+
+a == b</td>
+<td width="95">1 2 3 5 6 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case38</td>
+<td width="92">1 2 3</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case39</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is illegal</td>
+<td width="95">1 4 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case40</td>
+<td width="92">3 4 5</td>
+<td width="76">right angle</td>
+<td width="161">Input is legal
+
+a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case41</td>
+<td width="92">2 2 1</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case42</td>
+<td width="92">1 2 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case43</td>
+<td width="92">2 1 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a == c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case44</td>
+<td width="92">5 3 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case45</td>
+<td width="92">3 5 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case46</td>
+<td width="92">3 5 7</td>
+<td width="76">ordinary</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case47</td>
+<td width="92">3 2 1</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+<tr>
+<td width="59">Case48</td>
+<td width="92">2 3 1</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Basic path coverage</h2>
+<ul>
+<li>Draw the program flow diagram (as shown in the figure above). Note that the control flow diagram is a degenerated flow diagram. The execution statements, decision statements, start, end, etc. in the flow diagram are degenerated into nodes, and the flow line is degenerated into an arc with arrows from one node to another node.</li>
+<li>According to the control flow graph of the program, the cyclomatic complexity of the flow graph is calculated to be 6, then the basic path is at least</li>
+<li>Export test path.</li>
+</ul>Path one: 1-4-11
+
+Path two: 1-2-3-5-7-9-11
+
+Path Three: 1-2-3-5-6-11
+
+Path four: 1-2-3-5-7-8-11
+
+Path five: 1-2-3-5-7-9-11
+
+Path six: 1-2-3-5-7-9-10-11<h1>7. Testing process</h1>Carry out testing according to the test cases of the test plan. Since the condition combination test is the most complete, the following is used<strong>Condition combination test</strong>Test the test cases and the results are as follows.<strong>Condition combination coverage</strong>
+<table width="577">
+<tbody>
+<tr>
+<td width="59">serial number</td>
+<td width="92">Input (a, b, c)</td>
+<td width="76">expected output</td>
+<td width="161">combination of conditions that are met</td>
+<td width="95">program flow</td>
+<td width="95">Test results</td>
+</tr>
+<tr>
+<td width="59">Case37</td>
+<td width="92">2 2 2</td>
+<td width="76">Equilateral</td>
+<td width="161">Input is legal
+
+a&gt;c
+
+a == b</td>
+<td width="95">1 2 3 5 6 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case38</td>
+<td width="92">1 2 3</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case39</td>
+<td width="92">-1 -2 -2</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is illegal</td>
+<td width="95">1 4 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case40</td>
+<td width="92">3 4 5</td>
+<td width="76">right angle</td>
+<td width="161">Input is legal
+
+a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b == c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case41</td>
+<td width="92">2 2 1</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a == b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case42</td>
+<td width="92">1 2 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b == c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case43</td>
+<td width="92">2 1 2</td>
+<td width="76">Isosceles</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a == c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 8 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case44</td>
+<td width="92">5 3 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c == a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case45</td>
+<td width="92">3 5 4</td>
+<td width="76">right angle</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c == b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 10 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+
+ 
+
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case46</td>
+<td width="92">3 5 7</td>
+<td width="76">ordinary</td>
+<td width="161">a&gt;c, b+c&gt;a, a+c&gt;b
+
+a &lt;&gt; b, a &lt;&gt; c, b &lt;&gt; c
+
+a*a+b*b &lt;&gt; c*c
+
+a*a+c*c &lt;&gt; b*b
+
+b*b+c*c &lt;&gt; a*a
+
+Input is legal</td>
+<td width="95">1 2 3 5 7 9 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case47</td>
+<td width="92">3 2 1</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ 
+<table width="577">
+<tbody>
+<tr>
+<td width="59">Case48</td>
+<td width="92">2 3 1</td>
+<td width="76">does not constitute</td>
+<td width="161">Input is legal
+
+a+b &lt;= c</td>
+<td width="95">1 2 4 11</td>
+<td width="95">pass</td>
+</tr>
+</tbody>
+</table>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

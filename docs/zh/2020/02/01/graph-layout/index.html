@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>可视化图布局算法简介 · OmegaXYZ</title>
+  <meta name="description" content="Fruchterman Reingold (FR) FR算法将所有的结点看做是电子，每个结点收到两个力的作用： 1. 其他结点的库伦力（斥力） \(f_{a}(d)=\frac{d^{2}}{k}\) 2. 边对点的胡克力（引力）。 \(f_{r}(d)=\frac{-k^{2}}{d}\) 该算法遵循两个简单的原则： 有边连接的节点应该...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/01/graph-layout/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-01</div>
+        <h1>可视化图布局算法简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>Fruchterman Reingold (FR)</strong></h2>
+FR算法将所有的结点看做是电子，每个结点收到两个力的作用：
+
+1. 其他结点的库伦力（斥力）
+
+\(f_{a}(d)=\frac{d^{2}}{k}\)
+
+2. 边对点的胡克力（引力）。
+
+\(f_{r}(d)=\frac{-k^{2}}{d}\)
+
+<strong>该算法遵循两个简单的原则：</strong>有边连接的节点应该互相靠近；节点间不能离得太近。FR算法建立在粒子物理理论的基础上，将图中的节点模拟成原子，通过模拟原子间的力场来计算节点间的位置关系。算法通过考虑原子间引力和斥力的互相作用，计算得到节点的速度和加速度。依照类似原子或者行星的运动规律，系统最终进入一种动态平衡状态。
+
+<img class="alignnone  wp-image-6375" src="https://cdn.omegaxyz.com/2020/02/FR-Algorithm.png" alt="" width="400" height="354" />
+<h2><strong>OpenOrd</strong></h2>
+OpenOrd是一个面向大规模图布局的开源算法，来自论文OpenOrd:An Open-Source Toolbox for Large Graph Layout，这是一种力-导向的布局算法，专门用于处理非常大的图结构。
+
+<img class="alignnone  wp-image-6377" src="https://cdn.omegaxyz.com/2020/02/openOrd.png" alt="" width="400" height="379" />
+
+左边（a）显示的是瑞士卷Swiss roll数据集，由瑞士卷副本manifold随机抽取的2万个点组成19,30。
+中间（b）显示的是一个由使用VxOrd的20个最近的邻居 这种算法从瑞士卷中获得的力-导向布局。
+只有节点被绘制了出来，图被着色以说明全局结构的纠缠tangling。
+右边（c）中显示了正确绘制的图结构，使用OpenOrd的多级版本生成。
+
+<img class="alignnone size-full wp-image-6376" src="https://cdn.omegaxyz.com/2020/02/OpenOrd-demo.png" alt="" width="645" height="176" />
+
+具体可以参考<a href="https://cloud.tencent.com/developer/article/1483027">https://cloud.tencent.com/developer/article/1483027</a>
+<h2><strong>Yifan Hu</strong></h2>
+Yifan Hu为胡一凡布局,适用于非常大的图形，特点是粗化图形，减少计算量，运行速度比较快。
+
+<img class="alignnone  wp-image-6378" src="https://cdn.omegaxyz.com/2020/02/YifanHu.png" alt="" width="400" height="376" />
+
+Yifan Hu的主页：<a href="http://www.yifanhu.net/index.html">http://www.yifanhu.net/index.html</a>
+<h2><strong>参考</strong></h2>
+<ul>
+ 	<li>北京大学图可视化：http://vis.pku.edu.cn/graphvis/zh-cn/index.html</li>
+ 	<li>Gephi实战教程：https://blog.csdn.net/meifannao789456/article/details/94581967</li>
+</ul>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-18534">
+          <strong><a href="https://www.resobang.cn" rel="nofollow">头条新闻</a></strong>
+          <time>2020-02-03 01:42:21</time>
+          <div>文章不错非常喜欢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

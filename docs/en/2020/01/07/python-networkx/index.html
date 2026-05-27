@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Social Network - Getting Started with NetworkX · OmegaXYZ</title>
+  <meta name="description" content="Features NetworkX is a Python package for creating, manipulating, and studying the structure and functionality of complex networks. Data structures for graphs, directed graphs, and multigraphs Many standard graph data algorithms Network structures and analysis measures Generators for generating classical graphs, random graphs, and synthetic networks Nodes can be &quot;anything&quot; (e.g., text, images, XML records) Edges can hold arbitrary data (e.g., weights, time series) Undirected graphs Directed graphs Weighted graphs One point to another...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/07/python-networkx/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-07</div>
+        <h1>Python Social Network - Getting Started with NetworkX</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>characteristic</strong></h2>NetworkX is a Python package for creating, manipulating, and studying the structure and functionality of complex networks.<ul>
+<li>Data structures for graphs, directed graphs, and multigraphs</li>
+<li>Many standard graph data algorithms</li>
+<li>Network structure and analytical measures</li>
+<li>Generators for generating classical graphs, random graphs, and synthetic networks</li>
+<li>Nodes can be "anything" (e.g. text, images, XML records)</li>
+<li>Edges can hold arbitrary data (e.g., weights, time series)</li>
+</ul>
+<h2><strong>undirected graph</strong></h2>
+<pre><code class="language-python">import networkx as nx
+import matplotlib.pyplot as plt
+
+# 无向图网络
+G1 = nx.Graph()
+G1.add_edge('A', 'B')
+G1.add_edge('A', 'C')
+G1.add_edge('A', 'D')
+G1.add_edge('A', 'E')
+G1.add_edge('B', 'C')
+G1.add_edge('B', 'D')
+G1.add_edge('B', 'E')
+G1.add_edge('F', 'C')
+
+nx.spring_layout(G1)
+nx.draw_networkx(G1)
+plt.show()
+print('全部节点为：', G1.nodes())
+print('全部边为：', G1.edges())
+print('全部边数量：', G1.number_of_edges())</code></pre>
+<img alt="" class="alignnone wp-image-6164" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph1.png" width="400"/>
+<h2><strong>directed graph</strong></h2>
+<pre><code class="language-python"># 有向图网络
+G2 = nx.DiGraph()
+G2.add_edge('A', 'B')
+G2.add_edge('A', 'D')
+G2.add_edge('C', 'A')
+G2.add_edge('D', 'E')
+
+nx.spring_layout(G2)
+nx.draw_networkx(G2)
+plt.show()</code></pre>
+<img alt="" class="alignnone wp-image-6165" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph2.png" width="400"/>
+<h2><strong>weighted graph</strong></h2>
+<pre><code class="language-python"># 加权图网络
+G3 = nx.Graph()
+G3.add_edge('A', 'B', weight=25)
+G3.add_edge('A', 'C', weight=8)
+G3.add_edge('A', 'D', weight=11)
+G3.add_edge('A', 'E', weight=1)
+G3.add_edge('B', 'C', weight=4)
+G3.add_edge('B', 'D', weight=7)
+G3.add_edge('B', 'E', weight=1)
+G3.add_edge('E', 'C', weight=1)
+nx.spring_layout(G3)
+nx.draw_networkx(G3)
+plt.show()
+</code></pre>
+<img alt="" class="alignnone wp-image-6166" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph3.png" width="400"/>
+<h2><strong>BFS graph from a certain point to other points</strong></h2>
+<pre><code class="language-default">T = nx.bfs_tree(G3, 'A')
+nx.draw_networkx(T)
+plt.show()</code></pre>
+<img alt="" class="alignnone wp-image-6167" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph4.png" width="400"/>
+<h2><strong>Comes with Cycle diagram</strong></h2>
+<pre><code class="language-python">G4 = nx.cycle_graph(50)
+pos = nx.spring_layout(G4, iterations=200)
+nx.draw(G4, pos, node_color=range(50), node_size=500, font_weight='bold', with_labels=True)
+plt.show()</code></pre>
+<img alt="" class="alignnone wp-image-6163" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph-cycle.png" width="400"/>
+<h2><strong>Other properties</strong></h2>
+<pre><code class="language-python">print('G1中A的度数：', nx.degree(G1, 'A'))
+print('G1中A的局部聚类系数：', nx.clustering(G1, 'A'))
+print('G1中两个点的最短路径：', nx.shortest_path(G1, 'A', 'F'))
+print('G3中两个点的最短路径长度：', nx.shortest_path_length(G3, 'D', 'E'))
+print('G1的节点离心度：', nx.eccentricity(G1))</code></pre>
+<h2><strong>Example</strong></h2>
+<pre><code class="language-python"># 导入带权图
+G = nx.Graph()
+G.add_edges_from([('a', 'b', {'weight': 0.6}),
+                  ('a', 'c', {'weight': 0.2}),
+                  ('a', 'd', {'weight': 0.1}),
+                  ('c', 'e', {'weight': 0.7})])
+# 对不同权重进行处理，取得相应权重的点集列表，比如weight&gt;0.5的点集列表为[('a', 'b'), ('c', 'e')]
+elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] &gt; 0.5]
+esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] &lt;= 0.5]
+node1 = ['a', 'b']
+node2 = ['c', 'd', 'e']
+edge = {(u, v): d['weight'] for (u, v, d) in G.edges(data=True) if d['weight'] &gt; 0.5}  # 加权处理
+# 必须设定一个统一的布局，保证下面分步绘制的图的统一性，而且分步绘制时pos是一个必须参数
+pos = nx.spring_layout(G)
+# 分步绘制完整的图
+# (1)绘制点，必须参数（G，pos）,还可以指定点集（列表或optional）（默认全点集），形状，大小，透明度，等
+nx.draw_networkx_nodes(G, pos=pos, nodelist=node1)  # &gt; 0.5
+nx.draw_networkx_nodes(G, pos=pos, nodelist=node2, node_shape='*', node_color='r', node_size=700)
+# (2)绘制边，必须参数（G，pos, 还可以指定边集（边的元组集合(列表)）（默认全边集），形状，大小，透明度，等
+nx.draw_networkx_edges(G, pos=pos, edgelist=elarge)
+nx.draw_networkx_edges(G, pos=pos, edgelist=esmall, edge_color='b', style='dashed', width=3)
+# (3)绘制部分节点的标签，必须参数（G，pos），还可以指定点集（字典(值)或optional）（默认全点集），形状，大小，透明度，等
+nx.draw_networkx_labels(G, pos=pos, labels={'a': 'a', 'b':'b', 'c': 'c', 'd': 'd', 'e': 'e'}, font_size=18, font_color='b', font_family='sans-serif')
+# (4)绘制边的标签，必须参数（G，pos）,还可以指定边集（字典：键是边的元组，值是边的某个属性值）（默认全边集），形状，大小，透明度，等
+# 根据字典，通过键给边添加值的标签，{('a', 'b'): 0.6, ('c', 'e'): 0.7}
+nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge, font_size=7, font_color='black', font_family='sans-serif')
+# 显示
+plt.axis('off')
+plt.show()</code></pre>Example from: https://www.cnblogs.com/yu-liang/p/9117643.html<img alt="" class="alignnone wp-image-6168" height="299" src="https://cdn.omegaxyz.com/2020/01/Networkx-Graph6.png" width="400"/>
+<h2><strong>All codes</strong></h2>
+<pre><code class="language-python">import networkx as nx
+import matplotlib.pyplot as plt
+
+# 无向图网络
+G1 = nx.Graph()
+G1.add_edge('A', 'B')
+G1.add_edge('A', 'C')
+G1.add_edge('A', 'D')
+G1.add_edge('A', 'E')
+G1.add_edge('B', 'C')
+G1.add_edge('B', 'D')
+G1.add_edge('B', 'E')
+G1.add_edge('F', 'C')
+
+nx.spring_layout(G1)
+nx.draw_networkx(G1)
+plt.show()
+print('全部节点为：', G1.nodes())
+print('全部边为：', G1.edges())
+print('全部边数量：', G1.number_of_edges())
+
+
+# 有向图网络
+G2 = nx.DiGraph()
+G2.add_edge('A', 'B')
+G2.add_edge('A', 'D')
+G2.add_edge('C', 'A')
+G2.add_edge('D', 'E')
+
+nx.spring_layout(G2)
+nx.draw_networkx(G2)
+plt.show()
+
+
+# 加权图网络
+G3 = nx.Graph()
+G3.add_edge('A', 'B', weight=25)
+G3.add_edge('A', 'C', weight=8)
+G3.add_edge('A', 'D', weight=11)
+G3.add_edge('A', 'E', weight=1)
+G3.add_edge('B', 'C', weight=4)
+G3.add_edge('B', 'D', weight=7)
+G3.add_edge('B', 'E', weight=1)
+G3.add_edge('E', 'C', weight=1)
+nx.spring_layout(G3)
+nx.draw_networkx(G3)
+plt.show()
+
+# 某一点到其他点的BFS图
+T = nx.bfs_tree(G3, 'A')
+nx.draw_networkx(T)
+plt.show()
+
+
+# 自带的Cycle图
+G4 = nx.cycle_graph(50)
+pos = nx.spring_layout(G4, iterations=200)
+nx.draw(G4, pos, node_color=range(50), node_size=500, font_weight='bold', with_labels=True)
+plt.show()
+
+print('G1中A的度数：', nx.degree(G1, 'A'))
+print('G1中A的局部聚类系数：', nx.clustering(G1, 'A'))
+print('G1中两个点的最短路径：', nx.shortest_path(G1, 'A', 'F'))
+print('G3中两个点的最短路径长度：', nx.shortest_path_length(G3, 'D', 'E'))
+print('G1的节点离心度：', nx.eccentricity(G1))
+
+
+# 导入带权图
+G = nx.Graph()
+G.add_edges_from([('a', 'b', {'weight': 0.6}),
+                  ('a', 'c', {'weight': 0.2}),
+                  ('a', 'd', {'weight': 0.1}),
+                  ('c', 'e', {'weight': 0.7})])
+# 对不同权重进行处理，取得相应权重的点集列表，比如weight&gt;0.5的点集列表为[('a', 'b'), ('c', 'e')]
+elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] &gt; 0.5]
+esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] &lt;= 0.5]
+node1 = ['a', 'b']
+node2 = ['c', 'd', 'e']
+edge = {(u, v): d['weight'] for (u, v, d) in G.edges(data=True) if d['weight'] &gt; 0.5}  # 加权处理
+# 必须设定一个统一的布局，保证下面分步绘制的图的统一性，而且分步绘制时pos是一个必须参数
+pos = nx.spring_layout(G)
+# 分步绘制完整的图
+# (1)绘制点，必须参数（G，pos）,还可以指定点集（列表或optional）（默认全点集），形状，大小，透明度，等
+nx.draw_networkx_nodes(G, pos=pos, nodelist=node1)  # &gt; 0.5
+nx.draw_networkx_nodes(G, pos=pos, nodelist=node2, node_shape='*', node_color='r', node_size=700)
+# (2)绘制边，必须参数（G，pos, 还可以指定边集（边的元组集合(列表)）（默认全边集），形状，大小，透明度，等
+nx.draw_networkx_edges(G, pos=pos, edgelist=elarge)
+nx.draw_networkx_edges(G, pos=pos, edgelist=esmall, edge_color='b', style='dashed', width=3)
+# (3)绘制部分节点的标签，必须参数（G，pos），还可以指定点集（字典(值)或optional）（默认全点集），形状，大小，透明度，等
+nx.draw_networkx_labels(G, pos=pos, labels={'a': 'a', 'b':'b', 'c': 'c', 'd': 'd', 'e': 'e'}, font_size=18, font_color='b', font_family='sans-serif')
+# (4)绘制边的标签，必须参数（G，pos）,还可以指定边集（字典：键是边的元组，值是边的某个属性值）（默认全边集），形状，大小，透明度，等
+# 根据字典，通过键给边添加值的标签，{('a', 'b'): 0.6, ('c', 'e'): 0.7}
+nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge, font_size=7, font_color='black', font_family='sans-serif')
+# 显示
+plt.axis('off')
+plt.show()
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

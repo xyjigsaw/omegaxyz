@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visual Studio断点调试显示变量信息 · OmegaXYZ</title>
+  <meta name="description" content="Visual Studio是一个很好用的IDE，利用debug进行调试不但能快速发现错误，更能提升编程效率。 下面采用Visual Studio debug中step into调试斐波那契数列，追踪函数内部变量。 ①首先一定要注意先建立一个工程文件 ②编辑好代码后双击代码侧边设置断点 ③右键断点，选择命中条件（when hit） ④此时出...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/05/vs_debug/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-05</div>
+        <h1>Visual Studio断点调试显示变量信息</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">Visual Studio是一个很好用的IDE，利用debug进行调试不但能快速发现错误，更能提升编程效率。
+
+<strong>下面采用Visual Studio debug中step into调试斐波那契数列，追踪函数内部变量。</strong>
+
+<strong>①首先一定要注意先建立一个工程文件</strong>
+
+<strong>②编辑好代码后双击代码侧边设置断点</strong>
+
+<img class="alignnone size-full wp-image-4203" src="https://cdn.omegaxyz.com/2018/05/VSdebug4.png" alt="" width="602" height="348" />
+
+<strong>③右键断点，选择命中条件（when hit）</strong>
+
+<img class="alignnone size-full wp-image-4201" src="https://cdn.omegaxyz.com/2018/05/VSdebug2.png" alt="" width="677" height="337" />
+
+<strong>④此时出现一个选择框，指定命中中断点时要执行什么操作。</strong>
+
+<img class="alignnone size-full wp-image-4200" src="https://cdn.omegaxyz.com/2018/05/VSdebug.jpg" alt="" width="634" height="501" />
+
+大括号内{n}填需要显示的变量值，由于此时只有一个变量n,因此每次执行到此处时，显示调用的函数和n的值。
+
+<strong>⑤此时只计算斐波那契数列前3个值用来分析。</strong>
+
+<img class="alignnone size-full wp-image-4202" src="https://cdn.omegaxyz.com/2018/05/VSdebug3.jpg" alt="" width="1159" height="355" />
+
+调用函数为Fibonacci(int)，此时N的值为1。
+
+第一次n=1    F（1）=1   显示1
+
+调用函数为Fibonacci(int)，此时N的值为2。
+
+第二次n=2    F（2）=1   显示1
+
+调用函数为Fibonacci(int)，此时N的值为1。
+
+第三次n=3时递归第一次调用为1
+
+调用函数为Fibonacci(int)，此时N的值为2。
+
+第三次n=3时递归第二次调用为2
+
+调用函数为Fibonacci(int)，此时N的值为3。
+
+第三次最终的值为3
+
+综上所述，在递归调用过程中F(3)被计算了2次，F(2)被计算了3次。F(1)被调用了5次，Fib(0)中被调用了3次。
+
+N=5时的结果如下
+
+<img class="alignnone size-full wp-image-4204" src="https://cdn.omegaxyz.com/2018/05/VSdebug5.png" alt="" width="1232" height="543" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

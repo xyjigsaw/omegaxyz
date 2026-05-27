@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C语言和JAVA的区别在哪里？ · OmegaXYZ</title>
+  <meta name="description" content="1.Java与C语言各自的优势 C语言是面向过程的语言，执行效率高;Java是面向对象的语言，执行效率比C语言低。 C语言最关键的是比Java多了指针，这也说明了Java的健壮性，还有Java的多线程机制使程序可以并行运行，Java程序多用于网络。 C语言的安全性不如Java，C语言没有Java的垃圾回收机制，申请的空间要手动释放。 Ja...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/28/cvsjava/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-28</div>
+        <h1>C语言和JAVA的区别在哪里？</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><h1>1.Java与C语言各自的优势</h1>
+C语言是面向过程的语言，执行效率高;Java是面向对象的语言，执行效率比C语言低。
+C语言最关键的是比Java多了指针，这也说明了Java的健壮性，还有Java的多线程机制使程序可以并行运行，Java程序多用于网络。
+C语言的安全性不如Java，C语言没有Java的垃圾回收机制，申请的空间要手动释放。
+Java的通用性好，可以跨平台直接移植，只要有安装Java虚拟机(JVM)就可以了。
+<h1>
+2.Java和C语言谁的通用性会比较好</h1>
+在速度上，C语言编写的程序要优于Java，因为Java必须运行在虚拟机的环境中，但是因为虚拟机，Java获得的平台无关性，而C语言的程序有可能需要重新修改编译才能实现平台的移植，
+另一方面，C语言比Java语言更“底层”，因此可以用C编写例如硬件的驱动，而Java却不行。Java和C语言还有个明显的不同就是C语言注重的是算法，但是Java却不一样，想用的时候导包就可以了。
+C语言的算法很重要，但是Java中的算法没有C语言那么复杂。打印的方法：C语言是printf("…….");而Java是System.out.print("……."),也可以用println，ln表示换行。
+Java程序中的基本数据类型(boolean,char,byte,short,int,long,float,double)，是对对象的引用;C语言也有许多种基本类型，还有struct,union,enum,数组和指针。
+在Java没有枚举、联合类型。Java采用Unicode字符集，C语言通常采用的是ASCII字符集，A—65,a—97。C语言的变量可以不进行初始化，但Java的变量要进行初始化。
+在C语言中，char类型占一个字节，在Java中char类型占2个字节。
+<h1>
+3Java和C语言各自的特征</h1>
+Java面向对象的特征主要有封装，继承，多态。类的继承关系是单一的、非多重的，一个子类只有一个父类，子类的父类又只有一个父类。C语言支持“运算符的重载”，这是它的一个很重要的多态特征，是数据抽象和泛型编程的利器。它允许直接对对象进行四则运算，正像基本数据类型那样Java不支持这种多态机制，也是为降低复杂性。
+Java可以支持方法重载和重写，所谓重载就是一个类具备多个相同属性行为;重写就是在继承关系中父类的行为在不同的子类上有不同的实现。在Java中比C语言多了一些修饰符，如访问修饰符Public(公共的)、Private(私有的)、Protected(受保护的)、默认。
+Java有super关键字，指代父类对象，通常被用于调用父类的构造方法或一般方法C语言则没有super关键字，两者都有this，指代当前对象。
+在Java中，除了static、final、private是静态绑定以外，所有方法一律按动态绑定处理。Java中可以将类组织起来用Package打包，而C语言没有。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

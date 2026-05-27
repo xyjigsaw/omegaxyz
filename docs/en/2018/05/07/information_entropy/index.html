@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Information Entropy (Shannon Entropy) Overview · OmegaXYZ</title>
+  <meta name="description" content="Introduction In 1948, Shannon proposed the concept of &quot;information entropy&quot; (Shannon entropy/Information entropy), which solved the problem of quantitative measurement of information. The information content of a piece of information is directly related to its uncertainty. For example, if we want to figure out something that is very, very uncertain, or something that we know nothing about, we need to know a lot of information. On the contrary, if we already know a lot about something, we don&#x27;t...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/07/information_entropy/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-07</div>
+        <h1>Information Entropy (Shannon Entropy) Overview</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>In 1948, Shannon proposed the concept of "information entropy" (Shannon entropy/Information entropy), which solved the problem of quantitative measurement of information. The information content of a piece of information is directly related to its uncertainty. For example, if we want to figure out something that is very, very uncertain, or something that we know nothing about, we need to know a lot of information. In contrast, if we already know a lot about something, we don’t need much information to figure it out. Therefore, from this perspective, we can think that the measurement of information content is equal to the amount of uncertainty.<h2><strong>formula</strong></h2>Entropy is defined as<strong>expected value of information</strong>, before clarifying this concept, we must know the definition of information. If the transaction to be classified may be divided into multiple categories, the information of the symbol xi is defined as:<img alt="" class="alignnone size-full wp-image-4230" height="43" src="https://cdn.omegaxyz.com/2018/05/Information-entropy2.jpg" width="162"/>where p(xi) is the probability of selecting this category.
+
+In order to calculate entropy, we need to calculate the expected value of information contained in all possible values ​​of all categories, which is obtained by the following formula:<img alt="" class="alignnone size-full wp-image-4231" height="46" src="https://cdn.omegaxyz.com/2018/05/information-entropy3.jpg" width="222"/>where n is the number of categories.<h2><strong>football example</strong></h2>So how do we quantify the amount of information? Let's look at an example. Regarding the World Cup, everyone is very concerned about who will be the champion.
+
+Suppose I missed watching the World Cup and after the game I asked a spectator who knew the result of the game, "Which team is the champion?" He didn't want to tell me directly, but asked me to guess, and every time I guessed, he would charge one yuan to tell me whether I guessed correctly. So how much do I need to pay him to know who is the champion? I can number the teams from 1 to 32, and then ask: "Is the champion team among numbers 1-16?" If he tells me that I guessed correctly, I will then ask: "Is the champion among numbers 1-8?" If he told me I guessed wrong, I would know the championship team was 9-16. It only takes five times at most and I know which team is the champion. Therefore, the amount of information about who is the World Cup champion is only worth five dollars.
+
+Some readers may find at this time that we may not actually need to guess five times to guess who the champion is, because teams like Brazil, Germany, and Italy are much more likely to win the championship than teams such as Japan, the United States, and South Korea. Therefore, instead of dividing the 32 teams into two equal groups for our first guess, we can divide the few most likely teams into one group and the other teams into another group. Then we guess whether the championship team is among those popular teams. We repeat this process, grouping the remaining candidate teams according to their probability of winning, until we find the championship team. In this way, we might guess the result three or four times. Therefore, when the possibility (probability) of each team to win the championship is not equal, the amount of information of "who wins the World Cup" is less than five bits. Shannon pointed out that its accurate information content should be
+= - (p1*log p1 + p2 * log p2 + +p32 *log p32),
+Among them, p1, p2, ． ． ． , p32 are the probabilities of winning the championship for these 32 teams respectively. Shannon called it "information entropy" (Entropy), generally represented by the symbol H, and the unit is bits. Interested readers can calculate that when 32 teams have the same probability of winning the championship, the corresponding information entropy is equal to five bits. Readers with a mathematical background can also prove that the value of the above formula cannot be greater than five.<h2><strong>Coding example</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4232" height="631" src="https://cdn.omegaxyz.com/2018/05/insIE1.jpg" width="844"/>
+<img alt="" class="alignnone size-full wp-image-4233" height="435" src="https://cdn.omegaxyz.com/2018/05/insIE2.jpg" width="895"/>
+<img alt="" class="alignnone size-full wp-image-4234" height="380" src="https://cdn.omegaxyz.com/2018/05/insIE3.jpg" width="894"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高斯变异 · OmegaXYZ</title>
+  <meta name="description" content="高斯变异（Gaussian Mutation） 是改进遗传算法对重点搜索区域的局部搜索性能的另外一种变异操作方法。在进行变异时用一个均值μ、方差为σ的正态分布的一个随机数来替换原有基因值。其操作过程与均匀变异类似。 高斯变异算子 所谓高斯变异（Gaussian Mutation）操作是指进行变异操作时，用符合均值为方差为的正态分布的一个随...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/13/gaussian_mutation/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-13</div>
+        <h1>高斯变异</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content">高斯变异（Gaussian Mutation） 是改进遗传算法对重点搜索区域的局部搜索性能的另外一种变异操作方法。在进行变异时用一个均值μ、方差为σ的正态分布的一个随机数来替换原有基因值。其操作过程与均匀变异类似。
+
+高斯变异算子
+
+<img class="alignnone size-full wp-image-3735" src="https://cdn.omegaxyz.com/2018/03/GM.jpg" alt="" width="206" height="22" />
+
+所谓高斯变异（Gaussian Mutation）操作是指进行变异操作时，用符合均值为方差为的正态分布的一个随机数来替代原有的基因值。由正态分布的特性可知，高斯变异也是重点搜索原个体附近的某个局部区域。高斯变异包括增加一个随机值从 高斯分布对个体的向量的每个元素创建一个新的后代。
+
+高斯变异的局部搜索能力较好，但是引导个体跳出局部较优解的能力较弱，不利于全局收敛。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

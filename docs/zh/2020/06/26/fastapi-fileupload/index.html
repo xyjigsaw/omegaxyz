@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAPI搭建文件上传服务器 · OmegaXYZ</title>
+  <meta name="description" content="FastAPI 是一个高性能 Web 框架，也是一个Python包，用于构建 API，适合利用极少的代码搭建服务器后端，实现前后端分离。 下面给出了一个任务：利用FastAPI搭建文件上传服务器，给出上传接口，并保存到服务器指定位置。 需要使用的Python包：fastapi和uvicorn。 服务器代码 其中with open(file...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/06/26/fastapi-fileupload/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-06-26</div>
+        <h1>FastAPI搭建文件上传服务器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">FastAPI 是一个高性能 Web 框架，也是一个Python包，用于构建 API，适合利用极少的代码搭建服务器后端，实现前后端分离。
+
+下面给出了一个任务：利用FastAPI搭建文件上传服务器，给出上传接口，并保存到服务器指定位置。
+
+需要使用的Python包：fastapi和uvicorn。
+<h2><strong>服务器代码</strong></h2>
+其中with open(file.filename, "wb")是将客户上传的文件保存起来，上传的url地址为host:port/file_upload，可以自定义端口和host。
+
+注意如果在前端配置的时候出现跨域问题需要添加FastAPI跨域规则。
+<pre ><code class="language-python">import time
+import uvicorn
+from fastapi import FastAPI, File, UploadFile
+
+app = FastAPI()
+
+
+@app.post("/file_upload")
+async def file_upload(file: UploadFile = File(...)):
+    start = time.time()
+    try:
+        res = await file.read()
+        with open(file.filename, "wb") as f:
+            f.write(res)
+        return {"message": "success", 'time': time.time() - start, 'filename': file.filename}
+    except Exception as e:
+        return {"message": str(e), 'time': time.time() - start, 'filename': file.filename}
+
+
+if __name__ == '__main__':
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, workers=1)</code></pre>
+<h2><strong>客户端代码示例</strong></h2>
+此客户端的需要上传的文件在path中，url即为文件上传的API。
+<pre ><code class="language-python">import requests
+url = "http://127.0.0.1:8000/file_upload"
+path = "C:\\Users\\me\\Desktop\\pic.jpeg"
+files = {'file': open(path, 'rb')}
+r = requests.post(url, files=files)
+print(r.url)
+print(r.text)</code></pre>
+PS：除了Python客户端外，还可以采用在JS中编写post请求（服务器端代码无需修改），实现在浏览器中上传文件到服务器。
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-19772">
+          <strong>leo gao</strong>
+          <time>2020-12-14 11:14:06</time>
+          <div>还需要pip3 install python-multipart</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19774">
+          <strong>xyjisaw</strong>
+          <time>2020-12-14 20:56:43</time>
+          <div>对的，谢谢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

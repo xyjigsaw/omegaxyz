@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mat格式数据集转换为arff与txt格式 · OmegaXYZ</title>
+  <meta name="description" content="下面的代码给出了将mat格式数据集转换为arff与txt格式的matlab代码。 注意，每个.mat文件中只有一个数据集，其中共有m+1列，最后一列是label。 转为arff: mat2arff.m代码 转为txt: mat2txt.m代码 当然也可用save直接转换，但是会出现每一行开头会空两格的情况。 注意dataName.mat中...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/08/07/mat2arffortxt/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-07</div>
+        <h1>mat格式数据集转换为arff与txt格式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">下面的代码给出了将mat格式数据集转换为arff与txt格式的matlab代码。
+
+<span style="color: #ff0000;"><strong>注意，每个.mat文件中只有一个数据集，其中共有m+1列，最后一列是label。</strong></span>
+<h2><strong>转为arff: mat2arff.m代码</strong></h2>
+<pre ><code class="language-matlab">%
+% This function is used to convert the input data to '.arff'
+% file format,which is compatible to weka file format ...
+%
+% Parameters:
+% input_filename -- Input file name,only can conversion '.mat','.txt'
+% or '.csv' file format ...
+% arff_filename -- the output '.arff' file ...
+
+% NOTEs:
+%The input 'M*N' file data must be the following format:
+% M: sampel numbers;
+% N: sample features and label,"1:N-1" -- features, "N" - sample label ...
+
+
+% 读取文件数据 ...
+clear
+clc
+input_filename = 'GLIOMA-t.mat';
+arff_filename = 'GLIOMA.arff';
+if strfind(input_filename,'.mat')
+matdata = importdata(input_filename);
+elseif strfind(input_filename,'.txt')
+matdata = textread(input_filename) ;
+elseif strfind(input_filename,'.csv')
+matdata = csvread(input_filename);
+end
+
+[row,col] = size(matdata);
+f = fopen(arff_filename,'wt');
+if (f &lt; 0)
+error(sprintf('Unable to open the file %s',arff_filename));
+return
+end
+fprintf(f,'%s\n',['@relation ',arff_filename]);
+for i = 1 : col - 1
+st = ['@attribute att_',num2str(i),' numeric'];
+fprintf(f,'%s\n',st);
+end
+% 保存文件头最后一行类别信息
+floatformat = '%.16g';
+Y = matdata(:,col);
+uY = unique(Y); % 得到label类型
+st = ['@attribute label {'];
+for j = 1 : size(uY) - 1
+st = [st sprintf([floatformat ' ,'],uY(j))];
+end
+st = [st sprintf([floatformat '}'],uY(length(uY)))];
+fprintf(f,'%s\n\n',st);
+% 开始保存数据 ...
+labelformat = [floatformat ' '];
+fprintf(f,'@data\n');
+for i = 1 : row
+Xi = matdata(i,1:col-1);
+s = sprintf(labelformat,Y(i));
+s = [sprintf([floatformat ' '],[; Xi]) s];
+fprintf(f,'%s\n',s);
+end
+fclose(f);</code></pre>
+<h2><strong>转为txt: mat2txt.m代码</strong></h2>
+当然也可用save直接转换，但是会出现每一行开头会空两格的情况。
+
+注意dataName.mat中的数据集名称是data
+<pre ><code class="language-matlab">clc
+clear
+load('dataName.mat')
+fid = fopen('dataName.txt', 'wt');
+for i = 1 : size(data, 1)
+    for j = 1 : size(data, 2) - 1
+        fprintf(fid,'%e   ',data(i, j));
+    end
+    fprintf(fid,'%e\n',data(i, size(data, 2)));
+end
+fclose(fid);
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

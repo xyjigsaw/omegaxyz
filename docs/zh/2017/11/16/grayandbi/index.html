@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>格雷码与二进制码的转换 · OmegaXYZ</title>
+  <meta name="description" content="格雷码，又叫循环二进制码或反射二进制码，格雷码是我们在工程中常会遇到的一种编码方式，它的基本的特点就是任意两个相邻的代码只有一位二进制数不同，这点在下面会详细讲解到。格雷码的基本特点就是任意两个相邻的代码只有一位二进制数不同，这点很重要。常用的二进制数与格雷码间的转换关系如下表： 二进制码转换成二进制格雷码 二进制码转换成二进制格雷码，其...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/16/grayandbi/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-16</div>
+        <h1>格雷码与二进制码的转换</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/digital-logic/index.html">数字逻辑</a></div>
+        <div class="article-content">格雷码，又叫循环二进制码或反射二进制码，格雷码是我们在工程中常会遇到的一种编码方式，它的基本的特点就是任意两个相邻的代码只有一位二进制数不同，这点在下面会详细讲解到。格雷码的基本特点就是任意两个相邻的代码只有一位二进制数不同，这点很重要。常用的二进制数与格雷码间的转换关系如下表：
+
+<img class="alignnone wp-image-2464 size-full" src="https://cdn.omegaxyz.com/2017/11/gray1.png" alt="" width="991" height="417" />
+
+二进制码转换成二进制格雷码
+二进制码转换成二进制格雷码，其法则是保留二进制码的最高位作为格雷码的最高位，而次高位格雷码为二进制码的高位与次高位相异或，而格雷码其余各位与次高位的求法相类似。
+
+<img class="alignnone wp-image-2465 size-full" src="https://cdn.omegaxyz.com/2017/11/gray2.png" alt="" width="433" height="290" />
+
+C语言代码：
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include &lt;bitset&gt;
+using namespace std;
+
+int D2G(int x)
+{
+    return x^(x&gt;&gt;1);
+}
+
+int main()
+{
+    int x;
+    cin&gt;&gt;x;
+    cout&lt;&lt;D2G(x);
+    //注意输入与输出均为十进制
+}
+</code></pre>
+&nbsp;
+
+格雷码转换成二进制码
+二进制格雷码转换成二进制码,其法则是保留格雷码的最高位作为自然二进制码的最高位，而次高位自然二进制码为高位自然二进制码与次高位格雷码相异或，而自然二进制码的其余各位与次高位自然二进制码的求法相类似。
+
+<img class="alignnone wp-image-2466 size-full" src="https://cdn.omegaxyz.com/2017/11/gray3.png" alt="" width="793" height="467" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

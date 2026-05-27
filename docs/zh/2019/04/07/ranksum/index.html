@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wilcoxon秩和检验简介与MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="Wilcoxon秩和检验(rank-sum test)，有时也叫Mann-Whitney U检验，是另一类非参数检验方法，它们不对数据分布作特殊假设，因而能适用于更复杂的数据分布情况。 适用性 （1）资料的总体分布类型未知； （2）资料的总体分布类型已知，但不符合正态分布； （3）某些变量可能无法精确测量； （4）方差不齐。 具体操作方法...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/07/ranksum/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-07</div>
+        <h1>Wilcoxon秩和检验简介与MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">Wilcoxon秩和检验(rank-sum test)，有时也叫Mann-Whitney U检验，是另一类非参数检验方法，它们不对数据分布作特殊假设，因而能适用于更复杂的数据分布情况。
+<h2><strong>适用性</strong></h2>
+<div class="para">（1）资料的总体分布类型未知；</div>
+<div class="para">（2）资料的总体分布类型已知，但不符合正态分布；</div>
+<div class="para">（3）某些变量可能无法精确测量；</div>
+<div class="para">（4）方差不齐。</div>
+<div></div>
+<div>具体操作方法请移步<a href="https://www.cnblogs.com/emanlee/archive/2011/12/17/2290978.html">https://www.cnblogs.com/emanlee/archive/2011/12/17/2290978.html</a></div>
+<div></div>
+<h2><strong>MATLAB</strong></h2>
+<strong>两列数据a、b</strong>
+
+<img class="alignnone wp-image-5674" src="https://cdn.omegaxyz.com/2019/04/ranksum1.png" alt="" width="394" height="411" />         <img class="alignnone wp-image-5675" src="https://cdn.omegaxyz.com/2019/04/ranksum2.png" alt="" width="422" height="375" />
+<pre ><code class="language-matlab">[~,h1]=ranksum(a, b);</code></pre>
+如果h1 == 1，则有较大差距
+
+h1 == 0，无显著性差别。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

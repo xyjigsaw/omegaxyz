@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of high-dimensional feature selection algorithm (VLPSO) based on variable length PSO · OmegaXYZ</title>
+  <meta name="description" content="Introduction VLPSO is a PSO algorithm for solving high-dimensional feature selection published by Binh Tran, Bing Xue and others in IEEE Transactions on Evolutionary Computation, a top artificial intelligence magazine. It can solve high-dimensional feature selection problems very well, especially the calculation time can be greatly reduced. Questions raised: ① High-dimensional feature selection, occupying memory ② High-dimensional feature selection, time-consuming V...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/09/16/vlpso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-16</div>
+        <h1>Overview of high-dimensional feature selection algorithm (VLPSO) based on variable length PSO</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>VLPSO is a PSO algorithm that solves high-dimensional feature selection published by Binh Tran, Bing Xue and others in the top artificial intelligence magazine IEEE Transactions on Evolutionary Computation.
+
+It can solve high-dimensional feature selection problems very well, especially the calculation time can be greatly reduced.<h2><strong>Question raised</strong></h2>
+<ul>
+<li>①High-dimensional feature selection, occupying memory</li>
+<li>②High-dimensional feature selection, time-consuming</li>
+</ul>
+<h2><strong>Main contributions of VLPSO (Variable Length PSO)</strong></h2>
+<ul>
+<li>①Proposal of variable-length single-objective PSO representation method</li>
+<li>②Adapted particle dimension value interactive learning method, borrowed from CLPSO</li>
+</ul>
+<h2><strong>Representation of particles</strong></h2>
+<img alt="" class="alignnone size-full wp-image-5006" height="321" src="https://cdn.omegaxyz.com/2018/09/VLPSO2.png" width="736"/>
+<b>Exemplar</b><b>: The particles that need to be learned in each dimension of the current individual</b><b>index</b>
+<b>Learning Probability</b><b>: Learning rate, learn when reaching the threshold</b><b>Exemplar</b><b>value, otherwise learn its own</b><b>pbest</b>
+<b>Renew Exemplar Count</b><b>：</b> <b>right</b><b>Exemplar</b><b>The reset algebra of</b>
+<b>Note that the reference here is</b><b>CLPSO</b><b>method:</b><b>The only difference is</b><b>Pc</b><b>calculation method</b>For example, the 6 in the Exemplar line indicates that the 6th dimension of the 6th individual needs to be learned when updating the 4th dimension of the current particle.<h2><b>Exemplar</b><b>generation</b></h2>Take the following operations for the Exemplar of each dimension of each individual<ul>
+<li>Calculate the learning rate Pc</li>
+<li>If the value of Pc is less than a random number, the Exemplar of the current dimension is the index of its own particle.</li>
+<li>otherwise</li>
+<li>Randomly select two particles, and the index of the particle with the larger fitness value is used as the exemplar of the current dimension.</li>
+</ul>
+<h2><b>learning rate</b><b>Pc</b><b>Calculation method</b></h2>
+<img alt="" class="alignnone size-full wp-image-5007" height="89" src="https://cdn.omegaxyz.com/2018/09/VLPSO3.png" width="392"/>0.05 and 0.45 are the empirical values proposed in CLPSO
+
+Rank(i) is the ranking of particles, which is calculated by the symmetric uncertainty of information theory
+
+The larger the learning rate, the greater the possibility of learning its own particles.<h2><b>Population length division</b></h2>
+<img alt="" class="alignnone size-full wp-image-5008" height="81" src="https://cdn.omegaxyz.com/2018/09/VLPSO4.png" width="234"/>PopSize=100, NbrDiv is a preset value, let it equal 5, then the population is divided into 5 groups, each group has 20 individuals.<h2><b>Dimensionality of the population</b></h2>
+<img alt="" class="alignnone size-full wp-image-5009" height="81" src="https://cdn.omegaxyz.com/2018/09/VLPSO5.png" width="357"/>Assuming there are 5000 dimensions and NbrDiv=5, the length of each layer of the population is as follows:<img alt="" class="alignnone size-full wp-image-5010" height="195" src="https://cdn.omegaxyz.com/2018/09/VLPSO6.png" width="557"/>Note: Remove the dimensions from the particle backend, for example, if it is 1000 dimensions, remove the next 4000 dimensions.<h2><b>evolving population</b><b>dimension</b><b>degree of change</b></h2>
+<b>Trigger mechanism: after several generations</b><b>gBest</b><b>no promotion</b>
+<b>process:</b>Calculate the mean value of particle fitness at each level (different lengths), find the best Best Division, keep the length of this level unchanged, and use it as the maximum length to re-divide individuals in other levels.<img alt="" class="alignnone size-full wp-image-5011" height="355" src="https://cdn.omegaxyz.com/2018/09/VLPSO7.png" width="723"/>Note: Particles at a level whose length becomes smaller have the dimensions at the end removed, and particles whose length becomes longer add corresponding dimensions. The values ​​of these dimensions are randomly generated.<h2><b>flow chart</b></h2>
+<img alt="" class="alignnone size-full wp-image-5012" height="775" src="https://cdn.omegaxyz.com/2018/09/VLPSO8.png" width="542"/>
+<ul>
+<li>①Initialize populations of different lengths, initialize<b>Exemplar</b></li>
+<li>② Determine whether each particle needs to be reset<b>Exemplar</b></li>
+<li>③Speed ​​and position update, if<b>pbest</b>If there is no update after α generation, the updated learning rate Pc needs to be reset in the next generation.<b>Exemplar</b></li>
+<li>④Update<b>gbest</b></li>
+<li>⑤If<b>gbset</b>If there is no improvement after the β generation, the population length is reset.</li>
+<li>⑥Stop criterion, if not enter the third step</li>
+</ul>
+<h2><b>fitness function</b><b>Fitness</b><b>, precision utilization</b><b>KNN</b><b>calculate</b></h2>
+<img alt="" class="alignnone size-full wp-image-5004" height="289" src="https://cdn.omegaxyz.com/2018/09/VLPSO9.jpg" width="863"/>Note: The Manhattan distance is calculated using the selected feature subset of the instance, where the distance measure can determine the ability of the feature subset to divide instances of different categories and aggregate instances of the same category.<h2><b>Dataset used in the experiment</b></h2>
+<img alt="" class="alignnone size-full wp-image-5013" height="262" src="https://cdn.omegaxyz.com/2018/09/VLPSO10.png" width="508"/>
+<strong>Please see the original text for experimental results</strong>
+<strong>Original paper:</strong>Tran B, Xue B, Zhang M. <b>Variable-Length Particle Swarm Optimisation for Feature Selection on High-Dimensional Classification</b>[J]. IEEE Transactions on Evolutionary Computation, 2018.
+
+Paper Java code:<a href="https://github.com/xyjigsaw/VarLenPSO">https://github.com/xyjigsaw/VarLenPSO</a></div>
+        <section class="comments"><h2>Comments (17)</h2>
+        <div class="comment" id="comment-17774">
+          <strong>崔俊杰</strong>
+          <time>2019-09-23 14:57:18</time>
+          <div>请问有代码吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17778">
+          <strong>xyjisaw</strong>
+          <time>2019-09-23 15:04:07</time>
+          <div>有，JAVA代码</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17797">
+          <strong>Anonymous</strong>
+          <time>2019-09-24 17:32:32</time>
+          <div>能发一份给我吗，谢谢!<br>email：2811651110@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-17803">
+          <strong>崔俊杰</strong>
+          <time>2019-09-26 10:46:15</time>
+          <div>有代码的话可以发一份给我吗，谢谢!<br>email：2811651110@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17804">
+          <strong>xyjisaw</strong>
+          <time>2019-09-26 14:34:22</time>
+          <div>已发送</div>
+        </div>
+        
+        <div class="comment" id="comment-18044">
+          <strong>kate</strong>
+          <time>2019-10-10 19:33:00</time>
+          <div>请问有代码可以看下吗 谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-18050">
+          <strong>kate</strong>
+          <time>2019-10-11 16:43:10</time>
+          <div>您好，我之前忘了附邮箱，我现在想试着实现这个vlpso，如果有代码的话可以发给我一份吗？万分感谢！我的邮箱是616641766@qq.com。</div>
+        </div>
+        
+        <div class="comment" id="comment-18197">
+          <strong>唐枫</strong>
+          <time>2019-11-12 14:21:10</time>
+          <div>请问可以分享一下实现的代码吗？万分感谢！1825548598@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-18386">
+          <strong>Anonymous</strong>
+          <time>2019-12-20 18:00:49</time>
+          <div>您好，不知道您能否给我也分享一份代码，想详细了解下细节。谢谢。1037537109@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-18502">
+          <strong>Anonymous</strong>
+          <time>2020-01-30 17:10:24</time>
+          <div>您好，请问可以给我也发一份代码吗？想了解一下，谢谢您！691667946@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18505">
+          <strong>xyjisaw</strong>
+          <time>2020-02-01 09:53:40</time>
+          <div>请访问：&lt;a href=&quot;https://github.com/xyjigsaw/VarLenPSO&quot; target=&quot;_blank&quot; rel=&quot;nofollow ugc noopener noreferrer&quot;&gt;https://github.com/xyjigsaw/VarLenPSO&lt;/a&gt;</div>
+        </div>
+        
+        <div class="comment" id="comment-18900">
+          <strong>luoluoluo</strong>
+          <time>2020-05-06 09:01:31</time>
+          <div>请问一下有数据集吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18903">
+          <strong>xyjisaw</strong>
+          <time>2020-05-06 16:38:28</time>
+          <div>https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment" id="comment-19008">
+          <strong>孙丽芹</strong>
+          <time>2020-06-04 18:08:43</time>
+          <div>能发我一份代码吗？我找了，下载不了,,,,,可能我下载错了,,,,,1551340802@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19009">
+          <strong>xyjisaw</strong>
+          <time>2020-06-04 18:58:24</time>
+          <div>已发送。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19010">
+          <strong>孙丽芹</strong>
+          <time>2020-06-04 19:20:43</time>
+          <div>谢谢，非常感谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-19290">
+          <strong>周俊海</strong>
+          <time>2020-08-10 11:40:48</time>
+          <div>请问还有其他数据集吗，那个数据集网址访问不了，我只找到了SRBCT和DLBCL，请问您有其他的吗</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

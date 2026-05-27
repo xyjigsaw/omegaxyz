@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chomsky grammar type judgment · OmegaXYZ</title>
+  <meta name="description" content="Introduction to grammar 1. Type 0 grammar (phrase grammar) If for a certain grammar G, each rule in P has the following form: u:: = v where u∈V＋, v∈V*, then the grammar G is called a type 0 grammar or phrase grammar, abbreviated as PSG. The corresponding language of type 0 grammar or phrase structure grammar is called type 0 language or phrase structure language L0. Since this kind of grammar has no other restrictions, Type 0 grammar is also called an unrestricted grammar, and its corresponding language is called an unrestricted language. Any 0...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/01/23/chomsky-grammar/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-23</div>
+        <h1>Chomsky grammar type judgment</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction to grammar</strong></h2>
+<strong>1</strong><strong>．</strong><strong>0</strong><strong>Type grammar (phrase grammar)</strong>If for some grammar G, each rule in P has the following form:<strong>u:: = v</strong>Among them, u∈V＋, v∈V*, then the grammar G is called a type 0 grammar or phrase grammar, abbreviated as PSG.
+
+The corresponding language of type 0 grammar or phrase structure grammar is called type 0 language or phrase structure language L0. Since this kind of grammar has no other restrictions, Type 0 grammar is also called an unrestricted grammar, and its corresponding language is called an unrestricted language. Any type 0 language is recursively enumerable, so type 0 language is also called a recursively enumerable set. This language can be recognized by a Turing machine.<strong>2</strong><strong>．</strong><strong>1</strong><strong>Type Grammar (Context-sensitive Grammar)</strong>If for some grammar G, each rule in P has the following form:<strong>xUy:: = xuy</strong>Among them, U∈VN; u∈V＋;
+
+The rule of type 1 grammar is that the U on the left and the u on the right have the same upper x and lower y. When using this rule for derivation, if you want to replace U with u, you must do it when there is x in front and y in the back, which shows the context-related characteristics.
+
+The language determined by type 1 grammar is type 1 language L1, and type 1 language can be recognized by linear bounded automaton.<strong>3</strong><strong>．</strong><strong>2</strong><strong>type grammar (context-free grammar)</strong>If for some grammar G, each rule in P has the following form:<strong>U :: = u</strong>Among them, U∈VN; u∈V+, then the grammar G is called a type 2 grammar or a context-free grammar, abbreviated as CFG.
+
+According to this rule, for context-free grammar, when using this rule for derivation, there is no need to consider the context in which the non-terminal symbol U is located. U can always be replaced with u, or u can be reduced to U, which shows the characteristics of context-free grammar.
+
+The language determined by Type 2 grammar is Type 2 language L2, and Type 2 language can be recognized by a non-deterministic pushdown automaton.
+
+The grammar that generally defines a programming language is context-free. This is the case with C language. Therefore, context-free grammars and corresponding languages ​​have attracted greater interest and attention.<strong>4</strong><strong>．</strong><strong>3</strong><strong>Type grammar (regular grammar, linear grammar)</strong>If for some grammar G, each rule in P has the following form:<strong>U :: = T  </strong><strong>or</strong><strong>  U :: = WT</strong>Among them, T∈VT; U, W∈VN, then the grammar G is called a left-linear grammar.
+
+If for some grammar G, each rule in P has the following form:<strong>U :: = T  </strong><strong>or</strong><strong>  U :: = TW</strong>Among them, T∈VT; U, W∈VN, then the grammar G is called a right linear grammar.
+
+Left linear grammar and right linear grammar are commonly called type 3 grammar or regular grammar, sometimes also called finite state grammar, abbreviated as RG.
+
+By definition, when applying the rules to a regular grammar, a single nonterminal symbol can only be replaced by a single terminal symbol, or by a single nonterminal symbol plus a single terminal symbol, or by a single terminal symbol plus a single nonterminal symbol.
+
+The language determined by type 3 grammar is type 3 language L3, and type 3 language can be identified by a certain finite state automaton.
+
+In common programming languages, most lexical-related grammars belong to Type 3 grammars.
+
+It can be seen that the above four types of grammars, from type 0 to type 3, have increasingly stronger production restrictions. The latter types are all subsets of the previous type, and the function of describing language is getting weaker and weaker. The relationship between the four types of grammars and the languages they represent can be expressed as:
+
+Type 0 Type 1 Type 2 Type 3; that is, L0 L1 L2 L3<h2><strong>flow chart</strong></h2>
+<img alt="" class="alignnone wp-image-5415" height="355" src="https://cdn.omegaxyz.com/2019/01/Chomsky1.png" width="675"/>
+<h2><strong>code</strong></h2>
+<strong>Grammar data structure:</strong>Considering that the grammar is a four-tuple, including Vn as a non-terminal symbol, Vt as a terminal symbol, P as a rule of the grammar, S as an identifier or start symbol, and flag as the type of grammar, so the following class in C++ is used to define the grammar, and a set collection is used to save certain attributes of each grammar (not repeated).<pre><code class="language-c++">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;set&gt;
+#define MAX_LENGTH 10
+using namespace std;
+
+
+struct Principle{
+    string left;
+    string right;
+};
+
+struct Grammar{
+    set&lt;char&gt; Vn;
+    set&lt;char&gt; Vt;
+    vector&lt;Principle&gt; P;
+    char S;
+    int flag = -1;
+};
+
+void input(vector&lt;Principle&gt; &amp;principleSet)
+{
+    char tempLeft[MAX_LENGTH];
+    char tempRight[MAX_LENGTH];
+    while(scanf("%[^-]-&gt;%s",tempLeft,tempRight)!=EOF){
+        getchar();
+        Principle temp;
+        temp.left = tempLeft;
+        temp.right = tempRight;
+        principleSet.push_back(temp);
+    }
+}
+
+void analyseGram(Grammar &amp;G)
+{
+    G.S = G.P.front().left[0];//获得起始符
+    for(int i=0;i&lt;G.P.size();++i){
+        Principle &amp;temp = G.P[i];
+        for(int j = 0;j&lt;temp.left.size();++j){
+            char v = temp.left[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+        for(int j = 0;j&lt;temp.right.size();++j){
+            char v = temp.right[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+    }
+}
+
+bool existVNT(string s)
+{
+    for(int i=0;i&lt;s.size();i++){
+        if(isupper(s[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+void judgeGram(Grammar &amp;G)
+{
+
+    for(int i=0;i&lt;G.P.size();++i){
+        if(existVNT(G.P[i].left)){
+            G.flag = 0;
+            break;
+        }
+    }
+    int temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==0;++i){
+        if(G.P[i].left.size()&lt;=G.P[i].right.size()){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=1;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==1;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=2;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==2;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])&amp;&amp;
+           (1==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])||
+            2==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])&amp;&amp;
+            isupper(G.P[i].right[G.P[i].right.size()-1]))){temp++;}
+    }
+    if(temp==G.P.size()){
+        G.flag=3;
+    }
+}
+
+void printResult(Grammar &amp;G)
+{
+    cout&lt;&lt;"G=(Vn,Vt,P,S)是"&lt;&lt;G.flag&lt;&lt;"型文法"&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"非终结符Vn有：";
+    for(set&lt;char&gt;::iterator i = G.Vn.begin();i!=G.Vn.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"终结符Vt有：";
+    for(set&lt;char&gt;::iterator i = G.Vt.begin();i!=G.Vt.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"开始符为："&lt;&lt;G.S&lt;&lt;endl;
+    cout&lt;&lt;"规则P如输入所示"&lt;&lt;endl;
+    cout&lt;&lt;endl;
+}
+
+int main()
+{
+    Grammar G;
+    G.Vn.clear();
+    G.Vt.clear();
+    input(G.P);
+    G.flag = 3;
+    analyseGram(G);
+    judgeGram(G);
+    printResult(G);
+}</code></pre>
+<h2><strong>Experimental verification</strong></h2>
+<strong>1</strong><strong>Type Grammar Experiment Results</strong>
+<img alt="" class="alignnone wp-image-5416" height="473" src="https://cdn.omegaxyz.com/2019/01/Chomsky2.png" width="712"/>
+<strong>2</strong><strong>Type Grammar Experiment Results</strong>
+<img alt="" class="alignnone wp-image-5417" height="465" src="https://cdn.omegaxyz.com/2019/01/Chomsky3.png" width="709"/>
+<strong>3</strong><strong>Type Grammar Experiment Results</strong>
+<img alt="" class="alignnone wp-image-5418" height="460" src="https://cdn.omegaxyz.com/2019/01/Chomsky4.png" width="701"/>
+<h2><strong>Difficulties and Solutions</strong></h2>
+<ul>
+<li>Creation of data structures</li>
+</ul>In order to facilitate code reuse in future experiments, a good data structure type needs to be established. Therefore, I wrote this experiment in C++ and used containers in C++, such as set and vector.<ul>
+<li>How to determine grammatical type</li>
+</ul>This part is the focus of this experiment. How to effectively judge the type of grammar is a difficult problem. After analysis, I decided to judge the type of grammar from top to bottom, from low to high. First determine whether it is a low-level grammar, and then determine whether it is a high-level grammar. Many branch statements appear during the judgment process, so certain modules can be proposed, such as the non-terminal judgment module, which can be integrated into functions<strong>bool existVNT(string s)</strong><strong>。</strong>
+<ul>
+<li>If the format of the input in the initial experiment is wrong, we can have two solutions to this problem. One is to immediately judge whether it is a legal rule when inputting, or to output an error message when judging the grammar type.</li>
+</ul></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

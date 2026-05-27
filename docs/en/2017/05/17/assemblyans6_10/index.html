@@ -1,0 +1,2871 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapter 6 to Chapter 10 · OmegaXYZ</title>
+  <meta name="description" content="The answers on the Internet are from the first edition, and have been reorganized. &quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press, Second Edition Chapter 6 to Chapter 10 Liu Huiting, Wang Qingsheng Editor-in-Chief Exercises and Reference Answers Please refer to Chapter 1 to Chapter 5: https://omegaxyz.com/2017/05/04/assemblyans1_5/ Exercise 6 6.1 Draw a diagram to illustrate the data in the memory space shown in the following data definition statements, and answer the register values. OR...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/17/assemblyans6_10/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-17</div>
+        <h1>&quot;Assembly Language Programming Tutorial&quot; People&#x27;s Posts and Telecommunications Press Second Edition Exercises and Reference Answers Chapter 6 to Chapter 10</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">The answers on the Internet are from the first version and have been rearranged.
+
+"Assembly Language Programming Tutorial" People's Posts and Telecommunications Press, Second Edition Chapter 6 to Chapter 10
+Liu Huiting, Wang Qingsheng Editor-in-Chief
+Exercise questions and reference answers
+
+Please refer to Chapters 1 to 5:<a href="https://omegaxyz.com/2017/05/04/assemblyans1_5/">https://omegaxyz.com/2017/05/04/assemblyans1_5/</a>
+<strong>Exercise 6</strong>
+<strong>6.1</strong>Draw a diagram to illustrate the data in the memory space shown in the following data definition statements, and answer the register values.
+
+ORG 0
+
+ARRAY LABEL BYTE
+
+DA1 DW 2, 9, 14, 3, 315H, -6
+
+DA2 DB 7, ‘ABCDEDFG’
+
+LEN = $-DA2
+
+ORG 100H
+
+DA3 DW DA4
+
+DA4 DB 4 DUP(2 DUP(1,2,3),4)
+
+. . . . . .
+
+MOV AL, ARRAY+2 (AL) = ( )H
+
+ADD AL, DA2+1 (AL) = ( )H
+
+MOV AX，DA2-DA1 （AX）=（ ）H
+
+MOV BL, LEN (BL) = ( )H
+
+MOV AX, DA3 （AX）=（ ）H
+
+MOV BX, TYPE DA4 (BX) = ( )H
+
+MOV BX, OFFSET DA4 (BX) = ( ) H
+
+MOV CX, SIZE DA4 (CX) = ( ) H
+
+MOV DX, LENGTH DA4 (DX)=( )H
+
+MOV BX, WORD PTR DA4 (BX) = ( ) H
+
+MOV BL, LEN AND 0FH (BL) = ( )H
+
+MOV BL, LEN GT 5 （BL）=（ ）H
+
+MOV AX, LEN MOD 5 （AX）=（ ）H
+
+Answer:
+
+MOV AL, ARRAY+2 (AL) = (09) H
+
+ADD AL, DA2+1 (AL) = (41) H
+
+MOV AX, DA2-DA1 (AX) = (000c) H
+
+MOV BL, LEN (BL) = (09) H
+
+MOV AX, DA3 (AX) = (0102) H
+
+MOV BX, TYPE DA4 (BX) = (0001) H
+
+MOV BX, OFFSET DA4 (BX) = (0102) H
+
+MOV CX, SIZE DA4 (CX) = (0004) H
+
+MOV DX, LENGTH DA4 (DX)=(0004)H
+
+MOV BX, WORD PTR DA4 (BX) = (0201) H
+
+MOV BL, LEN AND 0FH (BL) = (09)H
+
+MOV BL, LEN GT 5 (BL) = (ff)H
+
+MOV AX, LEN MOD 5 (AX)=(0004)H<strong>6.2 </strong>What is the difference between variables and labels? What properties do variables and labels have? How to get attribute value? Write the instructions.
+
+Answer: Variables are operands provided for instructions, and labels provide identifiers for instructions, both for reference in instructions. Their main attributes are: offset attributes, segment attributes, and type attributes. For example:
+
+MOV BX, OFFSET VAL; get the offset attribute
+
+MOV BX, SEG VAL; get segment attributes
+
+MOV BX, TYPE VAL; get the type attribute<strong> </strong>
+<strong>6.3 </strong>What is the difference between instructions and pseudo-instructions? Can directives appear in code sections? Can instructions be in the data segment?
+
+Answer: Instructions can only appear in the code segment. Pseudo-instructions that define data are usually in the data segment. Pseudo-instructions can also be at both ends of the code segment, but not between instructions.<strong> </strong>
+<strong>6.4 </strong>Can the following program output characters 0 to 9? If not, how should it be modified?
+
+CODE SEGMENT
+
+ASSUME CS:CODE
+
+K=30H
+
+J DW 0
+
+START: MOV DL, K
+
+MOV AH, 2
+
+INT 21H
+
+K=K+1
+
+INC J
+
+CMP J, 10
+
+JNZ START
+
+MOV AH, 4CH
+
+INT 21H
+
+CODE ENDS
+
+END START
+
+Answer: It can be run through assembly and connection, but the real intention of the program is to output characters 0~9 with ASCII codes 30H~39H, which should be modified.
+
+CODE SEGMENT
+
+ASSUME CS:CODE
+
+K=30H ; changed to K DB 30H
+
+J DW 0
+
+START: MOV DL, K
+
+MOV AH, 2
+
+INT 21H
+
+K=K+1 ; K=K+1 is a pseudo-instruction, no code is generated, so it is changed to INC K
+
+INC J
+
+CMP J, 10
+
+JNZ START
+
+MOV AH, 4CH
+
+INT 21H
+
+CODE ENDS
+
+END START<strong> </strong>
+<strong>6.5 </strong>Write a complete program using 16-bit instructions, debug it on the computer, and calculate V=(X+Y)*R. All variables are 32-bit variables. The specific values ​​of X, Y, and R are determined by you. The variable definition format is as follows:
+
+X DW ?,?
+
+Y DW ?,?
+
+R DW ?,?
+
+V DW 4 dup(?)
+
+Answer: (32-bit instructions)
+
+data segment
+
+x dw 1
+
+y dw 2
+
+r dw 3
+
+v dw 4 dup(?)
+
+data ends
+
+ 
+
+code segment
+
+assume cs:code,ds:data
+
+.386p
+
+start:
+
+mov ax,data
+
+mov ds,ax
+
+mov eax,x
+
+add eax,y
+
+mov ebx,r
+
+imulebx
+
+mov v,eax
+
+mov v+4,edx
+
+mov dl,al
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>6.6</strong>The data is defined as follows: execute the following instructions and fill in the register value
+
+ARRAY LABEL BYTE
+
+DA1 DW 2, 9, 14, 3
+
+DA2 DB 7, ‘ABCDEDF’
+
+LEN = $-DA1
+
+MOV AL, ARRAY+2 (AL) = ( )H
+
+ADD AL, DA2+1 (AL) = ( )H
+
+MOV AX，DA2-DA1 （AX）=（ ）H
+
+MOV AX，DA1+1 （AX）=（ ）H
+
+MOV BL,LEN （BL）=（ ）H
+
+ 
+
+Answer: MOV AL, ARRAY+2 (AL) = (09) H
+
+ADD AL, DA2+1 (AL) = (41)H
+
+MOV AX, DA2-DA1 (AX) = (0008) H
+
+MOV AX, DA1+1 (AX) = (0900) H
+
+MOV BL, LEN (BL) = (10)H<strong> </strong>
+<strong>6.7 </strong>Define the data segment to meet the following requirements:
+
+(1) array is a string variable: ‘inspire a generation! ’
+
+(2) data1 is a hexadecimal number: 0FEDCBAH
+
+(3) data2 is a binary number: 10101010B.
+
+(4) data3 is 100 zero-byte variables.
+
+(5) Allocate 500 words of space for use.
+
+Answer: data segment
+
+Array db ‘inspire a generation!’
+
+Data1 df 0fedcbah
+
+Data2 db 10101010B
+
+Data3 db 100 dup(0)
+
+dw 500 dup(?)
+
+data ends<strong> </strong>
+<strong>6.8 </strong>Assume that in the program, the data segment is defined as follows:
+
+Data1 db 50 dup(?)
+
+Data2dw10dup(0)
+
+Data3 dq 5 dup(2 dup(1,2))
+
+(1) Use instructions to put the first address of the data segment into the data segment register.
+
+(2) Use one instruction to put the first data of data2 into the BX register.
+
+(3) Put the number of data segment bytes into the CX register.
+
+Answer: mov ax, data1 mov ds, ax
+
+Mov bx,data2[0]
+
+Mov cx, 50+10*2+20*8<strong> </strong>
+<strong>6.9</strong>The existing data is defined as follows:
+
+Array1 dw 5 DUP (0)
+
+Array2 EQU BYTE PTR Array1
+
+Please explain the connection between these two variables.
+
+Answer: When assembled, the PTR type operator makes Array2 have the same segment address and offset address as Array1, but its data type is byte type.<strong>6.10 </strong>Give the assembly results of the following program segments:
+
+Val1 EQU 6
+
+Val2 EQU 3
+
+MOV BX,(Val1 LT 5) AND 20
+
+MOV BX, (VAL2 GE 1) AND 30
+
+MOV BX,(Val2 AND 5) OR (VAL1 GE 5)
+
+MOV BX,(Val2 - VAL1) GE 5
+
+Answer: MOV BX,0 MOV BX,30 MOV BX,FF MOV BX,0<strong>6.11</strong>Assume that the data segment is defined as follows:
+
+Data segment
+
+Org 20h
+
+Data1=4
+
+Data2=data1+25h
+
+Data3 db ‘123456’
+
+Db 47h,48h
+
+Count EQU $-data1
+
+Data4 dw 49h,4Ah,4Bh
+
+Data ends
+
+Answer the following questions:
+
+(1) What is the offset address of Data1?
+
+(2) What is the value of Count?
+
+Answer: (1) 0020h (2) 0024h<strong>6.12</strong>There is a data area data1, which needs to be accessed by words and bytes. How to set it up?
+
+Answer: You can use the "LABEL" tag to set it, such as:
+
+Operator_b LABEL byte
+
+Operator_w dw 100dup(0)
+
+The Operator_b variable is used when accessing by bytes, and the Operator_w variable is used when accessing by words.<strong>6.13</strong>What is PSP and what is the difference between EXE files and COM files?
+
+Answer: PSP is the program segment prefix. The program is loaded into the memory before execution, and DOS determines the starting address of loading, establishes the PSP, and then loads the program, which is 256 bytes in size. Compared with EXE files and COM files, COM files have only one segment address and are composed of binary codes. They are smaller than EXE files and require the program to start from the offset address 0100H unit because it was previously stored as PSP.<strong>Exercise 7</strong>
+<strong>7.1</strong>The following program finds the smallest number among three numbers and puts it into AL. Fill in the instructions in the brackets to make it complete.<strong>      </strong>mov al,x
+
+mov bl,y
+
+mov cl,z
+
+cmp al,bl
+
+( )
+
+xchg al,bl
+
+l1: cmp al, cl
+
+jle l2
+
+( )
+
+l2:ret
+
+Answer: (1) jl l1
+
+(2)xchg al,cl<strong>7.2</strong>The data segments are as follows:
+
+data segment
+
+da1 db 1, 2, ‘abcd’
+
+count = $-da1
+
+da2 db 9 dup(?)
+
+data ends
+
+Add the instructions in parentheses to make the program move the data in the DA1 data area to the DA2 data area.
+
+mov ax,data
+
+mov ds, ax
+
+mov es, ( )
+
+mov cx, ( )
+
+mov si, ( )
+
+( )
+
+( )<strong>answer:</strong>mov   es，( AX     )
+
+mov   cx，( COUNT     )
+
+mov    si, ( OFFSET  DA1     )
+
+( MOV  DI, OFFSET  DA2        )
+
+( REP  MOVSB                )
+
+<strong> </strong>
+<strong> </strong>
+<strong>7.3 </strong>Add, subtract, multiply or divide AX and BX. Each operation is selected by the user from the keyboard. Set the register value in the program, or set the register value under DEBUG and run the program under DEBUG.
+
+Answer: code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ah,1
+
+int 21h
+
+cmp al,31h ;1 plus
+
+jz ad
+
+cmp al,32h ;2 minus
+
+jz su
+
+cmp al,33h ;3 times
+
+jz mu
+
+cmp al,34h ; divide by 4
+
+jz di
+
+ad:ADDAX,BX
+
+JMP exit
+
+su:SUB AX,BX
+
+JMP exit
+
+mu:MUL BX
+
+JMP exit
+
+d:DIV BX
+
+exit:
+
+ret
+
+main endp
+
+code ends
+
+end main<strong>7.4 </strong>Write a program that receives a lowercase letter from the keyboard, finds its leading and following characters, and displays the three letters in sequence.
+
+Answer: code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ah,1
+
+int 21h
+
+cmp al,61h
+
+jb exit
+
+cmp al,7ah
+
+ja exit
+
+mov bx,ax
+
+sub al,1h ; Output the previous character
+
+mov dl,al
+
+mov ah,2
+
+int 21h
+
+mov dl,bl ; Output the current character
+
+mov ah,2
+
+int 21h
+
+add dl,1h ; Output the next character
+
+mov ah,2
+
+int 21h
+
+exit:ret
+
+main endp
+
+code ends
+
+end main<strong>7.5 </strong>Use LOOP loops and conditional transfer instructions to implement 1+2+3+...+100, and store the results in AX.
+
+Answer: (1)code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov bx,1
+
+mov ax,0
+
+mov cx, 99
+
+a:add ax,bx
+
+xx
+
+loop a
+
+exit:ret
+
+code ends
+
+end main
+
+ 
+
+(2)code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov bx,1
+
+mov ax,0
+
+mov cx, 99
+
+a:add ax,bx
+
+xx
+
+cmp bx,101
+
+a
+
+exit:ret
+
+main endp
+
+code ends
+
+end main<strong>7.6</strong>Print the graph below.
+
+*
+
+**
+
+***
+
+****
+
+*****
+
+******
+
+Answer: code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ax,1
+
+a:mov cx,ax
+
+b:mov ah,2
+
+mov dl,’*’
+
+int 21h
+
+loop b
+
+cmp ax,6
+
+jz exit
+
+inc ax
+
+mov ah,2
+
+mov dl,13
+
+int 21h
+
+mov ah,2
+
+mov dl,10
+
+int 21h
+
+jmp a
+
+exit:ret
+
+code ends
+
+end main<strong>7.7 </strong>Find the average of the known signed byte array ARRAY. The first byte unit of ARRAY is the number of array elements.
+
+Answer:
+
+data segment
+
+ARRAY db 5,01,12,23,45,F3
+
+data ends
+
+ 
+
+code segment
+
+assume cs:code
+
+start:
+
+mov ax,data
+
+movds,ax
+
+mov ax,0
+
+mov cl,array
+
+mov ch,0
+
+mov bl,cl
+
+lea si,array+1
+
+a:add al,array[si]
+
+incsi
+
+loop a
+
+div bl
+
+exit:mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.8 </strong>Write a program that if the input is an uppercase letter, output the corresponding lowercase letter; if the input is a lowercase letter, output the corresponding uppercase letter; if the input is a number, output it as it is; press Enter to end.
+
+Answer: code segment
+
+assume cs:code
+
+start:
+
+mov ah,1
+
+int 21h
+
+cmp al,30h
+
+jb exit
+
+cmp al,3Ah
+
+jbnum
+
+cmp al,41h
+
+jb exit
+
+cmp al,5Bh
+
+jb large
+
+cmp al,61h
+
+jb exit
+
+cmp al,7ah
+
+ja exit
+
+sub al,20h
+
+jmp num
+
+large: add al,20h
+
+jmp num
+
+num: mov dl,al
+
+mov ah,2
+
+int 21h
+
+exit:mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.9</strong>Write a program to sort the six elements of the unsigned word array ARRAY from small to large.
+
+Answer: data segment
+
+array dw 6,5,9,4,5,15,3 ;The first address unit 6 is the number of elements
+
+data ends
+
+code segment
+
+assume cs:code,ds:data
+
+start:
+
+mov ax, data
+
+mov ds, ax
+
+mov di, array
+
+k1: mov cx, di
+
+mov bx,0
+
+k2: mov ax, array[bx]
+
+cmp ax, array[bx+2]
+
+jl next
+
+xchg ax,array[bx+2]
+
+mov array[bx],ax
+
+next: add bx,2
+
+loop k2
+
+dec di
+
+jnz k1
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.10</strong>The data segment has two word arrays of equal length. The sum of their respective elements is calculated and stored in the unit after the element, that is, horizontal addition. Then find the sum of the corresponding elements of the two arrays, and store the sum in the new array SUM, that is, vertical addition.
+
+Answer: data segment
+
+Array1 dw 3, 1,0,1,? ; Assuming simple data, the first one is the number of elements
+
+Array2 dw 3,1,1,0,?
+
+Array3 dw 3,3 dup (0) ; stores the sum of array1,2
+
+data ends
+
+code segment
+
+assume cs:code,ds:data
+
+start:
+
+mov ax, data
+
+mov ds, ax
+
+mov ax, 0
+
+lea bx, array1+2
+
+mov cx, array1
+
+sumh1: add ax, [bx]
+
+add bx,2
+
+loop sumh1
+
+mov [bx],ax
+
+;The second array accumulates
+
+mov ax, 0
+
+lea bx, array2+2
+
+mov cx, array2
+
+sumh2: add ax, [bx]
+
+add bx,2
+
+loop sumh2
+
+mov [bx],ax
+
+lea bx,2
+
+mov cx, array2
+
+sum3: mov ax, array1[bx]
+
+add ax, array2[bx]
+
+mov array3[bx],ax
+
+add bx,2
+
+loop sum3
+
+exit: mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.11</strong>Write a program to compare whether two strings input from the keyboard are the same. If they are the same, 'YES' will be displayed. If they are different, the different character positions will be displayed.
+
+Answer: data segment
+
+mess1 db 13,10, 'input string1:$'
+
+mess2 db 13,10, 'input string2:$'
+
+mess3 db 13,10, 'YES!$'
+
+mess4 db 13,10, 'no match at $'
+
+ 
+
+st1 label byte
+
+max1 db 6
+
+act1 db ?
+
+stok1 db 6 dup(?)
+
+ 
+
+st2 label byte
+
+max2 db 6
+
+act2 db ?
+
+stok2 db 6 dup(?)
+
+data ends
+
+ 
+
+code segment
+
+assume cs:code, ds:data,es:data
+
+start: mov ax,data
+
+mov ds,ax
+
+mov es,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h ;qust1?
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h ;ans1
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h ;qust2?
+
+lea dx,st2
+
+mov ah,0ah
+
+int 21h ;ans2
+
+mov cl,act1
+
+mov dl,act2
+
+cmpcl,dl
+
+jnz nomatch
+
+mov ch,0
+
+lea si,stok1
+
+lea di,stok2
+
+repe cmpsb
+
+jnz nomatch
+
+match:lea dx,mess3
+
+mov ah,09
+
+int 21h
+
+jmp exit
+
+nomatch:
+
+lea dx,mess4
+
+mov ah,09
+
+int 21h
+
+sub di,offset stok2
+
+mov dx,di
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+exit:
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.12</strong>Write a program to input a string from the keyboard to BUFF, then input a character to AL, search whether the character exists in the string BUFF, and if found, display the found character position.
+
+Answer:
+
+data segment
+
+mess1 db 13,10, 'input string:$'
+
+mess2 db 13,10, 'input a char:$'
+
+mess3 db 13,10, 'found at $'
+
+mess4 db 13,10, 'no found !$'
+
+ 
+
+st1 label byte
+
+max1 db 6
+
+act1 db ?
+
+stok1 db 6 dup(?)
+
+ 
+
+data ends
+
+ 
+
+code segment para'code'
+
+assume cs:code, ds:data
+
+start: mov ax,data
+
+mov ds,ax
+
+mov es,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h ;qust1?
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h ;ans1
+
+ 
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h ;qust2?
+
+ 
+
+mov ah,1
+
+int 21h ;ans2
+
+lea di,stok1
+
+repne scasb
+
+jz match
+
+nomatch:
+
+lea dx,mess4
+
+jmp exit
+
+match:lea dx,mess3
+
+ 
+
+exit:
+
+mov ah,09
+
+int 21h
+
+sub di,offset stok1
+
+mov dx,di
+
+anddx,0fh
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.13</strong>Write a program that inputs a string from the keyboard to BUFF and displays the output in reverse order.
+
+Answer:
+
+data segment
+
+mess1 db 13,10, 'input string:$'
+
+mess2 db 13,10,'$'
+
+st1 label byte
+
+max1 db 6
+
+act1 db ?
+
+stok1 db 6 dup(?)
+
+data ends
+
+ 
+
+code segment
+
+assume cs:code, ds:data
+
+start: mov ax,data
+
+mov ds,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h
+
+mov cl,act1
+
+mov ch,0
+
+mov bx, offset stok1
+
+add bx, cx
+
+next: dec bx
+
+mov dl, [bx]
+
+mov ah,2
+
+int 21h
+
+loop next
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.14</strong>Write a program to input an eight-digit binary number from the keyboard and display its hexadecimal number.
+
+Answer: code segment
+
+assume cs:code
+
+start:
+
+mov cx,8
+
+mov bl,0
+
+next: mov ah,1
+
+int 21h
+
+cmp al,30h
+
+jb exit
+
+cmp al,31h
+
+ja exit
+
+sub al,30h
+
+shlbl,1
+
+add bl,al
+
+loop next
+
+movcl,4
+
+mov di,2
+
+out1: rol bl,cl
+
+mov dl,bl
+
+and dl,0fh
+
+add dl,30h
+
+cmp dl,39h
+
+jledig
+
+add dl,7
+
+dig: mov ah,2
+
+int 21h
+
+dec di
+
+cmp di,0
+
+jnz out1
+
+exit: mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.15 </strong>The word array ARRAY is a signed number. The first unit contains N elements, followed by N elements. Write a program to find the maximum value among the array elements and put it into the MAX unit.
+
+Answer: data segment
+
+array dw 5,9,4,5,15,3
+
+max dw ?
+
+data ends
+
+code segment
+
+assume cs:code,ds:data
+
+start:
+
+mov ax, data
+
+mov ds, ax
+
+mov cx, array
+
+lea bx, array+2
+
+mov ax, [bx]
+
+mov max, ax
+
+k1: mov ax, [bx]
+
+cmp ax, max
+
+jl next
+
+mov max,ax
+
+next: add bx,2
+
+loop k1
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>7.16 </strong>Word array ARRAY, the first unit contains N elements, followed by N elements. Write a program to clear zero elements from the array, move the element position and modify the first unit (number of elements).
+
+Answer: data segment
+
+array dw 6,3,4,0,15,0,7
+
+loca dw 999 ; This unit address is the end mark
+
+data ends
+
+code segment
+
+assume cs:code,ds:data
+
+start:
+
+mov ax, data
+
+mov ds, ax
+
+mov cx, array
+
+lea bx, array+2
+
+next: cmp word ptr[bx],0
+
+jz move
+
+add bx,2
+
+dec cx
+
+cmp cx,0
+
+jnz next
+
+jmp exit
+
+move: dec array
+
+mov di,bx
+
+mnext:
+
+cmp di,offset loca
+
+ja next
+
+mov ax, [di+2]
+
+mov [di],ax
+
+add di,2
+
+cmp di,offset loca
+
+jnb next
+
+jmp mnext
+
+exit: mov ah,4ch
+
+int 21h
+
+code ends
+
+end start<strong>Exercise 8</strong>
+<strong>8.1</strong>The procedure is defined below, supplemented by instructions in parentheses.
+
+code segment
+
+assume cs:code
+
+main proc far
+
+( )
+
+( )
+
+( )<strong>…</strong>
+<strong>…</strong>
+<strong>…</strong>ret
+
+main endp
+
+code ends
+
+end main
+
+Answer: ( PUSH DS )
+
+( XOR AX,AX )
+
+( PUSH AX )<strong>8.2 </strong>Supplement the instructions in parentheses of the following program so that all operations on the stack by the program use the TOS stack defined in the program, and draw the data in the stack TOS after the program is executed.
+
+data segment
+
+dw 100 dup(?)
+
+tos label word
+
+data ends
+
+code segment
+
+assume cs:code,ss:data
+
+main proc far
+
+(                   )
+
+(                   )
+
+(                   )
+
+push ds
+
+xor ax, ax
+
+push ax
+
+call far ptr suba<strong>… </strong>; Assume that the address of the command here is CS=3400h, IP=30h<strong>…</strong>
+<strong>…</strong>code ends
+
+end main
+
+Answer: ( MOV AX,DATA )
+
+( MOV SS,AX )
+
+( LEA SP,TOS )<strong>8.3</strong>The main program inputs a string from the keyboard to BUFF, then inputs a character to AL, and uses a subroutine to search whether the character exists in the string BUFF. If found, the found character position is displayed. Pass the character to be found in a register.
+
+Answer: Data segment
+
+BUFF1 db 16,?,16 dup(?),13,10,'$'
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov es,ax
+
+Lea dx,BUFF1
+
+Mov ah,10
+
+Int 21h
+
+mov ah,1
+
+int 21h
+
+Lea di,BUFF1+2
+
+Mov cl,BUFF1+1
+
+mov ch,0
+
+Mov ah,0
+
+Repne scasb
+
+jnz ye
+
+dec di
+
+mov bx,di
+
+Call BTH
+
+Yes: ret
+
+Main endp
+
+BTH proc near
+
+mov cx,4
+
+s:rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+mov al,bl
+
+and al,0fh
+
+add al,30h
+
+cmp al,39h
+
+d
+
+add al,7
+
+d:mov dl,al
+
+mov ah,2
+
+int 21h
+
+loops
+
+ret
+
+BTHendp
+
+Code ends
+
+End main<strong>8.4</strong>The main program inputs an eight-digit binary number from the keyboard, performs a complement operation on it, and uses a subroutine to display the complemented value in binary form. (positive number’s complement = input)
+
+Answer: Code segment
+
+Assume cs:code
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov bx,0
+
+Mov cx,8
+
+A:mov ah,1
+
+Int 21h
+
+Shl bx,1
+
+Sub al,30h
+
+Jz b ; input is 0
+
+INC bx ;Input is 1
+
+B: loop a
+
+Test bx,0080h
+
+jz d
+
+XOR bx,00FFh ;reverse
+
+INC bx
+
+D:Call disp
+
+Ret
+
+Main endp
+
+disp proc near
+
+mov cx,8
+
+shl bx,cl
+
+ls1:shl bx,1
+
+jnc k30
+
+mov dl,31h
+
+jmp outb
+
+k30: mov dl,30h
+
+outb:mov ah,2
+
+int 21h
+
+loopls1
+
+ret
+
+dispendp
+
+code ends
+
+end main<strong>8.5</strong>The main program inputs two four-digit hexadecimal numbers A and B from the keyboard (continuously), uses the subroutine to perform hexadecimal calculation A+B, and displays the calculation result (binary).
+
+Answer:
+
+ 
+
+data segment
+
+A dw?
+
+Bdw?
+
+data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov ax,data
+
+Mov ds,ax
+
+Call INH ;Input hexadecimal number to BX register
+
+Mov A,bx
+
+Call INH ;Input hexadecimal number to BX register
+
+Mov B,bx
+
+Call ad
+
+Ret
+
+Main endp
+
+INH proc near
+
+mov bx, 0 ; initialization
+
+mov ch, 4
+
+mov cl, 4
+
+inchr: mov ah, 1; keyboard input
+
+int 21h
+
+cmp al, 30h
+
+jl exit ；Illegal input
+
+cmp al, 39h
+
+jle dig ；The input is the number 0~9
+
+cmp al, 41h
+
+jl exit ；Illegal input
+
+cmp al, 46h
+
+jg exit ；Illegal input
+
+sub al, 37h; input is capital a～f
+
+jmp ls4
+
+dig: sub al, 30h
+
+ls4: shl bx, cl
+
+add bl,al
+
+Dec ch
+
+jnz inchr
+
+exit:ret
+
+INH endp
+
+Ad proc near
+
+Mov ax,a
+
+Mov bx,b
+
+Add bx,ax
+
+Call disp
+
+Ret
+
+Ad endp
+
+disp proc near
+
+mov cx,16
+
+ls1: shl bx,1
+
+jnc l30
+
+mov dl,31h
+
+jmp outb
+
+l30; mov dl,30h
+
+outb: mov ah,2
+
+int 21h
+
+loopls1
+
+ret
+
+dispendp
+
+Code ends
+
+End main<strong>8.6 </strong>A certain word array is a signed number. The first unit contains N elements, followed by N elements. Write a general subroutine to find the maximum value among the array elements and put it into the MAX unit.
+
+Answer: MAX_p proc near
+
+Mov di,[bx] ;number address
+
+Mov si,[bx+2] ;array address
+
+Mov cx,[di]
+
+Mov di,MAX
+
+Xor ax,ax
+
+Next:cmp di,[si]
+
+J g
+
+Mov di,[si]
+
+A: Add si,2
+
+Loop next
+
+Mov MAX,di
+
+ret
+
+MAX_p endp<strong>8.7 </strong>There is an array to store students' scores (0 ~ 100), and a subroutine is compiled to count the number of people with 0 ~ 59 points, 60 ~ 69 points, 70 ~ 79 points, 80 ~ 89 points, and 90 ~ 100 points, and store them in the scoreE, scoreD, score C, score B, and score A units respectively. Write a main program to work with it.
+
+Answer:
+
+data segment
+
+Array db 6,9,65,78,68,86,93 ; 6 is the number of students, followed by 6 scores
+
+ScoreEdb?
+
+scoreDdb?
+
+scoreC db?
+
+scoreBdb?
+
+scoreA db?
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov cl,array
+
+mov ch,0
+
+Call class
+
+Ret
+
+Main endp
+
+Class proc near
+
+Lea si,array
+
+next:
+
+incsi
+
+Mov bl, [si]
+
+Cmpbl,60
+
+J
+
+Cmpbl,70
+
+d
+
+Cmpbl,80
+
+htK
+
+Cmpbl,90
+
+J b
+
+Mov dl, scoreA
+
+Inc dl
+
+Mov scoreA,dl
+
+loop next
+
+jmp exit
+
+B: Mov dl, scoreB
+
+Inc dl
+
+Mov scoreB,dl
+
+loop next
+
+jmp exit
+
+k: Mov dl, scoreC
+
+Inc dl
+
+Mov scoreC,dl
+
+loop next
+
+jmp exit
+
+D: Mov dl, scoreD
+
+Inc dl
+
+Mov scoreD,dl
+
+loop next
+
+jmp exit
+
+E: Mov dl, scoreE
+
+Inc dl
+
+Mov scoreE,dl
+
+loop next
+
+jmp exit
+
+exit:ret
+
+classendp
+
+Code ends
+
+End main<strong>8.8</strong>Design a simple calculator program using a multi-module program to implement addition, subtraction, multiplication and division of integers. Operators can be: +,-,*,/,=.
+
+Answer:
+
+public num1,num2,res
+
+extrn ad:far,su:far,mu:far,dv:far,el:far
+
+data segment
+
+num1 db ?
+
+num2 db ?
+
+res dw ?
+
+data ends
+
+code segment
+
+assume cs:code,ds:data
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ax,data
+
+mov ds,ax
+
+callDTOB
+
+mov num1,bx
+
+callDTOB
+
+mov num2,bx
+
+mov ah,1
+
+int 21h
+
+cmp dl,’+’
+
+jz
+
+cmp dl,’-’
+
+jz s
+
+cmp dl,’*’
+
+m
+
+cmp dl,’/’
+
+jzd
+
+cmp dl,’=’
+
+call el
+
+jmp exit
+
+a: call ad
+
+jmp exit
+
+s:call su
+
+jmp exit
+
+m:call mu
+
+jmp exit
+
+d:call dv
+
+exit:ret
+
+main endp
+
+dtob proc near
+
+mov bx, 0
+
+input: mov ah, 1 ; keyboard input
+
+int 21h
+
+sub al, 30h ; Convert ascii code into numerical value
+
+jl exit ; if it is not a number, exit
+
+cmp al, 9
+
+jg exit ; if it is not a number, exit
+
+cbw ; expand to word
+
+xchg ax, bx ; swap register
+
+mov cx, 10
+
+mul cx ; a(n)= a(n-1)×10
+
+xchg ax, bx ; exchange register
+
+add bx, ax ;a(n)＝a(n)+b(n)
+
+jmp input
+
+exit: ret
+
+dtob endp
+
+code ends
+
+end main
+
+;------------------
+
+public ad
+
+extrn num1:byte,num2:byte,res:word
+
+code segment
+
+assume cs:code
+
+ad proc near
+
+mov ah,0
+
+mov al,num1
+
+add al,num2
+
+adc ah,0
+
+mov res,ax
+
+ret
+
+order endp
+
+su proc near
+
+mov ah,0
+
+mov al,num1
+
+sub al,num2
+
+sbbah,0
+
+mov res,ax
+
+ret
+
+su endp
+
+mu proc near
+
+mov al,num1
+
+mu num2
+
+mov res,ax
+
+ret
+
+mu endp
+
+dv proc near
+
+mov al,num1
+
+div num2
+
+mov res,ax
+
+ret
+
+dv endp
+
+el proc near
+
+mov al,num1
+
+cmp al,num2
+
+jz z
+
+mov res,0FFFFH ; not equal
+
+jmp exit
+
+z: mov res,0 ; equal
+
+exit:ret
+
+el endp
+
+code ends
+
+end<strong>8.9 </strong>Enter your name and phone number from the keyboard to create an address book. The maximum capacity of the address book is 9 records. There is no need to retain the address book at the end of the program, but the address book information must be retained while the program is running. The human-machine interface and sequence requirements of the program are as follows:
+
+(1) Prompt message INPUT NAME: (Call the subroutine INNAME to enter the name, and the serial number is automatically generated)
+
+(2) Prompt message INPUT TELEPHONE NUMBER: (call subroutine INTELE to enter phone number)
+
+(3) Prompt message INPUT serial number: (Call the subroutine PRINT to display someone's name and phone number. If the serial number does not exist, the message NO THIS NUMB will be prompted).
+
+Answer: Inform struc
+
+Sn db ?
+
+Name db ‘??????’
+
+Telen db ‘????????????’
+
+Inform ends
+
+Data segment
+
+Array struc 9 dup(&lt;&gt;)
+
+Name db ‘INPUT NAME $’
+
+TEL db ‘INPUT TELEPHONE NUMBER $’
+
+number db ‘INPUT SEQUENCE NUMBER $’
+
+err db ‘NO THIS NUMB $’
+
+Data ends
+
+code segment
+
+assume cs:code,ds:data
+
+main proc far
+
+push ds
+
+xor ax,ax
+
+push ax
+
+mov ax,data
+
+mov ds,ax
+
+mov cx,0
+
+a:
+
+call inname
+
+call intele
+
+incx
+
+cmp cx,9
+
+jl
+
+call print
+
+ret
+
+main endp
+
+inname proc near
+
+push cx
+
+lea dx,name
+
+mov ah,9
+
+int 21h
+
+mov al, size array
+
+mulcl
+
+mov bx,ax
+
+add bx,array
+
+mov [bx].sn,cl
+
+mov di,0
+
+a:mov ah,1
+
+int 21h
+
+mov [bx].name[di],al
+
+inc di
+
+cmp di,6
+
+jl
+
+pop cx
+
+ret
+
+inname endp
+
+inteleprocnear
+
+push cx
+
+lea dx,tel
+
+mov ah,9
+
+int 21h
+
+mov al, size array
+
+mulcl
+
+mov bx,ax
+
+add bx,array
+
+mov di,0
+
+a:mov ah,1
+
+int 21h
+
+mov [bx].telen[di],al
+
+inc di
+
+cmp di,13
+
+jl
+
+pop cx
+
+ret
+
+inteleendp
+
+print proc near
+
+lea dx,number
+
+mov ah,9
+
+int 21h
+
+mov ah,1
+
+int 21h
+
+cmp al,0
+
+jx
+
+cmp al,8
+
+jj
+
+movcl,al
+
+mov al, size array
+
+mulcl
+
+mov bx,ax
+
+add bx,array
+
+mov dx,bx
+
+mov ah,9
+
+int 21h
+
+mov dl,13
+
+mov ah,2
+
+int 21h
+
+mov dl,10
+
+mov ah,2
+
+int 21h
+
+lea dx,[bx].telen
+
+mov ah,9
+
+int 21h
+
+jmpr
+
+ex: lea dx,err
+
+mov ah,9
+
+int 21h
+
+r:
+
+ret
+
+print endp
+
+code ends
+
+end main<strong>Exercise 9</strong>
+<strong>9.1</strong>Macro definition:
+
+MSG MACRO P1, P2, P3
+
+IN&amp;P1 P2 P3
+
+ENDM
+
+K=1
+
+Expand the following macro calls:
+
+MSG %K, DB, 'MY NAME'
+
+MSG C, AX
+
+Answer: 1 IN1 DB ‘MY NAME’
+
+2 INC AX<strong>9.2</strong>Use macro instructions to define nine address book records in the data segment. The data segment after macro expansion looks like:
+
+DATA SEGMENT
+
+DA1 LABEL BYTE
+
+DB 1,'NAME1','TELE1'
+
+DB 2,'NAME2','TELE2'<strong>…</strong>DB 9,'NAME9','TELE9'
+
+DATA ENDS
+
+Answer: DEF MACRO
+
+IRP X,&lt;1,2,3,4,5,6,7,8,9&gt;
+
+DB X,’NAME&amp;X&amp;’,’TELE&amp;X&amp;’
+
+ENDM
+
+ 
+
+DATA SEGMENT
+
+DA1 LABEL BYTE
+
+DEF
+
+DATA SEGMENT<strong>9.3</strong>What is the difference between macros and instructions? What are the similarities and differences between using macros and using subroutines? What are the advantages of macros?
+
+Answer: Macro instructions only work during assembly. The instructions continue to be executed after assembly. The differences between macro instructions and subprograms are as follows: (1) Difference in space: Macro instructions are larger than subprograms. If macro instructions are called multiple times, the program length will increase.
+
+(2) The difference in time: Macro running does not require additional time, subroutine does.
+
+(3) Differences in parameters: Macro commands can realize direct substitution of multiple parameters in a simple and flexible way; while subroutine parameter transfer is troublesome.
+
+In short, it is more appropriate to use macro commands for functional sections that are not long in code and have many variables.<strong>9.4 </strong>The LOCAL pseudo-operation is sometimes required in macro definitions. Why?
+
+Answer: Labels are often used in macro definitions. When the macro is called multiple times, the error of repeated label definitions will occur. Use the LOCAL pseudo-operation to describe the label as a local label, so that the label expanded by the macro is different every time it is called.<strong>9.5 </strong>What are the regulations on the location of macro definitions in the program? Does the macro call have to be placed in the code segment?
+
+Answer: There are no strict requirements on the location of macro definitions in the program. They can be written in a certain paragraph or not.<strong>9.6 </strong>Use macro instructions to calculate S=(A+B)*K/2, where A, B, and K are constants.
+
+Answer: math macro S,A,B,K
+
+S=（A+B）*K/2
+
+ENDM<strong>9.7</strong>Write a macro definition to compare two constants X and Y. If X&gt;Y, MAX=X, otherwise MAX=Y.
+
+Answer: COMPARE MACRO MAX,X,Y
+
+LOCAL A,B
+
+CMP X,Y
+
+JGEA
+
+MOVMAX,Y
+
+JMP B
+
+A:MOVMAX,X
+
+B:
+
+ENDM<strong>9.8</strong>Write a non-recursive macro definition to calculate the factorial of K, with K as the variable.
+
+Answer: FAC MACRO K
+
+MOVAX,1
+
+MOV CX,K+1
+
+A:SUB CX,1
+
+MUL CX
+
+CMP CX,1
+
+JG A
+
+ENDM<strong>9.9 </strong>Three signed numbers A, B, and C are defined in the data segment. Use macro instructions to sort the three numbers and use three variables as parameters.
+
+Answer: ORDER MACRO A,B,C
+
+CMP A,B
+
+JG L1
+
+MOVAX,B
+
+MOV BX,A
+
+MOV A,AX
+
+MOV B,BX
+
+L1:CMP B,C
+
+JG L2
+
+MOVAX,B
+
+MOV BX,C
+
+MOV C,AX
+
+CMP A,BX
+
+JG L2
+
+MOVAX,A
+
+MOV A,BX
+
+MOV B,AX
+
+L2:
+
+ENDM<strong>9.10 </strong>Write a macro definition SCAN to complete the work of finding a certain character in a string. The character being searched for, the first address of the string and its length are all variables.
+
+Answer: SCAN MACRO A,STREE,N
+
+MOV AX,SEG STREE
+
+MOVES,AX
+
+LEA DI, STREE
+
+MOV CX,N
+
+MOV AL,A
+
+CLD
+
+REPNE SCASB
+
+JZ YES
+
+MOV DL,'N'
+
+JMP DISP
+
+YES:MOV DL,'Y'
+
+DISP:MOV AH,2
+
+INT 21H
+
+ENDM<strong>9.11 </strong>Write the macro instruction COMPSS to compare whether two strings of the same length, str1 and str2, are equal. The first address and length of the two strings are arguments. Write a complete program, write data definitions in the data segment, and write macro definitions and macro calls in the code segment. And if they are equal, 'MATCH' will be displayed, otherwise 'NOT MATCH' will be displayed.
+
+Answer:
+
+COMPSS MACRO ST1,ST2,N
+
+LEA SI,ST1
+
+LEADI,ST2
+
+MOV CX,N
+
+CLD
+
+REPE CMPSB
+
+JZ YES
+
+MOV DX,LEA S2
+
+JMP DISP
+
+YES:MOV DX,LEA S1
+
+DISP:MOV AH,9
+
+INT 21H
+
+ENDM
+
+DATA SEGMENT
+
+STR1DB ''
+
+NUM DB ?
+
+S1 DB ‘MATCH$’
+
+S2 DB ‘NOT MATCH$’
+
+DATA ENDS
+
+EXT SEGMENT
+
+STR2 DB ‘’
+
+EXT ENDS
+
+CODE SEGMENT
+
+MAIN PROC FAR
+
+PUSHDS
+
+PUSH ES
+
+MOVAX,0
+
+PUSH AX
+
+MOVAX,DATA
+
+MOVDS,AX
+
+MOVAX,EXT
+
+MOVES,AX
+
+MOV NUM, LENGTH STR1
+
+COMPSS STR1,STR2, NUM
+
+RET
+
+CODE ENDS
+
+END MAIN<strong>9.12</strong>When writing a macro definition program, you can calculate the sum of elements of any word array. The array name, number of elements, and result storage unit are the dummy elements of the macro definition.
+
+Answer: ADS MACRO ARRAY,N,SUM
+
+Lea di, ARRAY
+
+Mov cx,N
+
+Mov ax,0
+
+Movsi,0
+
+Ad:add ax,[di][si]
+
+Addsi,2
+
+Loop ad
+
+Mov SUM,ax
+
+ENDM<strong>9.13 </strong>Write a macro library file, which includes function calls No. 00~0A of the system function call (INT 21H). And realize the following functions through macro calls: input a string from the keyboard to BUFF; then input a single character, and then search whether the character exists in the string BUFF; if found, display the found character position.
+
+Answer: The macro library file sysmacro.mac file is defined as follows:
+
+INPUT MACRO
+
+MOVAH,1
+
+INT 21H
+
+ENDM
+
+OUTPUT MACRO CHA
+
+MOV DL,CHA
+
+MOVAH,2
+
+INT 21H
+
+ENDM
+
+INPUTN MACRO
+
+MOVAH,7
+
+INT 21H
+
+ENDM
+
+OUTSTR MACRO STREE
+
+MOV DX,OFFSET STREE
+
+MOVAH,9
+
+INT 21H
+
+ENDM
+
+INBUFF MACRO BUFF
+
+MOV DX,OFFSET BUFF
+
+MOVAH,0AH
+
+INT 21H
+
+ENDM
+
+WFILE MACRO FIL,NUM,COUNT
+
+MOV DX,OFFSET FIL
+
+MOV BX,NUM
+
+MOV CX,COUNT
+
+MOVAH,40H
+
+INT 21H
+
+ENDM
+
+EXIT MACRO
+
+MOVAH,4CH
+
+INT 21H
+
+ENDM
+
+ 
+
+Call: include sysmacro.mac
+
+Data segment
+
+BUFF1 db 16,?,16 dup(?),13,10,'$'
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov es,ax
+
+INBUFF BUFF1
+
+INPUT
+
+Lea di,BUFF1+2
+
+Mov cl,BUFF1+1
+
+mov ch,0
+
+Mov ah,0
+
+Repne scasb
+
+jnz ye
+
+dec di
+
+mov bx,di
+
+Call BTH
+
+Yes: ret
+
+Main endp
+
+BTH proc near
+
+mov cx,4
+
+s:rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+mov al,bl
+
+and al,0fh
+
+add al,30h
+
+cmp al,39h
+
+d
+
+add al,7
+
+d:OUTPUT al
+
+loops
+
+ret
+
+BTHendp
+
+Code ends
+
+End main<strong>Exercise 10</strong>
+<strong>10.1 </strong>What are the I/O data transfer control methods?
+
+Answer: Unconditional transfer, query transfer, interrupt transfer, direct memory transfer.<strong> </strong>
+<strong>10.2 </strong>What is an I/O interface? What is a port? Are the interface components on the computer host side or on the peripheral side?
+
+Answer: The I/O interface is INPUT/OUTPUT, which refers to the input/output device interface. The connection and data exchange between the CPU and external devices need to be realized through interface devices, which are called I/O interfaces. The CPU of the computer host exchanges data with external devices by accessing these registers. These registers in the interface are called ports (PORT). These registers are not on the external device side, but belong to the computer host.<strong>10.3 </strong>What three types of information are passed through the port?
+
+Answer: There are three types of information in the communication between the CPU and I/O devices, namely control information, status information and data information.<strong>10.4 </strong>Write input and output instructions according to the following requirements:
+
+(1) Read port 61H (2) Write port 20H
+
+(3) Read the 3F8H port (4) Write the 3F9H port
+
+Answer: (1) IN al,61h
+
+(2) OUT 20h,al
+
+(3)mov dx,3F8H IN al,dx
+
+(4)mov dx,3F9H OUT dx,al<strong>10.5</strong>Give an example to explain what an interrupt type number is, what an interrupt vector is, and what an interrupt vector table is. For the INT 8 instruction, what is the memory address where the interrupt vector is stored?
+
+Answer: In an actual system, there are multiple interrupt sources, and each interrupt source needs to be assigned a number for easy identification. When executing the software interrupt instruction INT n, n is the interrupt type number. We call the starting address of the interrupt handler the interrupt vector. Interrupt vectors for 256 interrupt types are stored in the lowest 1KB of memory (addresses from 0000 to 3FFH). Each interrupt vector is four bytes, of which the first two bytes are the offset address and the last two bytes are the segment address. This storage area that centrally stores interrupt vectors is called the interrupt vector table.
+
+The memory address where the interrupt vector is stored for INT 8 is 00020H<strong>10.6 </strong>Give examples to explain what are internal interrupts, what are external interrupts, what are hardware interrupts, and what are maskable interrupts.
+
+Answer: Internal interrupt: interrupt instruction INT
+
+External interrupt: Also known as hardware interrupt, such as power failure.
+
+Maskable interrupts: such as timers.<strong>10.7 </strong>What are on and off interrupts. Can internal interrupts be responded to when interrupts are turned off? Can non-maskable interrupts be responded to? Can maskable interrupts be responded to?
+
+Answer: The so-called turning on interrupts means that when the program is running, including the execution of the interrupt program, it is allowed to respond to other interrupt requests and then transfer to run the interrupt service routine. Turning off interrupts does not allow the system to interrupt continuous operation. Internal interrupts can be responded to, and non-maskable interrupts can be responded to. Maskable interrupts cannot be serviced.<strong>10.8 </strong>Write an instruction sequence that only makes the timer, keyboard, hard disk, and printer unshielded and enables interrupts.
+
+Answer: Mov al,01011100
+
+OUT 21h,al
+
+STI<strong>10.9 </strong>List the operations performed by the INT instruction and list the work done by the CPU in response to external interrupts.
+
+Answer: Interrupt request, interrupt priority determination, interrupt response, interrupt processing, and interrupt return.
+
+The CPU automatically completes the following tasks in response to external interrupts:
+
+1. Get the model number N in the interrupt;
+
+2. Push the flag register onto the stack;
+
+3. The code segment register and instruction pointer are pushed onto the stack;
+
+4. Disable hardware interrupts and single-step interrupts;
+
+5. Take two words from the unit starting with N*4 in the interrupt vector table and send them to IP and CS respectively, and obtain
+
+Interrupt handler entry address.<strong>10.10 </strong>What work is usually done in an interrupt handler? Is it necessary to enable interrupts in the interrupt handler? What does it mean if there is an interrupt instruction?
+
+Answer: The interrupt handler can initially enable interrupts as needed to allow interrupt nesting. Use the push instruction to push the contents of the register to be used in the interrupt handler onto the stack to protect the scene. After the interrupt is processed, the contents of the register are popped from the stack before exiting the interrupt handler to restore the scene.<strong>10.11 </strong>Why programmers should use higher-level DOS functions as much as possible, followed by BIOS functions, and finally input and output instructions.
+
+Answer: Because users access peripherals by calling DOS or BIOS routines, it can reduce the complexity of program design and shorten the development cycle. BIOS is stored in the machine's ROM, which is lower level than DOS and closer to the hardware; DOS function call is an integral part of the operating system DOS. It is loaded from external storage into memory when booting. DOS can complete more advanced functions than BIOS, so DOS operations are simpler than BIOS operations that use corresponding functions, and DOS is less dependent on hardware.<strong>10.12 </strong>Write a program segment and use the INT 1CH instruction to call the interrupt handler whose first address is MYINT. After use, restore the original function of the INT 1CH instruction.
+
+Code segment
+
+Assume cs:code
+
+Start:
+
+Mov al,1ch
+
+Movah,35h
+
+Int 21h
+
+push es
+
+Push bx
+
+Push ds
+
+Mov dx,offset MYINT
+
+Mov ax,seg MYINT
+
+Mov ds,ax
+
+Mov al,1ch
+
+Movah,25h
+
+Int 21h
+
+;
+
+;Use interrupt routine
+
+;
+
+Pop dx
+
+Pop ds
+
+Mov al,1ch
+
+Movah,25h
+
+Int 21h
+
+Mov ah,4ch
+
+Int 21h
+
+Code ends
+
+End start<strong>Exercise 11 (Basically the reference can be found in the book, so omit it)</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

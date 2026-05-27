@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly Experiment 4-3 (String Comparison and Search) · OmegaXYZ</title>
+  <meta name="description" content="The answers are for reference only, it is better for everyone to write their own. (Assembly language implementation) Use string processing instructions to compile programs to handle comparison and search of strings and display the results. Requirements: (1) In the string comparison function, one string is defined in the data segment, and the other string is input from the keyboard when the program is executed. The keyboard buffer must be defined. Indicate locations of inequality. (2) Find a character in the string and indicate the location where it is found. First question: Test: The string in the code is www....">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/05/assemblyexperiment4_3/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-05</div>
+        <h1>Assembly Experiment 4-3 (String Comparison and Search)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">The answers are for reference only, it is better for everyone to write their own.
+
+(Assembly language implementation) Use string processing instructions to compile programs to handle comparison and search of strings and display the results.
+
+Requirements:
+
+(1) In the string comparison function, one string is defined in the data segment, and the other string is input from the keyboard when the program is executed. The keyboard buffer must be defined. Indicate locations of inequality.
+
+(2) Find a character in the string and indicate the location where it is found.
+
+First question:<pre><code class="language-asm">DATA SEGMENT
+	BUFF DB 255 DUP('?');定义一个缓冲区，缓冲区长度比需要比较的字符串长即可，缓冲区的？需要加单引号
+DATA ENDS
+EXT SEGMENT
+ 	MESS DB 'www.omegaxyz.com$';注意最后一定要加$
+EXT ENDS
+CODE SEGMENT
+ASSUME CS:CODE,DS:DATA,ES:EXT
+START:
+MOV AX,DATA
+MOV DS,AX
+MOV AX,EXT
+MOV ES,AX
+;套路
+
+LEA DX,BUFF
+MOV AH,0AH
+INT 21H
+;使用Dos 0AH命令向缓冲区输入字符串
+
+MOV CL,BUFF+1
+;注意Dos 0AH命令实际输入的字符数量保存在内存DX+1中(见附录)，即BUFF+1，因此把BUFF+1的值给CL
+LEA SI,BUFF+2
+;需要使用CMPSB命令，从BUFF+2开始是真正输入的值赋值给SI
+LEA DI,MESS
+;被比较的原始串
+
+CLD
+MOV BL,'0'
+;为了显示串开始不同的地方，设置BL的初始值，由于显示的是ascii码所代表的值，因此把‘0’赋值给BL
+
+XY:INC BL
+   CMPSB
+LOOPZ XY
+;循环一次BL+1
+
+JZ YES
+MOV DL,BL
+JMP xxxxxxxxxx
+YES:MOV DL,'Y'
+xxxxxxxxxx:MOV AH,2
+	INT 21H
+;显示
+
+MOV AH,4CH
+INT 21H
+CODE ENDS
+END START</code></pre>Test:
+
+The string in the code is www.omegaxyz.com
+
+The test is:<img alt="" class="alignnone wp-image-678" height="247" src="https://cdn.omegaxyz.com/2017/05/assembly4_31-300x156.png" width="475"/>result:<img alt="" class="alignnone wp-image-679" height="156" src="https://cdn.omegaxyz.com/2017/05/assembly4_32-e1493972017231-300x98.png" width="478"/>It means that the seventh character e has changed to i
+
+If the correct input is entered below, Y will be displayed.<img alt="" class="alignnone wp-image-682" height="164" src="https://cdn.omegaxyz.com/2017/05/assembly4_33-e1493972145658-300x106.png" width="464"/>Second question:<pre><code class="language-asm">EXT SEGMENT
+ 	MESS DB 'www.omegaxyz.com$'
+EXT ENDS
+;注意要使用SCASB命令必须将数据保存在ES中
+
+CODE SEGMENT
+ASSUME CS:CODE,ES:EXT
+START:
+MOV AX,EXT
+MOV ES,AX
+
+MOV AH,01H
+INT 21H
+;调用Dos 01H命令，从键盘中输入1个字符并保存在AL中
+MOV CX,17
+LEA DI,MESS
+
+CLD
+MOV BL,'0'
+;为了寻找所求字符位置，设置一个寄存器用来保存
+XY:INC BL
+   SCASB
+LOOPNZ XY
+;LOOPNZ CX不等于0，ZF=0即不相等时循环
+
+JZ YES
+MOV DL,'N'
+;N说明没有查找到
+
+JMP DISP
+YES:MOV DL,BL
+DISP:MOV AH,2
+	INT 21H
+
+MOV AH,4CH
+INT 21H
+CODE ENDS
+END START</code></pre>Test string: www.omegaxyz.com<img alt="" class="alignnone wp-image-681" height="171" src="https://cdn.omegaxyz.com/2017/05/assembly4_34-e1493972157325-300x112.png" width="458"/>o is the fifth character<img alt="" class="alignnone wp-image-680" height="151" src="https://cdn.omegaxyz.com/2017/05/assembly4_35-e1493972166288-300x100.png" width="453"/>u is not in the string, E (ERROR) is displayed.</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18115">
+          <strong>Anonymous</strong>
+          <time>2019-10-23 10:59:39</time>
+          <div>造福大家</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

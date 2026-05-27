@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于粒子交互学习策略的PSO算法（IIL-PSO） · OmegaXYZ</title>
+  <meta name="description" content="IIL-PSO算法思想（单目标） Interswarm Interactive Learning ①初始化： 将粒子随机分为数量相等的两组，为每组粒子初始化位置， 速度，全局最优粒子、和个体历史最优数组。 ②迭代与学习： 计算每组粒子的成为被学习粒子群的概率。成为被学习粒子群中的粒子更新和普通PSO算法一样， 成为学习粒子群中的粒子，不仅...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/16/iil_pso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-16</div>
+        <h1>基于粒子交互学习策略的PSO算法（IIL-PSO）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1><strong>IIL-PSO算法思想（单目标）</strong></h1>
+<strong>Interswarm Interactive Learning</strong>
+
+①初始化：
+将粒子随机分为数量相等的两组，为每组粒子初始化位置，
+速度，全局最优粒子、和个体历史最优数组。
+
+②迭代与学习：
+计算每组粒子的成为被学习粒子群的概率。成为被学习粒子群中的粒子更新和普通PSO算法一样，
+成为学习粒子群中的粒子，不仅需要学习自身和所在粒子群的经验，还需学习被学习粒子群中的经验。
+在此基础上，为了防止两个粒子群结果接近，作者提出了速度变异策略和全局最优震动策略。
+<h1><strong>IILS</strong></h1>
+<strong>（Interswarm Interactive Learning Strategy）</strong>
+
+①分出两个粒子群，计算成为被学习粒子群的概率。
+
+<img class="alignnone size-full wp-image-2855" src="https://cdn.omegaxyz.com/2018/01/iilpso1.png" alt="" width="531" height="181" />
+
+T:时间参数（作者称为temperature,时间越长，两个粒子群的概率越接近）
+
+②在学习粒子群中，计算每个粒子的学习概率，不需要学习的粒子利用简单PSO算法更新，需要学习的粒子不仅需要学习自身和所在粒子群的经验，还需学习被学习粒子群中的经验。
+
+<img class="alignnone size-full wp-image-2856" src="https://cdn.omegaxyz.com/2018/01/iilpso2.png" alt="" width="470" height="90" />
+
+Si:粒子编号
+
+N:当前粒子群粒子总数
+<h1><strong>VMO</strong></h1>
+<strong>（Velocity Mutation Operator）</strong>
+
+目的：为了防止两个粒子群的全局最优结果接近，作者使用了速度变异算子。
+
+操作：随机选择一个粒子群，在此粒子群中随机选择一个粒子和该粒子需要变异的维度数量。
+<h1><strong>GBVS </strong></h1>
+<strong>（Global Best Vibration Strategy）</strong>
+
+目的：为了防止PSO陷入局部最优
+
+由于Gbest已经有良好的适应度的值，因此在这里只需要对一个维度进行修改
+<h1><strong>流程图</strong></h1>
+<img class="alignnone size-full wp-image-2857" src="https://cdn.omegaxyz.com/2018/01/iilpso3.png" alt="" width="888" height="786" />
+<h1>原文</h1>
+<img class="alignnone size-full wp-image-2858" src="https://cdn.omegaxyz.com/2018/01/iilpso.png" alt="" width="1403" height="294" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

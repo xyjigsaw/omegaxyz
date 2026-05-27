@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NFL (no free lunch) theorem · OmegaXYZ</title>
+  <meta name="description" content="What NLF talks about is that without considering the specific problem, no algorithm is better than another algorithm, not even random guessing is better. There is no universally applicable &quot;optimal classifier&quot; that is independent of specific applications. The learning algorithm must make an &quot;assumption&quot; related to the problem domain, and the classifier must be adapted to the problem domain. However, the premise of the NFL theorem is that all problems have an equal chance of occurring, or that all problems are equally important. But in reality, we often get specific data, especially...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/22/nfl/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-22</div>
+        <h1>NFL (no free lunch) theorem</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><div class="para">What NLF talks about is that without considering the specific problem, no algorithm is better than another algorithm, not even random guessing is better.<ul>
+<li>There is no universally applicable "optimal classifier" that is independent of specific applications.</li>
+<li>The learning algorithm must make a "hypothesis" related to the problem domain, and the classifier must be adapted to the problem domain.</li>
+</ul>However, the premise of the NFL theorem is that all problems have an equal chance of occurring, or that all problems are equally important. But in reality, we often get specific data, specific distributions, and solve specific problems, so we only need to solve the problems we are concerned about, and do not need to consider whether this model can solve other problems well. It only makes sense for us to compare different models for a specific problem.
+
+This is not only true for machine learning, but also when we do other algorithms. Without considering the actual problem solved, it is difficult to say whether the algorithm is good or bad.</div>
+<h3 class="para"><strong>for example:</strong></h3>
+<div class="para"><i>d</i>= training set;</div>
+<div class="para"><i>m</i>=The number of elements in the training set;</div>
+<div class="para"><i>f</i>= Input-output relationship of target;</div>
+<div class="para"><i>h</i>= Assume that the input parameter of algorithm f is d and the result is h</div>
+<div class="para"><i>C</i>=Offline training loss function for f, h</div>
+<div class="para">All algorithms are identical if measured by the following parameters: E(<i>C</i>|<i>d</i>), E(<i>C</i>|<i>m</i>), E(<i>C</i>|<i>f</i>,<i>d</i>), or E(<i>C</i>|<i>f</i>,<i>m</i>).</div>
+<div></div>
+<h3 class="para"><strong>in conclusion:</strong></h3>
+<div class="para">Let’s compare two algorithms A and B:</div>
+<div class="para">1. For all problems, A is not always better than B</div>
+<div class="para">2. For all problems, a specific algorithm is not always better than a random algorithm.</div>
+<div class="para"><strong>As shown below:</strong></div>
+<div><img alt="" class="alignnone size-full wp-image-4349" height="295" src="https://cdn.omegaxyz.com/2018/05/NFL1.png" width="1037"/></div>
+<div></div>
+<div>
+<div>The most important implication of the NFL theorem is that it makes us clearly realize that it is meaningless to talk about "what learning algorithm is better" without specific problems, because if all potential problems are considered, all algorithms are equally good. To talk about the relative advantages and disadvantages of algorithms, we must focus on specific problems; a learning algorithm that performs well on some problems may not be satisfactory on another problem. Whether the inductive preference of the learning algorithm itself matches the problem often plays a decisive role. ——Zhou Zhihua</div>
+</div>
+<div></div>
+<div><strong>References:</strong></div>
+<div><a href="https://blog.csdn.net/he_wen_jie/article/details/76269435">https://blog.csdn.net/he_wen_jie/article/details/76269435</a></div>
+<div><a href="https://www.baidu.com/link?url=_VAfkMRULiBifzYL-Om7QqSR3S3bwbHzqlp8PVGk4Snnk5sTRzV7orudtGJx4z0SXkp5FNoDA2LKBvNp93ziTDcdrHc98gAZx6EvqLkcDAK&amp;wd=&amp;eqid=e23afd3c00053637000000045b001ba6">https://www.baidu.com/link?url=_VAfkMRULiBifzYL-Om7QqSR3S3bwbHzqlp8PVGk4Snnk5sTRzV7orudtGJx4z0SXkp5FNoDA2LKBvNp93ziTDcdrHc98gAZx6EvqLkcDAK&amp;wd=&amp;eqid=e23afd3c00053637000000045b001ba6</a></div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

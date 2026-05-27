@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML与CSS组织静态网页 · OmegaXYZ</title>
+  <meta name="description" content="如果说HTML是搭建房子的原材料，比如钢铁，水泥，木头，那么CSS则是房子的设计图纸，也就是房子的样式，是古典园林风格还是哥特式建筑。 因此HTML与CSS是相辅相成的，只有HTML没有CSS，那么做出来的网页可读性差，交互性也差，缺乏美。只有CSS而没有HTML那么网页根本就是空谈。 下面用HTML于CSS搭建一个静态网页。 注意以下的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/15/html-css/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-15</div>
+        <h1>HTML与CSS组织静态网页</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/html/index.html">HTML</a><a class="pill" href="../../../../tag/css/index.html">CSS</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+如果说HTML是搭建房子的原材料，比如钢铁，水泥，木头，那么CSS则是房子的设计图纸，也就是房子的样式，是古典园林风格还是哥特式建筑。
+
+因此HTML与CSS是相辅相成的，只有HTML没有CSS，那么做出来的网页可读性差，交互性也差，缺乏美。只有CSS而没有HTML那么网页根本就是空谈。
+
+下面用HTML于CSS搭建一个静态网页。
+
+<span style="color: #ff0000;"><strong>注意以下的元素可以理解为标签。</strong></span>
+<h2><strong>合法的HTML5</strong></h2>
+<ul>
+ 	<li>①一定要以&lt;!doctype html&gt;开头除非你在写HTML4和XHTML。</li>
+ 	<li>②&lt;html&gt;元素不能没有它，这是Web页面最顶层元素或者叫根元素，其它所有元素都嵌套其中。</li>
+ 	<li>③要使用head和bodyhead中要指出编码方式。</li>
+ 	<li>④head中一定要有title 。</li>
+</ul>
+<h2><strong>CSS嵌入HTML</strong></h2>
+CSS嵌入HTML有两种方式，一种是在head中用style标记。
+<pre ><code class="language-default">&lt;head&gt;
+    &lt;style type="text/css"&gt;
+      ......
+    &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+另外一种使用link标记，CSS中的rel属性指定了HTML文件与所链接文件之间的关系，即我们要创建一个样式表。
+<pre ><code class="language-default">&lt;link type="text/css" rel="stylesheet" href="newindex.css"&gt;</code></pre>
+<strong>注意点：</strong>
+
+<strong>样式表的顺序很重要，下面的会覆盖上面的</strong>
+<h2><strong>元素的ID</strong></h2>
+可以为任意元素增加一个ID属性，这样可以利用CSS为每个元素做不同的设计。
+
+例如我为div指定一个属性
+
+<strong>&lt;div id="main"&gt;&lt;/div&gt;</strong>
+<h2><strong>元素的类</strong></h2>
+可以为不同元素指定一个类
+
+<strong>&lt;span class="slogan"&gt;&lt;/span&gt;</strong>
+
+这里的span的类就是slogan
+<h2><strong>元素的CSS</strong></h2>
+用CSS为每个元素做不同的设计可以有以下几种方法（给出最常用的几种）
+
+①对指定的元素进行设计（不使用ID）
+<pre ><code class="language-css">body{
+    background-color: antiquewhite;
+    font-family: Georgia, "Times New Roman", Times,Serif;
+    font-size: small;
+    margin: 0px;
+}</code></pre>
+②根据ID进行设计
+
+假设一个元素的ID是main
+
+例如：<strong>&lt;div id="main"&gt;&lt;/div&gt;</strong>
+
+则CSS为：
+<pre ><code class="language-css">#main{
+    background: azure top left;
+    font-size: 105%;
+    padding: 20px;
+    margin: 0px 330px 10px 10px;
+}</code></pre>
+③根据类进行设计
+
+假设一个元素的类是slogan
+
+例如：<strong>&lt;span class="slogan"&gt;&lt;/span&gt;</strong>
+
+则CSS为：
+<pre ><code class="language-css">.slogan{
+    color: indigo;
+}</code></pre>
+④可以用逗号为不同的元素指定相同的CSS。
+<h2><strong>实例</strong></h2>
+<h3><strong>HTML</strong></h3>
+<pre ><code class="language-default">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Starbuzz Coffee&lt;/title&gt;
+    &lt;link type="text/css" rel="stylesheet" href="newindex.css"&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;p&gt;
+        &lt;img src="hyxd.JPG" alt="ok" width="180"&gt;
+            welcome to omegaxyz.com
+        &lt;/p&gt;
+        &lt;aside&gt;
+            &lt;p class="hside"&gt;
+                &lt;img src="硅谷.JPG" width="200"&gt;&lt;br&gt;
+                &lt;script type="text/javascript"&gt;
+                    var s="this is sidebar";
+                    for(var i=0;i&lt;40;i++){
+                        document.write(s+'&lt;br&gt;');
+                    }
+                &lt;/script&gt;
+
+                &lt;span class="slogan"&gt;
+                FAST&lt;br&gt;
+                FRIENDLY&lt;br&gt;
+            &lt;/span&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+                You can extend your horizons and absorb others' perspectives.
+                As TED puts it: Ideas worth spreading. Find your own way. Have fun!
+            &lt;/p&gt;
+        &lt;/aside&gt;
+    &lt;/header&gt;
+    &lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="omegaxyz.com"&gt;HOME&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="omegaxyz.com"&gt;LINK&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="omegaxyz.com"&gt;FRIEND&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="omegaxyz.com"&gt;COMMENT&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="omegaxyz.com"&gt;MAP&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/nav&gt;
+
+    &lt;div id="main"&gt;
+        &lt;h1&gt;OmegaXYZ.com&lt;/h1&gt;
+        &lt;p&gt;
+            &lt;script type="text/javascript"&gt;
+                var s="Many people come out a good idea but lose it in seconds. What a pity!\n" +
+                    "            Sometimes we want to write. There may be several reasons here such as reminding, spreading or just seeking fun.\n" +
+                    "            And why is it beneficial to write and make a site? This website is established for recording the path of study\n" +
+                    "            and research in case one day I want to look back on the spark I got. You can find some useful information here to improve yourself.\n" +
+                    "            You can extend your horizons and absorb others' perspectives.\n" +
+                    "            As TED puts it: Ideas worth spreading. Find your own way. Have fun!";
+                for(var i=0; i&lt;15;i++){
+                    document.write(s);
+                }
+            &lt;/script&gt;
+        &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;footer&gt;
+        &amp;copy;2018 OmegaXYZ.com
+        &lt;br&gt;
+        this is fucking ok.
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3><strong>CSS</strong></h3>
+<pre ><code class="language-css">body{
+    background-color: antiquewhite;
+    font-family: Georgia, "Times New Roman", Times,Serif;
+    font-size: small;
+    margin: 0px;
+}
+
+header{
+    background-color: cornsilk;
+    text-align: center;
+    font-size: 10px;
+    height: 108px;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+}
+
+#main{
+    background: azure top left;
+    font-size: 105%;
+    padding: 20px;
+    margin: 0px 330px 10px 10px;
+
+}
+
+aside{
+    background: chartreuse;
+    font-size: 105%;
+    padding: 15px;
+    margin: 0px 10px 10px 10px;
+    width: 280px;
+    float: right;
+}
+
+footer{
+    background-color: black;
+    color: azure;
+    text-align: center;
+    padding: 15px;
+    margin: 10px;
+    font-size: 90%;
+    clear: right;
+}
+
+h1{
+    font-size: 120%;
+    color: black;
+}
+
+.slogan{
+    color: indigo;
+}
+
+.hside{
+    text-align: center;
+    line-height: 1.8em;
+}
+
+nav{
+    background-color: aqua;
+    margin: 10px 10px 0px 10px;
+}
+
+nav ul{
+    list-style-type: none;
+    padding: 5px 0px 5px 0px;
+}
+
+nav ul li{
+    display: inline;
+    padding: 5px 10px 5px 10px;
+}
+
+nav ul li a:link, ul li a:visited{
+    color: red;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+nav ul li.selected{
+    background-color: indigo;
+}</code></pre>
+<strong>效果：（有点丑）</strong>
+
+<img class="alignnone size-full wp-image-4802" src="https://cdn.omegaxyz.com/2018/07/htmlcss1.jpg" alt="" width="1000" height="632" />
+<h2><strong>复制代码尝试一下</strong></h2>
+https://omegaxyz.com/onlinetools/web-running/</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

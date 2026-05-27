@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CCF CSP certified collision ball · OmegaXYZ</title>
+  <meta name="description" content="Problem Description There is a line segment with length L (L is an even number) on the number axis. The left endpoint is at the origin and the right endpoint is at coordinate L. There are n small balls regardless of volume on the line segment. At the beginning, all the small balls are on even coordinates, the speed direction is to the right, and the speed is 1 unit length per second. When the ball reaches the endpoint of the line segment (left endpoint or right endpoint), it will immediately move in the opposite direction, and the speed will still be the original size. When two small balls collide with each other, the two small balls will move towards their original direction...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/18/ccf-csp_20180302/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-18</div>
+        <h1>CCF CSP certified collision ball</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><div class="pdsec"><strong>Problem description</strong></div>
+<div class="pdcont">There is a line segment with length L (L is an even number) on the number axis. The left endpoint is at the origin and the right endpoint is at coordinate L. There are n small balls regardless of volume on the line segment. At the beginning, all the small balls are on even coordinates, the speed direction is to the right, and the speed is 1 unit length per second.
+When the ball reaches the endpoint of the line segment (left endpoint or right endpoint), it will immediately move in the opposite direction, and the speed will still be the original size.
+When two small balls collide with each other, the two small balls will continue to move in the opposite direction to their original movement and at the original speed.
+Now, tell you the length L of the line segment, the number of balls n, and the initial positions of the n balls. Please calculate the position of each ball after t seconds.</div>
+<div class="pdsec"><strong>hint</strong></div>
+<div class="pdcont">Because the initial positions of all the balls are even numbers, and the lengths of the line segments are even numbers, it can be proved that no three balls will collide at the same time. The times when the balls reach the endpoints of the line segments and when the balls collide between them are all integers.
+At the same time, it can also be proved that the position where the two balls collide must be an integer (but not necessarily an even number).</div>
+<div class="pdsec"><strong>Input format</strong></div>
+<div class="pdcont">The first line of input contains three integers n, L, and t, separated by spaces, which respectively represent the number of balls, the length of the line segment, and the position of the ball that you need to calculate after t seconds.
+The second line contains n integers a1, a2, ..., an, separated by spaces, indicating the positions of n balls at the initial moment.</div>
+<div class="pdsec"><strong>Output format</strong></div>
+<div class="pdcont">The output line contains n integers, separated by spaces. The i-th integer represents the position of the ball located at ai at the initial moment after t seconds.</div>
+<div class="pdsec"><strong>Sample input</strong></div>
+<div class="pddata">3 10 5
+4 6 8</div>
+<div class="pdsec"><strong>Sample output</strong></div>
+<div class="pddata">7 9 9</div>
+<div class="pdsec"><strong>Sample description</strong></div>
+<div class="pdcont">　　<img alt="" class="alignnone size-full wp-image-3771" height="789" src="https://cdn.omegaxyz.com/2018/03/CCFCSP20183.jpg" width="734"/></div>
+<div>
+<div class="pdsec"><strong>Sample input</strong></div>
+<div class="pddata">10 22 30
+14 12 16 6 10 2 8 20 18 4</div>
+<div class="pdsec"><strong>Sample output</strong></div>
+<div class="pddata">6 6 8 2 4 0 4 12 10 2</div>
+<div class="pdsec"><strong>Data size and conventions</strong></div>
+<div class="pdcont">For all evaluation cases, 1 ≤ n ≤ 100, 1 ≤ t ≤ 100, 2 ≤ L ≤ 1000, and 0 &lt; ai &lt; L. L is an even number.
+Ensure that the initial positions of all balls are different from each other and are even numbers.</div>
+</div>
+<div><strong>Code:</strong></div>
+<div>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+class Ball{
+public:
+    int position;
+    bool lorr = true;
+};
+
+int main()
+{
+    int L;
+    int n;
+    int time;
+    cin&gt;&gt;n&gt;&gt;L&gt;&gt;time;
+    vector&lt;Ball&gt; vec;
+    for(int i=0;i&lt;n;i++){
+        Ball temp;
+        int temp_p;
+        cin&gt;&gt;temp_p;
+        temp.position=temp_p;
+        vec.push_back(temp);
+    }
+    for(int i=0;i&lt;time;i++){
+        for(int j =0; j&lt;vec.size();j++){
+            if(vec[j].position == L){
+                vec[j].lorr = false;
+            }else if(vec[j].position == 0){
+                vec[j].lorr = true;
+            }
+            for(int k=0;k&lt;vec.size();k++){
+                if(vec[j].position == vec[k].position){
+                    if(vec[j].lorr==false){
+                        vec[j].lorr = true;
+                        vec[k].lorr = false;
+                    } else{
+                        vec[j].lorr = false;
+                        vec[k].lorr = true;
+                    }
+                    break;
+                }
+            }
+        }
+        for(int j=0;j&lt;vec.size();j++){
+            if(vec[j].lorr==true){
+                vec[j].position++;
+            }
+            else{
+                vec[j].position--;
+            }
+        }
+    }
+    for(int i =0;i&lt;vec.size();i++){
+        cout&lt;&lt;vec[i].position&lt;&lt;" ";
+    }
+    return 0;
+}
+</code></pre>
+</div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

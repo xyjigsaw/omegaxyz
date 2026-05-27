@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elegance and efficiency - read &quot;The Way to Clean Code&quot; · OmegaXYZ</title>
+  <meta name="description" content="I forgot where I reprinted and compiled it from, and it was infringed and deleted. &quot;The Way to Clean Code&quot; is a book published by People&#x27;s Posts and Telecommunications Press in January 2010. The author is Robert C.Martin. This book mainly talks about the principle that code quality is directly proportional to its cleanliness, and thus reveals the way to clean code. The code logic should be straightforward so that defects are difficult to hide; dependencies should be minimized to make it easy to maintain; error handling code should be improved according to a certain layering strategy; performance should be optimized to avoid tempting others to do unruly optimizations...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/07/how-to-code/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-07</div>
+        <h1>Elegance and efficiency - read &quot;The Way to Clean Code&quot;</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../category/programmer/index.html">程序人生</a><a class="pill" href="../../../../tag/ideas/index.html">ideas</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<span style="color: #ff0000;"><strong>I forgot where I reprinted and edited it from, and it was deleted due to infringement.</strong></span>"The Way to Clean Code" is a book published by People's Posts and Telecommunications Press in January 2010. The author is Robert C.Martin. This book mainly talks about the principle that code quality is directly proportional to its cleanliness, and thus reveals the way to clean code.<p style="font-weight: 400;"><b><strong>The code logic should be straightforward so that defects are difficult to hide; dependencies should be minimized to make it easy to maintain; error handling code should be improved according to a certain layering strategy; performance should be adjusted to the optimal level to avoid tempting others to do unruly optimizations and create a lot of chaos. Clean code only does one thing well.</strong></b></p>
+<h2><strong>Chapter 1: Clean Code</strong></h2>This chapter first conveys a point of view to us: clean code is very necessary. Then I listed the definitions and opinions of several Java masters on clean code.
+What is really useful is the views of these masters, which are summarized after decades of programming experience. I will summarize these views below and get the following "truths".
+1. Minimize dependencies to facilitate maintenance
+2. Simple and direct, full of clean abstractions and straightforward control statements.
+3. Ability to run everything through and equipped with unit tests and acceptance tests
+4. No duplicate code (extract public methods and public classes)
+5. The code written can fully reflect our design concept (naming of classes, methods, attributes)<h2><strong>Chapter 2: Meaningful naming</strong></h2>This feels so difficult, because choosing a good name requires good descriptive skills and cultural background. There is no way to help with cultural background, but this chapter mentions some reference points that can be considered to improve skills. Thinking about naming in the past, it was also very painful, and I must strengthen it. At a certain point, I will read more English books.
+1. All names must have practical meanings
+2. Do not add common Java classes (list) in the semantics to avoid misleading
+3. Meaningful numbers in the program should be replaced with constants to facilitate search.
+4. Class names and object names should be nouns or noun phrases, and method names should be verbs or verb phrases.
+5. Add useful and necessary context to attribute naming. If the class name itself has its own context, there is no need to add redundant context.
+Question: Each concept corresponds to a word<h2><strong>Chapter 3: Functions</strong></h2>Functions are the main part of the code and what we need to pay most attention to. I really appreciate a sentence in it: Master programmers tell the system as a story rather than writing it as a program.
+1. Short: 20 is the best limit
+2. If, else, while statement blocks should have only one line (calling other logical functions), the indentation level of the function should not be one or two levels
+3. Each function has an abstraction level
+4. The switch statement is usually implemented using multiple units.
+5. There should be as few function parameters as possible, never more than 2. If there are more than 2, they must be encapsulated.
+6. Separate instructions and inquiries. The data in the read stream is often written like this if(null!=(s=br.readLine())), and it must be written separately in the future.
+7. Extract exception handling, that is, try-catch is a function<h2><strong>Chapter 4: Notes</strong></h2>When I was in school, my teacher often emphasized the importance of comments. I still think that writing comments is a hobby, and I have not considered asking why comments should be used, when to use comments, and how to write good comments.
+1. Try to reflect it in the name without adding additional comments.
+2. Warning effect and the importance of amplifying certain functions
+A lot of bad comments are listed later in this chapter. I feel that comments are still rarely used, so we should pay attention to reflecting them in naming.<h2><strong>Chapter 5: Format</strong></h2>This chapter mainly explains the format of daily writing code. I think it is the most specific chapter in this book. It is easy to understand. But after reading it, we should summarize our own template. Of course, Uncle Bob gave some of his specifications at the end of the chapter. We can modify it to our own format on this basis. The following is a list of the points in this chapter.
+1. Difference, proximity and distance in vertical direction
+2. If a function calls another, they should be put together, and the caller should be placed above the callee.
+3. Horizontal separation and proximity (including the maximum number of characters per line). The two specific separations I learned are the intervals between method parameters and operators.
+4. Pay attention to indentation. One specific thing mentioned here is that when the if, else and other code blocks have only one line or even are empty, we must also indent and cannot be lazy.<h2><strong>Chapter 6: Objects and Data Structures</strong></h2>Law of Demeter: A module should not know the internals of the object it operates on. Prepared to say that method f of class C can only call methods of the following objects: C, objects created by f, objects passed to f as parameters, objects held by entity variables of c
+Train wreck: You cannot use continuous writing. In the past, when writing IO-related code, it was always written continuously, but now it has to be written line by line.
+Data structure: Data structure is the carrier of data, exposing data, and almost meaningless behaviors, such as the DTO we most commonly see, and the entity classes when connecting to the database using JDBC, are all representations of a data structure, with only simple get and set methods.
+Object: As an object-oriented product, objects must encapsulate hidden data and expose behavioral interfaces. The domain model in DDD tends to expose objects not only in the data but also in the behavior of operating themselves or associated states.
+Key points: Code using data structures makes it easy to add new behaviors (functions) without changing the existing data structure, while object-oriented code makes it easy to add new classes without changing existing functions. In other words, it is difficult to add new data types to the data structure because all functions need to be modified. It is difficult to add new functions to object-oriented code because all classes need to be modified. In any complex system, there will be both data structures and objects. What we need to judge is whether we need to add new data types or new behavioral functions.<h2><strong>Chapter 7: Exception Handling</strong></h2>Because I usually don’t have any summary of exceptions, and I rarely write exception handling myself, the views in this chapter are not very clear. What works for me is: don't return null or try to pass null<h2><strong>Chapter 8: Navigating and Learning Boundaries</strong></h2>Problem: It is recommended not to pass Maps (or other interfaces on the boundary) through the system. If you use a boundary interface like Map, keep it in a class or a close relative. Avoid returning boundary interfaces from the public API, or returning the edit interface as a parameter to the public API.
+Learning tests: Instead of trying out new things in production code, write tests to traverse and understand third-party code.
+Clean boundaries: If we only need part of the API of a third-party plug-in, we can use the adapter mode for conversion.<h2><strong>Chapter 9: Unit Testing</strong></h2>This chapter mentions relevant knowledge about TDD (Test Driven Development). There is a lot of knowledge about this on the Internet, so I will extract the ideas from this book.
+The Three Laws of TDD
+You are not allowed to write any production code unless it is to make a failing unit test pass.
+No production code is allowed except to pass a failing unit test
+You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
+In a unit test, you are only allowed to write just enough content to cause failure (compilation errors also count as failures)
+You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
+You are only allowed to write product code that is just enough to make a failed unit test pass.
+
+Regarding testing: test code is as important as production code, we also need to keep it clean, and the unit
+Testing can make our code scalable, maintainable, and reusable. There is only one assertion per test.<h2><strong>Chapter 10: Classes</strong></h2>1. Classes should be short
+2. Single responsibility principle: Each class or module has only one reason for modification.
+3. Cohesion: The degree of cohesion is the degree to which methods and variables in a class depend on each other.
+4. Dependency inversion principle: interface-oriented programming<h2><strong>Chapter 11: System</strong></h2>1. Separate the construction and use of the system
+2. Proxy in Java (implementation principle of Spring AOP)<h2><strong>Chapter 12: Progress</strong></h2>Explains the four rules of simple design, sorted by importance
+1. Run all tests:
+2. Non-repeatable: Use means to reconstruct the program at the code level
+3. Express the programmer’s intention: This is mainly reflected in naming and structure.
+4. Reduce the number of classes and methods as much as possible<strong>More good articles:</strong><a href="https://blog.csdn.net/leather0906/article/details/6576424">https://blog.csdn.net/leather0906/article/details/6576424</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

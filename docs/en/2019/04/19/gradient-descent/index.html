@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gradient descent method · OmegaXYZ</title>
+  <meta name="description" content="Introduction Gradient descent is an iterative method that can be used to solve least squares problems (both linear and nonlinear). When solving the model parameters of machine learning algorithms, that is, unconstrained optimization problems, gradient descent (Gradient Descent) is one of the most commonly used methods. Another commonly used method is the least squares method. When solving the minimum value of the loss function, the gradient descent method can be used to iteratively solve the problem step by step to obtain the minimized loss function and model parameter values. On the other hand, if we need...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/04/19/gradient-descent/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-19</div>
+        <h1>gradient descent method</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>Gradient descent is an iterative method that can be used to solve least squares problems (both linear and nonlinear). When solving the model parameters of machine learning algorithms, that is, unconstrained optimization problems, gradient descent (Gradient Descent) is one of the most commonly used methods. Another commonly used method is the least squares method. When solving the minimum value of the loss function, the gradient descent method can be used to iteratively solve the problem step by step to obtain the minimized loss function and model parameter values. On the other hand, if we need to solve for the maximum value of the loss function, then we need to use the gradient ascent method to iterate. In machine learning, two gradient descent methods have been developed based on the basic gradient descent method, namely stochastic gradient descent method and batch gradient descent method.<hr/>
+<h2><strong>gradient</strong></h2>The original meaning of gradient is a vector (vector), which means that the directional derivative of a certain function at this point reaches the maximum value along this direction, that is, the function changes fastest along this direction (the direction of this gradient) at this point, and the rate of change is the largest (the module of this gradient).<div>
+<div>
+<ul>
+<li>In a function of a single variable, the gradient is actually the differential of the function, which represents the slope of the tangent line of the function at a given point.</li>
+<li>In a multivariable function, the gradient is a vector. A vector has a direction. The direction of the gradient indicates the direction of the function at a given point.<strong>fastest rise</strong>direction</li>
+</ul>
+<h3><strong>three variables</strong></h3>
+<img alt="" class="wp-image-5699 aligncenter" height="52" src="https://cdn.omegaxyz.com/2019/04/gradient.png" width="220"/>
+<h3><strong>multivariable</strong></h3>
+<img alt="" class="size-full wp-image-5705 aligncenter" height="70" src="https://cdn.omegaxyz.com/2019/04/gradient-descent6.png" width="391"/>
+<hr/>
+<h2><strong>gradient descent algorithm</strong></h2>
+<h3><strong>process</strong></h3>
+<img alt="" class="size-full wp-image-5704 aligncenter" height="288" src="https://cdn.omegaxyz.com/2019/04/gradient-descent5.png" width="174"/>
+<img alt="" class="wp-image-5701 aligncenter" height="74" src="https://cdn.omegaxyz.com/2019/04/gradient-descent2.png" width="740"/>The meaning of this formula is: J is a function of Θ. Our current position is Θ0 point, and we need to go from this point to the minimum point of J, which is the bottom of the mountain. First, we determine the direction of progress, which is the reverse direction of the gradient, and then walk a certain distance step, which is α. After walking this step, we reach the point Θ1!<img alt="" class="wp-image-5702 aligncenter" height="165" src="https://cdn.omegaxyz.com/2019/04/gradient-descent3.png" width="550"/>
+<h3><strong>α meaning</strong></h3>α is called the learning rate or step size in the gradient descent algorithm, which means that we can control the distance of each step through α. Don’t go too fast. If the step size is too large, you will miss the lowest point. At the same time, make sure not to walk too slowly. If it is too small, you will not be able to converge for a long time.<h3><strong>Negative sign meaning</strong></h3>Adding a negative sign before the gradient means moving in the opposite direction of the gradient. The direction of the gradient is actually the direction in which the function rises fastest at this point, and we need to go in the direction of the fastest descent, which is naturally the direction of the negative gradient, so a negative sign needs to be added here.<hr/>
+<h2><strong>Example</strong></h2>
+<img alt="" class="alignnone wp-image-5703" height="272" src="https://cdn.omegaxyz.com/2019/04/gradient-descent4.png" width="658"/>
+<hr/>
+<h2><strong>shortcoming</strong></h2>
+<ul>
+<li>Parameter adjustment is slow (a problem that occurs when the bottom is lower than usual)</li>
+<li>Convergence to local minimum</li>
+</ul>
+<hr/>
+<h2><strong>stochastic gradient descent</strong></h2>Each update requires traversing all data. This method is not feasible when the amount of data is too large or all data cannot be obtained at one time.
+The basic idea to solve this problem is to obtain the "gradient" only through a randomly selected data (xn, yn), so as to update w. This optimization method is called stochastic gradient descent.<p data-source-line="6">It is a iterative method for optimizing a differentiable objective function, a stochastic approximation of gradient descent optimization. It is called stochastic because samples are selected randomly(or shuffled) instead of as a single group (as in standard gradient descent) or in the order they appear in the training set.</p>
+<p data-source-line="8">Note that in each iteration (also called update), only the gradient evaluate at a single point Xi instead of evaluating at the set of all samples.</p>
+<p data-source-line="10">The key difference compared to standard (Batch) Gradient Descent is that only on piece of data from the dataset is used to calculate the step and the piece of data is picked randomly at each step.</p>
+<hr/>
+<h2><strong>References</strong></h2>
+<ul>
+<li>https://www.jianshu.com/p/c7e642877b0e</li>
+<li>https://blog.csdn.net/walilk/article/details/50978864</li>
+</ul>
+ 
+
+</div>
+</div></div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-18678">
+          <strong>z</strong>
+          <time>2020-03-18 07:50:40</time>
+          <div>这个有源码嘛？想学习一下</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18679">
+          <strong>xyjisaw</strong>
+          <time>2020-03-18 08:42:01</time>
+          <div>可以参考TensorFlow的源码</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

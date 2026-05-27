@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提高C++运行效率的方法 · OmegaXYZ</title>
+  <meta name="description" content="一、尽量减少值传递，多用引用来传递参数。 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下： 其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/12/improve_cpp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-12</div>
+        <h1>提高C++运行效率的方法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><strong>一、尽量减少值传递，多用引用来传递参数。</strong>
+至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下：
+<pre ><code class="language-c++">bool Compare（string s1, string s2)
+bool Compare(string *s1, string *s2)
+bool Compare(string &amp;s1, string &amp;s2)
+bool Compare(const string &amp;s1, const string &amp;s2)</code></pre>
+其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构函数两次（即共多调用了四个函数），而其他的三个函数（指针传递和引用传递）则不需要调用这四个函数。因为指针和引用都不会创建新的对象。如果一个构造一个对象和析构一个对象的开销是庞大的，这就是会效率造成一定的影响。
+然而在很多人的眼中，指针是一个恶梦，使用指针就意味着错误，那么就使用引用吧！它与使用普通值传递一样方便直观，同时具有指针传递的高效和能力。因为引用是一个变量的别名，对其操作等同于对实际对象操作，所以当你确定在你的函数是不会或不需要变量参数的值时，就大胆地在声明的前面加上一个const吧，就如最后的一个函数声明一样。
+同时加上一个const还有一个好处，就是可以对常量进行引用，若不加上const修饰符，引用是不能引用常量的。
+<strong>二、++i和i++引申出的效率问题</strong>
+看了上面的第一点，你可能觉得，那不就是多调用了四个函数而已，你可能对此不屑一顾。那么来看看下面的例子，应该会让你大吃一惊。
+至于整型变量的前加和后加的区别相信大家也是很清楚的。然而在这里我想跟大家谈的却是C++类的运算符重载，为了与整形变量的用法一致，在C++中重载运算符++时一般都会把前加和后加都重载。你可能会说，你在代码中不会重载++运算符，但是你敢说你没有使用过类的++运算符重载吗？迭代器类你总使用过吧！可能到现在你还不是很懂我在说什么，那么就先看看下面的例子吧，是本人为链表写的一个内部迭代器。
+<pre ><code class="language-c++">_SingleList::Iterator&amp; _SingleList::Iterator::operator++()//前加
+{
+pNote = pNote-&gt;pNext;
+return *this;
+}
+_SingleList::Iterator _SingleList::Iterator::operator++(int)//后加
+{
+Iterator tmp(*this);
+pNote = pNote-&gt;pNext;
+return tmp;
+}</code></pre>
+从后加的实现方式可以知道，对象利用自己创建一个临时对象（自己在函数调用的一个复制），然后改变自己的状态，并返回这个临时对象，而前加的实现方式时，直接改变自己的内部状态，并返回自己的引用。
+从第一点的论述可以知道后加实现时会调用复制构造函数，在函数返回时还要调用析构函数，而由于前加实现方式直接改变对象的内部状态，并返回自己的引用，至始至终也没有创建新的对象，所以也就不会调用构造函数和析构函数。
+然而更加糟糕的是，迭代器通常是用来遍历容器的，它大多应用在循环中，试想你的链表有100个元素，用下面的两种方式遍历：
+<pre ><code class="language-c++">for(_SingleList::Iterator it = list.begin(); it != list.end(); ++it)
+{
+//do something
+} 
+
+for(_SingleList::Iterator it = list.begin(); it != list.end(); it++)
+{
+//do something
+}</code></pre>
+如果你的习惯不好，写了第二种形式，那么很不幸，做同样的事情，就是因为一个前加和一个后加的区别，你就要调用多200个函数，其对效率的影响可就不可忽视了。
+<strong>三、循环引发的讨论1（循环内定义，还是循环外定义对象）</strong>
+请看下面的两段代码：
+代码1：
+<pre ><code class="language-c++">ClassTest CT；
+for(int i = 0; i &lt; 100; ++i)
+{
+CT = a;
+//do something
+}</code></pre>
+代码2：
+<pre ><code class="language-c++"> for(int i = 0; i &lt; 100; ++i)
+{
+ClassTest CT = a;
+//do something
+}</code></pre>
+你会觉得哪段代码的运行效率较高呢？代码1科学家是代码2？其实这种情况下，哪段代码的效率更高是不确定的，或者说是由这个类ClassTest本向决定的，分析如下：
+对于代码1：需要调用ClassTest的构造函数1次，赋值操作函数（operator=）100次；对于代码2：需要高用（复制）构造函数100次，析构函数100次。
+如果调用赋值操作函数的开销比调用构造函数和析构函数的总开销小，则第一种效率高，否则第二种的效率高。
+<strong>四、循环引发的讨论2（避免过大的循环）</strong>
+现在请看下面的两段代码，
+代码1：
+<pre ><code class="language-c++"> for(int i = 0; i &lt; n; ++i)
+{
+fun1();
+fun2();
+}</code></pre>
+代码2：
+<pre ><code class="language-c++">for(int i = 0; i &lt; n; ++i)
+{
+fun1();
+}
+for(int i = 0; i &lt; n; ++i)
+{
+fun2();
+}</code></pre>
+注：这里的fun1()和fun2()是没有关联的，即两段代码所产生的结果是一样的。
+以代码的层面上来看，似乎是代码1的效率更高，因为毕竟代码1少了n次的自加运算和判断，毕竟自加运算和判断也是需要时间的。但是现实真的是这样吗？
+这就要看fun1和fun2这两个函数的规模（或复杂性）了，如果这多个函数的代码语句很少，则代码1的运行效率高一些，但是若fun1和fun2的语句有很多，规模较大，则代码2的运行效率会比代码1显著高得多。可能你不明白这是为什么，要说是为什么这要由计算机的硬件说起。
+由于CPU只能从内存在读取数据，而CPU的运算速度远远大于内存，所以为了提高程序的运行速度有效地利用CPU的能力，在内存与CPU之间有一个叫Cache的存储器，它的速度接近CPU。而Cache中的数据是从内存中加载而来的，这个过程需要访问内存，速度较慢。
+这里先说说Cache的设计原理，就是时间局部性和空间局部性。时间局部性是指如果一个存储单元被访问，则可能该单元会很快被再次访问，这是因为程序存在着循环。空间局部性是指如果一个储存单元被访问，则该单元邻近的单元也可能很快被访问，这是因为程序中大部分指令是顺序存储、顺序执行的，数据也一般也是以向量、数组、树、表等形式簇聚在一起的。
+看到这里你可能已经明白其中的原因了。没错，就是这样！如果fun1和fun2的代码量很大，例如都大于Cache的容量，则在代码1中，就不能充分利用Cache了（由时间局部性和空间局部性可知），因为每循环一次，都要把Cache中的内容踢出，重新从内存中加载另一个函数的代码指令和数据，而代码2则更很好地利用了Cache，利用两个循环语句，每个循环所用到的数据几乎都已加载到Cache中，每次循环都可从Cache中读写数据，访问内存较少，速度较快，理论上来说只需要完全踢出fun1的数据1次即可。
+<strong>五、局部变量VS静态变量</strong>
+很多人认为局部变量在使用到时才会在内存中分配储存单元，而静态变量在程序的一开始便存在于内存中，所以使用静态变量的效率应该比局部变量高，其实这是一个误区，使用局部变量的效率比使用静态变量要高。
+这是因为局部变量是存在于堆栈中的，对其空间的分配仅仅是修改一次esp寄存器的内容即可（即使定义一组局部变量也是修改一次）。而局部变量存在于堆栈中最大的好处是，函数能重复使用内存，当一个函数调用完毕时，退出程序堆栈，内存空间被回收，当新的函数被调用时，局部变量又可以重新使用相同的地址。当一块数据被反复读写，其数据会留在CPU的一级缓存（Cache）中，访问速度非常快。而静态变量却不存在于堆栈中。
+可以说静态变量是低效的。
+<strong>六、避免使用多重继承</strong>
+在C++中，支持多继承，即一个子类可以有多个父类。书上都会跟我们说，多重继承的复杂性和使用的困难，并告诫我们不要轻易使用多重继承。其实多重继承并不仅仅使程序和代码变得更加复杂，还会影响程序的运行效率。
+这是因为在C++中每个对象都有一个this指针指向对象本身，而C++中类对成员变量的使用是通过this的地址加偏移量来计算的，而在多重继承的情况下，这个计算会变量更加复杂，从而降低程序的运行效率。而为了解决二义性，而使用虚基类的多重继承对效率的影响更为严重，因为其继承关系更加复杂和成员变量所属的父类关系更加复杂。
+<strong>七、尽量少使用dynamic_cast</strong>
+dynamic_cast的作用是进行指针或引用的类型转换，dynamic_cast的转换需要目标类型和源对象有一定的关系：继承关系。 实现从子类到基类的指针转换，实际上这种转换是非常低效的，对程序的性能影响也比较大，不可大量使用，而且继承关系越复杂，层次越深，其转换时间开销越大。在程序中应该尽量减少使用。
+<strong>八、减少除法运算的使用</strong>
+无论是整数还是浮点数运算，除法都是一件运算速度很慢的指令，在计算机中实现除法是比较复杂的。所以要减少除法运算的次数，下面介绍一些简单方法来提高效率：
+1、通过数学的方法，把除法变为乘法运算，如if(a &gt; b/c),如果a、b、c都是正数，则可写成if(a*c &gt; b)
+2、让编译器有优化的余地，如里你要做的运算是int型的n/8的话，写成（unsigned)n/8有利于编译器的优化。而要让编译器有优化的余地，则除数必须为常数，而这也可以用const修饰一个变量来达到目的。
+<strong>九、将小粒度函数声明为内联函数（inline）</strong>
+正如我们所知，调用函数是需要保护现场，为局部变量分配内存，函数结束后还要恢复现场等开销，而内联函数则是把它的代码直接写到调用函数处，所以不需要这些开销，但会使程序的源代码长度变大。
+所以若是小粒度的函数，如下面的Max函数，由于不需要调用普通函数的开销，所以可以提高程序的效率。
+<pre ><code class="language-c++"> int Max(int a, int b)
+{
+return a&gt;b?a:b;
+}</code></pre>
+<strong>十、多用直接初始化</strong>
+与直接初始化对应的是复制初始化，什么是直接初始化？什么又是复制初始化？举个简单的例子，
+<pre ><code class="language-c++"> ClassTest ct1;
+ClassTest ct2(ct1); //直接初始化
+ClassTest ct3 = ct1; //复制初始化</code></pre>
+那么直接初始化与复制初始化又有什么不同呢？直接初始化是直接以一个对象来构造另一个对象，如用ct1来构造ct2，复制初始化是先构造一个对象，再把另一个对象值复制给这个对象，如先构造一个对象ct3，再把ct1中的成员变量的值复制给ct3，从这里，可以看出直接初始化的效率更高一点，而且使用直接初始化还是一个好处，就是对于不能进行复制操作的对象，如流对象，是不能使用赋值初始化的，只能进行直接初始化。可能我说得不太清楚，那么下面就引用一下经典吧！
+以下是Primer是的原话：
+“当用于类类型对象时，初始化的复制形式和直接形式有所不同：直接初始化直接调用与实参匹配的构造函数，复制初始化总是调用复制构造函数。复制初始化首先使用指定构造函数创建一个临时对象，然后用复制构造函数将那个临时对象复制到正在创建的对象”，还有一段这样说，“通常直接初始化和复制初始化仅在低级别优化上存在差异，然而，对于不支持复制的类型，或者使用非explicit构造函数的时候，它们有本质区别：
+ifstream file1("filename")://ok:direct initialization
+ifstream file2 = "filename";//error:copy constructor is private
+”
+注：如还对直接初始化和复制初始化有疑问，可以参考一下前面的一篇文章：
+C++直接初始化与复制初始化的区别深入解析，里面有有关直接初始化和复制初始化的详细解释。
+补充：
+这里只是一点点的建议，虽然说了这么多，但是还是要说一下的就是：要避免不必要的优化，避免不成熟的优化，不成熟的优化的是错误的来源，因为编译器会为你做很多你所不知道的优化。
+
+转载自万恶的脚本之家：<a href="http://www.jb51.net/article/54792.htm"><strong>http://www.jb51.net/article/54792.htm</strong></a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepE representation project in a large model · OmegaXYZ</title>
+  <meta name="description" content="Highlight paper address: https://arxiv.org/abs/2310.001405 Signwork (Repe) is a way to improve the transparency of artificial intelligence systems by drawing on the insights of cognitive neuroscience. In the field of AI interpretability, where earlier interpretability-related work was mainly centred on neurons, the article draws on some of the perspectives in cognitive neurosciences, emphasizing information in models (essentially corresponding to activ...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2024/01/03/repe/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-01-03</div>
+        <h1>RepE representation project in a large model</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/gpt/index.html">GPT</a><a class="pill" href="../../../../tag/llm/index.html">LLM</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<img alt="" class="alignnone wp-image-7943" height="464" src="https://cdn.omegaxyz.com/2024/01/repe.png" width="660"/>
+<h2><strong>Highlight</strong></h2>
+<ul>
+<li>Address:<a href="https://arxiv.org/abs/2310.01405" rel="noopener" target="_blank">https://arxiv.org/abs/2310.01405</a></li>
+<li>Repe is a way of improving the transparency of artificial intelligence systems by drawing on the insights of cognitive neuroscience.</li>
+<li>In the field of AI interpretability, where earlier interpretability-related work was mainly centred on neurons, the article adopted some of the perspectives of cognitive neuroscience, emphasized the use of model information manifestations (essentially corresponding to the activation of each layer of the model) rather than neurons as the main subjects of research, proposed a set of basic methods for reading, understanding, modifying information forms and demonstrated the application of honesty, illusions, emotions, etc. in assessing and controlling LLM.</li>
+<li>The method of reading the information forms presented in the article is Linear Artificial Tomography (LAT, linear artificial fault scan). Reading information forms is actually the structure of the high-dimensional space in the middle of the model. Ideally, much of this high-dimensional space is capable of giving corresponding concepts that humans can understand, but it is still far from that goal.</li>
+</ul>
+<h2><strong>Methodology</strong></h2>Similar to the neuroimaging method, the LAT scan consists of three key steps:<strong>(1) Design stimulus and mission; (2) collection of neuroactivity; (3) construction of linear models.</strong>
+<h3><strong>1. Design stimulus and mission</strong></h3>Design the following templates for concepts:
+
+<img alt="" class="alignnone wp-image-7942" height="98" src="https://cdn.omegaxyz.com/2024/01/repe_stimulus.png" width="804"/>For example:
+<blockquote>"Consider the amount of truthfulness in the following answer.\n\nQuestion: {q}\nAnswer: {a}\n\nThe amount of truthfulness in the answer is"</blockquote>Why is it stopping? Based on the self-return training of the large-language model causal model model, is embedding actually contains information before the entire sentence (attention information, etc.); on the other hand, the model needs to predict a token behind the is, where the position token is typically a value or a degree of word.
+<h3><strong>2. Collection of neuroactivity</strong></h3>Generates input text by changing this part of the template. Each text is fed to the model to collect the activity of each layer of the model on last token (cause: the final output of the model is predicted on last token).
+Formally, for concepts c, decoder model M, function Rep, which accepts the model and enters and returns to all token positions, and a set of stimuli, a set of neuroactivity collected from 1 token positions has been compiled, as shown in the formula below.
+<img alt="" class="alignnone wp-image-7936" height="64" src="https://cdn.omegaxyz.com/2024/01/repe_equation1.png" width="400"/>When these events are collected, the margin between them is used as the PCA (main component analysis), taking the first primary ingredient as the conceptual reaing vector.
+
+A number of cases, such as 10 positive and 10 negative cases, were awarded (assuming the dimensions of embedding are d) after building the stimulus prompt:
+
+Example: 10 *len *d
+Negative: 10 *len *d
+
+Note that there's not a lot of space here. Take out the token embeding, get it.
+
+Example: 10 *d
+Negative: 10 *d
+
+A random deviation from the above-mentioned case is obtained with k*d variables, with a main ingredient analysis of k*d and a base vector of the main ingredient1 *d.
+
+Why fail and find the main ingredient vector? The aim is to obtain a positive and negative example, which, in general terms, is to find a standard for decision-making.
+<h3><strong>3. Building linear models</strong></h3>With specific concepts such as "reality " , it is possible for any subsequent input to calculate the "reality" of the output of the model by projecting the size of the model.
+<h2><strong>Reality</strong></h2>
+<h3><strong>LLM can't still lie? Incompetent and dishonest?</strong></h3>
+<ul>
+<li>In order to extract the basic function of honesty, the author creates the stimulus using the true language of the data setup of the LAT described above. In order to improve the separability and ease of extraction of required neuroactivity, LAT stimuli were designed, including dishonest reference missions and honest experimental missions. Specifically, the author uses the task template below to indicate whether the model is honest or dishonest.
+<img alt="" class="alignnone wp-image-7939" height="133" src="https://cdn.omegaxyz.com/2024/01/repe_honesty.png" width="670"/></li>
+<li>Under this setting, the LAT reading vectors received are more than 90 per cent accurate for classification when distinguishing between a sample that is shown to be honest or dishonest. This demonstrates a strong internalized capability.
+<img alt="" class="alignnone wp-image-7940" height="377" src="https://cdn.omegaxyz.com/2024/01/repe_lat.png" width="511"/></li>
+<li>Time LAT scans of the Vicuna-33B-Uncensored model were performed to distinguish between telling the truth (e.g. admission of copying of another ' s work) and lying (e.g. denial of homicide). These scans provide a hierarchy resolution, with each microblock showing the extent of dishonest neuroactivity in a given token bets layer. The right figure highlights a high level of deceptive neuroactivity.
+<img alt="" class="alignnone wp-image-7941" height="338" src="https://cdn.omegaxyz.com/2024/01/repe_lie.png" width="526"/></li>
+</ul>
+<h2><strong>The validity of the traditional Fewshot question and answer benchmark</strong></h2>A true model should give precise answers to questions. The author extracts the concept of authenticity from the LLAMA-2 model by performing LAT scans on standard benchmarks. Some issues focused on facts, while others were based on reasoning or extracting information from paragraphs.
+Question randomly extracted from several few-shot samples - the answer is yes as an irritation, and in all five data sets LAT performance is clearly better than the few-shot baseline, indicating that LAT can effectively extract correct orientations from internal model expressions and is more accurate than few-shot output.
+<img alt="" class="alignnone wp-image-7938" height="375" src="https://cdn.omegaxyz.com/2024/01/repe_fewshot.png" width="412"/>
+<h2><strong>Manipulate LLM</strong></h2>Using the RepE approach, the positive and negative examples are first designed, followed by a differential of [n_samples, lllm_dim] through the two variations, followed by a base vector [llm_dim] where the PCA method is used to achieve a downward direction. The base vector from which the lower dimension is obtained is integrated into the original model at the time of actual testing.
+<h2><strong>RepE's flaws</strong></h2>
+<ol>
+<li>Performance is highly correlated with the design of stimuli prompt, and finding a high quality prompt is key.</li>
+<li>While prompt takes the last position of the token to analyse the main ingredient for simple classification tasks, the evaluation of some indicators across the sentence is problematic.
+<ul>
+<li>For example, evaluation fluidity is OK, but there is a problem and a logical gap in assessing the logic/fact of the sentence. The generation of a conclusion requires consideration of continuity of reasoning, i.e. the intermediate step cannot be said.</li>
+<li>Using reaing vector (main ingredient vector), each token of the sentence is independently evaluated in the article, with results similar to those below. In practice, however, there was no agreement with the paper, the case of which was specially selected, and there was considerable room for improvement.</li>
+<li>Therefore, in our assessment of reliability, token ' s dependence needs to be taken into account.</li>
+</ul>
+</li>
+</ol>More content access [omegaxyz.com] (https://omegaxyz.com)
+All website codes are authorized by Apache 2.0.
+Website articles are authorized by the Knowledge Sharing Licence Agreement BY-NC-SA 4.0
+□ 2024 • OmegaXYZ - Copyright</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

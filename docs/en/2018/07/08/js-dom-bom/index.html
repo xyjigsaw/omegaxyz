@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Document (DOM) and Browser Object Model (BOM) · OmegaXYZ</title>
+  <meta name="description" content="Introduction to DOM The Document Object Model (DOM) is a standard programming interface recommended by the W3C organization for processing extensible markup languages. It is a platform- and language-independent application programming interface (API) that can dynamically access programs and scripts and update their content, structure, and style of www documents (currently, HTML and XML documents are partially defined through descriptions). Documents can be further processed, and the results of processing can be added to...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/08/js-dom-bom/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-08</div>
+        <h1>JavaScript Document (DOM) and Browser Object Model (BOM)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/html/index.html">HTML</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1><strong>Introduction to DOM</strong></h1>The Document Object Model (DOM) is a standard programming interface recommended by the W3C organization for processing extensible markup languages. It is a platform- and language-independent application programming interface (API) that can dynamically access programs and scripts and update their content, structure, and style of www documents (currently, HTML and XML documents are partially defined through descriptions). The document can be further processed and the results of the processing can be added to the current page. DOM is a tree-based API document that requires the entire document to be represented in memory during processing.<strong>The W3C DOM standard is divided into 3 different parts</strong>
+<img alt="" class="alignnone size-full wp-image-4714" height="198" src="https://cdn.omegaxyz.com/2018/07/DOM1.png" width="593"/>The HTML DOM defines the objects and properties of all HTML elements, as well as the methods to access them.<h1><strong>HTML DOM node</strong></h1>DOM nodes All content in an HTML document is a node:<img alt="" class="alignnone size-full wp-image-4717" height="267" src="https://cdn.omegaxyz.com/2018/07/DOM3.jpg" width="288"/>
+<strong>The following HTML page</strong>
+<img alt="" class="alignnone wp-image-4716" height="220" src="https://cdn.omegaxyz.com/2018/07/DOM2.jpg" width="744"/>It can be displayed through the hierarchical nodes in the figure below<img alt="" class="alignnone wp-image-4715" height="336" src="https://cdn.omegaxyz.com/2018/07/DOM1.jpg" width="585"/>
+<h1 class="title-text"><strong>Models and extensions</strong></h1>
+<h2 class="para"><strong>Document Object Model DOM</strong></h2>
+<div class="para">DOM, the Document Object Model, is a standard interface specification formulated by the W3C. It is a standard API for processing HTML and XML files. DOM provides an access model to the entire document, treating the document as a tree structure. Each node of the tree represents an HTML tag or a text item within the tag. The DOM tree structure accurately describes the interrelationships between tags in HTML documents. The process of converting an HTML or XML document into a DOM tree is called parsing. After the HTML document is parsed, it is converted into a DOM tree, so the processing of the HTML document can be achieved by operating the DOM tree. The DOM model not only describes the structure of the document, but also defines the behavior of the node object. Using the methods and properties of the object, you can easily access, modify, add and delete the nodes and content of the DOM tree.<sup class="sup--normal" data-sup="1"> 。</sup></div>
+<h2 class="para"><strong>DOM tree extension</strong></h2>
+<div class="para">According to the definition of W3C, the attributes of DOM tree nodes include tag name (nodeName), node type (value: TagTxt), node content (data), parent node object collection (parent Node), child node object collection (firstChild, lastChild), sibling node object collection (previous Sibling, nextSibling), etc. These attributes of DOM tree nodes give the basic content and structural information of the page, but cannot reflect the relevance of tags, attributes and content to the topic, and therefore lack the semantics required for topic extraction. The general idea of ​​expanding the DOM tree is to consider the categories of HTML page tags and the impact of tag attribute values ​​on page theme information, incorporate this impact into the calculation of page content elements, semantically expand DOM tree nodes, and introduce node influence factors to characterize the importance of the node in the tree.</div>
+<h2 class="para"><strong>DOM tree node semantic extension</strong></h2>
+<div class="para">In order to increase the semantic information of the correlation between DOM tree nodes and page theme information, calculate the importance of node content, and add attributes such as HTML tag category (Category), number of non-link words (WordNum), number of hyperlinks (LinkNum), attribute set (Attibution), and influence factor (Influence) to the node to expand its semantics. HTML tags can be divided into 5 categories according to their functions:</div>
+<ul class="custom_dot para-list list-paddingleft-1">
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Tags describing the title and page summary information: such as &lt;title&gt;, &lt;meta&gt;, etc.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Tags for planning web page layout: such as 〈table〉, 〈tr〉, 〈td〉, 〈p〉, 〈div〉, etc., whose function is to describe the layout structure of web page content.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Tags describing display characteristics: such as 〈b〉, 〈I〉, 〈strong〉, 〈h1〉-〈h6〉, etc., whose function is to emphasize key content and attract people’s attention.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Tags related to hyperlinks represent content correlation information between web pages.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Other tags, such as setting the image tag &lt;img&gt;, will be ignored during text extraction.</div></li>
+</ul>
+<div class="para">According to the semantic function of HTML tags in describing web page features, DOM tree nodes are divided into six categories: title category (TITLE), text category (CONTENT), visual category (VISION), block category (BLOCK), hyperlink category (LINK) and other categories (OTHER). Different categories of nodes have different importance for Web information extraction.</div>
+<ul class="custom_dot para-list list-paddingleft-1">
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Title class (TITLE): refers to the exclusive category of title tags in HTML documents.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Content category (CONTENT): refers to the tag category that contains the body content of the web page, such as the &lt;td&gt; tag that contains text.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Visual category (VISION): refers to the tag category that describes the display characteristics of the page, such as &lt;b&gt;, &lt;strong&gt;, etc.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">BLOCK: refers to the tag category used to divide web page content into blocks, such as &lt;table&gt;, &lt;tr&gt;, etc.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Hyperlink category (LINK): refers to the tag category containing hyperlinks, such as &lt;a&gt;.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Other categories (OTHER): refers to label types that do not belong to the above five categories.</div></li>
+</ul>
+<div class="para-title level-2">
+<h1 class="title-text"><strong>interface</strong></h1>
+</div>
+<ul class="custom_dot para-list list-paddingleft-1">
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Node interface: It is the base type of nodes in documents. Defines basic methods for accessing and changing the document structure.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Document interface: It represents the entire document. Various nodes (elements, comments, processing instructions, etc.) in the document can be created. The created nodes have an OwnerDoculnent attribute representing the Document object that created them.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">DocumentFragment interface: It represents a subtree of the document tree, which is quite a small document.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Attr interface: It represents the attributes of element nodes. What's interesting is that it is not considered a child node of the element node and does not form part of the DOM tree. It is also not a direct child node of the DocumentFragment node.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">CharacterData interface: It maintains the DOMsitrgn string and provides an interface for read and write operations. But it does not directly correspond to a certain type of node in the document.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Text interface: It inherits from CharacterData. A continuous piece of text representing an element or attribute. It has a derived interface CDATAsection, the purpose is: the content of the CDATASeciton node will not be converted in any way; when using the nomraliez method in Node, adjacent Text nodes will be merged into one node, but using CDATASeciton can avoid merging.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Comment interface: It also inherits from CharacterData. Represents the text content in the annotation.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">NodeList interface: used to manage an ordered set of nodes.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Entity interface: It represents an entity; EntityReference represents a reference to an entity.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">NamedNodeMap interface: used to manage unordered node sets.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">DOMImplementation interface: It provides an interface independent of instances of the DOM model. CreateDocument can create a Document object; haseFature can determine whether the DOM implementation supports a certain module.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">Notation interface: It represents the symbol definition in the document.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">ProcessingInstruction interface: It represents processing instructions.</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">DOMException interface: exception handling. Errors caused by logical errors in the program, data loss, or instability of the DOM implementation itself. During program processing, an error value is returned by the method.</div></li>
+</ul>
+<hr/>
+<h1><strong>BOM introduction</strong></h1>BOM (Browser Object Model) refers to the browser object model, which is a model used to describe the hierarchical relationship between objects. The browser object model provides an object structure that is independent of content and can interact with the browser window. The BOM is composed of multiple objects. The Window object representing the browser window is the top-level object of the BOM, and other objects are sub-objects of this object.<h2><strong>What is BOM?</strong></h2>
+<ul>
+<li>BOM is the abbreviation of Browser Object Model, referred to as browser object model.</li>
+<li>The BOM provides objects that interact with the browser window independently of the content.</li>
+<li>Since BOM is mainly used to manage communication between windows, its core object is window</li>
+<li>BOM consists of a series of related objects, and each object provides many methods and properties.</li>
+<li>BOM lacks standards. The standardization organization for JavaScript syntax is ECMA, and the standardization organization for DOM is W3C (WHATWG, WebHypertextApplicationTechnologyWorkingGroup - the Web Hypertext Application Technology Working Group is currently working hard to promote the standardization of BOM)</li>
+<li>The BOM was originally part of the Netscape browser standard</li>
+</ul>
+<h2><strong>Basic BOM architecture diagram</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4719" height="254" src="https://cdn.omegaxyz.com/2018/07/BOM1.png" width="393"/>
+<h1><strong>Main functions</strong></h1>
+<ul>
+<li class="para">1. The ability to pop up a new browser window;</li>
+<li class="para">2. The ability to move, close and change the size of the browser window;</li>
+<li class="para">3. Navigation object that can provide detailed information of the WEB browser;</li>
+<li class="para">4. A local object that can provide detailed information about the page loaded by the browser;</li>
+<li class="para">5. A screen object that provides detailed information about the user's screen resolution;</li>
+<li class="para">6. Support Cookies;</li>
+<li class="para">7. Internet Explorer extends the BOM to include ActiveX object classes, and ActiveX objects can be implemented through JavaScript.</li>
+</ul>
+<strong>References</strong>
+<a href="https://www.cnblogs.com/Peng2014/p/4725524.html">https://www.cnblogs.com/Peng2014/p/4725524.html</a>
+<a href="https://www.cnblogs.com/gaochaochao/p/9194794.html">https://www.cnblogs.com/gaochaochao/p/9194794.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

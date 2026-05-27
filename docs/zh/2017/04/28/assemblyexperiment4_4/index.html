@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编实验4-4（AL字节内容反向排序） · OmegaXYZ</title>
+  <meta name="description" content="如果有错误或问题请评论，谢谢！！ 注意是是二进制，主要考察汇编移位RCL, RCR指令 SHL(Shift Left): 逻辑左移 SHR(Shift Right): 逻辑右移 SAL(Shift Arithmetic Left): 算术左移 SAR(Shift Arithmetic Right): 算术右移 其中的 SHL 和 SAL...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/28/assemblyexperiment4_4/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-28</div>
+        <h1>汇编实验4-4（AL字节内容反向排序）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">如果有错误或问题请评论，谢谢！！
+
+注意是是二进制，主要考察汇编移位RCL, RCR指令
+
+SHL(Shift Left):             逻辑左移
+
+SHR(Shift Right):            逻辑右移
+
+SAL(Shift Arithmetic Left):  算术左移
+
+SAR(Shift Arithmetic Right): 算术右移
+
+其中的 SHL 和 SAL 相同, 但 SHR 和 SAR 不同.
+
+SHL、SAL: 每位左移, 低位补 0,  高位进 CF
+
+SHR     : 每位右移, 低位进 CF, 高位补 0
+
+SAR     : 每位右移, 低位进 CF, 高位不变
+
+它们的结果影响 OF、SF、ZF、PF、CF
+
+它们的指令格式相同:
+
+SHL r/m, i8
+
+SHL r/m, CL
+
+&nbsp;
+
+本文使用的AL的值为：10110001
+<pre ><code class="language-asm">code segment
+assume cx:code
+start:
+mov al,10110001b
+mov cx,8
+xuyi:
+  rcl al,1
+  rcr ah,1
+loop xuyi
+mov al,ah
+mov ah,4ch
+int 21h
+code ends
+end start
+</code></pre>
+<img class="alignnone wp-image-620" src="https://cdn.omegaxyz.com/2017/04/assembly1-1-300x195.png" alt="" width="689" height="448" />
+
+注意初始时AL的值10110001，即B1
+
+<img class="alignnone wp-image-621" src="https://cdn.omegaxyz.com/2017/04/assembly2-1-300x199.png" alt="" width="689" height="457" />
+
+结束时AL的值倒过来了为10001101，即8D</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-18248">
+          <strong>Anonymous</strong>
+          <time>2019-11-22 10:49:27</time>
+          <div>masm 出现错误</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

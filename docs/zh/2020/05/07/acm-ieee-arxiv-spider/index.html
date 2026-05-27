@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACM-IEEE-arXiv论文信息爬虫 · OmegaXYZ</title>
+  <meta name="description" content="ACM-IEEE-arXiv Info Spider (开发中) 此项目的目的是从数字图书馆中抓取论文的结构化信息，这些信息可以用来进行学者分析，构建知识图谱等。 代码地址： https://github.com/xyjigsaw/ACM-IEEE-arXiv-Spider 支持的数据库 ACM (已完成，Support Digital...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/05/07/acm-ieee-arxiv-spider/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-05-07</div>
+        <h1>ACM-IEEE-arXiv论文信息爬虫</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/github/index.html">Github</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>ACM-IEEE-arXiv Info Spider (开发中)</strong></h2>
+此项目的目的是从数字图书馆中抓取论文的结构化信息，这些信息可以用来进行学者分析，构建知识图谱等。
+
+代码地址：<a href="https://github.com/xyjigsaw/ACM-IEEE-arXiv-Spider"><strong>https://github.com/xyjigsaw/ACM-IEEE-arXiv-Spider</strong></a>
+<h2><strong>支持的数据库</strong></h2>
+<ul>
+ 	<li>ACM (已完成，Support Digital Library Search Result)</li>
+ 	<li>IEEE (开发中，Support Single Page)</li>
+ 	<li>arXiv (已完成，Support All Categories)</li>
+ 	<li>AAAI (已完成，Support 2009-2019 AAAI Conferences)</li>
+</ul>
+<strong>关键词:</strong> Python, Scrapy, MySQL, Papers
+<h2><strong>依赖</strong></h2>
+<ul>
+ 	<li>Python 3.6</li>
+ 	<li>MySQL 8.0.17</li>
+ 	<li>scrapy</li>
+ 	<li>selenium</li>
+ 	<li>PhantomJS (optional only for IEEE_Spider)</li>
+ 	<li>scrapy_proxies</li>
+ 	<li>logging</li>
+ 	<li>re</li>
+ 	<li>pymysql</li>
+ 	<li>twisted</li>
+ 	<li>json</li>
+ 	<li>fake_useragent</li>
+</ul>
+<h2><strong>数据库与数据结构</strong></h2>
+你可以执行 papers.sql 来初始化数据库。
+
+MYSQL_DBNAME = 'papers'
+
+TABLE_NAME = {'ACM_Data', 'IEEE_Data', 'arXiv_Data'}
+
+<img class="alignnone wp-image-6691" src="https://cdn.omegaxyz.com/2020/05/ACM-IEEE-arXiv-Spider.png" alt="" width="338" height="342" />
+<h2><strong>特性</strong></h2>
+1. 一个脚本自动运行，以获得免费的代理(仅HTTP)，并将很快集成到基于剪贴的主程序。
+2. 对于每个请求，它将生成一个随机的代理和用户代理。
+3.提供了TXT文件、原始json(不是确切的json)和MySQL来存储数据。
+4. 给出了基于层的可选日志。
+5. 采用异步模式作为MySQL管道的数据存储机制，解决爬行器数据泛滥的问题，提高了程序的运行效率和可靠性。
+<h2><strong>安装与运行</strong></h2>
+在您启动scrapy之前，您应该首先自定义设置。
+当您启动IEEE_Spider时，需要添加基于selenium和PhantomJS的js中间件。
+
+终端
+<pre ><code class="language-default">scrapy crawl ACM_Spider</code></pre>
+或者
+<pre ><code class="language-default">scrapy crawl IEEE_Spider</code></pre>
+...
+<h2><strong>即将开发</strong></h2>
+<ul>
+ 	<li>IEEE Spider (The HTML is JS-dynamic.)</li>
+ 	<li>arXix (easy)</li>
+ 	<li>Proxy Downloader Integration</li>
+ 	<li>MongoDB Storage</li>
+ 	<li>Robuster Xpath Rules</li>
+ 	<li>UUID for Database</li>
+ 	<li>Crawl Specific Pages</li>
+</ul>
+<h2><strong>数据预览</strong></h2>
+<img class="alignnone wp-image-6690" src="https://cdn.omegaxyz.com/2020/05/MySQL-Spider.png" alt="" width="734" height="362" />
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (6)</h2>
+        <div class="comment" id="comment-19118">
+          <strong>Chenyu Zuo</strong>
+          <time>2020-06-29 23:25:50</time>
+          <div>这个爬虫太需要了。请问能不能多解释一下“启动scrapy之前的自定义设置”？是不是只需要在 settings.py 里面填入地址即可？还是middlewares.py也需要设置？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19120">
+          <strong>xyjisaw</strong>
+          <time>2020-06-30 08:55:40</time>
+          <div>你只需要配置setting.py的 URL、Database和PROXY_LIST（可选），这个文件是scrapy自动生成的，具体的网上有教程。middleware是用来反反爬虫的，一个是RandomUserAgentMiddleware另一个是JSMiddleware，这两个你不需要手动配置，也可以直接忽略掉。</div>
+        </div>
+        
+        <div class="comment" id="comment-19465">
+          <strong>li alex</strong>
+          <time>2020-09-14 10:40:31</time>
+          <div>感谢博主的分享。我在运行时遇到一点问题，能否请您解惑。我在获取代理列表时提示：“由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。”请问这个问题如何解决，或者有什么解决思路吗，望解惑，十分感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19467">
+          <strong>xyjisaw</strong>
+          <time>2020-09-14 15:15:08</time>
+          <div>了解，这个可能是代理站点服务器出现了问题，可以将middleware的代理服务注释掉，后续我会更新，请关注</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19562">
+          <strong>li alex</strong>
+          <time>2020-10-23 15:17:01</time>
+          <div>博主您好，能否给个qq，关于这个爬虫有点问题想咨询下，拜托了，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19563">
+          <strong>xyjisaw</strong>
+          <time>2020-10-23 16:46:18</time>
+          <div>你好可以在github上提出issue哦</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

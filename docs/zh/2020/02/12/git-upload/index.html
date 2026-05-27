@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>git上传本地文件到仓库（可追加） · OmegaXYZ</title>
+  <meta name="description" content="1、 （进入你需要上传的文件（夹）所在的文件夹） 通过命令 git init 把这个目录变成git可以管理的仓库 2、把文件添加到版本库中，使用命令 git add .添加到暂存区里面去，不要忘记后面的小数点“.”，意为添加文件夹下的所有文件 3、用命令 git commit告诉Git，把文件提交到仓库。引号内为提交说明 4、关联到远程库...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/12/git-upload/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-12</div>
+        <h1>git上传本地文件到仓库（可追加）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/github/index.html">Github</a></div>
+        <div class="article-content"><div>
+
+1、<strong>（进入你需要上传的文件（夹）所在的文件夹）</strong>通过命令 git init 把这个目录变成git可以管理的仓库
+<pre ><code class="language-default">git init</code></pre>
+2、把文件添加到版本库中，使用命令 git add .添加到暂存区里面去，不要忘记后面的小数点“.”，意为添加文件夹下的所有文件
+<pre ><code class="language-default">git add .</code></pre>
+3、用命令 git commit告诉Git，把文件提交到仓库。引号内为提交说明
+<pre ><code class="language-default">git commit -m '提交文件'</code></pre>
+4、关联到远程库(你的远程仓库的URL)
+<pre ><code class="language-default">git remote add origin https://github.com/xxx/xxx</code></pre>
+5、获取远程库与本地同步合并（<span style="color: #ff4a4a;"><strong>如果远程库不为空必须做这一步，否则后面的提交会失败</strong></span>）
+<pre ><code class="language-default">git pull --rebase origin master</code></pre>
+6、把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。执行此命令后会要求输入用户名、密码，验证通过后即开始上传。
+<pre ><code class="language-default">git push -u origin master</code></pre>
+7、状态查询命令
+<pre ><code class="language-default">git status</code></pre>
+</div>
+
+<hr />
+
+作者：七一欧
+链接：https://www.jianshu.com/p/5f4169e50835
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-18573">
+          <strong>AffiliateLabz</strong>
+          <time>2020-02-16 08:15:50</time>
+          <div>Great content! Super high-quality! Keep it up! :)</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

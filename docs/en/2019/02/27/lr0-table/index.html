@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compilation principle automatically generates LR(0) analysis table Python implementation · OmegaXYZ</title>
+  <meta name="description" content="Introduction For LR grammar, we can automatically construct the corresponding LR parsing table. In order to construct an LR analysis table, we need to define an important concept - the standard sentence pattern of grammar &quot;living prefix&quot;. A prefix that does not contain any symbols after such a handle is called a live prefix. At any time during the LR analysis process, the grammar symbols in the stack (from the bottom of the stack) X 1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/02/27/lr0-table/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-27</div>
+        <h1>Compilation principle automatically generates LR(0) analysis table Python implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>For LR grammar, we can automatically construct the corresponding LR analysis table. In order to construct an LR analysis table, we need to define an important concept - the standard sentence pattern of grammar "living prefix".
+
+A prefix that does not contain any symbols after such a handle is called a live prefix.
+
+At any time during the LR analysis process, the grammar symbols in the stack (from the bottom of the stack) X<sub>1</sub>X<sub>2</sub>…X<sub>m</sub>It should form a live prefix, and after allocating the remaining parts of the input string, it should become a canonical sentence pattern (if the entire input string indeed forms a sentence). Therefore, as long as the scanned part of the input string remains reducible to a live prefix, it means that the scanned part is error-free.
+
+For a grammar G, we can construct a finite automaton that can identify all live prefixes of G, and then convert this automaton into an LR analysis table. Perform LR analysis according to the LR analysis table, which can ensure that during the analysis process, if the analyzed sentence is correct, the grammar symbols in the stack (from the bottom of the stack to the top) always constitute live prefixes.
+
+If each state (item set) in the living prefix recognition automaton of the extended grammar of a grammar G does not exist in the following situations: (1) contains both shift items and reduction items; (2) contains multiple reduction items, then G is said to be an LR(0) grammar. The set of states of the automaton is the normative family of LR(0) itemsets of the grammar.
+
+There are three ways to construct a grammar-identifying prefix DFA:
+
+(1) Find the regular expression of live prefix according to the formal definition, then construct NFA from this regular expression and then determine it as DFA;
+
+(2) Find all the items of the grammar, construct an NFA that identifies live prefixes according to certain rules, and then determine it into a DFA;
+
+(3) Use the closure function (CLOSURE) and the steering function (GO(I,X)) to construct the itemset specification family of LR(0) of the grammar G’, and then use the transition function to establish the connection relationship between states to obtain a DFA that identifies live prefixes.
+
+ 
+
+The prefix of a symbol string refers to any header of the symbol string, including the empty string ε. For example, for the symbol string abc, its prefixes are ε, a, ab, abc. If the input string has no errors, the live prefix of a canonical sentence pattern is a prefix of the sentence pattern, but it does not contain any symbols after the handle. It is called a live prefix because a standard sentence pattern can be formed by concatenating the uninputted symbol string after the prefix.
+
+The relationship between live prefixes and handles is as follows:
+
+(1) The live prefix contains all the symbols of the handle, indicating that the right part β of the production A→β has appeared on the top of the stack.
+
+(2) The live prefix contains only part of the symbol of the handle, indicating A→β<sub>1</sub>β<sub>2</sub>The right substring β of<sub>1</sub>has appeared on the top of the stack, expecting to see β from the input string<sub>2</sub>Launch symbol.
+
+(3) The live prefix does not contain any symbol of the handle. At this time, the symbol string derived from the right part of A→β is expected.
+
+Each production formed by adding a dot anywhere on the right side (candidate) of each production in grammar G is called an LR(0) item. For example, the production A® xyz has the following items: A®.xyz, A®x.yz, A®xy.z, A®xyz. The productions marked with dots can be used to determine how much of the right-hand symbol of each production that characterizes the grammar under analysis has been recognized (appears on the top of the stack).
+
+(1) A→β. The right part β of the production A→β has appeared on the top of the stack.
+
+(2)A→β<sub>1</sub>.β<sub>2  </sub>Score A→β<sub>1</sub>β<sub>2</sub>The right substring β of<sub>1</sub>has appeared on the top of the stack, expecting to see β from the input string<sub>2</sub>Launch symbol.
+
+(3) A→.β marks any symbol without a handle on the top of the stack. At this time, the symbol string derived from the right part of A→β is expected.
+
+(4) For the LR(0) item of A→ε, there is only A→. .
+
+Let the grammar G = (V<sub>T</sub>，V<sub>N</sub>, S, P) is a context-free grammar. If there is a canonical derivation SAw12w (where A12P), then item A12 is said to be valid for live prefix = 1, that is, LR(0) valid item.
+
+In an intuitive sense, an LR(0) item indicates how much of the production we see at a certain step in the analysis process has been recognized. The dot in the LR(0) item can be seen as the dividing line between the top of the analysis stack and the input string. The left side of the dot is the part that has entered the analysis stack, and the right side is the symbol string that is currently input or continues to be scanned.
+
+Different LR(0) items reflect different situations at the top of the analysis stack. We divide LR(0) projects into four categories according to their different functions:
+
+(1) Reduction items:
+
+Expression form: A→a.
+
+This type of LR(0) item indicates that handle a happens to be contained in the stack, that is, part of the content at the top of the current stack constitutes the desired handle, and should be reduced as A→a.
+
+(2) Accepted projects:
+
+Expression: →a.
+
+Among them is the only starting symbol of grammar. This type of LR(0) item is actually a special reduction item, which means that the content in the analysis stack happens to be a, and if →a is used for reduction, the entire analysis will be successful.
+
+(3) Move in items:
+
+Expression form: A→a.(bV<sub>T</sub>)
+
+This type of LR(0) item indicates that the analysis stack is a live prefix that does not completely contain a handle. In order to form a live prefix that just has a handle, b needs to be moved into the analysis stack.
+
+(4) Items to be booked:
+
+Expression form: A→α.Bβ (BV<sub>N</sub>)
+
+This type of LR(0) item indicates that the analysis stack is a live prefix that does not completely contain a handle. In order to form a live prefix that just has a handle, the corresponding content in the current input string should be reduced to B first.
+
+ 
+
+After giving the definition and classification of LR(0) items, we start from these LR(0) items to construct a finite automaton that can recognize all prefixes of the grammar. The steps are: first construct a non-deterministic finite automaton that can recognize all live prefixes of the grammar, then determinize and minimize it, and finally obtain the required deterministic finite automaton.
+
+A method of constructing a non-deterministic finite automaton that identifies all live prefixes of grammar G from the LR(0) items of grammar G:
+
+(1) It is stipulated that the first LR(0) item (i.e. →.A) of the production containing the grammar start symbol (let →A) be the only initial state of NFA.
+
+(2) Let all LR(0) items correspond to a state of NFA and the corresponding state of the LR(0) item as a reduction item is the final state.
+
+(3) If state i and state j come from the production of the same grammar G and the dots of the two states LR(0) items only differ by one position, that is:
+
+If i is X→X<sub>1</sub>X<sub>2</sub>·…X<sub>i-1</sub>·X<sub>i</sub>…X<sub>n</sub>, j is X→X<sub>1</sub>X<sub>2</sub>…X<sub>i</sub>·X<sub>i+1</sub>…X<sub>n</sub>, then lead a mark X from state i<sub>i</sub>arc to state j.
+
+(4) If state i is a pending item (assuming X→α·Aβ), then draw an ε arc from state i to all states A→·r.
+
+ 
+
+In order to make the "accepted" state easy to identify, we usually extend the grammar G.
+
+Assume that grammar G is a grammar starting with S. We construct a grammar that contains the entire G, but it introduces a non-terminal symbol that does not appear in G, and adds a new production →S, starting with →S. Then, we call it the extended grammar of G.
+
+In this way, there will be a state containing only item →S, which is the only "accepting" state.
+
+If I is an itemset of grammar G', the closure CLOSURE(I) of I is defined and constructed as follows:<ul>
+<li>The items of I are all in CLOSURE(I).</li>
+<li>If A→a.Bb belongs to CLOSURE(I), then every form is B→<strong>.</strong>The item of g also belongs to CLOSURE(I).</li>
+<li>Repeat (2) until CLOSURE(I) no longer expands.</li>
+</ul>Define the conversion function as follows:
+
+GO(I,X)=CLOSURE(J)
+
+Among them: I is the state containing a certain item set, X is a grammar symbol, J={ A→aX .b | A→a.X b∈I}.
+
+The leftmost item whose dot is not on the right side of the production is called the core. The only exception is S′→.S. Therefore, J obtained by using the GOTO (I, X) state transition function is the core of the state closure item set after the turn.
+
+Use the closure function (CLOSURE) and the conversion function (GO(I,X)) to construct the itemset specification family of LR(0) of grammar G’. The steps are as follows:<ul>
+<li>Set the item S′→.S as the core of the initial state set, and then find the closure CLOSURE ({S′→.S}) on the core to obtain the closure item set of the initial state.</li>
+<li>Apply the conversion function GO (I, X) = CLOSURE (J) to the initial state set or other constructed itemset to find the closure itemset of the new state J.</li>
+<li>Repeat (2) until no new item sets appear.</li>
+</ul>Calculate the LR(0) itemset specification family C={I<sub>0</sub>，I<sub>1</sub>, ... In } algorithm pseudo code is as follows:
+
+Procedure itemsets(G’);
+
+Begin C := { CLOSURE ({S’®.S})}
+
+Repeat
+
+For every item set I and every grammar symbol X in C
+
+Do if GO(I,X) is not empty and does not belong to C
+
+Then put GO(I,X) into C
+
+Until C no longer increases
+
+End;
+
+An item set may contain multiple items. If move and reduce items exist at the same time, it is called a move-reduce conflict. If
+
+When reduction and reduction items exist at the same time, it is called a reduce-reduce conflict. Let’s look at a specific example:
+
+ 
+
+We hope to build an LR parser based on a DFA that recognizes live prefixes of a grammar, so we need to study the different roles of the items in each item set (state) of this DFA.
+
+Let us say that project A→β<sub>1</sub>.β<sub>2</sub>Live prefix αβ<sub>1</sub>is valid provided that there is a normative derivation. In general, the same item may be valid for several live prefixes (this is the case when an item appears in several different collections). If the reduction item A→β<sub>1</sub>. is valid for live prefixes, then it tells us that the symbol string should be reduced to A, that is, the live prefix becomes αA. If you move into item A→β<sub>1</sub>.β<sub>2</sub>If the live prefix is ​​valid, it tells us that the handle has not yet been formed, so the next action should be to move in. However, there may be situations where several items are valid for the same live prefix. And they tell us different and conflicting things to do. This conflict may be resolved by looking ahead a few more input symbols.
+
+For each live prefix, we can construct its valid itemset. In fact, a valid itemset with live prefix γ is exactly the itemset (state) that is reached after reading γ starting from the initial state of the DFA mentioned above. In other words, at any time, the live prefix X in the analysis stack<sub>1</sub>X<sub>2</sub>…X<sub>m</sub>The effective item set is exactly the top state S of the stack<sub>m</sub>the set represented. This is a basic theorem of LR analysis theory. In fact, the item set (state) at the top of the stack embodies all useful information in the stack - history.
+
+We have defined the LR(0) grammar before. Let's take a look at how the LR(0) analysis table is constructed.
+
+For LR(0) grammar, we can directly construct the LR analysis table from its item set specification family C and the state transition function GO of the living prefix identification automaton. The following is the algorithm for constructing an LR(0) analysis table.
+
+Assume C={I<sub>0</sub>, I<sub>1</sub>,…,In}, let each item set I<sub>k</sub>The subscript k is a state of the analyzer. Therefore, the LR(0) analysis table of G' contains states 0, 1,..., n. Let that contain the item S'→. S of I<sub>k</sub>The subscript k is the initial state. ACTION subtables and GOTO subtables can be constructed as follows:
+
+(1) If item A→α.aβ belongs to I<sub>k</sub>And GO (I<sub>k</sub>, a)= I<sub>j</sub>, a is the terminal symbol, then set ACTION[k, a] to "move state j and symbol a into the stack", abbreviated as "s<sub>j</sub>";
+
+(2) If item A→α. Belong to I<sub>k</sub>, then, for any terminal a, set ACTION[k, a] to "use production A → α to reduce", abbreviated as "r<sub>j</sub>"; Among them, assume that A→α is the j-th production of grammar G';
+
+(3) If item S'→S. Belong to I<sub>k</sub>, then set ACTION[k, #] to "accept", abbreviated as "acc";
+
+(4) If GO (I<sub>k</sub>, A)= I<sub>j</sub>, A is a non-terminal symbol, then set GOTO[k, A]=j;
+
+(5) Any blank cells in the analysis table that cannot be filled with information from 1 to 4 above will be marked with an "error mark".
+
+The analysis table containing ACTION and GOTO parts constructed according to the above algorithm, if each entry does not contain multiple definitions, is called an LR(0) analysis table of grammar G. A grammar G with an LR(0) table is called an LR(0) grammar, and an LR(0) grammar is unambiguous.<h2><strong>Experimental flow chart</strong></h2>
+<h3><strong>Construct analysis table flow chart</strong></h3>
+<img alt="" class="alignnone wp-image-5533" height="277" src="https://cdn.omegaxyz.com/2019/02/lr0-table1.png" width="496"/>
+<h3><strong>Grammar recognition flow chart</strong></h3>
+<img alt="" class="alignnone wp-image-5534" height="323" src="https://cdn.omegaxyz.com/2019/02/lr0-table2.png" width="518"/>
+<h2><strong>Python code</strong></h2>
+<ul>
+<li><strong>Data structure:</strong>This experiment is written in python language, and all data structures are represented by lists.</li>
+</ul>
+<strong>Including grammar, item set itemSet, DFA status, terminal symbols and terminal symbols, and two-dimensional array LRO analysis table LR0TABLE</strong>
+<ul>
+<li><strong>closure function closure,</strong>The input of the closure function is a project. The item set of a project is found by reading the global variable itemset without using recursion. It determines whether the closure changes each time. If it does not change, it means the end.</li>
+<li><strong>Goto</strong><strong>function,</strong>Enter the current project and converted letters, and obtain the converted state by moving the point back one position. If GOTO fails, -1 is returned.</li>
+</ul>
+<pre><code class="language-python">import copy
+import wx
+import wx.grid
+import time
+
+
+grammar = []
+itemSet = []
+DFA = []
+Vn = []
+Vt = []
+
+
+def closure(item):
+    global itemSet
+    dot = []
+    dot.append(item)
+    olddot = []
+    while len(dot) != len(olddot):
+        olddot = copy.deepcopy(dot)
+        temp = []
+        for i in range(len(dot)):
+            for j in range(len(itemSet)):
+                if dot[i].index('·')+1 &lt; len(dot[i]) and dot[i][dot[i].index('·')+1] == itemSet[j][0] and itemSet[j][itemSet[j].index('&gt;')+1] == '·':
+                    temp.append(itemSet[j])
+        for k in range(len(temp)):
+            if temp[k] not in dot:
+                dot.append(temp[k])
+    return dot
+
+
+def goto(item, a):
+    global itemSet
+    for i in range(len(item)):
+        if item[i] == '·' and i!= len(item)-1:
+            if item[i+1] == a:
+                item2 = item[:i]+item[i+1]+'·'+item[i+2:]
+                if item2 in itemSet:
+                    return item2
+    return -1
+
+
+def findItem(item):
+    global DFA
+    for i in range(len(DFA)):
+        if item in DFA[i]:
+            return i
+    return -1
+
+
+n = int(input('输入个数'))
+for i in range(n):
+    temp = input()
+    if i == 0:
+        grammar.append('S\'-&gt;'+temp[0])
+    grammar.append(temp)
+    for j in range(len(temp)):
+        if temp[j].isupper() and temp[j] not in Vn:
+            Vn.append(temp[j])
+        elif temp[j].islower() and temp[j] not in Vt:
+            Vt.append(temp[j])
+Vn.sort()
+Vt.sort()
+
+for i in range(len(grammar)):
+    flag = 0
+    for j in range(len(grammar[i])):
+        if grammar[i][j] == '&gt;':
+            flag = 1
+        if flag == 1 and grammar[i][j] != '&gt;':
+            temp = grammar[i][:j]+'·'+grammar[i][j:]
+            itemSet.append(temp)
+    itemSet.append(grammar[i]+'·')
+
+
+print(grammar)
+DFA.append(closure(itemSet[0]))
+
+oldDFA = []
+
+while len(oldDFA) != len(DFA):
+    oldDFA = copy.deepcopy(DFA)
+    temp = []
+    tDFA = []
+    for i in range(len(DFA)):
+        for j in range(len(DFA[i])):
+            position = DFA[i][j].index('·')
+            if position != len(DFA[i][j]) - 1:
+                # print('@',goto(DFA[i][j], DFA[i][j][position+1]))
+                tDFA.append(closure(goto(DFA[i][j], DFA[i][j][position+1])))
+    for k in range(len(tDFA)):
+        if tDFA[k] not in DFA:
+            DFA.append(tDFA[k])
+
+
+print(DFA)
+
+for i in range(len(DFA)):
+    for j in range(len(DFA[i])):
+        if len(DFA[i][j][-1]) == '·' and len(DFA[i]) != 1:
+            print('非LR(0)文法')
+            break
+
+print(len(DFA))
+DFAtable = []
+
+for i in range(len(DFA)):
+    table = []
+    for j in range(len(DFA[i])):
+        position = DFA[i][j].index('·')
+        if position == len(DFA[i][j])-1:
+            temp = DFA[i][j][:-1]
+
+            table = [grammar.index(temp)]*(len(Vt)+1)
+            break
+        for k in range(len(Vt)):
+            if DFA[i][j][position+1] == Vt[k]:
+                temp = Vt[k]+'S'+str(findItem(goto(DFA[i][j], Vt[k])))
+                table.append(temp)
+        for m in range(len(Vn)):
+            if DFA[i][j][position+1] == Vn[m]:
+                temp = Vn[m]+str(findItem(goto(DFA[i][j], Vn[m])))
+                table.append(temp)
+    DFAtable.append(table)
+
+
+# 判断是否为LR(0)文法
+flag = 0
+for i in range(len(DFAtable)):
+    for j in range(len(DFAtable)):
+        if len(DFA[i][j]) &gt; 2:
+            print('非LR(0)文法')
+            flag = 1
+            break
+    if flag == 1:
+        break
+
+print(DFAtable)
+
+VtVn = Vt + ['#'] + Vn
+LR0TABLE = [[' ' for col in range(len(VtVn))] for row in range(len(DFA)+1)]
+
+print('------------------------------------------------')
+print('状态\t\t\t\tAction\t\t\t\t GOTO')
+
+for i in range(len(VtVn)):
+    LR0TABLE[0][i] = VtVn[i]+' '
+
+
+for i in range(len(DFAtable)):
+    if 0 in DFAtable[i]:
+        LR0TABLE[2][VtVn.index('#')] = 'acc'
+        continue
+    for j in range(len(DFAtable[i])):
+        try:
+            LR0TABLE[i+1][VtVn.index(DFAtable[i][j][0])] = DFAtable[i][j][1:]
+        except:
+            for k in range(len(Vt)+1):
+                LR0TABLE[i+1][k] = 'r'+str(DFAtable[i][j])
+
+print('     ')
+for i in range(len(LR0TABLE)):
+    print('    ',end=' ')
+    for j in range(len(LR0TABLE[i])):
+        print(LR0TABLE[i][j], end='     ')
+    print('')
+
+
+class GridFrame(wx.Frame):
+    def __init__(self, parent):
+        global LR0TABLE
+
+        wx.Frame.__init__(self, parent)
+
+        # Create a wxGrid object
+        grid = wx.grid.Grid(self, -1)
+
+        # Then we call CreateGrid to set the dimensions of the grid
+        # (100 rows and 10 columns in this example)
+        grid.CreateGrid(len(LR0TABLE)+5, len(VtVn)+5)
+
+        # We can set the sizes of individual rows and columns
+        # in pixels
+
+        grid.SetCellValue(0, 0, '状态')
+        grid.SetCellValue(0, 1, '-')
+        grid.SetCellValue(0, 2, 'ACTION')
+        grid.SetCellValue(0, 3, '-')
+        grid.SetCellValue(0, 4, '-')
+        grid.SetCellValue(0, 5, '-')
+        grid.SetCellValue(0, 6, 'GOTO')
+        grid.SetCellValue(0, 7, '-')
+        grid.SetCellValue(0, 8, '-')
+
+        for i in range(len(LR0TABLE)):
+            grid.SetCellValue(i+2, 0, str(i))
+            for j in range(len(LR0TABLE[i])):
+                grid.SetCellValue(i+1, j+1, LR0TABLE[i][j])
+
+        self.Show()
+
+
+app = wx.App(0)
+frame = GridFrame(None)
+app.MainLoop()
+
+string = input('输入一个句子：')
+string += '#'
+status = [0]
+oper = ['#']
+action = []
+
+flag = 0
+while flag != 1:
+    symbol = string[0]
+    try:
+        if LR0TABLE[status[-1] + 1][VtVn.index(symbol)] != ' ' and LR0TABLE[status[-1] + 1][VtVn.index(symbol)][
+            0] != 'r':
+            if LR0TABLE[status[-1] + 1][VtVn.index(symbol)] == 'acc':
+                flag = 1
+                print('接受！')
+                break
+            status.append(int(LR0TABLE[status[-1] + 1][VtVn.index(symbol)][-1]))
+            oper.append(symbol)
+            string = string[1:]
+            # action.append(LR0TABLE[status[-1] + 1][VtVn.index(symbol)])
+            print(status)
+            print(oper)
+            print('')
+
+        elif LR0TABLE[status[-1] + 1][VtVn.index(symbol)][0] == 'r':
+            position = int(LR0TABLE[status[-1] + 1][VtVn.index(symbol)][1])
+            Vnc = grammar[position][0]
+            Grlen = len(grammar[position]) - grammar[position].index('&gt;') - 1
+            status = status[:-Grlen]
+            oper = oper[:-Grlen]
+            oper.append(Vnc)
+            addx = int(LR0TABLE[status[-1] + 1][VtVn.index(Vnc)])
+            status.append(int(addx))
+            print(status)
+            print(oper)
+            print('')
+            # action.append(str(LR0TABLE[status[-1] + 1][VtVn.index(symbol)]))
+        else:
+            print('错误')
+            break
+    except ValueError as e:
+        print('错误')
+
+
+'''
+E-&gt;aA
+E-&gt;bB
+A-&gt;cA
+A-&gt;d
+B-&gt;cB
+B-&gt;d
+'''
+
+'''
+S-&gt;rD
+D-&gt;D,i
+D-&gt;i
+'''
+
+</code></pre>
+ 
+<h2><strong>test</strong></h2>
+<strong>test grammar</strong>
+<strong>E-&gt;aA
+E-&gt;bB
+A-&gt;cA
+A-&gt;d
+B-&gt;cB
+B-&gt;d</strong>
+<strong>Test sentences (acceptable):</strong>
+<strong>bccd</strong>
+<strong>Generated project set</strong>
+
+[["S'-&gt;·E", 'E-&gt;·aA', 'E-&gt;·bB'], ["S'-&gt;E·"], ['E-&gt;a·A', 'A-&gt;·cA', 'A-&gt;·d'], ['E-&gt;b·B', 'B-&gt;·cB', 'B-&gt;·d'], ['E-&gt;aA·'], ['A-&gt;c·A', 'A-&gt;·cA', 'A-&gt;·d'], ['A-&gt;d·'], ['E-&gt;bB·'], ['B-&gt;c·B', 'B-&gt;·cB', 'B-&gt;·d'], ['B-&gt;d·'], ['A-&gt;cA·'], ['B-&gt;cB·']]
+
+<strong>Table generated by experiment</strong>
+<strong>(graphical interface display)</strong>
+<img alt="" class="alignnone wp-image-5535" height="249" src="https://cdn.omegaxyz.com/2019/02/lr0-table3.png" width="662"/>
+<strong>Sentence analysis: bccd</strong>You can see the different states of the symbol stack and analysis stack each time, and finally the sentence is accepted.<strong>The top is the status stack and the bottom is the symbol stack.</strong>
+<img alt="" class="alignnone wp-image-5537" height="446" src="https://cdn.omegaxyz.com/2019/02/lr0-table5.png" width="431"/>
+
+ 
+<h2><strong>Problems and difficulties encountered</strong></h2>
+<ul>
+<li>In this experiment, we need to write the closure function and the goto function. There are two methods: one is to use recursion, and the other is to use the while statement. Each time an item is written into the collection to obtain closure until no changes occur.</li>
+<li>The second difficulty is to draw the analysis table based on DFA. In this experiment, DFA nodes and edges are stored separately, and the index function is used to find the corresponding edges when drawing the table.</li>
+<li>The third difficulty is to determine whether the sentence pattern is LR (0) grammar. Since it is a simulation, in the experiment, not only the analysis table needs to be known, but also the original grammar, terminal symbols and non-terminal symbols. In the experiment, the method of separating ACTION judgment and GOTO judgment was adopted.</li>
+</ul>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

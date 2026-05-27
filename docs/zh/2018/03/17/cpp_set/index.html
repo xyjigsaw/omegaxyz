@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++容器Set详解 · OmegaXYZ</title>
+  <meta name="description" content="set集合是C++ STL库中自带的一个关联式容器，其内部采用的是十分高效的平衡检索二叉树：红黑树（RBT）。set具有以下两个特点： 1、set中的元素都是排好序的 2、set集合中没有重复的元素 常用操作： 构造、拷贝、析构 操作 效果 set c 产生一个空的set/multiset，不含任何元素 set c(op) 以op为排序准...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/17/cpp_set/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-17</div>
+        <h1>C++容器Set详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content">set集合是C++ STL库中自带的一个关联式容器，其内部采用的是十分高效的平衡检索二叉树：红黑树（RBT）。set具有以下两个特点：
+
+1、set中的元素都是排好序的
+2、set集合中没有重复的元素
+
+<img class="alignnone size-full wp-image-3764" src="https://cdn.omegaxyz.com/2018/03/set_cpp.png" alt="" width="507" height="189" />
+
+常用操作：
+<h2>构造、拷贝、析构</h2>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left"><em>set</em> c</p>
+</td>
+<td valign="top">
+<p align="left">产生一个空的set/multiset，不含任何元素</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(op)</p>
+</td>
+<td valign="top">
+<p align="left">以op为排序准则，产生一个空的set/multiset</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c1(c2)</p>
+</td>
+<td valign="top">
+<p align="left">产生某个set/multiset的副本，所有元素都被拷贝</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">以区间[beg,end)内的所有元素产生一个set/multiset</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set c(beg,end, op)</p>
+</td>
+<td valign="top">
+<p align="left">以op为排序准则，区间[beg,end)内的元素产生一个set/multiset</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.~set()</p>
+</td>
+<td valign="top">
+<p align="left">销毁所有元素，释放内存</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set&lt;Elem&gt;</p>
+</td>
+<td valign="top">
+<p align="left">产生一个set，以(operator &lt;)为排序准则</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">set&lt;Elem,0p&gt;</p>
+</td>
+<td valign="top">
+<p align="left">产生一个set，以op为排序准则</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>非变动性操作</h2>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.size()</p>
+</td>
+<td valign="top">
+<p align="left">返回当前的元素数量</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.empty ()</p>
+</td>
+<td valign="top">
+<p align="left">判断大小是否为零，等同于0 == size()，效率更高</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.max_size()</p>
+</td>
+<td valign="top">
+<p align="left">返回能容纳的元素最大数量</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 == c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否等于c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 != c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否不等于c2(等同于!(c1==c2))</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &lt; c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否小于c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &gt; c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否大于c2</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &lt;= c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否小于等于c2(等同于!(c2&lt;c1))</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 &gt;= c2</p>
+</td>
+<td valign="top">
+<p align="left">判断c1是否大于等于c2 (等同于!(c1&lt;c2))</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>特殊的搜寻函数</h2>
+sets和multisets在元素快速搜寻方面做了优化设计，提供了特殊的搜寻函数，所以应优先使用这些搜寻函数，可获得对数复杂度，而非STL的线性复杂度。比如在1000个元素搜寻，对数复杂度平均十次，而线性复杂度平均需要500次。
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">count (elem)</p>
+</td>
+<td valign="top">
+<p align="left">返回元素值为elem的个数</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">find(elem)</p>
+</td>
+<td valign="top">
+<p align="left">返回元素值为elem的第一个元素，如果没有返回end()</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">lower _bound(elem)</p>
+</td>
+<td valign="top">
+<p align="left">返回元素值为elem的第一个可安插位置，也就是元素值 &gt;= elem的第一个元素位置</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">upper _bound (elem)</p>
+</td>
+<td valign="top">
+<p align="left">返回元素值为elem的最后一个可安插位置，也就是元素值 &gt; elem 的第一个元素位置</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">equal_range (elem)</p>
+</td>
+<td valign="top">
+<p align="left">返回elem可安插的第一个位置和最后一个位置，也就是元素值==elem的区间</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>赋值</h2>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1 = c2</p>
+</td>
+<td valign="top">
+<p align="left">将c2的元素全部给c1</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c1.swap(c2)</p>
+</td>
+<td valign="top">
+<p align="left">将c1和c2 的元素互换</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">swap(c1,c2)</p>
+</td>
+<td valign="top">
+<p align="left">同上，全局函数</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>迭代器相关函数</h2>
+sets和multisets的迭代器是双向迭代器，对迭代器操作而言，所有的元素都被视为常数，可以确保你不会人为改变元素值，从而打乱既定顺序，所以无法调用变动性算法，如remove()。
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.begin()</p>
+</td>
+<td valign="top">
+<p align="left">返回一个随机存取迭代器，指向第一个元素</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.end()</p>
+</td>
+<td valign="top">
+<p align="left">返回一个随机存取迭代器，指向最后一个元素的下一个位置</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.rbegin()</p>
+</td>
+<td valign="top">
+<p align="left">返回一个逆向迭代器，指向逆向迭代的第一个元素</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.rend()</p>
+</td>
+<td valign="top">
+<p align="left">返回一个逆向迭代器，指向逆向迭代的最后一个元素的下一个位置</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>安插和删除元素</h2>
+必须保证参数有效,迭代器必须指向有效位置，序列起点不能位于终点之后，不能从空容器删除元素。
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="center"><strong>操作</strong></p>
+</td>
+<td valign="top">
+<p align="center"><strong>效果</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(elem)</p>
+</td>
+<td valign="top">
+<p align="left">插入一个elem副本，返回新元素位置，无论插入成功与否。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(pos, elem)</p>
+</td>
+<td valign="top">
+<p align="left">安插一个elem元素副本，返回新元素位置，pos为收索起点，提升插入速度。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.insert(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">将区间[beg,end)所有的元素安插到c，无返回值。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(elem)</p>
+</td>
+<td valign="top">
+<p align="left">删除与elem相等的所有元素，返回被移除的元素个数。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(pos)</p>
+</td>
+<td valign="top">
+<p align="left">移除迭代器pos所指位置元素，无返回值。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.erase(beg,end)</p>
+</td>
+<td valign="top">
+<p align="left">移除区间[beg,end)所有元素，无返回值。</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">c.clear()</p>
+</td>
+<td valign="top">
+<p align="left">移除所有元素，将容器清空</p>
+</td>
+</tr>
+</tbody>
+</table>
+<strong>实例：</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;set&gt;
+//#include&lt;multiset&gt;
+
+using namespace std;
+
+int main()
+{
+    set&lt;int&gt; s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    s.insert(1);
+    s.insert(4);
+    s.insert(5);
+    s.insert(6);
+    cout&lt;&lt;"SIZE:"&lt;&lt;s.size()&lt;&lt;endl;
+    cout&lt;&lt;"max_size:"&lt;&lt;s.max_size()&lt;&lt;endl;
+    cout&lt;&lt;"how many 1 in set? "&lt;&lt;s.count(1)&lt;&lt;endl;
+    cout&lt;&lt;"lower_bound:"&lt;&lt;*s.lower_bound(-1)&lt;&lt;endl;
+    for(set&lt;int&gt;::iterator it=s.begin();it!=s.end();it++){
+        cout&lt;&lt;*it&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    s.erase(1);
+    s.erase(s.begin());
+
+    cout&lt;&lt;"//////////////"&lt;&lt;endl;
+    for(set&lt;int&gt;::iterator it=s.begin();it!=s.end();it++){
+        cout&lt;&lt;*it&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    s.clear();
+    if(s.empty()){
+        cout&lt;&lt;"set is empty"&lt;&lt;endl;
+    }
+    cout&lt;&lt;"SIZE:"&lt;&lt;s.size()&lt;&lt;endl;
+    cout&lt;&lt;"max_size:"&lt;&lt;s.max_size()&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<img class="alignnone size-full wp-image-3767" src="https://cdn.omegaxyz.com/2018/03/cpp_set2.jpg" alt="" width="529" height="278" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

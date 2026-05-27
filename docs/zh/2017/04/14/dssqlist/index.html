@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构顺序表C实现（14个用户接口） · OmegaXYZ</title>
+  <meta name="description" content="将顺序表（ADT SqList）的数据对象，数据关系及基本操作（函数）用C语言实现，并测试。 手机用户点击代码移动可查看未显示内容 1.SqList.h头文件内容 函数实现 1.顺序表的初始化 注释：为了检查顺序表是否初始化，本人调用了检查顺序表是否为空的函数 （bool ListIsEmpty(SqList L)）函数实现在下面会讲到。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/14/dssqlist/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-14</div>
+        <h1>数据结构顺序表C实现（14个用户接口）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">将顺序表（ADT SqList）的数据对象，数据关系及基本操作（函数）用C语言实现，并测试。
+
+<strong><em>手机用户点击代码移动可查看未显示内容</em></strong>
+
+1.SqList.h头文件内容
+<pre ><code class="language-c++">#define LIST_INIT_SIZE 100
+#define LISTINCREASEMENT 10
+typedef int ElemType;
+typedef struct {
+	ElemType *elem;
+	int length;
+	int listsize;
+}SqList;
+//函数名：
+void ListInit(SqList &amp;L);
+void ListOutput(SqList &amp;L);
+void Listvisit(ElemType e);
+int ListInsert(SqList &amp;L,int i,ElemType e);
+int ListDelete(SqList &amp;L,int i);
+int ListGetLength(SqList L);
+int ListClear(SqList &amp;L);
+int ListDestroy(SqList &amp;L);
+int ListIsEmpty(SqList L);
+int ListLocateElem(SqList L,ElemType e);
+int ListGetElem(SqList L,int i,ElemType &amp;e);
+int ListPriorElem(SqList L, ElemType cur_e, ElemType &amp;pre_e);
+int ListNextElem(SqList L, ElemType cur_e, ElemType &amp;next_e);
+void ListTraverse(SqList L, void(*visit)(ElemType));
+void ListSort(SqList &amp;L,int t);
+void ListMerge(SqList La, SqList Lb, SqList &amp;Lc);
+</code></pre>
+函数实现
+
+1.顺序表的初始化
+<pre ><code class="language-c++">void ListInit(SqList &amp;L){
+	L.elem=(ElemType *)malloc(LIST_INIT_SIZE*sizeof(ElemType));
+	if(!L.elem)
+		exit(OVERFLOW);
+	L.length=0;
+	L.listsize=LIST_INIT_SIZE;
+}
+</code></pre>
+注释：为了检查顺序表是否初始化，本人调用了检查顺序表是否为空的函数
+（bool ListIsEmpty(SqList L)）函数实现在下面会讲到。
+
+2.顺序表的输出
+<pre ><code class="language-c++">void ListOutput(SqList &amp;L){
+	 int i;
+         for (i = 0; i &lt; L.length; i++)
+		  printf("%d ", L.elem[i]);
+	 printf("\n");
+}
+</code></pre>
+3.顺序表的长度
+<pre ><code class="language-c++">int ListGetLength(SqList L){
+              if(L.elem!=NULL)
+	              return L.length;
+	          else
+		      return ERROR;
+}</code></pre>
+4.插入一个值到顺序表中
+<pre ><code class="language-c++">int ListInsert(SqList &amp;L,int i,ElemType e){
+    ElemType *q,*p,*newbase;
+	if(i&lt;1||i&gt;L.length+1)return ERROR;
+    if(L.length&gt;=L.listsize) {
+        newbase=(ElemType *)realloc(L.elem,(L.listsize+LISTINCREASEMENT)*sizeof(ElemType));
+        if(!newbase)exit(OVERFLOW);
+        L.elem=newbase;
+        L.listsize+=LISTINCREASEMENT;
+    }
+    q=&amp;(L.elem[i-1]);
+    for(p=&amp;(L.elem[L.length-1]);p&gt;=q;--p) *(p+1)=*p;
+    *q=e;
+    ++L.length;
+	return OK;
+}
+</code></pre>
+5.删除顺序表中的一个值
+<pre ><code class="language-c++">int ListDelete(SqList &amp;L,int i){
+    ElemType *p,*q;
+    if(i&lt;1||i&gt;L.length+1)return ERROR;
+    p=&amp;(L.elem[i-1]);
+    q=L.elem+L.length-1;
+	if (i == 1)*p = *(p + 1);
+    for(++p;p&lt;=q;++p)
+        *(p-1)=*p;
+    --L.length;
+    return OK;
+}</code></pre>
+6.顺序表是否为空的判断函数
+<pre ><code class="language-c++">bool ListIsEmpty(SqList L){
+	if(L.length==0)
+		return TRUE;
+	else
+		return FALSE;
+}
+</code></pre>
+注释：空为TRUE 非空为FALUSE
+
+7.顺序表数据的位置查询
+<pre ><code class="language-c++">int ListLocateElem(SqList L, ElemType e){
+	int i,k=-1;
+	for(i=1;i&lt;=L.length;i++)
+	{
+		if(*(L.elem+(i-1))==e)
+		{
+			k=i;
+			break;
+		}
+	}
+		return k;
+}
+</code></pre>
+8.顺序表某个位置的数据查询
+<pre ><code class="language-c++">int ListGetElem(SqList L, int i, ElemType &amp;e){
+	if(i&lt;1||i&gt;L.length+1)return ERROR;
+	int j;
+	ElemType *p;
+	p=L.elem;
+	for(j=0;j&lt;i-1;j++)
+		p++;
+	e=*p;
+	return OK;
+}
+</code></pre>
+9.查询某个值的前驱和后继
+
+前驱：
+<pre ><code class="language-c++">int ListPriorElem(SqList L, ElemType cur_e, ElemType &amp;pre_e)
+{
+	int i;
+	for (i = 1; i &lt;= L.length; i++)
+	{
+		if (L.elem[i-1] == cur_e)
+			break;
+	}
+	if (i &lt; 1 || i &gt; L.length+1)return ERROR;
+	else
+	{
+		pre_e = L.elem[i-2];
+		return OK;
+	}
+}
+</code></pre>
+后继：
+<pre ><code class="language-c++">int ListNextElem(SqList L, ElemType cur_e, ElemType &amp;next_e)
+{
+	int i;
+	for (i = 1; i &lt;= L.length; i++)
+	{
+		if (L.elem[i-1] == cur_e)
+			break;
+	}
+	if (i&gt;L.length)return ERROR;
+	else
+	{
+		next_e = L.elem[i];
+		return OK;
+	}
+}
+</code></pre>
+10.两个非递减顺序表的合并
+<pre ><code class="language-c++">void ListMerge(SqList La, SqList Lb, SqList &amp;Lc){
+	ElemType *pa, *pb,*pc;
+	pa = La.elem; pb = Lb.elem;
+	Lc.listsize =Lc.length= La.length + Lb.length;
+	pc = Lc.elem = (ElemType*)malloc(Lc.listsize*sizeof(ElemType));
+	if (!Lc.elem)exit(OVERFLOW);
+	ElemType *pa_last, *pb_last;
+	pa_last = La.elem + La.length - 1;
+	pb_last = Lb.elem + Lb.length - 1;
+	while (pa &lt;= pa_last&amp;&amp;pb &lt;= pb_last)
+	{
+		if (*pa &lt;= *pb)*pc++ = *pa++;
+		else *pc++ = *pb++;
+	}
+	while (pa &lt;= pa_last)*pc++ = *pa++;
+	while (pb &lt;= pb_last)*pc++ = *pb++;
+}//非递减归并
+</code></pre>
+11.顺序表的排序
+<pre ><code class="language-c++">void ListSort(SqList &amp;L,int t)
+{
+	int i,j;
+	ElemType m;
+	if (t == 0)
+	{
+		for (i = 0; i &lt; L.length-1; i++)
+		{
+			for (j = 0; j &lt; L.length - 1 - i; j++)
+			{
+				if (L.elem[j]&gt;L.elem[j + 1])
+				{
+					m = L.elem[j];
+					L.elem[j] = L.elem[j + 1];
+					L.elem[j + 1] = m;
+				}
+			}
+		}
+	}
+	else
+	{
+		for (i = 0; i &lt; L.length - 1; i++)
+		{
+			for (j = 0; j &lt; L.length - 1 - i; j++)
+			{
+				if (L.elem[j]&lt;L.elem[j + 1])
+				{
+					m = L.elem[j];
+					L.elem[j] = L.elem[j + 1];
+					L.elem[j + 1] = m;
+				}
+			}
+		}
+	}
+}//冒泡法排序
+</code></pre>
+12.顺序表的清除和销毁
+
+清除：
+<pre ><code class="language-c++">int ListClear(SqList &amp;L)
+{
+     if(L.elem==NULL)
+	    return ERROR;
+	 else
+	 {
+		 L.length=0;
+		 return OK;
+	 }
+}
+</code></pre>
+销毁：
+<pre ><code class="language-c++">int ListDestroy(SqList &amp;L)
+{
+	if(L.elem==NULL)
+	    return ERROR;
+	else
+	{
+		free(L.elem);
+		return OK;
+	}
+}
+</code></pre>
+注释：清除后使用LISTISEMPTY函数判断是否清空。
+
+MAIN函数：
+<pre ><code class="language-c++">int main()
+{
+	printf("------------------------------------------\n");
+	SqList L;
+	printf("顺序表L初始化......\n");
+	ListInit(L);
+	printf("------------------------------------------\n");
+	printf("检查顺序表是否为空：\n");
+	if (ListIsEmpty(L) == TRUE)
+		printf("EMPTY\n");
+	else
+		printf("SUBFULL\n");
+	printf("------------------------------------------\n");
+	int i,n;
+	printf("输入顺序表的长度（小于100）：\n");
+	scanf("%d", &amp;n);
+	printf("输入%d个值：\n",n);
+	for (i = 0; i &lt; n; i++,L.length++)
+		scanf("%d", &amp;L.elem[i]);
+	printf("检查顺序表：\n");
+	ListOutput(L);
+	printf("------------------------------------------\n");
+	printf("顺序表当前长度为%d。\n", ListGetLength(L));
+	printf("------------------------------------------\n");
+	printf("插入一个值到当前顺序表中：\n");
+	printf("输入插入的位置：\n");
+	int p;
+	scanf("%d", &amp;p);
+	printf("输入插入的值：\n");
+	ElemType e;
+	scanf("%d", &amp;e);
+	ListInsert(L, p, e);
+	printf("顺序表的值：\n");
+	ListOutput(L);
+	printf("顺序表当前长度为%d\n", ListGetLength(L));
+	printf("------------------------------------------\n");
+	printf("删除当前顺序表中的一个值：\n");
+	printf("输入删除的位置：\n");
+	scanf("%d", &amp;p);
+	ListDelete(L, p);
+	printf("顺序表的值：\n");
+	ListOutput(L);
+	printf("顺序表当前长度为%d\n", ListGetLength(L));
+	printf("------------------------------------------\n");
+	printf("检查顺序表是否为空：\n");
+	if (ListIsEmpty(L) == TRUE)
+		printf("EMPTY\n");
+	else
+		printf("SUBFULL\n");
+	printf("------------------------------------------\n");
+	printf("顺序表数据的位置查询：\n");
+	printf("输入需要查询的值：\n");
+	ElemType d;
+	scanf("%d", &amp;e);
+	if (ListLocateElem(L, e) &gt;= 1)
+		printf("%d在第%d个位置。\n",e,ListLocateElem(L,e));
+	else
+		printf("ERROR");
+	printf("------------------------------------------\n");
+	printf("顺序表位置的数据查询：\n");
+	printf("输入需要查询的位置：\n");
+	scanf("%d", &amp;p);
+	if (ListGetElem(L,p,e) == OK)
+		printf("第%d个元素是%d。\n",p,e);
+	else
+		printf("ERROR");
+	printf("------------------------------------------\n");
+	printf("查询某个值的前驱和后继：\n");
+	ElemType pre_e, next_e;
+	printf("输入此值：\n");
+	scanf("%d", &amp;e);
+	ListPriorElem(L, e, pre_e);
+	ListNextElem(L, e, next_e);
+	printf("%d的前驱是%d，后继是%d。\n", e,pre_e,next_e);
+	printf("------------------------------------------\n");
+	printf("若顺序表L为非递减排列，\n请创建非递减顺序表M\n并使用非递减归并函数（Y/N)?\n");
+	char flag;
+	getchar();
+	scanf("%c", &amp;flag);
+	if (flag == 'Y')
+	{
+		SqList M, N;
+		printf("顺序表M初始化......\n");
+		ListInit(M);
+		printf("输入顺序表的长度（小于100）：\n");
+		scanf("%d", &amp;n);
+		printf("输入%d个值：\n", n);
+		for (i = 0; i &lt; n; i++, M.length++)
+			scanf("%d", &amp;M.elem[i]);
+		printf("检查顺序表L和M：\n");
+		printf("L: ");
+		ListOutput(L);
+		printf("M: ");
+		ListOutput(M);
+		printf("非递减归并后：\n");
+		ListMerge(L, M, N);
+		ListOutput(N);
+	}
+	system("pause");
+	printf("------------------------------------------\n");
+	printf("顺序表排序：\n");
+	printf("降序排列为：\n");
+	ListSort(L, -1);
+	ListOutput(L);
+	printf("升序排列为：\n");
+	ListSort(L, 0);
+	ListOutput(L);
+	printf("------------------------------------------\n");
+	printf("顺序表清除中......\n");
+	ListClear(L);
+	printf("检查顺序表是否为空：\n");
+	if (ListIsEmpty(L) == TRUE)
+		printf("EMPTY\n");
+	else
+		printf("SUBFULL\n");
+	printf("\n");
+	printf("顺序表销毁中......\n");
+	ListDestroy(L);
+	printf("------------------------------------------\n");
+	system("pause");
+	return 0;
+}
+</code></pre>
+<img class="alignnone size-medium wp-image-376" src="https://cdn.omegaxyz.com/2017/04/11-300x273.png" alt="" width="300" height="273" />
+
+<img class="alignnone size-medium wp-image-377" src="https://cdn.omegaxyz.com/2017/04/12-300x188.png" alt="" width="300" height="188" />
+
+小结：
+
+1. 实验中使用工程文件使得代码文件更有可移植性并程序化，更加规范。
+2. 试验中代码文件由VC++6.0转移到VS或Code::Blocks时应打开工程文件的.dsp文件使得代码自动导入。
+
+<img class="alignnone size-medium wp-image-378" src="https://cdn.omegaxyz.com/2017/04/13-300x22.png" alt="" width="300" height="22" />
+
+3. 顺序表中Merge函数应注意要对新的归并顺序表进行实时的Malloc动态分配，且调用该函数时应注意两个顺序表必须是非递减的。
+4. 在顺序表的输入时，for语句最好实时对L.length进行修改，同样地在Insert和Delete函数中也应采取同样地措施。
+5. 在本人实现的顺序表中，要注意内部存储是从0开始的，但是在面向用户时是从1开始。
+6. 对&amp;引用标识符在函数调用时要注意。
+7. 由于函数只能return一个值，可以使用地址来返回其它值（增加一个变量）如前驱函数后继函数等。
+8. 由于ElemType在程序中被定义为int,因此可以使用scanf(%d)
+类型不同时要注意。推荐使用C++ cin函数。
+
+&nbsp;
+
+<em>原创非商业转载请注明出处，商业转载请联系。</em></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

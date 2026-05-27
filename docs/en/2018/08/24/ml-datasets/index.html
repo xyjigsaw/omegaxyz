@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basic concepts of machine learning data sets · OmegaXYZ</title>
+  <meta name="description" content="A data set, also known as a data set, data set or data set, is a collection composed of data. A data set (or dataset) is a collection of data, usually in tabular form. Each column represents a specific variable. Each row corresponds to a question for a certain member of the data set. It lists the values ​​for each variable, such as the height and weight of an object or the value of a random number. Each numerical value is called a data point. Corresponding to the number of rows, the data for this dataset may include one or more...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/08/24/ml-datasets/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-24</div>
+        <h1>Basic concepts of machine learning data sets</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">A data set, also known as a data set, data set or data set, is a collection composed of data. A data set (or dataset) is a collection of data, usually in tabular form. Each column represents a specific variable. Each row corresponds to a question for a certain member of the data set. It lists the values ​​for each variable, such as the height and weight of an object or the value of a random number. Each numerical value is called a data point. The data for this dataset may include one or more members corresponding to the number of rows.<em><strong>——Baidu Encyclopedia</strong></em>The following is my personal understanding<hr/>
+<img alt="" class="alignnone size-full wp-image-4957" height="18" src="https://cdn.omegaxyz.com/2018/08/dataset1.png" width="102"/>Dataset name GLIOMA
+
+GIOMA contains two matrices, one is the instance matrix (ins) and the other is the label matrix (lab)<img alt="" class="alignnone size-full wp-image-4958" height="39" src="https://cdn.omegaxyz.com/2018/08/dataset2.png" width="327"/>The Ins matrix size is 50*4434, which means that the GLIOMA data set has 50 instances (samples) and 4434 features. Each of these 50 instances (samples) has a corresponding label lab, and the label is the category.
+
+Open the Ins matrix. There are 50 rows indicating that there are 50 instances (samples), and 4434 columns indicating that there are 4434 features (too many to display). Any value (scalar) here is called a feature value, any column is a feature vector (column vector), and any row is an instance vector (row vector).<img alt="" class="alignnone size-full wp-image-4959" height="703" src="https://cdn.omegaxyz.com/2018/08/dataset3.png" width="652"/>Open lab matrix<img alt="" class="alignnone size-full wp-image-4960" height="642" src="https://cdn.omegaxyz.com/2018/08/dataset4.png" width="208"/>There are 50 labels, and the labels are categories (for example, 1 represents young children, 2 represents youth, and so on). You can see that this is a data set with 4 categories.<hr/>In addition, do not confuse instances with individuals. Instances only refer to the data set (original space), and the number of instances is generally unchanged. Individuals are regarded as populations in evolutionary calculation algorithms, and the number of individuals can be set according to your own preferences. For example, individuals in the PSO algorithm are particles. The one similarity between instances and individuals is that they have the same number of features (dimensions).<hr/>Download of the dataset (downloaded from UCI):<a href="http://archive.ics.uci.edu/ml/index.php">http://archive.ics.uci.edu/ml/index.php</a>Of course, the downloaded data set may have labels and features put together and can be separated by yourself.</div>
+        <section class="comments"><h2>Comments (3)</h2>
+        <div class="comment" id="comment-3834">
+          <strong><a href="http://51185118.com" rel="nofollow">518博客</a></strong>
+          <time>2018-08-26 16:05:58</time>
+          <div>谢谢分享，不忘初心！</div>
+        </div>
+        
+        <div class="comment" id="comment-33893">
+          <strong>0122</strong>
+          <time>2023-05-11 10:50:35</time>
+          <div>那能够正确分类的实例数和参与分类的实例数是什么意思博主知道吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33978">
+          <strong>xyjisaw</strong>
+          <time>2023-05-15 17:03:10</time>
+          <div>前面就是样本预测正确，后面的指所有样本。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

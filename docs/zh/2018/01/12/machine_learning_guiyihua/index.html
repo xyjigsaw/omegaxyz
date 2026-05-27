@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习中一些模型为什么要对数据归一化？ · OmegaXYZ</title>
+  <meta name="description" content="归一化是将数据映射到[0,1]区间，即构造从原始数据集到[0,1]的双射函数。 一般做机器学习应用的时候大部分时间是花费在特征处理上，其中很关键的一步就是对特征数据进行归一化，为什么要归一化呢？维基百科给出的解释： ① 归一化后加快了梯度下降求最优解的速度 ② 归一化有可能提高精度 一些分类器需要计算样本之间的距离（如欧氏距离），例如KN...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/12/machine_learning_guiyihua/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-12</div>
+        <h1>机器学习中一些模型为什么要对数据归一化？</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">归一化是将数据映射到[0,1]区间，即构造从原始数据集到[0,1]的双射函数。
+
+<img class="alignnone size-medium wp-image-2780" src="https://cdn.omegaxyz.com/2018/01/guiyihua-300x111.jpg" alt="" width="300" height="111" />
+
+一般做机器学习应用的时候大部分时间是花费在特征处理上，其中很关键的一步就是对特征数据进行归一化，为什么要归一化呢？维基百科给出的解释：
+
+①<b>归一化后加快了梯度下降求最优解的速度</b>
+
+<img class="alignnone wp-image-2781 size-full" src="https://cdn.omegaxyz.com/2018/01/guiyihua1.jpg" alt="" width="720" height="371" />
+
+②<b>归一化有可能提高精度</b>
+
+一些分类器需要计算样本之间的距离（如欧氏距离），例如KNN。如果一个特征值域范围非常大，那么距离计算就主要取决于这个特征，从而与实际情况相悖（比如这时实际情况是值域范围小的特征更重要）。
+
+概率模型不需要归一化，因为它们不关心变量的值，而是关心变量的分布和变量之间的条件概率，如决策树、rf。而像adaboost、gbdt、xgboost、svm、lr、KNN、KMeans之类的最优化问题就需要归一化。
+
+更多内容：https://www.zhihu.com/question/20455227</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18438">
+          <strong>Anonymous</strong>
+          <time>2020-01-09 09:22:28</time>
+          <div>对x做这种归一化处理，在做预测时，预测样本里面如果出现比Max大的值，或者出现比Min小的值，如何处理呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18440">
+          <strong>xyjisaw</strong>
+          <time>2020-01-09 11:15:42</time>
+          <div>这个应该是预测的问题吧，在预测里面增加约束？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

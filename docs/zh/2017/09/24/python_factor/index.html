@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python因数分解 · OmegaXYZ</title>
+  <meta name="description" content="把一个合数分解成若干个质因数的乘积的形式，即求质因数的过程叫做分解质因数。 分解质因数只针对合数。（分解质因数也称分解素因数）求一个数分解质因数，要从最小的质数除起，一直除到结果为质数为止。分解质因数的算式叫短除法 ，和除法的性质差不多，还可以用来求多个个数的公因式。 下面利用生成随机数分解因数的方法：">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/24/python_factor/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-24</div>
+        <h1>Python因数分解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div class="para">
+<div class="para">把一个合数分解成若干个质因数的乘积的形式，即求质因数的过程叫做分解质因数。</div>
+<div class="para">分解质因数只针对合数。（分解质因数也称分解素因数）求一个数分解质因数，要从最小的质数除起，一直除到结果为质数为止。分解质因数的算式叫短除法<a href="https://baike.baidu.com/item/%E7%9F%AD%E9%99%A4%E6%B3%95" target="_blank" rel="noopener"></a>，和除法的性质差不多，还可以用来求多个个数的公因式。</div>
+</div>
+<div>下面利用生成随机数分解因数的方法：</div>
+<div></div>
+<div>
+<pre ><code class="language-python">from random import randint
+from math import sqrt
+
+def factoring(n):
+    '''对大数进行因数分解'''
+    if not isinstance(n, int):
+        print('You must give me an integer')
+        return
+    #开始分解，把所有因数都添加到result列表中
+    result = []
+    for p in primes:
+        while n!=1:
+            if n%p == 0:
+                n = n/p
+                result.append(p)
+            else:
+                break
+        else:
+            result = map(str, result)
+            result = '*'.join(result)
+            return result
+    #考虑参数本身就是素数的情况
+    if not result:
+        return n
+
+testData = [randint(10, 100000) for i in range(50)]
+#随机数中的最大数
+maxData = max(testData)
+#小于maxData的所有素数
+primes = [ p for p in range(2, maxData) if 0 not in
+        [ p% d for d in range(2, int(sqrt(p))+1)] ]
+
+for data in testData:
+    r = factoring(data)
+    print(data, '=', r)
+    #测试分解结果是否正确
+    print(data==eval(r))
+</code></pre>
+&nbsp;
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

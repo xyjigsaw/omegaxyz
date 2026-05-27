@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设计模式——单例Singleton模式 · OmegaXYZ</title>
+  <meta name="description" content="单例模式，又称单件模式。 定义： 确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。它是一种常用的设计模式，它属于 创建者模式 。单例模式只允许有一个实例，通过构造函数私有化的方式隐藏对象创建入口，取而代之的是提供公共接口用于获取类的单例。其应用场景广泛，例如创建管理类（只需要一个管理实体），或者应用于对象需要限定唯一性的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/19/design-pattern-singleton/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-19</div>
+        <h1>设计模式——单例Singleton模式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><strong>单例模式，又称单件模式。</strong>
+
+<strong>定义：</strong>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。它是一种常用的设计模式，它属于<strong>创建者模式</strong>。单例模式只允许有一个实例，通过构造函数私有化的方式隐藏对象创建入口，取而代之的是提供公共接口用于获取类的单例。其应用场景广泛，例如创建管理类（只需要一个管理实体），或者应用于对象需要限定唯一性的场景等。注意不要滥用单例模式，否则会导致代码维护困难。
+
+<img class="alignnone  wp-image-5612" src="https://cdn.omegaxyz.com/2019/03/singleton3.gif" alt="" width="355" height="103" />
+<h2><strong>细节</strong></h2>
+<ol>
+ 	<li>一个类只允许创建唯一的对象</li>
+ 	<li>禁止在类的外部创建对象：私有化构造函数：private或protected</li>
+ 	<li>类的内部维护唯一对象：静态成员变量</li>
+ 	<li>提供访问单例对象的方法：静态成员函数，返回在类内部唯一构造的实例</li>
+</ol>
+<h2><strong>创建方式</strong></h2>
+<ol>
+ 	<li>饿汉式：单例对象无论用或不用，程序启动即创建。</li>
+ 	<li>懒汉式：单例对象在用的时候再创建，不用即销毁。</li>
+</ol>
+<h2><strong>C++代码</strong></h2>
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+ 
+class Singleton{
+    public:
+        static Singleton *GetInstance(){
+            if (m_Instance == NULL ){
+                m_Instance = new Singleton ();
+                cout&lt;&lt;"实例生成！"&lt;&lt;endl;
+            }else cout&lt;&lt;"实例已有！"&lt;&lt;endl;
+            return m_Instance;
+        }
+        static void DestoryInstance(){
+            if (m_Instance != NULL ){
+                delete m_Instance;
+                m_Instance = NULL ;
+                cout&lt;&lt;"实例消除成功！"&lt;&lt;endl;
+            }
+        }
+     
+    private:
+        Singleton(){
+        }
+        static Singleton *m_Instance;
+};
+Singleton *Singleton::m_Instance = NULL;
+ 
+int main()
+{
+    Singleton *singletonObj1 = Singleton::GetInstance();
+    Singleton *singletonObj2 = Singleton::GetInstance();
+    Singleton::DestoryInstance();
+    return 0;
+}</code></pre>
+&nbsp;
+<h2><strong>结果</strong></h2>
+<img class="alignnone  wp-image-5610" src="https://cdn.omegaxyz.com/2019/03/singleton.png" alt="" width="681" height="153" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of KNN algorithm · OmegaXYZ</title>
+  <meta name="description" content="1. Description of the kNN concept The kNN algorithm is also called the k-nearest neighbor classification algorithm. The so-called k nearest neighbor refers to the closest k neighbors (data), that is, each sample can be expressed by its K neighbors. The core idea of ​​the kNN algorithm is that in a space containing unknown samples, the data type of the sample can be determined based on the data types of the k samples closest to the sample. The algorithm involves 3...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/08/knn/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-08</div>
+        <h1>Overview of KNN algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>1. Concept description of kNN</h1>The kNN algorithm is also called the k-nearest neighbor classification algorithm. The so-called k nearest neighbor refers to the closest k neighbors (data), that is, each sample can be expressed by its K neighbors.
+
+The core idea of ​​the kNN algorithm is that in a space containing unknown samples, the data type of the sample can be determined based on the data types of the k samples closest to the sample.
+
+This algorithm involves 3 main factors: training set, distance and similarity measurement, and the size of k;
+
+Main considerations: distance and similarity;<h1>2. Examples</h1>In the picture on the right, which class should the green circle be assigned to? Is it a red triangle or a blue square?
+
+If K=3, since the proportion of the red triangle is 2/3, the green circle will be assigned to the red triangle class. If K=5, since the proportion of the blue square is 3/5, the green circle will be assigned to the blue square class.<img alt="" class="alignnone size-full wp-image-2691" height="171" src="https://cdn.omegaxyz.com/2018/01/knn.png" width="190"/>
+<h1>3. Characteristics of kNN algorithm</h1>The KNN algorithm can not only be used for classification, but also for transition, such as taking a transition color between two chromaticities.
+
+The KNN algorithm currently mainly uses the weighted voting method, that is, the votes of nearby neighbors are weighted according to the distance. The closer the distance, the greater the weight (the weight is the reciprocal of the square of the distance).<strong>advantage:</strong>It is easy to implement, does not require parameter estimation, does not require training, supports incremental learning, and can model complex hyperpolygonal decision spaces;<strong>shortcoming:</strong>That is, the amount of calculation is large and the analysis speed is slow;</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-3585">
+          <strong>Anonymous</strong>
+          <time>2018-01-09 14:10:15</time>
+          <div>svm蛮不错的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

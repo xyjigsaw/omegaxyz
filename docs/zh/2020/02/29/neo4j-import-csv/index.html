@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neo4j-import导入CSV的数据 · OmegaXYZ</title>
+  <meta name="description" content="最近有个上亿个关系/节点的数据需要导入到Neo4j，有以下几个工具可以导入： Cypher CREATE 语句，为每一条数据写一个CREATE Cypher LOAD CSV 语句，将数据转成CSV格式，通过LOAD CSV读取数据。 官方提供的Java API —— Batch Inserter Batch Import 工具 neo4...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/29/neo4j-import-csv/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-29</div>
+        <h1>Neo4j-import导入CSV的数据</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/neo4j/index.html">Neo4j</a></div>
+        <div class="article-content">最近有个上亿个关系/节点的数据需要导入到Neo4j，有以下几个工具可以导入：
+<ul>
+ 	<li>Cypher CREATE 语句，为每一条数据写一个CREATE</li>
+ 	<li>Cypher LOAD CSV 语句，将数据转成CSV格式，通过LOAD CSV读取数据。</li>
+ 	<li>官方提供的Java API —— Batch Inserter</li>
+ 	<li>Batch Import 工具</li>
+ 	<li>neo4j-import 工具（Neo4j自带）</li>
+</ul>
+<img class="alignnone wp-image-6514" src="https://cdn.omegaxyz.com/2020/02/neo4j-import1.png" alt="" width="850" height="297" />
+
+于是乎，毫不犹豫选择了最后一种。
+
+Neo4j-import可用的参数命令：
+
+<img class="alignnone wp-image-6512" src="https://cdn.omegaxyz.com/2020/02/neo4j-import3.png" alt="" width="557" height="309" />
+
+<hr />
+
+<h2><strong>遇到的坑</strong></h2>
+1. 这个工具一般来说是放在Neo4j安装目录的bin文件夹下，也有可能在C盘用户的隐藏文件夹.Neo4jDesktop中的数据库文件下（比较隐蔽）
+
+2. <strong>在CSV文件中需要提前编写好header</strong>，例如：
+一般形式为名称:类型，用逗号分开，名称和类型必须要有一个，ID也是一个类型，它的名称可以忽略。包含的类型有：int、long、float、double、boolean、byte、short、char、string、point、date、localtime、time、localdatetime、datetime和duration中的一个来指定属性的数据类型。如果没有提供数据类型，则默认为string。若要定义数组类型，请将[]附加到该类型。
+
+<img class="alignnone wp-image-6513" src="https://cdn.omegaxyz.com/2020/02/neo4j-import2.png" alt="" width="667" height="91" />
+3. <strong>如果有多张实体表，他们可能有不同的ID</strong>，因此必须要在CSV文件中的头中增加名称空间，否则导入会报错。ID空间使用语法ID(&lt;ID空间标识符&gt;)在节点文件的ID字段中定义。要在关系文件中引用ID空间的ID，我们使用语法START_ID(&lt;ID空间标识符&gt;)和END_ID(&lt;ID空间标识符&gt;)。
+例如我有两张表需要导入，需要在ID后面指定实体的名称空间。
+<ul>
+ 	<li>movieId:ID(Movie-ID),title,year:int,:LABEL</li>
+ 	<li>personId:ID(Actor-ID),name,:LABEL</li>
+</ul>
+4.如果出现下面的问题：
+Neo4j批量导入“neo4j-admin导入”OutOfMemoryError：Java堆空间和OutOfMemoryError：超出GC开销限制（<span style="color: #c93838;">Neo4j bulk import “neo4j-admin import” OutOfMemoryError: Java heap space and OutOfMemoryError: GC overhead limit exceeded</span>）
+说明分配的内存不够了，需要修改neo4j.conf的配置，这个文件可以从neo4j-import的上级文件夹中的某个子文件夹找到。
+需要修改两个值
+<ul>
+ 	<li>dbms.memory.heap.initial_size=4096m</li>
+ 	<li>dbms.memory.heap.max_size=16384m</li>
+</ul>
+最后我的电脑卡在了出现的第四个问题上，没办法电脑内存不够，于是我选择了使用CYPHER的LOAD语句导入CSV，可以采用USING periodic commit 10000这样的语法提高导入效率。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

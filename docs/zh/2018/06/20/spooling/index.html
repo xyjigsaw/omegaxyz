@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPOOLing（假脱机）技术 · OmegaXYZ</title>
+  <meta name="description" content="SPOOLing简介 SPOOLing （即外部设备联机并行操作），即Simultaneous Peripheral Operations On-Line的缩写，它是关于慢速字符设备如何与计算机主机交换信息的一种技术，通常称为“假脱机技术”。 SPOOLing技术实际上是一种外围设备同时联机操作技术,又称为排队转储技术。它在输入和输出之间...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/20/spooling/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-20</div>
+        <h1>SPOOLing（假脱机）技术</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>SPOOLing简介</strong></h2>
+SPOOLing （即外部设备联机并行操作），即Simultaneous Peripheral Operations On-Line的缩写，它是关于慢速字符设备如何与计算机主机交换信息的一种技术，通常称为“假脱机技术”。
+SPOOLing技术实际上是一种外围设备同时联机操作技术,又称为排队转储技术。它在输入和输出之间增加了“输入井”和“输出井”的排队转储环节。
+
+虚拟性是OS的四大特性之一。如果说可以通过多道程序技术将一台物理CPU虚拟为多台逻辑CPU，从而允许多个用户共享一台主机，那么，通过SPOOling技术便可将一台物理I/O设备虚拟为多台逻辑I/O设备，同样允许多个用户共享一台物理I/O设备。
+<h2 id="组成"><strong>组成</strong></h2>
+<img class="alignnone  wp-image-4617" src="https://cdn.omegaxyz.com/2018/06/spooling.png" alt="" width="452" height="534" />
+
+<strong>1.输入井和输出井</strong>:输入井和输出井的存储区域是在<strong>磁盘</strong>上开辟出来的。输入输出井中的数据一般以文件的形式组织管理，这些文件称之为井文件。一个文件仅存放某一个进程的输入或输出数据，所有进程的数据输入或输出文件链接成为一个输入输出队列。
+<strong>2.输入缓冲区和输出缓冲区:</strong>输入缓冲区和输出缓冲区的存储区域是在<strong>内存</strong>中开辟出来的。主要用于缓和CPU和磁盘之间速度不匹配的矛盾。输入缓冲区用于暂存有输入设备传送的数据，之后再传送到输入井；输出缓冲区 同理。
+<strong>3.输入进程和输出进程:</strong>输入进程也称为预输入进程，用于模拟脱机输入时的外围控制机，将用户要求的数据从输入设备传送到输入缓冲区，再存放到输入井。当CPU需要的时候，直接从输入井将数据读入内存。反之，输出的同理。
+<strong>4.井管理程序:</strong>用于控制作业与磁盘井之间信息的交换。
+<h2 id="特点"><strong>特点</strong></h2>
+<strong>1.提高了I/O的速度:</strong>对数据执行的I/O操作，已从对低速I/O设备执行的I/O操作演变为对磁盘缓冲区中数据的存取，如同脱机输入输出一样，提高了I/O速度，缓和了CPU和低速的I/Os设备之间速度的不匹配的矛盾。
+<strong>2.将独占设备改造成了共享设备</strong>:因为在假脱机打印机系统中，实际上并没有为任何进程分配设备，而只是在磁盘缓冲区中为进程分配了一个空闲盘块和建立了一张I/O请求表。
+<strong>3.实现了虚拟设备功能:</strong>宏观上，对于每一个进程而言，它们认为是自己独占了一个设备，即使实际上是多个进程在同时使用一台独占设备。也可以说，假脱机系统，实现了将独占设备变换为若干台对应的逻辑设备的功能。
+<h2>
+<strong>SPOOLing技术如何使一台打印机虚拟成多台打印机？ </strong></h2>
+答：将一台独享打印机改造为可供多个用户共享的打印机，是应用SPOOLing技术的典型实例。具体做法是：系统对于用户的打印输出，但并不真正把打印机分配给该用户进程，而是先在输出井中申请一个空闲盘块区，并将要打印的数据送入其中；然后为用户申请并填写请求打印表，将该表挂到请求打印队列上。若打印机空闲，输出程序从请求打印队首取表，将要打印的数据从输出井传送到内存缓冲区，再进行打印，直到打印队列为空。
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18431">
+          <strong>wyj的fan</strong>
+          <time>2020-01-05 20:46:22</time>
+          <div>您是ahu的学长或者学姐吗，我咋感觉您是wyj呢&amp;gt;_&amp;lt;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18433">
+          <strong>xyjisaw</strong>
+          <time>2020-01-05 21:12:29</time>
+          <div>不是wyj哈~</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

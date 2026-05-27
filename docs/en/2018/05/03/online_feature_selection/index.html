@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of Online Feature Selection · OmegaXYZ</title>
+  <meta name="description" content="Online learning (online learning) Under the online method of supervised learning, the adjustment of the synaptic weights of the multi-layer perceptron is based on example-example, and the cost function used to minimize is the overall instantaneous error energy. Like batch learning, the learning curve of online learning is calculated by taking the ensemble average over a sufficiently large number of randomly selected initial conditions. For a given network structure, the learning curve obtained under online learning is very different from that obtained under batch learning. Give...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/03/online_feature_selection/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-03</div>
+        <h1>Overview of Online Feature Selection</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/online-learning/index.html">在线学习</a></div>
+        <div class="article-content"><h2><strong>online learning</strong></h2>Under the online method of supervised learning, the adjustment of the synaptic weights of the multi-layer perceptron is based on example-example, and the cost function used to minimize is the overall instantaneous error energy. Like batch learning, the learning curve of online learning is calculated by taking the ensemble average over a sufficiently large number of randomly selected initial conditions. For a given network structure, the learning curve obtained under online learning is very different from that obtained under batch learning.
+
+Given that training samples are presented to the network in a random manner, the use of online learning makes the search in the multidimensional weight space virtually random; it is for this reason that online learning methods are sometimes called stochastic methods.<strong>advantage:</strong>
+<ul>
+<li>(1) Easy to execute</li>
+<li>(2) It provides effective solutions to large-scale and difficult pattern classification problems.</li>
+<li>(3) Randomness makes it difficult to fall into local extreme points</li>
+<li>(4) Much less storage</li>
+</ul>
+<h2><strong>Online feature selection (OFS)</strong></h2>Most research on online learning requires training instances using all features. This traditional method is not suitable for real-world applications. This can be computationally expensive when the data instance is high dimensional or requires access to obtain complete features. To solve this problem, Online Feature Selection (OFS) for online learners only allows to retain a small classifier with a fixed number of features.
+
+OFS<strong>Key points and challenges:</strong>Choose how to make accurate predictions using a small, fixed number of activated features.
+
+This is different from classic online learning that uses all the features (all the features are active) to make predictions. Feature selection usually assumes that the feature selection task is performed in an offline learning manner with all features.
+This may not always apply to some practical problems. Different from existing research on feature selection, we study the problem of online feature selection. (OFS) aims to solve the feature selection problem through a method.<strong>Goals of online feature selection:</strong>Construct online classifiers containing only a small and fixed number of features. The goal of online feature selection is to develop online classifiers that involve only a small and fixed number of features.
+
+In most traditional online feature selection, features are considered to arrive one at a time when all training instances are before the learning process starts. Their purpose is to select a subset of features and return a suitable model each time based on the features given so far.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

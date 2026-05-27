@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译原理由正规文法构造正规式（正则表达式） · OmegaXYZ</title>
+  <meta name="description" content="3型文法（正则文法，线性文法） 如果对于某文法G，P中的每个规则具有下列形式： U :: = T 或 U :: = WT 其中T∈V T ；U,W∈V N ，则称该文法G为左线性文法。 如果对于某文法G，P中的每个规则具有下列形式： U :: = T 或 U :: = TW 其中T∈V T ；U, W∈V N ，则称该文法G为右线性文法。...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/25/rg2re/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-25</div>
+        <h1>编译原理由正规文法构造正规式（正则表达式）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/regular-expression/index.html">正则表达式</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><h2><strong>3型文法（正则文法，线性文法）</strong></h2>
+<strong> </strong>如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>U :: = T  </strong><strong>或</strong><strong>  U :: = WT</strong>
+
+其中T∈V<sub>T</sub>；U,W∈V<sub>N</sub>，则称该文法G为左线性文法。
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>U :: = T  </strong><strong>或</strong><strong>  U :: = TW</strong>
+
+其中T∈V<sub>T</sub>；U, W∈V<sub>N</sub>，则称该文法G为右线性文法。
+
+左线性文法和右线性文法通称为3型文法或正则文法，有时又称为有穷状态文法，简写为RG。
+
+按照定义，对于正则文法应用规则时，单个非终结符号只能被替换为单个终结符号，或被替换为单个非终结符号加上单个终结符号，或者被替换为单个终结符号加上单个非终结符号。
+
+3型文法所确定的语言为3型语言L<sub>3</sub>，3型语言可由确定的有限状态自动机来识别。
+
+程序设计语言的单词可由正则文法产生，例如，标识符的定义可由正则文法描述如下：
+
+&lt;标识符&gt;::=&lt;字母&gt;/&lt;标识符&gt;&lt;字母&gt;/&lt;标识符&gt;&lt;数字&gt;
+
+显然，该文法描述了以字母开头的字母数字串的集合。现在要引入另一种适合于描述单词的表示法——正则表达式。正则表达式又称为正则式，每个正则表达式描述的集合称为正则集。
+
+之所以采用正则表达式来描述，主要基于以下几点原因：
+<ul>
+ 	<li><em>词法规则简单，无需上下文无关文法那样严格的表示法，用正则式表示法来理解被定义的符号集合比理解由重写规则集合定义的语言更为容易；</em></li>
+ 	<li><em>从正则式构造高效识别程序比上下文无关文法更容易；</em></li>
+ 	<li><em>可以从某个正则式自动地构造识别程序，它可以识别用该正则式表示的字符串集合中的字符串，从而减轻后面要介绍的词法分析时的工作量。</em></li>
+ 	<li><em>可用于其他各种信息流的处理，例如，已经应用于某些模式识别问题、文献目录检索系统以及正文编辑程序等。</em></li>
+</ul>
+<h2><strong>正则表达式和正则集</strong></h2>
+设有字母表∑。∑上的正则表达式和它所表示的正则集递归地定义如下：
+<ul>
+ 	<li>ε和Φ都是∑上的正则表达式，它们所表示的正则集分别为{ε}和Φ，其中ε是空串，Φ是空集；</li>
+ 	<li>任意的a∈∑是正则表达式，它所表示的正则集是{a}；</li>
+ 	<li>如果e<sub>1</sub>和e<sub>2</sub>是∑上的任意的正则表达式，且分别表示的正则集为L（e<sub>1</sub>）和L（e<sub>2</sub>），则：
+<ul>
+ 	<li>e<sub>1</sub>/e<sub>2</sub>也是正则表达式，表示的正则集为L（e<sub>1 </sub>/ e<sub>2</sub>）＝L（e<sub>1</sub>）∪L（e<sub>2</sub>）。</li>
+ 	<li>e<sub>1 </sub>e<sub>2</sub>也是正则表达式，表示的正则集为L（e<sub>1</sub> e<sub>2</sub>）＝L（e<sub>1</sub>）L（e<sub>2</sub>）。</li>
+ 	<li>（e<sub>1</sub>）<sup>*</sup>也是正则表达式，表示的正则集为L（（e<sub>1</sub>）<sup>*</sup>）＝L（e<sub>1</sub>）<sup>*</sup>。</li>
+</ul>
+</li>
+</ul>
+定义中（1）和（2）定义了原子正则表达式，而（3）则表明字母表∑上的正则表达式可由原子正则表达式或较简单的正则表达式通过联合、连接与闭包运算构成一般的正则表达式。
+<h2><strong>正则表达式的性质</strong></h2>
+如果两个正则表达式e<sub>1</sub>和e<sub>2</sub>表示的正则集相同，即值相等，则称它们是等价的。记为e<sub>1</sub>＝e<sub>2</sub>。
+<h2><strong>正则表达式与正则文法的关系</strong></h2>
+一个正则表达式的值是正则集，它是正则语言的另一种表示法。不难看出，除了符号Φ外，一个正则表达式的含义类似于正则文法的一个非终结符号规则右部的含义。例如，对于&lt;数字&gt; ::= 0/1/2/…/9，由非终结符数字所产生的字符串集合与正则表达式0/1/2/…/9所定义的字符串集合是相同的。正则集Φ，它对应一个不包含任何句子的语言，引进的目的主要是为了理论上的完备性。
+<h2><strong>流程图</strong></h2>
+<img class="alignnone  wp-image-5423" src="https://cdn.omegaxyz.com/2019/01/rg2re1.png" alt="" width="650" height="370" />
+<h2><strong>代码</strong></h2>
+<strong>规则的数据结构：</strong>包含两个string对象，一个是left即文法的产生式左边部分，另一个是right即文法产生式的右半部分。
+<pre ><code class="language-c++">	struct Principle{
+    		string left;
+    		string right;
+	};
+</code></pre>
+<strong>文法的数据结构：</strong>考虑到文法是一个四元组，包含Vn为非终结符，Vt为终结符，P为文法的规则，S为识别符或开始符，flag为文法的类型，因此下面使用C++中的类来为文法定义，并且使用set集合来保存每个文法的某些属性（不会重复）。
+<pre ><code class="language-c++">class Grammar{
+	public：
+    		set&lt;char&gt; Vn;
+    		set&lt;char&gt; Vt;
+    		set&lt;Principle&gt; P;
+    		char S;
+    		int flag = -1;
+	};
+</code></pre>
+ALL：
+<pre ><code class="language-c++">//
+//  main.cpp
+//  demo
+//
+//  Created by 徐奕 on 2018/11/2.
+//  Copyright © 2018 Reacubeth. All rights reserved.
+//
+
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;set&gt;
+#define MAX_LENGTH 10
+using namespace std;
+
+struct Principle{
+    string left;
+    string right;
+};
+
+struct Grammar{
+    set&lt;char&gt; Vn;
+    set&lt;char&gt; Vt;
+    vector&lt;Principle&gt; P;
+    set&lt;Principle&gt; R;
+    char S;
+    int flag = -1;
+};
+
+void input(vector&lt;Principle&gt; &amp;principleSet,int time)
+{
+    char tempLeft[MAX_LENGTH];
+    char tempRight[MAX_LENGTH];
+    int temp2=0;
+    while(scanf("%[^-]-&gt;%s",tempLeft,tempRight)!=EOF){
+        getchar();
+        Principle temp;
+        temp.left = tempLeft;
+        temp.right = tempRight;
+        principleSet.push_back(temp);
+        temp2++;
+        if(temp2==time)break;
+    }
+}
+
+void analyseGram(Grammar &amp;G)
+{
+    G.S = G.P.front().left[0];
+    for(int i=0;i&lt;G.P.size();++i){
+        Principle &amp;temp = G.P[i];
+        for(int j = 0;j&lt;temp.left.size();++j){
+            char v = temp.left[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+        for(int j = 0;j&lt;temp.right.size();++j){
+            char v = temp.right[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+    }
+}
+
+bool existVNT(string s)
+{
+    for(int i=0;i&lt;s.size();i++){
+        if(isupper(s[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+void judgeGram(Grammar &amp;G)
+{
+
+    for(int i=0;i&lt;G.P.size();++i){
+        if(existVNT(G.P[i].left)){
+            G.flag = 0;
+            break;
+        }
+    }
+    int temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==0;++i){
+        if(G.P[i].left.size()&lt;=G.P[i].right.size()){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=1;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==1;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=2;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==2;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])&amp;&amp;
+           (1==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])||2==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])&amp;&amp;
+            isupper(G.P[i].right[G.P[i].right.size()-1]))){temp++;}
+    }
+    if(temp==G.P.size()){
+        G.flag=3;
+    }
+}
+
+void printResult(Grammar &amp;G)
+{
+    cout&lt;&lt;"G=(Vn,Vt,P,S):"&lt;&lt;G.flag&lt;&lt;"型文法"&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"非终结符Vn:";
+    for(set&lt;char&gt;::iterator i = G.Vn.begin();i!=G.Vn.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"终结符Vt:";
+    for(set&lt;char&gt;::iterator i = G.Vt.begin();i!=G.Vt.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"起始符为："&lt;&lt;G.S&lt;&lt;endl;
+    cout&lt;&lt;"规则P如输入所示"&lt;&lt;endl;
+    cout&lt;&lt;endl;
+}
+
+void clearP(Principle &amp;P){
+    P.left="";
+    P.right="";
+}
+
+void transfer2R(Grammar &amp;G){
+    int i,j;
+    for(int i=0;i&lt;G.P.size();i++){
+        for(int j=i+1;j&lt;G.P.size();j++){
+            if(G.P[i].left == G.P[j].left &amp;&amp; G.P[i].right[1]==G.P[j].right[1]&amp;&amp;G.P[i].right.length()&gt;1){
+                //cout&lt;&lt;"xxxx"&lt;&lt;endl;
+                G.P[i].right=G.P[i].right+"|"+G.P[j].right;
+                clearP(G.P[j]);
+            }
+
+            /////////////
+            //规则3
+            //cout&lt;&lt;"!"&lt;&lt;G.P[i].left&lt;&lt;G.P[i].right&lt;&lt;G.P[j].left&lt;&lt;G.P[j].right&lt;&lt;endl;
+            if(G.P[i].right.length()==1&amp;&amp;G.P[j].right.length()==1&amp;&amp;G.P[i].left==G.P[j].left){
+                G.P[i].right = G.P[i].right+"|"+G.P[j].right;
+                clearP(G.P[j]);
+                //cout&lt;&lt;"!!"&lt;&lt;G.P[i].right&lt;&lt;endl;
+            }
+        }
+    }
+    int flag,m;
+
+
+    for(int i=0;i&lt;G.P.size();i++){// S-&gt;aA|bA 2 S-&gt;(a|b)A
+        flag=G.P[i].right.length();
+        if(G.P[i].right.length()&gt;2&amp;&amp;'A'&lt;=G.P[i].right[1]&amp;&amp;G.P[i].right[1]&lt;='Z'&amp;&amp;G.P[i].right[2]=='|'){
+            //cout&lt;&lt;"!"&lt;&lt;G.P[0].right&lt;&lt;endl;
+            int j=0;
+            for(j=1; j&lt;flag-1;j=j+3){
+                G.P[i].right[j]=' ';
+            }
+            if(j == flag-1){
+                G.P[i].right="("+G.P[i].right.substr(0,G.P[i].right.length()-1)+")"+G.P[i].right.substr(G.P[i].right.length()-1);
+            }
+        }
+    }
+    //cout&lt;&lt;G.P[0].right&lt;&lt;endl;
+
+    /*
+     for(int i=0;i&lt;G.P.size();i++){// S-&gt;aA|bA 2 S-&gt;(a|b)A
+     flag=G.P[i].right.length();
+     int k=0,m,t=0;
+     for(j=0;j&lt;flag;j++){
+     for(k=j+1;k&lt;flag;k++){
+     //cout&lt;&lt;G.P[i].right[j]&lt;&lt;G.P[i].right[k]&lt;&lt;endl;
+     if(G.P[i].right[j]==G.P[i].right[k]&amp;&amp;G.P[i].right[j]&gt;='A'&amp;&amp;G.P[i].right[j]&lt;='Z'){t=1;break;}
+     }
+     if(t==1)break;
+     }
+     G.P[i].right[j]=' ';
+     string temp = G.P[i].right;
+     G.P[i].right="(";
+     for(m=0;m&lt;k;m++){
+     G.P[i].right=G.P[i].right+temp[m];
+     }
+     G.P[i].right = G.P[i].right+")";
+     for(m=k;m&lt;flag;m++){
+     G.P[i].right=G.P[i].right+temp[m];
+     }
+     }
+     *///
+    for(int i=0;i&lt;G.P.size();i++){
+        if(G.P[i].left[0]==G.P[i].right[G.P[i].right.length()-1]&amp;&amp;G.P[i].right.length()&gt;1){
+            for(int j=0; j&lt;G.P.size();j++){
+                if(G.P[i].left==G.P[j].left&amp;&amp;j!=i){
+                    for(m=0;m&lt;=G.P[j].right.length();m++){
+                        if('A'&lt;=G.P[j].right[m]&amp;&amp;G.P[j].right[m]&lt;='Z'){
+                            break;}
+
+                        if(m==G.P[j].right.length()){
+                            G.P[i].right=G.P[i].right.substr(0,G.P[i].right.length()-1)+"*"+"("+G.P[j].right+")";
+                            clearP(G.P[j]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for(int i=0;i&lt;G.P.size();i++){
+            if(G.P[i].right.length()&gt;1&amp;&amp;G.P[i].left[0]!=G.P[i].right[G.P[i].right.length()-1]){
+                for(int j=0;j&lt;G.P.size();j++){
+                    if(G.P[j].right.length()&gt;1 &amp;&amp; G.P[i].right[G.P[i].right.length()-1]==G.P[j].left[0]&amp;&amp;G.P[j].left[0]==G.P[j].right[G.P[j].right.length()-1]){
+                        G.P[i].right=G.P[i].right.substr(0,G.P[i].right.length()-1)+G.P[j].right.substr(0,G.P[j].right.length()-1)+"*"+G.P[j].right[G.P[j].right.length()-1];
+                        clearP(G.P[j]);
+                    }
+                }
+            }
+    }
+
+
+
+    flag = G.P.size();
+    for(int k=0;k&lt;flag;k++){
+        for(int i=0;i&lt;G.P.size();i++,flag--){
+            int j;
+            //cout&lt;&lt;i&lt;&lt;" "&lt;&lt;flag&lt;&lt;endl;
+            for(j=0;j&lt;G.P[i].right.length();j++){
+                if('A'&lt;=G.P[i].right[j]&amp;&amp;G.P[i].right[j]&lt;='Z'){
+                    for(m=0;m&lt;G.P.size();m++){
+                        if(G.P[m].left[0]==G.P[i].right[j]&amp;&amp;m!=i){
+                            G.P[i].right=G.P[i].right.substr(0,j)+G.P[m].right+G.P[i].right.substr(j+1);
+                            clearP(G.P[m]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for(i=0;i&lt;G.P.size();i++){
+        for(j=0;j&lt;G.P.size();j++){
+            if(G.P[i].left[0]==G.P[j].left[0]&amp;&amp;i!=j){
+                if(G.P[j].right.length()&gt;1){
+                    G.P[i].right=G.P[i].right+"|"+"("+G.P[j].right+")";
+                    clearP(G.P[j]);
+                }else{
+                    G.P[i].right=G.P[i].right+"|"+G.P[j].right;
+                    clearP(G.P[j]);
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    Grammar G;
+    G.Vn.clear();
+    G.Vt.clear();
+    int time;
+    cout&lt;&lt;"input:";
+    cin&gt;&gt;time;
+    getchar();
+    input(G.P,time);
+    G.flag = 3;
+    analyseGram(G);
+    judgeGram(G);
+    //printResult(G);
+    transfer2R(G);
+    //cout&lt;&lt;"正则表达式: ";
+    for(int i=0;i&lt;G.P.size();i++){
+        if(G.P[i].left.length()!=0){
+            cout&lt;&lt;G.P[i].left&lt;&lt;"=";
+            for(int j=0;j&lt;G.P[i].right.length();j++){
+                if(G.P[i].right[j]!=' ')cout&lt;&lt;G.P[i].right[j];
+            }
+            cout&lt;&lt;endl;
+        }
+    }
+}</code></pre>
+<h2><strong>测试用例</strong></h2>
+1：
+
+<strong>S-&gt;aA</strong>
+
+<strong>S-&gt;a</strong>
+
+<strong>A-&gt;aA</strong>
+
+<strong>A-&gt;dA</strong>
+
+<strong>A-&gt;a</strong>
+
+<strong>A-&gt;d</strong>
+
+<img class="alignnone  wp-image-5424" src="https://cdn.omegaxyz.com/2019/01/rg2re2.png" alt="" width="367" height="174" />
+
+2：
+
+<strong>S-&gt;aB</strong>
+
+<strong>S-&gt;c</strong>
+
+<strong>B-&gt;bB</strong>
+
+<strong>B-&gt;d</strong>
+
+<img class="alignnone size-full wp-image-5425" src="https://cdn.omegaxyz.com/2019/01/rg2re3.png" alt="" width="995" height="312" />
+<h2><strong>遇到的困难与解决方法</strong></h2>
+①通常如果只有两个相同的非终结符的规则S-&gt;a，S-&gt;b那么可以直接化简为S-&gt;a|b，如果存在多个目标结果为S-&gt;a|b|c，那么，需要进行特殊处理，可以使用栈或者递归调用来生成多个或式。
+
+②闭包*的识别，即规则2也是本次实验的难点，需要同时识别文法规则的左右两边。
+
+③有时经过规则1、2和3后所得的结果仍然不正确，这就需要使用集成开发环境的调试工具。增强调试技巧也是非常重要的。
+
+<strong>④最后阅读相关文献，发现将正规文法转为正规式可以用解联立方程组的思想进行实现，因此可以用MATLAB解符号函数的方法来写代码。</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

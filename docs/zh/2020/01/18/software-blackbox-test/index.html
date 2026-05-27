@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件测试——黑盒测试 · OmegaXYZ</title>
+  <meta name="description" content="1.测试概述 1.1综述 本测试报告为计算机程序能力在线测评系统的黑盒测试，黑盒测试可以在不知道程序内部结构和代码的情况下进行，用来测试软件功能是否符合用户需求，是否达到用户预期目标，是否拥有较好的人机交互体验。 图 1.1 黑盒测试流程 1.2测试任务与测试范围 主要功能包括：①登录模块，②在线考试模块，③试题管理模块，④生成试卷模块，...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/18/software-blackbox-test/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-18</div>
+        <h1>软件测试——黑盒测试</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>1.测试概述</h1>
+<h2>1.1综述</h2>
+本测试报告为计算机程序能力在线测评系统的黑盒测试，黑盒测试可以在不知道程序内部结构和代码的情况下进行，用来测试软件功能是否符合用户需求，是否达到用户预期目标，是否拥有较好的人机交互体验。
+
+<img class="alignnone wp-image-6251 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test1.png" alt="" width="422" height="222" />
+<p style="text-align: center;"><strong>图</strong><strong>1.1 </strong><strong>黑盒测试流程</strong></p>
+
+<h2>1.2测试任务与测试范围</h2>
+主要功能包括：①登录模块，②在线考试模块，③试题管理模块，④生成试卷模块，⑤成绩查询模块。
+
+测试主要根据用户的需求说明书和软件需求规格说明书以及相应的文档进行上述功能的测试。
+<p style="text-align: center;"><strong>表</strong><strong> 1.1 </strong><strong>功能分解总览</strong></p>
+<p style="text-align: center;"><img class="" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" width="563" height="265" /></p>
+<p style="text-align: center;"><img class="" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" width="524" height="543" /></p>
+<p style="text-align: center;"><strong>图</strong><strong>1.2 </strong><strong>功能分解后总览</strong></p>
+
+<h2>1.3缺陷等级划分</h2>
+<p style="text-align: center;"><strong>表</strong><strong> 1.2 </strong><strong>缺陷等级划分</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="124"><strong>等级</strong></td>
+<td width="188"><strong>描述</strong></td>
+<td width="315"><strong>说明</strong></td>
+</tr>
+<tr>
+<td width="124">5-紧急</td>
+<td width="188">发现可重复出现的致命问题</td>
+<td width="315">——导致系统崩溃；
+
+——导致程序模块丢失；
+
+——主业务流程出现断点；
+
+——内存泄漏；
+
+——导致死机</td>
+</tr>
+<tr>
+<td width="124">4-非常高</td>
+<td width="188">发现可重复出现的严重问题</td>
+<td width="315">——被测功能不能正确实现；
+
+——软件错误导致数据丢失；
+
+——被测数据处理错误；
+
+——用户需求未实现。</td>
+</tr>
+<tr>
+<td width="124">3-高</td>
+<td width="188">一般性的错误或功能实现有不完美处</td>
+<td width="315">——操作界面错误；
+
+——打印内容、格式错误；
+
+——简单的输入限制未放在前台进行控制；
+
+——删除操作未给出提示。</td>
+</tr>
+<tr>
+<td width="124">2-中</td>
+<td width="188">细小的错误</td>
+<td width="315">——界面不规范；
+
+——辅助说明描述不清楚；
+
+——输入输出不规范；
+
+——长操作未给用户提示；
+
+——提示窗口文字未采用行业术语。</td>
+</tr>
+<tr>
+<td width="124">1-低</td>
+<td width="188">建议类错误</td>
+<td width="315">需求说明书、用户手册中未说明，但影响用户对软件使用的方便性等</td>
+</tr>
+</tbody>
+</table>
+<h1>2.测试步骤与测试目的</h1>
+<h2>2.1 测试环境与工具</h2>
+<strong>表</strong><strong> 2.1</strong><strong>测试环境与工具</strong>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>软件</strong></td>
+<td width="284"><strong>硬件</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>Browser</strong><strong>：</strong>Chrome浏览器与IE浏览器
+
+<strong>OS</strong><strong>：</strong>Window10与MacOS</td>
+<td width="284">&gt;10M带宽网络
+
+&gt;512M内存
+
+2G硬盘/SSD
+
+intel处理器</td>
+</tr>
+</tbody>
+</table>
+<h2>2.2 黑盒测试步骤</h2>
+<ul>
+ 	<li>设计测试计划</li>
+ 	<li>等价类划分</li>
+ 	<li>边界值分析</li>
+ 	<li>以功能为单位，根据等价类划分和边界值分析的结果进行测试的执行</li>
+ 	<li>其他黑盒测试方法</li>
+</ul>
+<h1>3.功能测试</h1>
+<h2>3.1 登录系统</h2>
+<p style="text-align: center;"><strong><img class="wp-image-6253 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test3.png" alt="" width="285" height="305" /></strong><strong> </strong><strong>图3.1 </strong><strong>登录系统样式</strong></p>
+<p style="text-align: center;"><strong>表3.1 </strong><strong>登录系统等价类划分</strong><strong> </strong></p>
+
+<table width="548">
+<tbody>
+<tr>
+<td width="123"><strong>输入等价类</strong></td>
+<td width="161"><strong>有效等价类</strong></td>
+<td width="265"><strong>无效等价类</strong></td>
+</tr>
+<tr>
+<td width="123">邮箱地址</td>
+<td width="161">①以字符数字下划线组成的字符+@+域名地址</td>
+<td width="265">③没有@
+
+④@前为空
+
+⑤@后为空
+
+⑥含有非法字符
+
+⑨输入已存在的名称</td>
+</tr>
+<tr>
+<td width="123">密码</td>
+<td width="161">②以字符数字下划线组成的不少于8位的字符串不超过20位</td>
+<td width="265">⑦密码长度少于8位
+
+⑧密码长度大于8位</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>表3.2 </strong><strong>登录系统功能测试</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>编号</strong></td>
+<td width="84"><strong>场景/</strong><strong>条件</strong></td>
+<td width="197"><strong>操作/</strong><strong>输入（等价类）</strong></td>
+<td width="97"><strong>预期结果</strong></td>
+<td width="97"><strong>实际结果</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin001</td>
+<td width="84">用户登录</td>
+<td width="197">①：644327005@qq.com ② ： cdscdsc</td>
+<td width="97">在用户名和密码验证码正确情况下正确登录系统
+
+当用户名密码验证码其中一项不正确给出准确错误信息</td>
+<td width="97"><strong>密码正确登录成功</strong>
+
+<strong> </strong>
+
+<strong>密码错误登录失败</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin002</td>
+<td width="84">用户登录</td>
+<td width="197">③：qq.com</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin003</td>
+<td width="84">用户登录</td>
+<td width="197">④：@qq.com</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin004</td>
+<td width="84">用户登录</td>
+<td width="197">⑤：ddd@</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin005</td>
+<td width="84">用户登录</td>
+<td width="197">⑥：\ncr</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin006</td>
+<td width="84">用户登录</td>
+<td width="197">⑦：xds</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin007</td>
+<td width="84">用户登录</td>
+<td width="197">⑧：cdscdfcvdfvcdfvdfvdfd</td>
+<td width="97">无法点击登录按钮</td>
+<td width="97"><strong>无法点击登录按钮</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin008</td>
+<td width="84">忘记密码</td>
+<td width="197">点击找回忘记密码，根据提示找回了密码</td>
+<td width="97">进入找回密码页面</td>
+<td width="97"><strong>进入找回密码页面</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin009</td>
+<td width="84">记住我</td>
+<td width="197">重新打开浏览器</td>
+<td width="97">密码自动保存</td>
+<td width="97"><strong>密码自动保存</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin010</td>
+<td width="84">验证码滑块</td>
+<td width="197">将滑块移动到对应的位置</td>
+<td width="97">验证通过</td>
+<td width="97"><strong>验证通过</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin011</td>
+<td width="84">用户登录</td>
+<td width="197">⑨：admin</td>
+<td width="97">用户名存在</td>
+<td width="97"><strong>用户名存在</strong></td>
+</tr>
+<tr>
+<td width="94">testlogin012</td>
+<td width="84">用户登录</td>
+<td width="197">利用复制，粘贴等操作强制输入密码</td>
+<td width="97">无法复制粘贴</td>
+<td width="97"><strong>可以复制粘贴</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.2 学生在线测试</h2>
+<img class="alignnone wp-image-6254 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test4.png" alt="" width="600" height="257" />
+<p style="text-align: center;"><strong>图3.2 </strong><strong>在线测试选题页面样式</strong></p>
+<p style="text-align: center;"><strong> </strong><strong>表3.3 </strong><strong>在线测试部分的功能测试</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>编号</strong></td>
+<td width="84"><strong>场景/</strong><strong>条件</strong></td>
+<td width="197"><strong>操作/</strong><strong>输入（等价类）</strong></td>
+<td width="97"><strong>预期结果</strong></td>
+<td width="97"><strong>实际结果</strong></td>
+</tr>
+<tr>
+<td width="94">testloj001</td>
+<td width="84">选择题目列表</td>
+<td width="197">点击题目列表按钮</td>
+<td width="97">显示题目列表</td>
+<td width="97"><strong>显示题目列表</strong></td>
+</tr>
+<tr>
+<td width="94">testloj002</td>
+<td width="84">选择提交列表</td>
+<td width="197">点击提交列表按钮</td>
+<td width="97">显示提交列表</td>
+<td width="97"><strong>显示提交列表</strong></td>
+</tr>
+<tr>
+<td width="94">testloj003</td>
+<td width="84">选择排名</td>
+<td width="197">点击排名按钮</td>
+<td width="97">显示排名</td>
+<td width="97"><strong>显示排名</strong></td>
+</tr>
+<tr>
+<td width="94">testloj004</td>
+<td width="84">选择题号</td>
+<td width="197">点击题号</td>
+<td width="97">进入当前题目</td>
+<td width="97"><strong>进入当前题目</strong></td>
+</tr>
+<tr>
+<td width="94">testloj005</td>
+<td width="84">选择提交反馈</td>
+<td width="197">点击提交反馈按钮</td>
+<td width="97">自动跳出当前系统的邮件APP，当前页面不动</td>
+<td width="97"><strong>自动跳出当前系统的邮件APP</strong><strong>，跳转至未知页面</strong></td>
+</tr>
+</tbody>
+</table>
+<img class="wp-image-6255 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test5.png" alt="" width="600" height="331" />
+<p style="text-align: center;"><strong>图3.2 </strong><strong>在线测试答题页面样式</strong></p>
+<p style="text-align: center;"><strong>表3.4 </strong><strong>代码文本的等价类划分</strong></p>
+
+<table width="548">
+<tbody>
+<tr>
+<td width="123"><strong>输入等价类</strong></td>
+<td width="161"><strong>有效等价类</strong></td>
+<td width="265"><strong>无效等价类</strong></td>
+</tr>
+<tr>
+<td width="123">输入相应代码文本</td>
+<td width="161">①基于utf-8编码组成的一定长度的字符串</td>
+<td width="265">②空字符
+
+③大于10万行的超长基于utf-8编码组成</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>表3.5 </strong><strong>在线测试的功能测试</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>编号</strong></td>
+<td width="84"><strong>场景/</strong><strong>条件</strong></td>
+<td width="123"><strong>操作/</strong><strong>输入（等价类）</strong></td>
+<td width="142"><strong>预期结果</strong></td>
+<td width="126"><strong>实际结果</strong></td>
+</tr>
+<tr>
+<td width="94">testloj006</td>
+<td width="84">输入代码，点击提交按钮</td>
+<td width="123">输入等价类①，点击提交</td>
+<td width="142">显示该代码相应的结果（包括答案正确，编译错误，段错误，超时等）</td>
+<td width="126"><strong>预期结果正常</strong></td>
+</tr>
+<tr>
+<td width="94">testloj007</td>
+<td width="84">输入代码，点击提交按钮</td>
+<td width="123">输入等价类②，点击提交</td>
+<td width="142">无法提交，或显示答案错误</td>
+<td width="126"><strong>提交按钮为空</strong></td>
+</tr>
+<tr>
+<td width="94">testloj008</td>
+<td width="84">输入代码，点击提交按钮</td>
+<td width="123">输入等价类③，点击提交</td>
+<td width="142">显示该代码相应的结果（包括答案正确，编译错误，段错误，超时等）</td>
+<td width="126"><strong>显示网站崩溃或服务器错误</strong></td>
+</tr>
+<tr>
+<td width="94">testloj009</td>
+<td width="84">点击显示提交结果</td>
+<td width="123">点击该按钮</td>
+<td width="142">能够看到相应的提交结果</td>
+<td width="126"><strong>能够看到相应的提交结果</strong></td>
+</tr>
+<tr>
+<td width="94">testloj010</td>
+<td width="84">检查代码编辑器</td>
+<td width="123">检查shift选中条目，按ctrl选中条目和直接用鼠标选中多项条目的情况</td>
+<td width="142">能够选中相应位置的代码，能够复制与粘贴</td>
+<td width="126"><strong>能够选中相应位置的代码，能够复制与粘贴</strong></td>
+</tr>
+<tr>
+<td width="94">testoj011</td>
+<td width="84">滚动条上下移动</td>
+<td width="123">拖动滚动条，检查屏幕刷新情况，并查看是否有乱码</td>
+<td width="142">刷新正常，无乱码</td>
+<td width="126"><strong>刷新正常，无乱码</strong></td>
+</tr>
+</tbody>
+</table>
+<img class="wp-image-6256 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test6.png" alt="" width="600" height="331" />
+<p style="text-align: center;"><strong>图3.3 testloj008</strong><strong>测试用例1</strong><strong>（300</strong><strong>万行代码）</strong></p>
+<strong> <img class="wp-image-6256 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test6.png" alt="" width="600" height="331" /></strong>
+<p style="text-align: center;"><strong>图3.4 testloj008</strong><strong>测试用例2</strong><strong>（276</strong><strong>万行代码）与结果1</strong></p>
+&nbsp;
+
+<strong><img class="alignnone wp-image-6258 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test8.png" alt="" width="601" height="285" /></strong>
+<p style="text-align: center;"><strong>图3.5 testloj008</strong><strong>显示结果2</strong></p>
+
+<h2>3.3 成绩查询</h2>
+<img class="wp-image-6259 aligncenter" src="https://cdn.omegaxyz.com/2020/01/software-blackbox-test9.png" alt="" width="601" height="316" />
+<p style="text-align: center;"><strong>图3.6 </strong><strong>成绩查询页面</strong></p>
+<p style="text-align: center;"><strong> </strong><strong>表3.6 </strong><strong>成绩查询的功能测试</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="94"><strong>编号</strong></td>
+<td width="84"><strong>场景/</strong><strong>条件</strong></td>
+<td width="197"><strong>操作/</strong><strong>输入（等价类）</strong></td>
+<td width="97"><strong>预期结果</strong></td>
+<td width="97"><strong>实际结果</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc001</td>
+<td width="84">选择其他页面按钮</td>
+<td width="197">点击其他页面按钮</td>
+<td width="97">转到其他页面</td>
+<td width="97"><strong>转到其他页面</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc002</td>
+<td width="84">查看下一页</td>
+<td width="197">点击下一页按钮</td>
+<td width="97">进入下一页</td>
+<td width="97"><strong>进入下一页</strong></td>
+</tr>
+<tr>
+<td width="94">testlsc003</td>
+<td width="84">选择排名</td>
+<td width="197">点击排名按钮</td>
+<td width="97">显示排名</td>
+<td width="97"><strong>显示排名</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.4 试题管理与考试管理</h2>
+<span style="color: #ff0000;"><strong>该部分需要管理员账号，因此该部分无法进行实际测试。因此，根据逆向工程的结果，设计测试用例。</strong></span>
+<p style="text-align: center;"><strong>表3.7 </strong><strong>题管理与考试管理的功能测试</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="101"><strong>编号</strong></td>
+<td width="83"><strong>场景/</strong><strong>条件</strong></td>
+<td width="164"><strong>操作/</strong><strong>输入（等价类）</strong></td>
+<td width="125"><strong>预期结果</strong></td>
+<td width="96"><strong>实际结果</strong></td>
+</tr>
+<tr>
+<td width="101">testadmin001</td>
+<td width="83">查看题库</td>
+<td width="164">管理员点击题库</td>
+<td width="125">可以查看查看题库的所有类型</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin002</td>
+<td width="83">退出题库</td>
+<td width="164">管理员点击关闭题库，不做任何操作，点击关闭按钮</td>
+<td width="125">系统退出</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin003</td>
+<td width="83">提交题库</td>
+<td width="164">管理员点击题库，连续点击保存多次提交</td>
+<td width="125">操作不会重复执行，数据不会重复提交</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin004</td>
+<td width="83">新增题库</td>
+<td width="164">管理员点击新增题库</td>
+<td width="125">页面将跳到新建页面，最大可以输入的汉字字数符合实际；有效字符的验证（不是所有的字符都可以保存）</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin005</td>
+<td width="83">保存题库</td>
+<td width="164">输入所有必填项，点击保存按钮</td>
+<td width="125">可以在题库管理的列表中看到新添加的题库</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin006</td>
+<td width="83">删除题库</td>
+<td width="164">管理员选择某一题库记录再点击删除按钮，并确认</td>
+<td width="125">选择的题库被删除，返回列表</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin007</td>
+<td width="83">查询题库</td>
+<td width="164">在文本框里面输入题库名称</td>
+<td width="125">可以查询其题库，双击题库记录可以查看题库的详细信息</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin008</td>
+<td width="83">进入测试记录管理</td>
+<td width="164">管理员点击测试里面的测试记录管理</td>
+<td width="125">可以查看测试记录管理的全部列表</td>
+<td width="96"><strong> </strong></td>
+</tr>
+<tr>
+<td width="101">testadmin009</td>
+<td width="83">查询测试记录</td>
+<td width="164">在文本框里面输入测试记录管理名称</td>
+<td width="125">可以查询其测试记录管理，双击测试记录管理记录可以查看测试记录管理的详细信息</td>
+<td width="96"><strong> </strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3.5 Web安全性测试</h2>
+<p style="text-align: center;"><strong>表</strong><strong> 3.8</strong><strong>安全性测试项目</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="135"><strong>编号</strong></td>
+<td width="142"><strong>大类</strong></td>
+<td width="158"><strong>细项</strong></td>
+<td width="133"><strong>结果</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse001</strong></td>
+<td rowspan="2" width="142"><strong>上传</strong></td>
+<td width="158">绕过图片（头像）上传检查</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse002</strong></td>
+<td width="158">上传文件大小和次数限制</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse003</strong></td>
+<td rowspan="11" width="142"><strong>登录功能</strong></td>
+<td width="158">注册请求是否安全传输</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse004</strong></td>
+<td width="158">注册时密码复杂度是否后台检验</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse005</strong></td>
+<td width="158">激活链接测试</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse006</strong></td>
+<td width="158">重复注册</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse007</strong></td>
+<td width="158">批量注册问题</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse008</strong></td>
+<td width="158">登录请求是否安全传输</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse009</strong></td>
+<td width="158">会话固定</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse010</strong></td>
+<td width="158">关键Cookie是否HttpOnly</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse011</strong></td>
+<td width="158">登录请求错误次数限制</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse012</strong></td>
+<td width="158">“记住我”功能</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse013</strong></td>
+<td width="158">本地存储敏感信息</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse014</strong></td>
+<td rowspan="3" width="142"><strong>验证码</strong></td>
+<td width="158">验证码绕过</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse015</strong></td>
+<td width="158">短信验证码轰炸</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse016</strong></td>
+<td width="158">验证码的一次性</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse017</strong></td>
+<td width="142"><strong>找回密码</strong></td>
+<td width="158">找回密码</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse018</strong></td>
+<td width="142"><strong>SQL</strong><strong>注入测试</strong></td>
+<td width="158">SQL注入测试</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse019</strong></td>
+<td width="142"><strong>URL</strong><strong>重定向测试</strong></td>
+<td width="158">URL重定向测试</td>
+<td width="133"><strong>安全</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse020</strong></td>
+<td rowspan="2" width="142"><strong>敏感信息泄露</strong></td>
+<td width="158">SVN信息泄露</td>
+<td width="133"><strong>？（未知）</strong></td>
+</tr>
+<tr>
+<td width="135"><strong>testse021</strong></td>
+<td width="158">页面泄露敏感信息</td>
+<td width="133"><strong>安全</strong><strong> </strong></td>
+</tr>
+</tbody>
+</table>
+<h1>4.测试总结</h1>
+本系统主要功能包括：①登录模块，②在线考试模块，③试题管理模块，④考试管理模块，⑤成绩查询模块。
+
+下面给出本系统的黑盒测试结果：
+<p style="text-align: center;"><strong>表4.1 </strong><strong>测试总结</strong></p>
+
+<table width="574">
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>系统名称</strong></td>
+<td width="378">计算机程序能力在线测评系统</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试人员（负责人）</strong></td>
+<td width="378">OmegaXYZ.com</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试方法</strong></td>
+<td width="378">黑盒测试（等价类划分）</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>登录模块</strong></td>
+<td width="378"><strong>testlogin012</strong><strong>（缺陷等级2</strong><strong>）</strong></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>在线考试模块</strong></td>
+<td width="378"><strong>testloj005(</strong><strong>缺陷等级1)</strong><strong>、testloj008(</strong><strong>缺陷等级3)</strong></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>试题管理模块</strong></td>
+<td width="378">\</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>考试管理模块</strong></td>
+<td width="378">\</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>成绩查询模块</strong></td>
+<td width="378">正常</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>安全性测试</strong></td>
+<td width="378">基本安全</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>测试日期</strong></td>
+<td width="378">2019年4月15日星期一</td>
+</tr>
+<tr>
+<td width="102"><strong>缺陷审核员核准</strong></td>
+<td colspan="2" width="472"><strong> </strong></td>
+</tr>
+<tr>
+<td width="102"></td>
+<td width="94"></td>
+<td width="378"></td>
+</tr>
+</tbody>
+</table>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

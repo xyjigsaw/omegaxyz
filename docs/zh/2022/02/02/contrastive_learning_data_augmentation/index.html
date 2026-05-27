@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>对比学习中常见的数据增强策略 · OmegaXYZ</title>
+  <meta name="description" content="[latexpage] 对比学习 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{L}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2022/02/02/contrastive_learning_data_augmentation/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2022-02-02</div>
+        <h1>对比学习中常见的数据增强策略</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content">[latexpage]
+<h2><strong>对比学习</strong></h2>
+对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失：
+
+\[
+\mathcal{L}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^{2N}exp(\textbf{z}_i \cdot \textbf{z}_k / \tau)}
+\]
+
+在很多情况下，对比学习只需要对每一个样本生成一个正样本，同一个batch内的其他样本作为负样本。
+<h2><strong>图像</strong></h2>
+在图像领域，正样本的设计是比较简单的，这里第一张是原图，其他图片都是通过旋转，剪裁，遮盖，加噪声等方式获得的正样本。因此，在图像领域，无监督的对比学习往往更容易训练。
+
+<img class="alignnone  wp-image-7443" src="https://cdn.omegaxyz.com/2022/01/image_da.png" alt="" width="674" height="298" />
+<h2><strong>NLP</strong></h2>
+在自然语言处理领域，也有很多增强正样本的方法，这是其中两种：
+
+一种是同义词替换<strong>（Synonym substitution）</strong>，我们可以通过bert或者word2vec找到在语义空间相近的单词，替换掉原来的词做数据增强。
+
+<img class="alignnone  wp-image-7445" src="https://cdn.omegaxyz.com/2022/01/nlp_da1.png" alt="" width="524" height="157" /> <img class="alignnone  wp-image-7446" src="https://cdn.omegaxyz.com/2022/01/nlp_da2.jpg" alt="" width="205" height="156" />
+
+另一种技术叫做后翻译<strong>（Back-translation）</strong>，比如我要做英文数据的增强，那么我可以用谷歌或者有道翻译成法文，中文等，然后再将法文中文翻译回英文。这样我也做到了数据增强。
+
+<img class="alignnone  wp-image-7447" src="https://cdn.omegaxyz.com/2022/01/nlp_da3.png" alt="" width="470" height="220" />
+<h2><strong>Graph</strong></h2>
+在graph领域，数据增强的方式就比较局限了，目前有几种主流的方法，去点，边扰动和特征shuffle。
+
+例如我们可以将一些不太重要的节点从图中去掉，也可以通过邻域信息，启发式地做边扰动。
+
+<img class="alignnone  wp-image-7442" src="https://cdn.omegaxyz.com/2022/01/graph_da.png" alt="" width="687" height="239" />
+<h2><strong>Knowledge Graph</strong></h2>
+在知识图谱方面，鲜有基于对比学习的工作，目前找到了一篇，它用的是triplet loss，而不是主流的InfoNCE，而且他构造的是负样本，对于一个三元组，文章中采用K-阶的邻居作为负样本。比如对于这个红色的中心节点，它的一阶邻居，也就是黄色的节点是正样本，2-3-4阶的邻居由于没有边和红色的中间结点相连，因此可以作为负样本。
+
+<img class="alignnone  wp-image-7444" src="https://cdn.omegaxyz.com/2022/01/kg_da.png" alt="" width="643" height="265" />
+<h2><strong>参考资料</strong></h2>
+[1] Ahrabian, Kian, et al. "Structure Aware Negative Sampling in Knowledge Graphs." EMNLP. 2020.
+
+[2] You, Yuning, et al. "Graph contrastive learning with augmentations." Advances in Neural Information Processing Systems 33 (2020): 5812-5823.
+
+&nbsp;
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-25310">
+          <strong>金万达</strong>
+          <time>2022-02-13 11:50:05</time>
+          <div>啥也不说了，希望疫情早点结束吧！</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

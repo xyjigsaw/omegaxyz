@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux基本命令 · OmegaXYZ</title>
+  <meta name="description" content="由于参加了机器人社团，涉足了Linux的知识，今天开始写第一篇关于Linux的文章。 Linux简介（百度百科）： https://baike.baidu.com/item/linux/27050?fr=aladdin 基本操作命令： 1、显示日期的指令： date 2、显示日历的指令：cal 3、简单好用的计算器：bc 4、重要的几个热...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/07/linux_instruct/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-07</div>
+        <h1>Linux基本命令</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
+        <div class="article-content">由于参加了机器人社团，涉足了Linux的知识，今天开始写第一篇关于Linux的文章。
+
+Linux简介（百度百科）：<a href="https://baike.baidu.com/item/linux/27050?fr=aladdin">https://baike.baidu.com/item/linux/27050?fr=aladdin</a>
+
+<strong>基本操作命令：</strong>
+
+1、显示日期的指令： date
+2、显示日历的指令：cal
+3、简单好用的计算器：bc
+4、重要的几个热键[Tab],[ctrl]-c, [ctrl]-d
+[Tab]按键---具有『命令补全』不『档案补齐』的功能
+[Ctrl]-c按键---让当前的程序『停掉』
+[Ctrl]-d按键---通常代表着：『键盘输入结束(End Of File, EOF 戒 End OfInput)』的意思；另外，他也可以用来取代exit
+5、man
+退出用q，
+man -f man
+6、数据同步写入磁盘： sync
+输入sync，那举在内存中尚未被更新的数据，就会被写入硬盘中；所以，这个挃令在系统关机戒重新启劢乀前， 径重要喔！最好多执行几次！
+7、惯用的关机指令：shutdown
+此外，需要注意的是，时间参数请务必加入指令中，否则shutdown会自动跳到 run-level 1 (就是单人维护的登入情况)，这样就伤脑筋了！底下提供几个时间参数的例子吧：
+重启，关机： reboot, halt,poweroff
+8、切换执行等级： init
+Linux共有七种执行等级：
+--run level 0 :关机
+--run level 3 :纯文本模式
+--run level 5 :含有图形接口模式
+--run level 6 :重新启动
+使用init这个指令来切换各模式：
+9、改变文件的所属群组：chgrp
+10、改变文件拥有者：chown
+他还可以顸便直接修改群组的名称
+11、改变文件的权限：chmod
+权限的设定方法有两种， 分别可以使用数字或者是符号来进行权限的变更。
+--数字类型改变档案权限：
+--符号类型改变档案权限：
+12、查看版本信息等
+13、变换目录：cd
+14、显示当前所在目录：pwd
+15、建立新目录：mkdir
+16、删除『空』的目录：rmdir
+17、档案与目录的显示：ls
+18、复制档案或目录：cp
+19、移除档案或目录：rm
+20、移动档案与目录，或更名：mv
+21、取得路径的文件名与目录名：basename，dirname
+22、由第一行开始显示档案内容：cat
+23、从最后一行开始显示：tac（可以看出 tac 是 cat 的倒着写）
+24、显示的时候，顺道输出行号：nl
+25、一页一页的显示档案内容：more
+26、与 more 类似，但是比 more 更好的是，他可以往前翻页：less
+27、只看头几行：head
+28、只看尾几行：tail
+29、以二进制的放置读取档案内容：od
+30、修改档案时间或新建档案：touch
+31、档案预设权限：umask
+32、配置文件档案隐藏属性：chattr
+33、显示档案隐藏属性：lsattr
+34、观察文件类型：file
+35、寻找【执行挡】：which
+36、寻找特定档案：whereis
+37、寻找特定档案：locate
+38、寻找特定档案：find
+39、压缩文件和读取压缩文件：gzip，zcat
+40、压缩文件和读取压缩文件：bzip2，bzcat
+41、压缩文件和读取压缩文件：tar
+
+-------------------------------------以下内容转载-------------------------------------------------------
+
+<a href="https://www.cnblogs.com/probemark/p/5831663.html">https://www.cnblogs.com/probemark/p/5831663.html</a>
+
+<strong>1.</strong><strong>uptime</strong><strong>命令</strong>
+
+在Linux中，uptime命令显示了你的系统运行了多久以及目前登录的用户有多少，另外还显示了间隔1分钟、5分钟和15分钟的负载平均值。
+<pre># uptime
+ 08:16:26 up 22 min,  1 user, <strong> </strong>load average: 0.00, 0.03, 0.22</code></pre>
+<strong>检查uptime版本</strong>
+
+除了uptime（正常运行时间）和version（版本）外，uptime命令没有其他选项。如果时间不到1天，它只给出hours:mins这种形式的信息。
+<pre>[tecmint@linuxprobe ~]$ uptime -V
+ procps version 3.2.8</code></pre>
+<strong>2.</strong><strong>w</strong><strong>命令</strong>
+
+该命令会显示目前登录的用户及其进程，另外还会显示负载平均值。此外，它还显示了登录名称、tty名称、远程主机、登录时间、闲置时间、JCPU、PCPU、命令和进程。
+<pre># w
+08:27:44 up 34 min,  1 user,  load average: 0.00, 0.00, 0.08
+USER    TTY    FROM     LOGIN@   IDLE   JCPU   PCPU WHAT
+tecmint  pts/0    192.168.50.1     07:59    0.00s  0.29s  0.09s w
+
+ <strong>可用的选项</strong>
+ -h：不显示标题。
+
+ -s：不显示JCPU和PCPU。
+
+ -f：不显示字段信息。
+
+ -V：（大写V）－显示版本。</code></pre>
+<strong>3.users</strong><strong>命令</strong>
+
+users命令显示了目前已登录的用户，除了help（帮助）和version（版本）外，该命令没有其他参数。
+<pre># users
+ Tecmint</code></pre>
+<strong>4.who</strong><strong>命令</strong>
+
+who命令仅仅返回用户名称、日期、时间和主机信息；who命令类似w命令，不像w命令，who并不输出用户执行的操作这一信息，不妨具体看看who和w这两个命令之间的区别。
+<pre># who
+ tecmint  pts/0        2010-09-18 07:59 (192.168.50.1)
+</code></pre>
+<pre># w
+ 08:43:58 up 50 min,  1 user,  load average: 0.64, 0.18, 0.06
+ USER    TTY    FROM    LOGIN@   IDLE   JCPU   PCPU WHAT
+ tecmint  pts/0    192.168.50.1     07:59    0.00s  0.43s  0.10s w
+
+ <strong>who命令的选项</strong>
+
+ -b：显示上一次系统重启日期和时间。
+
+ -r：显示当前的运行级别。
+
+ -a，–all：显示累积的所有信息。</code></pre>
+<strong>5.whoami</strong><strong>命令</strong>
+
+whoami命令输出当前用户的姓名；你还可以使用“who am i”命令显示当前用户，如果你以根用户身份使用sudo命令登录，“whoami”命令返回根用户是当前用户，如果你想知道登录的用户具体是哪个，使用“who am i”命令。
+<pre># whoami
+ tecmint</code></pre>
+<strong>6.ls</strong><strong>命令</strong>
+
+ls命令显示了人类可读格式的文件列表。
+<pre># ls -l
+ total 114
+ dr-xr-xr-x.   2 root root  4096 Sep 18 08:46 bin
+ dr-xr-xr-x.   5 root root  1024 Sep  8 15:49 boot
+</code></pre>
+按照上一次修改时间排序文件。
+<pre># ls -ltr
+ total 40
+ -rw-r--r--. 1 root root  6546 Sep 17 18:42 install.log.syslog
+ -rw-r--r--. 1 root root 22435 Sep 17 18:45 install.log
+ -rw-------. 1 root root  1003 Sep 17 18:45 anaconda-ks.cfg
+</code></pre>
+<strong>7.crontab</strong><strong>命令</strong>
+
+可使用crontab命令和-l选项，列出当前用户的计划任务。
+<pre># crontab -l
+ 00 10 * * * /bin/ls &gt;/ls.txt
+</code></pre>
+可以使用-e选项编辑crontab，在下面例子中，将用VI编辑工具打开计划任务，进行必要的更改，按:wq键退出，这会自动保存设置。
+<pre># crontab -e
+</code></pre>
+<strong>8.less</strong><strong>命令</strong>
+
+less命令允许快速查看文件；你可以向上和向下翻页，按“q”即可退出less窗口。
+<pre># less install.log
+ Installing setup-2.8.14-10.el6.noarch
+ warning: setup-2.8.14-10.el6.noarch: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY
+ Installing filesystem-2.4.30-2.1.el6.i686
+ Installing ca-certificates-2010.63-3.el6.noarch
+ Installing xml-common-0.6.3-32.el6.noarch
+ nstalling tzdata-2010l-1.el6.noarch
+ Installing iso-codes-3.16-2.el6.noarch
+</code></pre>
+<strong>9.more</strong><strong>命令</strong>
+
+more命令允许快速查看文件，并以百分比的形式显示详细信息，你可以向上和向下翻页，按“q”即可退出more窗口。
+<pre># more install.log
+ Installing setup-2.8.14-10.el6.noarch
+ warning: setup-2.8.14-10.el6.noarch: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY
+ Installing filesystem-2.4.30-2.1.el6.i686
+ Installing ca-certificates-2010.63-3.el6.noarch
+ Installing xml-common-0.6.3-32.el6.noarch
+ Installing tzdata-2010l-1.el6.noarch
+ Installing iso-codes-3.16-2.el6.noarch
+ --More--(10%)
+</code></pre>
+<strong>10.cp</strong><strong>命令</strong>
+
+将文件从来源拷贝到目的地，保留同一种模式。
+<pre># cp -p fileA fileB
+</code></pre>
+覆盖文件之前系统会提示你。
+<pre># cp -i fileA fileB
+</code></pre>
+<strong>11.mv</strong><strong>命令</strong>
+
+将fileA更名为fileB； -i选项会在覆盖前提示；如果文件已经存在，会要求予以确认。
+<pre># mv -i fileA fileB
+</code></pre>
+<strong>12.cat</strong><strong>命令</strong>
+
+cat命令用来同时查看多个文件。
+<pre># cat fileA fileB
+</code></pre>
+要是某个文件在一个屏幕/页面显示不了，你可以使用cat命令来合并more和less命令，查看文件内容。
+<pre># cat install.log | less
+      or
+# cat install.log | more
+</code></pre>
+<strong>13.cd</strong><strong>命令（切换目录）</strong>
+
+借助cd命令（切换目录），它会进入到fileA目录。
+<pre># cd /fileA
+</code></pre>
+<strong>14.pwd</strong><strong>命令（输出工作目录）</strong>
+
+pwd命令会返回当前的工作目录。
+<pre class=""># pwd
+/root
+</code></pre>
+<strong>15.sort</strong><strong>命令</strong>
+
+以升序排序一行行文本文件，如果使用-r选项，就会以降序排序。
+<pre ><code class="language-default">#sort&amp;nbsp;fileA.txt
+#sort&amp;nbsp;-r&amp;nbsp;fileA.txt
+</code></pre>
+<strong>16.vi</strong><strong>命令</strong>
+
+对大多数类似UNIX的操作系统而言，vi是最流行的文本编辑器，下面例子使用-R选项，打开只读方式的文件，按“:q”即可退出vi窗口。
+<pre># vi -R /etc/shadows
+</code></pre>
+<strong>17.ssh</strong><strong>命令（安全外壳）</strong>
+
+ssh命令用来登录入到远程主机；比如说，下面这个ssh例子会使用用户作为narad，连接到主机（192.168.50.2）。
+<pre># ssh narad@192.168.50.2
+</code></pre>
+想检查ssh的版本，使用选项-V（大写），即可显示ssh的版本。
+<pre># ssh -V
+OpenSSH_5.3p1, OpenSSL 1.0.0-fips 29 Mar 2010
+</code></pre>
+<strong>18.ftp</strong><strong>或sftp</strong><strong>命令</strong>
+
+ftp或sftp命令用来连接到远程ftp主机；ftp是指文件传输协议，而sftp是安全文件传输协议。比如说，下列命令将连接到ftp主机（192.168.50.2）。
+<pre># ftp 192.168.50.2
+# sftp 192.168.50.2
+</code></pre>
+正如可以使用mput将多个文件上传到到远程主机，我们同样可以使用mget从远程主机下载多个文件。
+<pre># ftp &gt; mput *.txt
+# ftp &gt; mget *.txt
+</code></pre>
+<strong>19.service</strong><strong>命令</strong>
+
+service命令调用位于/etc/init.d/目录处的脚本，并执行脚本。有两种方法可以启动任何服务；比如说，我们使用service命令，启动名为httpd的服务。
+<pre># service httpd start
+# /etc/init.d/httpd start
+</code></pre>
+<strong>20.free</strong><strong>命令</strong>
+
+free命令显示了闲置内存、总内存和交换内等方面的信息，单位是字节。
+<pre># free
+ total           used      <strong>    </strong>  free         shared     buffers    cached
+ Mem:       1030800     735944     294856          0      51648     547696
+ -/+ buffers/cache:     136600     894200
+ Swap:      2064376          0    2064376
+</code></pre>
+使用-t选项的free命令显示了已使用的总内存和可以使用的内存，单位是字节。
+<pre># free  -t
+ total       used       free     shared    buffers     cached
+ Mem:       1030800     736096     294704          0      51720     547704
+ -/+ buffers/cache:     136672     894128
+ Swap:      2064376          0    2064376
+ Total:     3095176     736096    2359080
+</code></pre>
+<strong>21.top</strong><strong>命令</strong>
+
+top命令显示了系统的处理器活动，还显示了由内核实时管理的任务，它会显示所使用的处理器和内存；如果使用带“u”选项的top命令，这会显示特定的用户进程详细信息，如下所示：按“O”（大写）即可按你希望的方式来排序，按“q”即可退出top屏幕。
+<pre># top -u tecmint
+ <span class="keyword">top - 11:13:11 up  3:19,  2 users,  load average: 0.00, 0.00, 0.00
+ Tasks: 116 total,   1 running, 115 sleeping,   0 stopped,   0 zombie
+ Cpu(s):  0.0%us,  0.3%sy,  0.0%ni, 99.7%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+ Mem:   1030800k total,   736188k used,   294612k free,    51760k buffers
+ Swap:  2064376k total,        0k used,  2064376k free,   547704k cached
+
+ PID <span class="func">USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+ 1889 tecmint   20   0 11468 1648  920 S  0.0  0.2   0:00.59 sshd
+ 1890 tecmint   20   0  5124 1668 1416 S  0.0  0.2   0:00.44 bash
+ 6698 tecmint   20   0 11600 1668  924 S  0.0  0.2   0:01.19 sshd
+ 6699 tecmint   20   0  5124 1596 1352 S  0.0  0.2   0:00.11 bash</span></span></code></pre>
+<strong>22.tar</strong><strong>命令</strong>
+
+tar命令用于压缩Linux下的文件和文件夹；比如说，下面这个命令将为/home目录创建一个压缩存档，文件名为archive-name.tar。
+<pre># tar -cvf archive-name.tar /home
+</code></pre>
+想解压缩tar压缩存档文件，请使用如下所示的选项。
+<pre># tar -xvf archive-name.tar
+</code></pre>
+<strong>23.grep</strong><strong>命令</strong>
+
+grep可搜索文件中的特定字符串；只显示/etc/passwd文件中的tecmint用户。我们可以使用-i选项，忽略大小写。
+<pre># grep tecmint /etc/passwd
+ tecmint:x:500:500::/home/tecmint:/bin/bash
+</code></pre>
+<strong>24.find</strong><strong>命令</strong>
+
+find命令用来搜索文件、字符串和目录；在下面这个例子中，find命令搜索“/”分区中的tecmint单词，并返回输出。
+<pre># find / -name tecmint
+ /var/spool/mail/tecmint
+ /home/tecmint
+ /root/home/tecmint
+</code></pre>
+<strong>25.lsof</strong><strong>命令</strong>
+
+lsof意味着“列出所有打开的文件”；下面，lsof命令列出了tecmint用户打开的所有文件。
+<pre># lsof -u tecmint 
+ COMMAND  PID    USER   FD   TYPE     DEVICE SIZE/OFF   NODE NAME  
+ sshd    1889 tecmint  cwd    DIR      253,0     4096      2 /  
+ sshd    1889 tecmint  txt    REG      253,0   532336 298069 /usr/sbin/sshd  
+ sshd    1889 tecmint  DEL    REG      253,0          412940 /lib/libcom_err.so.2.1  
+ sshd    1889 tecmint  DEL    REG      253,0          393156 /lib/ld-2.12.so  
+ sshd    1889 tecmint  DEL    REG      253,0          298643 /usr/lib/libcrypto.so.1.0.0  
+ sshd    1889 tecmint  DEL    REG      253,0          393173 /lib/libnsl-2.12.so  
+ sshd    1889 tecmint  DEL    REG      253,0          412937 /lib/libkrb5support.so.0.1  
+ sshd    1889 tecmint  DEL    REG      253,0          412961 /lib/libplc4.so</code></pre>
+<strong>26.last</strong><strong>命令</strong>
+
+借助last命令，我们就能观察用户在系统中的活动；该命令还可以以正常用户的身份来执行，它会显示完整的用户信息，比如终端、时间、日期、系统重启或启动以及内核版本，这是用来排查故障的实用命令。
+<pre># last 
+ tecmint  pts/1        192.168.50.1     Tue Sep 18 08:50   still logged in  
+ tecmint  pts/0        192.168.50.1     Tue Sep 18 07:59   still logged in  
+ reboot   system boot  2.6.32-279.el6.i Tue Sep 18 07:54 - 11:38  (03:43)  
+ root     pts/1        192.168.50.1     Sun Sep 16 10:40 - down   (03:53)  
+ root     pts/0        :0.0             Sun Sep 16 10:36 - 13:09  (02:32)  
+ root     tty1         :0               Sun Sep 16 10:07 - down   (04:26)  
+ reboot   system boot  2.6.32-279.el6.i Sun Sep 16 09:57 - 14:33  (04:35)  
+ narad    pts/2        192.168.50.1     Thu Sep 13 08:07 - down   (01:15) 
+</code></pre>
+你可以使用带用户名的last，了解特定用户的活动，如下所示。
+<pre># last tecmint 
+ tecmint  pts/1        192.168.50.1     Tue Sep 18 08:50   still logged in  
+ tecmint  pts/0        192.168.50.1     Tue Sep 18 07:59   still logged in  
+ tecmint  pts/1        192.168.50.1     Thu Sep 13 08:07 - down   (01:15)  
+ tecmint  pts/4        192.168.50.1     Wed Sep 12 10:12 - 12:29  (02:17) 
+</code></pre>
+<strong>27.ps</strong><strong>命令</strong>
+
+ps命令显示了系统中运行的进程方面的信息；下面这个例子只显示init进程。
+<pre># ps -ef | grep init
+ root         1     0  0 07:53 ?        00:00:04 /sbin/init
+ root      7508  6825  0 11:48 pts/1    00:00:00 grep init
+</code></pre>
+<strong>28.kill</strong><strong>命令</strong>
+
+使用kill命令来终结进程；先使用ps命令找到进程id，如下所示，然后使用kill -9命令，终止进程。
+<pre># ps -ef | grep init
+ root         1     0  0 07:53 ?        00:00:04 /sbin/init
+ root      7508  6825  0 11:48 pts/1    00:00:00 grep init
+# kill- 9 7508
+</code></pre>
+<strong>29.rm</strong><strong>命令</strong>
+
+rm命令用来清除或删除文件，并不提示予以确认。
+<pre># rm filename
+</code></pre>
+使用-i选项即可在删除之前予以确认；使用“-r”和“-f”这两个选项将强行删除文件，并不予以确认。
+<pre># rm -i test.txt
+rm: remove regular file `test.txt'?
+</code></pre>
+<strong>30.mkdir</strong><strong>命令</strong>
+
+mkdir命令用来在Linux下创建目录。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

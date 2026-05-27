@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdaBoost简介及Python应用 · OmegaXYZ</title>
+  <meta name="description" content="AdaBoost AdaBoost集合了多个多分类器，采用加权多数表决的方法，加大分类误差率小的弱分类器的权重，减小分类误差率大的弱分类器的权重。 AdaBoost的一般流程 （1）收集数据：可以适用任意方法 （2）准备数据：依赖于所使用的弱分类器类型 （3）分析数据：可以使用任意方法 （4）训练算法：AdaBoost的大部分时间都用在训...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/11/adaboost-python/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-11</div>
+        <h1>AdaBoost简介及Python应用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>AdaBoost</strong></h2>
+AdaBoost集合了多个多分类器，采用加权多数表决的方法，加大分类误差率小的弱分类器的权重，减小分类误差率大的弱分类器的权重。
+<h2><strong>AdaBoost的一般流程</strong></h2>
+（1）收集数据：可以适用任意方法
+（2）准备数据：依赖于所使用的弱分类器类型
+（3）分析数据：可以使用任意方法
+（4）训练算法：AdaBoost的大部分时间都用在训练上，分类器将多次在同一数据集上训练弱分类器
+（5）测试算法：计算分类的错误率
+（6）使用算法：同SVM一样，AdaBoost预测两个类别中的一个。
+<h2 id="算法流程"><strong>算法流程</strong></h2>
+<img class="alignnone wp-image-5681" src="https://cdn.omegaxyz.com/2019/04/adaboost2.png" alt="" width="809" height="686" />
+<h2><strong>训练样本（李航 统计学习方法）</strong></h2>
+<img class="alignnone size-full wp-image-5680" src="https://cdn.omegaxyz.com/2019/04/adaboost1.png" alt="" width="249" height="72" />
+
+需要用到的若分类器为x &lt; v或 x &gt; v
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>y</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="算法流程"><strong>Python实现</strong></h2>
+<div class="MathJax_Display">
+<pre ><code class="language-python">import numpy as np
+
+
+class Classifier:
+    def __init__(self):
+        self.v = 0
+        self.left = 0  # 该分类器有两种情况，一种是x &gt; v为1，另一种是x &lt; v为1
+
+    def train(self, x, y, w):
+        min_loss = 1
+        for v in np.arange(0.5, 10, 1):
+            for left in [0, 1]:
+                if left == 0:
+                    label = (((x &lt; v) - 0.5) * 2 != y)  # (0 - 0.5)*2 = -1
+                else:
+                    label = (((x &gt; v) - 0.5) * 2 != y)
+                loss = sum(label * w)
+                if loss &lt; min_loss:
+                    min_loss = loss
+                    self.v = v
+                    self.left = left
+        return min_loss
+
+    def test(self, x):
+        if self.left == 0:
+            return ((x &lt; self.v) - 0.5)*2
+        else:
+            return ((x &gt; self.v) - 0.5)*2
+
+
+class AdaBoost:
+    def __init__(self, classifier=Classifier):
+        self.classifier = classifier
+        self.pool = []  # 分类器集合
+        self.alphas = []
+
+    def train(self, x, y):
+        num = x.shape[0]
+        M = 3
+        W = np.array([1 / num] * num)
+        print('  Weight:', W)
+        for m in range(M):
+            classifier_m = self.classifier()
+            e_m = classifier_m.train(x, y, W)  # 计算错误率
+            print('GEN:', m, 'Error:', e_m, '\n')
+            alpha_m = 1 / 2 * np.log((1-e_m)/e_m)  # 分类器m的系数
+            G_m = classifier_m.test(x)
+            W = W * np.exp(- alpha_m * y * G_m)  # 更新权重
+            W = W / np.sum(W)  # 规范化
+            print('  Weight:', W)
+            self.pool.append(classifier_m)
+            self.alphas.append(alpha_m)  # 系数存储
+
+    def test(self, x):
+        n = x.shape[0]
+        results = np.zeros(n)
+        for alpha, classifier in zip(self.alphas, self.pool):
+            results += alpha * classifier.test(x)
+        return ((results &gt; 0) - 0.5) * 2
+
+
+x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+y = [1, 1, 1, -1, -1, -1, 1, 1, 1, -1]
+x = np.array(x)
+y = np.array(y)
+ab = AdaBoost()
+ab.train(x, y)
+print('TEST: ', ab.test(x))</code></pre>
+</div>
+&nbsp;
+<h2><strong>结果</strong></h2>
+<img class="alignnone wp-image-5682" src="https://cdn.omegaxyz.com/2019/04/adaboost3.png" alt="" width="635" height="241" />
+<h2><strong>参考</strong></h2>
+https://blog.csdn.net/u013859301/article/details/79483126
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

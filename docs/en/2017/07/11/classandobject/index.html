@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of JAVA objects and classes · OmegaXYZ</title>
+  <meta name="description" content="1. A class is a template for an object. It defines the properties of an object and provides constructors for creating objects as well as common methods for manipulating objects. 2. A class is also a data type. You can use it to declare object reference variables. The object reference variable appears to store an object, but in fact, it only contains a reference to the object. Strictly speaking, object reference variables and objects are different, but in most cases, their differences can be ignored. 3. Objects are instances of classes. You can use the new operation...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/07/11/classandobject/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>Overview of JAVA objects and classes</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">1. A class is a template for an object. It defines the properties of an object and provides constructors for creating objects as well as common methods for manipulating objects.
+2. A class is also a data type. You can use it to declare object reference variables. It seems that an object is stored in the object reference variable, but in fact
+, it contains only a reference to the object. Strictly speaking, object reference variables and objects are different, but in most cases,
+Their difference is negligible.
+3. Objects are instances of classes. You can use the new operator to create an object, and use the dot operator (.) to access the object through its reference variable.
+
+members of the object.
+4. An instance variable or method belongs to an instance of a class. Its usage is associated with the respective instance. Static variables are used by all members of the same class
+shared by the instance. Static methods can be called without using an instance.
+5. Each instance of a class can access the static variables and static methods of this class. However, for clarity, it's better to use "classname, variable"
+and. Class name, method. to call static variables and static methods.
+6. Visibility modifiers specify how classes, methods, and data are accessed. A public class, method or data can be used by any
+
+For client access, private methods or data can only be accessed within this class.
+7. You can provide a get (accessor) method or a set (modifier) ​​method so that the client program can see or modify the data.
+8. The get method has the method signature public returnType getpropertyName0. If the return value type (returnType) is
+boolean type, the get method should be defined as public boolean I sproperty Name(). set method has method signature
+
+public void setproperty Name(dataType propertyvalue).
+9. All parameters passed to methods are passed by value. For basic type parameters, the actual value is passed and if the parameter is a reference number
+According to the type, a reference to the object is passed.
+10.Java array is an object that can contain primitive type values ​​or object type values. When an array of objects is created, its elements are
+
+Assigns a default value of null.
+11. Once created, an immutable object cannot be changed. To prevent users from modifying an object, you can
+
+Define this object as an immutable class.
+12. The scope of instance variables and static variables is the entire class, no matter where the variable is defined. Instance variables and static variables can be
+
+defined anywhere in the class. For consistency, this book defines classes at the beginning.
+13.This keyword can be used to refer to the object making the call. It can also be used in the constructor to call another object of the same class
+
+a construction method.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

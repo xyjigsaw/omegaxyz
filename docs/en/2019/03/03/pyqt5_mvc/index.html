@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyQt5 builds MVC pattern example · OmegaXYZ</title>
+  <meta name="description" content="MVC is a pattern for creating web applications using MVC (Model View Controller) design: [1] Model represents the core of the application (such as a list of database records). View displays data (database records). The Controller handles input (writing database records). The MVC pattern also provides support for HTML, CSS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/03/03/pyqt5_mvc/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-03</div>
+        <h1>PyQt5 builds MVC pattern example</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/pyqt/index.html">PyQt</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a><a class="pill" href="../../../../tag/mvc/index.html">MVC</a></div>
+        <div class="article-content"><div class="para">MVC is a pattern for creating web applications using the MVC (Model View Controller) design:<sup class="sup--normal" data-ctrmap=":1," data-sup="1"> [1]</sup><a class="sup-anchor" name="ref_[1]_5468343"></a></div>
+<ul class="custom_dot para-list list-paddingleft-1">
+<li class="list-dot list-dot-paddingleft">
+<div class="para">A Model represents the core of the application (such as a list of database records).</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">View displays data (database records).</div></li>
+<li class="list-dot list-dot-paddingleft">
+<div class="para">The Controller handles input (writing database records).</div></li>
+</ul>
+<div class="para">The MVC pattern provides full control over HTML, CSS, and JavaScript simultaneously.</div>
+<div class="para"><b>Model</b>Is the part of the application that handles application data logic.
+Typically model objects are responsible for accessing data in the database.</div>
+<div class="para"><b>View</b>Is the part of the application that handles data display.
+Typically views are created from model data.</div>
+<div class="para"><b>Controller</b>Is the part of the application that handles user interaction.</div>
+<div class="para">
+<span style="color: #ff0000;"><strong>Typically the controller is responsible for reading data from the view, controlling user input, and sending data to the model.</strong></span></div>
+<div></div>
+<div class="para">MVC layering helps manage complex applications because you can focus exclusively on one aspect at a time. For example, you can focus on view design without relying on business logic. It also makes application testing easier.</div>
+<div class="para">MVC layering also simplifies group development. Different developers can develop views, controller logic, and business logic simultaneously.</div>
+<div></div>
+<div><strong>The following is a login window written in PyQt5, built based on the MVC pattern:</strong></div>
+<div>
+<pre><code class="language-python">import sys
+from functools import partial
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Model:
+    def __init__(self):
+        self.username = ""
+        self.password = ""
+
+    def verify_password(self):
+        return self.username == "USER" and self.password == "PASS"
+
+
+class View(QtWidgets.QWidget):
+    verifySignal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super(View, self).__init__()
+        self.username = ""
+        self.password = ""
+        self.initUi()
+
+    def initUi(self):
+        lay = QtWidgets.QVBoxLayout(self)
+        title = QtWidgets.QLabel("&lt;b&gt;LOGIN&lt;/b&gt;")
+        lay.addWidget(title, alignment=QtCore.Qt.AlignHCenter)
+
+        fwidget = QtWidgets.QWidget()
+        flay = QtWidgets.QFormLayout(fwidget)
+        self.usernameInput = QtWidgets.QLineEdit()
+        self.usernameInput.textChanged.connect(partial(setattr, self, "username"))
+        self.passwordInput = QtWidgets.QLineEdit(echoMode=QtWidgets.QLineEdit.Password)
+        self.passwordInput.textChanged.connect(partial(setattr, self, "password"))
+        self.loginButton = QtWidgets.QPushButton("Login")
+        self.loginButton.clicked.connect(self.verifySignal)
+
+        flay.addRow("Username: ", self.usernameInput)
+        flay.addRow("Password: ", self.passwordInput)
+        flay.addRow(self.loginButton)
+
+        lay.addWidget(fwidget, alignment=QtCore.Qt.AlignHCenter)
+        lay.addStretch()
+
+    def clear(self):
+        self.usernameInput.clear()
+        self.passwordInput.clear()
+
+    def showMessage(self):
+        messageBox = QtWidgets.QMessageBox(self)
+        messageBox.setText("your credentials are valid\n Welcome")
+        messageBox.exec_()
+        self.close()
+
+    def showError(self):
+        messageBox = QtWidgets.QMessageBox(self)
+        messageBox.setText("your credentials are not valid\nTry again...")
+        messageBox.setIcon(QtWidgets.QMessageBox.Critical)
+        messageBox.exec_()
+
+
+class Controller:
+    def __init__(self):
+        self._app = QtWidgets.QApplication(sys.argv)
+        self._model = Model()  # 初始化模型
+        self._view = View()  # 初始化视图
+        self.init()
+
+    def init(self):
+        self._view.verifySignal.connect(self.verify_credentials)
+
+    def verify_credentials(self):
+        self._model.username = self._view.username
+        self._model.password = self._view.password
+        self._view.clear()
+        if self._model.verify_password():
+            self._view.showMessage()
+        else:
+            self._view.showError()
+
+    def run(self):
+        self._view.show()
+        return self._app.exec_()
+
+
+if __name__ == '__main__':
+    c = Controller()  # 调用控制器
+    sys.exit(c.run())
+</code></pre>
+</div>
+<h2><strong>Effect</strong></h2>
+<img alt="" class="alignnone wp-image-5568" height="227" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC1.png" width="307"/>
+<img alt="" class="alignnone wp-image-5569" height="186" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC2.png" width="378"/>
+<img alt="" class="alignnone wp-image-5570" height="208" src="https://cdn.omegaxyz.com/2019/03/pyqt5-MVC3.png" width="378"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>随机固定分组合作协同进化PSO算法（CCPSO） · OmegaXYZ</title>
+  <meta name="description" content="合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 合作协同进化算法请见： https://omegaxyz.com/2017/10/14/cooperative_coevolution/ PSO算法是粒子群优化算法。此文...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/29/ccpso_std/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-29</div>
+        <h1>随机固定分组合作协同进化PSO算法（CCPSO）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。
+
+合作协同进化算法请见：<a href="https://omegaxyz.com/2017/10/14/cooperative_coevolution/">https://omegaxyz.com/2017/10/14/cooperative_coevolution/</a>
+
+PSO算法是粒子群优化算法。此文章是随机固定分组的合作协同进化利用PSO来优化。
+
+比如有12个决策变量，我们固定随机优化3个决策变量，那么就将决策变量分成了4组。
+
+MATLAB主函数代码：
+<pre ><code class="language-matlab">clear;
+clc;
+format long;
+%------给定初始化条件--------
+global M
+global bound
+MaxDT=100;       %最大迭代次数
+global Dim
+Dim=22;             %搜索空间维数（未知数个数）
+sub_dim= 11 ;
+M=30;             %初始化群体个体数目
+bound=1;
+%global answer      %最后所有粒子的结果（包括特征与精确度）
+x=randn(M,Dim); %随机初始化位置
+v=randn(M,Dim); %随机初始化速度
+result = 1;
+while MaxDT ~= 0
+    subgroup = rnd_divide(Dim, sub_dim);
+    for i=1:length(subgroup)
+        [sub_x, sub_v, temp_result] = PSO(x(:,subgroup{i}), v(:,subgroup{i}), sub_dim, subgroup{i});
+        x(:,subgroup{i}) = sub_x;
+        v(:,subgroup{i}) = sub_v;
+        if(temp_result &lt; result)
+            result = temp_result;
+        end
+    end
+    %可以在协同进化后进行一次全局优化
+    %[x, v, temp_result] = PSO(x, v, Dim);
+    %if(temp_result &lt; result)
+    %        result = temp_result;
+    %end
+    MaxDT =MaxDT - 1;
+end</code></pre>
+随机分组算法
+<pre ><code class="language-matlab">% random grouping
+function group = rnd_divide(dim, subdim)
+   dim_rand = randperm(dim);
+   group = {};
+   for i = 1:subdim:dim
+      index = dim_rand(i:i+subdim-1);
+      group = {group{1:end} index};
+   end
+end
+
+</code></pre>
+其它函数依赖项与PSO算法相同，请见：<a href="https://omegaxyz.com/2018/01/17/matlab_pso/">https://omegaxyz.com/2018/01/17/matlab_pso/</a>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

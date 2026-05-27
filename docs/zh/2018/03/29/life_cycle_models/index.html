@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件工程生命周期模型对比分析 · OmegaXYZ</title>
+  <meta name="description" content="正如任何事物一样，软件也有其孕育、诞生、成长、成熟和衰亡的生存过程，一般称其为“软件生命周期”。软件生命周期一般分为6个阶段，即制定计划、需求分析、设计、编码、测试、运行和维护。软件开发的各个阶段之间的关系不可能是顺序且线性的，而应该是带有反馈的迭代过程。在软件工程中，这个复杂的过程用软件开发模型来描述和表示。 迭代-递增生命周期模型 长...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/29/life_cycle_models/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-29</div>
+        <h1>软件工程生命周期模型对比分析</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<p class="reader-word-layer reader-word-s1-7">正如任何事物一样，软件也有其孕育、诞生、成长、成熟和衰亡的生存过程，一般称其为“软件生命周期”。软件生命周期一般分为6个阶段，即制定计划、需求分析、设计、编码、测试、运行和维护。软件开发的各个阶段之间的关系不可能是顺序且线性的，而应该是带有反馈的迭代过程。在软件工程中，这个复杂的过程用软件开发模型来描述和表示。</p>
+
+<h1>迭代-递增生命周期模型</h1>
+<img class="alignnone size-full wp-image-3868" src="https://cdn.omegaxyz.com/2018/03/SE2.png" alt="" width="402" height="211" />
+
+<strong>长处：</strong>
+
+①与现实世界软件开发最接近的模型，蕴含统一过程方法
+②为检查软件产品提供多个机会，每个迭代包括测试流
+③在早期可以确定其蕴含的结构的健壮性
+④能够较早地减轻风险
+⑤我们总是有该软件的一个工作版
+
+<strong>关键词：</strong>米勒法则、逐步求精
+<h1>增量模型</h1>
+在有限的时间内，在一套功能有限的版本的基础上不断扩充。
+
+<strong>使用条件：</strong>开发时间有限、开发人员不足、有明确的初期模型
+
+<strong>任务流：</strong>线性、并行（需求不断地加入任务流）
+
+<strong>注意点</strong>：
+
+①第一个增量是核心产品，满足用户基本需求。
+②根据客户使用进行评价、制定增量计划。
+③每个增量都是可运行的产品。
+<h1>进化树模型</h1>
+<strong>长处：</strong>与现实世界软件开发最接近的模型，与迭代递增模型等价。
+
+<img class="alignnone size-full wp-image-3867" src="https://cdn.omegaxyz.com/2018/03/SE1.png" alt="" width="642" height="324" />
+<h1>编码-修补生命周期模型</h1>
+<img class="alignnone size-full wp-image-3869" src="https://cdn.omegaxyz.com/2018/03/SE3.png" alt="" width="574" height="323" />
+
+<strong>长处：</strong>适用于不需要任何维护的小程序
+
+<strong>短处：</strong>总的来说不适合重要的程序
+
+<strong>注意点：</strong>维护工作昂贵
+<h1>瀑布生命周期模型</h1>
+系统顺序的开发方法
+
+<img class="alignnone size-full wp-image-3870" src="https://cdn.omegaxyz.com/2018/03/SE4.png" alt="" width="502" height="315" />
+
+<strong>使用条件：</strong>①可以清楚地了解用户的需求②需求必须准确定义和相对稳定
+
+<strong>任务流：</strong>线性任务流
+
+<strong>注意点：</strong>
+
+①不适用项目的不断变更
+②不适用需求不确定的项目
+③不可违反开发顺序
+④文档驱动（也是弱点）
+
+<strong>长处：</strong>纪律性强制的方法、文档驱动（也是弱点）
+
+<strong>短处：</strong>交付的产品可能不符合客户的要求
+<h1>快速原型开发生命周期模型</h1>
+<img class="alignnone size-full wp-image-3871" src="https://cdn.omegaxyz.com/2018/03/SE5.png" alt="" width="551" height="297" />
+
+每次迭代都会产生一个更加完整的版本
+
+<strong>使用条件：</strong>①用户提出最基本的需求，没有定义更加具体的功能特性②对算法效率，操作系统不确定。
+
+<strong>任务流：</strong>迭代/（线性）
+
+<strong>注意点：</strong>① 开发者对原型随意搭建②为了加速构建，使用不合适的OS③速度是关键
+
+<strong>长处：</strong>确保交付的产品符合客户的要求
+
+<strong>短处：</strong>还没有证明无懈可击
+<h1>开源生命周期模型</h1>
+<img class="alignnone size-full wp-image-3872" src="https://cdn.omegaxyz.com/2018/03/SE6.png" alt="" width="563" height="316" />
+
+<strong>关键词：</strong>
+
+①报告并纠正缺点是纠正性维护
+②添加额外功能是完善性维护
+③为该程序向一个新环境转换接口是适应性维护
+
+<strong>长处：</strong>少量实例中工作得相当好（Linux、Apache、gcc）
+
+<strong>短处：</strong>实用性有限，通常不起作用
+<h1>同步-稳定生命周期模型</h1>
+<strong>关键词：</strong>同步、稳定化、冻结
+
+<strong>长处：</strong>能满足未来用户的要求，确保各组件能够成功集成
+
+<strong>短处：</strong>除了在Microsoft公司，还没有广泛应用
+<h1>敏捷过程</h1>
+有效响应变化+哲学思想
+
+<strong>关键：</strong>①有效沟通②强调最终产品快速交付③将客户融入团队④可以灵活调整计划
+
+<strong>特点：</strong>
+
+①团队小——小而高度自主
+②产品快——可以快速交付成功的系统
+③过程灵——最小化软件工作产品，对整体精简开发，对变更有更良好的响应。
+
+<strong>关键词：</strong>
+
+①测试驱动开发（TDD）：制定出任务的测试用例
+②结对编程（pair programming）
+③时光盒（timeboxing）：频繁交付软件
+④站立会议（stand-up meeting）
+
+<strong>长处：</strong>客户需求模糊时能很好地工作
+
+<strong>短处：</strong>似乎只适合小项目
+<h1>螺旋生命周期模型</h1>
+<strong>长处：</strong>风险驱动
+
+<strong>短处：</strong>只适合用于大型的内部软件产品，开发者必须精通风险分析和风险排除
+
+<img class="alignnone size-full wp-image-3866" src="https://cdn.omegaxyz.com/2018/03/SE7.jpg" alt="" width="488" height="340" />
+
+径坐标代表迄今累计的成本，角坐标代表螺旋型的进展，螺旋的每一圈对应一个阶段，每个阶段开始于（左上）确定该阶段的目标、实现办法、限制条件，如果成功减少风险，则进入下一个阶段（右下）
+<h1>总结</h1>
+<img class="alignnone size-full wp-image-3874" src="https://cdn.omegaxyz.com/2018/03/SE9.png" alt="" width="603" height="521" />
+
+<img class="alignnone size-full wp-image-3873" src="https://cdn.omegaxyz.com/2018/03/SE8.png" alt="" width="601" height="304" />
+<h1>参考资料</h1>
+①<a href="https://wenku.baidu.com/view/718cb107aaea998fcc220e70.html">https://wenku.baidu.com/view/718cb107aaea998fcc220e70.html</a>
+
+②<a href="http://www.docin.com/p-1165870498.html">http://www.docin.com/p-1165870498.html</a>
+
+③<a href="http://blog.sina.com.cn/s/blog_75f397940101dgmj.html">http://blog.sina.com.cn/s/blog_75f397940101dgmj.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

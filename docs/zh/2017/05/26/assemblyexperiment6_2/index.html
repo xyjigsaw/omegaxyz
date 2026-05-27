@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编实验6-2（将正负数复制到不同的数组） · OmegaXYZ</title>
+  <meta name="description" content="分离字数组ARRAY中的正，负数，把其中的正数复制到PDATA数组：负数复制到NDATA数组，并分别统计正、负数个数。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/26/assemblyexperiment6_2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-26</div>
+        <h1>汇编实验6-2（将正负数复制到不同的数组）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">分离字数组ARRAY中的正，负数，把其中的正数复制到PDATA数组：负数复制到NDATA数组，并分别统计正、负数个数。
+<pre ><code class="language-asm">DATAS SEGMENT
+    array  dw 1,2,3,-4,5,-6,7,-8 
+DATAS ENDS
+ext segment
+	pdata dw 8 dup(?)
+	ndata dw 8 dup(?)
+	a db  30h
+	b db  30h
+ext ends
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS,es:ext
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    mov ax,ext
+    mov es,ax
+    lea bx,array
+    lea si,pdata
+    lea di,ndata
+    mov cx,8
+    
+T:  mov ax,[bx]
+    test ax,8000h
+    jz P
+    mov es:[di],ax
+    add a,1
+    add di,2
+    jmp L
+ P: mov es:[si],ax
+    add b,1
+    add si,2 
+
+ L:add bx,2
+ loop T
+  mov dl, a
+  mov ah,2
+  int 21h
+  mov dl,20h
+  mov ah,2
+  int 21h
+  mov dl, b
+  mov ah,2
+  int 21h   
+    
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+end start  
+</code></pre>
+<img class="alignnone  wp-image-820" src="https://cdn.omegaxyz.com/2017/05/捕获-300x112.jpg" alt="" width="560" height="209" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

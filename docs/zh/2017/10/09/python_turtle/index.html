@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python中turtle模块画图 · OmegaXYZ</title>
+  <meta name="description" content="今天，我要介绍一下turtle模块 Turtle库是Python语言中一个很流行的绘制图像的函数库，想象一个小乌龟，在一个横轴为x、纵轴为y的坐标系原点，(0,0)位置开始，它根据一组函数指令的控制，在这个平面坐标系中移动，从而在它爬行的路径上绘制了图形。 官方详解： https://docs.python.org/3/library/t...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/09/python_turtle/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-09</div>
+        <h1>Python中turtle模块画图</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">今天，我要介绍一下turtle模块
+
+Turtle库是Python语言中一个很流行的绘制图像的函数库，想象一个小乌龟，在一个横轴为x、纵轴为y的坐标系原点，(0,0)位置开始，它根据一组函数指令的控制，在这个平面坐标系中移动，从而在它爬行的路径上绘制了图形。
+
+官方详解：
+<a href="https://docs.python.org/3/library/turtle.html">https://docs.python.org/3/library/turtle.html</a>
+
+CSDN详解：
+http://blog.csdn.net/zengxiantao1994/article/details/76588580
+
+python画五角星代码：
+<pre ><code class="language-python">import turtle
+import time
+turtle.color("purple")
+turtle.pensize(5)
+turtle.goto(0,0)
+turtle.speed(10)
+for i in range(6):
+ turtle.forward(100)
+ turtle.right(144)
+turtle.up()
+turtle.forward(100)
+turtle.goto(-150,-120)
+turtle.color("red")
+turtle.write("Done")
+time.sleep(3)</code></pre>
+<img class="alignnone wp-image-2159" src="https://cdn.omegaxyz.com/2017/10/turtle1-280x300.jpg" alt="" width="497" height="533" />
+
+下面这个是CSDN上的python时针（来自<a id="uid" href="http://blog.csdn.net/zengxiantao1994" target="_blank" rel="noopener">知行流浪</a>）：
+<pre ><code class="language-python"># coding=utf-8
+
+import turtle
+from datetime import *
+
+
+# 抬起画笔，向前运动一段距离放下
+def Skip(step):
+    turtle.penup()
+    turtle.forward(step)
+    turtle.pendown()
+
+
+def mkHand(name, length):
+    # 注册Turtle形状，建立表针Turtle
+    turtle.reset()
+    Skip(-length * 0.1)
+    # 开始记录多边形的顶点。当前的乌龟位置是多边形的第一个顶点。
+    turtle.begin_poly()
+    turtle.forward(length * 1.1)
+    # 停止记录多边形的顶点。当前的乌龟位置是多边形的最后一个顶点。将与第一个顶点相连。
+    turtle.end_poly()
+    # 返回最后记录的多边形。
+    handForm = turtle.get_poly()
+    turtle.register_shape(name, handForm)
+
+
+def Init():
+    global secHand, minHand, hurHand, printer
+    # 重置Turtle指向北
+    turtle.mode("logo")
+    # 建立三个表针Turtle并初始化
+    mkHand("secHand", 135)
+    mkHand("minHand", 125)
+    mkHand("hurHand", 90)
+    secHand = turtle.Turtle()
+    secHand.shape("secHand")
+    minHand = turtle.Turtle()
+    minHand.shape("minHand")
+    hurHand = turtle.Turtle()
+    hurHand.shape("hurHand")
+
+    for hand in secHand, minHand, hurHand:
+        hand.shapesize(1, 1, 3)
+        hand.speed(0)
+
+    # 建立输出文字Turtle
+    printer = turtle.Turtle()
+    # 隐藏画笔的turtle形状
+    printer.hideturtle()
+    printer.penup()
+
+
+def SetupClock(radius):
+    # 建立表的外框
+    turtle.reset()
+    turtle.pensize(7)
+    for i in range(60):
+        Skip(radius)
+        if i % 5 == 0:
+            turtle.forward(20)
+            Skip(-radius - 20)
+
+            Skip(radius + 20)
+            if i == 0:
+                turtle.write(int(12), align="center", font=("Courier", 14, "bold"))
+            elif i == 30:
+                Skip(25)
+                turtle.write(int(i / 5), align="center", font=("Courier", 14, "bold"))
+                Skip(-25)
+            elif (i == 25 or i == 35):
+                Skip(20)
+                turtle.write(int(i / 5), align="center", font=("Courier", 14, "bold"))
+                Skip(-20)
+            else:
+                turtle.write(int(i / 5), align="center", font=("Courier", 14, "bold"))
+            Skip(-radius - 20)
+        else:
+            turtle.dot(5)
+            Skip(-radius)
+        turtle.right(6)
+
+
+def Week(t):
+    week = ["星期一", "星期二", "星期三",
+            "星期四", "星期五", "星期六", "星期日"]
+    return week[t.weekday()]
+
+
+def Date(t):
+    y = t.year
+    m = t.month
+    d = t.day
+    return "%s %d%d" % (y, m, d)
+
+
+def Tick():
+    # 绘制表针的动态显示
+    t = datetime.today()
+    second = t.second + t.microsecond * 0.000001
+    minute = t.minute + second / 60.0
+    hour = t.hour + minute / 60.0
+    secHand.setheading(6 * second)
+    minHand.setheading(6 * minute)
+    hurHand.setheading(30 * hour)
+
+    turtle.tracer(False)
+    printer.forward(65)
+    printer.write(Week(t), align="center",
+                  font=("Courier", 14, "bold"))
+    printer.back(130)
+    printer.write(Date(t), align="center",
+                  font=("Courier", 14, "bold"))
+    printer.home()
+    turtle.tracer(True)
+
+    # 100ms后继续调用tick
+    turtle.ontimer(Tick, 100)
+
+
+def main():
+    # 打开/关闭龟动画，并为更新图纸设置延迟。
+    turtle.tracer(False)
+    Init()
+    SetupClock(160)
+    turtle.tracer(True)
+    Tick()
+    turtle.mainloop()
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+<img class="alignnone wp-image-2158" src="https://cdn.omegaxyz.com/2017/10/turtle-clock-290x300.jpg" alt="" width="558" height="577" />
+
+&nbsp;
+
+更多的Turtle案例：Harry Potter: https://junilearning.com/blog/coding-projects/python-draw-harry-potter-symbol/
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

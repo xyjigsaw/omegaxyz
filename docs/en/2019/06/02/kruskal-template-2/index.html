@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minimum spanning tree Kruskal algorithm template question 2 C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Basic ideas: (1) Construct a subgraph containing only n vertices and an empty edge set. If each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) Select an edge with the smallest weight from the edge set E of the network. If the two vertices of this edge belong to different trees, add it to the subgraph. In other words, combine the two trees where the two vertices are located into one tree; on the contrary, if the two vertices of the edge already fall on the same tree, it is not advisable, and the one with the smallest weight should be taken...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/06/02/kruskal-template-2/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-02</div>
+        <h1>Minimum spanning tree Kruskal algorithm template question 2 C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/poj/index.html">poj</a></div>
+        <div class="article-content"><strong>Basic idea:</strong>(1) Construct a subgraph containing only n vertices and an empty edge set. If each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) Select an edge with the smallest weight from the edge set E of the network. If the two vertices of this edge belong to different trees, add it to the subgraph. In other words, the two trees where the two vertices are located are combined into one tree; on the contrary, if the two vertices of the edge have fallen on the same tree, it is not advisable. Instead, you should take the edge with the smallest weight and try again (3) and so on, until there is only one tree in the forest, that is, the subgraph contains n-1 edges.<strong>Vernacular:</strong>(1) Remove all edges in the picture. (2) Add edges to the graph in order from small to large weights to ensure that no loops are formed during the addition process. (3) Repeat the previous step until all vertices are connected. At this time, a minimum spanning tree is generated. This is a greedy strategy.<strong>difficulty:</strong>Determine whether the addition of an edge &lt;u, v&gt; will form a cycle in the selected edge set.
+Solution: Use union search to find the root nodes of the tree where the two vertices u and v are located. If the root nodes are the same, it means that u and v are in the same tree, and then u and v will form a ring when connected; if the root nodes are different, then u and v are not in the same tree, and they will not form a ring when connected, but the two trees will be merged.<strong>The time complexity of Kruskal's algorithm is O(eloge) (e is the number of edges in the network),</strong>Therefore, compared with Prim's algorithm, it is suitable for finding the minimum spanning tree of a network with sparse edges. Kruskal's algorithm finds the minimum spanning tree of the network from another approach. Assuming a connected network N = (V, {E}), let the initial state of the minimum spanning tree be a non-connected graph T = (V, {∮}) with only n vertices and no edges. Each vertex in the graph forms a connected component. Select the edge with the smallest cost in E. If the vertex attached to the edge falls on a different connected component in T, add this edge to T. Otherwise, discard this edge and select the next edge with the smallest cost. And so on, until all vertices in T are on the same connected component.<h2><strong>Template question 1</strong></h2>
+https://omegaxyz.com/2019/05/31/kruskal-template/
+<h2><strong>Bailian Tangled in Cables</strong></h2>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>You are the owner of SmallCableCo and have purchased the franchise rights for a small town. Unfortunately, you lack enough funds to start your business properly and are relying on parts you have found in an old warehouse you bought. Among your finds is a single spool of cable and a lot of connectors. You want to figure out whether you have enough cable to connect every house in town. You have a map of town with the distances for all the paths you may use to run your cable between the houses. You want to calculate the shortest length of cable you must have to connect all of the houses together.</dd>
+<dt>enter</dt>
+<dd>Only one town will be given in an input.
+<ul>
+<li>The first line gives the length of cable on the spool as a real number.</li>
+<li>The second line contains the number of houses, N</li>
+<li>The next N lines give the name of each house's owner. Each name consists of up to 20 characters {a–z,A–Z,0–9} and contains no whitespace or punctuation.</li>
+<li>Next line: M, number of paths between houses</li>
+<li>next M lines in the form</li>
+</ul>
+&lt; house name A &gt; &lt; house name B &gt; &lt; distance &gt;
+Where the two house names match two different names in the list above and the distance is a positive real number. There will not be two paths between the same pair of houses.</dd>
+<dt>output</dt>
+<dd>The output will consist of a single line. If there is not enough cable to connect all of the houses in the town, output
+Not enough cable
+If there is enough cable, then output
+Need &lt; X &gt; miles of cable
+Print X to the nearest tenth of a mile (0.1).</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>100.0
+4
+Jones
+Smiths
+Howards
+Wangs
+5
+Jones Smiths 2.0
+Jones Howards 4.2
+Jones Wangs 6.7
+Howards Wangs 4.0
+Smiths Wangs 10.0</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">Need 10.2 miles of cable</pre>
+</dd>
+</dl>C++ implementation<span style="color: #ff0000;"><strong>（AC）</strong></span>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+double cableLen = 0;
+int n, m;
+int father[501];
+
+struct node{
+    string src;
+    string dst;
+    double val;
+};
+
+int findFather(int x){
+    while(x != father[x])x = father[x];
+    return x;
+}
+
+bool unionSet(int x, int y){
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        father[fy] = fx;
+        return true;
+    }
+    return false;
+}
+
+bool cmp(node a, node b){return a.val &lt; b.val;}
+
+int main(){
+    double anslen = 0;
+    int k = 0, i = 0;
+    scanf("%lf%d", &amp;cableLen, &amp;n);
+    unordered_map&lt;string, int&gt; name;
+    for(int i = 0; i &lt; n; i++){
+        string str;
+        cin&gt;&gt;str;
+        father[i] = i;
+        name[str] = i;
+    }
+    scanf("%d", &amp;m);
+    vector&lt;node&gt; pool(m);
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;pool[i].src&gt;&gt;pool[i].dst&gt;&gt;pool[i].val;
+    }
+    sort(pool.begin(), pool.end(), cmp);
+    while(k &lt; n - 1){
+        if(unionSet(name[pool[i].src], name[pool[i].dst])){
+            anslen += pool[i].val;
+            k++;
+        }
+        i++;
+    }
+    if(anslen &lt;= cableLen)
+        printf("Need %.1f miles of cable\n", anslen);
+    else printf("%s\n", "Not enough cable");
+    return 0;
+}
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

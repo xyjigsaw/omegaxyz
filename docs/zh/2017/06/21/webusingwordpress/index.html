@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如何用wordpress制作网站 · OmegaXYZ</title>
+  <meta name="description" content="WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用。 WordPress是一款个人博客系统，并逐步演化成一款内容管理系统软件，它是使用PHP语言和MySQL数据库开发的。用户可以在支持 PHP 和 MyS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/21/webusingwordpress/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-21</div>
+        <h1>如何用wordpress制作网站</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/wordpress/index.html">wordpress</a></div>
+        <div class="article-content">WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用。
+
+WordPress是一款个人博客系统，并逐步演化成一款内容管理系统软件，它是使用PHP语言和MySQL数据库开发的。用户可以在支持 PHP 和 MySQL数据库的服务器上使用自己的博客。
+WordPress有许多第三方开发的免费模板，安装方式简单易用。不过要做一个自己的模板，则需要你有一定的专业知识。比如你至少要懂的标准通用标记语言下的一个应用HTML代码、CSS、PHP等相关知识。
+WordPress官方支持中文版，同时有爱好者开发的第三方中文语言包，如wopus中文语言包。WordPress拥有成千上万个各式插件和不计其数的主题模板样式。
+
+<img class="alignnone wp-image-1086" src="https://cdn.omegaxyz.com/2017/06/diyweb11-300x121.png" alt="" width="652" height="263" />
+
+下面讲解如何在阿里云云服务器上安装wordpress
+
+服务器环境要求
+
+PHP 5.2.4或更新版本
+MySQL 5.0或更新版本
+Apache mod_rewrite模块（可选，用于支持“固定链接”和“站点网络”功能）
+
+利用Xshell登录自己的云服务器
+Xshell界面
+
+<img class="alignnone wp-image-1087" src="https://cdn.omegaxyz.com/2017/06/diyweb12-300x188.png" alt="" width="649" height="407" />
+
+<img class="alignnone wp-image-1089" src="https://cdn.omegaxyz.com/2017/06/diyweb14-300x149.png" alt="" width="650" height="323" />
+
+首先要创建一个数据库
+
+<img class="alignnone wp-image-1090" src="https://cdn.omegaxyz.com/2017/06/diyweb15-300x201.png" alt="" width="651" height="436" />
+
+<img class="alignnone wp-image-1088" src="https://cdn.omegaxyz.com/2017/06/diyweb13-300x243.png" alt="" width="651" height="527" />
+
+接下来添加虚拟主机
+
+<img class="alignnone wp-image-1094" src="https://cdn.omegaxyz.com/2017/06/diyweb19-300x49.png" alt="" width="649" height="106" />
+
+<img class="alignnone wp-image-1091" src="https://cdn.omegaxyz.com/2017/06/diyweb16-300x247.png" alt="" width="649" height="534" />
+
+<img class="alignnone wp-image-1092" src="https://cdn.omegaxyz.com/2017/06/diyweb17-300x171.png" alt="" width="651" height="371" />
+
+<img class="alignnone wp-image-1093" src="https://cdn.omegaxyz.com/2017/06/diyweb18-300x75.png" alt="" width="652" height="163" />
+
+接下来创建ftp账号
+
+<img class="alignnone wp-image-1095" src="https://cdn.omegaxyz.com/2017/06/diyweb20-300x38.png" alt="" width="655" height="83" />
+
+<img class="alignnone wp-image-1096" src="https://cdn.omegaxyz.com/2017/06/diyweb21-300x279.png" alt="" width="652" height="606" />
+
+最后使用wget命令下载wordpress（如下图）
+
+<img class="alignnone wp-image-1097" src="https://cdn.omegaxyz.com/2017/06/diyweb22-300x202.png" alt="" width="650" height="438" />
+
+此时你的网站数据就可以通过ftp工具查看了，具体百度。
+接下来浏览器登录你的网址
+
+<img class="alignnone wp-image-1098" src="https://cdn.omegaxyz.com/2017/06/diyweb23-282x300.png" alt="" width="651" height="693" />
+
+配置完即可
+出现控制台界面
+
+<img class="alignnone wp-image-1099" src="https://cdn.omegaxyz.com/2017/06/diyweb24-300x50.png" alt="" width="654" height="109" />
+
+自此你可以个性化你的网站了（需要一定的PHP和CSS和JavaScript的知识）
+
+关于如何制作网站请参照
+
+https://omegaxyz.com/2017/06/21/howtomakeawebsite/</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Graph Review Paper Reading · OmegaXYZ</title>
+  <meta name="description" content="Abstract of the paper The paper is A Survey on Knowledge Graphs: Representation, Acquisition and Applications, published in 2020, paper PDF, click the link . Knowledge graphs representing structural relationships between entities have become an increasingly popular direction in cognition and human intelligence research. In this paper, the author conducts a comprehensive review of knowledge graphs...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/05/19/kg-survey/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-05-19</div>
+        <h1>Knowledge Graph Review Paper Reading</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Paper abstract</strong></h2>The paper is A Survey on Knowledge Graphs: Representation, Acquisition and Applications, published in 2020, paper PDF, click<a href="https://arxiv.org/abs/2002.00388" rel="noopener noreferrer" target="_blank">Link</a>.
+
+Represents the structural relationship between entities<strong>Knowledge graph</strong>has become an increasingly popular direction in cognition and human intelligence research. In this paper, the author studies<strong>Knowledge graph</strong>A comprehensive review was conducted, covering<span style="color: #cf5151;"><strong>1) Knowledge graph representation learning, 2) Knowledge acquisition and completion, 3) Sequential knowledge graph, 4) Knowledge-aware applications</strong></span>and other research topics, and summarizes recent breakthroughs and future research directions. The author provides a comprehensive view of these topics. Knowledge graph embedding is organized from four aspects: representation space, scoring function, encoding model and auxiliary information. Knowledge acquisition, especially knowledge graph completion, embedding methods, path reasoning and logical rule reasoning are reviewed. At the same time, some emerging topics are further explored, including meta-relationship learning, common sense reasoning, and temporal knowledge graphs. In order to facilitate future research on knowledge graphs, the paper also provides a management collection of data sets and open source libraries for different tasks. Finally, several promising research directions are given an in-depth outlook.<strong><em>If you just want to watch and play, you can go to this blog post:</em></strong>
+
+https://omegaxyz.com/2020/04/29/dark-forest-kg/
+<h2><strong>Knowledge graph</strong></h2>The term knowledge graph is synonymous with knowledge base, but is slightly different. When considering the graph structure of a knowledge graph, it can be viewed as a graph. When it comes to formal semantics, it can serve as a knowledge base for interpreting and inferring facts. Knowledge can be expressed in the form of fact triples (head, relationship, tail) or (subject, predicate, object) under the Resource Description Framework (RDF), such as (Albert Einstein, WinnerOf, Nobel Prize). It can also be represented as a directed graph, where nodes are entities and edges are relationships. The figure below is an example of a knowledge base and relationship diagram.<img alt="" class="alignnone wp-image-6704" height="249" src="https://cdn.omegaxyz.com/2020/05/KGSurvey1.png" width="610"/>
+<h2><strong>history</strong></h2>Knowledge representation has experienced a long history of development in the fields of logic and artificial intelligence. The concept of graphical knowledge representation can be traced back to the concept of semantic web proposed by Richens in 1956, while symbolic logic knowledge can be traced back to general problem solvers in 1959. Knowledge bases are primarily used in knowledge-based reasoning and problem-solving systems. MYCIN is one of the most famous rule-based medical diagnosis expert systems, with a knowledge base of approximately 600 rules. Later, the community of human knowledge representation saw the development of framework-based languages, rule-based and hybrid representations. Around the end of this period, the Cyc Project 1 began, aiming to bring together human knowledge. Resource Description Framework (RDF) 2 and Web Ontology Language (OWL) 3 were released one after another and became important standards for Semantic Web 4. Then, many open knowledge bases or ontologies were released, such as WordNet, DBpedia, YAGO, and Freebase. Stokman and Vries proposed the modern concept of structural knowledge in a 1988 graph theory. However, the concept of knowledge graph has been greatly popularized since the first launch of Google's search engine 5 in 2012, and the knowledge fusion framework of knowledge base was proposed to build large-scale knowledge graph.<img alt="" class="alignnone wp-image-6706" height="215" src="https://cdn.omegaxyz.com/2020/05/KGSurvey3.png" width="927"/>
+<h2><strong>Knowledge graph research direction</strong></h2>Contains four main aspects<span style="color: #cf5151;"><strong>1) Knowledge graph representation learning, 2) Knowledge acquisition and completion, 3) Sequential knowledge graph, 4) Knowledge-aware applications</strong></span>
+<img alt="" class="alignnone wp-image-6705" height="422" src="https://cdn.omegaxyz.com/2020/05/KGSurvey2.png" width="772"/>
+<h3><strong>Knowledge Representation Learning</strong></h3>Knowledge representation learning is an important research topic in knowledge graphs, which paves the way for many knowledge acquisition tasks and subsequent applications. The author divides KRL into four aspects: representation space, scoring function, encoding model and auxiliary information, providing a clear workflow for developing KRL models. Specific materials include:<ul>
+<li>1) The representation space represented by relationships and entities;</li>
+<li>2) A scoring function that measures the credibility of fact triples;</li>
+<li>3) Encode models for representing and learning relational interactions;</li>
+<li>4) Incorporate auxiliary information into the embedding method.</li>
+</ul>Representation learning includes point space, manifold space, complex vector space, Gaussian distribution and discrete space. Scoring indicators are generally divided into distance-based scoring functions and similarity matching-based scoring functions. Current research mainly focuses on coding models, including linear/bilinear models, factorization and neural networks. Auxiliary information includes text information, visual information and type information.
+
+Representation learning is actually embedding. You can refer to the Knowledge Graph Embedding: A Survey of Approaches and Applications review paper. This article explains it more clearly. For the paper explanation, please refer to the following two articles.
+
+https://omegaxyz.com/2020/01/12/kge-translational-distance-models/
+
+https://omegaxyz.com/2020/01/13/kge-semantic-matching-models/<h3><strong>Knowledge Acquisition</strong></h3>Knowledge acquisition tasks are divided into three categories:<ul>
+<li>Knowledge Graph Completion (KGC)</li>
+<li>Relation Extraction (RE)</li>
+<li>Named Entity Recognition (NER)</li>
+</ul>The first one is used to extend the existing knowledge graph, while the other two are used to discover new knowledge (i.e. relationships and entities) from text. KGC can be divided into the following categories: embedding-based ranking, relational path reasoning, rule-based reasoning, and meta-relation learning. Entity discovery includes identification, disambiguation, typing, and alignment. The relation extraction model utilizes attention mechanisms, graph convolutional networks (GCNs), adversarial training, reinforcement learning, deep residual learning, and transfer learning.<h3><strong>Temporal Knowledge Graphs</strong></h3>The temporal knowledge graph combines time information for representation learning, that is, adding a time label to the triplet. This research is mainly divided into four research areas: time embedding, entity dynamics, time relationship dependence, and time logical reasoning.<h3><strong>Knowledge-aware Applications</strong></h3>Knowledge-aware applications include natural language understanding (NLU), question answering systems, recommender systems, and a variety of real-world tasks that inject knowledge to improve representation learning.<h2><strong>Development prospects and directions</strong></h2>
+<h3><strong>more complex reasoning</strong></h3>Numerical computations for knowledge representation and reasoning require a continuous vector space to capture the semantics of entities and relationships. Embedding-based methods have certain limitations for complex logical reasoning, and both directions of relational path and symbolic logic are worthy of further exploration. Some promising methods, such as cyclic relationship path encoding, GNN-based message passing knowledge graph, reinforcement learning-based path finding and reasoning, etc., are very promising when dealing with complex reasoning. For the combination of logic rules and embeddings, some works combine Markov logic networks with KGE, aiming to exploit logic rules and handle their uncertainty. Utilizing effective embeddings to achieve probabilistic reasoning over uncertainty and domain knowledge will be a research direction worthy of attention.<h3><strong>Unified framework for research</strong></h3>Putting the knowledge graph and text under the same roof, there can be a joint learning framework for knowledge graph and text information sharing that pays attention to each other, and conducts unified research in a manner similar to the unified framework of graph networks.<h3><strong>Interpretability</strong></h3>Recent neural models suffer from limitations in transparency and interpretability, although they have achieved impressive performance. Some methods combine black-box neural models and symbolic reasoning to improve interoperability by incorporating logical rules. Explainability can convince people to believe predictions. Therefore, further work should be to improve the interpretability and reliability of predictive knowledge.<h3><strong>Scalability</strong></h3>It is very necessary for large-scale knowledge graphs.<h3><strong>Information aggregation of knowledge</strong></h3>The aggregation of global knowledge is the core of knowledge-aware applications. For example, recommender systems use knowledge graphs to model user-item interactions and text classification, encoding text and knowledge graphs into semantic spaces. Most of the existing knowledge aggregation methods are designed with neural structures such as attention mechanisms and GNNs. The natural language processing community has grown through large-scale pretraining of variants such as Transformer and BERT models, and a recent discovery suggests that language models pretrained on unstructured text can actually acquire some factual knowledge. Large-scale pre-training can be a direct way to inject knowledge. However, it is also important to rethink the way knowledge is aggregated in an efficient and interpretable way.<h3><strong>Automatic construction of graphs</strong></h3>Current knowledge graphs are highly dependent on manual construction, which is labor-intensive and expensive. The wide application of knowledge graphs in different cognitive intelligence fields requires the automatic construction of knowledge graphs from large-scale unstructured content. Facing multi-modal, heterogeneous and large-scale applications, automatic construction remains a huge challenge.
+
+Finally, I added a direction ELG that is not in the paper: the affairs knowledge graph.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

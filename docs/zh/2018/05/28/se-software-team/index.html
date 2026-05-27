@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件工程-软件小组的组织形式 · OmegaXYZ</title>
+  <meta name="description" content="为什么要形成软件小组 大多数软件产品由一个软件专业人员不可能在有限时间内单独完成。因而，产品必须分配给一组专业人员，形成一个小组。在具体说软件小组的组织形式之前先介绍一下布鲁克斯法则。 布鲁克斯法则 布鲁克斯是上世纪60年代IBM System/360的操作系统OS/360的开发负责人，这之后基于当时的经验写了《人月神话》一书。 有这样一...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/28/se-software-team/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-28</div>
+        <h1>软件工程-软件小组的组织形式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>为什么要形成软件小组</strong></h2>
+大多数软件产品由一个软件专业人员不可能在有限时间内单独完成。因而，产品必须分配给一组专业人员，形成一个小组。在具体说软件小组的组织形式之前先介绍一下布鲁克斯法则。
+<h2><strong>布鲁克斯法则</strong></h2>
+布鲁克斯是上世纪60年代IBM System/360的操作系统OS/360的开发负责人，这之后基于当时的经验写了《人月神话》一书。
+
+<strong>有这样一个项目需要12个人月，那么3个人4个月就能完成该任务。然后，在每个月设定观测点A/B/C/D。</strong>
+
+但是一个月就需要结束的A结果花了两个月完成。这相比于预估时已经是两个月之后了。怎么办？管理者有下面的对策。
+<ol>
+ 	<li>虽然当初的估算是对的，仅仅是最初的工程弄错了。也就是说推断剩下9人月。因为有9人月的工作，两个月完成的话需要9/2=4.5人。追加两个人到这3人团队中。</li>
+ 	<li>当初的估算弄错了，不是12人月而是需要24人月。因为已经花了６人月的时间了剩下需要１８人月。２个月完成的话，需要18/2=9人。追加６人到当初的３人团队。</li>
+ 	<li>重新安排任务。追加充足的时间到新的计划了。</li>
+ 	<li>调整工作目标。减少工作。</li>
+</ol>
+那么，应该采用什么方法呢。最开始的二个方法，不修改工作目标和工作进度表的话最初４个月完成目标的期望就破灭了。
+
+假如追加２个人，这两人的培训成本，３人完成的工作用５个来做，就需要重新安排工作，这些成本没有被追加到估算中，结果的话最终期限无法完成。追加６个人的情况，这种成本加的更多。
+<p style="text-align: center;"><strong><span style="color: #ff0000;">这就是布鲁克斯法则。「追加人员到<span class="deco">延迟的项目更会影响项目的进度</span>」</span></strong></p>
+如布鲁克斯所写的那样，无法按进度完成工作的话，只能降低工作目标作业。
+
+这是软件产品开发中50年前发现的法则现在也是正确的。但是，几乎所有的开发者都不了解布鲁克斯法则，就算知道也不会去实践。
+<h2><strong>软件小组的组织形式</strong></h2>
+<h3><strong>民主小组</strong></h3>
+优点：由于积极地寻找错误，因而代码质量高，特别适用于解决难的问题。
+
+缺点：有经验的人反感新手的评价不能从外部强加。
+<h3><strong>传统的主程序员小组</strong></h3>
+<img class="alignnone  wp-image-4388" src="https://cdn.omegaxyz.com/2018/05/ST1.jpg" alt="" width="656" height="389" />
+
+缺点：不实用
+<h3><strong>修改的主程序员小组</strong></h3>
+优点：有许多成功的范例
+
+缺点：没有与《纽约时报》项目可比拟的成功范例
+<h3><strong>现代分级编程小组</strong></h3>
+<img class="alignnone  wp-image-4389" src="https://cdn.omegaxyz.com/2018/05/ST2.jpg" alt="" width="661" height="527" />
+
+优点：小组经理/小组领导结构避免对主程序员需求，可扩展，必要时支持分散决策
+
+缺点：除非明确小组经理和小组领导间的负责范围，否则容易产生问题
+
+<strong>现代分散决策形式下的编程小组</strong>
+
+<img class="alignnone  wp-image-4390" src="https://cdn.omegaxyz.com/2018/05/ST3.jpg" alt="" width="656" height="379" />
+
+实例：开发一个军用的通信软件
+<h3><strong>同步-稳定小组</strong></h3>
+优点：鼓励创造性，确保大量开发者为共同目标工作
+
+缺点：在Microsoft公司之外还没有该方法应用的实例
+<h3><strong>敏捷过程小组</strong></h3>
+优点：程序员不测试自己的代码，如果一个程序员离开不会有损失，经验欠缺的程序员可以向其他人学习，代码具有小组所有权
+
+缺点：还没有更多的实例证实它的功效
+<h3><strong>开源小组</strong></h3>
+优点：少数项目非常成功
+
+缺点：应用面窄，需由出色的有号召力的人领导，需顶尖高手的参与
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

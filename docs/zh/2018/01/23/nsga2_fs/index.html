@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSGA2算法特征选择MATLAB实现（多目标） · OmegaXYZ</title>
+  <meta name="description" content="利用nsga2进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。 需要优化的两个目标为特征数和精度。 nsga2是一个多目标优化算法。 具体的nsga2通用算法请看： https://omegaxyz....">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/23/nsga2_fs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-23</div>
+        <h1>NSGA2算法特征选择MATLAB实现（多目标）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="article-content">利用nsga2进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。
+
+需要优化的两个目标为特征数和精度。
+
+nsga2是一个多目标优化算法。
+
+具体的nsga2通用算法请看：<a href="https://omegaxyz.com/2018/01/22/new_nsga2/">https://omegaxyz.com/2018/01/22/new_nsga2/</a>
+
+具体的特征选择代码在上述代码的基础上改了两个①主函数②评价函数，增加了一个数据分成训练集和测试集的函数：
+<pre ><code class="language-matlab">function divide_datasets()
+load Parkinson.mat;
+dataMat=Parkinson_f;
+len=size(dataMat,1);
+%归一化
+maxV = max(dataMat);
+minV = min(dataMat);
+range = maxV-minV;
+newdataMat = (dataMat-repmat(minV,[len,1]))./(repmat(range,[len,1]));
+
+Indices   =  crossvalind('Kfold', length(Parkinson_label), 10);
+site = find(Indices==1|Indices==2|Indices==3);
+train_F = newdataMat(site,:);
+train_L = Parkinson_label(site);
+site2 = find(Indices~=1&amp;Indices~=2&amp;Indices~=3);
+test_F = newdataMat(site2,:);
+test_L =Parkinson_label(site2);
+save train_F train_F;
+save train_L train_L;
+save test_F test_F;
+save test_L test_L;
+end
+%what doesn't kill you makes you stronger, stand a little taller,doesn't mean i'm over cause you're gonw.</code></pre>
+MATLAB代码主函数:
+<pre ><code class="language-matlab">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%此处可以更改
+%更多机器学习内容请访问omegaxyz.com
+clc;
+clear;
+pop = 500; %种群数量
+gen = 100; %迭代次数
+M = 2; %目标数量
+V = 22; %维度
+min_range = zeros(1, V); %下界
+max_range = ones(1,V); %上界
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%特征选择
+divide_datasets();
+global answer
+answer=cell(M,3);
+global choice     %选出的特征个数
+choice=0.8;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+chromosome = initialize_variables(pop, M, V, min_range, max_range);
+chromosome = non_domination_sort_mod(chromosome, M, V);
+
+for i = 1 : gen
+    pool = round(pop/2);
+    tour = 2;
+    parent_chromosome = tournament_selection(chromosome, pool, tour);
+    mu = 20;
+    mum = 20;
+    offspring_chromosome = genetic_operator(parent_chromosome,M, V, mu, mum, min_range, max_range);
+    [main_pop,~] = size(chromosome);
+    [offspring_pop,~] = size(offspring_chromosome);
+    clear temp
+    intermediate_chromosome(1:main_pop,:) = chromosome;
+    intermediate_chromosome(main_pop + 1 : main_pop + offspring_pop,1 : M+V) = offspring_chromosome;
+    intermediate_chromosome = non_domination_sort_mod(intermediate_chromosome, M, V);
+    chromosome = replace_chromosome(intermediate_chromosome, M, V, pop);
+    if ~mod(i,100)
+        clc;
+        fprintf('%d generations completed\n',i);
+    end
+end
+
+if M == 2
+    plot(chromosome(:,V + 1),chromosome(:,V + 2),'*');
+    xlabel('f_1'); ylabel('f_2');
+    title('Pareto Optimal Front');
+elseif M == 3
+    plot3(chromosome(:,V + 1),chromosome(:,V + 2),chromosome(:,V + 3),'*');
+    xlabel('f_1'); ylabel('f_2'); zlabel('f_3');
+    title('Pareto Optimal Surface');
+end</code></pre>
+评价函数（利用林志仁SVM进行训练）：
+<pre ><code class="language-matlab">function f = evaluate_objective(x, M, V, i)
+f = [];
+global answer
+global choice
+load train_F.mat;
+load train_L.mat;
+load test_F.mat;
+load test_L.mat;
+temp_x = x(1:V);
+inmodel = temp_x&gt;choice;%%%%%设定恰当的阈值选择特征
+f(1) = sum(inmodel(1,:));
+answer(i,1)={f(1)};
+model = libsvmtrain(train_L,train_F(:,inmodel), '-s 0 -t 2 -c 1.2 -g 2.8');
+[predict_label, ~, ~] = libsvmpredict(test_L,test_F(:,inmodel),model,'-q'); 
+error=0;
+for j=1:length(test_L)
+    if(predict_label(j,1) ~= test_L(j,1))
+        error = error+1;
+    end
+end
+error = error/length(test_L);
+f(2) = error;
+answer(i,2)={error};
+answer(i,3)={inmodel};
+end
+</code></pre>
+选的的数据集请从UCI上下载。
+
+<strong>结果：</strong>
+
+①pareto面
+
+<img class="alignnone size-full wp-image-2963" src="https://cdn.omegaxyz.com/2018/01/nsga2fs1.jpg" alt="" width="702" height="623" />
+
+最后粒子的数据（选出的特征数和精确度）
+
+<img class="alignnone size-full wp-image-2964" src="https://cdn.omegaxyz.com/2018/01/nsga2fs2.jpg" alt="" width="150" height="709" />
+
+PSO单目标特征选择请见：<a href="https://omegaxyz.com/2018/01/21/psofs/">https://omegaxyz.com/2018/01/21/psofs/</a></div>
+        <section class="comments"><h2>评论 (20)</h2>
+        <div class="comment" id="comment-3650">
+          <strong>Anonymous</strong>
+          <time>2018-05-03 16:56:23</time>
+          <div>能麻烦大神给一下你的Parkinson.mat文件吗？用自己下载的mat文件各种出错，感激不尽</div>
+        </div>
+        
+        <div class="comment" id="comment-11412">
+          <strong><a href="http://望大佬指导~" rel="nofollow">董佳豪</a></strong>
+          <time>2019-03-11 20:24:12</time>
+          <div>评价函数中function f = evaluate_objective(x, M, V, i)的是输入的什么啊？因为在上个NSGA2代码里面，评价函数是function f = evaluate_objective(x, M, V），这里没有i，所以我有点不明白，还望老师指导一下，谢谢！！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-11430">
+          <strong>xyjisaw</strong>
+          <time>2019-03-11 23:15:11</time>
+          <div>x是当前个体，M是目标数量，V是维度，i是个体的标号，有时i是我作为控制变量的，有的时候可以不用。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-11653">
+          <strong>Anonymous</strong>
+          <time>2019-03-13 09:12:23</time>
+          <div>明白了 非常感谢</div>
+        </div>
+        
+        <div class="comment" id="comment-17364">
+          <strong>Anonymous</strong>
+          <time>2019-08-23 11:34:16</time>
+          <div>请问可以给一下Parkinson.mat文件吗？用自己下载的mat文件各种出错，感激不尽</div>
+        </div>
+        
+        <div class="comment" id="comment-19128">
+          <strong>无</strong>
+          <time>2020-07-01 22:42:16</time>
+          <div>麻烦大佬给一下这个例子的所有代码可以么？（虽说是只有主函数和评价函数做了大的修改，其他nsga通用算法也会多少有一些变化）好人一生平安！好人一生平安！好人一生平安！</div>
+        </div>
+        
+        <div class="comment" id="comment-19133">
+          <strong>diseir</strong>
+          <time>2020-07-02 09:55:22</time>
+          <div>大佬，上面给的程序选择特征的个数是随机的，如果想要人为给定特征选择的个数范围，比如说在2到5之间，但最终得到的pareto前沿图只出现了个数为2或3的点，并不能显示出所有的点（如个数为4，5的点就缺失了），您知道为什么么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19134">
+          <strong>xyjisaw</strong>
+          <time>2020-07-02 10:42:30</time>
+          <div>抱歉，我不太清楚。</div>
+        </div>
+        
+        <div class="comment" id="comment-19138">
+          <strong>李路</strong>
+          <time>2020-07-03 12:09:44</time>
+          <div>大神，answer=cell(M,3);为啥要设为两行三列呢，3是什么含义呢，temp_x = x(1:V);这句话代表啥意思呢，f(1) = sum(inmodel(1,:));这个是特征的目标函数吗，为啥要求和呢，希望大神给予指导，我看好久了，实在不知道这几句为啥是这样的，还有就是把svmtrain和svmpredict换为其他网络时，如BP神经网络，子文件BPtrain的第一句应该怎么写呢，怎么调用都说输入参数不足。非常感谢大神能给予指导</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19144">
+          <strong>xyjisaw</strong>
+          <time>2020-07-03 17:50:33</time>
+          <div>你好，这个是多目标特征选择问题，有两个目标，其中一个是特征数，因此有一个是要求特征总和，如果要换成其他网络，请查看输入的接口，输入进分类器也就是你的BP是种群或者个体的编码也就是X值。</div>
+        </div>
+        
+        <div class="comment" id="comment-19482">
+          <strong>杨</strong>
+          <time>2020-09-24 15:43:37</time>
+          <div>请问initialize_variables函数没有更改吗？如果没有更改，f会出现问题。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19486">
+          <strong>xyjisaw</strong>
+          <time>2020-09-24 23:26:42</time>
+          <div>可以试试随机初始化</div>
+        </div>
+        
+        <div class="comment" id="comment-20003">
+          <strong>James</strong>
+          <time>2021-01-14 19:03:34</time>
+          <div>请问添加了数据集后，运行出现这个错误：<br>未定义函数或变量 &#x27;Parkinson_f&#x27;。<br>出错 divide_datasets (line 3)<br>dataMat=Parkinson_f;<br><br>Parkinson_f没有定义，怎么修改</div>
+        </div>
+        
+        <div class="comment" id="comment-21438">
+          <strong>Ban</strong>
+          <time>2021-03-12 18:47:21</time>
+          <div>运行主函数时出现这个情况：<br>输入参数的数目不足。<br><br>出错 evaluate_objective (line 12)<br>answer(i,1)={f(1)};<br><br>出错 initialize_variables (line 9)<br>    f(i,V + 1:K) = evaluate_objective(f(i,:), M, V);<br><br>出错 nsga_2_optimization (line 18)<br>chromosome = initialize_variables(pop, M, V, min_range, max_range);<br>请问怎么解决，刚刚开始接触请大佬帮我解答一下！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-24710">
+          <strong>Alphen.</strong>
+          <time>2021-11-19 16:32:45</time>
+          <div>我也遇到了同样的问题，希望大佬能帮忙解答一下，十分感谢</div>
+        </div>
+        
+        <div class="comment" id="comment-25886">
+          <strong>Star</strong>
+          <time>2022-04-21 21:18:15</time>
+          <div>特征项为0的时候，错误率不应该是100%吗，为什么是25%</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25897">
+          <strong>xyjisaw</strong>
+          <time>2022-04-22 15:17:41</time>
+          <div>瞎猜有时候也能蒙对</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36204">
+          <strong>wang</strong>
+          <time>2023-10-26 16:09:04</time>
+          <div>同问，你解决了吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-36205">
+          <strong>wang</strong>
+          <time>2023-10-26 16:10:43</time>
+          <div>求.mat文件</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36208">
+          <strong>wang</strong>
+          <time>2023-10-26 18:05:49</time>
+          <div>请问你解决了吗</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

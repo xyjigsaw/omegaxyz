@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homomorphic encryption · OmegaXYZ</title>
+  <meta name="description" content="What is homomorphism? Homomorphism is a concept in discrete mathematics. The last question in the midterm exam was homomorphic encryption, which sparked my interest. It was time to study it. The following is the definition of homomorphism in discrete mathematics: Suppose (M,*) and (S,·) are two groups, σ:M→S, ∀a,b∈M, and σ(a*b)=σ(a)·σ(b), then σ is called a homomorphism or group mapping from M to S. Homomorphic encryption If we have an encryption function f, turn plaintext A into ciphertext A’, turn plaintext B into...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/15/tongtai/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-15</div>
+        <h1>Homomorphic encryption</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/discrete-mathematics/index.html">离散数学</a></div>
+        <div class="article-content"><h2>What is homomorphism</h2>Homomorphism is a concept in discrete mathematics. The last question in the midterm exam was homomorphic encryption, which sparked my interest. It was time to study it.
+
+Here is the definition of homomorphism in discrete mathematics:<div class="lemma-summary">
+<div class="para" data-pid="1">Suppose (M,*) and (S,·) are two groups, σ:M→S, ∀a,b∈M, and σ(a*b)=σ(a)·σ(b), then σ is called a homomorphism or group mapping from M to S.</div>
+</div>
+<div class="basic-info J-basic-info cmn-clearfix" data-pid="card"></div>
+<h2 id="同态加密">Homomorphic encryption</h2>If we have an encryption function f, turn plaintext A into ciphertext A’, and turn plaintext B into ciphertext B’, that is, f(A) = A’, f(B) = B’. In addition we also have a decryption function<span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class="MJX-TeXAtom-ORD"&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;' id="MathJax-Element-263-Frame" role="presentation" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-1"><span class="mrow" id="MathJax-Span-2"><span class="msubsup" id="MathJax-Span-3"><span class="mi" id="MathJax-Span-4">f</span><span class="texatom" id="MathJax-Span-5"><span class="mrow" id="MathJax-Span-6"><span class="mo" id="MathJax-Span-7">−</span><span class="mn" id="MathJax-Span-8">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span>Can decrypt the encrypted ciphertext of f into the plaintext before encryption.
+
+For a general encryption function, if we add A’ and B’, we get C’. We use<span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class="MJX-TeXAtom-ORD"&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;' id="MathJax-Element-264-Frame" role="presentation" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-9"><span class="mrow" id="MathJax-Span-10"><span class="msubsup" id="MathJax-Span-11"><span class="mi" id="MathJax-Span-12">f</span><span class="texatom" id="MathJax-Span-13"><span class="mrow" id="MathJax-Span-14"><span class="mo" id="MathJax-Span-15">−</span><span class="mn" id="MathJax-Span-16">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span>The result of decrypting C' is generally meaningless garbled code.
+
+However, if f is an encryption function that can perform homomorphic encryption, we use<span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class="MJX-TeXAtom-ORD"&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;' id="MathJax-Element-265-Frame" role="presentation" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-17"><span class="mrow" id="MathJax-Span-18"><span class="msubsup" id="MathJax-Span-19"><span class="mi" id="MathJax-Span-20">f</span><span class="texatom" id="MathJax-Span-21"><span class="mrow" id="MathJax-Span-22"><span class="mo" id="MathJax-Span-23">−</span><span class="mn" id="MathJax-Span-24">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span>Decrypt to obtain the result C, at this time C = A + B. so,<strong>Data processing rights and data ownership can be separated, so that companies can prevent their own data from being leaked while utilizing the computing power of cloud services.</strong>
+<h2 id="同态分类">homomorphic classification</h2>a) If it satisfies<span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;/math&gt;' id="MathJax-Element-344-Frame" role="presentation" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-25"><span class="mrow" id="MathJax-Span-26"><span class="mi" id="MathJax-Span-27">f</span><span class="mo" id="MathJax-Span-28">(</span><span class="mi" id="MathJax-Span-29">A</span><span class="mo" id="MathJax-Span-30">)</span><span class="mo" id="MathJax-Span-31">+</span><span class="mi" id="MathJax-Span-32">f</span><span class="mo" id="MathJax-Span-33">(</span><span class="mi" id="MathJax-Span-34">B</span><span class="mo" id="MathJax-Span-35">)</span><span class="mo" id="MathJax-Span-36">=</span><span class="mi" id="MathJax-Span-37">f</span><span class="mo" id="MathJax-Span-38">(</span><span class="mi" id="MathJax-Span-39">A</span><span class="mo" id="MathJax-Span-40">+</span><span class="mi" id="MathJax-Span-41">B</span><span class="mo" id="MathJax-Span-42">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">f(A)+f(B)=f(A+B)</span></span>, we call this encryption function additive homomorphism
+b) If it satisfies<span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy="false"&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy="false"&gt;)&lt;/mo&gt;&lt;/math&gt;' id="MathJax-Element-345-Frame" role="presentation" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-43"><span class="mrow" id="MathJax-Span-44"><span class="mi" id="MathJax-Span-45">f</span><span class="mo" id="MathJax-Span-46">(</span><span class="mi" id="MathJax-Span-47">A</span><span class="mo" id="MathJax-Span-48">)</span><span class="mo" id="MathJax-Span-49">×</span><span class="mi" id="MathJax-Span-50">f</span><span class="mo" id="MathJax-Span-51">(</span><span class="mi" id="MathJax-Span-52">B</span><span class="mo" id="MathJax-Span-53">)</span><span class="mo" id="MathJax-Span-54">=</span><span class="mi" id="MathJax-Span-55">f</span><span class="mo" id="MathJax-Span-56">(</span><span class="mi" id="MathJax-Span-57">A</span><span class="mo" id="MathJax-Span-58">×</span><span class="mi" id="MathJax-Span-59">B</span><span class="mo" id="MathJax-Span-60">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">f(A)×f(B)=f(A×B)</span></span>, we call this encryption function multiplicative homomorphism.
+
+If an encryption function f only satisfies<strong>additive homomorphism</strong>, it can only be carried out<strong>Addition and subtraction operations</strong>;
+
+If an encryption function f only satisfies<strong>multiplicative homomorphism</strong>, it can only be carried out<strong>Multiplication and division operations</strong>;
+
+If an encryption function satisfies both<strong>Additive and multiplicative homomorphisms</strong>, called<strong>Fully homomorphic encryption</strong>。<strong>Then this encryption function is used to complete various encrypted operations (addition, subtraction, multiplication and division, polynomial evaluation, exponential, logarithm, trigonometric functions).</strong>The first homomorphic encryption method that satisfies additive and multiplicative homomorphism was not proposed until 2009 by Craig Gentry.<h2 id="同态加密算法">Homomorphic encryption algorithm</h2>
+<ol>
+<li>The RSA algorithm is homomorphic for multiplication operations.</li>
+<li>Paillier's algorithm is homomorphic to addition.</li>
+<li>Gentry's algorithm is fully homomorphic.</li>
+</ol>References:<a href="https://blog.csdn.net/jason_cuijiahui/article/details/79121702">https://blog.csdn.net/jason_cuijiahui/article/details/79121702</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

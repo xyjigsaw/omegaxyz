@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>优雅与高效——读《代码整洁之道》 · OmegaXYZ</title>
+  <meta name="description" content="转载并整理自哪儿忘了，侵删 《代码整洁之道》是2010年1月由人民邮电出版社出版的图书，作者是Robert C.Martin。本书主要讲述了代码质量与其整洁度成正比的道理，并由此揭示代码整洁之道。 代码逻辑应当直截了当，叫缺陷难以隐藏；尽量减少依赖关系，使之便于维护；依据某种分层战略完善错误处理代码；性能调至最优，省得引诱别人做没规矩的优...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/07/how-to-code/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-07</div>
+        <h1>优雅与高效——读《代码整洁之道》</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../category/programmer/index.html">程序人生</a><a class="pill" href="../../../../tag/ideas/index.html">ideas</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<span style="color: #ff0000;"><strong>转载并整理自哪儿忘了，侵删</strong></span>
+
+《代码整洁之道》是2010年1月由人民邮电出版社出版的图书，作者是Robert C.Martin。本书主要讲述了代码质量与其整洁度成正比的道理，并由此揭示代码整洁之道。
+<p style="font-weight: 400;"><b><strong>代码逻辑应当直截了当，叫缺陷难以隐藏；尽量减少依赖关系，使之便于维护；依据某种分层战略完善错误处理代码；性能调至最优，省得引诱别人做没规矩的优化，搞出一堆混乱来。整洁的代码只做好一件事。</strong></b></p>
+
+<h2><strong>第一章：整洁代码</strong></h2>
+这章先是给我们传递一个观点：整洁代码是十分有必要的。然后就列举了几位java大师级人物对整洁代码的定义和看法。
+真正有用的就是这些大师人物的观点，都是经过几十年的编程经验总结而成的，下面我再将这些观点进行总结，得到以下几个“真理”。
+1、尽量减少依赖关系，便于维护
+2、简单直接，充满了干净利落的抽象和直截了当的控制语句。
+3、能够全部运行通过，并配有单元测试和验收测试
+4、没有重复的代码（提取公共方法和公共类）
+5、写的代码能够完全提现我们的设计理念（类、方法、属性的命名）
+<h2><strong>第二章：有意义的命名</strong></h2>
+这个感觉好难，因为取个好名字在于需要良好的描述技巧和文化背景。文化背景是没办法了，不过本章节提到了一些可以考虑的技巧提高参考。想着以前命名的时候也是十分的痛苦，必须得好好加强了，到了一定的时候得多看一些英语书籍了。
+1、所有的命名都要有实际意义
+2、语义中不要添加java常用类（list），避免引起误导
+3、程序中有意义的数字应该用常量进行替换，方便查找
+4、类名和对象名应为名词或名词词组，方法名应为动词或动词词组。
+5、属性命名添加有用必要的语境，如果类名本身自带语境，就不必添加多余语境
+问题：每个概念对应一个词
+<h2><strong>第三章：函数</strong></h2>
+函数是代码的主体部分，也是我们最需要注意的地方。很欣赏里面一句话：大师级的程序员把系统当做故事来讲，而不是当程序来写。
+1、短小：20封顶最佳
+2、if,else,while语句块应该只有一行（调用其他逻辑函数）函数的缩进层级不该对于一层或两层
+3、每个函数一个抽象等级
+4、switch语句通常用多台进行实现
+5、函数参数尽量少，绝对不要多于2个，多于2个就要进行封装。
+6、分隔指令和询问。经常在读流中的数据这样写到if(null!=(s=br.readLine())),以后要分开写
+7、抽取异常处理，即try-catch就是一个函数
+<h2><strong>第四章：注释</strong></h2>
+以前上学的时候老师经常回强调注释的重要性，到现在还傻傻地认为写注释就是一个好喜欢，完全没有考虑到问什么要用注释，什么时候该用注释，怎样写出好的注释。
+1、尽量在名字中体现，而不需要添加额外的注释
+2、警示作用以及放大某些函数的重要性
+本章节后面来列举了一大堆的坏注释，感觉注释还是少用，所以我们要注重在命名中加以体现
+<h2><strong>第五章：格式</strong></h2>
+本章节主要是对平常写代码格式具体说明，我觉得算是本书中讲的最具体的一章了，很容易理解，但看完之后我们应该要总结出属于自己的模板，当然鲍勃大叔在章节末尾处给出了他的一些规范，我们可以在此基础上进行修改成我们自己的格式。下面罗列本章观点。
+1、垂直方向的区别、靠近和距离
+2、若某个函数调用了另外一个，就应该把它们放在一起，而且调用者要放在被调用者上面。
+3、水平方向的区隔与靠近（包括每行最多字符数），区隔我学到具体的两个是方法参数和运算符之间的间隔。
+4、注意缩进，这里提到一个具体的就是if,else等代码块只有一行甚至是为空的时候，我们也要进行缩进，不能偷懒
+<h2><strong>第六章：对象和数据结构</strong></h2>
+得墨忒耳律：模块不应该了解它所操作对象的内部情形。准备的说类C的方法f只能调用以下对象的方法：C、由f创建的对象、作为参数传递给f的对象、由c的实体变量持有的对象
+火车失事：不能采用连缀的写法，以前在写有关IO的代码总是连着写，现在得一行行写。
+数据结构：数据结构是数据的载体，暴露数据，而几乎没有意义的行为，像我们最常见到的DTO，以及与采用JDBC连接数据库时的实体类，都是一种数据结构的提现，只存在简单的get和set方法。
+对象：对象作为面向对象的产物，必须封装隐藏数据，而暴露出行为接口。DDD中领域模型倾向于对象不仅在数据更多暴露行为操作自己或者关联状态。
+重点： 使用数据结构的代码便于在不改动现在数据结构的前提下添加新的行为（函数），面向对象代码则便于不改动现 有函数的前提下添加新的类。换句话说就是数据结构难以添加新的的数据类型，因为需要改动所有函数，面向对象的代码则难以添加新的函数，因为需要修改所有的类。在任何一个复杂的系统都会同时存在数据结构和对象，我们需要判断的是我们需要的是需要添加的新的数据类型还是新的行为函数。
+<h2><strong>第七章：异常处理</strong></h2>
+因为平时对异常没有什么总结，也很少自己去自己写异常处理，所以这章节的观点都不是很清晰。对我有用的就是：别返回null或者是试图传递null
+<h2><strong>第八章：浏览和学习边界</strong></h2>
+问题：建议不要讲Map（或在边界上的其他接口）在系统中传递。如果你使用Map这样的边界接口，就把它保留在类或近亲类中。避免从公共API中返回边界接口，或将编辑接口作为参数返回公共API。
+学习性测试：不要在生产代码中试验新东西，而是编写测试来遍历和理解第三方代码。
+整洁的边界：如果我们只是需要某个第三方插件的一部分API时，可以采用适配器模式进行转化。
+<h2><strong>第九章：单元测试</strong></h2>
+本章节提到了关于TDD(测试驱动开发)的相关知识，关于这方面的知识网上一大堆，我就把本书的观点抽取出来。
+TDD三定律
+You are not allowed to write any production code unless it is to make a failing unit test pass.
+除非为了使一个失败的unit test通过，否则不允许编写任何产品代码
+You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
+在一个单元测试中只允许编写刚好能够导致失败的内容（编译错误也算失败）
+You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
+只允许编写刚好能够使一个失败的unit test通过的产品代码
+
+关于测试：测试代码和生产代码一样重要，我们也要保持整洁，另外单元
+测试可以使我们的代码可扩展、可维护、可复用。每个测试只有一个断言。
+<h2><strong>第十章：类</strong></h2>
+1、类应该短小
+2、单一权责原则：每个类或模块只有一条加以修改的理由
+3、内聚：内聚的程度是类中的方法和变量相互依赖的程度
+4、依赖倒转原则：面向接口编程
+<h2><strong>第十一章：系统</strong></h2>
+1、将系统的构建与使用分开
+2、Java中的代理（Spring AOP的实现原理）
+<h2><strong>第十二章：递进</strong></h2>
+阐述了简单设计的四条规则，按重要性一次排序
+1、运行所有测试：
+2、不可重复：利用手段将程序进行代码层面上的重构
+3、表达程序员的意图：这个主要体现在命名和结构上
+4、尽可能减少类和方法数量
+
+<strong>更多好文：</strong><a href="https://blog.csdn.net/leather0906/article/details/6576424">https://blog.csdn.net/leather0906/article/details/6576424</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

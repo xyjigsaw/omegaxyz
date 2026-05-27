@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Management System JAVA · OmegaXYZ</title>
+  <meta name="description" content="1. Code principle ①Construction of JAVA object array ②Call of class ③Overloading of method (OVERLODING) ④Use of constructor method 2. Source code ①bookFeature This class is the information and operations of each book ②bookList This class is the list object and method of the book ③public class main main program calling class 3. Experimental results Based on the input of eclipse book information Delete the specified book, xxx....">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/07/11/bookstorejava/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>Library Management System JAVA</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>1. Code principle</h1>①Construction of JAVA object array
+
+②Call of class
+
+③Overloading of methods (OVERLODING)
+
+④Use of construction methods<h1>2.Source code</h1>
+<h2>①bookFeature</h2>This class is the information and operations for each book<pre><code class="language-java">class bookFeature {
+	private int ID;
+	private String name;
+	private double price;
+	private String author;
+	public bookFeature(){
+		ID=0;
+		name=null;
+		author=null;
+		price=0;
+	}
+	public void setID(int ID){
+		this.ID=ID;
+	}
+	public void setName(String name){
+		this.name=name;
+	}
+	public void setPrice(double price){
+		this.price=(price&gt;0)?price:0;
+	}
+	public void setAuthor(String author){
+		this.author=author;
+	}
+	public int getID(){
+		return ID;
+	}
+	public String getName(){
+		return name;
+	}
+	public double getPrice(){
+		return price;
+	}
+	public String getAuthor(){
+		return author;
+	}
+	public void clearBook(){
+		this.author=null;
+		this.name=null;
+		this.price=0;
+		this.ID=0;
+	}
+}
+</code></pre>
+<h2>②bookList</h2>This class is the list object and method of the book<pre><code class="language-java">import java.util.*;
+class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List=new bookFeature[MAXSIZE];
+	
+	public bookList(){
+		bookNum=0;
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}
+	
+	public void moreBook() {
+		bookNum++;
+		bookFeature book=new bookFeature();
+		String tempName,tempAuthor;
+		double tempPrice;
+		book.setID(bookNum);
+		Scanner input=new Scanner(System.in);
+		System.out.print("Please input this book's name: ");
+		tempName=input.next();
+		book.setName(tempName);
+		System.out.print("Please input this book's author: ");
+		tempAuthor=input.next();
+		book.setAuthor(tempAuthor);
+		System.out.print("Please input this book's price: ");
+		tempPrice=input.nextDouble();
+		book.setPrice(tempPrice);
+		List[bookNum]=book;
+		System.out.println("Input Succeed!!!");
+	}
+	
+	public void delBook(int index){
+		for(int i=index;i&lt;=bookNum;i++){
+			List[i]=List[i+1];
+		}
+		List[bookNum].clearBook();
+		bookNum--;
+	}
+	
+	public void delBook(String name){
+		int index=0;
+		for(int i=1;i&lt;=bookNum;i++){
+			if(List[i].getName().equals(name)){
+				index=i;break;
+			}
+		}
+		for(int i=index;i&lt;=bookNum;i++){
+			List[i]=List[i+1];
+		}
+		List[bookNum].clearBook();
+		bookNum--;
+	}
+
+	public void getInfo(){
+		System.out.println("Book Num: "+bookNum);
+		System.out.println("Here is the list!");
+		System.out.println("********************************");
+		System.out.println("ID   Title   Author   Price ");
+		for(int i=1;i&lt;=bookNum;i++){
+			System.out.println(i+"    "+List[i].getName()+"    "+List[i].getAuthor()+"     "+List[i].getPrice());
+		}
+		System.out.println("********************************");
+	}
+}
+</code></pre>
+<h2>③public class main</h2>Main program call class<pre><code class="language-java">import java.util.*;
+public class test {
+	public static void main(String[] args){
+		bookList my=new bookList();
+		Scanner input=new Scanner(System.in);
+		System.out.println("Input the size of all book:");
+		int n=input.nextInt();
+		for(int i=1;i&lt;=n;i++){
+			System.out.println(i+"  ");
+			my.moreBook();
+		}
+		my.getInfo();
+		System.out.println("---------------Delete Books----------------");
+		System.out.println("Please input ID of the book you wanna delete: ");
+		Scanner input2=new Scanner(System.in);
+		int index=input2.nextInt();
+		my.delBook(index);
+		my.getInfo();
+		System.out.println("Please input name of the book you wanna delete: ");
+		Scanner input3=new Scanner(System.in);
+		String name=input3.next();
+		my.delBook(name);
+		my.getInfo();
+	}
+}
+</code></pre>
+<h1>3.Experimental results</h1>Based on eclipse
+
+Book information input<img alt="" class="alignnone wp-image-1392" height="464" src="https://cdn.omegaxyz.com/2017/07/BOOK1-300x262.png" width="531"/>Delete the specified book, overload of xxx.delBook(int ID) and xxx.delBook(String name) functions<img alt="" class="alignnone wp-image-1393" height="326" src="https://cdn.omegaxyz.com/2017/07/BOOK2-300x180.png" width="543"/>
+
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

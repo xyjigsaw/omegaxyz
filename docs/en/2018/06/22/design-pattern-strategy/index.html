@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Pattern-Strategy Pattern · OmegaXYZ</title>
+  <meta name="description" content="Introduction Strategy pattern refers to the name of a relatively stable strategy with certain action content. The strategic model was also called &quot;strategy&quot; in ancient times, or simply &quot;strategy&quot;. For example, &quot;The Book of Han·Gaodi Chronicles&quot; states: &quot;The king of Han followed his strategy.&quot; The &quot;ji&quot; here refers to strategy and strategy. The strategic model has a relatively stable form, such as &quot;avoiding reality and replacing reality&quot;, &quot;surprisingly winning&quot;, etc. A certain strategic model can be applied to both strategic and tactical decisions; it can be implemented in both global actions of a large system and local actions of a large system...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/22/design-pattern-strategy/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-22</div>
+        <h1>Design Pattern-Strategy Pattern</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>Strategy mode refers to a relatively stable strategy name with certain action content. The strategic model was also called "strategy" in ancient times, or simply "strategy". For example, "The Book of Han·Gaodi Chronicles" states: "The king of Han followed his strategy." The "ji" here refers to strategy and strategy. The strategic model has a relatively stable form, such as "avoiding reality and replacing reality", "surprisingly winning", etc. A certain strategic model can be applied to both strategic and tactical decisions; it can be implemented in both global actions of a large system and local actions of a large system.<h2><strong>composition</strong></h2>
+<ul>
+<li class="para">Abstract strategy role: Strategy class, usually implemented by an interface or abstract class.</li>
+<li class="para">Specific strategy role: packaging related algorithms and behaviors.</li>
+<li class="para">Environment role: Holds a reference to a strategy class, which is ultimately called by the client.</li>
+</ul>
+<h2><strong>concept</strong></h2>
+<div class="para">(Original text: The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.)</div>
+<div></div>
+<div class="para"><strong>Context(application scenario)</strong></div>
+<div></div>
+<div class="para">1. You need to use the algorithm provided by ConcreteStrategy.</div>
+<div class="para">2. Maintain an instance of Strategy internally.</div>
+<div class="para">3. Responsible for dynamically setting the specific implementation algorithm of the runtime Strategy.</div>
+<div class="para">4. Responsible for interaction and data transfer with Strategy.</div>
+<div></div>
+<div class="para"><strong>Strategy (abstract strategy class)</strong></div>
+<div></div>
+<div class="para">1. A public interface is defined. Different algorithms implement this interface in different ways. Context uses this interface to call different algorithms, generally using interfaces or abstract classes.</div>
+<div class="para">ConcreteStrategy (concrete strategy class):</div>
+<div class="para">2. Implement the interface defined by Strategy and provide specific algorithm implementation.</div>
+<div>
+<h2 class="title-text"><strong>Advantages and Disadvantages</strong></h2>
+<h3 class="para"><strong>Strengths</strong></h3>
+<div class="para">1. The strategy pattern provides a way to manage related algorithm families. A hierarchy of policy classes defines a family of algorithms or behaviors. Proper use of inheritance can transfer common code to the parent class, thereby avoiding duplication of code.</div>
+<div class="para">2. The strategy pattern provides a way to replace the inheritance relationship. Inheritance can handle multiple algorithms or behaviors. If you are not using the strategy pattern, then the environment class that uses an algorithm or behavior may have some subclasses, each subclass providing a different algorithm or behavior. However, in this way the users of the algorithm or behavior are conflated with the algorithm or behavior itself. The logic that determines which algorithm to use or which behavior to take becomes mixed with the logic of the algorithm or behavior, making it impossible for it to evolve independently. Inheritance makes it impossible to dynamically change algorithms or behavior.</div>
+<div class="para">3. Using strategy mode can avoid using multiple conditional transfer statements. Multiple transfer statements are not easy to maintain. They mix the logic of which algorithm or behavior to adopt with the logic of the algorithm or behavior, and list them all in one multiple transfer statement, which is more primitive and backward than using inheritance.</div>
+<h3 class="para"><strong>shortcoming</strong></h3>
+<div class="para">1. The client must know all policy classes and decide which one to use. This means that the client must understand the differences between these algorithms in order to select the appropriate algorithm class at the right time. In other words, the strategy pattern is only suitable if the client knows all the algorithms or behaviors.</div>
+<div class="para">2. The strategy pattern creates many strategy classes, and each specific strategy class will generate a new class. Sometimes it is possible to design a policy class to be shareable by saving environment-dependent state to the client, so that policy class instances can be used by different clients. In other words, you can use the flyweight pattern to reduce the number of objects.</div>
+</div>
+<h2><strong>UML class diagram</strong></h2>
+<div>
+<div><img alt="" class="alignnone size-full wp-image-4612" height="249" src="https://cdn.omegaxyz.com/2018/06/strategy1.png" width="795"/></div>
+<h2><strong>Example</strong></h2>A software company wants to develop an aircraft simulation system. This system mainly simulates the flight characteristics and take-off characteristics of different types of aircraft. The types of aircraft and their characteristics that need to be simulated are shown in Table 1:<strong>Table 1 List of aircraft types and characteristics</strong>
+<table>
+<tbody>
+<tr>
+<td width="200">Aircraft type</td>
+<td width="200">Takeoff characteristics</td>
+<td width="200">flight characteristics</td>
+</tr>
+<tr>
+<td width="200">Helicopter</td>
+<td width="200">VerticalTakeOff</td>
+<td width="200">SubsonicFly</td>
+</tr>
+<tr>
+<td width="200">AirPlane</td>
+<td width="200">LongDistanceTakeOff</td>
+<td width="200">SubsonicFly</td>
+</tr>
+<tr>
+<td width="200">Fighter</td>
+<td width="200">LongDistanceTakeOff</td>
+<td width="200">SuperSonicFly</td>
+</tr>
+<tr>
+<td width="200">Harrier</td>
+<td width="200">VerticalTakeOff</td>
+<td width="200">SuperSonicFly</td>
+</tr>
+</tbody>
+</table>
+<img alt="" class="alignnone size-full wp-image-4613" height="291" src="https://cdn.omegaxyz.com/2018/06/strategy2.png" width="712"/>
+<strong>Reference: Baidu Encyclopedia</strong>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

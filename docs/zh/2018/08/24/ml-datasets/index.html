@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习数据集的基本概念 · OmegaXYZ</title>
+  <meta name="description" content="数据集，又称为资料集、数据集合或资料集合，是一种由数据所组成的集合。Data set（或dataset）是一个数据的集合，通常以表格形式出现。每一列代表一个特定变量。每一行都对应于某一成员的数据集的问题。它列出的价值观为每一个变量，如身高和体重的一个物体或价值的随机数。每个数值被称为数据资料。对应于行数，该数据集的数据可能包括一个或多个成...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/24/ml-datasets/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-24</div>
+        <h1>机器学习数据集的基本概念</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">数据集，又称为资料集、数据集合或资料集合，是一种由数据所组成的集合。Data set（或dataset）是一个数据的集合，通常以表格形式出现。每一列代表一个特定变量。每一行都对应于某一成员的数据集的问题。它列出的价值观为每一个变量，如身高和体重的一个物体或价值的随机数。每个数值被称为数据资料。对应于行数，该数据集的数据可能包括一个或多个成员。
+
+<em><strong>——百度百科</strong></em>
+
+下面是个人的理解
+
+<hr />
+
+<img class="alignnone size-full wp-image-4957" src="https://cdn.omegaxyz.com/2018/08/dataset1.png" alt="" width="102" height="18" />数据集名称GLIOMA
+
+GIOMA包含两个矩阵，一个是实例矩阵（ins），另一个是标签矩阵（lab）
+
+<img class="alignnone size-full wp-image-4958" src="https://cdn.omegaxyz.com/2018/08/dataset2.png" alt="" width="327" height="39" />
+
+Ins矩阵大小50*4434，说明该GLIOMA数据集有50个实例（样本），有4434个特征，这50个实例（样本），每一个实例有一个对应的标签lab，标签就是类别。
+
+打开Ins矩阵，有50行说明有50个实例（样本），有4434列说明有4434个特征（太多了显示不了），这里面的任意一个值（标量）叫做特征值，任意一列是特征向量（列向量），任意一行是实例向量（行向量）
+
+<img class="alignnone size-full wp-image-4959" src="https://cdn.omegaxyz.com/2018/08/dataset3.png" alt="" width="652" height="703" />
+
+打开lab矩阵
+
+<img class="alignnone size-full wp-image-4960" src="https://cdn.omegaxyz.com/2018/08/dataset4.png" alt="" width="208" height="642" />
+
+有50个标签，标签就是类别（比如1代表幼儿，2代表青年，以此类推），可以看到这是一个具有4个类别的数据集。
+
+<hr />
+
+另外不要把实例与个体混淆，实例单指数据集中（原空间），实例的个数一般是不变的。个体是作为演化计算算法中的种群来说的，可以根据自己的喜好设置个体数量。比如PSO算法中的个体就是粒子。实例与个体有一点相似就是特征数（维度）相同。
+
+<hr />
+
+数据集的下载（从UCI下载）：
+
+<a href="http://archive.ics.uci.edu/ml/index.php">http://archive.ics.uci.edu/ml/index.php</a>
+
+当然下载的数据集可能标签和特征是放在一起的可以自己分开</div>
+        <section class="comments"><h2>评论 (3)</h2>
+        <div class="comment" id="comment-3834">
+          <strong><a href="http://51185118.com" rel="nofollow">518博客</a></strong>
+          <time>2018-08-26 16:05:58</time>
+          <div>谢谢分享，不忘初心！</div>
+        </div>
+        
+        <div class="comment" id="comment-33893">
+          <strong>0122</strong>
+          <time>2023-05-11 10:50:35</time>
+          <div>那能够正确分类的实例数和参与分类的实例数是什么意思博主知道吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33978">
+          <strong>xyjisaw</strong>
+          <time>2023-05-15 17:03:10</time>
+          <div>前面就是样本预测正确，后面的指所有样本。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

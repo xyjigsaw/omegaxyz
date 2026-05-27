@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB toolbox k-means algorithm · OmegaXYZ</title>
+  <meta name="description" content="MATLAB contains the kmeans algorithm clustering tool. Return value Idx N*1 vector, which stores the cluster label of each point. Ctrs K*P matrix, which stores K cluster centroid positions. SumD 1*K sum vector, which stores the sum of the distances between all points between classes and the centroid points of the class. &#x27;sqEuclidean&#x27;...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/28/kmeans_matlab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-28</div>
+        <h1>MATLAB toolbox k-means algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/k-means/index.html">k-means</a></div>
+        <div class="article-content">MATLAB contains the kmeans algorithm clustering tool<strong>return value</strong>Idx N*1 vector, which stores the clustering label of each point
+The matrix of Ctrs K*P stores the K cluster centroid positions.
+SumD 1*K sum vector, which stores the sum of the distances between all points between classes and the centroid point of the class
+D N*K matrix stores the distance between each point and all centroids;<strong>parameter</strong>1. ‘Distance’ (distance measure)
+‘sqEuclidean’ Euclidean distance (by default, this distance method is used)
+‘cityblock’ absolute error sum, also known as: L1
+‘cosine’ for vectors
+‘correlation’ for values with sequential relationships
+‘Hamming’ only works with binary data
+
+2. ‘Start’ (initial center of mass position selection method)
+‘sample’ randomly selects K centroid points from X
+‘uniform’ uniformly and randomly generates K centroids according to the distribution range of X
+‘cluster’ randomly selects 10% of X’s subsamples in the initial clustering stage (this method initially uses the ‘sample’ method)
+matrix provides a K*P matrix as the initial set of centroid locations.
+
+3. ‘Replicates’ (number of clustering repetitions) integer<strong>Application code:</strong>
+<pre><code class="language-matlab">%随机获取150个点
+X = [randn(50,2)+ones(50,2);randn(50,2)-ones(50,2);randn(50,2)+[ones(50,1),-ones(50,1)]];
+%X为二维下50个点的坐标
+opts = statset('Display','final');
+
+%调用Kmeans函数
+%X N*P的数据矩阵
+%Idx N*1的向量,存储的是每个点的聚类标号
+%Ctrs K*P的矩阵,存储的是K个聚类质心位置
+%SumD 1*K的和向量,存储的是类间所有点与该类质心点距离之和
+%D N*K的矩阵，存储的是每个点与所有质心的距离;
+
+[Idx,Ctrs,SumD,D] = kmeans(X,3,'Replicates',3,'Options',opts);
+
+%画出聚类为1的点。X(Idx==1,1),为第一类的样本的第一个坐标；X(Idx==1,2)为第二类的样本的第二个坐标
+plot(X(Idx==1,1),X(Idx==1,2),'r.','MarkerSize',14)
+hold on
+plot(X(Idx==2,1),X(Idx==2,2),'b.','MarkerSize',14)
+hold on
+plot(X(Idx==3,1),X(Idx==3,2),'g.','MarkerSize',14)
+
+%绘出聚类中心点,kx表示是圆形
+plot(Ctrs(:,1),Ctrs(:,2),'kx','MarkerSize',14,'LineWidth',4)
+plot(Ctrs(:,1),Ctrs(:,2),'kx','MarkerSize',14,'LineWidth',4)
+plot(Ctrs(:,1),Ctrs(:,2),'kx','MarkerSize',14,'LineWidth',4)
+
+legend('Cluster 1','Cluster 2','Cluster 3','Centroids','Location','NW')
+
+Ctrs
+SumD
+</code></pre>
+<strong>Effect</strong>
+<img alt="" class="alignnone size-full wp-image-3042" height="625" src="https://cdn.omegaxyz.com/2018/01/kmeans.jpg" width="699"/></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18403">
+          <strong>Anonymous</strong>
+          <time>2019-12-26 16:59:10</time>
+          <div>牛逼</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

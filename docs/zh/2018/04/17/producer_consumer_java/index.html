@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生产者消费者问题Java实现 · OmegaXYZ</title>
+  <meta name="description" content="生产消费者模型 多线程并发应用程序有一个经典的模型，即生产者/消费者模型。系统中，产生消息的是生产者，处理消息的是消费者，消费者和生产者通过一个缓冲区进行消息传递。生产者产生消息后提交到缓冲区，然后通知消费者可以从中取出消息进行处理。消费者处理完信息后，通知生产者可以继续提供消息。 要实现这个模型，关键在于消费者和生产者这两个线程进行同步...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/17/producer_consumer_java/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-17</div>
+        <h1>生产者消费者问题Java实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><h1><strong>生产消费者模型</strong></h1>
+<p align="left">多线程并发应用程序有一个经典的模型，即生产者/消费者模型。系统中，产生消息的是生产者，处理消息的是消费者，消费者和生产者通过一个缓冲区进行消息传递。生产者产生消息后提交到缓冲区，然后通知消费者可以从中取出消息进行处理。消费者处理完信息后，通知生产者可以继续提供消息。</p>
+<p align="left">要实现这个模型，关键在于消费者和生产者这两个线程进行同步。也就是说：只有缓冲区中有消息时，消费者才能够提取消息；只有消息已被处理，生产者才能产生消息提交到缓冲区。</p>
+生产消费者模式如下图。
+
+<img class="alignnone size-full wp-image-4044" src="https://cdn.omegaxyz.com/2018/04/consumerproducer.jpg" alt="" width="954" height="726" />
+
+缓冲区实际上是一个先进先出的队列，锁（信号量）的条件notEmpty和notFull。
+
+<strong>Java实现：</strong>
+<pre ><code class="language-java">import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+
+public class ConsumerProducer {
+  private static Buffer buffer = new Buffer();
+
+  public static void main(String[] args) {
+    // Create a thread pool with two threads
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    executor.execute(new ProducerTask());
+    executor.execute(new ConsumerTask());
+    executor.shutdown();
+  }
+
+  // A task for adding an int to the buffer
+  private static class ProducerTask implements Runnable {
+    public void run() {
+      try {
+        int i = 1;
+        while (true) {
+          System.out.println("生产者生产 " + i);
+          buffer.write(i++); // Add a value to the buffer
+          // Put the thread into sleep
+          Thread.sleep((int)(Math.random() * 1000));
+        }
+      } 
+      catch (InterruptedException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+
+  // A task for reading and deleting an int from the buffer
+  private static class ConsumerTask implements Runnable {
+    public void run() {
+      try {
+        while (true) {
+          System.out.println("\t\t\t消费者消费 " + buffer.read());
+          // Put the thread into sleep
+          Thread.sleep((int)(Math.random() * 1000));
+        }
+      } 
+      catch (InterruptedException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+
+  // An inner class for buffer
+  private static class Buffer {
+    private static final int CAPACITY = 1; // buffer size
+    private java.util.LinkedList&lt;Integer&gt; queue =
+      new java.util.LinkedList&lt;&gt;();
+
+    // Create a new lock
+    private static Lock lock = new ReentrantLock();
+
+    // Create two conditions
+    private static Condition notEmpty = lock.newCondition();
+    private static Condition notFull = lock.newCondition();
+
+    public void write(int value) {
+      lock.lock(); // Acquire the lock
+      try {
+        while (queue.size() == CAPACITY) {
+          System.out.println("缓冲区已满！");
+          notFull.await();
+        }
+
+        queue.offer(value);
+        notEmpty.signal(); // Signal notEmpty condition
+      } 
+      catch (InterruptedException ex) {
+        ex.printStackTrace();
+      } 
+      finally {
+        lock.unlock(); // Release the lock
+      }
+    }
+
+    public int read() {
+      int value = 0;
+      lock.lock(); // Acquire the lock
+      try {
+        while (queue.isEmpty()) {
+          System.out.println("\t\t\t缓冲区为空");
+          notEmpty.await();
+        }
+
+        value = queue.remove();
+        notFull.signal(); // Signal notFull condition
+      } 
+      catch (InterruptedException ex) {
+        ex.printStackTrace();
+      } 
+      finally {
+        lock.unlock(); // Release the lock
+        return value;
+      }
+    }
+  }
+}
+</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4045" src="https://cdn.omegaxyz.com/2018/04/consumerproducer2.jpg" alt="" width="262" height="592" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

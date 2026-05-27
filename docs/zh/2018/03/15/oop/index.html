@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>封装、继承、多态和抽象 · OmegaXYZ</title>
+  <meta name="description" content="我们知道，封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的代码模块（类）；它们的目的都是：代码重用。而多态则是为了实现另一个目的——接口重用！多态的作用，就是为了类在继承和派生的时候，保证使用“家谱”中任一类的实例的某一属性时的正确调用。 封装： 封装是实现面向对象程序设计的第一步，封装就是将数据或函数等集合在一个个的单元中（我...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/15/oop/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-15</div>
+        <h1>封装、继承、多态和抽象</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/programming/index.html">编程语言概述</a></div>
+        <div class="article-content">我们知道，封装可以隐藏实现细节，使得代码模块化；继承可以扩展已存在的代码模块（类）；它们的目的都是：代码重用。而多态则是为了实现另一个目的——接口重用！多态的作用，就是为了类在继承和派生的时候，保证使用“家谱”中任一类的实例的某一属性时的正确调用。
+<h1><strong>封装：</strong></h1>
+封装是实现面向对象程序设计的第一步，封装就是将数据或函数等集合在一个个的单元中（我们称之为类）。被封装的对象通常被称为抽象数据类型。
+
+<strong>封装的意义：
+</strong>封装的意义在于保护或者防止代码（数据）被我们无意中破坏。在面向对象程序设计中数据被看作是一个中心的元素并且和使用它的函数结合的很密切，从而保护它不被其它的函数意外的修改。
+
+1. 保护数据成员，不让类以外的程序直接访问或修改，只能通过提供的公共的接口访问==&gt;数据封装。
+
+2. 方法的细节对用户是隐藏的，只要接口不变，内容的修改不会影响到外部的调用者==&gt;方法封装。
+
+3. 当对象含有完整的属性和与之对应的方法时称为封装。
+
+4. 从对象外面不能直接访问对象的属性，只能通过和该属性对应的方法访问。
+
+5. 对象的方法可以接收对象外面的消息。
+
+类成员的访问修饰符：
+<p align="left">即类的方法和成员变量的访问控制符，一个类作为整体对象不可见，并不代表他的所有域和方法也对程序其他部分不可见，需要有他们的访问修饰符判断。</p>
+<p align="left">权限如下：</p>
+
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top" width="114">
+<p align="left">访问修饰符</p>
+</td>
+<td valign="top" width="114">
+<p align="left">同一个类</p>
+</td>
+<td valign="top" width="114">
+<p align="left">同包</p>
+</td>
+<td valign="top" width="114">
+<p align="left">不同包，子类</p>
+</td>
+<td valign="top" width="114">
+<p align="left">不同包，非子类</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">private</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">protected</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">public</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">默认</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h1><strong>继承：</strong></h1>
+继承主要实现重用代码，节省开发时间。
+
+继承是指可以让某个类型的对象获得另一个类型的对象的属性的方法。它支持按级分类的概念。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。 通过继承创建的新类称为“子类”或“派生类”，被继承的类称为“基类”、“父类”或“超类”。继承的过程，就是从一般到特殊的过程。要实现继承，可以通过“继承”（Inheritance）和“组合”（Composition）来实现。继承概念的实现方式有二类：实现继承与接口继承。实现继承是指直接使用基类的属性和方法而无需额外编码的能力；接口继承是指仅使用属性和方法的名称、但是子类必须提供实现的能力；
+<h1><strong>多态：</strong></h1>
+1、“一个接口，多种方法”
+
+同一操作作用于不同的对象，可以有不同的解释，产生不同的执行结果。
+
+多态的三个条件:
+
+a.    继承的存在(继承是多态的基础,没有继承就没有多态).
+b.    子类重写父类的方法(多态下调用子类重写的方法).
+c.    父类引用变量指向子类对象(子类到父类的类型转换).
+
+重载（overload）和重写（override）是实现多态的两种主要方式。
+
+２、实现多态：接口多态性。继承多态性。通过抽象类实现的多态性。
+<h1><strong>抽象：</strong></h1>
+表示对问题领域进行分析、设计中得出的抽象的概念，是对一系列看上去不同，但是本质上相同的具体概念的抽象，在java中抽象用 abstract 关键字来修饰，用 abstract 修饰类时，此类就不能被实例化，从这里可以看出，抽象类就是为了继承而存在的，如果定义了一个抽象类而不去继承它，那么等于白白创建了这个抽象类，因为你不能用它来做任何事情，用 abstract 修饰方法时，此方法就是抽象方法，抽象方法必须存在于抽象类中，抽象方法没有方法体，对于一个父类来说，如果它的某个方法在父类中实现出来没有任何意义，必须根据子类的实际需求来进行不同的实现，那么就可以将这个方法声明为抽象方法，抽象方法的修饰符必须为 public 或者 protected ，应为用 private，则不能被子类继承，子类便无法实现该方法，缺省情况下默认为 public 。
+
+&nbsp;
+
+参考资料：<a href="http://blog.csdn.net/c_w_d/article/details/52982191">http://blog.csdn.net/c_w_d/article/details/52982191</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

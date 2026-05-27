@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NLG text assessment missions may not require real or reference text · OmegaXYZ</title>
+  <meta name="description" content="In the face of a text assessment mission, it is customary to find a standard answer as a reference. This stems from a very natural thought, and the probability of a similar answer is a good one. Many of the text assessment methods have been achieved on the basis of this intuition, such as the classic BLEU and METEOR, such as Bertscore and MoverScore, which have been proposed in recent years on the basis of embedding similarities. Such an approach could be called the Ref-free approach. Re...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2024/11/18/nlg_eval/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-11-18</div>
+        <h1>NLG text assessment missions may not require real or reference text</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.html">机器学习</a></div>
+        <div class="article-content"><h2><strong>Summary</strong></h2>When faced with the task of assessing texts, it is customary to find a standard answer for reference. This stems from a very natural thought, and the probability of a similar answer is a good one. Many of the text assessment methods have been achieved on the basis of this intuition, such as the classic BLEU and METEOR, such as Bertscore and MoverScore, which have been proposed in recent years on the basis of embedding similarities. Such an approach could be called the Ref-free approach.
+
+The Ref-based methodology is widely used and is believed to have long been heard and applied in practical research. However, in the last two years, the big model has evolved so rapidly that we can ask:<strong>Can similarities with reference text really reflect the quality of the resulting text?</strong>What if the evaluation criteria were modified? What if there was no standard answer to this task? More importantly, do we really have the capacity to create corresponding references for each new task?
+
+The evolving unreferenced assessment methodology of recent years, the Ref-free approach, may provide a possible solution. Such methods are usually based on a base language model, using the probability of a condition being generated, etc., to evaluate the text, and have yielded good results in many missions. I don't think so.<strong>When can we use it?</strong><strong>Ref-free</strong><strong>How good and bad are the methods?</strong>Yet there has been a lack of corresponding research, which is precisely the research centre for this paper.
+
+<img alt="" class="alignnone wp-image-7989" height="197" src="https://cdn.omegaxyz.com/2024/11/isReference_title.png" width="583"/>
+<h2><strong>Conclusions</strong></h2>We found,<strong>Reference texts are not necessary in most assessment scenarios</strong>The application of a language-based Ref-free approach is usually more effective, especially when compared with methods such as the n-gram-based BLEU, METEOR. A simpler mission scenario, such as summarization and data-to-text. The only thing that needs to be noted is that the advantages of the Ref-free method are also at a disadvantage, and its use is influenced by the ability of the model itself to understand and needs to be tested before it is applied. For example, for open dialogue missions, performance is often unsatisfactory if ref-free base models are not exposed to relevant data. We also need to point out that no programme can reach the same level as human beings, with the result being only one of the supporting materials.
+
+<strong> </strong>
+<h2><strong>What's a good assessment?</strong></h2>Finish the conclusion and get back to business. We say that the reference text is not good, that the Ref-free approach is better, and that there is always a good standard. For ease of description, we call the evaluation method<strong>metrics</strong><strong>。</strong>This criterion, we have chosen the golden standard that we have followed in the industry to date — the human scoring — the ground truth of the assessment mission. If an assessment method gives the same, if not the same, scores as humans, then we consider it a good assessment.
+<h3><strong>Relevance</strong></h3>Since it is to assess the similarities between scores, the simplest indicator is naturally relevant. It is clear that the higher the score generated by metric is relevant to the human rating, the better it is. Here we use Spearman Correlation as a relevant calculation.
+Specifically, assuming that we now have N-to-evaluating text, Metrics output scores are S1, S2,... and Sn, corresponding human assessment scores are h1,h2,...hn, and the relevant coefficients are calculated as follows.
+
+<img alt="" class="alignnone wp-image-7993" height="30" src="https://cdn.omegaxyz.com/2024/11/isReference2.png" width="424"/>
+<h3><strong>Disturbing Identification</strong></h3>There is also a very intuitive indicator of evaluation, and good metric should be keen to identify deficiencies in the sentence. So we can destroy the original statement in an artificial manner. Compared with the original rating of the sentence, if Metric can give a lower score to the damaged text, it can prove that it judged the decline in the quality of the sentence. Clearly, this is a question of a second category, which we assess with the simplest accuracy.
+<h3><strong>KS Score</strong></h3>In addition to disturbance recognition, we can also consider metric's ability to discern text quality from the point of view of distribution. In the experiment, for each data set, we divide the text into high-quality and low-quality groups based on human ratings. Next, we collect model scores for two sets of text, each comprising distribution A (high quality group) and distribution B (low quality group). It is clear that the two fractions should be sufficiently different to prove that the model distinguishes between two types of text.
+
+We use the Kolmogorov-Smirnov score, known as KS score, for evaluation. KS scores can be used to calculate the similarities between the two distributions, and the formula is as follows. Here F represents the cumulative density function, and the KS score of 0 represents the same distribution of both sets of data. The higher the KS scores, the better it is for metric.
+
+<img alt="" class="alignnone wp-image-7990" height="51" src="https://cdn.omegaxyz.com/2024/11/isReference3.png" width="272"/>
+<h3><strong>Meta-correlation</strong></h3>Finally, we would also like to know the stability of the metric ratings: will they receive the impact of the quality of the text? We borrowed the Meta-Correlation proposed by Shen et al. [1]. Ideally, the metric scoring quality should not be relevant to the text quality, i.e. the meta-correlation is close to 0 if it is close to 1 (or 1), representing a better performance when they encounter text of high (or low) quality.
+
+Specifically, assuming that we have collected text from K different systems, the text quality can be represented by fractions Q1, Q2,... Qn and Metrics' performance by score S1, S2,... Sn. Here we use the text ' s average human score as Q, and Metrics output scores as P. Meta-Correlation scores are calculated as follows.
+
+<img alt="" class="alignnone wp-image-7992" height="46" src="https://cdn.omegaxyz.com/2024/11/isReference4.png" width="350"/>
+<h2><strong>Experiment</strong></h2>
+<h3><strong>Relevance Experiment</strong></h3>We have collected data sets from three different missions, Dialogue, data-to-text and sommarization, for experimental use, including the results of the assessment of the three indicators of coherence, consistency and fluency, briefly CAH, CON and FLU. Each example in the data set contains the text to be evaluated hyp, input text src for hyp generation, reference text ref, and human rating for this indicator.
+
+<img alt="" class="alignnone size-full wp-image-7988" height="358" src="https://cdn.omegaxyz.com/2024/11/isReference5.png" width="726"/>The table shows the relevance of the scores generated by metrics to human ratings. The results were very interesting, and we found that Ref-free's performance was far greater than Ref-based's approach in most missions. This prompts us to reflect on what role reference has played in the assessment. We extracted some of the cases from SummEval and found a marked difference between the scores of the same hyp based on different ref calculations. In other words, the results of the Ref-based assessment relied heavily on the use of the ref. On the other hand, whatever assessment is made, we all use the same reference, which is clearly not reasonable. Finally, intuitively, it would not be logical to use a match based on n-gram to evaluate fluency and coherence, and in open generation tasks, lower matching scores would not indicate the quality of the text.
+
+We therefore strongly recommend a new Ref-free approach to assessment missions. Such methods are based on natural language models and allow the use of semantic information contained in language models. The only thing that needs to be noted is that the effectiveness of the Ref-free approach depends heavily on the generation capacity of the model itself and therefore needs to be scaled up to a prediction test. At the same time, to reduce the impact of irregular src input in missions such as data-to-text, it is possible to assess indicators such as fluenty that are not relevant to src, using methods that require only hyp input, such as the Unieva assessment model for fluenty.
+<h3><strong>Disruption of the experiment</strong></h3>
+<img alt="" class="alignnone wp-image-7986" height="296" src="https://cdn.omegaxyz.com/2024/11/isReference67.png" width="373"/>The figure above shows the accuracy of the different metrics to determine the disturbance. For coherence, we have adopted the method of disrupting the paragraph by rearranging. For fluenty, we used the method of disturbance of subject-verb disgrace. As can be seen from the results, the Ref-free method is very sensitive to Perturbation, but Ref-based is not satisfied. For coherence, several techniques based on n-gram are virtually unidentifiable. The reason is also clear, because the perturb method we use for coherence is to upset the sentence and does not affect the n-gram matching, so BLUE and other media will give the same score for text around perturb. One possible explanation for the differences in the performance of the fluent assessment is that the Ref-based approach is concerned with the surface characteristics of the sentence, while the underlying semantic information is less used than the Ref-free approach.
+<h3><strong>KS Score</strong></h3>
+<img alt="" class="alignnone wp-image-7991" height="230" src="https://cdn.omegaxyz.com/2024/11/isReference8.png" width="664"/>The results of KS, which also outperformed Ref-free over Ref-based, are in fact consistent with the results of the Correlation analysis. Metrics, which is closer to scoring, also has better resolution for text of different quality.
+<h3><strong>Stability experiment</strong></h3>
+<img alt="" class="alignnone wp-image-7987" height="238" src="https://cdn.omegaxyz.com/2024/11/isReference9.png" width="656"/>Based on the results of the meta-correlation calculations, we find, unfortunately, that the article contains not ideal stability. In fact, we find that the assessment of Ref-free Metrics and the well-performing Ref-based Metrics Bertscore has a negative effect on text quality. This suggests that Ref-free media can give negative ratings for less quality texts, but it is not possible to properly assess high quality texts. As for Ref-based Metrics, they had no uniform output. This is more like a random result, given the already low relevance.
+
+This further suggests that, to date, none of the evaluation metrics has reached the point where they can replace human beings, whose intervention is essential for accurate assessment.
+
+
+<h2><strong>Conclusions</strong></h2>From the results of the experiment, we will find that the results of the evaluation do not always reflect the true quality of the text, and that, surprisingly, the performance of reference-free metrics is better than that of traditional reference-based metrics in many contexts. Thus, in most assessment scenarios, whether from a cost or an effect perspective, the treatment-free approach is a better option. However, given their precariousness in application, it is important that a small sample be prepared in advance for testing when actually used for assessment on a new mission. What remains to be noted is that there is still a long way to go before automatic metrics can substitute for humans, and that whatever judgement Metrics gives can only be used as a reference.
+
+<strong>References:</strong>
+<ol>
+<li>Large Language Models are Not Yet Human-Level Evaluators for Abstractive Summarization (Shen et al., Findings 2023)</li>
+</ol>
+<strong>References:</strong>
+<pre><code class="language-default">@inproceedings{sheng-etal-2024-reference,
+    title = "Is Reference Necessary in the Evaluation of {NLG} Systems? When and Where?",
+    author = "Sheng, Shuqian  and
+      Xu, Yi  and
+      Fu, Luoyi  and
+      Ding, Jiaxin  and
+      Zhou, Lei  and
+      Wang, Xinbing  and
+      Zhou, Chenghu",
+    editor = "Duh, Kevin  and
+      Gomez, Helena  and
+      Bethard, Steven",
+    booktitle = "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    month = jun,
+    year = "2024",
+    address = "Mexico City, Mexico",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.naacl-long.474",
+    doi = "10.18653/v1/2024.naacl-long.474",
+    pages = "8580--8596",
+}</code></pre>
+<strong>We would like you to quote our work and reproduce our mandate.</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

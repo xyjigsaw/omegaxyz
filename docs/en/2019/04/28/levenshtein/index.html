@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Levenshtein edit distance C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Introduction Levenshtein Distance was invented by Soviet mathematician Vladimir Levenshtein in 1965. Levenshtein Distance is also called Edit Distance. In information theory and computer science, Levenshtein Distance is a string metric that measures the difference between two sequences of characters, the Lev...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/04/28/levenshtein/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-28</div>
+        <h1>Levenshtein edit distance C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Levenshtein Distance was invented by Soviet mathematician Vladimir Levenshtein in 1965. Levenshtein Distance is also called Edit Distance.
+
+In information theory and computer science, Levenshtein Distance is a string metric that measures the difference between two character sequences. The Levenshtein Distance between two words is the minimum number of single-character edits (insertions, deletions, or substitutions) required to convert one word into the other.<hr/>
+<h2><strong>definition</strong></h2>For two strings a, b<img alt="" class="wp-image-5721 aligncenter" height="144" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance1.png" width="841"/>
+<hr/>
+<h2><strong>example</strong></h2>
+<ul>
+<li>1.kitten-&gt;sitten (replace ‘k’ with ‘s’)</li>
+<li>2.sitten-&gt;sittin (replace ‘e’ with ‘i’)</li>
+<li>3.sittin-&gt;sitting (insert ‘g’ at the end)</li>
+</ul>So the distance is 3<hr/>
+<h2><strong>upper and lower bounds</strong></h2>1. At least always the difference in size of the two strings;
+
+2. At most the length of the longer string;
+
+3. The value is 0 if and only if the two strings are equal;
+
+4. If two strings are of equal size, Hamming distance is its upper bound;
+
+5. The Levenstein distance of two strings is no greater than the sum of the Levenstein distances of the third string (triangle inequality).<hr/>
+<h2><strong>C++ code</strong></h2>
+<strong>Contains recursion and dynamic programming</strong>
+<strong>Schematic diagram of dynamic programming matrix:</strong>
+<img alt="" class="alignnone wp-image-5723" height="255" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance3.png" width="426"/>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;ctime&gt;
+using namespace std;
+
+int min3(int a, int b, int c){
+    a = a &lt; b ? a : b;
+    return a &lt; c ? a : c;
+}
+
+int LevenshteinDis(string s, int s_len, string t, int t_len){
+    int cost;
+    //基本情况，若字符串s和t的最小距离为0，则返回其中的最大距离作为编辑距离  
+    if(s_len == 0)return t_len;
+    if(t_len == 0)return s_len;
+    //测试s和t的各自最后一个字符是否匹配  
+    if(s[s_len - 1] == t[t_len - 1])cost = 0;
+    else cost = 1;
+    return min3(LevenshteinDis(s, s_len - 1, t, t_len) + 1,
+                LevenshteinDis(s, s_len, t, t_len - 1) + 1,
+                LevenshteinDis(s, s_len - 1, t, t_len - 1) + cost);
+    
+}
+
+int LevenshteinDP(string s, string t){
+    //levenshtein距离的自底向上方式的动态规划实现，把重复计算的距离存入一个矩阵中
+    int dp[s.length()+1][t.length()+1];//d[i][j]表示字符串s的前i字符和t的前j个字符的莱文斯坦距离
+    for(int i = 0; i &lt;= s.length(); i++)dp[i][0] = i;//源字符串s到空字符串t只要删除每个字符
+    for(int j = 1; j &lt;= t.length(); j++)dp[0][j] = j;//从空字符s到目标字符t只要添加每个字符
+    for(int j = 0; j &lt; t.length(); j++){
+        for(int i = 0; i &lt; s.length(); i++){
+            if(s[i] == t[j])dp[i+1][j+1] = dp[i][j];//无任何操作
+            else dp[i+1][j+1] = min3(dp[i][j+1]+1, dp[i+1][j]+1, dp[i][j]+1);
+            //分别为删除、添加、替换操作
+        }
+    }
+    return dp[s.length()][t.length()];
+}
+
+
+
+int main(){
+    string m = "kittesnsssdcjks";
+    string n = "sitdftingwcsdcc";
+    clock_t start,finish;
+    double totaltime;
+    start=clock();
+    cout&lt;&lt;"recursion: "&lt;&lt;LevenshteinDis(m, m.length(), n, n.length())&lt;&lt;endl;
+    finish=clock();
+    totaltime=(double)(finish-start)/CLOCKS_PER_SEC;
+    cout&lt;&lt;"递归运行时间为"&lt;&lt;totaltime&lt;&lt;"秒！"&lt;&lt;endl&lt;&lt;endl;
+
+    start=clock();
+    cout&lt;&lt;"Dynamic Programming: "&lt;&lt;LevenshteinDP(m, n)&lt;&lt;endl;
+    finish=clock();
+    totaltime=(double)(finish-start)/CLOCKS_PER_SEC;
+    cout&lt;&lt;"DP运行时间为"&lt;&lt;totaltime&lt;&lt;"秒！"&lt;&lt;endl&lt;&lt;endl;
+    return 0;
+}</code></pre>result:<img alt="" class="alignnone wp-image-5724" height="99" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance4.png" width="565"/>You can see that the DP time is very fast<hr/>
+<h2><strong>References</strong></h2>
+https://en.wikipedia.org/wiki/Levenshtein_distance
+
+https://blog.csdn.net/lhkaikai/article/details/25186255
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

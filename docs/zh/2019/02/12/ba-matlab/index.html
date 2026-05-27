@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>经典蝙蝠算法MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="为什么会有这么多基于群智能的算法，蚁群、粒子群、鱼群、烟花、 炮竹、猪群、牛群、马群、羊群、猴群、鸡群。。。算法。？？？？？？ 黑人问号.jpg 蝙蝠算法( BA) 是 Yang 教授于 2010 年基于群体智能提出的启发式搜索算法,是一种搜索全局最优解的有效方法。该算法是一种基于迭代的优化技术,初始化为一组随机解,然后 通过迭代搜寻最优...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/12/ba-matlab/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-12</div>
+        <h1>经典蝙蝠算法MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">为什么会有这么多基于群智能的算法，蚁群、粒子群、鱼群、烟花、<del>炮竹、猪群、牛群、马群、羊群、猴群、鸡群。。。算法。？？？？？？</del>
+
+<strong>黑人问号.jpg</strong>
+
+蝙蝠算法( BA) 是 Yang 教授于 2010 年基于群体智能提出的启发式搜索算法,是一种搜索全局最优解的有效方法。该算法是一种基于迭代的优化技术,初始化为一组随机解,然后 通过迭代搜寻最优解,且在最优解周围通过随机飞行产生局部新解,加强了局部搜索。与其他算法相比,BA 在准确性和有效性方面远优于其他算法,且没有许多参数要进行调整。
+<div class="para">BA算法是模拟自然界中蝙蝠利用一种声呐来探测猎物、避免障碍物的随机搜索算法即模拟蝙蝠利用超声波对障碍物或猎物进行最基本的探测、定位能力并将其和优化目标功能相联系。BA算法的仿生原理将种群数量为的蝙蝠个体映射为D维问题空间中的NP个可行解,将优化过程和搜索模拟成种群蝙蝠个体移动过程和搜寻猎物利用求解问题的适应度函数值来衡量蝙蝠所处位置的优劣，将个体的优胜劣汰过程类比为优化和搜索过程中用好的可行解替代较差可行解的迭代过程。在蝙蝠搜索算法中,为了模拟蝙蝠探测猎物、避免障碍物,需假设如下三个近似的或理想化的规则：</div>
+<ul>
+ 	<li class="para">1）所有蝙蝠利用回声定位的方法感知距离,并且它们采用一种巧妙的方式来区别猎物和背景障碍物之间的不同。</li>
+ 	<li class="para">2）蝙蝠在位置xi以速度vi随机飞行,以固定的频率fmin、可变的波长λ和音量A0来搜索猎物。蝙蝠根据自身与目标的邻近程度来自动调整发射的脉冲波长（或频率）和调整脉冲发射率r属于[0,1]</li>
+ 	<li class="para">3）虽然音量的变化方式有多种但在蝙蝠算法中, 假定音量A是从一个最大值A0(整数)变化到固定最小值Amin</li>
+</ul>
+<strong>伪代码：</strong>
+
+<img class="alignnone wp-image-5499" src="https://cdn.omegaxyz.com/2019/02/BA1.png" alt="" width="470" height="254" />
+
+<strong>Maltab实现：</strong>
+
+<strong>主函数代码：</strong>
+<pre ><code class="language-matlab">function [bestMin, bestID] = MYBA()
+%A new modification approach on bat algorithm for solving optimization problems
+%omegaxyz.com 2019年2月12日
+clc
+%% BA参数设置
+t = 1; 
+maxT = 500; %最大迭代次数
+dim = 30; %问题的维度
+sizep = 50; %种群大小
+xmin = -100;
+xmax = 100; %位置向量的范围
+
+A = 0.6.*ones(sizep,1);    % 响度 (不变或者减小)
+r = zeros(sizep,1);      % 脉冲率 (不变或增加))
+r0 = 0.7;
+Af = 0.9;
+Rf = 0.9;
+Qmin = 0;         % 最小频率
+Qmax = 1;         % 最大频率
+
+%% 初始化
+Lb = xmin*ones(1,dim);
+Ub = xmax*ones(1,dim);
+pop = Lb+(Ub-Lb).*rand(sizep,dim); %种群初始化
+popv = zeros(sizep,dim);   % 速度
+Q = zeros(sizep,1);   % 频率
+
+pfitness = zeros(sizep,1);
+for i = 1:sizep
+    pfitness(i) = evaluate(pop(i,:)); %评价
+end
+[bestMin, bestID]=min(pfitness);
+bestS = pop(bestID, :);
+bestArchive = zeros(maxT,1);
+%% 具体迭代过程
+while t &lt;= maxT
+    for i = 1:sizep
+        Q(i)=Qmin+(Qmin-Qmax)*rand();
+        popv(i,:)=popv(i,:)+(pop(i,:)-bestS)*Q(i);
+        Stemp = pop(i,:)+popv(i,:);
+        % 脉冲率
+         if rand&gt;r(i)
+             Stemp=bestS-1+2*rand(1,dim);
+         end
+         fitTemp = evaluate(Stemp);
+         if (fitTemp&lt;=pfitness(i))&amp;&amp;(rand()&lt;A(i))
+            pop(i,:) = Stemp;
+            pfitness(i) = fitTemp;
+            A(i) = Af*A(i);
+            r(i) = r0*(1-exp(-Rf*t));
+         end
+         if fitTemp &lt;= bestMin
+            bestMin = fitTemp;
+         	bestS = Stemp;
+         end
+    end
+    bestArchive(t) = bestMin;
+    fprintf('GEN: %d  min: %.4f\n', t, bestMin);
+    t = t +1;
+end
+
+
+end
+</code></pre>
+<strong>其中evaluate是评价函数，自己写。</strong></div>
+        <section class="comments"><h2>评论 (14)</h2>
+        <div class="comment" id="comment-19209">
+          <strong>zjh</strong>
+          <time>2020-07-21 09:20:55</time>
+          <div>您好，我想请教一下为什么代码51行中是fitTemp&amp;lt;=pfitness(i)而不是fitTemp&amp;lt;evaluate(bestS(1,:)呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19210">
+          <strong>xyjisaw</strong>
+          <time>2020-07-21 11:23:21</time>
+          <div>evaluate的结果存在pfitness中</div>
+        </div>
+        
+        <div class="comment" id="comment-19300">
+          <strong>lyj</strong>
+          <time>2020-08-13 09:37:29</time>
+          <div>您好，我想请教一下代码第32行中pfitness为什么是以dim为维度的矩阵而不是以sizep为维度呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19303">
+          <strong>xyjisaw</strong>
+          <time>2020-08-13 18:02:14</time>
+          <div>感谢您的批评指正，你是对的，已修改。</div>
+        </div>
+        
+        <div class="comment" id="comment-19542">
+          <strong>类媛媛</strong>
+          <time>2020-10-20 20:41:24</time>
+          <div>您好，我想请教一下代码中28行，种群初始化错误需要怎么改</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19544">
+          <strong>xyjisaw</strong>
+          <time>2020-10-21 08:58:51</time>
+          <div>生成某个范围的随机矩阵，大小size*dim</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19546">
+          <strong>类媛媛</strong>
+          <time>2020-10-21 09:52:02</time>
+          <div>我懂您的意思，我运行了下不对，这是我自己改的<br>for i = 1:sizep<br>    pop(i,:) = Lb+(Ub-Lb).*rand(1,dim);<br>end</div>
+        </div>
+        
+        <div class="comment" id="comment-19547">
+          <strong>xiebs</strong>
+          <time>2020-10-21 10:07:03</time>
+          <div>我想问一下你这里Af和Rf有什么用</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19555">
+          <strong>xyjisaw</strong>
+          <time>2020-10-22 23:52:26</time>
+          <div>建议看一下论文</div>
+        </div>
+        
+        <div class="comment" id="comment-19558">
+          <strong>xiebs</strong>
+          <time>2020-10-23 09:14:27</time>
+          <div>请问您做过蝙蝠算法优化vmd参数的程序吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19559">
+          <strong>xyjisaw</strong>
+          <time>2020-10-23 09:15:03</time>
+          <div>没有</div>
+        </div>
+        
+        <div class="comment" id="comment-22052">
+          <strong>陈</strong>
+          <time>2021-05-11 15:39:53</time>
+          <div>第48行，Stemp=bestS-1+2*rand(1,dim)<br>(1) 没有×A嘛，就这样Stemp=bestS-1+2*rand(1,dim)*A,我看论文里有xnew= xold+ ǫA<br>(2)为什么中间要  -1+2*  这样写？bestS+rand(1,dim)*A 这样写对吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-31441">
+          <strong>求助</strong>
+          <time>2023-01-23 14:10:17</time>
+          <div>请问作者原文在哪找啊，能给个题目吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-31570">
+          <strong>xyjisaw</strong>
+          <time>2023-02-01 11:20:33</time>
+          <div>Google Scholar上应该有吧，蝙蝠算法( BA) 是 Yang 教授于 2010。我也记不大清楚了。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

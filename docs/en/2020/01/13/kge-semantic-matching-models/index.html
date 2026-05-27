@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge graph embedding integrating factual information—semantic matching model · OmegaXYZ</title>
+  <meta name="description" content="Knowledge Graph Embedding Knowledge Graph (KG) is a multi-relationship graph composed of entities (nodes) and relationships (different types of edges). Each edge is represented as three parts of a form (head entity, relationship, tail entity), also called a fact, representing two entities connected by a specific relationship. Although effective in representing structured data, the underlying symbolic properties of such triples often make KGs difficult to manipulate. In order to solve this problem, a new research direction-knowledge graph embedding...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/13/kge-semantic-matching-models/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-13</div>
+        <h1>Knowledge graph embedding integrating factual information—semantic matching model</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><span id="%e7%9f%a5%e8%af%86%e5%9b%be%e8%b0%b1%e5%b5%8c%e5%85%a5"><strong>Knowledge graph embedding</strong></span></h2>
+<div>A knowledge graph (KG) is a multi-relationship graph composed of entities (nodes) and relationships (different types of edges). Each edge is represented as three parts of a form (head entity, relationship, tail entity), also called a fact, representing two entities connected by a specific relationship. Although effective in representing structured data, the underlying symbolic properties of such triples often make KGs difficult to manipulate. In order to solve this problem, a new research direction-knowledge graph embedding is proposed. The key idea is to embed the components of KG, including converting entities and relations into a continuous vector space, thus simplifying operations while retaining the original structure of KG. Those entity and relation embeddings can be further applied in various tasks such as KG completion, relation extraction, entity classification and entity parsing.</div>
+<div>
+<hr/>
+</div>
+<h2><span id="%e8%9e%8d%e5%90%88%e4%ba%8b%e5%ae%9e%e4%bf%a1%e6%81%af%e7%9a%84%e7%9f%a5%e8%af%86%e5%9b%be%e8%b0%b1%e5%b5%8c%e5%85%a5"><strong>Knowledge graph embedding integrating factual information</strong></span></h2>
+<strong>step:</strong>
+<div>①Use continuous vector space to represent entity relationships, and relationships are usually regarded as operations on vector space.</div>
+<div>②Define a scoring function to measure the reasonableness of facts.</div>
+<div>③Learning the representation of entity relationships, optimization problem: maximizing the rationality of global observation facts.</div>
+<div>
+<div><strong>There are two main categories:</strong></div>
+<div>①Translational distance models translational distance models The former uses a distance-based scoring function</div>
+<div>Please refer to:<a href="https://omegaxyz.com/2020/01/12/kge-translational-distance-models/">https://omegaxyz.com/2020/01/12/kge-translational-distance-models/</a></div>
+<div>②Semantic matching models Semantic matching models The latter uses a scoring function based on similarity</div>
+</div>
+<hr/>
+<h2><strong>Semantic matching model</strong></h2>Semantic matching models utilize similarity-based scoring functions. They measure the credibility of facts by matching the underlying semantics of entities and the relationships contained in their vector space representations.<h3><strong>RESCAL model and its variants</strong></h3>
+<img alt="" class="alignnone wp-image-6206" height="196" src="https://cdn.omegaxyz.com/2020/01/Semantic-Matching-Models-kge.png" width="860"/>
+<h4><strong>RESCAL model (bilinear model)</strong></h4>Entities are represented by vectors, and relationships are represented by matrices. This relationship matrix models pairwise interactions between latent factors. The scoring function is a bilinear function.
+
+ \(f_{r}(h, t)=\mathbf{h}^{\top} \mathbf{M}_{r} \mathbf{t}=\sum_{i=0}^{d-1} \sum_{j=0}^{d-1}\left[\mathbf{M}_{r}\right]_{i j} \cdot[\mathbf{h}]_{i} \cdot[\mathbf{t}]_{j}\)<h4><strong>DistMult model: simplify the relationship matrix into a diagonal matrix</strong></h4>Disadvantages: Oversimplified and can only handle symmetrical relationships, which is obviously not fully applicable to general KGs.<h4><strong>HolE(Holographic Embeddings)</strong></h4>HolE combines the expressive power of RESCAL with the efficiency and simplicity of DistMult. Use circular correlation operation<h4><strong>ComplEx(Complex Embeddings)</strong></h4>The complex extension DistMult is introduced to better model asymmetric relationships. At this time, entities and relationships are in the complex space, and the facts of asymmetric relationships can get different scores according to the order of entities involved. Every ComplEx has an equivalent HolE, and if conjugate symmetry is imposed on the embedding, then HolE is a special case of ComplEx.<h4><strong>ANALOGYModel</strong></h4>ANALOGY extends RESCAL to further model analogical properties of entities and relationships. Although ANALOGY represents relations as matrices, these matrices can be simultaneously diagonalized into a sparse set of quasi-diagonal matrices. The results show that the DistMult, HolE, ComplEx and other methods introduced earlier can be classified as special cases of ANALOGY.<h3><strong>Neural network based matching</strong></h3>
+<img alt="" class="alignnone wp-image-6205" height="226" src="https://cdn.omegaxyz.com/2020/01/neural-network-kge.png" width="922"/>
+<h4><strong>Semantic Matching Energy Model (SME)</strong></h4>First, the entities and relations are projected to the embedding vector in the input layer, and then the relations r and head and tail entities are combined to the hidden layer respectively. The output is the scoring function. There are two versions of SME: linear and bilinear.<h4><strong>Neural Tensor Network Model (NTN)</strong></h4>Given the fact that it first projects entities to embedding vectors in the input layer. The two entities h,t are then combined by a relation-specific relation tensor (among other parameters) and mapped to a non-linear hidden layer. Finally, a relationship-specific linear output layer gives the score. NTN is by far the most expressive model, but it has too many parameters and is inefficient at processing large knowledge graphs.<h4><strong>Multilayer Perceptron (MLP)</strong></h4>MLP is a simpler approach in which each relationship (and therefore entity) is composed of a vector. Given the fact that embedding vectors h, r and t are concatenated in the input layer and mapped to a non-linear hidden layer. The score is then generated by a linear output layer.<h4><strong>Neural Association Model (NAM)</strong></h4>Given the fact that it first connects the embedding vector of the head entity and the relation in the input layer, after a feedforward process in the hidden layer of the "deep" neural network, a score is given by matching the output of the last hidden layer and the embedding vector of the tail entity.<hr/>
+<h2><strong>Summary of semantic matching models</strong></h2>
+<img alt="" class="alignnone wp-image-6203" height="627" src="https://cdn.omegaxyz.com/2020/01/Semantic-Matching-Models.png" width="1011"/>
+<hr/>
+<strong>References:</strong>Wang Q , Mao Z , Wang B , et al. Knowledge Graph Embedding: A Survey of Approaches and Applications[J]. IEEE Transactions on Knowledge and Data Engineering, 2017, PP(99):1-1.
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

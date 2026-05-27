@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DBSCAN聚类算法Python实现 · OmegaXYZ</title>
+  <meta name="description" content="原理 DBSCAN是一种基于密度的聚类算法，这类密度聚类算法一般假定类别可以通过样本分布的紧密程度决定。同一类别的样本，他们之间的紧密相连的，也就是说，在该类别任意样本周围不远处一定有同类别的样本存在。 通过将紧密相连的样本划为一类，这样就得到了一个聚类类别。通过将所有各组紧密相连的样本划为各个不同的类别，则我们就得到了最终的所有聚类类别...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/21/dbscan-python/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-21</div>
+        <h1>DBSCAN聚类算法Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>原理</strong></h2>
+DBSCAN是一种基于密度的聚类算法，这类密度聚类算法一般假定类别可以通过样本分布的紧密程度决定。同一类别的样本，他们之间的紧密相连的，也就是说，在该类别任意样本周围不远处一定有同类别的样本存在。
+
+通过将紧密相连的样本划为一类，这样就得到了一个聚类类别。通过将所有各组紧密相连的样本划为各个不同的类别，则我们就得到了最终的所有聚类类别结果。
+<h2><strong>一些概念</strong></h2>
+&nbsp;
+
+<img class="alignnone  wp-image-5627" src="https://cdn.omegaxyz.com/2019/03/dbscan3.png" alt="" width="699" height="86" />
+
+<img class="alignnone  wp-image-5626" src="https://cdn.omegaxyz.com/2019/03/dbscan2.png" alt="" width="696" height="298" />
+
+<img class="alignnone  wp-image-5629" src="https://cdn.omegaxyz.com/2019/03/dbscan5.png" alt="" width="578" height="148" />
+
+x1是核心对象，x2由x1密度直达，x3由x1密度可达，x3与x4密度相连
+<h2><strong>伪码</strong></h2>
+<img class="alignnone  wp-image-5625" src="https://cdn.omegaxyz.com/2019/03/dbscan1.png" alt="" width="532" height="537" />
+<h2><strong>python代码</strong></h2>
+<pre ><code class="language-python">from sklearn import datasets
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+import time
+import copy
+
+
+def find_neighbor(j, x, eps):
+    N = list()
+    for i in range(x.shape[0]):
+        temp = np.sqrt(np.sum(np.square(x[j]-x[i])))  # 计算欧式距离
+        if temp &lt;= eps:
+            N.append(i)
+    return set(N)
+
+
+def DBSCAN(X, eps, min_Pts):
+    k = -1
+    neighbor_list = []  # 用来保存每个数据的邻域
+    omega_list = []  # 核心对象集合
+    gama = set([x for x in range(len(X))])  # 初始时将所有点标记为未访问
+    cluster = [-1 for _ in range(len(X))]  # 聚类
+    for i in range(len(X)):
+        neighbor_list.append(find_neighbor(i, X, eps))
+        if len(neighbor_list[-1]) &gt;= min_Pts:
+            omega_list.append(i)  # 将样本加入核心对象集合
+    omega_list = set(omega_list)  # 转化为集合便于操作
+    while len(omega_list) &gt; 0:
+        gama_old = copy.deepcopy(gama)
+        j = random.choice(list(omega_list))  # 随机选取一个核心对象
+        k = k + 1
+        Q = list()
+        Q.append(j)
+        gama.remove(j)
+        while len(Q) &gt; 0:
+            q = Q[0]
+            Q.remove(q)
+            if len(neighbor_list[q]) &gt;= min_Pts:
+                delta = neighbor_list[q] &amp; gama
+                deltalist = list(delta)
+                for i in range(len(delta)):
+                    Q.append(deltalist[i])
+                    gama = gama - delta
+        Ck = gama_old - gama
+        Cklist = list(Ck)
+        for i in range(len(Ck)):
+            cluster[Cklist[i]] = k
+        omega_list = omega_list - Ck
+    return cluster
+
+
+X1, y1 = datasets.make_circles(n_samples=2000, factor=.6, noise=.02)
+X2, y2 = datasets.make_blobs(n_samples=400, n_features=2, centers=[[1.2, 1.2]], cluster_std=[[.1]], random_state=9)
+X = np.concatenate((X1, X2))
+eps = 0.08
+min_Pts = 10
+begin = time.time()
+C = DBSCAN(X, eps, min_Pts)
+end = time.time()
+plt.figure()
+plt.scatter(X[:, 0], X[:, 1], c=C)
+plt.show()
+
+</code></pre>
+&nbsp;
+<h2><strong>效果</strong></h2>
+<img class="alignnone  wp-image-5628" src="https://cdn.omegaxyz.com/2019/03/dbscan4.png" alt="" width="556" height="416" />
+
+<strong>选用iris鸢尾花数据集更改</strong>
+<pre ><code class="language-python">from sklearn.datasets import load_iris
+X = load_iris().data</code></pre>
+&nbsp;
+<h2><strong>缺点</strong></h2>
+参数敏感Eps , MinPts ,若选取不当 ,会造成聚类质量下降。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

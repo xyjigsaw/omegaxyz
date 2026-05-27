@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorFlow basic statements and concepts · OmegaXYZ</title>
+  <meta name="description" content="The article is reprinted from Geek Academy: http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html Introduction to TensorFlow is an external structure package for neural networks developed by TensorFlow. It is also an open source software library that uses Tensorflow to perform numerical calculations. It is used in many machine deep learning fields such as speech recognition or image recognition. It...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/20/tensorflow_intro/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-20</div>
+        <h1>TensorFlow basic statements and concepts</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><div>
+<div>
+<nav class="inline-toc side-box" data-toc=""></nav>
+<strong>The article is reprinted from Geek Academy:</strong><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html">http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html</a>
+<h2><strong>Introduction to TensorFlow</strong></h2>
+<code>TensorFlow</code>yes<code>Google</code>A neural network developed<code>Python</code>The external structural package is also a use<code>数据流图</code>An open source software library for numerical calculations. It is used in many fields of machine deep learning such as speech recognition or image recognition, and it can run on a variety of devices ranging from a smartphone to thousands of data center servers.<h2><strong>Why learn TensorFlow?</strong></h2>TensorFlow was originally developed by researchers and engineers at the Google Brain Group (part of Google's machine intelligence research organization) for research in machine learning and deep neural networks, but the system's versatility makes it applicable to a wide range of other computing fields.
+
+TensorFlow can undoubtedly be regarded as one of the most useful libraries in neural networks. The task it is good at is training deep neural networks. By using TensorFlow, we can quickly get started with neural networks, greatly reducing the development cost and difficulty of deep learning (that is, deep neural networks); the open source nature of TensorFlow allows everyone to use, maintain, and consolidate it, so that it can be quickly updated and developed.
+
+Although some people may say<code>caffe</code>better suited for images,<code>mxnet</code>More efficient and so on, but in fact these frameworks are all the same, only the syntax is different, so we don't have to worry too much here. So let's start with tensorflow.</div>
+<div>
+<h2><strong>Tensorflow processing structure</strong></h2>TensorFlow allows us to first draw a computing structure diagram, which can also be called a series of human-computer interactive computing operations, and then convert the edited Python file into a more efficient<code>C++</code>, and calculated on the backend.<blockquote>TensorFlow first defines the structure of the neural network, and then puts the data into the structure for calculation and training.</blockquote>The following animation shows the TensorFlow data processing process:<img alt="" class="alignnone size-full wp-image-4079" height="448" src="https://cdn.omegaxyz.com/2018/04/TensorFlow2.gif" width="252"/>
+<div>
+<div>Because TensorFlow uses<code>数据流图</code>(data flow graphs) to calculate, so first we have to create a data flow graph, and then put our data (data in<code>张量(tensor)</code>exist in the form) and put it into the data flow diagram for calculation.
+
+in the picture<code>节点</code>(Nodes) are generally used to represent applied mathematical operations, but they can also represent the starting point of data input (feed in)/the end point of output (push out), or the end point of reading/writing persistent variables (persistent variables);<code>线</code>(edges) represents a multi-dimensional data array that is interconnected between nodes, that is<code>张量（tensor）</code>, when training the model,<code>tensor</code>will continue to flow from a node in the data flow graph<code>flow</code>to another node, which is where TensorFlow gets its name. Once all tensors on the input side are ready, the nodes will be assigned to various computing devices to perform operations asynchronously and in parallel.
+
+Its flexible architecture allows you to deploy computing on multiple platforms, such as one or more CPUs (or GPUs) in desktop computers, servers, mobile devices, and more.<h2><strong>Basic use of Tensorflow</strong></h2>
+</div>
+</div>
+</div>
+</div>use<span style="color: #ff0000;"><code>TensorFlow</code></span>, you must understand<span style="color: #ff0000;"><code>TensorFlow</code></span>：
+<ul>
+<li>Use diagram<code>(graph)</code>to represent tasks</li>
+<li>called conversation<code>(Session)</code>context<code>(context)</code>Medium execution diagram</li>
+<li>use<code>tensor</code>Represent data</li>
+<li>through variables<code>(Variable)</code>maintenance status</li>
+<li>use<code>feed</code>and<code>fetch</code>Can be used for any operation<code>(arbitrary operation)</code>Assign or get data from it</li>
+</ul>
+<h3 id="综述"><strong>Overview</strong></h3>
+<code>TensorFlow</code>It is a programming system that uses graphs to represent computing tasks. The nodes in the graph are called<code>op</code>（<code>operation</code>abbreviation), a<code>op</code>Get 0 or more<code>tensor</code>, performs calculations, and produces 0 or more<code>tensor</code>. each<code>tensor</code>Is a typed multidimensional array. For example, you can represent a set of image pixels as a four-dimensional array of floating point numbers. The four dimensions are<code>[batch, height, width, channels]</code>.
+
+one<code>TensorFlow</code>The graph describes the calculation process. In order to perform the calculation, the graph must be in<code>会话</code>is activated,<code>会话</code>Will the picture<code>op</code>Distribute to devices such as CPUs or GPUs while providing execution<code>op</code>methods. After these methods are executed, they will generate<code>tensor</code>return. In python language, the returned<code>tensor</code>yes<code>numpy ndarry</code>Object; in C/C++ language, what is returned is<code>tensor</code>yes<code>tensorflow::Tensor</code>Example.<h3 id="计算图"><strong>Computational graph</strong></h3>
+<code>Tensorflow</code>Programs are usually organized into a build phase and an execution phase. In the build phase,<code>op</code>The execution steps are described as a graph. In the execution phase, sessions are used to execute the<code>op</code>.
+
+For example, it is common to create a graph to represent and train a neural network during the build phase, and then iteratively perform the training on the graph during the execution phase<code>op</code>。
+
+<code>Tensorflow</code>Support C/C++, python programming language. at present,<code>TensorFlow</code>The python library is easier to use and provides a large number of helper functions to simplify the work of building graphs, which are not yet supported by the C/C++ library.
+
+Conversation library in three languages<code>(session libraries)</code>are consistent.<h3 id="构建图"><strong>Build diagram</strong></h3>The first step in component diagrams is to create the source<code>op (source op)</code>. source<code>op</code>No input is required. source<code>op</code>The output of is passed to other<code>op</code>Do calculations.
+
+python library,<code>op</code>The return value of the constructor represents the constructed<code>op</code>output, these return values ​​can be passed to other<code>op</code>as input.<code>TensorFlow</code>There is a default graph in the Python library<code>(default graph)</code>，<code>op</code>The constructor can add nodes to it. This default diagram is sufficient for many programs and can be read<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/api_docs/python/framework.html" rel="noopener" target="_blank"><code>Graph</code>kind</a>documentation to learn how to manage multiple views.<pre><code class="language-python">import tensorflow as tf
+# 创建一个常量op， 产生一个1x2矩阵，这个op被作为一个节点
+# 加到默认视图中
+# 构造器的返回值代表该常量op的返回值
+matrix1 = tr.constant([[3., 3.]])
+
+# 创建另一个常量op, 产生一个2x1的矩阵
+matrix2 = tr.constant([[2.], [2.]])
+
+# 创建一个矩阵乘法matmul op，把matrix1和matrix2作为输入：
+product = tf.matmul(matrix1, matrix2)</code></pre>The default graph now has three nodes, two<code>constant() op</code>and<code>matmul() op</code>. In order to actually get the results of matrix multiplication, you have to start the graph in the session.<h3 id="在一个会话中启动图"><strong>Start a graph in a session</strong></h3>The diagram cannot be started until the construction phase is complete. The first step in starting a graph is to create a<code>Session</code>Object without any creation parameters, the session constructor will fail to start the default graph.
+
+For the complete session API, please read<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/api_docs/python/client.html" rel="noopener" target="_blank"><code>Session</code>kind</a>。
+
+<code>Session</code>Objects need to be closed to release resources after use, unless explicitly called<code>close</code>In addition, you can also use<code>with</code>Code to automatically complete the closing action:<pre><code class="language-python">with tf.Session() as sess:
+  result = sess.run([product])
+  print result</code></pre>In terms of implementation,<code>Tensorflow</code>Convert graph definitions into operations that are executed in a distributed manner to fully utilize available computing resources (such as CPU or GPU). Generally you don't need to explicitly specify whether to use CPU or GPU.<code>Tensorflow</code>Can be detected automatically. If GPU is detected,<code>Tensorflow</code>Whenever possible, the first GPU found will be used to perform the operation.
+
+If there is more than one available GPU on the machine, the other GPUs except the first one are not involved in the calculation. in order to let<code>Tensorflow</code>To use these GPUs you have to<code>op</code>Explicitly assign them to perform.<code>with...Device</code>Statements are used to assign specific CPU or GPU operations:<pre><code class="language-python">with tf.Session() as sess:
+  with tf.device("/gpu:1"):
+    matrix1 = tf.constant([[3., 3.]])
+    matrix2 = tf.constant([[2.], [2.]])
+    product = tf.matmul(matrix1, matrix2)</code></pre>Devices are identified with strings. Currently supported devices include:<ul>
+<li><code>/cpu:0</code>:Machine’s CPU</li>
+<li><code>/gpu:0</code>:The machine's first GPU, if one is available</li>
+<li><code>/gpu:1</code>:The second GPU of the machine, and so on</li>
+</ul>
+<h3 id="交互式使用"><strong>Interactive use</strong></h3>The python example in the documentation uses a session<code>Session</code>to start the graph and call<code>Session.run()</code>The method performs the operation.
+
+To facilitate the use of python interactive environments such as IPython, you can use<code>InteractiveSession</code>replace<code>Session</code>class, use<code>Tensor.eval()</code>and<code>Operation.run()</code>method instead<code>Session.run()</code>. This avoids using a variable to hold the session:<pre><code class="language-python"># 进入一个交互式Tensorflow会话
+import tensorflow as tf
+sess = tf.InteractiveSession()
+
+x = tf.Variable([1.0, 2.0])
+a = tf.constant([3.0, 3.0]);
+
+# 使用初始化器initializer op的run()方法初始化x
+x.initializer.run()
+
+# 增加一个减法sub op，从x减去a。运行减法op，输出结果
+sud = tf.sub(x, a)
+print sub.eval()
+# ==&gt;[-2. -1.]</code></pre>
+<h3 id="tensor"><strong><code>Tensor</code></strong></h3>
+<code>Tensorflow</code>Program usage<code>tensor</code>Data structure represents all data. In the calculation graph, data is transferred between operations.<code>tensor</code>. you can put<code>Tensorflow</code>of<code>tensor</code>regarded as one<code>n</code>Dimensional array or list. one<code>tensor</code>Contains a static type<code>rank</code>and a<code>shape</code>。
+<h4 id="阶">level</h4>exist<code>Tensorflow</code>In a system, the dimensionality of a tensor is described as order. But the order of a tensor and the order of a matrix are not the same concept. The order of a tensor is a quantitative description of the tensor dimension. The following tensor (using python<code>list</code>defined) is the 2nd order:<pre><code class="language-python">t = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code></pre>You can think of a second-order tensor as what we usually call a matrix, and a first-order tensor can be thought of as a vector. For a second-order tensor, you can use the statement<code>t[i, j]</code>to access any element within it. And for a third order tensor you can pass<code>t[i, j, k]</code>To access any element:<table>
+<thead>
+<tr>
+<th align="left">level</th>
+<th>Mathematics examples</th>
+<th>python example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>0</code></td>
+<td>scalar (only size)</td>
+<td><code>s=483</code></td>
+</tr>
+<tr>
+<td align="left"><code>1</code></td>
+<td>Vector (magnitude and direction)</td>
+<td><code>v=[1.1, 2.2, 3.3]</code></td>
+</tr>
+<tr>
+<td align="left"><code>2</code></td>
+<td>matrix (data table)</td>
+<td><code>m=[[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code></td>
+</tr>
+<tr>
+<td align="left"><code>3</code></td>
+<td><code>3</code>order tensor</td>
+<td><code>t=[[[2], [4], [6]], [[8], [9], [10]], [[11], [12], [13]]]</code></td>
+</tr>
+<tr>
+<td align="left"><code>n</code></td>
+<td><code>n</code>level</td>
+<td><span class="MathJax" data-mathml='&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;&lt;mo&gt;&amp;#x2026;&lt;/mo&gt;&lt;/math&gt;' id="MathJax-Element-2-Frame" role="presentation" style="margin: 0px; padding: 0px; font-weight: normal; box-sizing: border-box; display: inline; font-style: normal; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; outline: 0px; position: relative;" tabindex="0"><span class="math" id="MathJax-Span-1"><span class="mrow" id="MathJax-Span-2"><span class="mo" id="MathJax-Span-3">…</span></span></span><span class="MJX_Assistive_MathML" role="presentation">…</span></span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="形状"><strong>shape</strong></h4>
+<code>Tensorflow</code>Three notations are used in the documentation to conveniently describe the dimensions of a tensor: order, shape, and dimensionality. The following shows the relationship between them:<table>
+<thead>
+<tr>
+<th>level</th>
+<th>shape</th>
+<th>Dimension</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td><code>[]</code></td>
+<td>0-D</td>
+<td>A 0-dimensional tensor, a scalar</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>[D0]</code></td>
+<td>1-D</td>
+<td>A 1D tensor of the form<code>[5]</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>[D0, D1]</code></td>
+<td>2-D</td>
+<td>A 2D tensor of the form<code>[3, 4]</code></td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>[D0, D1, D2]</code></td>
+<td>3-D</td>
+<td>A 3D tensor of the form<code>[1, 4, 3]</code></td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td><code>[D0, D1, ... Dn]</code></td>
+<td>n-D</td>
+<td>The form of an n-dimensional tensor<code>[D0, D1, ..., Dn]</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="数据类型"><strong>data type</strong></h4>In addition to dimensions,<code>tensor</code>There is a data type attribute. You can specify any of the following data types for a tensor:<table>
+<thead>
+<tr>
+<th>data type</th>
+<th>python type</th>
+<th>describe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DT_FLOAT</code></td>
+<td><code>tf.float32</code></td>
+<td>32-bit floating point number</td>
+</tr>
+<tr>
+<td><code>DT_DOUBLE</code></td>
+<td><code>tf.float64</code></td>
+<td>64-bit floating point number</td>
+</tr>
+<tr>
+<td><code>DT_INT64</code></td>
+<td><code>tf.int64</code></td>
+<td>64-bit signed integer</td>
+</tr>
+<tr>
+<td><code>DT_INT32</code></td>
+<td><code>tf.int32</code></td>
+<td>32-bit signed integer</td>
+</tr>
+<tr>
+<td><code>DF_INT16</code></td>
+<td><code>tf.int16</code></td>
+<td>16-bit signed integer</td>
+</tr>
+<tr>
+<td><code>DT_INT8</code></td>
+<td><code>tf.int8</code></td>
+<td>8-bit signed integer</td>
+</tr>
+<tr>
+<td><code>DT_UINT8</code></td>
+<td><code>tf.uint8</code></td>
+<td>8-bit unsigned integer</td>
+</tr>
+<tr>
+<td><code>DT_STRING</code></td>
+<td><code>tf.string</code></td>
+<td>Variable length byte array, each tensor element is a byte array</td>
+</tr>
+<tr>
+<td><code>DT_BOOL</code></td>
+<td><code>tf.bool</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td><code>DT_COMPLEX64</code></td>
+<td><code>tf.complex64</code></td>
+<td>Negative numbers consisting of 32-bit floating point numbers: real and imaginary</td>
+</tr>
+<tr>
+<td><code>DT_QINT32</code></td>
+<td><code>tf.qint32</code></td>
+<td>32-bit signed integer for quantized Ops</td>
+</tr>
+<tr>
+<td><code>DT_QINT8</code></td>
+<td><code>tf.qint8</code></td>
+<td>8-bit signed integer used to quantify Ops</td>
+</tr>
+<tr>
+<td><code>DT_QUINT8</code></td>
+<td><code>tf.quint8</code></td>
+<td>8-bit unsigned integer used to quantify Ops</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量"><strong>variable</strong></h3>exist<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/variables/index.html" rel="noopener" target="_blank">Variables</a>See more details in . Variables maintain status information during graph execution. The following example demonstrates how to use variables to implement a simple counter:<pre><code class="language-python"># 创建一个变量，初始为标量0
+state = tf.Variable(0, name="counter")
+
+# 创建一个op，其作用是使`state`增加1
+one = tf.constant(1)
+new_value = tf.add(state, one)
+update = tf.assign(state, new_value)
+
+# 启动图后，变量必须先经过init op初始化
+# 首先先增加一个初始化op到图中
+init_op = tf.initialize_all_variables()
+
+# 启动图
+with tf.Session() as sess:
+  # 运行init op
+  sess.run(init_op)
+  # 打印 state 的初始值
+  print sess.run(state)
+  # 运行op， 更新state 并打印
+  for _ in range(3):
+    sess.run(update)
+    print sess.run(state)
+
+# 输出：
+# 0
+# 1
+# 2
+# 3</code></pre>in code<code>assign()</code>An operation is part of the expression described by the graph, as<code>add()</code>The operation is the same, so calling<code>run()</code>It does not actually perform the assignment until the expression is executed.
+
+It is common to express the parameters in a statistical model as a set of variables. For example, you can store the weights of a neural network as a variable in a<code>tensor</code>middle. During the training process, by repeatedly training the graph, update this<code>tensor</code>。
+<h3 id="fetch"><strong><code>Fetch</code></strong></h3>To retrieve the output of an operation, use<code>Session</code>Object<code>run()</code>When calling the execution graph, pass in some<code>tensor</code>,These<code>tensor</code>will help you get your results back. In the previous example, we only retrieved a single node<code>state</code>, but you can also retrieve multiple<code>tensor</code>:
+<pre><code class="language-python">input1 = tf.constant(3.0)
+input2 = tf.constant(4.0)
+input3 = tf.constant(5.0)
+intermed = tf.add(input2, input3)
+mul = tf.mul(input1, intermed)
+
+with tf.Session() as sess:
+  result = sess.run([mul, intermed])
+  print result
+
+# print
+# [27.0, 9.0]</code></pre>Need to get more<code>tensor</code>value, in<code>op</code>obtained by running them in sequence (instead of obtaining them one by one<code>tenter</code>）。
+<h3 id="feed"><strong><code>Feed</code></strong></h3>The above example is introduced in the computational graph<code>tensor</code>, stored in the form of constants or variables.<code>Tensorflow</code>Also provided<code>feed</code>mechanism, which can temporarily replace any operation in the graph<code>tensor</code>You can submit a patch for any operation in the figure and directly insert a<code>tensor</code>。
+
+<code>feed</code>use a<code>tensor</code>To temporarily replace the output of an operation with a value, you can provide<code>feed</code>data as<code>run()</code>The parameters of the call.<code>feed</code>Only valid within the method that calls it, the method ends,<code>feed</code>will disappear. The most common use case is to specify some special operation as<code>feed</code>operation, the marked method is to use<code>tf.placeholder()</code>Create placeholders for these operations.<pre><code class="language-python">input1 = tf.placeholder(tf.types.float32)
+input2 = tf.placeholder(tf.types.float32)
+output = tf.mul(input1, input2)
+
+with tf.Session() as see:
+  print sess.run([output], feed_dict={input:[7.]， input2:[2.]})
+
+# print
+# [array([ 14.], dtype=float32)]</code></pre>
+<h2><strong>Reference link</strong></h2>
+<ol>
+<li><a href="https://link.jianshu.com/?t=http://tensorflow.org/" rel="nofollow noopener" target="_blank">TensorFlow English official website</a></li>
+<li><a href="https://link.jianshu.com/?t=https://github.com/tensorflow/tensorflow" rel="nofollow noopener" target="_blank">TensorFlow official GitHub repository</a></li>
+</ol>
+<strong>The article is reprinted from Geek Academy:</strong><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html">http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

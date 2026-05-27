@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>什么是CPython · OmegaXYZ</title>
+  <meta name="description" content="CPython是特指C语言实现的Python，就是原汁原味的Python。 之所以使用CPython这个词，是因为Python还有一些其它的实现，比如Jython，就是Java版的Python，还有烧脑的PyPy，使用Python再把Python实现了一遍。 如下是官方对CPython的说明： CPython is Guido van R...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/21/cpython/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-21</div>
+        <h1>什么是CPython</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">CPython是特指C语言实现的Python，就是原汁原味的Python。
+
+之所以使用CPython这个词，是因为Python还有一些其它的实现，比如Jython，就是Java版的Python，还有烧脑的PyPy，使用Python再把Python实现了一遍。
+
+如下是官方对CPython的说明：
+
+CPython is Guido van Rossum's reference version of the Python computing language. It's most often called simply "Python"; speakers say "CPython" generally to distinguish it explicitly from other implementations.
+
+这个页面对Python各种不同的实现有一个说明：
+
+<a href="https://wiki.python.org/moin/PythonImplementations?action=show&amp;redirect=implementation">https://wiki.python.org/moin/PythonImplementations?action=show&amp;redirect=implementation</a>
+
+当我们编写Python代码时，我们得到的是一个包含Python代码的以.py为扩展名的文本文件。要运行代码，就需要Python解释器去执行.py文件。
+
+由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。
+
+CPython
+当我们从Python官方网站下载并安装好Python 3.5后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行python就是启动CPython解释器。
+CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。
+
+IPython
+IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。
+
+CPython用&gt;&gt;&gt;作为提示符，而IPython用In [序号]:作为提示符。
+
+PyPy
+PyPy是另一个Python解释器，它的目标是执行速度。PyPy采用JIT技术，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。
+绝大部分Python代码都可以在PyPy下运行，但是PyPy和CPython有一些是不同的，这就导致相同的Python代码在两种解释器下执行可能会有不同的结果。如果你的代码要放到PyPy下执行，就需要了解PyPy和CPython的不同点。
+
+Jython
+Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。
+
+IronPython
+IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-3601">
+          <strong><a href="http://www.sobest.net" rel="nofollow">求易</a></strong>
+          <time>2018-02-24 09:16:08</time>
+          <div>Python的语（写）法挺好玩的，比较注重缩进格式，之前写自动化学了一点点，由于我们用的不多，不是很了解。每次看到.py文件，我就会想到PY交易什么的哈哈哈哈</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3604">
+          <strong>xyjisaw</strong>
+          <time>2018-02-24 14:52:07</time>
+          <div>O(∩_∩)O哈哈~</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

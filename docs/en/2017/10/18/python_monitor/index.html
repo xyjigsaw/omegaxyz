@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python&#x27;s psutil module monitors memory code · OmegaXYZ</title>
+  <meta name="description" content="Python psutil monitors memory 1. psutil is a cross-platform library (http://code.google.com/p/psutil/) that can easily obtain information about the processes and system utilization (including CPU, memory, disk, network, etc.) running on the system. It is mainly used for system monitoring, analysis and limiting the management of system resources and processes. It implements the functions provided by equivalent command line tools, such as ps, top, lsof,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/18/python_monitor/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-18</div>
+        <h1>Python&#x27;s psutil module monitors memory code</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">python psutil monitors memory
+
+1. psutil is a cross-platform library (<a href="http://code.google.com/p/psutil/">http://code.google.com/p/psutil/</a>), you can easily obtain information about the processes and system utilization (including CPU, memory, disk, network, etc.) running on the system. It is mainly used for system monitoring, analysis and limiting the management of system resources and processes. It implements the functions provided by equivalent command line tools, such as ps, top, lsof, netstat, ifconfig, who, df, kill, free, nice, ionice, iostat, iotop, uptime, pidof, tty, taskset, pmap, etc. Currently supports 32-bit and 64-bit operating systems such as Linux, Windows, OS X, FreeBSD and Sun Solaris.<pre><code class="language-default">import psutil
+import os
+import time
+
+info = psutil.virtual_memory()
+print(u'cpu个数：', psutil.cpu_count())
+print(u'总内存：', info.total)
+while True:
+    info = psutil.virtual_memory()
+    print(u'内存使用：', psutil.Process(os.getpid()).memory_info().rss)
+
+    print(u'内存占比：', info.percent)
+    print("---------------------------------------------")
+    time.sleep(2)
+</code></pre>Refresh every 2 seconds<img alt="" class="alignnone wp-image-2219" height="156" src="https://cdn.omegaxyz.com/2017/10/python_monitor-300x96.jpg" width="488"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

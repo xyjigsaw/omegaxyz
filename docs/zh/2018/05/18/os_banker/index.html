@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>操作系统银行家算法C语言实现 · OmegaXYZ</title>
+  <meta name="description" content="算法简介 银行家算法（Banker&#x27;s Algorithm）是一个避免死锁（Deadlock）的著名算法，是由艾兹格·迪杰斯特拉在1965年为T.H.E系统设计的一种避免死锁产生的算法。它以银行借贷系统的分配策略为基础，判断并保证系统的安全运行。 算法目的 为了了解系统的资源分配情况，假定系统的任何一种资源在任意时刻只能被一个进程使用，任...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/18/os_banker/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-18</div>
+        <h1>操作系统银行家算法C语言实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>算法简介</strong></h2>
+银行家算法（Banker's Algorithm）是一个避免死锁（Deadlock）的著名算法，是由艾兹格·迪杰斯特拉在1965年为T.H.E系统设计的一种避免死锁产生的算法。它以银行借贷系统的分配策略为基础，判断并保证系统的安全运行。
+<h2><strong>算法目的</strong></h2>
+为了了解系统的资源分配情况，假定系统的任何一种资源在任意时刻只能被一个进程使用，任何进程已经占用的资源只能由进程自己释放，而不能由其他进程抢占，当进程申请的资源不能满足时，必须等待。因此只要资源分配算法能保证进程的资源请求，且不出现循环等待，则系统不会出现死锁。
+<h2><strong>算法原理</strong></h2>
+在避免死锁的方法中，所施加的限制条件较弱，有可能获得令人满意的系统性能。在该方法中把系统的状态分为安全状态和不安全状态，只要能使系统始终都处于安全状态，便可以避免发生死锁。
+
+银行家算法的基本思想是分配资源之前，判断系统是否是安全的；若是，才分配。它是最具有代表性的避免死锁的算法。
+
+设进程cusneed提出请求REQUEST [i]，则银行家算法按如下规则进行判断。
+<ul>
+ 	<li>(1)如果REQUEST [cusneed] [i]&lt;= NEED[cusneed][i]，则转（2)；否则，出错。</li>
+ 	<li>(2)如果REQUEST [cusneed] [i]&lt;= AVAILABLE[i]，则转（3)；否则，等待。</li>
+ 	<li>(3)系统试探分配资源，修改相关数据：</li>
+</ul>
+<p style="text-align: center;">AVAILABLE[i]-=REQUEST[cusneed][i];</p>
+<p style="text-align: center;">ALLOCATION[cusneed][i]+=REQUEST[cusneed][i];</p>
+<p style="text-align: center;">NEED[cusneed][i]-=REQUEST[cusneed][i];</p>
+
+<ul>
+ 	<li>(4)系统执行安全性检查，如安全，则分配成立；否则试探险性分配作废，系统恢复原状，进程等待。</li>
+</ul>
+<strong>安全性检查算法</strong>
+<ul>
+ 	<li>（1）设置两个工作向量Work=AVAILABLE;FINISH</li>
+ 	<li>（2）从进程集合中找到一个满足下述条件的进程，</li>
+</ul>
+<p style="text-align: center;">FINISH==false;</p>
+<p style="text-align: center;">NEED&lt;=Work;</p>
+<p style="text-align: center;">如找到，执行（3)；否则，执行（4)</p>
+
+<ul>
+ 	<li>(3)设进程获得资源，可顺利执行，直至完成，从而释放资源。</li>
+</ul>
+<p style="text-align: center;">Work=Work+ALLOCATION;</p>
+<p style="text-align: center;">Finish=true;</p>
+<p style="text-align: center;">GOTO 2</p>
+
+<h2><b>算法流程图</b></h2>
+<img class="alignnone size-full wp-image-4303" src="https://cdn.omegaxyz.com/2018/05/banker2.png" alt="" width="884" height="418" />
+<h2><strong>算法C语言实现版本1</strong></h2>
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+#define true 1
+#define false 0
+#define processNum 5
+#define resourceNum 3
+#define MAXINT 9999
+typedef int bool;
+
+int available[resourceNum]={3,3,2};
+int maxRequest[processNum][resourceNum]={7,5,3,3,2,2,9,0,2,2,2,2,4,3,3};
+int allocation[processNum][resourceNum]={0,1,0,2,0,0,3,0,2,2,1,1,0,0,2};
+int need[processNum][resourceNum]={7,4,3,1,2,2,6,0,0,0,1,1,4,3,1};
+bool Finish[processNum];
+int safeSeries[processNum]={MAXINT, MAXINT , MAXINT , MAXINT , MAXINT};
+int request[resourceNum];
+
+void Init()
+{
+    int i, j;
+    printf("输入进程数量、资源数量\n");
+    //scanf("%d %d",&amp;processNum,&amp;resourceNum);
+    printf("输入当前资源可用数目\n");
+    for(i = 0; i &lt; resourceNum; i++){
+        scanf("%d",&amp;available[i]);
+    }
+    printf("输入最大需求矩阵\n");
+    for(i = 0; i &lt; processNum; i++){
+        for(j = 0; j &lt; resourceNum; j++){
+            scanf("%d",&amp;maxRequest[i][j]);
+        }
+    }
+    printf("输入分配矩阵\n");
+    for(i = 0; i &lt; processNum; i++){
+        for(j = 0; j &lt; resourceNum; j++){
+            scanf("%d",&amp;allocation[i][j]);
+        }
+    }
+    printf("输入当前需求矩阵\n");
+    for(i = 0; i &lt; processNum; i++){
+        for(j = 0; j &lt; resourceNum; j++){
+            scanf("%d",&amp;need[i][j]);
+        }
+    }
+}
+
+void showInfo()
+{
+    int i,j;
+    printf("当前资源剩余：");
+    for(j = 0; j &lt; resourceNum; j++){
+        printf("%d ",available[j]);
+    }
+    printf("\n");
+    printf(" PID\t Max\t\tAllocation\tNeed\n");
+    for(i = 0; i &lt; processNum; i++){
+        printf(" P%d\t",i);
+        for(j = 0; j &lt; resourceNum; j++){
+            printf("%d ",maxRequest[i][j]);
+        }
+        printf("\t\t");
+        for(j = 0; j &lt; resourceNum; j++){
+            printf("%d ",allocation[i][j]);
+        }
+        printf("\t\t");
+        for(j = 0; j &lt; resourceNum; j++){
+            printf("%d ",need[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+bool isSafe()
+{
+    int i,j,k;
+    int trueFinished = 0;
+    int work[resourceNum];
+    for(i = 0; i &lt; resourceNum; i++){
+        work[i]=available[i];
+    }
+
+    for(i = 0; i &lt; processNum; i++){
+        Finish[i]=false;
+    }
+    i = 0;
+    int temp = 0;
+    while(trueFinished != processNum){
+        int j =0;
+        if(Finish[i]!= true){
+            for(j = 0; j &lt; resourceNum; j++){
+                if(need[i][j] &gt; work[j]){break;}
+            }
+        }
+        if(j == resourceNum){
+            Finish[i]=true;
+            SafeInfo(work,i);
+            for(k = 0; k &lt; resourceNum; k++){
+                work[k]+=allocation[i][k];
+            }
+            int k2;
+            safeSeries[trueFinished++] = i;
+        }
+        i++;
+        if(i &gt;= processNum)
+        {
+            i = i % processNum;
+            if(temp == trueFinished)
+                break;
+        }
+        temp = trueFinished;
+    }
+
+    if(trueFinished == processNum){
+        printf("\n系统安全！\n\n安全序列为：");
+        for(i = 0; i &lt; processNum; i++){
+            printf("%d ",safeSeries[i]);
+        }
+        return true;
+    }
+    printf("******系统不安全！******\n");
+    return false;
+}
+
+void SafeInfo(int *work, int i)
+{
+    int j;
+    printf(" P%d\t",i);
+    for(j = 0; j &lt; resourceNum; j++){
+        printf("%d ",work[j]);
+    }
+    printf("\t\t");
+    for(j = 0; j &lt; resourceNum; j++){
+        printf("%d ",need[i][j]);
+    }
+    printf("\t ");
+    for(j = 0; j &lt; resourceNum; j++){
+        printf("%d ",allocation[i][j]);
+    }
+    printf("\t\t");
+    for(j = 0; j &lt; resourceNum; j++){
+        printf("%d ",allocation[i][j]+work[j]);
+    }
+    printf("\n");
+}
+
+
+int main()
+{
+    int i,j,curProcess;
+    int wheInit = 0;
+    printf("是否使用内置数据？0是，1否：");
+    scanf("%d",&amp;wheInit);
+    if(wheInit)
+        Init();  //可以不使用，选用内置的数据进行测试
+    printf("---------------------------------------------------------\n");
+    showInfo();
+    printf("\n系统安全情况分析\n");
+    printf(" PID\t Work\t\tNeed\tAllocation\tWork+Allocation\n");
+    isSafe();
+    while(true){
+        printf("\n---------------------------------------------------------\n");
+        printf("\n输入要分配的进程：");
+        scanf("%d",&amp;curProcess);
+        printf("\n输入要分配给进程P%d的资源：",curProcess);
+        for(j = 0; j &lt; resourceNum; j++){
+            scanf("%d", &amp;request[j]);
+        }
+        for(j = 0; j &lt; resourceNum; j++){
+            if(request[j] &lt;= need[curProcess][j])continue;
+            else{printf("ERROR！\n");break;}
+        }
+        if(j == resourceNum){
+            for(j = 0; j &lt; resourceNum; j++){
+                if(request[j] &lt;= need[curProcess][j])continue;
+                else{printf("资源不足，等待中！\n");break;}
+            }
+            if(j == resourceNum){
+                for(j = 0; j &lt; resourceNum; j++){
+                    available[j] -= request[j];
+                    allocation[curProcess][j] += request[j];
+                    need[curProcess][j] -= request[j];
+                }
+                printf("\n系统安全情况分析\n");
+                printf(" PID\t Work\t\tNeed\tAllocation\tWork+Allocation\n");
+                if(isSafe()){
+                    printf("分配成功！\n");
+                    showInfo();
+                }else{
+                    for(j = 0; j &lt; resourceNum; j++){
+                        available[j] += request[j];
+                        allocation[curProcess][j] -= request[j];
+                        need[curProcess][j] += request[j];
+                    }
+                    printf("分配失败！\n");
+                    showInfo();
+                }
+            }
+        }
+    }
+}</code></pre>
+<h2><strong>实现效果</strong></h2>
+安全性检查
+
+<img class="alignnone size-full wp-image-4304" src="https://cdn.omegaxyz.com/2018/05/banker3.png" alt="" width="682" height="453" />
+
+分配资源与安全性检查
+
+<img class="alignnone size-full wp-image-4305" src="https://cdn.omegaxyz.com/2018/05/banker4.png" alt="" width="690" height="639" />
+<p style="text-align: center;"><span style="color: #ff0000;">网站所有原创代码采用<span style="color: #000000;"><a style="color: #000000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license"><strong>Apache 2.0</strong></a></span>授权 </span>
+<span style="color: #ff0000;">网站文章采用知识共享许可协议<span style="color: #000000;"><a style="color: #000000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"><strong>BY-NC-SA4.0</strong></a></span>授权</span></p>
+<p style="text-align: center;"><span style="color: #ff0000;"><span class="copyright">© 2018</span> • <span style="color: #000000;"><a style="color: #000000;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a></span>-版权所有 转载请注明出处</span></p>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

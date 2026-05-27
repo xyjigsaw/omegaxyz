@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software testing - test plan · OmegaXYZ</title>
+  <meta name="description" content="For an example of the software requirements specification corresponding to this test plan, please refer to: https://omegaxyz.com/2019/07/23/software-specification/ For PDF documents and more software testing content, please refer to: https://github.com/xyjigsaw/software-testing 1. Introduction 1.1 Overview This test targets computer program ability online...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/08/02/software-testing/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-02</div>
+        <h1>Software testing - test plan</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<span style="color: #ff0000;"><strong>For an example of the software requirements specification corresponding to this test plan, please refer to:</strong></span>https://omegaxyz.com/2019/07/23/software-specification/
+
+For PDF documents and more software testing content, please refer to:<a href="https://github.com/xyjigsaw/software-testing">https://github.com/xyjigsaw/software-testing</a>
+<h1><strong>1. Introduction</strong></h1>
+<h2><strong>1.1 Overview</strong></h2>This test is conducted on the PC web version of the computer program ability online assessment system. The website of the assessment system is<a href="https://www.patest.cn/">https://www.patest.cn/</a>Users and administrators can enter the system according to corresponding permissions. This test plan will test the software under test from several aspects, including function decomposition, design test methods, and design test cases and steps.
+
+This document mainly explains some details of the online examination system testing process, and provides a framework and specifications for the online examination system testing work.<h2><strong>1.2 Online Assessment System Test Purpose and Test Tasks</strong></h2>In the process of developing this computer program ability online assessment system (PTA), many methods and technologies to ensure software quality were used (including permission management, test question distribution, and high-concurrency online assessment). However, many errors and defects will still be hidden in the developed software. This is especially true for this system. Therefore, strict software testing plays an important role in ensuring the quality of this online evaluation system.
+
+The purpose of software testing determines how to organize testing. If the purpose of testing is to find as many errors as possible, then the testing should be directed at the more complex parts of the software or the locations where there have been more errors in the past.
+
+The basic task of the testing phase should be to carefully design a set of "high-yield" test cases (a set of input data and corresponding expected output results) based on the documentation at each stage of software development and the internal structure of the program. When designing test cases, reasonable input data and unreasonable input data should be included. Use these use cases to execute the program and find potential defects in the software. A good test case is likely to find use cases that have not yet been discovered; a successful test refers to a test that reveals so far undiscovered defects.
+
+Subjectively due to the limitations of developers' thinking, and objectively due to the considerable complexity of currently developed software systems, software errors are inevitable during the development process. If errors in development can be eliminated early, troubles caused to later work can be eliminated, and high costs can be avoided, thereby greatly improving the efficiency of the system development process. Therefore, software testing is indispensable in all aspects of the entire software development life cycle.
+
+The main purpose of this test document: to determine the strategy, scope and methods of project testing; to enable all participants in the project testing work (test managers, testers) to have a clear understanding of the goals, scope, strategies, methods, organization, resources, etc. of the project testing work; to enable all participants in the project testing work to understand the test control process; to explain the organization and management of the project testing from a strategic perspective, guide the testing progress, and serve as the basis for the implementation of the project testing work;<strong>This document is the basis, specification and standard for the entire testing process of this project.</strong>
+<h2><strong>1.3 Audience</strong></h2>
+<strong>The intended readers of this Test Plan are:</strong>
+<ul>
+<li>Program teaching platform development manager</li>
+<li>Technical manager</li>
+<li><strong>Test department manager</strong></li>
+<li><strong>All members of the test team (including</strong><strong>SQA</strong><strong>）</strong></li>
+<li>Other persons authorized by the development company to have access to this document</li>
+</ul>There are two main types of test plans:<strong>main</strong>Audience: Test managers and testers.
+
+Test managers develop further plans, arrangements (work task allocation, time schedule arrangement) and control the test process based on the test plan.
+
+Testers learn about the testing process and related information through the test plan. Testers determine test requirements, design test cases, execute and record the test process, and record and report defects based on the scope and methods established in the test plan.<h1><strong><a name="_Toc5655810"></a>2. Functional analysis</strong></h1>
+<h2><strong><a name="_Toc5655811"></a>2.1 Software functions to be tested</strong></h2>This system is an online assessment system based on network technology. According to the business flow chart, the software can be divided into two main functions: evaluation system and backend management.<img alt="" class="wp-image-5901 aligncenter" height="145" src="https://cdn.omegaxyz.com/2019/07/software-test1-1.png" width="285"/>
+<p style="text-align: center;"><strong>picture</strong><strong>1.1 </strong><strong>System structure and function diagram</strong></p>Administrators maintain the question bank through the network, adding test questions, modifying test questions, deleting test questions and other operations; candidates complete exams, score inquiries and other operations through the system; the system automatically forms papers and completes the review of test papers, score statistics and other operations.<h2><strong>2.2 Functional decomposition</strong></h2>The main functions after decomposition are: ① login module, ② online examination module, ③ test question management module, ④ test paper generation module, ⑤ score query module, ⑥ system management module.
+
+The details are shown in the table below.<p style="text-align: center;"><strong>surface</strong><strong> 2.1 </strong><strong>Overview of functional breakdown</strong></p>
+<img alt="" class="wp-image-5902 aligncenter" height="322" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" width="685"/>
+<img alt="" class="wp-image-5903 aligncenter" height="546" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" width="527"/>
+<p style="text-align: center;"><strong>picture</strong><strong>2.1 </strong><strong>Overview after functional decomposition</strong></p>
+<h1><strong><a name="_Toc5655813"></a>3. Testing methods and testing strategies</strong></h1>
+<h2><strong><a name="_Toc5655814"></a>3.1 Test process</strong></h2>
+<img alt="" class="wp-image-5936 aligncenter" height="474" src="https://cdn.omegaxyz.com/2019/08/testing-plan-2.png" width="463"/>
+<p style="text-align: center;"><strong>picture</strong><strong>3.1 </strong><strong>Test flow chart</strong></p>
+<h2><strong>3.2 Overview of test methods</strong></h2>The tests of this online assessment system include:<ul>
+<li>Functional testing tests whether each function is defective</li>
+<li>Interface testing tests the performance data of the interface in a certain environment</li>
+<li>Performance testing</li>
+<li>stress test</li>
+<li>Security testing</li>
+<li>When testers perform tests, they must strictly follow the content in the test cases to perform the test work</li>
+<li>Testers should record the test execution process in the test execution record document</li>
+<li>Testers should record problems found during testing into defect records</li>
+<li>test organization</li>
+</ul>
+ 
+<h2><strong>3.3 Test the overall strategy</strong></h2>
+<ul>
+<li>Guided by the Pareto principle. Try to find as many defects as possible (especially serious defects) in the limited time</li>
+<li>Test planning is carried out simultaneously with requirement formulation and use case design</li>
+<li>Testing requirements must be developed. By determining the content to be tested and their respective priorities and importance, the test design work can be made more purposeful, and more and more effective use cases can be designed under the guidance of requirements.</li>
+<li>Gradually improve the test case library. The construction of the test case library is a process of continuous improvement. We must first design a complete set of test cases in a limited time. The important part of the test cases needs to be designed more fully, and the general parts need to point out the key points of the test. We will continue to improve the test case library in future testing work.</li>
+<li>The testing process needs to be controlled. Carry out tests according to the pre-defined test execution sequence and fill in the test record form to ensure that the test process is under control.</li>
+<li>Determine the focus. The focus of the test is on the functional implementation of each subsystem, with the provincial central management system and certificate management system, which have many problems, being the top priority.</li>
+</ul>
+ 
+<h2><strong><a name="_Toc7758693"></a><a name="_Toc5655817"></a>3.4 Test environment and tools</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 3.1</strong><strong>Test environment and tools</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>software</strong></td>
+<td width="284"><strong>hardware</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>Browser</strong><strong>：</strong>Chrome browser and IE browser<strong>OS</strong><strong>：</strong>Windows 10 and MacOS</td>
+<td width="284">&gt;10M bandwidth network
+
+&gt;512M memory
+
+2G hard drive/SSD
+
+intel processor</td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655818"></a>3.5 Test risk analysis</strong></h2>
+<ul>
+<li>Risks related to testers’ familiarity with the system: The testers participating in this project are testing the system for the first time and may not fully grasp the business details of system testing. This will cause some test escapes in subsequent test design and test execution work (that is, some aspects to be tested are not tested).</li>
+<li>Risks in system data: The system being tested in this project does not have complete development documentation. Testers can only refer to personal experience when doing test design, which may result in testers being unable to conduct comprehensive and in-depth testing of the system in the early stages.</li>
+<li>Time risk: This project is relatively short, but it has to complete the formulation of test specifications, the design of a complete set of test cases and the execution of a complete round of testing. The time schedule is very tight, which may lead to incomplete test design work.</li>
+</ul>
+<h2><strong><a name="_Toc5655819"></a>3.6 Test stopping criteria</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 3.2</strong><strong>Test stopping criteria</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="284">process</td>
+<td width="284">stopping criterion</td>
+</tr>
+<tr>
+<td width="284">System understanding</td>
+<td width="284">The testers conducted experiments on all tested systems/modules and understood the main functions of the computer online evaluation system</td>
+</tr>
+<tr>
+<td width="284">Testing requirements</td>
+<td width="284">All specific test scopes have been determined; test requirements have been developed and approved by test managers</td>
+</tr>
+<tr>
+<td width="284">test design</td>
+<td width="284">The test cases have covered all testing requirements; the test cases have been designed</td>
+</tr>
+<tr>
+<td width="284">test execution</td>
+<td width="284">All test cases are executed; defects found are recorded; each process has a specific test report</td>
+</tr>
+<tr>
+<td width="284">Result analysis</td>
+<td width="284">Complete test analysis report</td>
+</tr>
+</tbody>
+</table>
+ 
+<h2><strong><a name="_Toc5655820"></a>3.7 Function and web interface testing</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 3.3 </strong><strong>Function and web</strong><strong>Terminal interface test scope</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>Test content</strong></td>
+<td width="284"><strong>Test range</strong></td>
+</tr>
+<tr>
+<td width="284"><strong>Functional testing</strong></td>
+<td width="284">Login interface student login system test
+
+Login interface teacher login system test
+
+Login interface administrator login system test Student interface view personal information test
+
+Student interface modification personal information test
+
+Student interface to participate in online assessment tests
+
+Student interface query score test
+
+Administrator (teacher) interface to view personal information test
+
+Modify personal information test on administrator (teacher) interface
+
+Administrator (teacher) interface to manage achievement tests
+
+Test on adding, deleting, checking and modifying test questions (question bank management test)</td>
+</tr>
+<tr>
+<td width="284"><strong>web</strong><strong>Terminal interface test</strong></td>
+<td width="284">Login interface test
+
+Student interface test
+
+Administrator interface test
+
+Online exam interface test</td>
+</tr>
+</tbody>
+</table>
+<h1></h1>
+<p style="text-align: center;"><strong>surface</strong><strong> 3.4 web</strong><strong>Terminal interface testing details</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="86"><strong>Test items</strong></td>
+<td width="225"><strong>Subtest items</strong></td>
+<td width="95"><strong>Test results</strong></td>
+<td width="71"><strong>illustrate</strong></td>
+</tr>
+<tr>
+<td rowspan="2" width="86">Login interface</td>
+<td width="225">Login interface student login system test</td>
+<td rowspan="2" width="95">slightly</td>
+<td rowspan="2" width="71">slightly</td>
+</tr>
+<tr>
+<td width="225">Login interface administrator login system test</td>
+</tr>
+<tr>
+<td rowspan="4" width="86">student interface</td>
+<td width="225">Student interface to view personal information test</td>
+<td rowspan="4" width="95">slightly</td>
+<td rowspan="4" width="71">slightly</td>
+</tr>
+<tr>
+<td width="225">Student interface modification personal information test</td>
+</tr>
+<tr>
+<td width="225">Student interface to take exam test</td>
+</tr>
+<tr>
+<td width="225">Student interface query score test</td>
+</tr>
+<tr>
+<td rowspan="2" width="86">Administrator interface</td>
+<td width="225">Administrator registers students for testing</td>
+<td rowspan="2" width="95">slightly</td>
+<td rowspan="2" width="71">slightly</td>
+</tr>
+<tr>
+<td width="225">Administrator manages student information test</td>
+</tr>
+<tr>
+<td width="86">Online exam interface test</td>
+<td width="225">Code editing box and submission test</td>
+<td width="95">slightly</td>
+<td width="71">slightly</td>
+</tr>
+</tbody>
+</table>
+<a name="_Toc5655821"></a>Functional test form:<p style="text-align: center;"><strong>surface</strong><strong> 3.5</strong><strong>Functional test reference table</strong></p>
+<table>
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>test number</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Function module number</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Function description</strong></td>
+<td colspan="8" width="372">[Example: Login interface student login system test]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Test target</strong></td>
+<td colspan="8" width="372">[Example: Ensure function modules are functioning properly]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Testing technology</strong></td>
+<td colspan="8" width="372">[Example: black box testing]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>priority</strong></td>
+<td colspan="8" width="372">[Example: high]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>start standard</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Completion standards</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Special matters</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Tester (responsible person)</strong></td>
+<td colspan="8" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" rowspan="2" width="196"><strong>boundary value analysis</strong></td>
+<td width="53"><strong>min-</strong></td>
+<td colspan="2" width="53"><strong>min</strong></td>
+<td width="53"><strong>min+</strong></td>
+<td width="53"><strong>rand</strong></td>
+<td width="53"><strong>max-</strong></td>
+<td width="53"><strong>max</strong></td>
+<td width="53"><strong>max+</strong></td>
+</tr>
+<tr>
+<td width="53"></td>
+<td colspan="2" width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+</tr>
+<tr>
+<td rowspan="4" width="102"><strong>Test process table</strong></td>
+<td width="94"><strong>enter</strong></td>
+<td colspan="2" width="95"><strong>desired output</strong></td>
+<td colspan="6" width="277"><strong>actual situation</strong></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="94"></td>
+<td colspan="2" width="95"></td>
+<td colspan="6" width="277"></td>
+</tr>
+<tr>
+<td width="102"><strong>Defect level</strong></td>
+<td colspan="9" width="466">[Example: 5-Urgent]</td>
+</tr>
+<tr>
+<td width="102"></td>
+<td width="94"></td>
+<td width="53"></td>
+<td width="41"></td>
+<td width="12"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+<td width="53"></td>
+</tr>
+</tbody>
+</table>
+<a name="_Toc5655822"></a>Interface test table:<p style="text-align: center;"><strong>surface</strong><strong> 3.6</strong><strong>Interface testing reference table</strong></p>
+<table>
+<tbody>
+<tr>
+<td colspan="2" width="196"><strong>test number</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Interface number</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Interface description</strong></td>
+<td colspan="2" width="372">[Example: login interface]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Test target</strong></td>
+<td colspan="2" width="372">[Example: Make sure the login interface is normal]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Testing technology</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>priority</strong></td>
+<td colspan="2" width="372">[Example: high]</td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>start standard</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Completion standards</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Special matters</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td colspan="2" width="196"><strong>Tester (responsible person)</strong></td>
+<td colspan="2" width="372"></td>
+</tr>
+<tr>
+<td rowspan="3" width="102"><strong>Test process table</strong></td>
+<td width="94"><strong>Check items</strong></td>
+<td width="95"><strong>desired output</strong></td>
+<td width="277"><strong>actual situation</strong></td>
+</tr>
+<tr>
+<td width="94">[Example: button]</td>
+<td width="95"></td>
+<td width="277"></td>
+</tr>
+<tr>
+<td width="94">[Example: interface elements]</td>
+<td width="95"></td>
+<td width="277"></td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655823"></a>3.8 Performance testing</strong></h2>
+<ul>
+<li><strong>describe:</strong>Evaluate and evaluate the response time, transaction processing rate and other time-related requirements of the computer program ability online assessment system.</li>
+<li><strong>Classification</strong>: Verify performance behavior under</li>
+</ul>①Normal expected workload
+
+②Workload during high concurrency<ul>
+<li><strong>method:</strong></li>
+</ul>①Testing in different network environments (testing of 10M to 100M broadband), intranet and extranet testing
+
+② Use testing tools to simulate the state of online assessment submission during high concurrency<strong> </strong>
+<strong>surface</strong><strong> 3.7</strong><strong>Corresponding time requirements for performance testing</strong>
+<h2><strong><a name="_Toc5655824"></a>3.9 Security testing</strong></h2>
+<strong>surface</strong><strong> 3.8</strong><strong>Security test project</strong>
+<table>
+<tbody>
+<tr>
+<td width="284"><strong>Category</strong></td>
+<td width="284"><strong>Details</strong></td>
+</tr>
+<tr>
+<td rowspan="2" width="284"><strong>upload</strong></td>
+<td width="284">Bypass file upload checks</td>
+</tr>
+<tr>
+<td width="284">Upload file size and number limits</td>
+</tr>
+<tr>
+<td rowspan="11" width="284"><strong>Login function</strong></td>
+<td width="284">Whether the registration request is transmitted securely</td>
+</tr>
+<tr>
+<td width="284">Whether the password complexity is checked in the background during registration</td>
+</tr>
+<tr>
+<td width="284">Activate link test</td>
+</tr>
+<tr>
+<td width="284">Duplicate registration</td>
+</tr>
+<tr>
+<td width="284">Bulk registration problem</td>
+</tr>
+<tr>
+<td width="284">Whether the login request is transmitted securely</td>
+</tr>
+<tr>
+<td width="284">session pinning</td>
+</tr>
+<tr>
+<td width="284">Whether the key cookie is HttpOnly</td>
+</tr>
+<tr>
+<td width="284">Login request error limit</td>
+</tr>
+<tr>
+<td width="284">"Remember me" feature</td>
+</tr>
+<tr>
+<td width="284">Store sensitive information locally</td>
+</tr>
+<tr>
+<td rowspan="3" width="284"><strong>Verification code</strong></td>
+<td width="284">Verification code bypass</td>
+</tr>
+<tr>
+<td width="284">SMS verification code bombing</td>
+</tr>
+<tr>
+<td width="284">One-time verification code</td>
+</tr>
+<tr>
+<td width="284"><strong>Retrieve password</strong></td>
+<td width="284">Retrieve password</td>
+</tr>
+<tr>
+<td width="284"><strong>SQL</strong><strong>Injection testing</strong></td>
+<td width="284">SQL injection testing</td>
+</tr>
+<tr>
+<td width="284"><strong>URL</strong><strong>Redirect test</strong></td>
+<td width="284">URL redirection test</td>
+</tr>
+<tr>
+<td rowspan="2" width="284"><strong>Sensitive information leaked</strong></td>
+<td width="284">SVN information leakage</td>
+</tr>
+<tr>
+<td width="284">Page leaks sensitive information</td>
+</tr>
+</tbody>
+</table>
+ 
+<h2><strong><a name="_Toc5655825"></a>3.10 Stress testing</strong></h2>
+<strong>Stress test requirements:</strong>
+<ul>
+<li>Determine the scale of inventory data (users generally require the production of 3-5 years of inventory data);</li>
+<li>Determine the businesses that need to be stress tested (generally the businesses that are most frequently used by users or have complex business operations);</li>
+<li>Determine the number of operating users and the proportion of various types of operating users;</li>
+<li>Peak business volume requirements (generally the maximum number of transactions to be processed in one hour);</li>
+<li>Requirements for real-time business response time (such as the processing time of a single business (such as less than 60 seconds) under peak conditions);</li>
+<li>Time requirements for the batch processing process (such as the time for day-end (month-end, year-end) processing and batch data transmission with external systems).</li>
+</ul>
+<strong> </strong>
+<strong>Stress test scenario:</strong>
+<ul>
+<li>Single user running stress test scenario;</li>
+<li>Run test scenarios with multiple users, check system resource consumption and other tuning work begins.</li>
+</ul>
+ 
+
+<strong>Stress testing tools:</strong><strong>LoadRunner</strong>
+<h1><strong><a name="_Toc5655826"></a>4. Test cases and steps</strong></h1>
+<h2><strong><a name="_Toc5655827"></a>4.1 Login and registration text box test (comprehensive HTML5 specifications)</strong></h2>username<p style="text-align: center;"><strong>surface</strong><strong> 4.1</strong><strong>Login test form with textbox</strong><strong>1</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="42"><strong>serial number</strong></td>
+<td width="183"><strong>step</strong></td>
+<td width="114"><strong>expected result</strong></td>
+<td width="139"><strong>test case</strong></td>
+<td width="91"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="42">1.</td>
+<td width="183">Enter normal letters or numbers</td>
+<td width="114">conform to</td>
+<td width="139">decdsc3423r</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">2.</td>
+<td width="183">Enter an existing name</td>
+<td width="114">Jump out of the existing prompt</td>
+<td width="139">admin</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">3.</td>
+<td width="183">Enter extra long characters. For example, if you enter a number of characters that exceeds the allowed limit in the "Name" box, assuming a maximum of 255 characters, try entering 256 characters to check whether the program can handle it correctly.</td>
+<td width="114">Jump out of length</td>
+<td width="139">vervcfevedfvvfdvd
+
+vdfvfdvdvdvdfvdfv
+
+vewfd4r34ewfc3wec
+
+fverfvefvcewdscvdfvd
+
+32ewfcesdv344tregfc
+
+d23465768767564534</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">4.</td>
+<td width="183">Enter special character sets, such as NUL, \n, etc.</td>
+<td width="114">illegal</td>
+<td width="139">NULL</td>
+<td width="91"></td>
+</tr>
+</tbody>
+</table>password<p style="text-align: center;"><strong>surface</strong><strong> 4.2</strong><strong>Login test form with textbox</strong><strong>2</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="42"><strong>serial number</strong></td>
+<td width="183"><strong>step</strong></td>
+<td width="95"><strong>expected result</strong></td>
+<td width="158"><strong>test case</strong></td>
+<td width="91"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="42">1.</td>
+<td width="183">Enter default value, blank, space</td>
+<td width="95">illegal</td>
+<td width="158"></td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">2.
+
+ </td>
+<td width="183">If only letters are allowed, try to enter numbers; otherwise; try to enter letters</td>
+<td width="95"></td>
+<td width="158">132456/cdbgfvcdgh</td>
+<td width="91"></td>
+</tr>
+<tr>
+<td width="42">3.</td>
+<td width="183">Use copy, paste, etc. to force password entry</td>
+<td width="95">Can't paste from copy</td>
+<td width="158">···········</td>
+<td width="91"></td>
+</tr>
+</tbody>
+</table>
+ 
+<h2><strong><a name="_Toc5655828"></a>4.2 Code editor space test</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 4.3</strong><strong>Code Editor Test Form</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="246"><strong>step</strong></td>
+<td width="170"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="246">The code content is ASCII code; similar to the combo list box, make sure the contents of the list are correct according to the requirements specification and there are no missing or errors.</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="246">Use scroll bars when the list box contains a large amount of content</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="246">When the list box allows multiple selections, you need to check the selection of items by shift, the selection of items by pressing ctrl, and the selection of multiple items directly with the mouse.</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">4.</td>
+<td width="246">The length of the scroll bar changes in time according to the length or width of the displayed information. This helps the user understand the position and percentage of the displayed information. For example, when browsing a 100-page document in Word and browsing to page 50, the scroll bar position should be in the middle.</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">5.</td>
+<td width="246">Drag the scroll bar to check the screen refresh and see if there are any garbled characters</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">6.</td>
+<td width="246">Drag the scroll bar to check the screen refresh and see if there are any garbled characters</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">7.</td>
+<td width="246">Click the scroll bar</td>
+<td width="170"></td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+ 
+<h2><strong><a name="_Toc5655829"></a>4.3 Addition, deletion, checking and modification of question bank</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 4.4</strong><strong>Question bank test form</strong><strong>1</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="227"><strong>expected result</strong></td>
+<td width="79"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">The administrator clicks on the question bank</td>
+<td width="227">You can view all types of question banks</td>
+<td width="79"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">The administrator clicks on the question bank, does not perform any operation, and clicks the close button.</td>
+<td width="227">System exit</td>
+<td width="79"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">The administrator clicks on the question bank and continuously clicks to save and submit multiple times.</td>
+<td width="227">Operations will not be performed repeatedly and data will not be submitted repeatedly.</td>
+<td width="79"></td>
+</tr>
+</tbody>
+</table>Increase<p style="text-align: center;"><strong>surface</strong><strong> 4.5</strong><strong>Question bank test form</strong><strong>2</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">The administrator clicks to add a new question bank</td>
+<td width="198">The page will jump to the new page. The maximum number of Chinese characters that can be input is in line with reality; verification of valid characters (not all characters can be saved)</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">Enter all required fields and click the save button</td>
+<td width="198">You can see the newly added question bank in the list of question bank management</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>delete<p style="text-align: center;"><strong>surface</strong><strong> 4.6</strong><strong>Question bank test form</strong><strong>3</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">The administrator selects a question bank record and clicks the delete button, and confirms</td>
+<td width="198">The selected question bank is deleted and returned to the list</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+ </td>
+<td width="217">The administrator selects a record and clicks the delete button and cancels</td>
+<td width="198">The selected question bank will not be deleted and will return to the list.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Revise<p style="text-align: center;"><strong>surface</strong><strong> 4.7</strong><strong>Question bank test form</strong><strong>4</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">The administrator selects a question bank record and double-clicks it</td>
+<td width="198">Pop up detailed information of question bank records</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+ </td>
+<td width="217">Modify and save question bank records</td>
+<td width="198">You can see the newly modified question bank in the list of question bank management</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Query<p style="text-align: center;"><strong>surface</strong><strong> 4.8</strong><strong>Question bank test form</strong><strong>5</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">Enter the question bank name in the text box</td>
+<td width="198">You can query its question bank. Double-click the question bank record to view the detailed information of the question bank.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+<h2><strong><a name="_Toc5655830"></a>4.4 Addition, deletion, checking and correction of test questions</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 4.9</strong><strong>test sheet</strong><strong>1</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">The administrator clicks on question management in the question bank</td>
+<td width="198">You can view the entire list of test question management</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">The administrator clicks the question management in the question bank, does not perform any operation, and clicks the close button.</td>
+<td width="198">System exit</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">The administrator clicks on test question management in the question bank, and clicks continuously to save and submit multiple times.</td>
+<td width="198">Operations will not be performed repeatedly and data will not be submitted repeatedly.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Increase<p style="text-align: center;"><strong>surface</strong><strong> 4.10</strong><strong>test sheet</strong><strong>2</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">The administrator clicks on question management in the question bank and clicks on new question management.</td>
+<td width="198">The page will jump to the new page</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+ </td>
+<td width="217">The administrator clicks on question management in the question bank, clicks on new question management, and enters the basic information of question management.</td>
+<td width="198">The maximum number of Chinese characters that can be input is consistent with reality; verification of valid characters (not all characters can be saved)</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">3.</td>
+<td width="217">Enter all required fields and click the save button</td>
+<td width="198">You can see the newly added test question management in the list of test question management</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>delete<p style="text-align: center;"><strong>surface</strong><strong> 4.11</strong><strong>test sheet</strong><strong>3</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">The administrator selects a certain test question management record and clicks the delete button and confirms</td>
+<td width="198">The selected test question management is deleted and returned to the list</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+ </td>
+<td width="217">The administrator selects a certain test question management record and clicks the delete button to cancel.</td>
+<td width="198">The selected test question management will not be deleted and will return to the list.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Revise<p style="text-align: center;"><strong>surface</strong><strong> 4.12</strong><strong>test sheet</strong><strong>4</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">The administrator selects a test question to manage the record and double-clicks it</td>
+<td width="198">Detailed information about test question management record pops up</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.
+
+ </td>
+<td width="217">Modify and save test question management records</td>
+<td width="198">You can see the newly modified test question management in the list of test question management</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Query<p style="text-align: center;"><strong>surface</strong><strong> 4.13</strong><strong>test sheet</strong><strong>5</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">Enter the test question management name in the text box</td>
+<td width="198">You can query its test question management. Double-click the test question management record to view the detailed information of the test question management.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+ 
+<h2><a name="_Toc5655831"></a><strong>4.5 Test (examination) record management</strong></h2>
+<p style="text-align: center;"><strong>surface</strong><strong> 4.14</strong><strong>Test record test form</strong><strong>1</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.</td>
+<td width="217">The administrator clicks Test Record Management in Test</td>
+<td width="198">You can view the entire list of test record management</td>
+<td width="107"></td>
+</tr>
+<tr>
+<td width="45">2.</td>
+<td width="217">The administrator clicks Test Record Management in Test, does not perform any operation, and clicks the Close button.</td>
+<td width="198">System exit</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>Query<p style="text-align: center;"><strong>surface</strong><strong> 4.15</strong><strong>Test record test form</strong><strong>2</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="45"><strong>serial number</strong></td>
+<td width="217"><strong>step</strong></td>
+<td width="198"><strong>expected result</strong></td>
+<td width="107"><strong>Test results</strong></td>
+</tr>
+<tr>
+<td width="45">1.
+
+ 
+
+ 
+
+ </td>
+<td width="217">Enter the test record management name in the text box</td>
+<td width="198">You can query its test record management. Double-click the test record management record to view the detailed information of the test record management.</td>
+<td width="107"></td>
+</tr>
+</tbody>
+</table>
+ 
+<h1><strong>References</strong></h1>[1] Li Wenxin, Guo Wei. Peking University program online evaluation system and its application [J]. Journal of Jilin University: Information Science Edition, 2005(S2):170-177.
+
+[2] Xu Jing, Chen Honggang, Wang Qingren. Brief description and prospects of software testing methods [J]. Computer Engineering and Applications, 2003, 39(13):75-78.<strong> </strong></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-19751">
+          <strong>小可</strong>
+          <time>2020-12-09 22:02:59</time>
+          <div>能不能给把文档发我一下  拜托拜托 谢谢你(๑′ᴗ‵๑)</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

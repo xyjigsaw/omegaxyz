@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kmeans clustering selects the optimal K value python implementation · OmegaXYZ</title>
+  <meta name="description" content="The determination of the K value in the Kmeans algorithm is very important. The following uses the sklearn module in python to select the K value for data clustering. The data set is a self-made data set with the following format: The dimension is 3. ①Elbow method The core indicator of the elbow method is SSE (sum of the squared errors, sum of squared errors), where Ci is the i-th cluster, p is the sample point in Ci, mi is the centroid of Ci (the mean of all samples in Ci), SS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/09/03/k-means-find-k/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-03</div>
+        <h1>kmeans clustering selects the optimal K value python implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content">The determination of the K value in the Kmeans algorithm is very important.<h2><strong>The following uses the sklearn module in python to select the K value for data clustering.</strong></h2>Data set is a self-made data set with the following format:<img alt="" class="alignnone wp-image-4967" height="241" src="https://cdn.omegaxyz.com/2018/08/kmeansdatas-e1624606602101.jpg" width="322"/>Dimension is 3.<h2><strong>①Elbow method</strong></h2>The core indicator of the elbow method is SSE (sum of the squared errors, sum of squared errors).<img alt="" class="alignnone wp-image-4980" height="80" src="https://cdn.omegaxyz.com/2018/09/SSE.png" width="284"/>Among them, Ci is the i-th cluster, p is the sample point in Ci, mi is the centroid of Ci (the mean of all samples in Ci), and SSE is the clustering error of all samples, which represents the quality of the clustering effect.
+
+The core idea of ​​the elbow method is: as the number of clusters k increases, the sample division will be more refined, the degree of aggregation of each cluster will gradually increase, and the sum of squared errors SSE will naturally become smaller. Moreover, when k is less than the true number of clusters, the increase in k will greatly increase the degree of aggregation of each cluster, so the decline in SSE will be large. When k reaches the true number of clusters, the return on the degree of aggregation obtained by increasing k will quickly become smaller, so the decline in SSE will decrease sharply, and then level off as the value of k continues to increase. In other words, the relationship between SSE and k is in the shape of an elbow, and the k value corresponding to this elbow is the true number of clusters of the data. Of course, this is why this method is called the elbow method.<strong>python code:</strong>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import xlrd
+
+# 从Excel中读取数据存入数组
+rawData = xlrd.open_workbook('kmeansdata.xlsx')
+table = rawData.sheets()[0]
+data = []
+for i in range(table.nrows):
+    if i == 0:
+        continue
+    else:
+        data.append(table.row_values(i)[1:])
+featureList = ['Age', 'Gender', 'Degree']
+mdl = pd.DataFrame.from_records(data, columns=featureList)
+
+# '利用SSE选择k'
+SSE = []  # 存放每次结果的误差平方和
+for k in range(1, 9):
+    estimator = KMeans(n_clusters=k)  # 构造聚类器
+    estimator.fit(np.array(mdl[['Age', 'Gender', 'Degree']]))
+    SSE.append(estimator.inertia_)
+X = range(1, 9)
+plt.xlabel('k')
+plt.ylabel('SSE')
+plt.plot(X, SSE, 'o-')
+plt.show()</code></pre>
+<strong>Rendering:</strong>
+<img alt="" class="alignnone size-full wp-image-4979" height="553" src="https://cdn.omegaxyz.com/2018/09/KMEANS-SSE.png" width="656"/>Obviously, the k value of the elbow is 3, so for the clustering of this data set, the optimal number of clusters should be 3.<h2><strong>②Contour coefficient method</strong></h2>The core indicator of this method is Silhouette Coefficient. The silhouette coefficient of a certain sample point Xi is defined as follows:<img alt="" class="alignnone size-full wp-image-4981" height="82" src="https://cdn.omegaxyz.com/2018/09/SC1.png" width="161"/>Among them, a is the average distance between Xi and other samples in the same cluster, which is called the degree of cohesion, and b is the average distance between Xi and all samples in the nearest cluster, which is called the degree of separation. The definition of nearest cluster is<img alt="" class="alignnone size-full wp-image-4982" height="72" src="https://cdn.omegaxyz.com/2018/09/SC2.png" width="330"/>where p is a sample in a certain cluster Ck. In fact, to put it simply, after using the average distance of all samples from Xi to a certain cluster as a measure of the distance from the point to the cluster, the cluster closest to Xi is selected as the nearest cluster.
+
+Find the silhouette coefficients of all samples and then average them.<span style="color: #ff0000;"><strong>average silhouette coefficient</strong></span>. The value range of the average silhouette coefficient is [-1,1], and the closer the distance between samples within a cluster, the farther the distance between samples between clusters, the greater the average silhouette coefficient, and the better the clustering effect. Then, naturally, k with the largest average silhouette coefficient is the optimal number of clusters.<strong>python code:</strong>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
+import xlrd
+
+# 从Excel中读取数据存入数组
+rawData = xlrd.open_workbook('kmeansdata.xlsx')
+table = rawData.sheets()[0]
+data = []
+for i in range(table.nrows):
+    if i == 0:
+        continue
+    else:
+        data.append(table.row_values(i)[1:])
+featureList = ['Age', 'Gender', 'Degree']
+mdl = pd.DataFrame.from_records(data, columns=featureList)
+
+
+Scores = []  # 存放轮廓系数
+for k in range(2, 9):
+    estimator = KMeans(n_clusters=k)  # 构造聚类器
+    estimator.fit(np.array(mdl[['Age', 'Gender', 'Degree']]))
+    Scores.append(silhouette_score(np.array(mdl[['Age', 'Gender', 'Degree']]), estimator.labels_, metric='euclidean'))
+X = range(2, 9)
+plt.xlabel('k')
+plt.ylabel('轮廓系数')
+plt.plot(X, Scores, 'o-')
+plt.show()
+</code></pre>
+<strong>Rendering:</strong>
+<img alt="" class="alignnone size-full wp-image-4983" height="553" src="https://cdn.omegaxyz.com/2018/09/SC3.png" width="656"/>It can be seen that the k value with the largest silhouette coefficient is 3, which means that our optimal number of clusters is 3.<strong>Note: It is recommended to compare the K values ​​selected by the two methods. If there are no special circumstances, it is recommended to consider using the elbow method first.</strong>
+<strong>References:</strong><a href="https://blog.csdn.net/qq_15738501/article/details/79036255">https://blog.csdn.net/qq_15738501/article/details/79036255</a>
+<strong>Companion article: kmeans clustering in python</strong>
+
+https://omegaxyz.com/2018/08/28/python%E5%88%A9%E7%94%A8sklearn%E8%BF%9B%E8%A1%8Ckmeans%E8%81%9A%E7%B1%BB/
+<h2></h2></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to Supervised Word Shift Distance (SWMD) · OmegaXYZ</title>
+  <meta name="description" content="Disclaimer: This article is part of the machine learning final assignment WMD distance https://omegaxyz.com/2018/11/22/wmd/ We understand WMD distance, so the question is, although learning this weight matrix is ​​good for clustering (telling us which documents are similar), it is very poor for classification! Why? Because some articles have many synonyms, but they do not express a semantics and topic. ...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/11/27/swmd/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-27</div>
+        <h1>Introduction to Supervised Word Shift Distance (SWMD)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><strong>Disclaimer: This article is part of the final assignment of machine learning</strong>
+<h2><strong>WMD distance</strong></h2>https://omegaxyz.com/2018/11/22/wmd/
+
+we understand<b>WMD</b><b>distance</b>, then the question comes,<b>It is good to learn this weight matrix for clustering</b><b>(</b><b>Tell us which documents are similar</b><b>),  </b><b>but</b><b>,  </b><b>used for</b><b>Classification</b><b>But very bad</b><b>!</b>Why? Because although some articles have many synonyms, they do not express the same semantics and theme.<strong>for example:</strong>
+<p style="text-align: center;"><b>I love playing </b><b>football.</b></p>
+<p style="text-align: center;"><b>I like playing </b><b>LOL</b><b> . </b></p>Although it seems that the sentence patterns are similar, they may be classified into the same category, but if the labels are "sports" and "games", it is obvious that they cannot be directly classified using WMD. because,<b>WMD</b><b>Not joined</b><b>football</b><b>and "movement" are strongly related information.</b>
+<h2><strong>SWMD</strong></h2>In SWMD, the author introduces a supervision mechanism.<img alt="" class="alignnone wp-image-5178" height="341" src="https://cdn.omegaxyz.com/2018/11/swmd2.png" width="831"/>Introduce an A into the word vector space and define a new movement cost:<img alt="" class="alignnone wp-image-5179" height="28" src="https://cdn.omegaxyz.com/2018/11/swmd3.png" width="200"/>The linear metric learning algorithm NCA is used to learn A, thus introducing a supervision mechanism.<strong>Experimental results:</strong>
+<img alt="" class="alignnone wp-image-5180" height="94" src="https://cdn.omegaxyz.com/2018/11/swmd4.png" width="843"/>With the addition of a supervision mechanism, the error rate can be reduced to another level. It should be pointed out that the supervision matrix based on metric learning cannot be simply added. On the one hand, the gradient may not exist during the calculation process. On the other hand, KNN-based SWMD will consume a lot of time, so relevant measures need to be taken to solve these problems. Please refer to the original text for details.<strong>original:</strong>
+
+Huang G, Guo C, Kusner M J, et al. Supervised word mover's distance[C]//Advances in Neural Information Processing Systems. 2016: 4862-4870.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

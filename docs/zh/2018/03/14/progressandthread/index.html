@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>进程与线程的区别及联系 · OmegaXYZ</title>
+  <meta name="description" content="概念 进程 ，是并发执行的程序在执行过程中分配和管理资源的基本单位，是一个动态概念，竟争计算机系统资源的基本单位。每一个进程都有一个自己的地址空 间，即进程空间或（虚空间）。 线程 ，线程，是进程的一部分，一个没有线程的进程可以被看作是单线程的。线程有时又被称为轻权进程或轻量级进程，也是 CPU 调度的一个基本单位。 区别 进程的执行过程...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/14/progressandthread/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-14</div>
+        <h1>进程与线程的区别及联系</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><h1>概念</h1>
+<strong>进程</strong>，是并发执行的程序在执行过程中分配和管理资源的基本单位，是一个动态概念，竟争计算机系统资源的基本单位。每一个进程都有一个自己的地址空 间，即进程空间或（虚空间）。
+
+<strong>线程</strong>，线程，是进程的一部分，一个没有线程的进程可以被看作是单线程的。线程有时又被称为轻权进程或轻量级进程，也是 CPU 调度的一个基本单位。
+<h1>区别</h1>
+<strong>进程的执行过程是线状的</strong>， 尽管中间会发生中断或暂停，但该进程所拥有的资源只为该线状执行过程服务。一旦发生进程上下文切换，这些资源都是要被保护起来的。这是进程宏观上的执行过 程。而进程又可有单线程进程与多线程进程两种。我们知道，进程有 一个进程控制块 PCB ，相关程序段 和 该程序段对其进行操作的数据结构集 这三部分，单线程进程的执行过程在宏观上是线性的，微观上也只有单一的执行过程；而多线程进程在宏观上的执行过程同样为线性的，但微观上却可以有多个执行 操作（线程），如不同代码片段以及相关的数据结构集。<strong>线程的改变只代表了 CPU 执行过程的改变，而没有发生进程所拥有的资源变化。除</strong>了 CPU 之外，<strong>计算机内的软硬件资源的分配与线程无关</strong>，线程只能共享它所属进程的资源。与进程控制表和 PCB 相似，每个线程也有自己的线程控制表 TCB ，而这个 TCB 中所保存的线程状态信息则要比 PCB 表少得多，这些信息主要是相关指针用堆栈（系统栈和用户栈），寄存器中的状态数据。<strong>进程拥有一个完整的虚拟地址空间，不依赖于线程而独立存在；反之，线程是进程的一部分，没有自己的地址空间，与进程内的其他线程一起共享分配给该进程的所有资源</strong>。
+
+即：
+
+<strong>1.线程是程序执行的最小单位，而进程是操作系统分配资源的最小单位；</strong>
+
+<strong>2.一个进程由一个或多个线程组成，线程是一个进程中代码的不同执行路线；</strong>
+
+<strong>3.进程之间相互独立，但同一进程下的各个线程之间共享程序的内存空间(包括代码段、数据集、堆等)及一些进程级的资源(如打开文件和信号)，某进程内的线程在其它进程不可见；</strong>
+
+<strong>4.调度和切换：线程上下文切换比进程上下文切换要快得多。</strong>
+
+<img class="alignnone size-full wp-image-3744" src="https://cdn.omegaxyz.com/2018/03/progress7.png" alt="" width="729" height="510" />
+<h1>直观解释</h1>
+<strong>①进程就好比工厂的车间，它代表CPU所能处理的单个任务。任一时刻，CPU总是运行一个进程，其他进程处于非运行状态。</strong>
+
+<img class="alignnone size-full wp-image-3739" src="https://cdn.omegaxyz.com/2018/03/progress1.jpg" alt="" width="550" height="422" />
+
+<strong>②一个车间（进程）里，可以有很多工人（线程）。他们协同完成一个任务。</strong>
+
+<img class="alignnone size-full wp-image-3740" src="https://cdn.omegaxyz.com/2018/03/progress2.jpg" alt="" width="600" height="679" />
+
+<strong>③线程就好比车间里的工人。一个进程可以包括多个线程。</strong>
+
+<img class="alignnone size-full wp-image-3741" src="https://cdn.omegaxyz.com/2018/03/progress3.jpg" alt="" width="258" height="380" />
+
+<strong>④车间的空间是工人们共享的，比如许多房间是每个工人都可以进出的。这象征一个进程的内存空间是共享的，每个线程都可以使用这些共享内存。</strong>
+
+<img class="alignnone size-full wp-image-3742" src="https://cdn.omegaxyz.com/2018/03/progress4.png" alt="" width="568" height="428" />
+
+图片摘自：<a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html">http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

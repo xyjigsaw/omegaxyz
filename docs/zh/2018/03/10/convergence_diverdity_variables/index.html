@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>收敛性变量与多样性变量的区别 · OmegaXYZ</title>
+  <meta name="description" content="先介绍一下Pareto解 Pareto最优解： 若x*∈C*,且在C中不存在比x更优越的解x，则称x*是多目标最优化模型式的Pareto最优解，又称为有效解。 一般来说，多目标优化问题并不存在一个最优解，所有可能的解都称为非劣解，也称为Pareto解。传统优化技术一般每次能得到Pareo解集中的一个，而用智能算法来求解，可以得到更多的Pa...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/10/convergence_diverdity_variables/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-10</div>
+        <h1>收敛性变量与多样性变量的区别</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><div>先介绍一下Pareto解</div>
+<div>
+
+Pareto最优解：
+
+若x*∈C*,且在C中不存在比x更优越的解x，则称x*是多目标最优化模型式的Pareto最优解，又称为有效解。
+一般来说，多目标优化问题并不存在一个最优解，所有可能的解都称为非劣解，也称为Pareto解。传统优化技术一般每次能得到Pareo解集中的一个，而用智能算法来求解，可以得到更多的Pareto解，这些解构成了一个最优解集，称为Pareto最优解。它是由那些任一个目标函数值的提高都必须以牺牲其他目标函数值为代价的解组成的集合,称为Pareto最优域，简称Pareto集。
+
+Pareto有效(最优)解非劣解集是指由这样一些解组成的集合：与集合之外的任何解相比它们至少有一个目标函数比集合之外的解好。
+
+</div>
+<div></div>
+<div><strong>收敛性变量：被扰动的决策变量产生出来的解集值是互相支配的</strong></div>
+<div><strong>多样性变量：被扰动的决策变量产生出来的解是非支配的</strong></div>
+<div></div>
+<div>优化收敛性变量能够使Pareto面前移。</div>
+<div>优化多样性变量能使Pareto面向两边扩散。</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjQ1ZGVibDE1MjA1MTYwMDc0NTYiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzV9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuaUtiJ9LHsiY2hhciI6IuaVmyJ9LHsiY2hhciI6IuaApyJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IuS4jiJ9LHsiY2hhciI6IuWkmiJ9LHsiY2hhciI6IuagtyJ9LHsiY2hhciI6IuaApyJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuWMuiJ9LHsiY2hhciI6IuWIqyJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjM3bm1taTE1MjA1MTYwMDgxNzgiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzV9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W10sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIyNWV1dnQxNTIwNTE2MjA3OTYxIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1fSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLmlLYifSx7ImNoYXIiOiLmlZsifSx7ImNoYXIiOiLmgKcifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLvvJoifSx7ImNoYXIiOiLooqsifSx7ImNoYXIiOiLmibAifSx7ImNoYXIiOiLliqgifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlhrMifSx7ImNoYXIiOiLnrZYifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLkuqcifSx7ImNoYXIiOiLnlJ8ifSx7ImNoYXIiOiLlh7oifSx7ImNoYXIiOiLmnaUifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLop6MifSx7ImNoYXIiOiLpm4YifSx7ImNoYXIiOiLlgLwifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLkupIifSx7ImNoYXIiOiLnm7gifSx7ImNoYXIiOiLmlK8ifSx7ImNoYXIiOiLphY0ifSx7ImNoYXIiOiLnmoQifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1MXd1dWgxNTIwNTE2MjA4NDQ3IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1fSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOltdLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiMTVlZ3N1MTUyMDUxNjI0NTE1MyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NX0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5aSaIn0seyJjaGFyIjoi5qC3In0seyJjaGFyIjoi5oCnIn0seyJjaGFyIjoi5Y+YIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoi77yaIn0seyJjaGFyIjoi6KKrIn0seyJjaGFyIjoi5omwIn0seyJjaGFyIjoi5YqoIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5YazIn0seyJjaGFyIjoi562WIn0seyJjaGFyIjoi5Y+YIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoi5LqnIn0seyJjaGFyIjoi55SfIn0seyJjaGFyIjoi5Ye6In0seyJjaGFyIjoi5p2lIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi6KejIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi6Z2eIn0seyJjaGFyIjoi5pSvIn0seyJjaGFyIjoi6YWNIn0seyJjaGFyIjoi55qEIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNzRzb2JrMTUyMDUxNjI0NTUxMiIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NX0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbXSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjI4ZXBlYjE1MjA1MTYyNjkyODkiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzV9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuS8mCJ9LHsiY2hhciI6IuWMliJ9LHsiY2hhciI6IuaUtiJ9LHsiY2hhciI6IuaVmyJ9LHsiY2hhciI6IuaApyJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IuiDvSJ9LHsiY2hhciI6IuWknyJ9LHsiY2hhciI6IuS9vyJ9LHsiY2hhciI6IlAifSx7ImNoYXIiOiJhIn0seyJjaGFyIjoiciJ9LHsiY2hhciI6ImUifSx7ImNoYXIiOiJ0In0seyJjaGFyIjoibyJ9LHsiY2hhciI6IiAifSx7ImNoYXIiOiLpnaIifSx7ImNoYXIiOiLliY0ifSx7ImNoYXIiOiLnp7sifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1eXF5eTE1MjA1MTYzMTQ2OTUiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzV9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuS8mCJ9LHsiY2hhciI6IuWMliJ9LHsiY2hhciI6IuWkmiJ9LHsiY2hhciI6IuagtyJ9LHsiY2hhciI6IuaApyJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IuiDvSJ9LHsiY2hhciI6IuS9vyJ9LHsiY2hhciI6IlAifSx7ImNoYXIiOiJhIn0seyJjaGFyIjoiciJ9LHsiY2hhciI6ImUifSx7ImNoYXIiOiJ0In0seyJjaGFyIjoibyJ9LHsiY2hhciI6IumdoiJ9LHsiY2hhciI6IuWQkSJ9LHsiY2hhciI6IuS4pCJ9LHsiY2hhciI6Iui+uSJ9LHsiY2hhciI6IuaJqSJ9LHsiY2hhciI6IuaVoyJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==--></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Floyd algorithm C++ implementation and template question application · OmegaXYZ</title>
+  <meta name="description" content="Introduction Floyd&#x27;s algorithm is one of the simplest algorithms. The state transition equation is as follows map[i, j] =min{ map[i, k] + map[k, j], map[i, j]}; map[i, j] represents the shortest distance from i to j, K is the breakpoint of exhaustive i, j, and the initial value of map[n, n] should be 0, or do as the question means. Of course, if this road doesn&#x27;t...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/06/01/floyd-cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-01</div>
+        <h1>Floyd algorithm C++ implementation and template question application</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/poj/index.html">poj</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Floyd's algorithm is the simplest algorithm, bar none.
+
+Its state transition equation is as follows map[i, j] =min{ map[i, k] + map[k, j], map[i, j]};
+map[i, j] represents the shortest distance from i to j, K is the breakpoint of exhaustive enumeration of i, j, and the initial value of map[n, n] should be 0, or do as the question means.
+Of course, if this road is not open, special processing must be performed, for example, there is no map[i, k] road.
+
+https://omegaxyz.com/2017/06/08/floydalgorithm/?hilite=%27Floyd%27<strong>Algorithm steps</strong>1. Start from any unilateral path. The distance between all two points is the weight of the edge. If there is no edge connecting the two points, the weight is infinite.
+2. For each pair of vertices u and v, see if there is a vertex w such that the path from u to w to v is shorter than the known path. If so update it.
+Represent the graph as an adjacency matrix G. If there is a path from Vi to Vj, then G[i,j]=d, and d represents the length of the path; otherwise G[i,j]=infinity. Define a matrix D to record
+The information of the inserted point, D[i,j] represents the point that needs to be passed from Vi to Vj, initialize D[i,j]=j. Insert each vertex into the graph and compare the distance after insertion with the original distance.
+G[i,j] = min( G[i,j], G[i,k]+G[k,j] ), if the value of G[i,j] becomes smaller, then D[i,j]=k. G contains the information of the shortest road between two points, while D contains the information of the shortest path.<strong>Please refer to this article for details</strong>
+<a href="https://www.cnblogs.com/wangyuliang/p/9216365.html">https://www.cnblogs.com/wangyuliang/p/9216365.html</a>
+<h2><strong>C++ implementation</strong></h2>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+const int inf = 0x7fffff - 1;
+int e[10][10];
+int n, m;
+
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; n; j++){
+            if(i == j)e[i][j] = 0;
+            else e[i][j] = inf;
+        }
+    }
+    int src, dst, val;
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;src&gt;&gt;dst&gt;&gt;val;
+        e[src][dst] = val;
+    }
+
+    //Floyd-Warshall算法核心语句
+    for(int k = 0; k &lt; n; k++){
+        for(int i = 0; i &lt; n; i++){
+            for(int j = 0; j &lt; n; j++){
+                if(e[i][k] + e[k][j] &lt; e[i][j]){
+                    e[i][j] = e[i][k] + e[k][j];
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; n; j++){
+            printf("%5d", e[i][j]);
+        }
+        cout&lt;&lt;endl;
+    }
+    
+    return 0;
+}
+
+/* 
+4 8
+0 1 2
+0 2 6
+0 3 4
+1 2 3
+2 0 7
+2 3 1
+3 0 5
+3 2 12
+ */</code></pre>
+<h2><strong>Bailian-Stockbroker Grapevine</strong></h2>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Stockbrokers are known to overreact to rumours. You have been contracted to develop a method of spreading disinformation amongst the stockbrokers to give your employer the tactical edge in the stock market. For maximum effect, you have to spread the rumours in the fastest possible way.
+
+Unfortunately for you, stockbrokers only trust information coming from their "Trusted sources" This means you have to take into account the structure of their contacts when starting a rumour. It takes a certain amount of time for a specific stockbroker to pass the rumour on to each of his colleagues. Your task will be to write a program that tells you which stockbroker to choose as your starting point for the rumour, as well as the time it will take for the rumour to spread throughout the stockbroker community. This duration is measured as the time needed for the last person to receive the information.</dd>
+<dt>enter</dt>
+<dd>Your program will input data for different sets of stockbrokers. Each set starts with a line with the number of stockbrokers. Following this is a line for each stockbroker which contains the number of people who they have contact with, who these people are, and the time taken for them to pass the message to each person. The format of each stockbroker line is as follows: The line starts with the number of contacts (n), followed by n pairs of integers, one pair for each contact. Each pair lists first a number referring to the contact (e.g. a '1' means person number one in the set), followed by the time in minutes taken to pass a message to that person. There are no special punctuation symbols or spacing rules.
+
+Each person is numbered 1 through to the number of stockbrokers. The time taken to pass the message on will be between 1 and 10 minutes (inclusive), and the number of contacts will range between 0 and one less than the number of stockbrokers. The number of stockbrokers will range from 1 to 100. The input is terminated by a set of stockbrokers containing 0 (zero) people.</dd>
+<dt>output</dt>
+<dd>For each set of data, your program must output a single line containing the person who results in the fastest message transmission, and how long before the last person will receive any given message after you give it to this person, measured in integer minutes.
+It is possible that your program will receive a network of connections that excludes some persons, i.e. some people may be unreachable. If your program detects such a broken network, simply output the message "disjoint". Note that the time taken to pass the message from person A to person B is not necessarily the same as the time taken to pass it from B to A, if such transmission is possible at all.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>3
+2 2 4 3 5
+2 1 2 3 6
+2 1 2 2 2
+5
+3 4 4 2 8 5 3
+1 5 8
+4 1 6 4 10 2 7 5 2
+0
+2 2 5 1 5
+0</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">3 2
+3 10</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+const int inf = 0x7ffffff;
+
+int e[101][101];
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n == 0)break;
+        int ans = 0, pos = 0;
+        fill(e[0], e[0] + 100 * 100, inf);
+        for(int i = 0; i &lt;= 100; i++){
+            e[i][i] = 0;
+        }
+
+        int dst, val;
+        for(int i = 1; i &lt;= n; i++){ //录入数字，作为初始化
+            int num;
+            cin&gt;&gt;num;
+            for(int j = 0; j &lt; num; j++){
+                cin&gt;&gt;dst&gt;&gt;val;
+                e[i][dst] = val;
+            }
+        }
+
+        for(int k = 1; k &lt;= n; k++){
+            for(int i = 1; i &lt;= n; i++){
+                for(int j = 1; j &lt;= n; j++){
+                    if(e[i][k] + e[k][j] &lt; e[i][j]){
+                        e[i][j] = e[i][k] + e[k][j];
+                    }
+                }
+            }
+        }
+
+        int minn = inf;
+        for(int i = 1; i &lt;= n; i++){
+            ans = 0;
+            for(int j = 1; j &lt;= n; j++){
+                ans = ans &gt; e[i][j] ? ans : e[i][j];
+            }
+            if(ans &lt; minn){
+                minn = ans;
+                pos = i;
+            }
+        }
+        cout&lt;&lt;pos&lt;&lt;" "&lt;&lt;minn&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

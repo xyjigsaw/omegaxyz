@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>在Linux（Ubuntu）下编写编译C语言 · OmegaXYZ</title>
+  <meta name="description" content="大家都知道在Windows中运行C语言很简单，打开一个IDE（VS或者codeblocks）编写代码，点击一个按钮就能运行了。 在Linux中，大家不怎么习惯用IDE，更多的开发者选择手动编辑、编译、连接、运行。 下面介绍如何进行在Linux（Ubuntu）下运行C语言。 ①打开Ubuntu，在一个空文件夹内建立一个新的空文件，并改名为....">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/06/linux_ubuntu_c/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-06</div>
+        <h1>在Linux（Ubuntu）下编写编译C语言</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
+        <div class="article-content">大家都知道在Windows中运行C语言很简单，打开一个IDE（VS或者codeblocks）编写代码，点击一个按钮就能运行了。
+
+在Linux中，大家不怎么习惯用IDE，更多的开发者选择手动编辑、编译、连接、运行。
+
+下面介绍如何进行在Linux（Ubuntu）下运行C语言。
+
+<strong>①打开Ubuntu，在一个空文件夹内建立一个新的空文件，并改名为.c的文件</strong>
+
+如图test.c
+
+<img class="alignnone wp-image-3650" src="https://cdn.omegaxyz.com/2018/03/linuxc1.jpg" alt="" width="573" height="480" />
+
+<img class="alignnone wp-image-3651" src="https://cdn.omegaxyz.com/2018/03/linuxc2.jpg" alt="" width="572" height="477" />
+
+<strong>②打开文件编辑C语言代码并保存</strong>
+
+<img class="alignnone wp-image-3652" src="https://cdn.omegaxyz.com/2018/03/linuxc3.jpg" alt="" width="577" height="339" />
+
+<strong>③返回到当前文件夹，打开终端</strong>
+
+<img class="alignnone wp-image-3653" src="https://cdn.omegaxyz.com/2018/03/linuxc4.jpg" alt="" width="577" height="486" />
+
+<strong>④接下来需要在终端编译，连接</strong>
+
+编译代码: <strong>gcc test.c -o test</strong>
+格式: <strong>gcc [C文件名] -o [C文件名无后缀]</strong>
+
+<img class="alignnone wp-image-3654" src="https://cdn.omegaxyz.com/2018/03/linuxc5.jpg" alt="" width="614" height="369" />
+
+此时会在当前文件夹内出现一个编译后的文件
+
+<img class="alignnone wp-image-3655" src="https://cdn.omegaxyz.com/2018/03/linuxc6.jpg" alt="" width="611" height="279" />
+
+<strong>⑤在当前文件夹下运行test文件（无后缀）</strong>
+
+运行代码: <strong>./test</strong>
+格式: <strong>./名称</strong>
+
+<img class="alignnone wp-image-3657" src="https://cdn.omegaxyz.com/2018/03/linuxc8.jpg" alt="" width="612" height="368" />
+
+这样我们就能看到输出了。
+
+附1：非图形界面Linux全终端运行C程序：<a href="http://blog.csdn.net/qq_36328643/article/details/52794876">http://blog.csdn.net/qq_36328643/article/details/52794876</a>
+
+附2：利用Vim编辑器编写C程序：<a href="http://www.runoob.com/linux/linux-vim.html">http://www.runoob.com/linux/linux-vim.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

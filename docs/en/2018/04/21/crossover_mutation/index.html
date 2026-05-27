@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of crossover mutation of genetic algorithm · OmegaXYZ</title>
+  <meta name="description" content="Crossover Binary coded crossover Single-point crossover Single-point crossover is also called simple crossover. It refers to randomly setting only one crossover point in the individual coding string, and then exchanging part of the chromosomes of the two ligand individuals at this point. Figure 1 is a schematic diagram of a single-point crossover operation. Two-point crossover Two-point crossover refers to randomly setting two crossover points in individual coding strings, and then performing partial gene exchange. The specific operation process of two-point crossover is: ① Randomly set two crossover points in two paired individual coding strings; ② Exchange two...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/21/crossover_mutation/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-21</div>
+        <h1>Detailed explanation of crossover mutation of genetic algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
+        <div class="article-content"><h1>cross</h1>
+<h2>Binary coded crossover</h2>
+<h3>single point crossover</h3>Single-point crossover is also called simple crossover, which means that only one crossover point is randomly set in the individual coding string, and then part of the chromosomes of the two ligand individuals are exchanged at this point. Figure 1 is a schematic diagram of a single-point crossover operation.<img alt="" class="alignnone size-full wp-image-4112" height="143" src="https://cdn.omegaxyz.com/2018/04/one-point-crossover.jpg" width="400"/>
+<h3>Two points cross</h3>Two-point crossover refers to randomly setting two crossover points in individual coding strings, and then performing partial gene exchange. The specific operation process of two-point crossover is: ① Randomly set two crossover points in the coding strings of two paired individuals; ② Exchange part of the chromosomes of the two individuals between the two set crossover points. Figure 2 is a schematic diagram of the two-point intersection operation.<img alt="" class="alignnone size-full wp-image-4113" height="154" src="https://cdn.omegaxyz.com/2018/04/two-point-crossover.jpg" width="381"/>
+<h3>multi-point crossover</h3>Or generalized crossover, which refers to randomly setting multiple crossover points in individual coding strings and then performing gene exchange. The operation process is similar to single-point crossover and two-point crossover.<h3>evenly cross</h3>Also called consistent crossover, it means that the genes at each locus of two paired individuals are exchanged with the same crossover probability, thereby forming two new individuals. The specific operation is to determine how each gene of the new individual is provided by which parent individual by setting a mask word. The main operation process is as follows: ① Randomly generate a masked word W=w1w2Lw1Lw1 with the same length as the individual coding string, where L is the length of the individual coding string; ② According to the above rules, two new offspring individuals A′ and B′ are generated from the two parent individuals A and B. If ωi=0, then the gene value of A′ at the i-th locus inherits the corresponding gene value of A, and the gene value of B′ at the i-th locus inherits the corresponding gene value of B; if ωi=1, then the gene value of A′ at the i-th locus inherits the corresponding gene value of B, and the gene value of B′ at the i-th locus inherits the corresponding gene value of A.<h3>Intersection of two points uniformly</h3>It refers to the random generation of two intersection points between two ligands A and B, and then gene exchange based on three randomly generated integers of 0, 1, and 2, thereby forming two new individuals [4]. When the random number is 0, the front part of the ligand crosses; when the random number is 1, the middle part of the ligand crosses; when the random number is 2, the back part of the ligand crosses.<strong>There are other crossover operators, such as shrinking agent crossover, shuffling crossover, etc.</strong>
+<hr/>
+<h2>Crossover operator suitable for floating point encoding</h2>The floating-point encoding method means that each gene value of an individual is represented by a floating-point number within a certain range, and the encoding length of the individual is equal to the number of its decision variables. In addition to the above-mentioned crossover operators suitable for binary encoding methods that can be used in the crossover operation of floating-point encoding methods, the following main crossover operators are also used.<h3>discrete crossover</h3>It refers to exchanging the values ​​of variables between individuals. Each variable of the child individual can randomly select the parent individual with equal probability.<h3>arithmetic crossover</h3>It refers to the linear combination of two individuals to produce two new individuals. The operation object of arithmetic crossover is generally an individual represented by a floating-point number encoding. It is defined as a combination of two vectors (chromosomes): x1=λ1x1+λ2x2; x2=λ1x2+λ2x1, where λ1 and λ2 are called multipliers. Special circumstances include:
+
+①When λ1=λ2=0.5, Davis calls it average crossover and Schwefel calls it intermediate crossover;
+
+② When the multiplier is used as a random number on the interval [-d, 1+d], Muh-lenbein and Schlierkamp-Voosen call it an extended intermediate crossover;<h3>Heuristic crossover</h3>If parent individual 1 and parent individual 2, and parent individual 1 has better fitness, the following function generates child individuals: child individual = parent individual 2 + Radio3 (parent individual 1 - parent individual 2). Among them, Radio specifies how far the offspring is from the parent with better fitness, and its default value is 1.2.<strong>There are also crossover operators suitable for serial number encoding, such as partial matching crossover, sequential crossover, cyclic crossover, position-based exchange, etc.</strong>
+<hr/>
+<h1>Mutations</h1>The basic content of the mutation operator is to change the gene values ​​at certain loci of individual strings in the population. Depending on the individual coding representation methods, the following algorithms can be used:
+
+a) Real-valued variation
+
+b) Binary mutation.
+
+Generally speaking, the basic steps of mutation operator operation are as follows:
+
+a) Determine whether to mutate based on the preset mutation probability for all individuals in the group
+
+b) Randomly select mutation bits for the mutated individuals to mutate.
+
+There are two purposes for introducing mutations in genetic algorithms: first, to enable the genetic algorithm to have local random search capabilities. When the genetic algorithm is close to the optimal solution neighborhood through the crossover operator, the local random search capability of the mutation operator can be used to accelerate convergence to the optimal solution. Obviously, the mutation probability in this case should be smaller, otherwise the building blocks close to the optimal solution will be destroyed due to mutation. The second is to enable the genetic algorithm to maintain population diversity to prevent premature convergence. At this time, the convergence probability should take a larger value.
+
+In the genetic algorithm, the crossover operator is used as the main operator because of its global search ability, and the mutation operator is used as the auxiliary operator because of its local search ability. Genetic algorithms use crossover and mutation, a pair of cooperative and competing operations, to achieve balanced search capabilities that take both global and local considerations into consideration. The so-called mutual cooperation means that when the group is stuck in a certain hyperplane in the search space during evolution and cannot get rid of it by crossover alone, the mutation operation can help to get rid of it. The so-called competition means that when the desired building blocks have been formed through crossover, the mutation operation may destroy these building blocks. How to effectively use crossover and mutation operations together is an important research content of current genetic algorithms.
+
+The basic mutation operator refers to randomly selecting one or more loci for individual code strings in the population and changing the gene values of these loci (with mutation probability P.). The basic mutation operation in (0, 1) binary code strings is as follows:
+
+Genes marked with * below the gene position are mutated.
+
+The selection of mutation rate is generally affected by factors such as population size and chromosome length, and is usually very small.
+
+The value of the genetic algorithm is generally 0.001-0.1.<h1>References</h1>Deng Chunyan. Crossover operator analysis of genetic algorithm[J]. Agricultural Network Information, 2009(5):124-126.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

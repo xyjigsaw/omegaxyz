@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux非root用户部署jdk等命令 · OmegaXYZ</title>
+  <meta name="description" content="步骤 1. 从Oracle官网下载jdk的Linux安装包至用户文件夹。可以使用命令下载也可ftp传输。 2. 将jdk压缩包解压到指定文件夹，并记住文件夹的路径。 3. 打开.bash_profile或者.profile文件 4. 在文件末尾添加环境变量 其中${HOME}是你的用户文件夹，/后面为jdk解压后文件夹的相对路径。（只需要...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/07/09/linux-user-jdk/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-07-09</div>
+        <h1>Linux非root用户部署jdk等命令</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
+        <div class="article-content"><h2><strong>步骤</strong></h2>
+1. 从Oracle官网下载jdk的Linux安装包至用户文件夹。可以使用命令下载也可ftp传输。
+
+2. 将jdk压缩包解压到指定文件夹，并记住文件夹的路径。
+<pre ><code class="language-default">tar -zxvf jdk-linux-x64.tar.gz</code></pre>
+3. 打开.bash_profile或者.profile文件
+<pre ><code class="language-default">vi .bash_profile</code></pre>
+4. 在文件末尾添加环境变量
+<pre ><code class="language-default">JAVA_HOME="${HOME}/jdk1.8.0"
+CLASSPATH=$JAVA_HOME/lib:$JAVA_HOME/jre/lib 
+PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin 
+export PATH CLASSPATH JAVA_HOME</code></pre>
+其中${HOME}是你的用户文件夹，/后面为jdk解压后文件夹的相对路径。（只需要修改第一行）
+
+5. source命令重新执行刚修改的初始化文件，使之立即生效
+<pre ><code class="language-default">source ~/.bash_profile</code></pre>
+6. 重启终端
+
+<hr />
+
+同样其他命令也使用类似的操作，如npm的node.js
+
+下载后，添加环境变量
+<pre ><code class="language-default">export PATH="${PATH}:${HOME}/nodejs/bin"</code></pre>
+即可。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

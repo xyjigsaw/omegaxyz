@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python爬取豆瓣电影 · OmegaXYZ</title>
+  <meta name="description" content="Python爬取豆瓣电影 需要导入的模块： from urllib import request import urllib from html.parser import HTMLParser 关于 HtmlParser，顾名思义，是解析Html的一个工具。python自带的。 一、常用属性和方法介绍 HtmlParser是一个类，在使...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/09/python_douban/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-09</div>
+        <h1>Python爬取豆瓣电影</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">Python爬取豆瓣电影
+
+需要导入的模块：
+
+from urllib import request
+
+import urllib
+
+from html.parser import HTMLParser
+
+关于
+
+HtmlParser，顾名思义，是解析Html的一个工具。python自带的。
+
+一、常用属性和方法介绍
+
+HtmlParser是一个类，在使用时一般继承它然后重载它的方法，来达到解析出需要的数据的目的。
+
+1.常用属性：
+
+lasttag，保存上一个解析的标签名，是字符串。
+
+2.常用方法：
+
+handle_starttag(tag, attrs) ，处理开始标签，比如&lt;div&gt;；这里的attrs获取到的是属性列表，属性以元组的方式展示
+handle_endtag(tag) ，处理结束标签,比如&lt;/div&gt;
+handle_startendtag(tag, attrs) ，处理自己结束的标签，如&lt;img /&gt;
+handle_data(data) ，处理数据，标签之间的文本
+handle_comment(data) ，处理注释，&lt;!-- --&gt;之间的文本
+<pre ><code class="language-default">from urllib import request
+import urllib
+from html.parser import HTMLParser
+
+class MovieParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.movies = []
+    def handle_starttag(self, tag, attrs):
+        def _attr(attrlist, attrname):
+            for attr in attrlist:
+                if attr[0] == attrname:
+                    return attr[1]
+            return None
+        if tag == 'li' and _attr(attrs, 'data-title'):
+            movie= {}
+            movie['title'] = _attr(attrs, 'data-title')
+            movie['rate'] = _attr(attrs, 'data-rate')
+            movie['director'] = _attr(attrs, 'data-director')
+            movie['actors'] = _attr(attrs, 'data-actors')
+            self.movies.append(movie)
+            print('%(title)s|%(rate)s|%(director)s|%(actors)s' % movie)
+
+def print_movies(url):
+    header = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
+    req = urllib.request.Request(url, headers=header)
+    s = urllib.request.urlopen(req)
+    parser = MovieParser()
+    parser.feed((s.read()).decode('utf-8'))
+    s.close()
+
+
+if __name__ == '__main__':
+    url = 'https://movie.douban.com/'
+    print_movies(url)
+</code></pre>
+<img class="alignnone wp-image-2312 size-full" src="https://cdn.omegaxyz.com/2017/11/douban2.jpg" alt="" width="872" height="460" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly experiment 4-1 (data segment searches for ASCII code and echoes it) · OmegaXYZ</title>
+  <meta name="description" content="Experimental requirements: Pre-store 16 hexadecimal ASCII codes in the data segment, with the first address being ASC. Input a hexadecimal number from the keyboard to BX, use ASC[BX] (register relative addressing) addressing mode to find the ASCII code of the corresponding digit, and take out the display. Assembly code snippet: The experimental results are displayed in MASM FOR WINDOWS. Enter the number 5, and return the number 5. Enter the letter A, and return the letter A. Debugging: 1. Enter 5 and assign it to al,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/28/assemblyexperiment4_1/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-28</div>
+        <h1>Assembly experiment 4-1 (data segment searches for ASCII code and echoes it)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">Experimental requirements: Pre-store 16 hexadecimal ASCII codes in the data segment, with the first address being ASC. Input a hexadecimal number from the keyboard to BX, use ASC[BX] (register relative addressing) addressing mode to find the ASCII code of the corresponding digit, and take out the display.
+
+Assembly code snippet:<img alt="" class="alignnone wp-image-610" height="396" src="https://cdn.omegaxyz.com/2017/04/assembly1-e1493388048562-300x220.png" width="540"/>
+<pre><code class="language-asm">data segment
+ asc db '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' 
+;数据段定义
+data ends
+code segment
+ assume cs:code,ds:data
+start:
+mov ax,data
+mov ds,ax
+mov ah,1h
+int 21h 
+;此行和上一行调用DOS 1h号功能：键盘输入并回显，输入的值进入al
+mov bl,al 
+;将al的值赋给bl
+mov bh,0 
+;由于下面要与40h比较而cmp必须是高精度比较
+cmp bx,40h
+;由于A的ascii码是40h，小于则是数字，大于等于则是字母
+jns xxxxxx;(这里大家自己自定义名称)
+;alp为alpha即字母SF=0未产生标志位则说明bx比A大是字母跳转到alp
+js num;否则跳转到num
+num:sub bx,30h;bx为数字
+    jmp over
+xxxxxx:sub bx,37h;减去37h则为数字
+    jmp over
+over:mov cl,asc[bx];cl的值是对应数位的ascii码
+	 mov dl,cl
+	 mov ah,2;调用DOS 2h号回显功能,注意回显功能只能显示dl
+	 int 21h
+    mov ah,4ch
+    int 21h;结束
+code ends
+end start
+</code></pre>Experimental results are displayed in MASM FOR WINDOWS
+
+Enter the number 5 and return the number 5<img alt="" class="alignnone wp-image-611" height="109" src="https://cdn.omegaxyz.com/2017/04/assembly2-e1493388074938-300x66.png" width="495"/>Enter the letter A, return the letter A<img alt="" class="alignnone wp-image-612" height="195" src="https://cdn.omegaxyz.com/2017/04/assembly3-e1493388086429-300x119.png" width="492"/>debug debugging:
+
+1. Enter 5 and assign it to al. At this time, al displays the ASCII code 35 of 5.<img alt="" class="alignnone wp-image-613" height="384" src="https://cdn.omegaxyz.com/2017/04/assembly4-300x156.png" width="738"/>2. Note that the value of bl becomes 35<img alt="" class="alignnone wp-image-614" height="227" src="https://cdn.omegaxyz.com/2017/04/assembly5-e1493388124531-300x93.png" width="732"/>3.The value of Bx becomes 5<img alt="" class="alignnone wp-image-615" height="201" src="https://cdn.omegaxyz.com/2017/04/assembly6-e1493388145129-300x83.png" width="727"/>4.DS: ASC[BX] is 35. Note that the value of cl is the ascii code of the input character.</div>
+        <section class="comments"><h2>Comments (11)</h2>
+        <div class="comment" id="comment-18072">
+          <strong>Anonymous</strong>
+          <time>2019-10-16 11:37:02</time>
+          <div>显示symbol not defined：NUM<br>怎么解决啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18073">
+          <strong>xyjisaw</strong>
+          <time>2019-10-16 14:51:52</time>
+          <div>要定义啊，你是不是复制错了呢，这个代码应该没有问题的。</div>
+        </div>
+        
+        <div class="comment" id="comment-18085">
+          <strong>Anonymous</strong>
+          <time>2019-10-17 20:29:32</time>
+          <div>显示 no stack segment</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18112">
+          <strong>Anonymous</strong>
+          <time>2019-10-23 09:28:02</time>
+          <div>解决了，是我敲错了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18113">
+          <strong>Anonymous</strong>
+          <time>2019-10-23 09:30:35</time>
+          <div>因为源程序没有定义堆栈段，所以链接程序给出警告，并不是错误</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18114">
+          <strong>xyjisaw</strong>
+          <time>2019-10-23 09:31:36</time>
+          <div>感谢您的解答，我已经几年没碰汇编了</div>
+        </div>
+        
+        <div class="comment" id="comment-18220">
+          <strong>Anonymous</strong>
+          <time>2019-11-18 10:08:48</time>
+          <div>为什么</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18221">
+          <strong>Anonymous</strong>
+          <time>2019-11-18 10:09:32</time>
+          <div>为什么alp段是减去37h啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18222">
+          <strong>xyjisaw</strong>
+          <time>2019-11-18 10:10:51</time>
+          <div>查看一下37H的 ASCII</div>
+        </div>
+        
+        <div class="comment" id="comment-30022">
+          <strong>匿名</strong>
+          <time>2022-11-08 16:38:13</time>
+          <div>A的ascll码表示41H吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30023">
+          <strong>匿名</strong>
+          <time>2022-11-08 16:38:55</time>
+          <div>A的ascll码不是41H吗？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>课程设计旅游景点咨询系统 · OmegaXYZ</title>
+  <meta name="description" content="问题描述：创建一个至少有15个点的有向网表示的某个旅游景点的导游图。顶点代表景点,类型为字符串（例如，泰山导游图：“天地广场门”，“十八盘”，“冯玉祥墓”，“桃花峪门”，“中天门”，“南天门”，“玉皇顶”等），弧表示两个景点之间可以直达，弧上的权值表示两个景点之间的路程（公里数），弧上还有到达方法的信息（有步行和索道两种）。建立一个游客咨...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/03/view_point/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-03</div>
+        <h1>课程设计旅游景点咨询系统</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+问题描述：创建一个至少有15个点的有向网表示的某个旅游景点的导游图。顶点代表景点,类型为字符串（例如，泰山导游图：“天地广场门”，“十八盘”，“冯玉祥墓”，“桃花峪门”，“中天门”，“南天门”，“玉皇顶”等），弧表示两个景点之间可以直达，弧上的权值表示两个景点之间的路程（公里数），弧上还有到达方法的信息（有步行和索道两种）。建立一个游客咨询系统。
+<h1>1.基本要求</h1>
+（1）创建图的存储结构。
+（2）输入两个景点名，就可以得到从一个景点到达另一个景点的所有简单路径、相应路径的路程公里数、行走的方法（每一段是步行，还是坐索道）；
+（3）输入两个景点名，就可以得到其最短路径，即：路程最短的行进方法；如果两者无路径可通，就得出“两景点不可达的信息”。
+<h1>2.重点、难点</h1>
+重点：
+（1）通过实验掌握图状结构数据的存储与表式；
+（2）通过实验掌握对图的存储、遍历、运算等各种操作；
+（3）深入理解图的特征及应用；
+难点：
+（1）任意两个景点所有路径的计算；
+（2）最短路径的计算与算法设计。
+<h1>3.源代码：</h1>
+<pre ><code class="language-default">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;time.h&gt;
+#define N 15
+#define MAX 999
+
+int min_len[N];
+int route[N][N];
+int visited[N];
+int flag[N];
+int stack[N];
+int path[N][N];
+int temp[N][N];
+int start=99,end=99;
+int v,w,m=1;
+int static n=0;
+
+
+
+typedef struct
+{
+    char name[N][20];
+    int length[N][N];
+    char way[N][N];
+}Point;
+
+void init_path()
+{
+    int i,k;
+    for(i=0;i&lt;N;i++)
+    {
+        path[i][0]=start;path[i][1]=i;
+        for(k=2;k&lt;N;k++)
+            path[i][k]=999;
+    }
+}
+void read_file(Point *info)
+{
+    int i=0,j;
+    char ch[N][10];
+    FILE *fp1,*fp2,*fp3;
+    if((fp1=fopen("view_name.txt","r"))==NULL){
+        printf("Open failed!!!\n");exit(0);
+    }
+    if((fp2=fopen("view_length.txt","r"))==NULL){
+        printf("can not open file!");
+        exit(0);
+    }
+    if((fp3=fopen("view_way.txt","r"))==NULL){
+        printf("can not open file!");
+        exit(0);
+    }
+    for(i=0;i&lt;N;i++)
+        fscanf(fp1,"%s",&amp;info-&gt;name[i]);
+    fclose(fp1);
+    for(i=0;i&lt;N;i++){
+        for(j=0;j&lt;N;j++){
+            fscanf(fp2,"%d",&amp;info-&gt;length[i][j]);
+            temp[i][j]=info-&gt;length[i][j];
+        }
+    }
+    fclose(fp2);
+    for(i=0;i&lt;N;i++){
+        for(j=0;j&lt;N;j++)
+            fscanf(fp3,"%c",&amp;info-&gt;way[i][j]);
+    }
+    fclose(fp3);
+}
+
+void output_view(Point *info)
+{
+    int i,j;
+    printf("一共有%d个景点,关系如下:\n\n     ",N);
+    for(i=0;i&lt;N;i++)
+        printf("%-7s",info-&gt;name[i]);
+    printf("\n");
+    for(i=0;i&lt;N;i++)
+        for(j=0;j&lt;=N;j++)
+        {
+            if(j==0)printf("%-3s",info-&gt;name[i]);
+
+            if(j!=N)printf("%4d(%c)",info-&gt;length[i][j],info-&gt;way[i][j]);
+            else printf("\n");
+        }
+}
+
+
+void Dijkstra(Point *info)
+{
+    int i=1,j,min;
+    for(v=0;v&lt;N;v++)                //循环初始化
+    {
+        flag[v]=0;
+        min_len[v]=info-&gt;length[start][v];
+        for(w=0;w&lt;N;w++)
+            route[v][w]=0;              //设空路径
+        if(min_len[v]&lt;MAX)
+        {
+            route[v][start]=1;
+            route[v][v]=1;
+        }
+     }
+    min_len[start]=0;
+    flag[start]=0;         //初始化start顶点属于集合S
+    for(i=1;i&lt;N;i++)        //开始主循环 每次求得v0到某个顶点v的最短路径 并加v到集合S中
+    {
+        min=MAX;
+        for(w=0;w&lt;N;w++)
+        if(!flag[w])       //如果w顶点在V-S中
+        {
+                            //这个过程最终选出的点 应该是选出当前V-S中与S有关联边
+                            //且权值最小的顶点 书上描述为当前离start最近的点
+            if(min_len[w]&lt;min)
+            {
+                v=w;
+                min=min_len[w];
+            }
+        }
+        flag[v]=1;                                 //选出该点后加入到合集S中
+        for(w=0;w&lt;N;w++)                            //更新当前最短路径和距离
+        {
+            if(!flag[w]&amp;&amp;(min+info-&gt;length[v][w]&lt;min_len[w]))
+            {
+                for(j=0;j&lt;N;j++)
+                    path[w][j]=path[v][j];
+                for(j=0;j&lt;N;j++)
+                    if(path[w][j]==999) {path[w][j]=w;break;}
+            min_len[w]=min+info-&gt;length[v][w];
+            route[w][w]=1;
+        }
+    }
+    }
+}
+
+void DFS(Point *info,int p)
+{
+    int i,j,len;
+    visited[p]=1;
+    for(i=0;i&lt;N;i++)
+    {
+        if(info-&gt;length[p][i]!=MAX)
+        {
+            if(i==end)
+            {
+                n++;printf("第%d条： ",n);
+                for(j=0;j&lt;m;j++)
+                {
+                    stack[m]=end;
+                    //printf("(%d,%s,%c)--&gt;",stack[j]+1,info-&gt;name[stack[j]],info-&gt;way[stack[j]][stack[j+1]]);
+                    printf("(%s)---%c---&gt;",info-&gt;name[stack[j]],info-&gt;way[stack[j]][stack[j+1]]);
+                }
+                //printf("%d(%s)\n\n",end+1,info-&gt;name[end]);
+                printf("(%s)\n\n",info-&gt;name[end]);
+            }
+            else if(!visited[i])
+            {
+                info-&gt;length[p][i]=MAX;
+                visited[i]=1;
+                stack[m]=i;
+                m++;
+                DFS(info,i);
+                info-&gt;length[p][i]=temp[p][i];
+                visited[i]=0;
+                m--;
+            }
+        }
+    }
+}
+
+void receive(Point *info)
+{
+    int i;
+    char a[20],b[20];
+    printf("\n输入起点和终点标号,按# #退出：");scanf("%s%s",a,b);
+    printf("得出所有简单路径和最短路径\n");
+    if(strcmp(a,"#")==0&amp;&amp;strcmp(b,"#")==0)return;
+    for(i=0;i&lt;N;i++)
+    {
+        if(strcmp(a,info-&gt;name[i])==0)start=i;
+        if(strcmp(b,info-&gt;name[i])==0)end=i;
+    }
+    init_path();
+    //for(i=0;i&lt;N;i++)printf(" %d ",min_len[i]);
+    if(start==99||end==99)printf("输入错误，请重新输入景点名\n");
+    else
+    {
+        Dijkstra(info);
+        //for(i=0;i&lt;N;i++)printf(" %d ",min_len[i]);
+        //printf("@%d %d %d",start,end,min_len[end]);
+        if(min_len[end]!=MAX)
+        {
+            printf("景点%s到景点%s最短路径长度为:%d\n所有简单路径:\n",
+                        info-&gt;name[start],info-&gt;name[end],min_len[end]);
+            for(i=0;i&lt;N;i++)
+                visited[i]=0;
+            stack[0]=start;
+            DFS(info,start);
+            printf("一共有%d条路径!\n",n);
+            printf("景点%s到景点%s最短路径长度为:%d\n",
+                        info-&gt;name[start],info-&gt;name[end],min_len[end]);
+            printf("最短路径为: ");
+            for(i=0;i&lt;N;i++)
+            {
+                if(path[end][i+1]==999)break;
+                //printf("(%d,%s)--%c--&gt;",path[end][i]+1,info-&gt;name[path[end][i]],info-&gt;way[path[end][i]][path[end][i+1]]);
+                printf("(%s)---%c---&gt;",info-&gt;name[path[end][i]],info-&gt;way[path[end][i]][path[end][i+1]]);
+            }
+            //printf("%d(%s)\n",path[end][i]+1,info-&gt;name[path[end][i]]);
+            printf("(%s)\n",info-&gt;name[path[end][i]]);
+        }
+        else {printf("\n非常抱歉！！！景点%s无法到达%s",info-&gt;name[start],info-&gt;name[end]);}
+        printf("\n");
+    }
+    start=end=99;n=0;
+}
+
+
+int main()
+{
+    int i,j=0;
+    char x;
+    Point *view_info=NULL;
+    view_info=(Point *)malloc(sizeof(Point));
+    read_file(view_info);
+    msgbox(view_info);
+    printf("输入操作：");
+    while(scanf("%c",&amp;x)!=EOF)
+    {
+        switch(x)
+        {
+            case 'S':msgbox(view_info);receive(view_info);printf("输入操作：");break;
+            case 'E':exit(0);
+            default :cur_sys();msgbox(view_info);printf("输入操作：");continue;
+        }
+    }
+    printf("谢谢使用！！！");
+}
+
+</code></pre>
+<img class="alignnone wp-image-1314" src="https://cdn.omegaxyz.com/2017/07/view_point1-300x149.jpg" alt="" width="755" height="375" />
+
+<img class="alignnone wp-image-1315" src="https://cdn.omegaxyz.com/2017/07/view_point2-300x115.jpg" alt="" width="754" height="289" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

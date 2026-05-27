@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB曲线拟合 · OmegaXYZ</title>
+  <meta name="description" content="曲线拟合函数 多项式拟合函数：polyfit。该函数的结果将保证在数据点上拟合值与数据值差的平方和最小，即最小二乘曲线拟合。 调用格式： polyfit(X,Y,n) 执行该函数将产生一个n阶多项式P，并且使得P(X)=Y。 例：用5阶多项式对[0,pi/2]上的正弦函数进行最小二乘拟合。 插值函数 插值分为一维插值和二维插值。一维插值是...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/25/matlab_polyfit/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-25</div>
+        <h1>MATLAB曲线拟合</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><b>曲线拟合函数</b>
+
+多项式拟合函数：polyfit。该函数的结果将保证在数据点上拟合值与数据值差的平方和最小，即最小二乘曲线拟合。
+调用格式： polyfit(X,Y,n)
+执行该函数将产生一个n阶多项式P，并且使得P(X)=Y。
+
+例：用5阶多项式对[0,pi/2]上的正弦函数进行最小二乘拟合。
+<pre ><code class="language-matlab">x=0:pi/20:pi/2; 
+y=sin(x);
+a=polyfit(x,y,5);  %用5阶多项式拟合
+x1=0:pi/30:pi/2; 
+y1=sin(x1);
+y2=a(1)*x1.^5+a(2)*x1.^4+a(3)*x1.^3+a(4)*x1.^2+a(5)*x1+a(6);
+plot(x1,y1,'b-',x1,y2,'r*')
+legend('原曲线','拟合曲线')
+axis([0,2,0,1.5])
+</code></pre>
+<b>插值函数</b>
+
+插值分为一维插值和二维插值。一维插值是在线的方向上对数据点进行插值；二维插值则可以理解为在面的方向上进行插值。
+
+一维插值函数是最简单最重要的插值函数，其调用方法：
+
+Y1=interp(X,Y,X1,’插值方式’)
+
+其中，X为节点向量值，Y是对应的节点函数值， X1是插值点。返回的Y1是计算插值点X1的函数值。
+
+<img class="alignnone size-full wp-image-3515" src="https://cdn.omegaxyz.com/2018/02/matlab_plotfit.jpg" alt="" width="622" height="437" />
+
+插值方式有：
+
+nearest  线性最近项插值
+linear      线性插值（默认方法）
+spine      三次样条插值
+cubic      三次插值
+
+要求：X可以不是等间距的，但必须是单调的。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

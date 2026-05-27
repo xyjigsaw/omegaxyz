@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Course Design Parking Lot Management System · OmegaXYZ</title>
+  <meta name="description" content="Problem description: There is only one long and narrow passage in the parking lot that can park n cars, and there is only one gate for cars to enter and exit. Cars are arranged in the parking lot from north to south in order of vehicle arrival time (the gate is at the southern end, and the first car that arrives first is parked at the northern end of the parking lot). If the parking lot is full of n cars, subsequent cars can only wait on the sidewalk outside the door. Once a car drives away, the first car on the sidewalk can drive in; when a car in the parking lot wants to leave, the car that drives in after it...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/06/30/parking/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-30</div>
+        <h1>Course Design Parking Lot Management System</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>Problem description: There is only one long and narrow passage in the parking lot that can park n cars, and there is only one gate for cars to enter and exit. Cars are arranged in the parking lot from north to south in the order of vehicle arrival time (the gate is at the southernmost end, and the first car that arrives first is parked at the northernmost end of the parking lot). If the parking lot is full of n cars, the subsequent cars can only wait on the sidewalk outside the door. Once a car drives away, they will be lined up on the sidewalk. The first car in the parking lot can drive in; when a car in the parking lot wants to leave, the vehicles that enter after it must first exit the parking lot to make way for it. After the car drives out of the gate, other vehicles can enter the parking lot in the original order. Each car parked in the parking lot must pay a fee according to the length of time it stays when it leaves the parking lot. Try to prepare a simulation program for the parking lot to be managed according to the above requirements.<h1>1.Basic requirements</h1>(1) Use a stack to simulate a parking lot, use a queue to simulate the sidewalk outside the parking lot, and conduct simulation management according to the input data sequence read from the terminal.
+(2) Each set of input data includes three data items: the car's "arrival" or "departure" information, the car's license plate number, and the time of arrival or departure. The output data after operating on each set of input data is: if the vehicle arrives, the parking position of the car in the parking lot or on the sidewalk is output; if the car leaves, the time the car stays in the parking lot and the fee payable are output (there is no charge for the time spent on the sidewalk).
+(3) The stack is implemented as a sequential structure, and the queue is implemented as a linked list.<h1>2. Key points and difficulties</h1>Key points: Based on the characteristics of the parking lot problem, use the last-in-first-out characteristics of the stack and choose the data structure of the stack to simulate the parking lot. Using the first-in-first-out characteristics of the queue, choose the data structure of the queue to simulate the sidewalk outside the parking lot.
+Difficulty: Design and solution of simulation algorithms for discrete event problems.<h1>3. Source code C and C++ mixed version</h1>
+<del>Since Zou Hai was not allowed to use C++ but there were too many changes to be made, so only part of it was changed.</del>
+<pre><code class="language-default">#include&lt;windows.h&gt;
+#include&lt;iomanip&gt;
+#include&lt;conio.h&gt;
+#include&lt;cstdio&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;iostream&gt;
+#define PARKING_MAXSIZE 4
+#define lisence_length 10
+
+using namespace std;
+
+float price_hour;
+float profit=0;
+
+//汽车的信息
+typedef struct
+{
+    float hour;
+    float minute;
+}time;
+
+typedef struct
+{
+    char lisence[lisence_length];
+    time time_enter;
+    time time_exit;
+}car_info;
+
+/////////////////////////////////////////////
+
+typedef struct{        //顺序栈
+    car_info a[PARKING_MAXSIZE];
+    int top;
+}SStack;
+
+typedef struct Node
+{
+    car_info data;              // 元素数据
+    struct Node *next;          // 链式队列中结点元素的指针
+}QNode, *QueuePtr;
+
+typedef struct
+{
+    QueuePtr front;             // 队列头指针
+    QueuePtr rear;              // 队列尾指针
+}LinkQueue;
+
+SStack InitStack(SStack b){
+    b.top=0;
+    return b;
+}
+
+int NotEmpty(SStack *b){
+    if(b-&gt;top==0)
+        return 0;
+        else return 1;
+}
+
+int IsFull(SStack *b){
+    if(b-&gt;top==PARKING_MAXSIZE)
+        return 1;
+    else return 0;
+}
+
+car_info Pop(SStack *b,car_info e){
+    if(NotEmpty(b)){
+        e=b-&gt;a[--b-&gt;top];
+        return e;
+    }
+    else cout&lt;&lt;"没有车辆进入!"&lt;&lt;endl;
+}
+
+void Push(SStack *b,car_info e){
+    if(IsFull(b))
+        cout&lt;&lt;"停车场无法容纳更多车辆!"&lt;&lt;endl;
+    else
+        b-&gt;a[b-&gt;top++]=e;
+}
+
+LinkQueue InitQueue(LinkQueue Q)
+{
+    Q.front=Q.rear=(QNode*)malloc(sizeof(QNode));
+    Q.front-&gt;next=NULL;
+    return Q;
+}
+
+int QueueEmpty(LinkQueue *Q)
+{
+    if(Q-&gt;front-&gt;next==NULL)
+        return 1;
+    else
+        return 0;
+}
+
+void EnQueue(LinkQueue *Q,car_info e)
+{
+    QueuePtr p=(QueuePtr)malloc(sizeof(QNode));
+    p-&gt;data=e;
+    p-&gt;next=NULL;
+    Q-&gt;rear-&gt;next=p;
+    Q-&gt;rear=p;
+}
+
+car_info DeQueue(LinkQueue *Q,car_info e)
+{
+    QueuePtr p;
+    if(Q-&gt;front==Q-&gt;rear)
+        cout&lt;&lt;"System Error"&lt;&lt;endl;
+    p=Q-&gt;front-&gt;next;
+    e=p-&gt;data;
+    Q-&gt;front-&gt;next=p-&gt;next;
+    if(Q-&gt;rear==p)
+        Q-&gt;rear=Q-&gt;front;
+    free(p);
+    return e;
+}
+
+int QueueLength(LinkQueue *Q)
+{ /* 求队列的长度 */
+    int i=0;
+    QueuePtr p;
+    p=Q-&gt;front;
+    while(Q-&gt;rear!=p)
+    {
+        i++;
+        p=p-&gt;next;
+    }
+    return i;
+}
+
+void Arrive(SStack *in,LinkQueue *wait)
+{
+    car_info e;
+    cout&lt;&lt;"输入车牌号:";
+    cin&gt;&gt;e.lisence;
+    cout&lt;&lt;"输入到达时间（格式：时+空格键+分）:";
+    cin&gt;&gt;e.time_enter.hour&gt;&gt;e.time_enter.minute;
+    if(!IsFull(in))
+    {
+        Push(in,e);
+        cout&lt;&lt;"车辆"&lt;&lt;e.lisence&lt;&lt;"在停车场的位置为车位"&lt;&lt;in-&gt;top&lt;&lt;endl;
+    }
+    else
+    {
+        EnQueue(wait,e);
+        cout&lt;&lt;"车辆"&lt;&lt;e.lisence&lt;&lt;"在便道上的位置为车位"&lt;&lt;QueueLength(wait)&lt;&lt;endl;
+    }
+    cout&lt;&lt;endl;
+}
+
+void Leave(SStack *in,SStack *out,LinkQueue *wait)
+{
+    char room[10];
+    float time,park_price;
+    car_info e,f;
+    SStack S,*temp_stack;
+    LinkQueue Q,*temp_queue;
+    S=InitStack(S);temp_stack=&amp;S;
+    Q=InitQueue(Q);temp_queue=&amp;Q;
+
+    if(in-&gt;top&gt;0)    //停车场有车
+    {
+        cout&lt;&lt;"停车场：此时停车场中车的数量为"&lt;&lt;in-&gt;top&lt;&lt;endl;
+        cout&lt;&lt;"输入要离开车的车牌号:";
+        cin&gt;&gt;room;
+        cout&lt;&lt;"输入离开时间（格式：时+空格键+分）:";
+        cin&gt;&gt;f.time_exit.hour&gt;&gt;f.time_exit.minute;
+        while(in-&gt;top&gt;=1&amp;&amp;(strcmp(in-&gt;a[in-&gt;top-1].lisence,room))!=0)
+        {
+            e=Pop(in,e);
+            Push(temp_stack,e);
+        }
+        if(in-&gt;top&gt;=1)
+        {
+            e=Pop(in,e);
+            time=f.time_exit.hour-e.time_enter.hour+(f.time_exit.minute-e.time_enter.minute)/60;
+            park_price=time*price_hour;
+            profit+=park_price;
+            printf("\n------------------------停车场收费明细----------------------------\n");
+            printf(" --------------------------车牌号:%s-------------------------\n ",e.lisence);
+            printf("|  进入时间  |  离开时间  |  停留时间  |   应收款  |\n");
+            printf("=======================================================================\n");
+            printf(" |    %.0f:%.0f     |    %.0f:%.0f    |   %.2f小时    |    %.2f元    |\n"
+                   ,e.time_enter.hour,e.time_enter.minute,f.time_exit.hour,f.time_exit.minute,time,park_price);
+            printf("---------------------------------------------------------------------\n");
+        }
+        else cout&lt;&lt;"停车场中无此车。"&lt;&lt;endl;
+        while(NotEmpty(temp_stack))
+        {
+            e=Pop(temp_stack,e);
+            Push(in,e);
+        }
+     }
+    if(!QueueEmpty(wait))
+    {
+        while((!QueueEmpty(wait)&amp;&amp;strcmp(wait-&gt;front-&gt;next-&gt;data.lisence,room))!=0)
+        {
+
+            e=DeQueue(wait,e);
+            EnQueue(temp_queue,e);
+        }
+        if(!QueueEmpty(wait))
+        {
+            e=DeQueue(wait,e);
+            time=f.time_exit.hour-e.time_enter.hour+(f.time_exit.minute-e.time_enter.minute)/60;
+            printf("车辆%s在便道停留的时间为%.2fh,所收停车费为0.\n",e.lisence,time);
+        }
+        while(!QueueEmpty(wait))
+        {
+            e=DeQueue(wait,e);
+            EnQueue(temp_queue,e);
+        }
+        while(!QueueEmpty(temp_queue))
+        {
+            e=DeQueue(temp_queue,e);
+            EnQueue(wait,e);
+        }
+    }
+    if(!IsFull(in)&amp;&amp;!QueueEmpty(wait))
+        while(!IsFull(in)&amp;&amp;!QueueEmpty(wait))
+        {
+            e=DeQueue(wait,e);
+            e.time_enter=f.time_exit;
+            Push(in,e);
+        }
+        cout&lt;&lt;endl;
+}
+
+void Infomation(SStack *in,LinkQueue *wait)
+{
+    car_info e;
+    SStack S,*P_S;
+    LinkQueue Q,*P_Q;
+    S=InitStack(S);P_S=&amp;S;
+    Q=InitQueue(Q);P_Q=&amp;Q;
+    printf("此时停车场内有%d辆车,便道上有%d辆车。\n",in-&gt;top,QueueLength(wait));
+    while(NotEmpty(in))
+    {
+        e=Pop(in,e);
+        Push(P_S,e);
+        printf("车辆%s:进入停车场时间%.f:%.f\n",e.lisence,e.time_enter.hour,e.time_enter.minute);
+    }
+    printf("\n");
+    while(NotEmpty(P_S))
+    {
+        e=Pop(P_S,e);
+        Push(in,e);
+    }
+    if(!QueueEmpty(wait))
+    {
+        while(!QueueEmpty(wait))
+        {
+            e=DeQueue(wait,e);
+            EnQueue(P_Q,e);
+            printf("车辆%s:进入便道时间%.f:%.f\n",
+                   e.lisence,e.time_enter.hour,e.time_enter.minute);
+        }
+        printf("\n");
+        while(!QueueEmpty(P_Q))
+        {
+            e=DeQueue(P_Q,e);
+            EnQueue(wait,e);
+        }
+    }
+}
+
+int main()
+{
+    SStack in,out,*p_in=&amp;in,*p_out=&amp;out;
+    LinkQueue wait,*p_wait;
+    char ch;
+    in=InitStack(in);out=InitStack(out);
+    wait=InitQueue(wait);p_wait=&amp;wait;
+    cout&lt;&lt;"--------------------------停车场管理系统--------------------------"&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"                      请输入停车场的收费标准:";
+    scanf("%f",&amp;price_hour);
+
+    while(scanf("%c",&amp;ch)){
+    switch(ch)
+    {
+        case 'A': Arrive(p_in,p_wait);break;
+        case 'L': Leave(p_in,p_out,p_wait);break;
+        case 'I': Infomation(p_in,p_wait);break;
+        case 'R': cout&lt;&lt;"输入修改后的价格:";cin&gt;&gt;price_hour;break;
+        case 'E': {cout&lt;&lt;"谢谢使用!"&lt;&lt;endl;exit(0);}
+        default:  continue;
+    }
+    }
+}
+
+</code></pre>
+<h1>4.Results</h1>
+<img alt="" class="alignnone wp-image-1280" height="522" src="https://cdn.omegaxyz.com/2017/06/PARKING2-300x227.jpg" width="690"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

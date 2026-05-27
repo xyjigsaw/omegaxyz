@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于RESTful的FastAPI服务模板 · OmegaXYZ</title>
+  <meta name="description" content="FastAPI 是一个高性能 Web 框架，也是一个Python包，用于构建 API，适合利用极少的代码搭建服务器后端，实现前后端分离。 RESTful API 就是REST风格的API。现在终端平台多样，移动、平板、PC等许多媒介向服务端发送请求后，如果不适用RESTful API，需要为每个平台的数据请求定义相应的返回格式，以适应前端...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/08/18/restful-fastapi/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-08-18</div>
+        <h1>基于RESTful的FastAPI服务模板</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">FastAPI 是一个高性能 Web 框架，也是一个Python包，用于构建 API，适合利用极少的代码搭建服务器后端，实现前后端分离。
+
+<hr />
+
+<div>
+<div>RESTful API 就是REST风格的API。现在终端平台多样，移动、平板、PC等许多媒介向服务端发送请求后，如果不适用RESTful API，需要为每个平台的数据请求定义相应的返回格式，以适应前端显示。但是RESTful API 要求前端以一种预定义的语法格式发送请求，那么服务端就只需要定义一个统一的响应接口，不必像之前那样解析各色各式的请求。</div>
+<div></div>
+</div>
+<div>常见的API方法</div>
+<div></div>
+<div><img class="alignnone wp-image-6863" src="https://cdn.omegaxyz.com/2020/08/restful-api.jpg" alt="" width="300" height="194" /></div>
+需要使用的Python包：fastapi和uvicorn。
+
+<hr />
+
+<strong>代码：</strong>
+
+apiCore.py
+<pre ><code class="language-default">import uvicorn
+from fastapi import FastAPI, Query, Form, APIRouter, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+import time
+
+
+app = FastAPI(
+    title="demo",
+    docs_url='/api/v1/docs',
+    redoc_url='/api/v1/redoc',
+    openapi_url='/api/v1/openapi.json'
+)
+
+router = APIRouter()
+
+
+@router.get('/paper')
+async def fetch_paper(
+    num: int = Query(..., description='returned paper num', example='10')
+):
+    start = time.time()
+    print(num)
+    return {'time': time.time() - start, 'data': num}
+
+
+@router.post('/add_paper')
+async def add_paper(
+        name: str = Form(..., description='paper name', example='Attention is all you need'),
+        info: str = Form(..., description='paper info', example='NIPS 2017')
+):
+    start = time.time()
+    print(name, info)
+    return {'time': time.time() - start}
+
+
+@router.put('/update_paper')
+async def update_paper(
+        p_id: str = Form(..., description='paper id', example='1234'),
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+
+@router.delete('/delete_paper')
+async def delete_paper(
+        p_id: str = Query(..., description='paper is', example='1234')
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+
+
+app.include_router(router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+if __name__ == '__main__':
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, workers=1)
+</code></pre>
+
+<hr />
+
+<strong>控制台启动（在局域网下）：</strong>
+<pre ><code class="language-sh">uvicorn apiCore:app --reload --port 9918 --host 0.0.0.0</code></pre>
+<strong>更多</strong>：
+
+https://omegaxyz.com/2020/06/26/fastapi-fileupload/</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-19326">
+          <strong>啊吧啊吧</strong>
+          <time>2020-08-18 18:42:30</time>
+          <div>您好，fastapi上传文件解析，提示422 Unprocessable Entity，应该怎能处理？非常期望能得到您的帮忙！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19331">
+          <strong>xyjisaw</strong>
+          <time>2020-08-19 13:10:01</time>
+          <div>这个是你前端api的值和后端接收的参数类型不匹配</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

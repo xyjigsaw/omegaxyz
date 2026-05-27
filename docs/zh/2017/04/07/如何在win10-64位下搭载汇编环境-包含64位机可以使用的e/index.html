@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如何在win10 64位下搭载汇编环境（包含64位机可以使用的edit命令） · OmegaXYZ</title>
+  <meta name="description" content="网上的教程只能在win10中使用debug 命令 不能使用edit命令 找了半天终于找到了可以在64位机下使用的edit源文件并插入到网上下载的MASM包中。 汇编文件 https://pan.baidu.com/s/1w27JQtrklbaM4ZpzGVZr7A 首先，将文件下载安装DOSBox0.74注意不要安装在C盘 将下载的MAS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/07/如何在win10-64位下搭载汇编环境-包含64位机可以使用的e/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-07</div>
+        <h1>如何在win10 64位下搭载汇编环境（包含64位机可以使用的edit命令）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">网上的教程只能在win10中使用debug 命令 不能使用edit命令
+
+找了半天终于找到了可以在64位机下使用的edit源文件并插入到网上下载的MASM包中。
+
+汇编文件  https://pan.baidu.com/s/1w27JQtrklbaM4ZpzGVZr7A
+
+首先，将文件下载安装DOSBox0.74注意不要安装在C盘
+
+将下载的MASM文件（如图）复制到一个根目录（D或E盘）的文件夹（自己新建，比如我在E盘中创建xuyi文件夹）
+
+<img class="alignnone size-medium wp-image-146" src="https://cdn.omegaxyz.com/2017/04/1-300x152.png" alt="" width="300" height="152" />
+
+<img class="alignnone size-medium wp-image-147" src="https://cdn.omegaxyz.com/2017/04/2-300x150.png" alt="" width="300" height="150" />
+
+新文件夹的内容
+
+<img class="alignnone size-medium wp-image-148" src="https://cdn.omegaxyz.com/2017/04/3-300x168.png" alt="" width="300" height="168" />
+
+此时打开DOSbox
+
+会出现两个程序，使用前面一个程序，但后面的不要关
+
+<img class="alignnone size-medium wp-image-150" src="https://cdn.omegaxyz.com/2017/04/5-300x171.png" alt="" width="300" height="171" />
+
+此时盘符是Z（为虚拟磁盘）
+
+下面使用mount命令更改DOSBOX的映射指向（注意xuyi是文件夹的名字，你输入你创建的文件夹名称）
+
+输入：
+
+mount c e:\xuyi
+
+之后按回车键
+
+<img class="alignnone size-medium wp-image-151" src="https://cdn.omegaxyz.com/2017/04/6-300x202.png" alt="" width="300" height="202" />、
+
+当出现Drive C is mounted as local directory e:\xuyi\ 是表明映射成功
+
+下面使用dos命令”c:”更改盘符
+
+<img class="alignnone size-medium wp-image-152" src="https://cdn.omegaxyz.com/2017/04/7-300x41.png" alt="" width="300" height="41" />
+
+进入虚拟盘C：这个虚拟盘C就是刚才创建的文件夹xuyi
+
+接下来就可以愉快得进行汇编程序设计
+
+<img class="alignnone size-medium wp-image-153" src="https://cdn.omegaxyz.com/2017/04/8-300x204.png" alt="" width="300" height="204" />
+
+使用edit命令
+
+<img class="alignnone size-medium wp-image-154" src="https://cdn.omegaxyz.com/2017/04/9-300x203.png" alt="" width="300" height="203" />
+
+<img class="alignnone size-medium wp-image-155" src="https://cdn.omegaxyz.com/2017/04/10-300x203.png" alt="" width="300" height="203" />
+
+进去后可能光标会消失，此时调用任务管理器alt+ctrl+del即可释放光标。
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+每次打开都要用mount命令
+
+嫌麻烦的话
+
+关掉dosbox配置dosbox.conf
+
+1.打开DOSBox 0.74 Options
+
+2.记事本查找[autoexec]
+
+3.[autoexec]
+
+MOUNT C E:\xuyi
+
+C:
+
+xuyi
+
+# Lines in this section will be run at startup.
+
+# You can put your MOUNT lines here.
+
+切记--4.保存并退出
+
+&nbsp;
+
+<em>原创文章非商业转载请注明出处，商业转载请联系。</em>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

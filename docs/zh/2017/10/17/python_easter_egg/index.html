@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python中的彩蛋（哈哈哈） · OmegaXYZ</title>
+  <meta name="description" content="Python之父Guido van Rossum于1989年发明了蟒蛇（python）他喜欢Monty Python是英国六人喜剧团体，喜剧界的披头士，而且后来Python的解释器以里面一个成员命名IDLE，后来开发python的到这帮家伙在python源代码中加入了彩蛋来娱乐大众。 让我们来细数一下Python中的那些彩蛋。 (谁说程序...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/17/python_easter_egg/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-17</div>
+        <h1>Python中的彩蛋（哈哈哈）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/programmer/index.html">程序人生</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+Python之父Guido van Rossum于1989年发明了蟒蛇（python）他喜欢Monty Python是英国六人喜剧团体，喜剧界的披头士，而且后来Python的解释器以里面一个成员命名IDLE，后来开发python的到这帮家伙在python源代码中加入了彩蛋来娱乐大众。
+
+让我们来细数一下Python中的那些彩蛋。
+
+(谁说程序员情商低的！！！)
+<h1>①你好，世界（Hello World）</h1>
+&nbsp;
+
+<strong>&gt;&gt;&gt; import __hello__</strong>
+
+输出：
+
+Hello World!
+
+hello world 的起源要追溯到 1972 年，贝尔实验室著名研究员 Brian Kernighan 在撰写“B语言教程与指导 (Tutorial Introduction to the Language B)”时初次使用，Python 首次把 hello world 引入到了内置模块中。
+<h1>②Python之禅</h1>
+&nbsp;
+
+<strong>&gt;&gt;&gt; import this</strong>
+
+输出：
+
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+
+翻译：
+
+优美胜于丑陋。
+显式胜于隐式。
+简单胜于复杂。
+复杂胜于难懂。
+扁平胜于嵌套。
+稀疏胜于紧密。
+可读性应当被重视。
+尽管实用性会打败纯粹性，特例也不能凌驾于规则之上。
+不要忽略任何错误，除非你确认要这么做
+面对不明确的定义，拒绝猜测的诱惑。
+找到一种最好唯一的一种方法去解决问题。
+虽然一开始这种方法并不是显而易见，因为你不是 Python 之父。
+做好过不做，但没有思考的做还不如不做
+如果实现很难说明，那它是个坏想法。
+如果实现容易解释，那它有可能是个好想法。
+命名空间是个绝妙的想法，请多加利用。
+《The Zen of Python》是核心开发者 Tim Peters 将 Python 它爹的语言设计原则浓缩为20条格言，在 PEP20 中被正式引入Python，不过真正的内容却只有19条。
+<h1>③反地心引力漫画</h1>
+<strong>&gt;&gt;&gt; import antigravity</strong>
+
+导入 antigravity，浏览器会跳转到一副漫画网页 http://xkcd.com/353/，漫画非常有意思。
+
+<img class="alignnone wp-image-2211 size-full" src="https://cdn.omegaxyz.com/2017/10/640.jpg" alt="" width="518" height="588" />
+
+翻译：
+
+<strong>上图：</strong>
+“你在飞！怎么做到的？”
+“Python!”
+<strong>下左：</strong>
+“我昨晚学习了 Python，一切都是那么简单”
+“运行 HELLO WORLD 只需要 print “Hello World!””
+<strong>下中：</strong>
+“我还是不明白……动态类型，还是空格？”
+“来加入我们吧，编程又再次变得有趣起来了，Python 是一个全新的世界”
+“但你是怎么飞起来的？”
+<strong>下右：</strong>
+“我只是输入了 import antigravity”
+“就这样？”
+“我还对药品柜中的所有东西进行了采样比较”（暗指他对比过多种编程语言，但还是觉得 Python 最简单）
+“但我想这就是 Python.”
+
+当然还有其他好玩的漫画O(∩_∩)O哈哈~：
+
+<img class="alignnone wp-image-2213 size-full" src="https://cdn.omegaxyz.com/2017/10/pythonfun.png" alt="" width="1920" height="957" />
+<h1>④C++程序员的福利</h1>
+C++、Java编程中使用花括号表示代码块，而 Python 社区却给 C++ 一类程序员开了一个玩笑，braces 翻译过来是「花括号」的意思，导入 braces 就可以使用花括号，然而，Python 社区对此的真实态度是：没门儿！
+
+<strong>&gt;&gt;&gt; from __future__ import braces</strong>
+
+<strong>SyntaxError: not a chance</strong>
+<h1>⑤愚人节彩蛋</h1>
+<strong>&gt;&gt;&gt; 1&lt;&gt;2</strong>
+<strong> File "&lt;stdin&gt;", line 1</strong>
+<strong> 1&lt;&gt;2</strong>
+<strong> ^</strong>
+<strong> SyntaxError: invalid syntax</strong>
+<strong> &gt;&gt;&gt; from __future__ import barry_as_FLUFL</strong>
+<strong> &gt;&gt;&gt; 1&lt;&gt;2</strong>
+<strong> True</strong>
+<strong> &gt;&gt;&gt; 1!=2</strong>
+<strong> File "&lt;stdin&gt;", line 1</strong>
+<strong> 1!=2</strong>
+<strong> ^</strong>
+<strong> SyntaxError: invalid syntax</strong>
+
+这是 Python3 中的一个彩蛋，怎么解释呢？
+barry 是指 Barry Warsaw， 也是著名 Python 开发者，FLUFL 是 Barry 大叔的绰号，Python之父的绰号是 BDFL 。
+Barry 大叔认为不等式 != 两个字符在键盘的两端，因为两个键隔太远，敲键盘的时候引起手指疼痛，所以 Barry 希望能恢复 Python2 中的 &lt;&gt;符号来表示"不等于"。
+于是，导入 barry_as_FLUFL 就可以使用 &lt;&gt; 了，而 !=却失效了。
+
+更多内容请扫一扫网页下方的微信公众号哦~</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

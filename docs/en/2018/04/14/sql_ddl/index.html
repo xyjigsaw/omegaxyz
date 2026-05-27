@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQL data definition · OmegaXYZ</title>
+  <meta name="description" content="Platform: SQL Server 2008 SQL Server is a relational database management system launched by Microsoft. It has the advantages of ease of use, good scalability and a high degree of integration with related software, and can be used across a variety of platforms ranging from laptops running Microsoft Windows 98 to large multi-processor servers running Microsoft Windows 2012. Microsoft...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/14/sql_ddl/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-14</div>
+        <h1>SQL data definition</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>Platform: SQL Server 2008</h1>SQL Server is a relational database management system launched by Microsoft. It has the advantages of ease of use, good scalability and a high degree of integration with related software, and can be used across a variety of platforms ranging from laptops running Microsoft Windows 98 to large multi-processor servers running Microsoft Windows 2012.
+
+Microsoft SQL Server is a comprehensive database platform that provides enterprise-class data management using integrated business intelligence (BI) tools. The Microsoft SQL Server database engine provides more secure and reliable storage capabilities for relational and structured data, allowing you to build and manage highly available and performant data applications for your business.<h1>basic statement</h1>
+<img alt="" class="alignnone size-full wp-image-4029" height="269" src="https://cdn.omegaxyz.com/2018/04/DDL.jpg" width="984"/>
+<h1>SQLCreate database</h1>Including name, path, size, growth rate<pre><code class="language-mysql">CREATE DATABASE SPJ061
+ON PRIMARY
+(NAME=SPJ061_data,
+FILENAME='D:\SPJ\SPJ061_data.mdf',
+SIZE=4MB,
+MAXSIZE=30MB,
+FILEGROWTH=10%)
+LOG ON
+(NAME=SPJ061_log,
+FILENAME='D:\SPJ\SPJ061_log.ldf',
+SIZE=5MB,
+MAXSIZE=20MB,
+FILEGROWTH=1MB)
+</code></pre>
+<h1>SQL creates basic tables and defines attributes and constraints</h1>
+<pre><code class="language-mysql">CREATE TABLE S061
+(SNO CHAR(2) PRIMARY KEY,
+SNAME VARCHAR(20),
+STATUS SMALLINT,
+CITY VARCHAR(20),
+)
+
+CREATE TABLE P061
+(PNO CHAR(2) PRIMARY KEY,
+PNAME VARCHAR(20),
+COLOR CHAR(4),
+WEIGHT SMALLINT
+)
+
+CREATE TABLE J061
+(JNO CHAR(2) PRIMARY KEY,
+JNAME VARCHAR(20),
+CITY VARCHAR(20)
+)
+
+CREATE TABLE SPJ061
+(SNO CHAR(2),
+PNO CHAR(2),
+JNO CHAR(2),
+QTY SMALLINT,
+FOREIGN KEY(SNO) REFERENCES S061(SNO),
+FOREIGN KEY(PNO) REFERENCES P061(PNO),
+FOREIGN KEY(JNO) REFERENCES J061 (JNO))
+</code></pre>
+<h1>SQLCreate index</h1>Example: On the textbook table, create a unique clustered index IX_Bno in descending order of book number<pre><code class="language-mysql">CREATE UNIQUE CLUSTERED INDEX 索引名 ON 表名(属性 DESC);</code></pre>
+<h1>Note</h1>①When sql server defines uniqueness, it creates an index.
+
+②When creating SQL, pay attention to whether the keyword is the same as the attribute name.
+
+③When writing SQL statements, it is best to execute each command once in one window.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

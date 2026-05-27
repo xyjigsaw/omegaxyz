@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML5与HTML4区别 · OmegaXYZ</title>
+  <meta name="description" content="什么是html5呢？ html5最先由WHATWG(Web 超文本应用技术工作组)命名的一种超文本标记语言，随后和W3C的xhtml2.0(标准)相结合，产生现在最新一代的超文本标记语言。可以简单点理解成：HTML 5 ≈ HTML+CSS 3+JS+API。 hmtl5于html的区别 我们现在web前端开发的静态网页，一般都是html...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/01/html5-html4/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-01</div>
+        <h1>HTML5与HTML4区别</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/html/index.html">HTML</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>什么是html5呢？</strong></h2>
+html5最先由WHATWG(Web 超文本应用技术工作组)命名的一种超文本标记语言，随后和W3C的xhtml2.0(标准)相结合，产生现在最新一代的超文本标记语言。可以简单点理解成：HTML 5 ≈ HTML+CSS 3+JS+API。
+<h2><strong>hmtl5于html的区别</strong></h2>
+我们现在web前端开发的静态网页，一般都是html4.0。同时是符合W3C的xhtml1.0规范来的。那么他们两者又有什么实质性的区别呢？
+<h3><strong>1.在文档类型声明上</strong></h3>
+html:&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+
+html5:&lt;!doctype html&gt;
+
+由这两者对比可见：在文档声明上，html有很长的一段代码，并且很难记住这段代码，想必很多人都是靠工具直接生成的吧？而html5却是不同，只有简简单单的声明，这也方便人们的记忆。
+<h3><strong>2.在结构语义上</strong></h3>
+html:没有体现结构语义化的标签，我们通常都是这样来命名的&lt;div id="header"&gt;&lt;/div&gt;.这样表示网站的头部。
+
+html5:在语义上却有很大的优势。提供了一些新的标签，比如:&lt;header&gt;&lt;article&gt;&lt;footer&gt;
+<h3><strong>3.标签</strong></h3>
+<ul>
+ 	<li> &lt;canvas&gt;标签替代Flash</li>
+ 	<li>新增 &lt;header&gt; 和 &lt;footer&gt; 标签，语义化标签，目的是给搜索引擎用的。</li>
+ 	<li>新增 &lt;section&gt; 和 &lt;article&gt; 标签，有利于清晰化网页的结构，更有利于SEO。</li>
+ 	<li>新增 &lt;menu&gt; 和 &lt;figure&gt; 标签</li>
+ 	<li>新增 &lt;audio&gt; 和 &lt;video&gt; 标签，这两个标签是用来播放音频和视频的。</li>
+ 	<li>全新的表单</li>
+ 	<li>删除 &lt;b&gt; 和 &lt;font&gt; 标签</li>
+ 	<li> 删除 &lt;frame&gt;, &lt;center&gt;, &lt;big&gt; 标签</li>
+</ul>
+<h2><strong>HTML5的相关内容</strong></h2>
+<strong>定义：</strong>它是W3C与WHATWG(网页超文本应用结束基础工作小组)合作的结果
+
+HTML(超文本标记语言)
+
+<strong>标记：</strong>&lt;&gt;  &lt;/&gt;  hr、br、input 都为空标记
+
+<strong>元素：</strong>html、head、body、body中有块级元素和内嵌元素
+
+<strong>属性：</strong>class、id、style、title
+
+width = X% ：指代页面宽度为父级元素的X%
+
+target = "_blank" 跳转到新页面
+
+iframe 链接到本页面显示
+
+"+" 紧挨着的兄弟元素
+
+"&gt;" 子类元素，必须是儿子
+
+"~" 包括下面的所有亲兄弟元素
+
+P 元素当中不允许书写行级元素
+
+设置字体的em单位，相对于M的大小
+<h2><strong>HTML5所支持的功能</strong></h2>
+<ul>
+ 	<li>1.强化了Web的表现性</li>
+ 	<li>——支持网页多媒体</li>
+ 	<li>——提供Canvas</li>
+ 	<li>——三维、图形及特效</li>
+ 	<li>2.支持语义化标签</li>
+ 	<li>3.新的表单标签</li>
+ 	<li>4.增加离线本地存储</li>
+</ul>
+<h2><strong>参考资料</strong></h2>
+<a href="https://blog.csdn.net/actionActivity/article/details/53708282">https://blog.csdn.net/actionActivity/article/details/53708282</a>
+
+<a href="https://blog.csdn.net/shangirl/article/details/52099037">https://blog.csdn.net/shangirl/article/details/52099037</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

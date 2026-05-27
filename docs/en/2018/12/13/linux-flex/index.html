@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compilation principles using flex on Unix/Lunix-like systems · OmegaXYZ</title>
+  <meta name="description" content="Flex, formerly lex, is a lexical analyzer generation tool based on the UNIX environment that was completed in 1975 by Mike Lesk and Eric Schmidt, who was an intern at AT&amp;T at the time. This lex is very famous, but its efficiency is too low and it has bugs, which makes it very uncomfortable to use. Later Vern Paxson of Berkeley Lab rewrote lex in C and named it flex (Fast Lexical Analy...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/12/13/linux-flex/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-13</div>
+        <h1>Compilation principles using flex on Unix/Lunix-like systems</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content">Flex, formerly lex, is a lexical analyzer generation tool based on the UNIX environment that was completed in 1975 by Mike Lesk and Eric Schmidt, who was an intern at AT&amp;T at the time. This lex is very famous, but its efficiency is too low and it has bugs, which makes it very uncomfortable to use. Later, Vern Paxson of Berkeley Lab rewrote lex in C and named it flex (Fast Lexical Analyzer Generator).<strong>The following is how to use it, the flow chart is shown above</strong>
+<strong>①First create a .l file and write in it</strong>
+<img alt="" class="alignnone wp-image-5213" height="109" src="https://cdn.omegaxyz.com/2018/12/flex1.png" width="108"/>
+<pre><code class="language-c">%{
+int chars = 0;
+int words = 0;
+int lines = 0;
+%}
+
+%%
+
+[a-zA-Z]+ {words++; chars += strlen(yytext);}
+\n  { chars++; lines++; }
+.  { chars++; }
+
+%%
+
+int main(int argc, char **argv){
+   yylex();
+   printf("lines: %8d words: %8d chars: %8d\n", lines, words, chars);
+}</code></pre>
+<strong>② Next open the terminal</strong>Enter the following command:
+
+flex test<span class="hljs-number">.</span>l //Generate one and call it<span class="hljs-string">File of "lex.yy.c"</span>
+<img alt="" class="alignnone wp-image-5214" height="126" src="https://cdn.omegaxyz.com/2018/12/flex2.png" width="256"/>
+<strong>③Enter the following command to generate a.out file to read input and output</strong>/*
+this action would generate a file named a.out which would be used for reading inputs and print outputs
+*/
+cc lex.yy.c -ll //The parameter -ll is for running on Mac. If it is not easy to use (running on Linux), try the parameter -lfl<img alt="" class="alignnone wp-image-5215" height="134" src="https://cdn.omegaxyz.com/2018/12/flex3.png" width="415"/>
+<strong>④Execute a.out</strong>Enter ./a.out on the command line<img alt="" class="alignnone wp-image-5216" height="146" src="https://cdn.omegaxyz.com/2018/12/flex4.png" width="584"/>Enter some characters and press ctrl+D to exit.
+
+Finally, the number of lines, words, and chars will appear.<strong>References:</strong><a href="https://blog.csdn.net/u013225150/article/details/51241256">https://blog.csdn.net/u013225150/article/details/51241256</a>
+<a href="http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html">http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

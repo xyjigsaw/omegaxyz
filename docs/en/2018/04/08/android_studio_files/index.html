@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Android Studio project directory structure analysis · OmegaXYZ</title>
+  <meta name="description" content="There are many directories in the project after Android Studio automatically generates the first Hello World file. Similarly, other project files will also include these directories for the hello world program. The following uses Hello Android as a prototype to introduce the directory structure. It starts with the Android file framework. Change the directory framework to Project for easier analysis (the project shown in the upper row of dark blue). Files and objects that do not need to be overly concerned...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/08/android_studio_files/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-08</div>
+        <h1>About Android Studio project directory structure analysis</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../tag/android/index.html">Android</a></div>
+        <div class="article-content">There are many directories in the project after Android Studio automatically generates the first Hello World file.
+Similarly, other project files will also include these directories for the hello world program. The following uses Hello Android as a prototype to introduce the directory structure.<strong>It starts with the Android file framework. Change the directory framework to Project for easier analysis (the project shown in the upper row of dark blue)</strong>
+<img alt="" class="alignnone size-full wp-image-3968" height="843" src="https://cdn.omegaxyz.com/2018/04/android-files.jpg" width="498"/>Files and directories that do not require excessive care are ① .gradle ②.idea ③build, etc.<strong>The directories that need attention are app. This directory stores the code and resources of your App.</strong>The files and directories to pay attention to in the app directory are:
+
+①libs: If you use third-party jar packages in your project, you need to place these jar packages in this directory. The jar packages placed in this directory will be automatically added to the build path.
+②The res directory in src contains all images, layouts, strings and other resources.
+③Place pictures in drawable, place layout under layout, and put strings under values.
+Note that layout can be visually laid out and the layout code is automatically generated, which is much more convenient than hand-written code.
+The picture below is the activity_example.xml file in the layout<img alt="" class="alignnone size-full wp-image-3969" height="557" src="https://cdn.omegaxyz.com/2018/04/android-layout.jpg" width="907"/>④AndroidManifest.xml is the entry file of the Android application. It describes the components exposed in the package (activities, services, etc.), their respective implementation classes, various data that can be processed, and the startup location. In addition to declaring Activities, ContentProviders, Services, and Intent Receivers in the program, permissions and instrumentation (security control and testing) can also be specified.
+⑤The folders starting with mipmap are all used to store application icons. The reason why there are so many folders is to be compatible with multiple devices.
+⑥The JAVA directory contains the source code of the program.
+
+Reference: Guo Lin. The first line of code [M]. People's Posts and Telecommunications Publishing House, 2014.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

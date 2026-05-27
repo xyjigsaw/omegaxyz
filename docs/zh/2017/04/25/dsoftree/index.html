@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构树的基本操作(主要遍历） · OmegaXYZ</title>
+  <meta name="description" content="一． 实验目的 将树的基本操作C语言实现，主要考察树的先序，中序，后序和层次遍历。 二.主要内容 本文所使用的二叉树如图： 显然 先序：ABCDEGF 中序：CBEGDFA 后序：CGEFDBA 层次：ABCDEFG BiTree.h内容 主要函数： ① 先序创建二叉树 注意创建的时候如果没有左右子树要输入空格 输入：ABC_ _DE_G...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/25/dsoftree/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-25</div>
+        <h1>数据结构树的基本操作(主要遍历）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a></div>
+        <div class="article-content">一． 实验目的
+将树的基本操作C语言实现，主要考察树的先序，中序，后序和层次遍历。
+
+二.主要内容
+
+本文所使用的二叉树如图：
+显然<img class="alignnone size-medium wp-image-465" src="https://cdn.omegaxyz.com/2017/04/tree-e1493110378334-269x300.png" alt="" width="269" height="300" />
+先序：ABCDEGF
+中序：CBEGDFA
+后序：CGEFDBA
+层次：ABCDEFG
+
+BiTree.h内容
+<pre ><code class="language-c++">typedef char TElemType;
+typedef int Status; 
+typedef struct BiTNode{
+	TElemType data;
+	struct BiTNode *lchild,*rchild;
+}BiTNode,*BiTree;
+
+Status PreCreateBiTree(BiTree &amp;T);//先序输入二叉树
+Status PreOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status InOrderTraverse1(BiTree T,Status(*Visit)(TElemType e));
+Status InOrderTraverse2(BiTree T,Status(*Visit)(TElemType e));
+Status PostOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status LevelOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status Visit(TElemType e);
+Status GetDepth(BiTree T);
+Status CountNode(BiTree T,int &amp;d);
+</code></pre>
+主要函数：
+
+① 先序创建二叉树
+
+注意创建的时候如果没有左右子树要输入空格
+输入：ABC_ _DE_G_ _F_ _ _
+<pre ><code class="language-c++">Status PreCreateBiTree(BiTree &amp;T)
+{
+	char ch;
+    ch=getchar();
+	if(ch==' ')T=NULL;
+	else
+	{
+		if(!(T=(BiTNode *)malloc(sizeof(BiTNode))))exit(OVERFLOW);
+		T-&gt;data=ch;
+		PreCreateBiTree(T-&gt;lchild);
+		PreCreateBiTree(T-&gt;rchild);
+	}
+	return OK;
+}
+</code></pre>
+② 先序遍历（递归算法）
+<pre ><code class="language-c++">Status PreOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){
+		if(Visit(T-&gt;data))
+			if(PreOrderTraverse(T-&gt;lchild,Visit))
+				if(PreOrderTraverse(T-&gt;rchild,Visit))return OK;
+		return ERROR;
+	}else return OK;
+}
+</code></pre>
+③ 中序遍历（递归算法）
+<pre ><code class="language-c++">Status InOrderTraverse2(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){
+		InOrderTraverse2(T-&gt;lchild,Visit);
+		Visit(T-&gt;data);
+		InOrderTraverse2(T-&gt;rchild,Visit);
+	}
+	return OK;
+}
+</code></pre>
+④ 中序遍历（非递归算法）
+注意此处需要包含C++STL头文件include&lt;stack&gt;
+<pre ><code class="language-c++">Status InOrderTraverse1(BiTree T,Status(*Visit)(TElemType e))
+{
+	stack&lt;BiTree&gt;S;
+	BiTree p;
+	S.push(T);
+	while(!S.empty()){
+		while(p=S.top())S.push(p-&gt;lchild);
+		p=S.top();
+		S.pop();
+		if(!S.empty()){
+			p=S.top();
+		    S.pop();
+			if(!Visit(p-&gt;data))return ERROR;
+			S.push(p-&gt;rchild);
+        }
+		return OK;
+	}
+}
+</code></pre>
+⑤ 后序遍历（递归算法）
+<pre ><code class="language-c++">Status PostOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){  
+        PostOrderTraverse(T-&gt;lchild,Visit);
+	    PostOrderTraverse(T-&gt;rchild,Visit);
+		Visit(T-&gt;data);
+	    }  
+
+	return OK;
+}
+</code></pre>
+⑥ 层次遍历（使用QUEUE）
+
+可以包含STL&lt;queue&gt;或者定义一个数组，使用循环队列即可。
+<pre ><code class="language-c++">Status LevelOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	BiTree p;     
+	BiTNode *Q[100];     
+	int front,rear;     
+	front=rear=-1;    
+	rear++;     
+	Q[rear]=T;     
+	while(front!=rear){         
+		front=(front+1)%100;         
+		p=Q[front];         
+		Visit(p-&gt;data);         
+		if(p-&gt;lchild!=NULL){             
+			rear=(rear+1)%100;
+			Q[rear]=p-&gt;lchild;
+		}       
+		if(p-&gt;rchild!=NULL){             
+			rear=(rear+1)%100;             
+			Q[rear]=p-&gt;rchild;         
+		}          
+	}    
+	return OK;
+}
+</code></pre>
+⑦ Visit函数此处使用的是输出
+<pre ><code class="language-c++">Status Visit(TElemType e)
+{
+	printf("%c ",e);
+	return OK;
+}
+</code></pre>
+⑧ 计算树的节点数
+<pre ><code class="language-c++">Status CountNode(BiTree T,int &amp;d)
+{
+	if(T){
+		d++;
+		CountNode(T-&gt;lchild,d);
+		CountNode(T-&gt;rchild,d);
+	}
+	return OK;
+}
+</code></pre>
+⑨ 计算树的深度
+<pre ><code class="language-c++">Status GetDepth(BiTree T)
+{
+	int hl,hr;
+	if(T==NULL)return 0;
+	else{
+		hl=GetDepth(T-&gt;lchild);
+		hr=GetDepth(T-&gt;rchild);
+		if(hl&gt;hr)return hl+1;
+		else return hr+1;
+	}
+}
+</code></pre>
+Main函数：
+<pre ><code class="language-c++">int main()
+{
+	printf("16软件工程 徐奕 E21614061\n");
+	printf("Create\n");
+	BiTree T;
+    PreCreateBiTree(T);
+	printf("先序PreTraverse:\n");
+    PreOrderTraverse(T,Visit);
+	printf("\n中序InTraverse:\n");
+	InOrderTraverse2(T,Visit);
+	printf("\n后序PostTraverse:\n");
+	PostOrderTraverse(T,Visit);
+	printf("\nLevelTraverse:\n");
+	LevelOrderTraverse(T,Visit);
+	printf("\n");
+	CountNode(T,d);
+    printf("\n节点数:%d\n",d);
+	printf("树的深度:%d\n",GetDepth(T));
+system("pause");
+	return 0;
+}
+</code></pre>
+<img class="alignnone wp-image-466" src="https://cdn.omegaxyz.com/2017/04/tree1-300x137.png" alt="" width="488" height="223" />
+
+实验小结
+1. 遍历函数可以写成递归和非递归，递归函数更加简洁。
+2. 层次遍历需要使用队列，可以包含C++STL&lt;queue&gt;或者定义一个数组，使用循环队列即可。注意每次判断时要把队列的头赋值给临时变量P，左右子树从队尾插入。
+3.先序创建树时，要注意创建的时候如果没有左右子树要输入空格
+输入：ABC_ _DE_G_ _F_ _ _</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

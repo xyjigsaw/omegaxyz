@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>信息论 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">主页</a><a href="../../archive/index.html">文章</a><a href="../../pages/index.html">页面</a><a href="../../categories/index.html">分类</a><a href="../../search/index.html">搜索</a>
+          <a href="../../../en/tag/information-theory/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>信息论</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2020-12-18</time>
+      <div>
+        <h2><a href="../../2020/12/18/mine/index.html">神经网络高维互信息计算Python实现（MINE）</a></h2>
+        <p>论文 Belghazi, Mohamed Ishmael, et al. &quot; Mutual information neural estimation .&quot; International Conference on Machine Learning . 2018. 利用神经网络的梯度下降法可以实现快速高维连续随机变量之间互信息的估计，上述论...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-10-27</time>
+      <div>
+        <h2><a href="../../2018/10/27/mrmrfs/index.html">最大相关最小冗余（mRMR）算法</a></h2>
+        <p>在做特征选择时，可能面临两个问题：特征与类别预测有多大相关性，特征之间有多大冗余度。在特征选择中，“最好的m个特征不一定是m个最好的特征”，从相关度与冗余度来看，最好的m个特征是指与分类最相关的特征，但由于最好的m个特征之间可能存在冗余，因此最相关的m个特征并不一定比其他m个特征产生更好的分类准确率。可以看出，特征选择可以分为两个过程：1...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-10</time>
+      <div>
+        <h2><a href="../../2018/08/10/vector-mi-matlab/index.html">列向量互信息计算通用MATLAB代码</a></h2>
+        <p>互信息的定义 正式地，两个离散随机变量 X 和 Y 的互信息可以定义为： 其中 p(x,y) 是 X 和 Y 的联合概率分布函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率分布函数。 在连续随机变量的情形下，求和被替换成了二重定积分： 其中 p(x,y) 当前是 X 和 Y 的联合概率密度函数，而p(x)和p(y)分别是 X 和...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-03</time>
+      <div>
+        <h2><a href="../../2018/08/03/mifs/index.html">基于互信息的特征选择算法MATLAB实现</a></h2>
+        <p>在概率论和信息论中，两个随机变量的 互信息（Mutual Information，简称MI） 或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Infor...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-02</time>
+      <div>
+        <h2><a href="../../2018/08/02/mi/index.html">互信息公式及概述</a></h2>
+        <p>在概率论和信息论中，两个随机变量的 互信息（Mutual Information，简称MI） 或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Infor...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-09</time>
+      <div>
+        <h2><a href="../../2018/05/09/information_entropy_alpha/index.html">英文字母信息熵与冗余度计算Python实现</a></h2>
+        <p>26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。 公式: H(信息熵) = -∑ P i log 2 (P i ); P i :为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2 n = X 的话,那么logX = n; 所以可以看出所谓信...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-07</time>
+      <div>
+        <h2><a href="../../2018/05/07/information_entropy/index.html">信息熵（香农熵）概述</a></h2>
+        <p>简介 1948 年，香农提出了“信息熵”(Shannon entropy/Information entropy) 的概念，才解决了对信息的量化度量问题。一条信息的信息量大小和它的不确定性有直接的关系。比如说，我们要搞清楚一件非常非常不确定的事，或是我们一无所知的事情，就需要了解大量的信息。相反，如果我们对某件事已经有了较多的了解，我们不...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-22</time>
+      <div>
+        <h2><a href="../../2018/02/22/micfs/index.html">基于MIC（最大互信息系数）的特征选择</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。 之前写了一个MIC的介绍，里面包含了MIC的原理，链接： https://omegaxyz.com/2018/01/18/mic/ 利用到的MATLAB包安装请参见： https://omegaxyz.com/2018/02/2...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-21</time>
+      <div>
+        <h2><a href="../../2018/02/21/minepy/index.html">MIC（最大互信息系数）的计算</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。 之前写了一个MIC的介绍，里面包含了MIC的原理，链接： https://omegaxyz.com/2018/01/18/mic/ 下面介绍如何使用第三方库计算（python库，可以用在MATLAB和C上） MIC的计算使用的是...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-18</time>
+      <div>
+        <h2><a href="../../2018/01/18/mic/index.html">最大互信息系数(MIC)详解</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数 目的： Maximal Information Coefficient (MIC) 最大信息系数，属于Maximal Information-based Nonparametric Exploration (MINE) 最大的基于...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于训练集的代理模型生成算法（DROP3、AGG） · OmegaXYZ</title>
+  <meta name="description" content="DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思想：利用KNN算法及排序来去除噪音实例 算法步骤 ①先去除训练集上所有KNN算法错误分类的特征 ②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序 ③去除上述距离较远的实例 ④去除不影响其它实例预测结果的实例 示例 Agglomerative C...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/08/drop3_agg/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-08</div>
+        <h1>基于训练集的代理模型生成算法（DROP3、AGG）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content"><h2><strong>DROP3算法</strong></h2>
+目的：保留类边界上的实例，去除类内部的实例，构造代理训练集
+主要思想：利用KNN算法及排序来去除噪音实例
+<h3><b>算法步骤</b></h3>
+①先去除训练集上所有KNN算法错误分类的特征
+
+②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序
+
+③去除上述距离较远的实例
+
+④去除不影响其它实例预测结果的实例
+<h3><strong>示例</strong></h3>
+<img class="alignnone size-full wp-image-4237" src="https://cdn.omegaxyz.com/2018/05/drop31.jpg" alt="" width="886" height="259" /> <img class="alignnone size-full wp-image-4238" src="https://cdn.omegaxyz.com/2018/05/drop32.jpg" alt="" width="649" height="257" />
+<h2><b>Agglomerative Clustering</b></h2>
+<b>目的：</b>解决DROP3算法的问题来构造代理模型（摒弃了KNN算法）
+
+<img class="alignnone size-full wp-image-4239" src="https://cdn.omegaxyz.com/2018/05/AGG.png" alt="" width="482" height="343" />
+
+<b>自底向上聚类</b>
+
+首先每个实例自成一类，两个最近的合并为一类，选出每个类的中心实例，加入代理训练集模型。（类的个数等于代理训练集实例大小，用户设置）</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-10596">
+          <strong>YK</strong>
+          <time>2019-03-04 23:39:49</time>
+          <div>你好 ， 这位朋友。 <br>我可以知道 Agglomerative Clustering 这个算法是怎么看吗？ 我看不懂呢。 可以教导我吗？ 谢谢你</div>
+        </div>
+        
+        <div class="comment reply" id="comment-10865">
+          <strong>xyjisaw</strong>
+          <time>2019-03-07 08:31:35</time>
+          <div>不还意思，时间久远，我记不大清楚了</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>消除文法的左递归 · OmegaXYZ</title>
+  <meta name="description" content="简介 1．直接左递归的消除 消除产生式中的直接左递归是比较容易的。例如假设非终结符P的规则为 P →Pα / β 其中，β是不以P开头的符号串。那么，我们可以把P的规则改写为如下的非直接左递归形式： P →βP’ P’ →αP’ / ε 这两条规则和原来的规则是等价的，即两种形式从P推出的符号串是相同的。 设有简单表达式文法G[E]： E...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/03/toll/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-03</div>
+        <h1>消除文法的左递归</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<h4>1．直接左递归的消除</h4>
+消除产生式中的直接左递归是比较容易的。例如假设非终结符P的规则为
+<p style="text-align: center;"><strong>P</strong><strong>→Pα / β</strong></p>
+其中，β是不以P开头的符号串。那么，我们可以把P的规则改写为如下的非直接左递归形式：
+<p style="text-align: center;"><strong>P</strong><strong>→βP’</strong></p>
+<p style="text-align: center;"><strong> P’</strong><strong>→αP’ / ε</strong></p>
+这两条规则和原来的规则是等价的，即两种形式从P推出的符号串是相同的。
+
+设有简单表达式文法G[E]：
+<p style="text-align: center;"><strong>E</strong><strong>→E+T/ T</strong></p>
+<p style="text-align: center;"><strong>T</strong><strong>→T*F/ F</strong></p>
+<p style="text-align: center;"><strong>F</strong><strong>→（E）/ I</strong></p>
+经消除直接左递归后得到如下文法：
+<p style="text-align: center;"><strong>E</strong><strong>→TE’</strong></p>
+<p style="text-align: center;"><strong>E’ </strong><strong>→+TE’/ ε</strong></p>
+<p style="text-align: center;"><strong>T</strong><strong>→FT’</strong></p>
+<p style="text-align: center;"><strong>T’ </strong><strong>→*FT’/ ε</strong></p>
+<p style="text-align: center;"><strong>F</strong><strong>→（E）/ I</strong></p>
+考虑更一般的情况，假定关于非终结符P的规则为
+
+<strong>P</strong><strong>→Pα<sub>1</sub> / Pα<sub>2</sub> /…/ Pα<sub>n</sub> / β<sub>1 </sub>/ β<sub>2 </sub>/…/β<sub>m</sub></strong>
+
+其中，α<sub>i</sub>（I＝1，2，…，n）都不为ε，而每个β<sub>j</sub>（j＝1，2，…，m）都不以P开头，将上述规则改写为如下形式即可消除P的直接左递归：
+
+<strong>P</strong><strong>→β<sub>1</sub> P’ / β<sub>2</sub> P’ /…/β<sub>m</sub> P’</strong>
+
+<strong>P’ </strong><strong>→α<sub>1</sub>P’ / α<sub>2</sub> P’ /…/ α<sub>n</sub> P’ /ε</strong>
+<h4>2．间接左递归的消除</h4>
+消除间接左递归的方法是，把间接左递归文法改写为直接左递归文法，然后用消除直接左递归的方法改写文法。
+
+如果一个文法不含有回路，即形如PP的推导，也不含有以ε为右部的产生式，那么就可以采用下述算法消除文法的所有左递归。
+
+消除左递归算法：
+<ul>
+ 	<li>把文法G的所有非终结符按任一顺序排列，例如，A<sub>1</sub>，A<sub>2</sub>，…，A<sub>n</sub>。</li>
+</ul>
+for （i＝1；i&lt;=n；i++）
+
+for （j＝1；j&lt;=i－1；j++）
+
+{   把形如A<sub>i</sub>→A<sub>j</sub>γ的产生式改写成A<sub>i</sub>→δ<sub>1</sub>γ /δ<sub>2</sub>γ /…/δ<sub>k</sub>γ
+
+其中A<sub>j</sub>→δ<sub>1</sub> /δ<sub>2</sub> /…/δ<sub>k</sub>是关于的A<sub>j</sub>全部规则；
+
+消除A<sub>i</sub>规则中的直接左递归；
+
+}
+<ul>
+ 	<li>化简由（2）所得到的文法，即去掉多余的规则。</li>
+</ul>
+利用此算法可以将上述文法进行改写，来消除左递归。
+
+首先，令非终结符的排序为R、Q、S。对于R，不存在直接左递归。把R代入到Q中的相关规则中，则Q的规则变为Q→Sab/ ab/ b。
+
+代换后的Q不含有直接左递归，将其代入S，S的规则变为S→Sabc/ abc/ bc/ c。
+
+此时，S存在直接左递归。在消除了S的直接左递归后，得到整个文法为：
+<p style="text-align: center;"><strong>S</strong><strong>→abcS’/ bcS'/ cS'</strong></p>
+<p style="text-align: center;"><strong>S’ </strong><strong>→abcS'/ ε</strong></p>
+<p style="text-align: center;"><strong>Q</strong><strong>→Sab/ ab/ b</strong></p>
+<p style="text-align: center;"><strong>R</strong><strong>→Sa/ a</strong></p>
+可以看到从文法开始符号S出发，永远无法达到Q和R，所以关于Q和R的规则是多余的，将其删除并化简，最后得到文法G[S]为：
+<p style="text-align: center;"><strong>S</strong><strong>→abcS'/ bcS’/ cS'</strong></p>
+<p style="text-align: center;"><strong>S' </strong><strong>→abcS'/ ε</strong></p>
+当然如果对文法非终结符排序的不同，最后得到的文法在形式上可能不一样，但它们都是等价的。例如，如果对上述非终结符排序选为S、Q、R，那么最后得到的文法G[R]为：
+<p style="text-align: center;"><strong>R</strong><strong>→bcaR'/ caR'/ aR’</strong></p>
+<p style="text-align: center;"><strong>R' </strong><strong>→bcaR'/ ε</strong></p>
+容易证明上述两个文法是等价的。
+
+指明是否存在左递归，以及左递归的类型。对于直接左递归，可将其改为直接右递归；对于间接左递归（也称文法左递归），则应按照算法给出非终结符不同排列的等价的消除左递归后的文法。（应该有n！种）
+<h2><strong>c++代码</strong></h2>
+C++编写，共三个模块，第一个模块是将简介左递归转换为直接左递归，第二个模块是将直接左递归消除，最后一个模块是主函数模块。
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+using namespace std;
+const int MAX_SIZE=10;
+string principle[MAX_SIZE],temp[MAX_SIZE];
+
+int main()
+{
+    int i=0,count=0;
+    void removeDirect(int i, int count2);
+    void removeIndirect(int i,int j);
+    string DFS(string start,string *principle,int count,int temp);
+    cout&lt;&lt;"输入规则的个数："&lt;&lt;endl;
+    cin&gt;&gt;count;
+    cout&lt;&lt;"请输入"&lt;&lt;count&lt;&lt;"个规则："&lt;&lt;endl;
+    for(i=0;i&lt;count;i++)
+        cin&gt;&gt;principle[i];
+    cout&lt;&lt;"原文法为："&lt;&lt;endl;
+    int loc = 0;
+    for(i=0;cout&lt;&lt;principle[i]&lt;&lt;endl,i&lt;3;i++);
+    cout&lt;&lt;endl;
+    int start=0, end=0;
+    int count2=0;
+    for(i=0;i&lt;count;i++)
+    {
+        for(int j=0;j&lt;i;j++)
+        {
+            removeIndirect(i,j);//间接左递归变直接左递归
+        }
+        removeDirect(i, count2);//消除直接左递归
+    }
+    //cout&lt;&lt;"消除后的式子为："&lt;&lt;endl;
+    //for(i=0;cout&lt;&lt;principle[i]&lt;&lt;endl,i&lt;count-1;i++);
+    //for(i=0;cout&lt;&lt;temp[i]&lt;&lt;endl,i&lt;count2-1;i++);
+    cout&lt;&lt;"消除后的式子为："&lt;&lt;endl;
+    string sss=DFS(principle[2],principle,count,0);
+    for(i=0;i&lt;count;i++){
+        if(sss.find(principle[i][0])&lt;100)
+            cout&lt;&lt;principle[i]&lt;&lt;endl;
+    }
+    for(i=0;cout&lt;&lt;temp[i]&lt;&lt;endl,i&lt;count2-1;i++);
+    return 0;
+}
+
+string DFS(string start,string *principle,int count,int temp){
+    string x = "";
+    temp++;
+    for(int i=0;i&lt;start.length();i++){
+        if(start[i]&gt;='A'&amp;&amp;start[i]&lt;='Z'&amp;&amp;temp&lt;count){
+            x+=start[i];
+            for(int j = 0;j&lt;count-1;j++){
+                if(principle[j][0]==start[i]){
+                    x+=DFS(principle[j],principle,count,temp);
+                }
+            }
+        }
+    }
+    return x;
+}
+
+
+void removeDirect(int i, int count2){
+    //消除直接左递归，即将形如A-&gt;Ab|c 的转化为 A-&gt;cA'和A'-&gt;bA'|~
+    string p1="",p2="";
+    size_t flag1=3,flag2=0;
+    char ch=principle[i][0];
+    bool last=false; //判断是否结束
+    while(flag1!=string::npos) //寻找文法中的|符号，如果h找不到则退出
+    {
+        flag2=principle[i].find_first_of("|",flag1+1); //在文法中找到第flag+1个|
+        if(flag2==string::npos)flag2=principle[i].length(); //只有一个|
+        if(principle[i][flag1]==ch)
+        {
+            last=true;
+            p1+=principle[i].substr(flag1+1,flag2-flag1-1)+ch+"\'|";//加上‘
+        }
+        else
+        {
+            p2+=principle[i].substr(flag1,flag2-flag1)+ch+"\'|";//加上’
+        }
+        flag1=principle[i].find_first_not_of("|",flag2+1);
+    }
+    p2[p2.length()-1]='\0';
+    if(last)  //结束时加上空~
+    {
+        temp[count2]=ch+("\'-&gt;"+p1+"~");
+        count2++;
+        principle[i].replace(3,principle[i].length()-3,p2);
+    }
+}
+
+
+void removeIndirect(int i,int j){
+    //间接左递归变直接左递归
+    int start=2;
+    char aj=principle[j][0];
+    //修改产生式
+    bool rgt=false;
+    int count1=0;
+    string tt[MAX_SIZE];
+    size_t s=0,e=0;
+    do
+    {
+        start++;
+        if(principle[i][start]==aj)//如果满足Ai-&gt;Aj*
+        {
+            size_t es=principle[i].find_first_of("|",start+1);
+            if(es==string::npos)
+                es=principle[i].length();
+            string te=principle[i].substr(start+1,es-start-1);
+            if(!rgt)
+            {
+                s=principle[j].find_first_not_of("|",3);
+                while(s!=string::npos)
+                {
+                    e=principle[j].find_first_of("|",s+1);
+                    if(e==string::npos)
+                        e=principle[j].length();
+                    tt[count1]=principle[j].substr(s,e-s);
+                    count1++;
+                    s=principle[j].find_first_not_of("|",e+1);
+                }
+                rgt=true;
+            }
+            int k=0;
+            string ttl="\0";
+            for(;k&lt;count1-1;k++)
+                ttl+=tt[k]+te+"|";
+            ttl+=tt[k]+te;
+            principle[i].replace(start,es-start,ttl);
+        }
+        start = principle[i].find_first_of("|",start+1);
+    }while(start!=string::npos);
+}
+/*
+ S-&gt;Qc|c
+ Q-&gt;Rb|b
+ R-&gt;Sa|a
+ 
+ R-&gt;Sa|a
+ Q-&gt;Rb|b
+ S-&gt;Qc|c
+ 
+ Q-&gt;Rb|b
+ S-&gt;Qc|c
+ R-&gt;Sa|a
+ */
+
+/*
+ A-&gt;aB|Bb
+ B-&gt;Ac|d
+*/
+</code></pre>
+&nbsp;
+<h2><strong>测试数据</strong></h2>
+测试数据1：
+<ol>
+ 	<li><strong>A-&gt;aB</strong></li>
+ 	<li><strong>A-&gt;Bb</strong></li>
+ 	<li><strong>B-&gt;Ac</strong></li>
+ 	<li><strong>B-&gt;d</strong></li>
+</ol>
+测试数据2：
+<ol>
+ 	<li><strong>S-&gt;Qc|c</strong></li>
+ 	<li><strong>Q-&gt;Rb|b</strong></li>
+ 	<li><strong>R-&gt;Sa|a</strong></li>
+</ol>
+测试数据3：
+<ol>
+ 	<li><strong>Q-&gt;Rb|b</strong></li>
+ 	<li><strong>S-&gt;Qc|c</strong></li>
+ 	<li><strong>R-&gt;Sa|a</strong></li>
+</ol>
+测试数据4：
+<ol>
+ 	<li><strong>R-&gt;Sa|a</strong></li>
+ 	<li><strong>Q-&gt;Rb|b</strong></li>
+ 	<li><strong>S-&gt;Qc|c</strong></li>
+</ol>
+<h2><strong>结果</strong></h2>
+测试数据1：
+
+<img class="alignnone  wp-image-5469" src="https://cdn.omegaxyz.com/2019/02/toLL1.png" alt="" width="663" height="324" />
+
+测试数据2：
+
+<img class="alignnone  wp-image-5470" src="https://cdn.omegaxyz.com/2019/02/toLL2.png" alt="" width="666" height="377" />
+
+测试数据3：
+
+<img class="alignnone  wp-image-5471" src="https://cdn.omegaxyz.com/2019/02/toLL3.png" alt="" width="665" height="557" />
+
+测试数据4：
+
+<img class="alignnone  wp-image-5472" src="https://cdn.omegaxyz.com/2019/02/toLL4.png" alt="" width="663" height="471" />
+<h2><strong>遇到的难点和解决方案</strong></h2>
+由于文法的形式多种多样，在消除递归时要考虑到各种情况，一般来说，首先要解决统一文法格式，因此需要将具有相同非终结符左部的文法用|符号合并。接着，要解决间接左递归问题，因此将间接左递归转换成直接左递归。最后将消除直接左递归。在消除过程中要判断两个量，<strong>一个是|的位置，另一个是非终结符的位置</strong>，由于合并的文法串中有多个|，并且会生成新的转换的文法，因此需要用while语句进行处理，直到所有文法的形式不再变化为止。
+
+第二个问题，消除左递归文法后有一部分的非终结符及其产生式无用，因此需要将其去处，使用DFS从开始符S开始检测非终结符，最终可以解决此种问题。</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-21928">
+          <strong>ingq</strong>
+          <time>2021-04-17 17:23:38</time>
+          <div>P-&amp;gt;Pa|b<br>这个最基础的例子都过不了</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

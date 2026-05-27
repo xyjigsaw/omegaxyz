@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于历史对比学习的时序知识图谱推理 · OmegaXYZ</title>
+  <meta name="description" content="时序知识图谱 知识图谱（KGs）作为人类知识的集合，在自然语言处理、推荐系统和信息检索等领域显示展现了很好的前景。传统的KG通常是一个静态知识库，它使用图结构数据拓扑，并以三元组 （s, p, o） 的形式集成事实（也称为事件），其中 s 和 o 分别表示主语（头实体）和宾语（尾实体）实体， p 作为关系类型表示谓词。在现实世界中，由于知...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2022/12/25/cenet/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2022-12-25</div>
+        <h1>基于历史对比学习的时序知识图谱推理</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>时序知识图谱</strong></h2>
+知识图谱（KGs）作为人类知识的集合，在自然语言处理、推荐系统和信息检索等领域显示展现了很好的前景。传统的KG通常是一个静态知识库，它使用图结构数据拓扑，并以三元组<em>（s, p, o）</em>的形式集成事实（也称为事件），其中<em>s</em>和<em>o</em>分别表示主语（头实体）和宾语（尾实体）实体，<em>p</em>作为关系类型表示谓词。在现实世界中，由于知识不断发展，时序知识图谱（TKG）的构建和应用成为领域热点，其中三元组<em>（s, p, o）</em>扩展为四元组，增加了时间戳t，即<em>（s, p, o, t）</em>。下图是由一系列国际政治事件组成的TKG。
+
+<img class="alignnone wp-image-7665" src="https://cdn.omegaxyz.com/2022/12/CENET_tkg.png" alt="" width="699" height="277" />
+<h2><strong>时序知识图谱推理</strong></h2>
+TKG为许多下游应用提供了新的视角和见解，例如决策、股票预测和对话系统，从而引发了人们对TKG推理的强烈兴趣。在这项工作中，我们专注于在TKG上预测未来的事件。
+
+为了对TKG的结构和时间特征进行建模以用于未来事件预测，一些主流的模型例如RE-NET利用自回归方法，可以很容易地预测重复或周期性事件。然而，在TKG数据集ICEWS（综合危机预警系统）中，新事件约占40%。
+
+预测这些新事件非常具有挑战性，因为它们在历史时间轴上具有较少的交互痕迹。例如，图2的右侧部分显示了查询<em>（the United States, Negotiate, ?, t+1）</em>及其相应的新事件<em>（the United States, Negotiate, Russia, t+1）</em>，其中大多数现有方法由于过度关注频繁的重复事件，因此在此类查询中通常会获得错误的结果。
+
+现有模型存在的问题：
+
+<img class="alignnone wp-image-7664" src="https://cdn.omegaxyz.com/2022/12/CENET_problems.png" alt="" width="699" height="307" />
+
+另一方面，在推理过程中，现有方法在对整个图中所有候选实体的概率得分进行排名时，而没有任何的bias。我们认为，在处理不同事件的缺失实体时，这种bias是十分必要的，这在现实社会中也是如此，例如，对于重复或周期性事件，我们应该优先考虑一些频繁发生的实体，而对于新事件，则需更多地关注历史交互较少的实体。
+<h2><strong>基于历史对比学习的时序知识图谱推理</strong></h2>
+在这项工作中，我们将超越历史信息的限制，从整个知识中挖掘潜在的时序模式。为了更清晰地阐述我们的设计，我们将与当前查询中的实体相关联的过去事件称为该查询历史事件，其他事件称为非历史事件。我们直观地认为，TKG中的事件不仅与其历史事件相关，还与未观察到的潜在因素间接相关。我们所能看到的历史事件只是冰山一角（图2）。我们提出了一种新的TKG推理模型，称为CENET（Contrasive Event Network）。下图给出了模型的框架图。
+
+<img class="alignnone wp-image-7658" src="https://cdn.omegaxyz.com/2022/12/CENET_architecture.png" alt="" width="1012" height="388" />
+
+<strong>CENET模型框架：</strong>左侧部分从历史和非历史依赖关系中学习实体的分布。右侧部分是历史对比学习的两个阶段，其目的是识别高度相关的实体，输出是布尔掩码向量。中间部分是基于掩码的推理过程，它将从历史和非历史依赖关系中学习到的分布与掩码向量相结合，以生成最终结果。
+
+给定真实的尾实体为o的查询<em>（s, p, ?, t）</em>，CNENT考虑其历史和非历史事件，并通过对比学习识别重要实体。具体而言，模型首先采用基于复制机制的评分策略来建模历史事件和非历史事件的相关性（公式1和2）。
+
+<img class="alignnone wp-image-7666" src="https://cdn.omegaxyz.com/2022/12/CENET1.png" alt="" width="502" height="111" />
+
+<img class="alignnone wp-image-7667" src="https://cdn.omegaxyz.com/2022/12/CENET2.png" alt="" width="500" height="67" />
+
+此外，所有查询都可以根据其真实对象实体分为两类：尾实体是历史实体或非历史实体。因此，CENET自然采用监督对比学习损失来训练两类查询的表示（即公式3中的<em>v_q</em>），进一步帮助训练输出为布尔值的分类器，以识别哪些实体应该受到更多关注。在推理过程中，CENET结合了历史和非历史依赖性的分布，并根据分类结果进一步采用基于掩码的策略来考虑高度相关的实体。
+
+<img class="alignnone wp-image-7668" src="https://cdn.omegaxyz.com/2022/12/CENET3.png" alt="" width="502" height="105" />
+
+<strong>历史对比学习：</strong>CENET在第1阶段使用对比损失学习表示，在第2阶段使用交叉熵损失训练二元分类器
+
+<img class="alignnone wp-image-7662" src="https://cdn.omegaxyz.com/2022/12/CENET_contrastive.png" alt="" width="561" height="482" />
+<h2><strong>实验</strong></h2>
+<h3><strong>数据集</strong></h3>
+我们选择了五个基准数据集，包括三个基于事件的TKG和两个公共KG。这两种类型的数据集以不同的方式构建。前三个基于国际政治事件的TKG由ICEWS18、ICEWS14和GDELT组成，事件是离散的。后两个公共KG（WIKI和YAGO）中的事件可能会连续地存在很长时间。
+
+<img class="alignnone wp-image-7663" src="https://cdn.omegaxyz.com/2022/12/CENET_datasets.png" alt="" width="1120" height="174" />
+<h3><strong>对比实验</strong></h3>
+我们选取了15个业界最新的TKG推理模型作为基线，并采用Mean Reciprocal Ranks (MRR) 和 Hits@1/3/10 (the proportion of correct predictions ranked within top 1/3/10)作为评价指标。下表给出了结果。结果表明，CENET在大多数指标上明显优于所有现有方法，在基于事件的数据集上，与以前最先进的基线相比，Hits@1至少获得了8.3%的相对提升。
+
+基于事件的TKG对比实验结果：
+<img class="alignnone wp-image-7660" src="https://cdn.omegaxyz.com/2022/12/CENET_cmp.png" alt="" width="999" height="469" />
+
+公共KG对比实验结果：
+<img class="alignnone wp-image-7661" src="https://cdn.omegaxyz.com/2022/12/CENET_cmp2.png" alt="" width="494" height="483" />
+<h3><strong>消融实验</strong></h3>
+我们分析了模型中每一个关键组成的性能，下表给出了消融实验的结果。可以看到，同时考虑历史和非历史依赖项比只单独考虑历史依赖能取得更好的效果，历史对比学习策略以及基于掩码的推断均能取得优越的性能。
+
+<img class="alignnone wp-image-7657" src="https://cdn.omegaxyz.com/2022/12/CENET_ablation.png" alt="" width="1000" height="318" />
+<h3><strong>案例分析</strong></h3>
+案例分析给出了模型在预测重复性事件与新事件上的案例。
+
+<img class="alignnone wp-image-7659" src="https://cdn.omegaxyz.com/2022/12/CENET_case_study.png" alt="" width="1000" height="286" />
+<h2><strong>结论</strong></h2>
+在本文中，我们提出了一种新的用于事件预测的时序知识图谱模型——对比事件网络（CENET）。CENET的关键思想是学习整个实体集的令人信服的分布，并在对比学习框架中从历史和非历史依赖性中识别重要实体。实验结果表明，CENET在大多数指标上都显著优于所有现有方法，尤其是在Hits@1的指标上。未来工作包括探索知识图中的对比学习能力，例如找到更合理的对比学习对（contrastive pairs）。
+
+<hr />
+
+该工作目前已被AAAI 2023接收，论文和代码链接如下：
+
+<img class="alignnone wp-image-7656" src="https://cdn.omegaxyz.com/2022/12/CENET_aaai.png" alt="" width="702" height="151" />
+
+<strong>论文标题：</strong>
+
+Temporal Knowledge Graph Reasoning with Historical Contrastive Learning
+
+<strong>论文链接：</strong>
+
+<a href="https://arxiv.org/abs/2211.10904" target="_blank" rel="noopener">https://arxiv.org/abs/2211.10904</a>
+
+<strong>代码链接：</strong>
+
+<a href="https://github.com/xyjigsaw/CENET" target="_blank" rel="noopener">https://github.com/xyjigsaw/CENET</a>
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ sorts classes or structures by specified rules · OmegaXYZ</title>
+  <meta name="description" content="STL comes with a sorting function sortsort to sort all elements in a given range. Use #include &lt;algorithm&gt; sort to use it. The syntax is described as: sort(begin,end,cmp), which represents a range. Among them, cmp is the comparison rule specified by yourself. Function name Function description sort Sort all elements in a given range stable_sort Sort all elements in a given range...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/12/03/cpp_classsort/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-12-03</div>
+        <h1>C++ sorts classes or structures by specified rules</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content">STL comes with a sorting function sortsort that sorts all elements in a given range.
+
+Use #include &lt;algorithm&gt; sort to use, the syntax is described as:
+
+sort(begin,end,cmp), represents a range.
+
+Among them, cmp is the comparison rule specified by yourself.<table border="1" cellpadding="0" cellspacing="1">
+<tbody>
+<tr>
+<th class="twikiFirstCol"><a href="http://www.stlchina.org/twiki/bin/view.pl/Main/STLSortAlgorithms?sortcol=0&amp;table=1&amp;up=0#sorted_table" rel="noopener" target="_blank" title="Sort by this column">function name</a></th>
+<th><a href="http://www.stlchina.org/twiki/bin/view.pl/Main/STLSortAlgorithms?sortcol=1&amp;table=1&amp;up=0#sorted_table" rel="noopener" target="_blank" title="Sort by this column">Function description</a></th>
+</tr>
+<tr>
+<td bgcolor="#ffffff" class="twikiFirstCol">sort</td>
+<td bgcolor="#ffffff">Sort all elements in a given range</td>
+</tr>
+<tr>
+<td bgcolor="#ffffcc" class="twikiFirstCol">stable_sort</td>
+<td bgcolor="#ffffcc">Stable sorting of all elements in a given range</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" class="twikiFirstCol">partial_sort</td>
+<td bgcolor="#ffffff">Partially sort all elements of a given range</td>
+</tr>
+<tr>
+<td bgcolor="#ffffcc" class="twikiFirstCol">partial_sort_copy</td>
+<td bgcolor="#ffffcc">Copy and sort the given range</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" class="twikiFirstCol">nth_element</td>
+<td bgcolor="#ffffff">Find the element corresponding to a certain position in a given interval</td>
+</tr>
+<tr>
+<td bgcolor="#ffffcc" class="twikiFirstCol">is_sorted</td>
+<td bgcolor="#ffffcc">Determine whether a range has been sorted</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" class="twikiFirstCol">partition</td>
+<td bgcolor="#ffffff">Put elements that meet a certain condition in front</td>
+</tr>
+<tr>
+<td bgcolor="#ffffcc" class="twikiFirstCol">stable_partition</td>
+<td bgcolor="#ffffcc">Relatively stable, elements that meet certain conditions are placed in front</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-c++">#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+class Action{
+public:
+    int num;
+    int num2;
+};
+vector&lt;Action&gt; actions;
+
+
+/*
+typedef struct Action{
+public:
+    int num;
+    int num2;
+}Action;
+*/
+
+int cmp(Action ac1, Action ac2){
+    if(ac1.num&lt;ac2.num)
+        return 1;
+    else if(ac1.num==ac2.num&amp;&amp;ac1.num2&lt;ac2.num2)
+        return 1;
+    else
+        return 0;
+}
+
+int main()
+{
+    int n;
+    int num,num2;
+    cin&gt;&gt;n;
+    for(int i=0;i&lt;n;i++){
+        Action temp;
+        cin&gt;&gt;num&gt;&gt;num2;
+        temp.num=num;
+        temp.num2=num2;
+        actions.push_back(temp);
+    }
+    sort(actions.begin(),actions.end(),cmp);
+    cout&lt;&lt;endl;
+    for(int i=0;i&lt;n;i++){
+        cout&lt;&lt;actions[i].num&lt;&lt;" "&lt;&lt;actions[i].num2&lt;&lt;endl;
+    }
+}
+</code></pre>result:<img alt="" class="alignnone wp-image-2553 size-full" height="230" src="https://cdn.omegaxyz.com/2017/12/struct_sort.png" width="430"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

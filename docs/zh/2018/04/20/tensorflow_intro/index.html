@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorFlow基本语句与概念 · OmegaXYZ</title>
+  <meta name="description" content="文章转载自极客学院： http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html TensorFlow简介 是 开发的一款神经网络的 外部的结构包，也是一个采用 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/20/tensorflow_intro/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-20</div>
+        <h1>TensorFlow基本语句与概念</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><div>
+<div>
+
+<nav class="inline-toc side-box" data-toc></nav>
+
+<strong>文章转载自极客学院：</strong><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html">http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html</a>
+<h2><strong>TensorFlow简介</strong></h2>
+<code>TensorFlow</code> 是 <code>Google</code> 开发的一款神经网络的 <code>Python</code> 外部的结构包，也是一个采用 <code>数据流图</code> 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它可在小到一部智能手机、大到数千台数据中心服务器的各种设备上运行。
+<h2><strong>为什么学习TensorFlow?</strong></h2>
+TensorFlow 最初由Google大脑小组（隶属于Google机器智能研究机构）的研究员和工程师们开发出来，用于机器学习和深度神经网络方面的研究，但这个系统的通用性使其也可广泛用于其他计算领域。
+
+TensorFlow 无可厚非地能被认定为神经网络中最好用的库之一，它擅长的任务就是训练深度神经网络。通过使用 TensorFlow 我们就可以快速的入门神经网络，大大降低深度学习（也就是深度神经网络）的开发成本和开发难度；TensorFlow 的开源性让所有人都能使用并且维护、 巩固它，使它能迅速更新, 发展。
+
+虽然可能有些人说 <code>caffe</code> 更适合图像，<code>mxnet</code> 效率更高等等，但其实这些框架一通百通，唯独语法不同而已，所以我们不必在此纠结过多。那么让我们从tensorflow开始吧。
+
+</div>
+<div>
+<h2><strong>Tensorflow 处理结构</strong></h2>
+TensorFlow 让我们可以先绘制计算结构图，也可以称是一系列可人机交互的计算操作， 然后把编辑好的Python文件转换成更高效的 <code>C++</code>，并在后端进行计算。
+<blockquote>TensorFlow 首先要定义神经网络的结构，然后再把数据放入结构当中去运算和training</blockquote>
+下面动图展示了 TensorFlow 数据处理流程：
+
+<img class="alignnone size-full wp-image-4079" src="https://cdn.omegaxyz.com/2018/04/TensorFlow2.gif" alt="" width="252" height="448" />
+<div>
+<div>
+
+因为TensorFlow是采用 <code>数据流图</code>（data flow graphs）来计算， 所以首先我们得创建一个数据流图，然后再将我们的数据（数据以 <code>张量(tensor)</code> 的形式存在）放到数据流图中计算。
+
+图中的 <code>节点</code>（Nodes）一般用来表示施加的数学操作，但也可以表示数据输入（feed in）的起点/输出（push out）的终点，或者是读取/写入持久变量（persistent variable）的终点；<code>线</code>（edges）则表示在节点间相互联系的多维数据数组，即 <code>张量（tensor）</code>，训练模型时，<code>tensor</code> 会不断的从数据流图中的一个节点 <code>flow</code> 到另一节点, 这就是 TensorFlow 名字的由来。一旦输入端的所有张量准备好，节点将被分配到各种计算设备完成异步并行地执行运算。
+
+它灵活的架构让你可以在多种平台上展开计算，例如台式计算机中的一个或多个CPU（或GPU），服务器，移动设备等等。
+<h2><strong>Tensorflow 基本使用</strong></h2>
+</div>
+</div>
+</div>
+</div>
+使用<span style="color: #ff0000;"><code>TensorFlow</code></span>，你必须明白<span style="color: #ff0000;"><code>TensorFlow</code></span>：
+<ul>
+ 	<li>使用图<code>(graph)</code>来表示任务</li>
+ 	<li>被称之为会话<code>(Session)</code>的上下文<code>(context)</code>中执行图</li>
+ 	<li>使用<code>tensor</code>表示数据</li>
+ 	<li>通过变量<code>(Variable)</code>维护状态</li>
+ 	<li>使用<code>feed</code>和<code>fetch</code>可以为任意操作<code>(arbitrary operation)</code>赋值或者从其中获取数据</li>
+</ul>
+<h3 id="综述"><strong>综述</strong></h3>
+<code>TensorFlow</code>是一个编程系统，使用图来表示计算任务，图中的节点被称之为<code>op</code>（<code>operation</code>的缩写），一个<code>op</code>获得0个或者多个<code>tensor</code>，执行计算，产生0个或多个<code>tensor</code>。每个<code>tensor</code>是一个类型化的多维数组。例如，你可以将一组图像素集表示为一个四维浮点数数组，这四个维度分别是<code>[batch, height, width, channels]</code>。
+
+一个<code>TensorFlow</code>图描述了计算的过程，为了进行计算，图必须在<code>会话</code>里被启动，<code>会话</code>将图的<code>op</code>分发到诸如CPU或GPU之类的设备上，同时提供执行<code>op</code>的方法，这些方法执行后，将产生的<code>tensor</code>返回。在python语言中，返回的<code>tensor</code>是<code>numpy ndarry</code>对象；在C/C++语言中，返回的是<code>tensor</code>是<code>tensorflow::Tensor</code>实例。
+<h3 id="计算图"><strong>计算图</strong></h3>
+<code>Tensorflow</code>程序通常被组织成一个构建阶段和一个执行阶段，在构建阶段，<code>op</code>的执行步骤被描述成为一个图，在执行阶段，使用会话执行图中的<code>op</code>。
+
+例如，通常在构建阶段创建一个图来表示和训练神经网络，然后在执行阶段反复执行图中的训练<code>op</code>。
+
+<code>Tensorflow</code>支持C/C++，python编程语言。目前，<code>TensorFlow</code>的python库更易使用，它提供了大量的辅助函数来简化构建图的工作，这些函数尚未被C/C++库支持。
+
+三种语言的会话库<code>(session libraries)</code>是一致的。
+<h3 id="构建图"><strong>构建图</strong></h3>
+构件图的第一步是创建源<code>op (source op)</code>。源<code>op</code>不需要任何输入。源<code>op</code>的输出被传递给其它<code>op</code>做运算。
+
+python库中，<code>op</code>构造器的返回值代表被构造出的<code>op</code>输出，这些返回值可以传递给其它<code>op</code>作为输入。
+
+<code>TensorFlow</code> Python库中有一个默认图<code>(default graph)</code>，<code>op</code>构造器可以为其增加节点。这个默认图对许多程序来说已经足够用了，可以阅读<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/api_docs/python/framework.html" target="_blank" rel="noopener"><code>Graph</code>类</a>文档，来了解如何管理多个视图。
+<pre ><code class="language-python">import tensorflow as tf
+# 创建一个常量op， 产生一个1x2矩阵，这个op被作为一个节点
+# 加到默认视图中
+# 构造器的返回值代表该常量op的返回值
+matrix1 = tr.constant([[3., 3.]])
+
+# 创建另一个常量op, 产生一个2x1的矩阵
+matrix2 = tr.constant([[2.], [2.]])
+
+# 创建一个矩阵乘法matmul op，把matrix1和matrix2作为输入：
+product = tf.matmul(matrix1, matrix2)</code></pre>
+默认图现在有三个节点，两个<code>constant() op</code>和<code>matmul() op</code>。为了真正进行矩阵乘法的结果，你必须在会话里启动这个图。
+<h3 id="在一个会话中启动图"><strong>在一个会话中启动图</strong></h3>
+构造阶段完成后，才能启动图。启动图的第一步是创建一个<code>Session</code>对象，如果无任何创建参数，会话构造器将无法启动默认图。
+
+欲了解完整的会话API，请阅读<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/api_docs/python/client.html" target="_blank" rel="noopener"><code>Session</code>类</a>。
+
+<code>Session</code>对象在使用完成后需要关闭以释放资源，除了显式调用<code>close</code>外，也可以使用<code>with</code>代码来自动完成关闭动作：
+<pre ><code class="language-python">with tf.Session() as sess:
+  result = sess.run([product])
+  print result</code></pre>
+在实现上，<code>Tensorflow</code>将图形定义转换成分布式执行的操作，以充分利用可以利用的计算资源（如CPU或GPU）。一般你不需要显式指定使用CPU还是GPU，<code>Tensorflow</code>能自动检测。如果检测到GPU，<code>Tensorflow</code>会尽可能地使用找到的第一个GPU来执行操作。
+
+如果机器上有超过一个可用的GPU，除了第一个外的其他GPU是不参与计算的。为了让<code>Tensorflow</code>使用这些GPU，你必须将<code>op</code>明确地指派给它们执行。<code>with...Device</code>语句用来指派特定的CPU或GPU操作：
+<pre ><code class="language-python">with tf.Session() as sess:
+  with tf.device("/gpu:1"):
+    matrix1 = tf.constant([[3., 3.]])
+    matrix2 = tf.constant([[2.], [2.]])
+    product = tf.matmul(matrix1, matrix2)</code></pre>
+设备用字符串进行标识，目前支持的设备包括：
+<ul>
+ 	<li><code>/cpu:0</code>:机器的CPU</li>
+ 	<li><code>/gpu:0</code>:机器的第一个GPU，如果有的话</li>
+ 	<li><code>/gpu:1</code>:机器的的第二个GPU，以此类推</li>
+</ul>
+<h3 id="交互式使用"><strong>交互式使用</strong></h3>
+文档中的python示例使用一个会话<code>Session</code>来启动图，并调用<code>Session.run()</code>方法执行操作。
+
+为了便于使用诸如IPython之类的python交互环境，可以使用<code>InteractiveSession</code>代替<code>Session</code>类，使用<code>Tensor.eval()</code>和<code>Operation.run()</code>方法代替<code>Session.run()</code>。这样可以避免使用一个变量来持有会话：
+<pre ><code class="language-python"># 进入一个交互式Tensorflow会话
+import tensorflow as tf
+sess = tf.InteractiveSession()
+
+x = tf.Variable([1.0, 2.0])
+a = tf.constant([3.0, 3.0]);
+
+# 使用初始化器initializer op的run()方法初始化x
+x.initializer.run()
+
+# 增加一个减法sub op，从x减去a。运行减法op，输出结果
+sud = tf.sub(x, a)
+print sub.eval()
+# ==&gt;[-2. -1.]</code></pre>
+<h3 id="tensor"><strong><code>Tensor</code></strong></h3>
+<code>Tensorflow</code>程序使用<code>tensor</code>数据结构来代表所有的数据，计算图中，操作间传递数据都是<code>tensor</code>。你可以把<code>Tensorflow</code>的<code>tensor</code>看做是一个<code>n</code>维的数组或列表。一个<code>tensor</code>包含一个静态类型<code>rank</code>和一个<code>shape</code>。
+<h4 id="阶">阶</h4>
+在<code>Tensorflow</code>系统中，张量的维数被描述为阶。但是张量的阶和矩阵的阶并不是同一个概念。张量的阶是张量维数的一个数量描述，下面的张量（使用python中<code>list</code>定义的）就是2阶：
+<pre ><code class="language-python">t = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code></pre>
+你可以认为一个二阶张量就是我们平常所说的矩阵，一阶张量可以认为是一个向量。对于一个二阶张量，你可以使用语句<code>t[i, j]</code>来访问其中的任何元素。而对于三阶张量你可以通过<code>t[i, j, k]</code>来访问任何元素：
+<table>
+<thead>
+<tr>
+<th align="left">阶</th>
+<th>数学实例</th>
+<th>python例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>0</code></td>
+<td>纯量（只有大小）</td>
+<td><code>s=483</code></td>
+</tr>
+<tr>
+<td align="left"><code>1</code></td>
+<td>向量（大小和方向）</td>
+<td><code>v=[1.1, 2.2, 3.3]</code></td>
+</tr>
+<tr>
+<td align="left"><code>2</code></td>
+<td>矩阵（数据表）</td>
+<td><code>m=[[1, 2, 3], [4, 5, 6], [7, 8, 9]]</code></td>
+</tr>
+<tr>
+<td align="left"><code>3</code></td>
+<td><code>3</code>阶张量</td>
+<td><code>t=[[[2], [4], [6]], [[8], [9], [10]], [[11], [12], [13]]]</code></td>
+</tr>
+<tr>
+<td align="left"><code>n</code></td>
+<td><code>n</code>阶</td>
+<td><span id="MathJax-Element-2-Frame" class="MathJax" style="margin: 0px; padding: 0px; font-weight: normal; box-sizing: border-box; display: inline; font-style: normal; line-height: normal; font-size: 14px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; outline: 0px; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo&gt;&amp;#x2026;&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-1" class="math"><span id="MathJax-Span-2" class="mrow"><span id="MathJax-Span-3" class="mo">…</span></span></span><span class="MJX_Assistive_MathML" role="presentation">…</span></span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="形状"><strong>形状</strong></h4>
+<code>Tensorflow</code>文档中使用了三种记号来方便地描述张量的维度：阶，形状以及维数。以下展示了它们之间的关系：
+<table>
+<thead>
+<tr>
+<th>阶</th>
+<th>形状</th>
+<th>维数</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td><code>[]</code></td>
+<td>0-D</td>
+<td>一个0维张量，一个纯量</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>[D0]</code></td>
+<td>1-D</td>
+<td>一个1维张量的形式<code>[5]</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>[D0, D1]</code></td>
+<td>2-D</td>
+<td>一个2维张量的形式<code>[3, 4]</code></td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>[D0, D1, D2]</code></td>
+<td>3-D</td>
+<td>一个3维张量的形式<code>[1, 4, 3]</code></td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td><code>[D0, D1, ... Dn]</code></td>
+<td>n-D</td>
+<td>一个n维张量的形式<code>[D0, D1, ..., Dn]</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="数据类型"><strong>数据类型</strong></h4>
+除了维度，<code>tensor</code>有一个数据类型属性。你可以为一个张量指定下列数据类型中的任意一个类型：
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>python类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DT_FLOAT</code></td>
+<td><code>tf.float32</code></td>
+<td>32位浮点数</td>
+</tr>
+<tr>
+<td><code>DT_DOUBLE</code></td>
+<td><code>tf.float64</code></td>
+<td>64位浮点数</td>
+</tr>
+<tr>
+<td><code>DT_INT64</code></td>
+<td><code>tf.int64</code></td>
+<td>64位有符号整型</td>
+</tr>
+<tr>
+<td><code>DT_INT32</code></td>
+<td><code>tf.int32</code></td>
+<td>32位有符号整型</td>
+</tr>
+<tr>
+<td><code>DF_INT16</code></td>
+<td><code>tf.int16</code></td>
+<td>16位有符号整型</td>
+</tr>
+<tr>
+<td><code>DT_INT8</code></td>
+<td><code>tf.int8</code></td>
+<td>8位有符号整型</td>
+</tr>
+<tr>
+<td><code>DT_UINT8</code></td>
+<td><code>tf.uint8</code></td>
+<td>8位无符号整型</td>
+</tr>
+<tr>
+<td><code>DT_STRING</code></td>
+<td><code>tf.string</code></td>
+<td>可变长度的字节数组，每一个张量元素都是一个字节数组</td>
+</tr>
+<tr>
+<td><code>DT_BOOL</code></td>
+<td><code>tf.bool</code></td>
+<td>布尔型</td>
+</tr>
+<tr>
+<td><code>DT_COMPLEX64</code></td>
+<td><code>tf.complex64</code></td>
+<td>由32位浮点数组成的负数：实数和虚数</td>
+</tr>
+<tr>
+<td><code>DT_QINT32</code></td>
+<td><code>tf.qint32</code></td>
+<td>用于量化Ops的32位有符号整型</td>
+</tr>
+<tr>
+<td><code>DT_QINT8</code></td>
+<td><code>tf.qint8</code></td>
+<td>用于量化Ops的8位有符号整型</td>
+</tr>
+<tr>
+<td><code>DT_QUINT8</code></td>
+<td><code>tf.quint8</code></td>
+<td>用于量化Ops的8位无符号整型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变量"><strong>变量</strong></h3>
+在<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/variables/index.html" target="_blank" rel="noopener">Variables</a> 中查看更多细节。变量维护图执行过程中的状态信息。下面的例子演示了如何使用变量实现一个简单的计数器：
+<pre ><code class="language-python"># 创建一个变量，初始为标量0
+state = tf.Variable(0, name="counter")
+
+# 创建一个op，其作用是使`state`增加1
+one = tf.constant(1)
+new_value = tf.add(state, one)
+update = tf.assign(state, new_value)
+
+# 启动图后，变量必须先经过init op初始化
+# 首先先增加一个初始化op到图中
+init_op = tf.initialize_all_variables()
+
+# 启动图
+with tf.Session() as sess:
+  # 运行init op
+  sess.run(init_op)
+  # 打印 state 的初始值
+  print sess.run(state)
+  # 运行op， 更新state 并打印
+  for _ in range(3):
+    sess.run(update)
+    print sess.run(state)
+
+# 输出：
+# 0
+# 1
+# 2
+# 3</code></pre>
+代码中<code>assign()</code>操作是图所描述的表达式的一部分，正如<code>add()</code>操作一样，所以在调用<code>run()</code>执行表达式之前，它并不会真正执行赋值操作。
+
+通常会将一个统计模型中的参数表示为一组变量。例如，你可以将一个神经网络的权重作为某个变量存储在一个<code>tensor</code>中。在训练过程中，通过反复训练图，更新这个<code>tensor</code>。
+<h3 id="fetch"><strong><code>Fetch</code></strong></h3>
+为了取回操作的输出内容，可以在使用<code>Session</code>对象的<code>run()</code>调用执行图时，传入一些<code>tensor</code>，这些<code>tensor</code>会帮助你取回结果。在之前的例子里，我们只取回了单个节点<code>state</code>，但是你也可以取回多个<code>tensor</code>:
+<pre ><code class="language-python">input1 = tf.constant(3.0)
+input2 = tf.constant(4.0)
+input3 = tf.constant(5.0)
+intermed = tf.add(input2, input3)
+mul = tf.mul(input1, intermed)
+
+with tf.Session() as sess:
+  result = sess.run([mul, intermed])
+  print result
+
+# print
+# [27.0, 9.0]</code></pre>
+需要获得更多个<code>tensor</code>值，在<code>op</code>的依次运行中获得（而不是逐个去获得<code>tenter</code>）。
+<h3 id="feed"><strong><code>Feed</code></strong></h3>
+上述示例在计算图中引入<code>tensor</code>，以常量或变量的形式存储。<code>Tensorflow</code>还提供了<code>feed</code>机制，该机制可以临时替代图中的任意操作中的<code>tensor</code>可以对图中任何操作提交补丁，直接插入一个<code>tensor</code>。
+
+<code>feed</code>使用一个<code>tensor</code>值临时替换一个操作的输出结果，你可以提供<code>feed</code>数据作为<code>run()</code>调用的参数。<code>feed</code>只在调用它的方法内有效，方法结束，<code>feed</code>就会消失。最常见的用例是将某些特殊的操作指定为<code>feed</code>操作，标记的方法是使用<code>tf.placeholder()</code>为这些操作创建占位符。
+<pre ><code class="language-python">input1 = tf.placeholder(tf.types.float32)
+input2 = tf.placeholder(tf.types.float32)
+output = tf.mul(input1, input2)
+
+with tf.Session() as see:
+  print sess.run([output], feed_dict={input:[7.]， input2:[2.]})
+
+# print
+# [array([ 14.], dtype=float32)]</code></pre>
+<h2><strong>参考链接</strong></h2>
+<ol>
+ 	<li><a href="https://link.jianshu.com/?t=http://tensorflow.org/" target="_blank" rel="nofollow noopener">TensorFlow 英文官方网站</a></li>
+ 	<li><a href="https://link.jianshu.com/?t=https://github.com/tensorflow/tensorflow" target="_blank" rel="nofollow noopener">TensorFlow 官方GitHub仓库</a></li>
+</ol>
+<strong>文章转载自极客学院：</strong><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html">http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

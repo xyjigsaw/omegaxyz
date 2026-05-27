@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB并行运算程序 · OmegaXYZ</title>
+  <meta name="description" content="matlab在计算大数据内存以及大矩阵运算时，单核运算显然无法满足高速的运算需求。其实matlab提供多核运算的解决方案，这里先介绍最简单的两种 ①parfor ②distributed parfor for循环一般最为耗时，解决方法就是采用parfor代替for，parfor可以自动将循环任务分配到多个核中，现在matlab的命令行窗口...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/15/matlab_parallel/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-15</div>
+        <h1>MATLAB并行运算程序</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a></div>
+        <div class="article-content">matlab在计算大数据内存以及大矩阵运算时，单核运算显然无法满足高速的运算需求。其实matlab提供多核运算的解决方案，这里先介绍最简单的两种
+
+<strong>①parfor</strong>
+<strong>②distributed</strong>
+<h1>parfor</h1>
+for循环一般最为耗时，解决方法就是采用parfor代替for，parfor可以自动将循环任务分配到多个核中，现在matlab的命令行窗口运行parpool(4)查看是否可以并行计算，没有报错则并行已打开。parfor运行时就会有多个matlab进程在计算。计算效率明显提升。
+<h2><strong>未使用parfor的代码：</strong></h2>
+<pre ><code class="language-matlab">answer = 0;
+for i=1:1000000
+    answer = answer + i;
+end</code></pre>
+时间：
+
+<img class="alignnone size-full wp-image-4034" src="https://cdn.omegaxyz.com/2018/04/noparallel.jpg" alt="" width="797" height="371" />
+<h2><strong>使用parfor的代码：</strong></h2>
+<pre ><code class="language-matlab">answer = 0;
+parfor i=1:1000000
+    answer = answer + i;
+end</code></pre>
+时间：
+
+<img class="alignnone size-full wp-image-4035" src="https://cdn.omegaxyz.com/2018/04/parallel.jpg" alt="" width="797" height="371" />
+
+<strong>显然加了parfor语句速度更快！</strong>
+
+<strong>注意：</strong>
+
+①parfor循环中不能使用迭代或者关联性的赋值语句，因为多个核计算时无法交换数据。
+②parfor只支持一层循环，所以下面这种写法是非并行的，并且可能会出错。
+③在程序运行之前MATLAB会提示你哪些地方不能用parfor（红色波浪线显示）
+<h1>distributed</h1>
+对于大矩阵的存储问题以及计算的问题，除了自己分块外，可以使用matlab自带的内存分配解决方法，但需要确保你的电脑内存足够多，计算效率就会大幅提高。不然会有内存溢出的问题。
+具体方式是
+<pre ><code class="language-matlab">tic;
+X = randn(10000)；
+x_dis = distributed(X);
+clear(X);
+whos
+a = svd(x_dis);
+a_out = gather(a);%distrituted数据类型变为double
+toc;</code></pre>
+之后可以采用x_dis代替X进行计算即可。gather函数的作用是把distributed数据类型变为double。
+
+此外，matlab的大多数工具箱都开始支持并行计算，所以如果该问题可以用自带工具箱解决的可以使用工具箱自带的并行计算方法。
+matlab的Parallel Computing Toolbox工具箱就支持并行。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

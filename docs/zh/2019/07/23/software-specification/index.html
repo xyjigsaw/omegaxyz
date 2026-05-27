@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>软件需求规格说明书范例 · OmegaXYZ</title>
+  <meta name="description" content="本软件需求规格说明书范例对应的软件测试计划请参照： https://omegaxyz.com/2019/08/02/software-testing/ PDF文档及更多软件测试内容请参考： https://github.com/xyjigsaw/software-testing 一、 引言 1.1 定位与目标 计算机技术高度发达的今天，利...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/07/23/software-specification/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-23</div>
+        <h1>软件需求规格说明书范例</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<span style="color: #ff0000;"><strong>本软件需求规格说明书范例对应的软件测试计划请参照：</strong></span>
+
+https://omegaxyz.com/2019/08/02/software-testing/
+
+PDF文档及更多软件测试内容请参考：<a href="https://github.com/xyjigsaw/software-testing">https://github.com/xyjigsaw/software-testing</a>
+<h2><strong>一、 引言</strong></h2>
+<h3><strong>1.1 定位与目标</strong></h3>
+计算机技术高度发达的今天，利用信息技术对大量复杂的信息进行有效的管理成为一种普遍而实用的手段。一方面，这极大的减少了簿记和人力的开销，另一方面，现代计算机强大的计算能力和网络的普遍部署，大大简化了大量信息的处理和流动。学生在线考试系统是评测学生能力的一个重要组成部分，他对教师的工作效率有很大的提高，它不但可以降低对纸质试卷的要求，同时也体现了节约型社会的要求。该系统涉及了学生在线程序能力测评考试，学习成绩插询，以及很多相关信息的综合处理。为了方便配合教师对学生成绩的进一步了解，开发学生在线考试系统是当务之急。学生在线考试系统把试题、电脑改卷、成绩查询的部分管理工作集成到一个统一的平台，各管理人员分工协作、相互配合，及时了解学生编程水平。同时，也可以方便教师针对学生个体不同情况进行分层次指导。
+<h3><strong>1.2 对象</strong></h3>
+<strong>本《软件需求规格说明书》的预期读者是： </strong>
+<ul>
+ 	<li>程序教学平台开发经理</li>
+ 	<li>技术部经理</li>
+ 	<li>项目组所有人员</li>
+ 	<li>测试组人员</li>
+ 	<li>SQA 人员</li>
+ 	<li>开发公司授权调阅本文档的其他人员</li>
+</ul>
+<h3><strong>1.3 软件需求分析理论</strong></h3>
+软件需求分析是研究用户需求得到的东西，完全理解用户对软件需求的完整功能，确认用户软件功能需求， 建立可确认的、可验证的一个基本依据。软件需求分析是一个项目的开端， 也是项目实施最重要的关键点。 据有关的机构分析结果表明， 设计的软件产品存在不完整性、 不正确性等问题 <strong>80％</strong>以上是需求分析错误所导致的，而且由于需求分析错误造成根本性的功能问题尤为突出。因此，一个项目的成功软件需求分析是关键的一步。
+<h3><strong>1.4 软件需求分析目标</strong></h3>
+对实现软件的功能做全面的描述，帮助用户判断实现功能的正确性、一致性和完整性，促使用户在软件设计启动之前周密地、全面地思考软件需求。了解和描述软件实现所需的全部信息，为软件设计、确认和验证提供一个基准。
+
+为软件管理人员进行软件成本计价和编制软件开发计划书提供依据。
+
+需求分析的具体内容可以归纳为六个方面： 软件的功能需求， 软件与硬件或其他外部系统接口，软件的非功能性需求， 软件的反向需求， 软件设计和实现上的限制，阅读支持信息。
+
+软件需求分析应尽量提供软件实现功能需求的全部信息， 使得软件设计人员和软件测试人员不再需要需求方的接触。 这就要求软件需求分析内容应正确、 完整、一致和可验证。此外，为保证软件设计质量，便于软件功能的休整和验证，软件需求表达无岔意性，具有可追踪性和可修改性。
+
+<hr />
+
+<h2><strong>二、 需求概述</strong></h2>
+<h3><strong>2.1 项目背景</strong></h3>
+将要开发的软件名为《计算机程序能力在线测评系统》，本项目的提出者是安徽大学计算机科学与技术学院，而开发者是16级安徽大学软件工程班负责，主要用户是安徽大学本科生级研究生， 该软件独立于其他系统，自成一个完整的系统，应用方便。
+<h3><strong>2.2 需求概述</strong></h3>
+下面就对算机程序能力在线测评系统的设计进行需求分析。
+
+首先，因为考试是面向特定的某些对象的，所以考试者进入系统应该进行身份验证。考试者进入考试系统后，应该能根据自己的需要选择考试能力水平，所以该 系统还应具有考试难度选择（分为顶级、甲级、乙级）的功能。为了在线考试做到规范，对于每个应试者来说，试卷的试题和题量都应是相同的，但试题并不相同。在线考试基于网络环境，试卷应该从服务器的数据库随机抽取试题后动态生成的。另外，系统还应该对考试时间进行控制，时间到了会要求考试者交卷。考试者选择答案提交后，应该由计算机自动判卷，得到成绩后显示出来。考试完毕后，可以返回登录界面或查询成绩与排名。
+<h3><strong>2.3 系统结构</strong></h3>
+<img class="wp-image-5901 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-1.png" alt="" width="260" height="132" />
+<p style="text-align: center;"><strong>图2.1 系统结构</strong></p>
+
+
+<hr />
+
+<h2><strong>三、 系统功能需求</strong></h2>
+<h3><strong>3.1 功能总览</strong></h3>
+<p style="text-align: center;"><strong>表 3.1 功能总览</strong></p>
+<img class="wp-image-5902 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" alt="" width="538" height="253" />
+<h3><strong>3.2 业务流程图</strong></h3>
+该系统是基于网络技术的一种在线测评系统，管理员通过网络对题库进行维护，添加试题、修改试题、删除试题等操作；考生通过系统完成考试、分数查询等操作；系统自动组卷并且完成试卷的批阅、分数的统计等操作。
+
+<img class="wp-image-5903 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" alt="" width="546" height="566" />
+<p style="text-align: center;"><strong>图3.1 业务流程图</strong></p>
+
+<h3><strong>3.3 数据流分析</strong></h3>
+学生登陆系统后从试题库中选出一套试题，然后开始答题，答题完后提交给系统，由系统完成对试卷的批阅统计出成绩，学生可以登陆查询。 管理员登陆系统后对系统进行维护更新。
+
+<img class="wp-image-5904 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-4.png" alt="" width="511" height="399" />
+<p style="text-align: center;"><strong>图3.2 数据流图</strong></p>
+
+<h3><strong>3.4 数据字典</strong></h3>
+数据项条目，用于标识实体。数据字典是数据库的重要部分，它存放有数据库所用的有关信息，对用户来说是一组只读的表。它是关于数据信息的集合。它是数据流图中所有要素严格定义的场所，这些要素包括数据流、数据流的组成、文件、加工小说明及其他应进入字典的一切数据，其中每个要素对应数据字典中的一项条目。其中，对引用的一些关键字进行说明 : PK（主键 ），FK（外键 ）， Check（检 查的范围约束），Not null（不为空值）。
+<p style="text-align: center;"><strong>表3.2 考生信息表</strong></p>
+
+<table style="height: 518px;" width="815">
+<tbody>
+<tr>
+<td width="78">编号</td>
+<td width="80">字段名称</td>
+<td width="80">字段含义</td>
+<td width="78">字段类型</td>
+<td width="80">字段长度</td>
+<td width="80">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">uuid</td>
+<td width="80">考生考号</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">name</td>
+<td width="80">考生姓名</td>
+<td width="78">Varchar</td>
+<td width="80">14</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">gender</td>
+<td width="80">性别</td>
+<td width="78">Bool</td>
+<td width="80">1</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">password</td>
+<td width="80">密码</td>
+<td width="78">Varchar</td>
+<td width="80">20</td>
+<td width="80"></td>
+<td width="77">123456</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">mail</td>
+<td width="80">邮箱</td>
+<td width="78">Varchar</td>
+<td width="80">40</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">phone</td>
+<td width="80">电话</td>
+<td width="78">Varchar</td>
+<td width="80">12</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>表3.3 试题难度系数表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="78">编号</td>
+<td width="80">字段名称</td>
+<td width="80">字段含义</td>
+<td width="78">字段类型</td>
+<td width="80">字段长度</td>
+<td width="80">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idl</td>
+<td width="80">难度编号</td>
+<td width="78">Varchar</td>
+<td width="80">3</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">dsl</td>
+<td width="80">难度描述</td>
+<td width="78">Varchar</td>
+<td width="80">30</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>表3.4 题目信息表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="78">编号</td>
+<td width="80">字段名称</td>
+<td width="80">字段含义</td>
+<td width="78">字段类型</td>
+<td width="80">字段长度</td>
+<td width="80">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idq</td>
+<td width="80">题目号</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">idl</td>
+<td width="80">难度编号</td>
+<td width="78">Varchar</td>
+<td width="80">3</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">nameq</td>
+<td width="80">题目名称</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">des_q</td>
+<td width="80">题目表述</td>
+<td width="78">Varchar</td>
+<td width="80">100</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">index_q</td>
+<td width="80">索引编号</td>
+<td width="78">Varchar</td>
+<td width="80">20</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">pass_n</td>
+<td width="80">通过人数</td>
+<td width="78">Longint</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">0</td>
+</tr>
+<tr>
+<td width="78">7</td>
+<td width="80">att_n</td>
+<td width="80">提交次数</td>
+<td width="78">Longint</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">0</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong> </strong><strong>表3.5 试卷信息表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="78">编号</td>
+<td width="80">字段名称</td>
+<td width="80">字段含义</td>
+<td width="78">字段类型</td>
+<td width="80">字段长度</td>
+<td width="80">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idp</td>
+<td width="80">试卷号</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">score_t</td>
+<td width="80">总分</td>
+<td width="78">Int</td>
+<td width="80">8</td>
+<td width="80"></td>
+<td width="77">100</td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">nameq</td>
+<td width="80">题目名称</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">des_p</td>
+<td width="80">试卷表述</td>
+<td width="78">Varchar</td>
+<td width="80">100</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">start_p</td>
+<td width="80">开始时间</td>
+<td width="78">Date</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">Date()</td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">end_p</td>
+<td width="80">结束时间</td>
+<td width="78">Date</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">Date()</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>表3.6 管理员信息表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="77">编号</td>
+<td width="84">字段名称</td>
+<td width="79">字段含义</td>
+<td width="77">字段类型</td>
+<td width="79">字段长度</td>
+<td width="79">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="77">1</td>
+<td width="84">uuid_a</td>
+<td width="79">工号</td>
+<td width="77">Varchar</td>
+<td width="79">10</td>
+<td width="79">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">2</td>
+<td width="84">name_a</td>
+<td width="79">姓名</td>
+<td width="77">Varchar</td>
+<td width="79">8</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">3</td>
+<td width="84">password_p</td>
+<td width="79">密码</td>
+<td width="77">Varchar</td>
+<td width="79">20</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">4</td>
+<td width="84">mail_p</td>
+<td width="79">邮件</td>
+<td width="77">Varchar</td>
+<td width="79">40</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">5</td>
+<td width="84">phone_p</td>
+<td width="79">联系电话</td>
+<td width="77">Varchar</td>
+<td width="79">12</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong> </strong><strong>表3.7 考场信息表</strong></p>
+
+<table>
+<tbody>
+<tr>
+<td width="77">编号</td>
+<td width="84">字段名称</td>
+<td width="79">字段含义</td>
+<td width="77">字段类型</td>
+<td width="79">字段长度</td>
+<td width="79">是否主键</td>
+<td width="77">默认值</td>
+</tr>
+<tr>
+<td width="77">1</td>
+<td width="84">uuid_s</td>
+<td width="79">考场号</td>
+<td width="77">Varchar</td>
+<td width="79">10</td>
+<td width="79">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">2</td>
+<td width="84">name_s</td>
+<td width="79">考场名称</td>
+<td width="77">Varchar</td>
+<td width="79">20</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">3</td>
+<td width="84">des_s</td>
+<td width="79">考场描述</td>
+<td width="77">Varchar</td>
+<td width="79">100</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<h3><strong>3.5 E-R图</strong></h3>
+<img class="wp-image-5905 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-5.png" alt="" width="470" height="184" />
+<p style="text-align: center;"><strong>图3.3 试题E-R图</strong></p>
+<p style="text-align: center;"><img class="alignnone wp-image-5906" src="https://cdn.omegaxyz.com/2019/07/software-test1-6.png" alt="" width="417" height="180" /></p>
+<p style="text-align: center;"><strong>图3.4 考生E-R图</strong></p>
+<p style="text-align: center;"><img class="alignnone wp-image-5907" src="https://cdn.omegaxyz.com/2019/07/software-test1-7.png" alt="" width="436" height="146" /></p>
+<p style="text-align: center;"><strong>图3.5 成绩单E-R图</strong></p>
+
+
+<hr />
+
+<h2><strong>四、 软硬件及外部系统接口需求</strong></h2>
+<h3><strong>4.1 用户界面</strong></h3>
+用户界面是程序中用户能看见并与之交互作用的部分,设计一个好的用户界面是非常重要的,本设计将为用户提供美观,大方,直观,操作简单的用户界面。
+<h3><strong>4.2 硬件需求</strong></h3>
+移动终端硬件配置应遵循如下原则：具有高的可靠性，可用性和安全性。【描述系统中软件和硬件每一接口的特征。这种描述可能包括支持的硬件类型、软硬件之间的交流的数据和控制信息的性质以及使用的通信协议。】
+<h3><strong>4.3 运行环境</strong></h3>
+<ul>
+ 	<li><strong>Web </strong><strong>浏览器：</strong>0+、Chrome、Opera、Safari、Firefox及任何支持HTML5标准的浏览器。</li>
+ 	<li><strong>标准分辨率：</strong>1024*768、1920*1080、2K</li>
+</ul>
+
+<hr />
+
+<h2><strong>五、 可靠性与可用性需求</strong></h2>
+<h3><strong>5.1 性能需求</strong></h3>
+<ul>
+ 	<li><strong>处理能力</strong></li>
+</ul>
+由于是在线测评系统，其处理能力主要考虑系统能承载的最大并发用户数，按照实际情况的规划，系统至少能承载的最大并发用户数要求达到全校学生总人数*φ，φ为0至1的常数，随服务器容量而定。
+<ul>
+ 	<li><strong>响应时间</strong></li>
+</ul>
+为了能够快捷地提供在线测评服务，系统应该能够快速地响应在线测评请求。用户最终得到结果的响应时间除了与系统响应速度有关外，还与网络状况有关。因此对Web服务器端需要较高的要求。
+<p style="text-align: center;"><strong>表 5.1 相应时间分析</strong></p>
+<img class="wp-image-5908 aligncenter" src="https://cdn.omegaxyz.com/2019/07/software-test1-8.png" alt="" width="519" height="238" />
+<h3><strong>5.2 安全性需求</strong></h3>
+传输的数据都采用高强度的加密算法加密 (DES)，使得数据即使泄漏、被截获后，也无法识别相关的数据内容，确保数据安全。对于客户端与服务器交互的数据，使用安全套接子层 (SSL,SSL 加密传输主要是针对 WEB的数据传输，基于重要信息的传输安全考虑而设计的) 进行信息交换，并在客户移动终端和服务器之间重要的信息的交换。
+
+<hr />
+
+<h2><strong>六、 参考文献</strong></h2>
+[1] 卢正鼎, 张照, 周裕强,等. 面向工程设计应用的数据库管理系统EDDBMS[J]. 计算机研究与发展, 1997(s1):328-332.
+
+[2] 蔡长安, 王琪. 基于B/S模式的学生信息管理系统设计与实现[J]. 计算机工程与设计, 2006, 27(14):2585-2587.
+
+[3] 李文新, 郭炜. 北京大学程序在线评测系统及其应用[J]. 吉林大学学报:信息科学版, 2005(S2):170-177.
+
+&nbsp;
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (12)</h2>
+        <div class="comment" id="comment-18944">
+          <strong><a href="http://www.spasvo.com/" rel="nofollow">软件测试工具</a></strong>
+          <time>2020-05-14 18:19:03</time>
+          <div>嗯嗯，软件测试工具这个学习一下的哦</div>
+        </div>
+        
+        <div class="comment" id="comment-19114">
+          <strong>Eric</strong>
+          <time>2020-06-29 13:30:08</time>
+          <div>感谢，学到了不少东西~</div>
+        </div>
+        
+        <div class="comment" id="comment-19313">
+          <strong>小李同学</strong>
+          <time>2020-08-17 11:09:32</time>
+          <div>可以发一份测试计划和软件需求规格说明书范例的Word文档给我吗？就下面的邮箱，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19591">
+          <strong>lilioa24</strong>
+          <time>2020-11-09 17:37:56</time>
+          <div>+1</div>
+        </div>
+        
+        <div class="comment" id="comment-22053">
+          <strong>Nai-sheng Yen</strong>
+          <time>2021-05-11 22:29:41</time>
+          <div>可以發一份需求規範說明書的範本給我看嗎？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22061">
+          <strong>xyjisaw</strong>
+          <time>2021-05-12 23:18:12</time>
+          <div>就在本页哈</div>
+        </div>
+        
+        <div class="comment" id="comment-29404">
+          <strong>一念之间</strong>
+          <time>2022-10-03 21:08:34</time>
+          <div>可以发个需求分析报告的案例吗</div>
+        </div>
+        
+        <div class="comment" id="comment-30180">
+          <strong>jcy</strong>
+          <time>2022-11-16 21:13:53</time>
+          <div>可以麻烦你可以发一份测试计划和软件需求规格说明书范例的Word或者pdf文档给我吗？就下面的邮箱，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30240">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:19:57</time>
+          <div>你好，所有内容都在该页面上，你可以免费自由复制。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30243">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:22:33</time>
+          <div>你好，可以参考软件工程专业课本。</div>
+        </div>
+        
+        <div class="comment" id="comment-32741">
+          <strong>芋头汤</strong>
+          <time>2023-03-07 11:31:50</time>
+          <div>感谢感谢，课程设计有头绪了</div>
+        </div>
+        
+        <div class="comment" id="comment-33329">
+          <strong>安</strong>
+          <time>2023-03-31 18:06:58</time>
+          <div>非常感谢分享，理清了一点思路</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

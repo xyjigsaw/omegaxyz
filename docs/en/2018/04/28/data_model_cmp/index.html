@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparative analysis of commonly used data models · OmegaXYZ</title>
+  <meta name="description" content="Chapter 1 Overview of Data Model Data Model is an abstraction of data characteristics. Data is a symbolic record that describes things, and model is an abstraction of the real world. The data model describes the static characteristics, dynamic behavior and constraints of the system from an abstract level, providing an abstract framework for the information representation and operation of the database system. The content described by the data model has three parts: data structure, data operations and data integrity constraints. Chapter 2 Data Model...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/28/data_model_cmp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-28</div>
+        <h1>Comparative analysis of commonly used data models</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1><strong>Chapter 1</strong><strong>  </strong><strong>Data model overview</strong></h1>Data Model is an abstraction of data characteristics. Data is a symbolic record that describes things, and model is an abstraction of the real world. The data model describes the static characteristics, dynamic behavior and constraints of the system from an abstract level, providing an abstract framework for the information representation and operation of the database system. The content described by the data model has three parts: data structure, data operations and data integrity constraints.<h1><strong>Chapter 2</strong> <strong>Data model analysis</strong></h1>Three basic data models have been produced in the process of data development, which are hierarchical model, network model and relational model. These three models are named according to their data structures. The first two use formatted structures. In this type of structure, entities are represented by records, and records are abstracted as vertices of the graph. The connection between record types is abstracted as the connection arc between vertices. The entire data structure corresponds to the graph. The basic structure of the hierarchical model is a tree structure; the basic structure of the network model is an undirected graph without any restrictions. The relational model is an unformatted structure that uses a single two-dimensional table structure to represent entities and the relationships between entities. Among them, the most widely used is the relational model. Among the logical data types, the most commonly used are hierarchical model, network model and relational model. [1]
+
+This chapter will conduct a comparative analysis of commonly used data models in terms of data structure, data operations, data integrity constraints, query efficiency, etc. And give a brief introduction to some uncommon data models.<h2>2.1 Hierarchical model</h2>
+<h3>2.1.1 Overview</h3>It organizes data into a one-to-many relationship structure, and the hierarchical structure uses keywords to access each part of each level. The advantages are convenient and fast access; the structure is clear and easy to understand; data modification and database expansion are easy to implement; and it is very convenient to retrieve key attributes. The disadvantages are rigid structure and lack of flexibility; the same attribute data needs to be stored multiple times, and data redundancy (such as common edges) is large, making it unsuitable for the organization of topological space data. [1]<h3>2.1.2 Data structure</h3>
+<ol>
+<li>There is and is only one node in the entire model that does not have a parent node. The remaining nodes must have and have only one parent node, but all nodes do not need to have child nodes;</li>
+<li>All child nodes cannot exist independently of the parent node. That is to say, if the parent node is to be deleted, all child nodes under the parent node must be deleted at the same time, but some leaf nodes can be deleted individually;</li>
+<li>Each record type has and has only one path from the parent node to itself;</li>
+</ol>
+<h3>2.1.3 Examples</h3>As shown in Figure 1, the hierarchical model takes Pavement Improvement as an example. This instance has 7 record types. The record type Pavement Improvement is the root node. Routine, Corrective, and Preventive are leaf nodes and they have no child nodes.<img alt="" class="alignnone size-full wp-image-4149" height="315" src="https://cdn.omegaxyz.com/2018/04/cengci.png" width="659"/>
+<h3>2.1.4 Advantages</h3>
+<ol>
+<li>The structure of the hierarchical data model is simple, clear, and clear, and it is easy to see the connections between various entities;</li>
+<li>Database statements that operate hierarchical data types are relatively simple, and only a few statements are needed to complete database operations;</li>
+<li>The query efficiency is high. In the hierarchical data model, the directed edges of nodes represent the connections between nodes. In DBMS, if the directed edges are implemented with the help of pointers, then it is easy to find the record to be checked based on the path;</li>
+<li>The hierarchical data model provides better data integrity support. As mentioned above, if a parent node is to be deleted, all child nodes below it must be deleted at the same time;</li>
+</ol>
+<h3>2.1.5 Disadvantages</h3>
+<ol>
+<li>The hierarchical data model can only represent the 1:n relationship between entities and cannot represent the complex m:n relationship. Therefore, many models in the real world cannot be conveniently represented by this model;</li>
+<li>When querying a node, its parent nodes must be known, thus limiting the control of the database access path;</li>
+</ol>
+<h2>2.2 Network model</h2>
+<h3>2.2.1 Overview</h3>It uses connection instructions or pointers to determine the explicit connection relationship between data, and is a data organization method with a many-to-many type. The advantage is that it can express complex relationships between data clearly and conveniently; data redundancy is small. The disadvantages are that the complexity of the network structure increases the difficulty of user query and positioning; it is necessary to store pointers of connections between data, which increases the amount of data; and it is inconvenient to modify the data (the pointers must be modified). [2]<h3>2.2.2 Data structure</h3>The network data model can be seen as an extension that relaxes the constraints of the hierarchical data model. All nodes in the network data model are allowed to exist without parent nodes, which means that two or more nodes without root nodes are allowed to exist in the entire model, and one node is also allowed to have one or more parent nodes, forming a networked directed graph. Therefore, the corresponding relationship between nodes is no longer 1:n, but an m:n relationship, thus overcoming the shortcomings of the hierarchical data model. [2]<h3>2.2.3 Examples</h3>Figure 2 takes the educational management system as an example. The following illustrates the relationship between teachers, students, and courses in the composition of departments. As can be seen from the above figure, the parent nodes of courses (entities) are majors, teaching and research departments, and students. In terms of the relationship between courses and students, they are an m:n relationship, which means that a student can take multiple courses, and a course can also be taken by multiple students at the same time.<img alt="" class="alignnone size-full wp-image-4152" height="216" src="https://cdn.omegaxyz.com/2018/04/net.png" width="375"/>
+<h3>2.2.4 Advantages</h3>
+<ol>
+<li>The network data model can easily represent many complex relationships in the real world;</li>
+<li>When modifying the network data model, there are not as many strict restrictions as the hierarchical data model. You can delete the parent node of a node and still retain the node; you are also allowed to insert a node without any parent node. Such insertion is not allowed in the hierarchical data model, unless the root node is inserted first;</li>
+<li>The relationship between entities can be realized through pointers at the bottom level, so operations in this kind of database are more efficient;</li>
+</ol>
+<h3>2.2.5 Disadvantages</h3>
+<ol>
+<li>The structure of the network data model is complex and difficult to use;</li>
+<li>The data in the network data model have a relatively large correlation with each other. The model is actually a navigational data model structure, which not only explains what to do with the data, but also explains the path of the recorded operations;</li>
+</ol>
+<h2>2.3 Relational model</h2>
+<h3>2.3.1 Overview</h3>It organizes data in the form of record groups or data tables to facilitate storage and transformation using the relationships between various geographical entities and attributes. It does not have hierarchies or pointers. It is a very effective data organization method for establishing relationships between spatial data and attribute data. The advantage is that the structure is particularly flexible, the concept is single, and it meets the query requirements formed by all Boolean logic operations and mathematical operation rules; [2], [3] can search, combine and compare different types of data; it is very convenient to add and delete data; it has higher data independence and better security and confidentiality. The disadvantage is that when the database is large, it is time-consuming to find data that satisfies a specific relationship; spatial relationships cannot be satisfied.<h3>2.3.2 Data structure</h3>The relational model is represented by a two-dimensional table. A two-dimensional table consists of a table frame and table tuples. A table frame consists of multiple named table properties. Each attribute has a value range called a range. Each row of data in a two-dimensional table is called a tuple.<h3>2.3.3 Examples</h3>
+<img alt="" class="alignnone size-full wp-image-4154" height="604" src="https://cdn.omegaxyz.com/2018/04/relation.png" width="665"/>
+<h3>2.3.4 Advantages</h3>
+<ol>
+<li>The structure is simple. The relational data model is the framework of some tables. The attributes of entities are the entries in the columns of the table. The relationship between entities is also expressed through the public attributes of the table. The structure is simple and clear;</li>
+<li>The access path in the relational data model is completely hidden from users, the program and data are highly independent, and the data language is highly non-procedural;</li>
+<li>Easy to operate, the basic object operated in the relational data model is a collection rather than a certain ancestor;</li>
+<li>Have a solid foundation in mathematical theory, including logical calculations, mathematical calculations, etc.;[4]</li>
+</ol>
+<h3>2.3.5 Disadvantages</h3>
+<ol>
+<li>The query efficiency is low. The relational data model provides high data independence and non-procedural query function (when querying, you only need to specify the table where the data exists and the column where the required data is located, without specifying the specific search path), thus increasing the burden on the system;</li>
+<li>Due to low query efficiency, the database management system is required to optimize the query, which increases the burden on the DBMS;</li>
+</ol>
+<h2>2.4 Graphical model</h2>
+<h3>2.4.1 Overview</h3>Graph databases allow for a more general structure than mesh models; any node can be connected to any other node. [5]
+
+In computing, a graph database is a database that uses a graph-like structure for semantic queries and uses nodes, edges, and attributes to represent and store data. A key concept of the system is the graph (or edge or relationship), which directly relates data items in the store. These relationships allow data in the store to be linked directly together and, in many cases, retrieved through a single operation.
+
+Graph databases, by design, enable simple and fast retrieval of complex hierarchical structures that are difficult to model in relational systems. Graph databases are similar to the network model databases of the 1970s in that they represent universal graphs, but network model databases operate at a lower level of abstraction and lack simple traversal over edge chains.<h3>2.4.2 Data structure</h3>Nodes represent entities such as people, businesses, accounts, or any other items to be tracked. They are roughly equivalent to record, relational, or document databases arranged in relational databases or files.
+
+Edges (also called graphs or relationships) are lines that connect nodes to other nodes; they represent the relationships between them. Meaningful patterns emerge when examining the connections and interconnections of nodes, attributes, and edges. Edges are a key concept in graph databases, representing abstractions that are not directly implemented in other systems. Attributes are information about nodes. For example, if Wikipedia was one of the nodes, it might be associated with attributes such as websites, reference materials, or words starting with the letter w. [5]<h3>2.4.3 Data operations</h3>Graph databases directly store relationships between records. Instead of finding the email address userpk column by looking up the user key in it, the user record has a pointer directly to the email address record. That is, after selecting a user, the pointer can follow directly over the email record, eliminating the need to search the email table to find matching records. This eliminates expensive join operations. The true value of the chart approach becomes apparent when more than one level of search is performed.<h3>2.4.4 Integrity constraints</h3>Graph databases are naturally suited to the types of searches that are increasingly common in online systems and big data environments. If a node in the graph is deleted, the edges and attributes related to the node will be deleted accordingly. [5]<h3>2.4.5 Examples</h3>The record type instances of the three nodes in the figure are Alice, Bob, and Chess. Each node has different attributes, and the ID is a unique identification code. Edges represent relationships between two record types.<img alt="" class="alignnone size-full wp-image-4151" height="409" src="https://cdn.omegaxyz.com/2018/04/graph.png" width="599"/>
+<h2>2.5 Object-oriented model</h2>
+<h3>2.5.1 Overview</h3>In the 1990s, the object-oriented programming paradigm was applied to database technology, creating a new database model called an object database. This is intended to avoid the object-relational impedance mismatch - the overhead of converting information between its representation in the database (such as rows in a table) and its representation in the application (usually objects). Going a step further, the type system used in a specific application can be defined directly in the database, allowing the database to enforce the same data integrity invariants. Object Databases also introduces key concepts of object programming, such as encapsulation and polymorphism, into the world of databases.
+
+Various methods have been tried for storing objects in databases. Some products have moved away from the end of application programming and solved the problem by making objects manipulated by the program persistent. This usually requires adding some kind of query language, since traditional programming languages ​​cannot find objects based on their information content. Others have attacked the problem from the database side, defining an object-oriented data model for the database and defining a database programming language that allows full programming capabilities as well as traditional query capabilities.
+
+Object databases suffered from a lack of standardization: although standards were defined by ODMG, they were never enforced well enough to ensure interoperability between products. Nonetheless, target databases have been successfully used in many applications: often specialized applications such as engineering databases or molecular biology databases, rather than mainstream commercial data processing. However, the idea of ​​object databases was co-opted by relational vendors, influencing extensions to these products and even to the SQL language. [6],[7]
+
+Another way to convert between object and relational databases is to use an object-relational mapping (ORM) library.<h3>2.5.2 Data structure</h3>The basic data structure in the relational model is a table, while the corresponding data structure in the object-oriented data model is a class. Data tuples in relationships are equivalent to instances in the object-oriented data model.<h3>2.5.3 Data operations</h3>Data operations in the relational data model all boil down to operations on relationships. In the object-oriented data model, the operations on a class are divided into two parts: one is the operation encapsulated within the class, that is, the method; the other is the operation that communicates with each other between classes, that is, the message.<h3>2.5.4 Integrity constraints</h3>There are entity integrity, referential integrity and user-defined integrity constraints in the relational data model, and the constraints can be expressed by logical formulas. In the object-oriented data model, constraints can be expressed using methods or messages, which are called integrity constraint messages. [6]<h3>2.5.5 Examples</h3>The two objects in the figure are Maintenance Report and Maintenance Activity. Each object of Object1 Instance contains several properties. The first object has properties such as Activity Code, Route No., Daily Production, Equipment Hours, and Labor Hours. The object-oriented database model allows containers like collections and lists, arbitrary user-defined data types, and nested objects. Access to the objects in the above instances is achieved through OOP encapsulation methods.<img alt="" class="alignnone size-full wp-image-4153" height="380" src="https://cdn.omegaxyz.com/2018/04/OOmodel.png" width="592"/>
+<h2>Common data model comparison table</h2>
+<img alt="" class="alignnone size-full wp-image-4150" height="670" src="https://cdn.omegaxyz.com/2018/04/datamodel.png" width="1202"/>
+<h1><strong>Conclusion</strong></h1>With the development of the Internet, big data and artificial intelligence, database technology as the core and foundation of information systems has been increasingly widely used. Data models are the basis of databases. Comparative analysis of data models can deepen our understanding of databases and enable us to use technology to serve applications.<h1><strong>References</strong></h1>[1] Meng Xiaofeng, Zhou Longxiang, Wang Shan. Development trends of database technology [J]. Journal of Software, 2004, 15(12):1822-1836.
+
+[2] He Tingting. Data model in database system[J]. Journal of Higher Continuing Education, 1994(3):22-26.
+
+[3] Codd E F. The relational model for database management: version 2[M]. Addison-Wesley Longman Publishing Co., Inc., 1990.
+
+[4] Schek H J, Scholl M H. The relational model with relation-valued attributes[J]. Information systems, 1986, 11(2): 137-147.
+
+[5] Angles R, Gutierrez C. Survey of graph database models[J]. ACM Computing Surveys (CSUR), 2008, 40(1): 1.
+
+[6] Kim W, Lochovsky F H. Object-oriented concepts, databases, and applications[M]. ACM Press/Addison-Wesley Publishing Co., 1989.
+
+[7] Kim W. Modern database systems: the object model, interoperability, and beyond[M]. ACM Press/Addison-Wesley Publishing Co., 1995.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

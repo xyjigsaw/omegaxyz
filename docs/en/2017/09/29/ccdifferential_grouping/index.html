@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An overview of large-scale optimization algorithms for cooperative coevolution with differential grouping · OmegaXYZ</title>
+  <meta name="description" content="Cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. Theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. In practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. In this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that their interdependencies are maintained to the maximum...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/09/29/ccdifferential_grouping/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-29</div>
+        <h1>An overview of large-scale optimization algorithms for cooperative coevolution with differential grouping</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">Cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. Theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. In practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. In this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that interdependencies between them are kept to a minimum. We show mathematically how such a decomposition strategy arises from the definition of partial separability. Empirical studies show that such near-optimal decompositions can significantly improve the quality of solutions to large-scale global optimization problems. Finally, we show how such an automatic decomposition yields a better approximation of the distribution of diverse subcomponents, leading to a more efficient allocation of the computational budget over diverse subcomponents.<strong>Index terms: cooperative coevolution, large-scale optimization, problem decomposition, indivisibility, numerical optimization</strong>In science and engineering, optimization problems are often complex and solutions cannot be easily found using straightforward methods. Therefore, it is necessary to find ways to simplify complex problems. The number of decision variables is a major factor in complex optimization problems. There are many ways to solve large-scale problems with a large number of decision variables. One approach is to break down the initial large-scale problem into a set of smaller, simpler sub-problems that are more tractable and easier to solve. Once such decomposition is completed, the entire problem can be solved by optimizing individual subproblems individually. This so-called "divide and conquer" strategy can be traced back to a famous book by Ren´e Descartes, A Discourse on Method. The effectiveness of decomposition is established in many classical optimization methods. This paper focuses on using automatic decomposition to study large-scale global optimization of real-valued functions. Evolutionary algorithms (EAs) [6] are effective optimization methods and have been widely used to solve various optimization problems. However, their performance deteriorates rapidly as the problem dimension increases [8]. This is called the "curse of dimensionality." Cooperative coevolution (CC) was proposed by Potter and De Jong [10] as an explicit problem decomposition method in evolutionary algorithms. A major difficulty in applying CC is the selection of a good decomposition strategy. Furthermore, the performance of the optimization may be sensitive to the chosen decomposition strategy. Salomon found that the interdependence between variables can greatly affect the performance of optimization algorithms in continuous domains. In the study of classical genetic algorithms, these changing interdependencies are called linkages or heterotopic dominance, which have been studied extensively in the context of binary GAs. The decomposition strategy of CC is very similar to the gene ranking problem in early genetic algorithms. The ordering of genes on a chromosome has a significant impact on the performance of evolutionary algorithms (EAs). In an experiment conducted by Goldberg et al., it was shown that good gene sequencing determines the success or failure of a simple genetic algorithm. The dependence between gene ranking and the performance of evolutionary algorithms (EAs) is directly relevant to the gene interaction problem. Although decomposition plays a crucial role in the performance of evolutionary algorithms (EAs), knowledge of the structure of a given problem is often insufficient to actually design an appropriate decomposition strategy. There is therefore a need to design new procedures that can exploit the hidden structure of the problem to automatically find appropriate decompositions. In addition to the impact that near-optimal decomposition can have on the performance of CC, it has recently been shown that it is possible to quantify the contribution of subcomponents to the global fitness value. Once this contribution information is calculated, the computational budget can be allocated among sub-components according to their contributions, unlike traditional CC which distributes the computational budget equally among all sub-components. It has been shown that contribution-based schemes outperform traditional CC. In this paper, we propose a decomposition method called differential grouping, which allows automatic, near-optimal decomposition of decision variables. More specifically, we have the following research objectives:
+1) Provide a theoretical basis for determining interaction variables and propose an algorithm to combine interaction variables with high accuracy.
+2) Design an automatic decomposition mechanism that is equally applicable to traditional and evolutionary optimization algorithms.
+3) Demonstrate how effective a near-optimal decomposition is in solving large-scale global optimization problems with up to 1000 decision variables.
+4) Show how an automatic near-optimal decomposition strategy combined with contribution-based cooperative co-evolution can further improve the performance of the optimization process, especially in solving large-scale problems.
+
+Differential grouping algorithm:
+
+Show how Theorem 1 identifies interaction variables and assigns them to the same subcomponent.
+
+Start by examining the pairwise interactions between the first decision variable and all other decision variables. If the algorithm detects an interaction between the first variable and other variables, it excludes it from all decision variables. This process is repeated until all variables that interact with the first variable are detected, forming the first subcomponent. If no interaction is detected, then the variable is a separable variable. Repeat this process for the remaining variables.
+
+ 
+
+Differential grouping algorithm using CC
+
+The first stage: grouping stage
+
+Generate subcomponents.
+
+The second stage: optimization stage
+
+Sub-component optimization
+
+The original text is Cooperative Co-Evolution With Differential Grouping for Large Scale Optimization IEEE</div>
+        <section class="comments"><h2>Comments (4)</h2>
+        <div class="comment" id="comment-3701">
+          <strong>Sky</strong>
+          <time>2018-06-06 14:42:03</time>
+          <div>请问有《Large scale evolutionary optimization using cooperative coevolution》这篇文章中DECC-G的matlab代码么</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3705">
+          <strong>xyjisaw</strong>
+          <time>2018-06-06 23:37:34</time>
+          <div>哎呀买这个你Google搜索文章名+MATLAB关键字就能找到了</div>
+        </div>
+        
+        <div class="comment" id="comment-18863">
+          <strong>龙广林</strong>
+          <time>2020-04-30 16:34:40</time>
+          <div>大佬，有CCGDE3的代码吗？想做对比试验。急求</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18864">
+          <strong>xyjisaw</strong>
+          <time>2020-04-30 17:09:23</time>
+          <div>抱歉，没有</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

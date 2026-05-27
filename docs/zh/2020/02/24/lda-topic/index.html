@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于LDA的文本主题聚类Python实现 · OmegaXYZ</title>
+  <meta name="description" content="LDA简介 LDA（Latent Dirichlet Allocation）是一种 文档主题生成模型 ，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/24/lda-topic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-24</div>
+        <h1>基于LDA的文本主题聚类Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>LDA简介</strong></h2>
+LDA（Latent Dirichlet Allocation）是一种<span style="color: #f25d52;"><strong>文档主题生成模型</strong></span>，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多项式分布。
+
+LDA是一种非监督机器学习技术，可以用来识别大规模文档集（document collection）或语料库（corpus）中潜藏的主题信息。它采用了词袋（bag of words）的方法，这种方法将每一篇文档视为一个词频向量，从而将文本信息转化为了易于建模的数字信息。但是词袋方法没有考虑词与词之间的顺序，这简化了问题的复杂性，同时也为模型的改进提供了契机。每一篇文档代表了一些主题所构成的一个概率分布，而每一个主题又代表了很多单词所构成的一个概率分布。
+
+<strong>关键词：文档主题生成模型，无监督学习，概率模型，NLP</strong>
+
+<hr />
+
+<h2><strong>生成过程</strong></h2>
+对于语料库中的每篇文档，LDA定义了如下生成过程（generativeprocess）：
+
+1.对每一篇文档，从主题分布中抽取一个主题；
+
+2.从上述被抽到的主题所对应的单词分布中抽取一个单词；
+
+3.重复上述过程直至遍历文档中的每一个单词。
+
+语料库中的每一篇文档与T（通过反复试验等方法事先给定）个主题的一个多项分布 （multinomialdistribution）相对应，将该多项分布记为θ。每个主题又与词汇表（vocabulary）中的V个单词的一个多项分布相对应，将这个多项分布记为φ。
+
+具体推导可以参考：<a href="https://zhuanlan.zhihu.com/p/31470216">https://zhuanlan.zhihu.com/p/31470216</a>
+
+<hr />
+
+<h2><strong>Python范例</strong></h2>
+使用到的库：jieba, gensim
+
+为了使生成结果更精确，需要构造新词，停用词和同义词词典。
+<pre ><code class="language-python">import jieba
+import jieba.posseg as jp
+from gensim import corpora, models
+
+# Global Dictionary
+new_words = ['奥预赛', '折叠屏']  # 新词
+stopwords = {' ', '再', '的', '们', '为', '时', '：'}  # 停用词
+synonyms = {'韩国': '南朝鲜', '传言': '流言'}  # 同义词
+words_nature = ('n', 'nr', 'ns', 'nt', 'eng', 'v', 'd')  # 可用的词性
+
+
+def add_new_words():  # 增加新词
+    for i in new_words:
+        jieba.add_word(i)
+
+
+def remove_stopwords(ls):  # 去除停用词
+    return [word for word in ls if word not in stopwords]
+
+
+def replace_synonyms(ls):  # 替换同义词
+    return [synonyms[i] if i in synonyms else i for i in ls]
+
+
+documents = [
+    '足协申请取消女足奥预赛韩国主场比赛 公平原则保障安全',
+    '芬森发声再回应传言：想念辽宁队友 为中国的球迷们祈福',
+    '电商围剿涉疫商家进行时：哄抬物价，就这么罚你',
+    '今晚视频直播华为新品发布会：全新折叠屏手机亮相']
+add_new_words()
+words_ls = []
+for text in documents:
+    words = replace_synonyms(remove_stopwords([w.word for w in jp.cut(text)]))
+    words_ls.append(words)
+
+# 生成语料词典
+dictionary = corpora.Dictionary(words_ls)
+# 生成稀疏向量集
+corpus = [dictionary.doc2bow(words) for words in words_ls]
+# LDA模型，num_topics设置聚类数，即最终主题的数量
+lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=2)
+# 展示每个主题的前5的词语
+for topic in lda.print_topics(num_words=5):
+    print(topic)
+# 推断每个语料库中的主题类别
+print('推断：')
+for e, values in enumerate(lda.inference(corpus)[0]):
+    topic_val = 0
+    topic_id = 0
+    for tid, val in enumerate(values):
+        if val &gt; topic_val:
+            topic_val = val
+            topic_id = tid
+    print(topic_id, '-&gt;', documents[e])</code></pre>
+结果：
+
+<img class="alignnone wp-image-6500" src="https://cdn.omegaxyz.com/2020/02/LDA-outcome.png" alt="" width="640" height="165" />
+
+可以看到，一共分成了两类，文本库中的标题分别分成了0，1两类，即一个是体育类，一个是科技类。
+
+<strong><span style="color: #f25d52;">需要注意的是，LDA模型是个无监督的聚类，每次生成的结果可能不同。</span></strong>
+
+<hr />
+
+<h2><strong>参考</strong></h2>
+<ul>
+ 	<li>https://www.jianshu.com/p/fa97454c9ffd</li>
+ 	<li>https://zhuanlan.zhihu.com/p/31470216</li>
+</ul>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

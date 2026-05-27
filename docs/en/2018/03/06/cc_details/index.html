@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation and pseudocode of cooperative co-evolution · OmegaXYZ</title>
+  <meta name="description" content="Cooperative Coevolution is an evolutionary computing method that decomposes a large problem into sub-problems and solves them independently. Sub-problems are also called species. Subcomponents are implemented as subgroups, and the only interaction between subgroups is the cooperative evaluation of individuals from each subgroup. The general CC framework is motivated by nature, where individuals of a specific population mate among themselves, however, mating between different species is not feasible. By placing the current individual in other subpopulations...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/06/cc_details/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-06</div>
+        <h1>Detailed explanation and pseudocode of cooperative co-evolution</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">Cooperative Coevolution is an evolutionary computing method that decomposes a large problem into sub-problems and solves them independently. Sub-problems are also called species.
+Subcomponents are implemented as subgroups, and the only interaction between subgroups is the cooperative evaluation of individuals from each subgroup.
+
+The general CC framework is motivated by nature, where individuals of a specific population mate among themselves, however, mating between different species is not feasible.
+By connecting the best individuals in other subpopulations of the current individual, each individual can be evaluated for cooperation in the subpopulation.
+
+The cooperative coevolution framework has been applied to real-world problems such as pedestrian detection systems, large-scale functional optimization, and neural network training. It has been further extended to another approach called Constructive Co-evolution.<strong>pseudocode:</strong>
+<img alt="" class="alignnone size-full wp-image-3576" height="314" src="https://cdn.omegaxyz.com/2018/03/cc_code.jpg" width="486"/>Cooperative Coevolution is an effective method for solving large-scale optimization algorithms. Break large-scale problems into sets of smaller sub-problems. The key to cooperative coevolution is the decomposition strategy.
+
+Classification of decomposition strategies:
+
+① Random decomposition: The order of genes is randomly selected, but the user has to decide the number of groups and the size of the groups.
+
+②Perturbation: Use several methods to perturb the decision variables to try to group the variables.
+
+③Model construction: The probability model based on the number of individuals s is updated iteratively during the evolution process.
+
+The following are papers embodying different decomposition strategies of the CC algorithm:
+
+Liu, X. Yao, Q. Zhao, and T. Higuchi, “Scaling up fast evolutionary
+programming with cooperative coevolution," in Proc. IEEE Congr. Evol.
+Comput., 2001, pp. 1101–1108. (This is the first time a cooperative co-evolutionary algorithm has been used to solve the 1000-dimensional benchmark problem)
+van den Bergh and A. P. Engelbrecht, “A cooperative approach to
+particle swarm optimization,” IEEE Trans. Evol. Comput., vol. 8, no. 3,225–239, Jun. 2004. (This is the first application of the PSO algorithm, which divides an n-dimensional problem into k-s-dimensional problems and has not been tested on large-scale problems)
+
+Shi, H. Teng, and Z. Li, “Cooperative co-evolutionary differential
+evolution for function optimization," in Proc. Int. Conf. Natural Comput.,
+2005, pp. 1080–1088. (When used in the differential evolution algorithm, the decision variable is divided into two sub-components of the same size, which is not suitable for high dimensions)
+Yang, K. Tang, and X. Yao, “Large scale evolutionary optimization
+using cooperative coevolution,” Inf. Sci., vol. 178, pp. 2986–2999,
+Aug. 2008. (Divide the problem into k-s dimensional problems, use random grouping, and achieve good results on 1000 dimensions)
+
+N. Omidvar, X. Li, Z. Yang, and X. Yao, “Cooperative coevolution
+for large scale optimization through more frequent random
+grouping," in Proc. IEEE Congr. Evol. Comput., Jul. 2010,1754–1761. (Modified CPSO random grouping scheme, reaching 2000 dimensions)
+
+N. Omidvar, X. Li, and X. Yao, “Cooperative co-evolution with delta
+grouping for large scale non-separable function optimization,” in Proc.
+IEEE Congr. Evol. Comput., Jul. 2010, pp. 1762–1769. (Incremental grouping strategy, low performance when the objective function has non-molecular components)
+
+Yang, K. Tang, and X. Yao, “Multilevel cooperative coevolution
+for large scale optimization," in Proc. IEEE Congr. Evol. Comput.,
+Jun. 2008, pp. 1663–1670. (MLCC algorithm, a set of different s values (sizes of subcomponents) are provided to the algorithm, which has many shortcomings)
+
+In addition, there are many papers that use CC algorithms for large-scale optimization. Therefore, to apply the CC algorithm, the key is to propose a decomposition strategy.</div>
+        <section class="comments"><h2>Comments (13)</h2>
+        <div class="comment" id="comment-3696">
+          <strong>Sky</strong>
+          <time>2018-06-03 15:29:19</time>
+          <div>请问对于大规模优化问题，目前是否主流方法都是协同进化？是否有其它方法呢?另外，如果我对于函数决策变量间关系不知道（就是无法用数学公式表示出来，是个黑箱子，只是可以调用），但知道决策变量维数很高，是否可以用此类算法解决呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3697">
+          <strong>xyjisaw</strong>
+          <time>2018-06-03 19:19:52</time>
+          <div>一般来说主流方法是分治，协同进化是分治（分组）中的一种，当然也有其他方法可以做大规模、高维、请问你是主要做哪个方面的问题，能详细说说嘛</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3698">
+          <strong>Anonymous</strong>
+          <time>2018-06-04 11:36:35</time>
+          <div>我们实验室主要是做进化计算的，应导师要求最近开始看large scale，但好像看到的基本都是用协同进化的方法做的（以姚新老师为代表的）。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3699">
+          <strong>xyjisaw</strong>
+          <time>2018-06-04 11:58:00</time>
+          <div>我也对large scale挺感兴趣的，如果你不怕麻烦的话，你可以加一下我的QQ我们细聊一下吧，谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-3955">
+          <strong>lihong</strong>
+          <time>2018-11-19 16:29:19</time>
+          <div>楼主你好哈，看了几天CC，这里一直没有看懂：在用优化算法(DE或者其他改进版本)优化分组后的 subcomponent 时候：<br>1&amp;gt;比如原来n个决策变量分成了s个组，这s个subcomponent 是并行优化的吗<br>2&amp;gt;优化subcomponent 的FE是用的什么评价函数，和全局问题的FE评价函数有什么关系呢<br>3&amp;gt;是否subcomponent 的FE阶段的评价函数需要从全局的FE用到的评价函数来导出呢<br><br>请问博主能加下你的QQ~交流下下吗~~ 谢谢哈</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3959">
+          <strong>xyjisaw</strong>
+          <time>2018-11-21 23:07:35</time>
+          <div>一般来说是并行优化，一般来说subpopulation是用和全局问题的相同的适应度函数，subpopulation优化之前，先取最好的个体，使得最好个体中的其他值不变，只改变（优化）sub中分组的决策变量，然后再用全局函数评价</div>
+        </div>
+        
+        <div class="comment" id="comment-16840">
+          <strong>Anonymous</strong>
+          <time>2019-04-24 22:07:42</time>
+          <div>你好，我方向和你一样，我们可以加一下qq或者微信，详细交流一下吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17084">
+          <strong>shen mingxia</strong>
+          <time>2019-06-11 19:31:29</time>
+          <div>您好，您在研究协同进化吗？我有问题想请教，QQ：2267292688</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17096">
+          <strong>xyjisaw</strong>
+          <time>2019-06-14 11:17:46</time>
+          <div>不好意思啊，现在不研究了。</div>
+        </div>
+        
+        <div class="comment" id="comment-30037">
+          <strong>www</strong>
+          <time>2022-11-09 11:12:12</time>
+          <div>楼主您好，请问在进行多目标两种群合作协同进化的时候，在外部储备集archive里保存的非支配个体是完整的合作个体还是单个的个体？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30068">
+          <strong>请教</strong>
+          <time>2022-11-10 21:47:37</time>
+          <div>老哥，还在做大规模优化吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30069">
+          <strong>kkk</strong>
+          <time>2022-11-10 21:57:03</time>
+          <div>同学，研究大规模优化吗？（不是多目标，是多维）。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30241">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:20:51</time>
+          <div>抱歉，我现在不做这个领域了，多目标的可能还得具体问题具体分析。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

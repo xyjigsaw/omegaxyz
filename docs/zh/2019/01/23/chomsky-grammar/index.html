@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chomsky文法类型判断 · OmegaXYZ</title>
+  <meta name="description" content="文法简介 1 ． 0 型文法（短语文法） 如果对于某文法G，P中的每个规则具有下列形式： u:: = v 其中u∈V＋，v∈V*，则称该文法G为0型文法或短语文法，简写为PSG。 0型文法或短语结构文法的相应语言称为0型语言或短语结构语言L0。这种文法由于没有其他任何限制，因此0型文法也称为无限制文法，其相应的语言称为无限制性语言。任何0...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/23/chomsky-grammar/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-23</div>
+        <h1>Chomsky文法类型判断</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>文法简介</strong></h2>
+<strong>1</strong><strong>．</strong><strong>0</strong><strong>型文法（短语文法）</strong>
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>u:: = v</strong>
+
+其中u∈V＋，v∈V*，则称该文法G为0型文法或短语文法，简写为PSG。
+
+0型文法或短语结构文法的相应语言称为0型语言或短语结构语言L0。这种文法由于没有其他任何限制，因此0型文法也称为无限制文法，其相应的语言称为无限制性语言。任何0型语言都是递归可枚举的，故0型语言又称递归可枚举集。这种语言可由图灵机（Turning）来识别。
+
+<strong>2</strong><strong>．</strong><strong>1</strong><strong>型文法（上下文有关文法）</strong>
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>xUy:: = xuy</strong>
+
+其中U∈VN；u∈V＋；x，y∈V*，则称该文法G为1型文法或上下文有关文法，也称上下文敏感文法，简写为CSG。
+
+1型文法的规则左部的U和右部的u具有相同的上文x和下文y，利用该规则进行推导时，要用u替换U，必须在前面有x和后面有y的情况下才能进行，显示了上下文有关的特性。
+
+1型文法所确定的语言为1型语言L1，1型语言可由线性有界自动机来识别。
+
+<strong>3</strong><strong>．</strong><strong>2</strong><strong>型文法（上下文无关文法）</strong>
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>U :: = u</strong>
+
+其中U∈VN；u∈V＋，则称该文法G为2型文法或上下文无关文法，简写为CFG。
+
+按照这条规则，对于上下文无关文法，利用该规则进行推导时，无需考虑非终结符U所在的上下文，总能用u替换U，或者将u归约为U，显示了上下文无关的特点。
+
+2型文法所确定的语言为2型语言L2，2型语言可由非确定的下推自动机来识别。
+
+一般定义程序设计语言的文法是上下文无关的。如C语言便是如此。因此，上下文无关文法及相应语言引起了人们较大的兴趣与重视。
+
+<strong>4</strong><strong>．</strong><strong>3</strong><strong>型文法（正则文法，线性文法）</strong>
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>U :: = T  </strong><strong>或</strong><strong>  U :: = WT</strong>
+
+其中T∈VT；U,W∈VN，则称该文法G为左线性文法。
+
+如果对于某文法G，P中的每个规则具有下列形式：
+
+<strong>U :: = T  </strong><strong>或</strong><strong>  U :: = TW</strong>
+
+其中T∈VT；U, W∈VN，则称该文法G为右线性文法。
+
+左线性文法和右线性文法通称为3型文法或正则文法，有时又称为有穷状态文法，简写为RG。
+
+按照定义，对于正则文法应用规则时，单个非终结符号只能被替换为单个终结符号，或被替换为单个非终结符号加上单个终结符号，或者被替换为单个终结符号加上单个非终结符号。
+
+3型文法所确定的语言为3型语言L3，3型语言可由确定的有限状态自动机来识别。
+
+在常见的程序设计语言中，多数与词法有关的文法属于3型文法。
+
+可以看出，上述4类文法，从0型到3型，产生式限制越来越强，其后一类都是前一类的子集，而描述语言的功能越来越弱，四类文法及其表示的语言之间的关系可表示为：
+
+0型 1型 2型 3型；即L0  L1  L2  L3
+<h2><strong>流程图</strong></h2>
+<img class="alignnone  wp-image-5415" src="https://cdn.omegaxyz.com/2019/01/Chomsky1.png" alt="" width="675" height="355" />
+<h2><strong>代码</strong></h2>
+<strong>文法的数据结构：</strong>考虑到文法是一个四元组，包含Vn为非终结符，Vt为终结符，P为文法的规则，S为识别符或开始符，flag为文法的类型，因此下面使用C++中的类来为文法定义，并且使用set集合来保存每个文法的某些属性（不会重复）。
+<pre ><code class="language-c++">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;set&gt;
+#define MAX_LENGTH 10
+using namespace std;
+
+
+struct Principle{
+    string left;
+    string right;
+};
+
+struct Grammar{
+    set&lt;char&gt; Vn;
+    set&lt;char&gt; Vt;
+    vector&lt;Principle&gt; P;
+    char S;
+    int flag = -1;
+};
+
+void input(vector&lt;Principle&gt; &amp;principleSet)
+{
+    char tempLeft[MAX_LENGTH];
+    char tempRight[MAX_LENGTH];
+    while(scanf("%[^-]-&gt;%s",tempLeft,tempRight)!=EOF){
+        getchar();
+        Principle temp;
+        temp.left = tempLeft;
+        temp.right = tempRight;
+        principleSet.push_back(temp);
+    }
+}
+
+void analyseGram(Grammar &amp;G)
+{
+    G.S = G.P.front().left[0];//获得起始符
+    for(int i=0;i&lt;G.P.size();++i){
+        Principle &amp;temp = G.P[i];
+        for(int j = 0;j&lt;temp.left.size();++j){
+            char v = temp.left[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+        for(int j = 0;j&lt;temp.right.size();++j){
+            char v = temp.right[j];
+            if(!isupper(v)){
+                G.Vt.insert(v);
+            }else{
+                G.Vn.insert(v);
+            }
+        }
+    }
+}
+
+bool existVNT(string s)
+{
+    for(int i=0;i&lt;s.size();i++){
+        if(isupper(s[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+void judgeGram(Grammar &amp;G)
+{
+
+    for(int i=0;i&lt;G.P.size();++i){
+        if(existVNT(G.P[i].left)){
+            G.flag = 0;
+            break;
+        }
+    }
+    int temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==0;++i){
+        if(G.P[i].left.size()&lt;=G.P[i].right.size()){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=1;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==1;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])){
+            temp++;
+        }
+    }
+    if(temp==G.P.size()){
+        G.flag=2;
+    }
+    temp = 0;
+    for(int i=0;i&lt;G.P.size()&amp;&amp;G.flag==2;++i){
+        if(1==G.P[i].left.size()&amp;&amp;isupper(G.P[i].left[0])&amp;&amp;
+           (1==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])||
+            2==G.P[i].right.size()&amp;&amp;!isupper(G.P[i].right[0])&amp;&amp;
+            isupper(G.P[i].right[G.P[i].right.size()-1]))){temp++;}
+    }
+    if(temp==G.P.size()){
+        G.flag=3;
+    }
+}
+
+void printResult(Grammar &amp;G)
+{
+    cout&lt;&lt;"G=(Vn,Vt,P,S)是"&lt;&lt;G.flag&lt;&lt;"型文法"&lt;&lt;endl&lt;&lt;endl;
+    cout&lt;&lt;"非终结符Vn有：";
+    for(set&lt;char&gt;::iterator i = G.Vn.begin();i!=G.Vn.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"终结符Vt有：";
+    for(set&lt;char&gt;::iterator i = G.Vt.begin();i!=G.Vt.end();++i){
+        cout&lt;&lt;*i&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+    cout&lt;&lt;"开始符为："&lt;&lt;G.S&lt;&lt;endl;
+    cout&lt;&lt;"规则P如输入所示"&lt;&lt;endl;
+    cout&lt;&lt;endl;
+}
+
+int main()
+{
+    Grammar G;
+    G.Vn.clear();
+    G.Vt.clear();
+    input(G.P);
+    G.flag = 3;
+    analyseGram(G);
+    judgeGram(G);
+    printResult(G);
+}</code></pre>
+<h2><strong>实验验证</strong></h2>
+<strong>1</strong><strong>型文法实验结果</strong>
+
+<img class="alignnone  wp-image-5416" src="https://cdn.omegaxyz.com/2019/01/Chomsky2.png" alt="" width="712" height="473" />
+
+<strong>2</strong><strong>型文法实验结果</strong>
+
+<img class="alignnone  wp-image-5417" src="https://cdn.omegaxyz.com/2019/01/Chomsky3.png" alt="" width="709" height="465" />
+
+<strong>3</strong><strong>型文法实验结果</strong>
+
+<img class="alignnone  wp-image-5418" src="https://cdn.omegaxyz.com/2019/01/Chomsky4.png" alt="" width="701" height="460" />
+<h2><strong>困难与解决方法</strong></h2>
+<ul>
+ 	<li>数据结构的建立</li>
+</ul>
+为了便于以后实验的代码复用，需要建立一个良好的数据结构类型。因此本次实验我采用了C++来写，并使用了C++中的容器，如set和vector。
+<ul>
+ 	<li>文法类型的判断方式</li>
+</ul>
+这一部分是此次实验的重点，如何有效地判断文法的类型是一个难题。经过分析后，我决定自上而下，由低到高地来判断文法的类型。首先判断是否为低级文法，再判断是否为高级文法。在判断过程中出现很多分支语句，因此可以将某些模块提出，比如非终结符判断模块，可以整合为函数<strong>bool existVNT(string s)</strong><strong>。</strong>
+<ul>
+ 	<li>如果一开始实验中输入的格式不对，对此种问题我们可以有两种解决方法，一种是在输入的时候立即判断是否是合法的规则，也可以在文法类型判断是输出错误消息。</li>
+</ul></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

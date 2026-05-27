@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Summary of multi-objective co-evolution algorithm · OmegaXYZ</title>
+  <meta name="description" content="Reprinted from: https://ecole.asia/news/2018/06/10/weekly143/ Intrusion and deletion! Co-evolution has always been a hot research topic, especially when dealing with large-scale global optimization problems (AAEO Issue 27, 32). Co-evolutionary algorithms often construct two or more co-evolving populations and use the competition or cooperation between populations to optimize the populations. Compared with traditional evolutionary algorithms, co-evolutionary algorithms fully consider the interaction between populations...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/13/cmoea/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-13</div>
+        <h1>Summary of multi-objective co-evolution algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">Reprinted from:<a href="https://ecole.asia/news/2018/06/10/weekly143/">https://ecole.asia/news/2018/06/10/weekly143/</a>Invasion and deletion!
+
+Co-evolution has always been a hot research topic, especially when dealing with large-scale global optimization problems (AAEO Issue 27, 32). Co-evolutionary algorithms often construct two or more co-evolving populations and use the competition or cooperation between populations to optimize the populations. Compared with traditional evolutionary algorithms, co-evolutionary algorithms fully consider the interaction between populations and between populations and the environment, and consider the interaction between the individual and individuals of other populations when evaluating an individual. Therefore, it has great advantages in solving complex optimization problems. Integrating coevolutionary mechanisms into multi-objective evolutionary algorithms (CMOEAs) can also improve the search performance of multi-objective evolutionary algorithms. In this issue of AAEO, we will share with you a review of co-evolutionary multi-objective evolutionary algorithms. Due to the limited ability of the author, if I have omitted important work during the sharing process, please feel free to give me advice and corrections.
+
+The paper Coevolutionary multi-objective evolutionary algorithms: A survey of the state-of-the-art published by Luis Miguel Antonio and Carlos A. Coello Coello in 2017 on IEEE Transactions on Evolutionary Computation analyzed how to integrate coevolution mechanisms into multi-objective evolutionary algorithms, classified representative co-evolutionary multi-objective evolutionary algorithms, and described the main characteristics of the algorithms.
+
+When solving multi-objective optimization problems, CMOEAs often establish two or more populations with cooperative or competitive relationships. Each population evolves independently through a certain evolutionary algorithm and interacts when evaluating individuals. Based on the co-evolution method used in multi-objective evolutionary algorithms, CMOEAs can be roughly divided into three categories: cooperative, competitive, and competitive-cooperative (Figure 1).<img alt="" class="alignnone wp-image-4564 size-full" height="341" src="https://cdn.omegaxyz.com/2018/06/AAEO143-11-1024x341.jpg" width="1024"/>Cooperative CMOEAs can decompose multi-objective optimization problems based on decision variable space, objective function space, or a mixture of the two. Different populations correspond to different decomposition sub-problems, and there is a cooperative relationship between populations. In cooperative CMOEAs based on decision space decomposition, individuals of each population represent a part of the solution to the multi-objective optimization problem in the decision space, and the combination of individuals of all populations can obtain a complete solution to the problem. Therefore, when evaluating an individual of a certain population, the individual needs to be combined with individuals of other populations to form a complete solution to calculate the objective function (Figure 2).<img alt="" class="alignnone wp-image-4565 size-full" height="202" src="https://cdn.omegaxyz.com/2018/06/AAEO143-21-300x202.jpg" width="300"/>
+<img alt="" class="alignnone wp-image-4562 size-full" height="256" src="https://cdn.omegaxyz.com/2018/06/AAEO143-31-300x256.jpg" width="300"/>In cooperative CMOEAs based on target space decomposition, each population is responsible for solving an objective function of the problem. Different populations search different areas of the Pareto front respectively, and after combination, the entire Pareto front can be formed. Therefore, when performing environmental selection, individuals from different populations need to be mixed to achieve information interaction (Figure 3).
+
+Competition There is competition for survival among multiple populations established by CMOEAs. Competitive CMOEAs can be broadly divided into three categories. The first category is CMOEAs based on the predator-prey mechanism. This type of algorithm establishes a predator population and a prey population, and the predator searches for the prey with the worst target value within a certain range and eliminates it, so that the prey continuously evolves (Figure 4).<img alt="" class="alignnone size-full wp-image-4563" height="259" src="https://cdn.omegaxyz.com/2018/06/AAEO143-5-300x259.jpg" width="300"/>The second type is CMOEAs based on competitive fitness. This type of algorithm uses a special fitness function calculation method, and the fitness value of an individual is affected by the individuals of other populations that have a competitive relationship with it. The third category is CMOEAs based on expected solutions. This type of algorithm establishes a competitive relationship between the candidate solution population and the expected solution population of the problem.
+
+Competition-Cooperation CMOEAs consider the balance between competition and cooperation. Like cooperative CMOEAs, in competitive-cooperative CMOEAs, individuals from different populations cooperate with each other to jointly solve a multi-objective optimization problem. However, in order to make more contributions in solving the optimization problem, the cooperative populations still have a competitive relationship.
+
+In addition, the paper also briefly describes the problems caused by the co-evolution mechanism: Intransitivity, Disengagement and Red Queen effect.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

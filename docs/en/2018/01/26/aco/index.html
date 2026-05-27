@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ant colony algorithm (ACO) MATLAB implementation · OmegaXYZ</title>
+  <meta name="description" content="(1) The Origin of Ant Colony Algorithm Ant colony optimization (ant colony optimization) was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they exchange foraging information by secreting a biological hormone called pheromone to quickly find the target. Based on this, they proposed the ant colony algorithm based on the principle of positive information feedback. The basic idea of ​​ant colony algorithm comes from the shortest path of ants foraging in nature...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/26/aco/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-26</div>
+        <h1>Ant colony algorithm (ACO) MATLAB implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/aco/index.html">ACO算法</a></div>
+        <div class="article-content"><h1>(1) The origin of ant colony algorithm</h1>Ant colony optimization (ant colony optimization) was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback.
+
+The basic idea of ​​the ant colony algorithm comes from the shortest path principle of ants foraging in nature. According to the observations of insect scientists, it is found that although ants in nature have underdeveloped vision, they can find the shortest path from the food source to the nest without any prompts, and adaptively search for new best paths after the surrounding environment changes.
+
+When ants are looking for food sources, they can release a hormone called pheromone along the path they walk, so that other ants within a certain range can detect it. When more and more ants pass through some paths, there will be more and more pheromones, and the probability that the ants will choose this path will be higher. As a result, the pheromones on this path will increase, and the probability of ants taking this path will increase, and life will continue. This selection process is known as the autocatalytic behavior of ants. For a single ant, it does not want to find the shortest path, but only chooses based on probability; for the entire ant colony system, they have achieved the objective effect of finding the optimal path. This is swarm intelligence.<h1>(2) What can the ant colony algorithm do?</h1>Ant colony algorithm is a bionic algorithm designed based on simulating the shortest path behavior of ants looking for food. Therefore, generally speaking, ant colony algorithm is used to solve the shortest path problem, and it has really achieved better results in the Traveling Salesman Problem (TSP, a problem of finding the shortest path). At present, it has been gradually applied to other fields, including graph coloring problems, vehicle scheduling problems, integrated circuit design, communication networks, data cluster analysis, etc.<h1>(3) Ant colony algorithm implementation</h1>The optimized function is<strong>F（x,y）= -(x.^2+3*y.^4-0.2*cos(3*pi*x)-0.4*cos(4*pi*y)+0.6)</strong>
+<pre><code class="language-matlab">clear
+clc
+Ant = 300;%蚂蚁数量
+Times = 80;%移动次数
+Rou = 0.9;%荷尔蒙发挥系数
+P0 = 0.2;%转移概率
+Lower_1 = -1;%搜索范围
+Upper_1 = 1;
+Lower_2 = -1;
+Upper_2 = 1;
+
+for i=1:Ant
+    X(i,1)=(Lower_1+(Upper_1-Lower_1)*rand);
+    X(i,2)=(Lower_1+(Upper_2-Lower_2)*rand);
+    Tau(i)=F(X(i,1),X(i,2));
+end
+
+step=0.05;
+f='-(x.^2+3*y.^4-0.2*cos(3*pi*x)-0.4*cos(4*pi*y)+0.6)';
+
+[x,y]=meshgrid(Lower_1:step:Upper_1,Lower_2:step:Upper_2);
+z=eval(f);
+figure(1);
+subplot(1,2,1);
+mesh(x,y,z);
+hold on;
+plot3(X(:,1),X(:,2),Tau,'k*')
+hold on;
+text(0.1,0.8,-0.1,'蚂蚁的初始位置分布');
+xlabel('x');ylabel('y');zlabel('f(x,y)');
+
+for T=1:Times
+    lamda=1/T;
+    [Tau_Best(T),BestIndex]=max(Tau);
+    for i=1:Ant
+        P(T,i)=(Tau(BestIndex)-Tau(i))/Tau(BestIndex);%计算转移状态概率
+    end
+    for i=1:Ant
+        if P(T,i)&lt;P0%局部搜索
+            temp1=X(i,1)+(2*rand-1)*lamda;
+            temp2=X(i,2)+(2*rand-1)*lamda;
+        else%全局搜索
+            temp1=X(i,1)+(Upper_1-Lower_1)*(rand-0.5);
+            temp2=X(i,2)+(Upper_2-Lower_2)*(rand-0.5);
+        end
+        if temp1&lt;Lower_1%越界处理
+            temp1=Lower_1;
+        end
+        if temp1&gt;Upper_1
+            temp1=Upper_1;
+        end
+        if temp2&lt;Lower_2
+            temp2=Lower_2;
+        end
+        if temp2&gt;Upper_2
+            temp2=Upper_2;
+        end
+        
+        if F(temp1,temp2)&gt;F(X(i,1),X(i,2))%更新位置
+            X(i,1)=temp1;
+            X(i,2)=temp2;
+        end
+    end
+    for i=1:Ant
+        Tau(i)=(1-Rou)*Tau(i)+F(X(i,1),X(i,2));%更新荷尔蒙
+    end
+end
+
+subplot(1,2,2);
+mesh(x,y,z);
+hold on;
+x=X(:,1);
+y=X(:,2);
+plot3(x,y,eval(f),'k*');
+hold on;
+text(0.1,0.8,-0.1,'蚂蚁的最终位置分布');
+xlabel('x');ylabel('y');zlabel('f(x,y)');   
+
+[max_value,max_index]=max(Tau);
+maxX=X(max_index,1);
+maxY=X(max_index,2);
+maxValue=F(X(max_index,1),X(max_index,2));</code></pre>Optimization function:<pre><code class="language-matlab">function f = F(x,y)
+f = -(x.^2+3*y.^4-0.2*cos(3*pi*x)-0.4*cos(4*pi*y)+0.6);
+end
+
+</code></pre>Effect:<img alt="" class="alignnone size-full wp-image-3020" height="875" src="https://cdn.omegaxyz.com/2018/01/ACA.jpg" width="1248"/></div>
+        <section class="comments"><h2>Comments (34)</h2>
+        <div class="comment" id="comment-3628">
+          <strong>Anonymous</strong>
+          <time>2018-04-19 09:43:46</time>
+          <div>楼主好，为什么直接复制到matlab 上面运行不出来，也没有报错</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3629">
+          <strong>xyjisaw</strong>
+          <time>2018-04-19 10:21:37</time>
+          <div>有一个单独的函数文件，文章已更新</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3654">
+          <strong>Anonymous</strong>
+          <time>2018-05-07 23:13:33</time>
+          <div>请问更新的文章在哪里看</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3655">
+          <strong>xyjisaw</strong>
+          <time>2018-05-07 23:16:21</time>
+          <div>就是本文更新了</div>
+        </div>
+        
+        <div class="comment" id="comment-3661">
+          <strong>Anonymous</strong>
+          <time>2018-05-13 20:22:53</time>
+          <div>你好，是有一个单独的gui文件吗</div>
+        </div>
+        
+        <div class="comment" id="comment-3662">
+          <strong>Anonymous</strong>
+          <time>2018-05-14 22:11:13</time>
+          <div>挺好的，赞一个</div>
+        </div>
+        
+        <div class="comment" id="comment-3663">
+          <strong>Anonymous</strong>
+          <time>2018-05-14 22:13:11</time>
+          <div>可以吧主程序放在以下位置，直接就能运行了<br>function [f]=ACO(~)<br>%主程序<br>end<br><br>function f = F(x,y)<br>f = -(x.^2+3*y.^4-0.2*cos(3*pi*x)-0.4*cos(4*pi*y)+0.6);<br>end</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3664">
+          <strong>xyjisaw</strong>
+          <time>2018-05-14 23:32:21</time>
+          <div>好的，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3665">
+          <strong>xyjisaw</strong>
+          <time>2018-05-14 23:33:02</time>
+          <div>没有GUI文件啊，这么多代码可以直接运行呢</div>
+        </div>
+        
+        <div class="comment" id="comment-3679">
+          <strong>Anonymous</strong>
+          <time>2018-05-20 19:17:04</time>
+          <div>总是</div>
+        </div>
+        
+        <div class="comment" id="comment-3680">
+          <strong>Anonymous</strong>
+          <time>2018-05-20 19:17:43</time>
+          <div>总是提示未定义函数或变量 &#x27;F&#x27;。<br>那个优化函数应该放哪里啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3681">
+          <strong>xyjisaw</strong>
+          <time>2018-05-21 09:02:48</time>
+          <div>单独新建一个.m文件啊</div>
+        </div>
+        
+        <div class="comment" id="comment-3702">
+          <strong>sinden</strong>
+          <time>2018-06-06 19:31:41</time>
+          <div>楼主，求联系方式</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4153">
+          <strong>Anonymous</strong>
+          <time>2019-01-14 15:31:45</time>
+          <div>兄弟，怎么弄啊 ？能不能具体点</div>
+        </div>
+        
+        <div class="comment" id="comment-4213">
+          <strong>Anonymous</strong>
+          <time>2019-01-23 20:28:04</time>
+          <div>能解释一下算法有些步骤吗？比如lamda=1/T；等</div>
+        </div>
+        
+        <div class="comment reply" id="comment-4274">
+          <strong>xyjisaw</strong>
+          <time>2019-01-25 22:56:06</time>
+          <div>信息素</div>
+        </div>
+        
+        <div class="comment" id="comment-10265">
+          <strong>陈佳清</strong>
+          <time>2019-03-01 11:41:28</time>
+          <div>我全文复制了，为什么出不了和作者一样的图？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-10288">
+          <strong>xyjisaw</strong>
+          <time>2019-03-01 16:33:32</time>
+          <div>我用的是MATLAB 2018，你复制了代码哪儿出了问题？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-11823">
+          <strong>Anonymous</strong>
+          <time>2019-03-14 11:03:55</time>
+          <div>大佬 Tau(i)=F(X(i,1),X(i,2))我复制了这句有问题</div>
+        </div>
+        
+        <div class="comment reply" id="comment-12254">
+          <strong>xyjisaw</strong>
+          <time>2019-03-17 22:38:25</time>
+          <div>emmmmm,能具体说一下嘛</div>
+        </div>
+        
+        <div class="comment" id="comment-14338">
+          <strong>yejiesong</strong>
+          <time>2019-03-30 17:07:48</time>
+          <div>楼主，你犯了个小错误，<br>else%全局搜索<br>            temp1=X(i,1)+(Upper_1-Lower_1)*(rand-0.5);<br>            temp1=X(i,2)+(Upper_2-Lower_2)*(rand-0.5);<br>下面一个应该是temp2.<br>改了之后结果很完美</div>
+        </div>
+        
+        <div class="comment reply" id="comment-14344">
+          <strong>xyjisaw</strong>
+          <time>2019-03-30 18:08:41</time>
+          <div>ok，非常感谢，已改正。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-15958">
+          <strong>Anonymous</strong>
+          <time>2019-04-11 16:31:07</time>
+          <div>Undefined function &#x27;F&#x27; for input arguments of type &#x27;double&#x27;.<br><br>Error in antS (line 14)<br>Tau(i)=F(X(i,1),X(i,2));</div>
+        </div>
+        
+        <div class="comment reply" id="comment-15981">
+          <strong>xyjisaw</strong>
+          <time>2019-04-11 21:27:49</time>
+          <div>F在最下面吧</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16963">
+          <strong>Anonymous</strong>
+          <time>2019-05-14 13:06:26</time>
+          <div>楼主，你好，我把程序发你邮箱了，但是我的蚁群算法得到的迭代曲线不收敛是怎么回事，能不能麻烦你帮我看一下</div>
+        </div>
+        
+        <div class="comment" id="comment-17411">
+          <strong>Anonymous</strong>
+          <time>2019-08-29 09:45:53</time>
+          <div>这个适合要绕过障碍的最短路径吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17413">
+          <strong>xyjisaw</strong>
+          <time>2019-08-29 10:26:06</time>
+          <div>适合的</div>
+        </div>
+        
+        <div class="comment" id="comment-17739">
+          <strong>Anonymous</strong>
+          <time>2019-09-19 09:32:42</time>
+          <div>matlab r2016a 完全自学一本通317-318书上的程序</div>
+        </div>
+        
+        <div class="comment" id="comment-17740">
+          <strong>Anonymous</strong>
+          <time>2019-09-19 09:33:30</time>
+          <div>和数上面一模一样，意义何在</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17741">
+          <strong>xyjisaw</strong>
+          <time>2019-09-19 09:39:06</time>
+          <div>我自己学习用，能随时随地看，方便</div>
+        </div>
+        
+        <div class="comment" id="comment-18168">
+          <strong>Anonymous</strong>
+          <time>2019-11-06 09:43:27</time>
+          <div>请问一下， P(T,i)=(Tau(BestIndex)-Tau(i))/Tau(BestIndex);%计算转移状态概率，这句代码意思是F值越小的蚂蚁转移的概率越大吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-18213">
+          <strong>Anonymous</strong>
+          <time>2019-11-16 01:37:45</time>
+          <div>优化函数放在另一个m文件里了，也在同一个文件夹下面，怎么调用呀？</div>
+        </div>
+        
+        <div class="comment" id="comment-22009">
+          <strong>daydayup</strong>
+          <time>2021-04-26 10:45:06</time>
+          <div>您好，在这个代码中信息素浓度函数是第36行吗？计算出的P矩阵全是负数，因此每次迭代都是&amp;lt;P0选择局部搜索，这样合理吗？是否加上绝对值符号更合理一些？此外，信息素浓度可以为负值吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22010">
+          <strong>xyjisaw</strong>
+          <time>2021-04-26 10:46:40</time>
+          <div>你说得有道理，在进化算法中有用即合理</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

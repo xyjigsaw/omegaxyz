@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAT乙级1019数字黑洞 · OmegaXYZ</title>
+  <meta name="description" content="给定任一个各位数字不完全相同的4位正整数，如果我们先把4个数字按非递增排序，再按非递减排序，然后用第1个数字减第2个数字，将得到一个新的数字。一直重复这样做，我们很快会停在有“数字黑洞”之称的6174，这个神奇的数字也叫Kaprekar常数。 例如，我们从6767开始，将得到 7766 - 6677 = 1089 9810 - 0189...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/22/patbasic1019/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-22</div>
+        <h1>PAT乙级1019数字黑洞</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content">给定任一个各位数字不完全相同的4位正整数，如果我们先把4个数字按非递增排序，再按非递减排序，然后用第1个数字减第2个数字，将得到一个新的数字。一直重复这样做，我们很快会停在有“数字黑洞”之称的6174，这个神奇的数字也叫Kaprekar常数。
+
+例如，我们从6767开始，将得到
+
+7766 - 6677 = 1089
+9810 - 0189 = 9621
+9621 - 1269 = 8352
+8532 - 2358 = 6174
+7641 - 1467 = 6174
+... ...
+
+现给定任意4位正整数，请编写程序演示到达黑洞的过程。
+
+<strong>输入格式：</strong>
+
+输入给出一个(0, 10000)区间内的正整数N。
+
+<strong>输出格式：</strong>
+
+如果N的4位数字全相等，则在一行内输出“N - N = 0000”；否则将计算的每一步在一行内输出，直到6174作为差出现，输出格式见样例。注意每个数字按4位数格式输出。
+
+<strong>输入样例1：</strong>
+6767
+<strong>输出样例1：</strong>
+7766 - 6677 = 1089
+9810 - 0189 = 9621
+9621 - 1269 = 8352
+8532 - 2358 = 6174
+<strong>输入样例2：</strong>
+2222
+<strong>输出样例2：</strong>
+2222 - 2222 = 0000
+
+代码：
+<pre ><code class="language-c++">#include &lt;stdio.h&gt;  
+#include &lt;algorithm&gt;  
+using namespace std;  
+int inc, de;  
+void gao(int x){  
+    int a[4];  
+    a[0] = x / 1000;  
+    a[1] = x / 100 % 10;  
+    a[2] = x / 10 % 10;  
+    a[3] = x % 10;  
+    sort(a, a + 4);  
+    inc = a[0] * 1000 + a[1] * 100 + a[2] * 10 + a[3];  
+    de = a[3] * 1000 + a[2] * 100 + a[1] * 10 + a[0];  
+}  
+  
+int main(){  
+    int n, s;  
+    scanf("%d", &amp;n);  
+    if ((n / 1000 == n / 100 % 10) &amp;&amp; (n / 1000 == n / 10 % 10) &amp;&amp; (n / 1000 == n % 10)){  
+        printf("%04d - %04d = 0000\n", n, n);  
+        return 0;  
+    }  
+    do{  
+        gao(n);  
+        s = de - inc;  
+        printf("%04d - %04d = %04d\n", de, inc, s);  
+        n = s;  
+    } while (s != 6174);  
+    return 0;  
+}</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

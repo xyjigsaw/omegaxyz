@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>用户身份链接方法——DeepLink · OmegaXYZ</title>
+  <meta name="description" content="论文：DeepLink: A Deep Learning Approach for User Identity Linkage UIL（User Identity Linkage）：用户身份链接，通过方法发现跨社交平台上同一用户或者实体。即跨社交平台的同对象识别，UIL在用户行为预测、身份识别和隐私保护方面有很大的作用。 摘要 目前为了处...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/27/deeplink/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-27</div>
+        <h1>用户身份链接方法——DeepLink</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<strong>论文：DeepLink: A Deep Learning Approach for User Identity Linkage</strong>
+
+<strong>UIL（User Identity Linkage）：用户身份链接，通过方法发现跨社交平台上同一用户或者实体。即跨社交平台的同对象识别，UIL在用户行为预测、身份识别和隐私保护方面有很大的作用。</strong>
+<h2><strong>摘要</strong></h2>
+目前为了处理用户身份链接采用了依赖多社交平台相关特征提取的基于用户介绍（画像）、用户内容生成和用户行为的学习框架。其中的问题是，这些特征基于先验知识，在不同的平台和应用间有很大的不同。因此，论文中作者采用了深度神经网络来对UIL进行自动特征提取与表示，也就是DeepLink。DeepLink通过对网络采样将网络节点用向量表示，以便更好得获取网络的局部和全局结构。这些结构反过来又可以通过深度神经网络对锚点进行对齐（注意，完全对齐的网络在现实世界中几乎不存在，因此，我们利用部分对齐的锚节点(标记数据)来映射两个sng的用户潜在空间。）。利用二元学习范式，利用梯度学习知识转移和关联更新。
+
+<strong>关键词</strong>：user identity linkage, social networks, deep learning, reinforcement learning
+<h2><strong>DeepLink需要获得的什么？</strong></h2>
+<img class="alignnone wp-image-6354" src="https://cdn.omegaxyz.com/2020/01/deeplink-UIL.png" alt="" width="450" height="236" />
+
+DeepLink需要获得这个函数φ_u，然而由于每个社交网络网络图（SNG）对于其他SNG来说是未知的，这个映射函数很难获得，因此，在大多数UIL实现中采用Graph Mapping Function近似φ_u。
+
+<img class="alignnone wp-image-6352" src="https://cdn.omegaxyz.com/2020/01/deeplink-GMF.png" alt="" width="451" height="114" />
+<h2><strong>UIL问题分类</strong></h2>
+<strong>基于特征的方法：</strong>利用领域知识和用户活动深度理解下人工特征工程。
+<strong>基于网络的方法：</strong>利用网络结构描述跨社交平台的用户关联，最近引起广泛关注和研究。
+<h3><strong>当前方法的局限性</strong></h3>
+没有提供一个全面的框架来解决用户和不同社交网络平台（这些平台是独立的）的异质性问题。
+用户表示：基于网络结构捕获用户之间潜在的语义关系是很困难的，很多现存的工作关注基于迁移学习的交叉平台的行为预测和关联。
+缺少带标签数据：跨平台获取一组具有相同身份的用户并不容易。
+<h2><strong>算法概述</strong></h2>
+①使用随机游走策略生成结点序列样本构造语料库。
+②在初始化步骤中，在低维潜在空间中嵌入和表示每一个结点，并且使用锚点从G→G′预训练两个映射函数。
+③使用基于策略梯度的方法以监督的方式（使用已知的对齐方式）学习基于对齐的锚节点对的跨网络节点对齐。
+<h2><strong>DeepLink的贡献</strong></h2>
+DeepLink利用深度神经网络，以端到端方式学习用户活动和网络结构的潜在语义，从而避免了劳动密集型的特征工程，也易于推广到各种OSNs中。
+DeepLink利用半监督图正则化来预测网络中节点的上下文(邻近结构)。对锚节点的结构信息进行编码，实现网络的对齐。
+DeepLink使用对偶学习过程来改善身份链接性能，并改进了监督训练算法。这样不仅可以利用未标记的锚节点，而且可以通过强化学习过程改进多网络间的映射。此外，所需的对齐(标记)锚节点的数量可以显著减少。
+为了证明DeepLink的有效性，作者对真实数据集和合成数据集进行了实验。结果表明，与最先进的方法相比，DeepLink可以显著提高身份识别的精度，例如，在链接精度方面，top-1可以达到30%，top-5可以达到40%。
+<h2><strong>算法细节</strong></h2>
+<h3><strong>DeepLink组成</strong></h3>
+<img class="alignnone wp-image-6351" src="https://cdn.omegaxyz.com/2020/01/deeplink-framework.png" alt="" width="1000" height="291" />
+<ul>
+ 	<li>Network Sampling: 通过网络抽样形成“语料”以最大程度地保持网络结构：为了效率，此处采用简单的随机游走策略来探测网络结构生成社交序列。</li>
+ 	<li>Users Latent Space Embedding: 采用网络嵌入（Embedding）把网络里面的每一个节点表示为低维空间的一个向量：使用Skip-gram模型来更新社交表示（最大化对数似然估计）。</li>
+ 	<li>Unsupervised Automapping: 把锚点向量输入深度神经网络来训练出一个跨网络用户对齐（user alignment）的非线性转换：获取了每个社交网络潜在的嵌入空间后，DeepLink使用两个多层感知机（MLP）去学习任意两个基于锚点的社交网络中的映射函数。</li>
+ 	<li>Supervised Linkage Dual Learning: 使用对偶式学习过程改进UIL性能且提升有监督训练算法。</li>
+</ul>
+<img class="alignnone wp-image-6353" src="https://cdn.omegaxyz.com/2020/01/deeplink-algorithm.png" alt="" width="700" height="610" />
+
+<strong>参考：</strong>www.shujuren.org/article/780.html</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

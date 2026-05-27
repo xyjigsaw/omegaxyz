@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monty Hall problem (three problems, probability theory) C language verification · OmegaXYZ</title>
+  <meta name="description" content="The three-door problem - also known as the Monty Hall problem, comes from the American television game show Let&#x27;s Make a Deal. The question&#x27;s name comes from the show&#x27;s host, Monty Hall. The question is this: It is said that this program caused a heated discussion as soon as it was aired. Some people said it should be changed, and some thought it didn&#x27;t matter whether it was changed or not. The host&#x27;s answer was that it should be changed, and an analysis form was given to explain her reasons in the next episode of the program. But this time the opposition...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/11/07/threedoor/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-07</div>
+        <h1>Monty Hall problem (three problems, probability theory) C language verification</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">The three-door problem - also known as the Monty Hall problem, comes from the American television game show Let's Make a Deal. The question's name comes from the show's host, Monty Hall. The problem is this:<div class="cnblogs_code">
+<pre class="">参赛者面前有三扇关闭着的门，其中一扇的后面是一辆汽车，选中后面有车的那扇门就可以赢得该汽车，
+而另外两扇门后面则各藏有一只山羊。当参赛者选定了一扇门，但未去开启它的时候，主持人会开启剩
+下两扇门中的一扇，露出其中一只山羊。主持人其后会问参赛者要不要更换选择，选另一扇仍然关着的门。</pre>It is said that this program sparked a heated discussion as soon as it was aired. Some people said it should be changed, while others thought it didn't matter whether it was changed or not. The host's answer was that it should be changed, and an analysis form was given to explain her reasons in the next episode of the program. But this time the opposition became even louder. Among thousands of letters, 90% of the opponents were against it. [1]
+
+In all the debates about whether to change or not, the pros and cons have formed two opposing views.
+One is to think that the probability of winning if you don't change is 1/3, but if you change, you will have a 2/3 chance of winning, so of course you should change. Because:
+According to the contestant's choice, there are three possible situations as follows (the two goats are called goat A and goat B respectively):
+
+(1) The contestant chooses goat A and the host chooses goat B;
+(2) The contestant chooses goat B and the host chooses goat A;
+(3) The contestant chooses a car and the host chooses any of the two goats
+
+The probability of each of the three situations is 1/3. If you change, the first two will win, only the third will not win. Therefore, the probability of winning if you choose to change is 2/3, and the probability of not changing is only 1/3.
+
+Let's take a look at the "anti-side" view. This view holds that it doesn't matter whether you change or not, the probability is 50%. because:<div class="cnblogs_code">
+<pre class="">当参赛者选择一扇门时，他中奖的几率确实只有1/3。但当主持人帮忙排除掉一只山羊时，
+车要么在参赛者所选的这个门中，要么在剩下的未被选择的那扇门中。此时参赛者变更选
+择的话，当然中奖几率会提升到1/2。</pre>
+</div>It can also be understood from another angle. Even if he did not change his choice, he actually made a choice, but he chose "no change". Although the choice is "unchanged", it does not mean that his probability remains unchanged. It will be easier to understand if the whole process is reorganized:<div class="cnblogs_code">
+<pre class="">(1) 参赛者选了一扇门但不打开
+(2) 此时主持人在剩下的两扇门中选出一扇后面是山羊的门
+(3) 然后参赛者在剩下的两扇门中再次选择了第一次选择的门</pre>
+</div>Therefore, the probability of him choosing the car is 50%.
+
+Why is the second view wrong? This is because when we first made our selection, the total number of samples we were based on was 3, and the probability that there was a car behind the selected door was 1/3. And this probability will not change after it is selected (the second answer is based on the view that the probability will change), because for an event that has already occurred, subsequent events cannot affect its probability.
+
+Don’t misunderstand the above sentence. What we are talking about here is probability, which is the statistical result of multiple events, not the definite result of one event that has occurred. For example, when the remaining two doors are opened, it can be determined whether there is a car behind the first door, but will the "probability" of the first door change because of this? No, because at this point we are talking about a specific outcome, not probability. If we repeat this process many times, and each time we select a door and use the other two doors to determine whether there is a car behind this door, we will find that the probability obtained at this time is still 1/3.
+
+The reason why the second answer is wrong is that it gets one thing wrong. When we say "when we make a choice, the probability is determined," we are actually saying "the probability of a car behind any of the three doors is 1/3" rather than "our choice determines the probability of this event." I think many people have got this wrong. The probability of something happening is determined by the essential laws of things and will not be changed by our human will.
+
+Attached:
+
+We might as well assume that what we are discussing now is not the "three-door problem" but the "ten-thousand-door problem" and see what the result is? Scenario assumption: There are 1W doors in front of you, only one has a sheep behind it, and there is nothing behind the other doors. Scenario 1: If I directly choose a door, the probability of a sheep behind it is 1/10000; Scenario 2: A kind person helped me eliminate 9998 doors first, leaving two doors for me to choose. The probability of selecting a sheep is 1/2; The problem illustrated by the above two situations is: when making a decision before and after elimination, the probability will change! So don’t mix things up when discussing! What actually happened was that I chose a door first. After making the selection, others opened 9998 doors, but the ones behind them were all empty. But if I don't change my options, the "exclusion behavior" done by others will not have any impact on the probability of a sheep in the door I choose, so it is still 1/10000. And one of the remaining two doors must have a sheep behind it, so the probability of a sheep behind the remaining door is 1-1/10000=9999/10000. This is also very close to our actual feelings. I believe everyone will intuitively not believe that they can "pick one out of ten thousand" to select the door with the sheep, and they will definitely choose to "switch". Similarly, in the case of three doors, the probability of getting the sheep is 1/3, and the probability of getting the sheep is 2/3. However, in the case of three doors, the denominator is too small, which confuses everyone's intuitive feelings.
+
+C language implementation:<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;ctime&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+
+int openNone(bool *boxes, int choice)
+{
+    int i = rand()%3;
+    while(i==choice&amp;&amp;boxes[i]==true)
+    {
+        i = rand()%3;
+    }
+    return i;
+}
+
+int main()
+{
+    int totalTimes = 1000000;
+    int bingo = 0;
+    bool boxes[3];
+    double myratio;
+    srand((unsigned)time(NULL));
+    for(int i = 0; i &lt; totalTimes; i++){
+        boxes[0]=boxes[1]=boxes[2] = false;
+        boxes[rand()%3] = true;
+        int choice = rand()%3;
+        int hostChoice = openNone(boxes, choice);
+        // 判断另一个盒子是否中奖等同于判断开始选的盒子没有中奖
+        if(!boxes[choice]){
+            bingo++;
+        }
+    }
+    // 更换选择的中奖几率
+    myratio = (double)bingo*100/totalTimes;
+    cout&lt;&lt;"主持人排除一个山羊，概率为："&lt;&lt;myratio&lt;&lt;"%"&lt;&lt;endl;
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-2297 size-full" height="115" src="https://cdn.omegaxyz.com/2017/11/threedoor2.jpg" width="662"/>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

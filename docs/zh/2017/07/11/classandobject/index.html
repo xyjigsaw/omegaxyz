@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA对象和类的概述 · OmegaXYZ</title>
+  <meta name="description" content="1.类是对象的模板。它定义对象的属性，并提供用于以创建对象的构造方法以及操作对象的普通方法。 2.类也是一种数据类型。可以用它声明对象引用变量。对象引用变量中似乎存放了一个对象，但事实 上，它包含的只是对该对象的引用。严格地讲，对象引用变量和对象是不同的，但是大多数情况下， 它们的区别是可以忽略的。 3.对象是类的实例。可以使用new操作...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/11/classandobject/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>JAVA对象和类的概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">1.类是对象的模板。它定义对象的属性，并提供用于以创建对象的构造方法以及操作对象的普通方法。
+2.类也是一种数据类型。可以用它声明对象引用变量。对象引用变量中似乎存放了一个对象，但事实
+上，它包含的只是对该对象的引用。严格地讲，对象引用变量和对象是不同的，但是大多数情况下，
+它们的区别是可以忽略的。
+3.对象是类的实例。可以使用new操作符创建对象，使用点操作符(.)通过对象的引用变量来访问该
+
+对象的成员。
+4.实例变量或方法属于类的一个实例。它的使用与各自的实例相关联。静态变量是被同一个类的所有
+实例所共享的。可以在不使用实例的情况下调用静态方法。
+5.类的每个实例都能访问这个类的静态变量和静态方法。然而，为清晰起见，最好使用"类名，变量"
+和。类名，方法。来调用静态变量和静态方法。
+6.可见性修饰符指定类、方法和数据是如何被访问的。公共的(public)类、方法或数据可以被任何
+
+客户访问，私有的(private)方法或数据只能在本类中被访问。
+7.可以提供get(访问器)方法或者set(修改器)方法使客户程序能够看到或修改数据。
+8.get方法具有方法签名public returnType getpropertyName0。如果返回值类型(returnType)是
+boolean型，则get方法应该定义为public boolean I sproperty Name()。set方法具有方法签名
+
+public void setproperty Name(dataType propertyvalue).
+9.所有传递给方法的参数都是值传递的。对于基本类型的参数，传递的是实际值而若参数是引用数
+据类型，则传递的是对象的引用。
+10.Java数组是一个可以包含基本类型值或对象类型值的对象。当创建一个对象数组时，它的元素被
+
+赋予默认值null.。
+11.一旦被创建，不可变对象(immutable object)就不能被改变了。为了防止用户修改一个对象，可以
+
+定义该对象为不可变类。
+12.实例变量和静态变量的作用域是整个类，无论该变量在什么位置定义。实例变量和静态变量可以在
+
+类中的任何位置定义。为一致性考虑，本书都在类的开始部分定义。
+13.this关键字可以用于引用进行调用的对象。它也可以用于在构造方法中来调用同一个类的另外
+
+个构造方法。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

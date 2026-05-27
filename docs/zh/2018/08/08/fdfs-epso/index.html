@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特征离散化与选择EPSO算法详解 · OmegaXYZ</title>
+  <meta name="description" content="EPSO简介 EPSO的主要思想是使用BBPSO直接演化出一个可以在相应的特征值范围[MinF···MaxF]内任何值的切点。每个粒子的位置表示一个候选解，它是一个与问题的维数相对应的n维的实向量。图二给出了一个粒子位置及其相应候选解的例子。在这个例子中，粒子的第一个维度，表示第一个特性(F1)的切割点，需要在范围内有一个值[8.5,25...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/08/fdfs-epso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-08</div>
+        <h1>特征离散化与选择EPSO算法详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><strong>EPSO简介</strong></h2>
+<div>EPSO的主要思想是使用BBPSO直接演化出一个可以在相应的特征值范围[MinF···MaxF]内任何值的切点。每个粒子的位置表示一个候选解，它是一个与问题的维数相对应的n维的实向量。图二给出了一个粒子位置及其相应候选解的例子。在这个例子中，粒子的第一个维度，表示第一个特性(F1)的切割点，需要在范围内有一个值[8.5,25.7]。如果一个特性F的更新点超出了这个范围，它将被设置到最近的边界。</div>
+<div><img class="alignnone size-full wp-image-4845" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png" sizes="(max-width: 431px) 100vw, 431px" srcset="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png 431w, https://cdn.omegaxyz.com/2018/07/PSOFDFS3-300x136.png 300w" alt="" width="431" height="196" /></div>
+<div></div>
+<div></div>
+<h2><strong>细节</strong></h2>
+种群中粒子（个体）即是切点（cut-point）
+
+<img class="alignnone size-full wp-image-4896" src="https://cdn.omegaxyz.com/2018/08/epso1.png" alt="" width="762" height="372" />
+
+下面选出一个粒子，也就是一组切点进行如下操作
+
+<img class="alignnone size-full wp-image-4897" src="https://cdn.omegaxyz.com/2018/08/epso2.png" alt="" width="708" height="656" />
+
+如果一个特征的所有值同置0或1，那么可以认为这是一个不相关的特征，因为它不能区别实例中的类别。特征选择将会把这些特征去掉。（上面两个实例的第2,3维去掉）
+
+<img class="alignnone size-full wp-image-4898" src="https://cdn.omegaxyz.com/2018/08/epso3.png" alt="" width="978" height="667" />
+
+<img class="alignnone size-full wp-image-4899" src="https://cdn.omegaxyz.com/2018/08/epso4.png" alt="" width="864" height="630" />
+<h2><strong>步骤</strong></h2>
+<div>
+<div>（1）粒子初始化：由于在高维数据上的多变量离散化的搜索空间是巨大的。这意味着对于那些在初始候选方案中未被选中的特性，它们的切点将被设置为相应特性的最大值。对于其他选择的特性，它们的切点是使用满足MDLP的最好的基于熵的切割点初始化的。原则上，它们可以根据对应特性范围内的任何值进行初始化。然而，完全随机的初始切点可能导致收敛速度较慢。此外，特征的最佳切点的信息增益是其相关性的指标。因此，具有较大信息增益的特性在初始化过程中被选择的概率更大。</div>
+<div></div>
+<div>（2）粒子评价：基于粒子所产生的切点，训练数据转换为离散值的新训练集和较少的特征数，这要归功于消除特征，其切割点等于最小值或最大值。例如，在图2中，F3切割点等于它的最大值，F5的切点等于它的最小值，这两个特征都将被丢弃。</div>
+<div></div>
+<div>然后根据转换训练集的分类精度，对每个粒子的离散化和FS解进行评估，通过对整个离散数据的评估，提出的方法可以对所有选定特征的分割点进行评估，同时考虑特征交互。适应度函数采用平衡分类精度，如下:</div>
+</div>
+<div><img class="alignnone size-full wp-image-4846" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS4.png" alt="" width="225" height="57" /></div>
+<div>
+<div>其中c是问题的类数，TPi是i类中正确识别的实例数，|Si|是类i的样本量，所有类的权重均为1/c。</div>
+</div>
+<div></div>
+<div>
+<h2><strong>参考文献</strong></h2>
+<div></div>
+<div>文章：“A New Representation in PSO for Discretization-Based Feature Selection”</div>
+<div></div>
+<div>作者：Binh Tran, Student Member, IEEE, Bing Xue, Member, IEEE, and Mengjie Zhang, Senior Member, IEEE</div>
+</div>
+<div></div>
+<h2><strong>更多内容</strong></h2>
+https://omegaxyz.com/2018/07/27/pso-fdfs/</div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-3808">
+          <strong><a href="http://www.xinwentoutiao.net" rel="nofollow">今日新闻</a></strong>
+          <time>2018-08-10 01:25:41</time>
+          <div>文章不错非常喜欢</div>
+        </div>
+        
+        <div class="comment" id="comment-3810">
+          <strong><a href="http://www.baiwanlian.net/" rel="nofollow">百万链</a></strong>
+          <time>2018-08-10 10:50:55</time>
+          <div>有幸访问到贵站，“百万链”期待你的加入！</div>
+        </div>
+        
+        <div class="comment" id="comment-3985">
+          <strong><a href="https://templerun.co" rel="nofollow">temple run</a></strong>
+          <time>2018-12-01 18:22:55</time>
+          <div>The article is very interesting, the steps are very detailed and specific.</div>
+        </div>
+        
+        <div class="comment" id="comment-10771">
+          <strong>365cent</strong>
+          <time>2019-03-06 12:57:57</time>
+          <div>不明觉厉，大佬</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

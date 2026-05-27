@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>操作系统FCFS调度算法C语言实现 · OmegaXYZ</title>
+  <meta name="description" content="FCFS 调度算法原理 FCFS是最简单的调度算法，该算法既可用于作业调度，也可用于进程调度。当在作业调度中采用该算法时，系统将按照作业到达的先后次序来进行调度，或者说它是优先考虑在系统中等待时间最长的作业，而不管该作业所需执行的时间的长短，从后备作业队列中选择几个最先进入该队列的作业，将它们调入内存，为它们分配资源和创建进程。然后把它放...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/11/fcfs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-11</div>
+        <h1>操作系统FCFS调度算法C语言实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><h2><strong>FCFS</strong><strong>调度算法原理</strong></h2>
+FCFS是最简单的调度算法，该算法既可用于作业调度，也可用于进程调度。当在作业调度中采用该算法时，系统将按照作业到达的先后次序来进行调度，或者说它是优先考虑在系统中等待时间最长的作业，而不管该作业所需执行的时间的长短，从后备作业队列中选择几个最先进入该队列的作业，将它们调入内存，为它们分配资源和创建进程。然后把它放入就绪队列。
+<h2><b>数据结构</b></h2>
+设计一个链式队列，链式指针代表按照进程到达系统的时间将处于就绪状态的进程连接成一个就绪队列。指针指出下一个到达进程的进程控制块首地址。最后一个进程的链指针为NULL。
+
+<img class="alignnone size-full wp-image-4256" src="https://cdn.omegaxyz.com/2018/05/fcfsds.png" alt="" width="322" height="385" />
+
+其中
+
+<strong>周转时间=结束时间-到达时间、</strong><strong>平均周转时间=周转时间/运行时间</strong>
+<h2><strong>代码</strong></h2>
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;windows.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include &lt;time.h&gt;
+typedef double Time;
+
+typedef struct Process{
+    int PID;
+    Time runTime;
+    Time arriveTime;
+    Time finishTime;
+    Time workTime;
+    Time cycleTime;
+    Time avecycleTime;
+    int status;
+    struct Process *next;
+}LinkQueue, PCB, *process;
+
+LinkQueue *InitQueue(LinkQueue *Q){
+    /*初始化队列*/
+    Q=(LinkQueue *)malloc(sizeof(LinkQueue));
+    Q-&gt;next=NULL;
+    return Q;
+}
+
+LinkQueue *EnQueue(LinkQueue *Q,int PID0,Time arrive0,Time run0,int i){
+    /* 在i位置插入元素e为Q的新进程 */
+    int j=0;
+    LinkQueue *q,*p;
+    q = Q;
+    if(!Q)
+        printf("Empty list\n");
+    else
+        while(j&lt;i)
+        {
+            j++;
+            q=q-&gt;next;
+        }
+    p=(LinkQueue *)malloc(sizeof(LinkQueue));
+    p-&gt;PID=PID0;
+    p-&gt;arriveTime=arrive0;
+    p-&gt;runTime=run0;
+    p-&gt;status = 0;
+    printf("进程信息:PID:%d     到达时间:%lf     运行时间:%lf     \n",p-&gt;PID,p-&gt;arriveTime,p-&gt;runTime);
+    p-&gt;next=q-&gt;next;
+    q-&gt;next = p;
+    return Q;
+}
+
+void showInfo(LinkQueue *Q){
+    process p;
+    p=Q-&gt;next;
+    printf("PID     到达时间     运行时间     结束时间     周转时间     平均周转时间\n");
+
+    for(;p!=NULL;p=p-&gt;next)
+    {
+        printf("%d      %3lf      %3lf      %3lf      %3lf      %3lf\n",p-&gt;PID,p-&gt;arriveTime,p-&gt;runTime,p-&gt;finishTime,p-&gt;cycleTime,p-&gt;avecycleTime);
+    }
+}
+
+void FCFS(LinkQueue *Q){
+    process p;
+    if(Q-&gt;next==NULL)
+        printf("error\n");
+    p=Q-&gt;next;
+    Time current_time=0;    //系统当前时间
+    for(;p!=NULL;)
+    {
+        if(p-&gt;arriveTime &lt;= current_time)
+        {
+            p-&gt;workTime = p-&gt;runTime;
+            while(p-&gt;workTime){
+                printf("正在执行的进程: %d      剩余时间：%5lf\n",p-&gt;PID,p-&gt;workTime);
+
+                Sleep(p-&gt;workTime*1000);
+                p-&gt;workTime--;
+            }
+            process q;
+            q=p-&gt;next;
+            printf("就绪队列的进程ID为:");
+            for(;q!=NULL;){
+                printf("%d----",q-&gt;PID);
+                q=q-&gt;next;
+            }
+            printf("NULL\n");
+            printf("当前进程执行完毕\n");
+            current_time += p-&gt;runTime;
+            p-&gt;finishTime = current_time;
+            p-&gt;cycleTime = p-&gt;finishTime - p-&gt;arriveTime;
+            p-&gt;avecycleTime = p-&gt;cycleTime/p-&gt;runTime;
+            p-&gt;status = 1;
+            printf("当前进程信息%d        %5lf      %5lf        %5lf\n",p-&gt;PID,p-&gt;finishTime,p-&gt;cycleTime,p-&gt;avecycleTime);
+            p = p-&gt;next;
+        }
+        else
+        {
+            current_time = p-&gt;arriveTime;
+        }
+    }
+}
+
+int main(){
+    PCB *buffer;
+    buffer=InitQueue(buffer);
+    int num;
+    printf("进程数量：");
+    scanf("%d",&amp;num);
+    printf("输入%d个进程（PID、运行时间）\n",num);
+    int i;
+    srand((unsigned) time(NULL));
+    int temp = 0;
+    for(i=0;i&lt;num;i++){
+        int PID0;
+        Time arrive0,run0;
+        arrive0 = temp + rand()%5;
+        temp = arrive0;
+        scanf("%d  %lf",&amp;PID0,&amp;run0);
+        EnQueue(buffer,PID0,arrive0,run0,i);
+    }
+    FCFS(buffer);
+    showInfo(buffer);
+    return 0;
+}</code></pre>
+<h2>结果</h2>
+<img class="alignnone size-full wp-image-4257" src="https://cdn.omegaxyz.com/2018/05/fcfs1.png" alt="" width="565" height="231" />
+
+<img class="alignnone size-full wp-image-4258" src="https://cdn.omegaxyz.com/2018/05/fcfs2.png" alt="" width="494" height="321" />
+
+<img class="alignnone size-full wp-image-4259" src="https://cdn.omegaxyz.com/2018/05/fcfs3.png" alt="" width="600" height="107" /></div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-24519">
+          <strong>孙克旭</strong>
+          <time>2021-10-19 14:55:18</time>
+          <div>不是平均带权周转时间吗？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

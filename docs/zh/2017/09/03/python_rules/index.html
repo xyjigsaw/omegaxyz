@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 编写规范 · OmegaXYZ</title>
+  <meta name="description" content="用IDE写Python编写时有时会有标记，但是程序能正常运行，这里的标记是python编写不规范，下面给出一些规范写法。 一行列数 : PEP 8 规定为 79 列，这个太苛刻了，如果要拼接url一般都会超。 一个函数 : 不要超过 30 行代码, 即可显示在一个屏幕类，可以不使用垂直游标即可看到整个函数。 一个类 : 不要超过 200...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/03/python_rules/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-03</div>
+        <h1>Python 编写规范</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">用IDE写Python编写时有时会有标记，但是程序能正常运行，这里的标记是python编写不规范，下面给出一些规范写法。
+
+一行列数 : PEP 8 规定为 79 列，这个太苛刻了，如果要拼接url一般都会超。
+一个函数 : 不要超过 30 行代码, 即可显示在一个屏幕类，可以不使用垂直游标即可看到整个函数。
+一个类 : 不要超过 200 行代码，不要有超过 10 个方法。
+一个模块 : 不要超过 500 行。
+
+不要在一句import中多个库
+不推荐
+import os, sys
+
+推荐
+import os
+import sys
+
+IDE显示的问题
+
+错误记录：W292 no newline at end of file
+处理：打个回车有新的一空行即可（新行不要有空格）。
+
+错误记录：E302 expected 2 blank lines, found 1
+处理：上面只有一行空白，但是需要两个空白行
+
+错误记录：E231 missing whitespace after ‘,’
+翻译：“，”后要有空格
+举例：
+错误 print(“%s %s %s %s %s %s” % (A,B,D,E,K,L))
+正确 print(“%s %s %s %s %s %s” % (A, B, D, E, K, L))
+
+错误记录：E225 missing whitespace around operator
+翻译：
+举例：
+错误 print(“%s %s %s %s %s %s”%(A, B, D, E, K, L))
+正确 rint(“%s %s %s %s %s %s”% (A, B, D, E, K, L))
+
+错误记录：E225 missing whitespace around operator
+举例：
+错误 f=open(“D:\\test.txt”, “ab”)
+正确 f = open(“D:\\test.txt”, “ab”)
+
+更多错误记录：
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th align="center">sample message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E1</strong></td>
+<td align="center">Indentation</td>
+</tr>
+<tr>
+<td>E101</td>
+<td align="center">indentation contains mixed spaces and tabs</td>
+</tr>
+<tr>
+<td>E111</td>
+<td align="center">indentation is not a multiple of four</td>
+</tr>
+<tr>
+<td>E112</td>
+<td align="center">expected an indented block</td>
+</tr>
+<tr>
+<td>E113</td>
+<td align="center">unexpected indentation</td>
+</tr>
+<tr>
+<td>E114</td>
+<td align="center">indentation is not a multiple of four (comment)</td>
+</tr>
+<tr>
+<td>E115</td>
+<td align="center">expected an indented block (comment)</td>
+</tr>
+<tr>
+<td>E116</td>
+<td align="center">unexpected indentation (comment)</td>
+</tr>
+<tr>
+<td>E121 (*^)</td>
+<td align="center">continuation line under-indented for hanging indent</td>
+</tr>
+<tr>
+<td>E122 (^)</td>
+<td align="center">continuation line missing indentation or outdented</td>
+</tr>
+<tr>
+<td>E123 (*)</td>
+<td align="center">closing bracket does not match indentation of opening bracket’s line</td>
+</tr>
+<tr>
+<td>E124 (^)</td>
+<td align="center">closing bracket does not match visual indentation</td>
+</tr>
+<tr>
+<td>E125 (^)</td>
+<td align="center">continuation line with same indent as next logical line</td>
+</tr>
+<tr>
+<td>E126 (*^)</td>
+<td align="center">continuation line over-indented for hanging indent</td>
+</tr>
+<tr>
+<td>E127 (^)</td>
+<td align="center">continuation line over-indented for visual indent</td>
+</tr>
+<tr>
+<td>E128 (^)</td>
+<td align="center">continuation line under-indented for visual indent</td>
+</tr>
+<tr>
+<td>E129 (^)</td>
+<td align="center">visually indented line with same indent as next logical line</td>
+</tr>
+<tr>
+<td>E131 (^)</td>
+<td align="center">continuation line unaligned for hanging indent</td>
+</tr>
+<tr>
+<td>E133 (*)</td>
+<td align="center">closing bracket is missing indentation</td>
+</tr>
+<tr>
+<td><strong>E2</strong></td>
+<td align="center">Whitespace</td>
+</tr>
+<tr>
+<td>E201</td>
+<td align="center">whitespace after ‘(‘</td>
+</tr>
+<tr>
+<td>E202</td>
+<td align="center">whitespace before ‘)’</td>
+</tr>
+<tr>
+<td>E203</td>
+<td align="center">whitespace before ‘:’</td>
+</tr>
+<tr>
+<td>E211</td>
+<td align="center">whitespace before ‘(‘</td>
+</tr>
+<tr>
+<td>E221</td>
+<td align="center">multiple spaces before operator</td>
+</tr>
+<tr>
+<td>E222</td>
+<td align="center">multiple spaces after operator</td>
+</tr>
+<tr>
+<td>E223</td>
+<td align="center">tab before operator</td>
+</tr>
+<tr>
+<td>E224</td>
+<td align="center">tab after operator</td>
+</tr>
+<tr>
+<td>E225</td>
+<td align="center">missing whitespace around operator</td>
+</tr>
+<tr>
+<td>E226 (*)</td>
+<td align="center">missing whitespace around arithmetic operator</td>
+</tr>
+<tr>
+<td>E227</td>
+<td align="center">missing whitespace around bitwise or shift operator</td>
+</tr>
+<tr>
+<td>E228</td>
+<td align="center">missing whitespace around modulo operator</td>
+</tr>
+<tr>
+<td>E231</td>
+<td align="center">missing whitespace after ‘,’, ‘;’, or ‘:’</td>
+</tr>
+<tr>
+<td>E241 (*)</td>
+<td align="center">multiple spaces after ‘,’</td>
+</tr>
+<tr>
+<td>E242 (*)</td>
+<td align="center">tab after ‘,’</td>
+</tr>
+<tr>
+<td>E251</td>
+<td align="center">unexpected spaces around keyword / parameter equals</td>
+</tr>
+<tr>
+<td>E261</td>
+<td align="center">at least two spaces before inline comment</td>
+</tr>
+<tr>
+<td>E262</td>
+<td align="center">inline comment should start with ‘# ‘</td>
+</tr>
+<tr>
+<td>E265</td>
+<td align="center">block comment should start with ‘# ‘</td>
+</tr>
+<tr>
+<td>E266</td>
+<td align="center">too many leading ‘#’ for block comment</td>
+</tr>
+<tr>
+<td>E271</td>
+<td align="center">multiple spaces after keyword</td>
+</tr>
+<tr>
+<td>E272</td>
+<td align="center">multiple spaces before keyword</td>
+</tr>
+<tr>
+<td>E273</td>
+<td align="center">tab after keyword</td>
+</tr>
+<tr>
+<td>E274</td>
+<td align="center">tab before keyword</td>
+</tr>
+<tr>
+<td>E275</td>
+<td align="center">missing whitespace after keyword</td>
+</tr>
+<tr>
+<td><strong>E3</strong></td>
+<td align="center">Blank line</td>
+</tr>
+<tr>
+<td>E301</td>
+<td align="center">expected 1 blank line, found 0</td>
+</tr>
+<tr>
+<td>E302</td>
+<td align="center">expected 2 blank lines, found 0</td>
+</tr>
+<tr>
+<td>E303</td>
+<td align="center">too many blank lines (3)</td>
+</tr>
+<tr>
+<td>E304</td>
+<td align="center">blank lines found after function decorator</td>
+</tr>
+<tr>
+<td>E305</td>
+<td align="center">expected 2 blank lines after end of function or class</td>
+</tr>
+<tr>
+<td><strong>E4</strong></td>
+<td align="center">Import</td>
+</tr>
+<tr>
+<td>E401</td>
+<td align="center">multiple imports on one line</td>
+</tr>
+<tr>
+<td>E402</td>
+<td align="center">module level import not at top of file</td>
+</tr>
+<tr>
+<td><strong>E5</strong></td>
+<td align="center">Line length</td>
+</tr>
+<tr>
+<td>E501 (^)</td>
+<td align="center">line too long (82 &gt; 79 characters)</td>
+</tr>
+<tr>
+<td>E502</td>
+<td align="center">the backslash is redundant between brackets</td>
+</tr>
+<tr>
+<td><strong>E7</strong></td>
+<td align="center">Statement</td>
+</tr>
+<tr>
+<td>E701</td>
+<td align="center">multiple statements on one line (colon)</td>
+</tr>
+<tr>
+<td>E702</td>
+<td align="center">multiple statements on one line (semicolon)</td>
+</tr>
+<tr>
+<td>E703</td>
+<td align="center">statement ends with a semicolon</td>
+</tr>
+<tr>
+<td>E704 (*)</td>
+<td align="center">multiple statements on one line (def)</td>
+</tr>
+<tr>
+<td>E711 (^)</td>
+<td align="center">comparison to None should be ‘if cond is None:’</td>
+</tr>
+<tr>
+<td>E712 (^)</td>
+<td align="center">comparison to True should be ‘if cond is True:’ or ‘if cond:’</td>
+</tr>
+<tr>
+<td>E713</td>
+<td align="center">test for membership should be ‘not in’</td>
+</tr>
+<tr>
+<td>E714</td>
+<td align="center">test for object identity should be ‘is not’</td>
+</tr>
+<tr>
+<td>E721 (^)</td>
+<td align="center">do not compare types, use ‘isinstance()’</td>
+</tr>
+<tr>
+<td>E731</td>
+<td align="center">do not assign a lambda expression, use a def</td>
+</tr>
+<tr>
+<td>E741</td>
+<td align="center">do not use variables named ‘l’, ‘O’, or ‘I’</td>
+</tr>
+<tr>
+<td>E742</td>
+<td align="center">do not define classes named ‘l’, ‘O’, or ‘I’</td>
+</tr>
+<tr>
+<td>E743</td>
+<td align="center">do not define functions named ‘l’, ‘O’, or ‘I’</td>
+</tr>
+<tr>
+<td><strong>E9</strong></td>
+<td align="center">Runtime</td>
+</tr>
+<tr>
+<td>E901</td>
+<td align="center">SyntaxError or IndentationError</td>
+</tr>
+<tr>
+<td>E902</td>
+<td align="center">IOError</td>
+</tr>
+<tr>
+<td><strong>W1</strong></td>
+<td align="center">Indentation warning</td>
+</tr>
+<tr>
+<td>W191</td>
+<td align="center">indentation contains tabs</td>
+</tr>
+<tr>
+<td><strong>W2</strong></td>
+<td align="center">Whitespace warning</td>
+</tr>
+<tr>
+<td>W291</td>
+<td align="center">trailing whitespace</td>
+</tr>
+<tr>
+<td>W292</td>
+<td align="center">no newline at end of file</td>
+</tr>
+<tr>
+<td>W293</td>
+<td align="center">blank line contains whitespace</td>
+</tr>
+<tr>
+<td><strong>W3</strong></td>
+<td align="center">Blank line warning</td>
+</tr>
+<tr>
+<td>W391</td>
+<td align="center">blank line at end of file</td>
+</tr>
+<tr>
+<td><strong>W5</strong></td>
+<td align="center">Line break warning</td>
+</tr>
+<tr>
+<td>W503 (*)</td>
+<td align="center">line break occurred before a binary operator</td>
+</tr>
+<tr>
+<td><strong>W6</strong></td>
+<td align="center">Deprecation warning</td>
+</tr>
+<tr>
+<td>W601</td>
+<td align="center">.has_key() is deprecated, use ‘in’</td>
+</tr>
+<tr>
+<td>W602</td>
+<td align="center">deprecated form of raising exception</td>
+</tr>
+<tr>
+<td>W603</td>
+<td align="center">‘&lt;&gt;’ is deprecated, use ‘!=’</td>
+</tr>
+<tr>
+<td>W604</td>
+<td align="center">backticks are deprecated, use ‘repr()’</td>
+</tr>
+</tbody>
+</table>
+更多python编程规范：
+
+http://blog.csdn.net/igolang/article/details/7886319</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-112">
+          <strong>pp</strong>
+          <time>2017-09-06 20:07:55</time>
+          <div>针对pycharm吧</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

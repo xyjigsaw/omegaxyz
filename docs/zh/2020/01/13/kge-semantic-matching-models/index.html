@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>融合事实信息的知识图谱嵌入——语义匹配模型 · OmegaXYZ</title>
+  <meta name="description" content="知识图谱嵌入 知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/13/kge-semantic-matching-models/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-13</div>
+        <h1>融合事实信息的知识图谱嵌入——语义匹配模型</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><span id="%e7%9f%a5%e8%af%86%e5%9b%be%e8%b0%b1%e5%b5%8c%e5%85%a5"><strong>知识图谱嵌入</strong></span></h2>
+<div>知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌入。关键思想是嵌入 KG 的组件，包括将实体和关系转化为连续的向量空间，从而简化操作，同时保留 KG 的原有的结构。那些实体和关系嵌入能进一步应用于各种任务中，如 KG 补全、关系提取、实体分类和实体解析。</div>
+<div>
+
+<hr />
+
+</div>
+<h2><span id="%e8%9e%8d%e5%90%88%e4%ba%8b%e5%ae%9e%e4%bf%a1%e6%81%af%e7%9a%84%e7%9f%a5%e8%af%86%e5%9b%be%e8%b0%b1%e5%b5%8c%e5%85%a5"><strong>融合事实信息的知识图谱嵌入</strong></span></h2>
+<strong>步骤：</strong>
+<div>①使用连续向量空间表示实体关系，关系通常被视为向量空间的运算。</div>
+<div>②定义评分函数，用来测量事实的合理性。</div>
+<div>③学习实体关系的表示，优化问题：最大化全局观测事实的合理性。</div>
+<div>
+<div><strong>有两个主要分类：</strong></div>
+<div>①平移距离模型 translational distance models 前者使用基于距离的评分函数</div>
+<div>请参考：<a href="https://omegaxyz.com/2020/01/12/kge-translational-distance-models/">https://omegaxyz.com/2020/01/12/kge-translational-distance-models/</a></div>
+<div>②语义匹配模型 semantic matching models 后者使用基于相似度的评分函数</div>
+</div>
+
+<hr />
+
+<h2><strong>语义匹配模型</strong></h2>
+语义匹配模型利用基于相似性的评分函数。它们通过匹配实体的潜在语义和向量空间表示中包含的关系来度量事实的可信性。
+<h3><strong>RESCAL模型及其变体</strong></h3>
+<img class="alignnone wp-image-6206" src="https://cdn.omegaxyz.com/2020/01/Semantic-Matching-Models-kge.png" alt="" width="860" height="196" />
+<h4><strong>RESCAL模型（双线性模型）</strong></h4>
+实体用向量表示，关系用矩阵表示。该关系矩阵对潜在因素之间的成对交互作用进行了建模。评分函数是一个双线性函数。
+
+\(f_{r}(h, t)=\mathbf{h}^{\top} \mathbf{M}_{r} \mathbf{t}=\sum_{i=0}^{d-1} \sum_{j=0}^{d-1}\left[\mathbf{M}_{r}\right]_{i j} \cdot[\mathbf{h}]_{i} \cdot[\mathbf{t}]_{j}\)
+<h4><strong>DistMult模型：将关系矩阵简化为对角矩阵</strong></h4>
+缺点：过于简化，只能处理对称的关系，这显然对于一般的KGs是不能完全适用的。
+<h4><strong>HolE(Holographic Embeddings)</strong></h4>
+HolE 将 RESCAL 的表达能力与 DistMult 的效率和简单性相结合。使用循环相关操作（circular correlation operation）
+<h4><strong>ComplEx(Complex Embeddings)</strong></h4>
+引入复数扩展DistMult，以便更好地对非对称关系进行建模，此时，实体、关系都在复数空间，非对称关系的事实可以根据涉及实体的顺序得到不同的分数。每个 ComplEx 都有一个等价的 HolE，同时，如果在嵌入上施加共轭对称，那么，HolE是ComplEx的特殊情况。
+<h4><strong>ANALOGY模型</strong></h4>
+ANALOGY 扩展了 RESCAL，从而进一步对实体和关系的类比属性进行建模。尽管 ANALOGY 表示关系为矩阵，这些矩阵可以同时对角化成一组稀疏的准对角矩阵。结果表明，前面介绍的 DistMult、HolE、ComplEx 等方法都可以归为 ANALOGY 的特例。
+<h3><strong>基于神经网络的匹配</strong></h3>
+<img class="alignnone wp-image-6205" src="https://cdn.omegaxyz.com/2020/01/neural-network-kge.png" alt="" width="922" height="226" />
+<h4><strong>语义匹配能量模型 (SME)</strong></h4>
+首先将实体和关系投影到输入层中的嵌入向量，然后关系r与头尾实体分别组合至隐藏层。输出则是评分函数。SME 有两个版本：线性版本和双线性版本。
+<h4><strong>神经张量网络模型 (NTN)</strong></h4>
+给定一个事实，它首先将实体投影到输入层中的嵌入向量。然后，将这两个实体 h,t 由关系特有的关系张量(以及其他参数) 组合，并映射到一个非线性隐藏层。最后，一个特定于关系的线性输出层给出了评分。NTN是迄今为止最具表达能力的模型，但是参数过多，处理大型知识图谱效率较差。
+<h4><strong>多层感知机 (MLP)</strong></h4>
+MLP 是一种更简单的方法，在这种方法中，每个关系 (以及实体) 都是由一个向量组合而成的。给定一个事实，将嵌入向量 h、r 和 t 连接在输入层中，并映射到非线性的隐藏层。然后由线性输出层生成分数。
+<h4><strong>神经关联模型 (NAM)</strong></h4>
+给定一个事实，它首先将头实体的嵌入向量和输入层中的关系连接起来，在“deep”神经网络隐藏层的前馈过程之后，通过匹配最后一个隐藏层的输出和尾实体的嵌入向量来给出分数。
+
+<hr />
+
+<h2><strong>语义匹配模型总结</strong></h2>
+<img class="alignnone wp-image-6203" src="https://cdn.omegaxyz.com/2020/01/Semantic-Matching-Models.png" alt="" width="1011" height="627" />
+
+<hr />
+
+<strong>参考文献：</strong>Wang Q , Mao Z , Wang B , et al. Knowledge Graph Embedding: A Survey of Approaches and Applications[J]. IEEE Transactions on Knowledge and Data Engineering, 2017, PP(99):1-1.
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ajax and jQuery load data asynchronously · OmegaXYZ</title>
+  <meta name="description" content="Introduction It is unrealistic to read data from the server database and transmit it to the front-end page at one time. On the one hand, it will increase the pressure on the server, and on the other hand, the customer&#x27;s bandwidth resources will also be occupied. Ajax can just solve the problem of asynchronous loading of data. Ajax stands for &quot;A synchronous Javascript And X ML&quot; (asynchronous JavaScript and XML), which refers to a web page that creates interactive, fast and dynamic web applications...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/03/10/ajax-django/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-03-10</div>
+        <h1>Ajax and jQuery load data asynchronously</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/django/index.html">Django</a><a class="pill" href="../../../../tag/ajax/index.html">Ajax</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>It is unrealistic to read data from the server database and transfer it to the front-end page at once. On the one hand, it will increase the pressure on the server, and on the other hand, the customer's bandwidth resources will also be occupied. Ajax can just solve the problem of asynchronous loading of data. Ajax is "<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML" (asynchronous JavaScript and XML) refers to a web development technology that creates interactive, fast and dynamic web applications that can update parts of a web page without reloading the entire web page.
+
+Since it is relatively simple to implement ajax with jQuery, the following code references the jQuery library to implement Ajax, and uses Django as the framework.
+
+jQuery can be manually downloaded and placed in a local folder, or you can quote the following statement.<pre><code class="language-xhtml">&lt;script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"&gt;&lt;/script&gt;</code></pre>
+<hr/>
+<h2><strong>HTML statement</strong></h2>The div with category demo will display Ajax data<span style="color: #3366ff;"><em>$(document).ready(function(){})</em></span>It means that Ajax data will be loaded after other elements of the page are loaded. At this time, the browser will not have a loading bar or circle. Of course, you can also click on an element to load it, for example<em><span style="color: #3366ff;">$('#demo').click(function(){})</span></em>。
+
+<em><span style="color: #3366ff;">$.getJSON('/ajax_server/',function(ret)</span></em>Refers to reading JSON data from the function ajax_server in Django's view.py, and the data passes<em><span style="color: #3366ff;">$('#demo').append(ret)</span></em>Displayed in a div. Can also be used<em><span style="color: #3366ff;">document.getElementById("demo").innerHTML = ret;</span></em>to display data.<pre><code class="language-default">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;div class = "demo"&gt;&lt;/div&gt;
+ 
+&lt;script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    $(document).ready(function(){
+      $.getJSON('/ajax_server/',function(ret){
+            $('#demo').append(ret)
+      })
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2><strong>view.py(Django)</strong></h2>
+<strong>Add to</strong>
+<pre><code class="language-python">def ajax_server(request):
+    data_dict = {'xxx': 'omegaxyz.com', 'yyy': 'zzz'}
+    return JsonResponse(data_dict)
+</code></pre>
+<h2><strong>urls.py(Django)</strong></h2>
+<strong>Add to</strong>
+<pre><code class="language-python">url(r'^ajax_server/$', 'tools.views.ajax_server', name='ajax_server'),</code></pre>
+<hr/>
+<h2><strong>defect</strong></h2>The main criticism of using Ajax is that it can break the browser's back and bookmark functionality. In the case of dynamically updated pages, the user cannot go back to the previous page state because the browser can only remember static pages in the history. The possible differences between a page that has been fully read and a page that has been dynamically modified are very subtle; users often want to be able to cancel their previous action by clicking the back button, but in an Ajax application, this is not possible. However, developers have come up with various ways to solve this problem. Most of the methods before HTML5 were to create or use a hidden IFRAME to reproduce the changes on the page when the user clicks the back button to access the history. (For example, when the user clicks back in Google Maps, it searches in a hidden IFRAME and then reflects the search results onto an Ajax element to restore the application state to what it was at that time).</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18851">
+          <strong>Jamesvet</strong>
+          <time>2020-04-26 19:25:45</time>
+          <div>Really wanted to point out Now i am pleased I came in your website.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

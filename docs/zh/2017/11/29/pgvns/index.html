@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于VNS及马尔科夫毯分组的高维特征选择算法 · OmegaXYZ</title>
+  <meta name="description" content="关键词：高维特征选择，马尔科夫毯，变邻域搜索算法，特征分组 期刊：Information Science （一区） ①马尔科夫毯： 把一个随机变量全集U分成互斥的三部分，变量X以及集合A和B，三个子集没有交集，并集即为全集U；如果说给定集合A时，变量X与集合B没有任何关系，则称集合A为变量X的马尔可夫毯。在式(2-16)中，集合MB即为我...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/29/pgvns/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-29</div>
+        <h1>基于VNS及马尔科夫毯分组的高维特征选择算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<strong>关键词：高维特征选择，马尔科夫毯，变邻域搜索算法，特征分组</strong>
+
+<strong>期刊：Information Science （一区）</strong>
+
+<img class="alignnone wp-image-2533 size-full" src="https://cdn.omegaxyz.com/2017/11/VNSFS1.png" alt="" width="1149" height="332" />
+<h1>①马尔科夫毯：</h1>
+<img class="alignnone wp-image-2525 size-full" src="https://cdn.omegaxyz.com/2017/11/Markov-blankets3.png" alt="" width="860" height="136" />
+
+把一个随机变量全集U分成互斥的三部分，变量X以及集合A和B，三个子集没有交集，并集即为全集U；如果说给定集合A时，变量X与集合B没有任何关系，则称集合A为变量X的马尔可夫毯。在式(2-16)中，集合MB即为我说的集合A，{U-MB-{X}}即为我说的集合B，符号“⊥”表示“独立”，符号“|”表示在给定xx条件下，因此可读为“在给定集合MB时，变量X与{U-MB-{X}}独立”。
+
+打个比方说，全集U是整个社会，X是你个人，MB就是你生活圈子里的人。按照哲学的说法，万事万物都是有联系的；但是，你并不会与社会里的所有人有什么关系，而是通过你的生活圈子和他们有间接的关系，即当给定你的生活圈子以后，你和社会其余的人是没啥关系的（独立的）。
+<h1>②对称不确定性 （Symmetrical Uncertainty）</h1>
+<img class="alignnone size-medium wp-image-2534" src="https://cdn.omegaxyz.com/2017/11/VNSFS2-300x76.png" alt="" width="300" height="76" />
+
+对每一个特征fi , 计算其对称不确定性，其中， IG(c l fi）表示类别c 与特征Ji 之间的信息增益， H(c)和H(fi） 分别表示类别c与特征Fi 的信息熵（entropy） 给定一个阔值γ， 如SU(fi,c) ≥γ，则fi对于类别c 来说是强相关特征，应该被保留，反之fi应该被去除。
+<h1>③近似马尔科夫毯（Approximate Markov Blankets）</h1>
+对于两个特征Xi和Xj（i≠j），Xj是Xi的近似马尔科夫毯的条件为：SU（Xj,c）&gt;=SU(Xi,c),
+
+且SU(Xi,Xj)≥SU(Xi,c)
+
+<b>一个特征</b><b>X</b><b>i </b><b>为主元素，当且仅当没有元素是</b><b>X</b><b>i </b><b>的近似马尔科夫毯。</b>
+<h1>④主元素组（Predominant group）生成算法——GPGG</h1>
+<img class="alignnone wp-image-2535 size-full" src="https://cdn.omegaxyz.com/2017/11/VNSFS3.png" alt="" width="712" height="626" />
+
+<b>STEP1</b><b>：</b>冗余性分析． 对每一个特征Xi ， 根据其对称不确定性给定一个阈值α， 如SU(Xi,y) &gt; α ，则且
+
+对于类别y来说是强相关特征，放入集合L中。
+
+<b>STEP2</b><b>：</b>根据SU的值进行降序排序。
+
+<b>STEP3</b><b>：</b>利用近似马尔科夫毯方法（判断每个元素是否存在马尔科夫毯）从L中寻找主元素放到集合g中。
+<h1>⑤变邻域搜索算法（Variable Neighborhood Search,VNS）</h1>
+<img class="alignnone wp-image-2514 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS1.png" alt="" width="1036" height="370" />
+
+<img class="alignnone wp-image-2515 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS2.png" alt="" width="1041" height="493" />
+
+<b>变邻域搜索算法的主要思想是：</b>采用多个不同的邻域进行系统搜索。首先采用最小的邻域搜索，当无法改进解时，则切换到稍大一点的邻域。如果能继续改进解，则退回到最小的邻域，否则继续切换到更大的邻域。
+
+<img class="alignnone wp-image-2516 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS3.png" alt="" width="478" height="364" />
+<h1>⑥PGVNS算法（PredominantGroupbasedVariableNeighborhoodSearch）</h1>
+<img class="alignnone wp-image-2536 size-full" src="https://cdn.omegaxyz.com/2017/11/VNSFS4.png" alt="" width="695" height="511" />
+
+为了将VNS算法应用到高维数据集上，作者提出了基于VNS主元素组的特征选择方法，
+首先利用GPGG算法产生主元素组作为初始的解，再 利用shaking method选出新的解集，如此迭代最终获得最好的解集。
+
+<strong>原文：</strong>García-Torres M, Gómez-Vela F, Melián-Batista B, et al. High-dimensional feature selection via feature grouping: A Variable Neighborhood Search approach[J]. Information Sciences, 2016, 326(C):102-118.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

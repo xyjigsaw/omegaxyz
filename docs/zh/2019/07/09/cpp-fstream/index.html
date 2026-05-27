@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++读取和写入文件（fstream等） · OmegaXYZ</title>
+  <meta name="description" content="2019年7月非常忙，这大概是这个月的第一篇吧。 某高校机试需要从文件中读取数据并将数据写入到文件中。完成这一操作需要用到fstream模块，网上一堆资料，但是乱七八糟的，不能满足一些简单的需求，下面给出从文件中读（一行一行地读出所有字符）和向文件中写入数据（追加写入）的C++代码。 从文件中读（一行一行地读出所有字符） 采用的ifstr...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/07/09/cpp-fstream/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-09</div>
+        <h1>C++读取和写入文件（fstream等）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">2019年7月非常忙，这大概是这个月的第一篇吧。
+
+某高校机试需要从文件中读取数据并将数据写入到文件中。完成这一操作需要用到fstream模块，网上一堆资料，但是乱七八糟的，不能满足一些简单的需求，下面给出从文件中读（一行一行地读出所有字符）和向文件中写入数据（追加写入）的C++代码。
+<h2><strong>从文件中读（一行一行地读出所有字符）</strong></h2>
+<strong>采用的ifstream类型</strong>
+
+注意要使用getline
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+
+using namespace std;
+
+int main(){
+    ifstream inFile; //读取文件使用ifstream
+    inFile.open("/Users/reacubeth/Desktop/test.txt");
+    string str;
+    while(getline(inFile, str)){
+        cout&lt;&lt;str&lt;&lt;endl;
+    }
+    inFile.close();
+    return 0;
+}</code></pre>
+<h2><strong>往文件中写入（追加写入）</strong></h2>
+<strong>采用的ofstream类型，并且在读文件时，要选取ios::app打开文件，这样才能追加。</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+
+using namespace std;
+
+int main(){
+    ofstream outFile;
+    outFile.open("/Users/reacubeth/Desktop/test.txt", ios::app);
+    string str = "cdscs\n dvfsvcdfsvdsfv❤️dfvdfsvdf\n";
+    if(!outFile.fail()){
+        outFile&lt;&lt;str;
+    }
+    outFile.close();
+    return 0;
+}</code></pre>
+&nbsp;
+
+最后结束时不要忘记关闭文件哦！</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

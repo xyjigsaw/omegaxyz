@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>睡眠排序、计数排序与猴子排序Python实现 · OmegaXYZ</title>
+  <meta name="description" content="睡眠排序 睡排序的发明者可真是一个脑洞大开的人啊！ 思想： 构造n个线程，它们和这n个数一一对应。初始化后，线程们开始睡眠，等到对应的数那么多个时间单位后各自醒来， 然后输出它对应的数。这样最小的数对应的线程最早醒来，这个数最早被输出。等所有线程都醒来，排序就结束了。 实现： 利用python多线程模块threading 简单的睡排序无法...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/05/wtf_sort/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-05</div>
+        <h1>睡眠排序、计数排序与猴子排序Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1><strong>睡眠排序</strong></h1>
+睡排序的发明者可真是一个脑洞大开的人啊！
+
+<strong>思想：</strong>
+构造n个线程，它们和这n个数一一对应。初始化后，线程们开始睡眠，等到对应的数那么多个时间单位后各自醒来，
+然后输出它对应的数。这样最小的数对应的线程最早醒来，这个数最早被输出。等所有线程都醒来，排序就结束了。
+
+<strong>实现：</strong>
+利用python多线程模块threading
+简单的睡排序无法对负数排序，为了能使其对负数排序，我将需要排序的数利用指数函数映射到大于0的数，即pow(1.1, num)
+注意，底数越大排序时间越长，因此，我在时间前加了一个系数0.01，当然系数过小的话线程<strong>并行</strong>就会导致排序错误。
+
+<strong>时间复杂度：</strong>
+
+它有一个最好的O(n)的时间复杂度和一个无穷大的最坏复杂度，因为这个常数可能比n大的多的多。
+
+<strong>代码：</strong>
+<pre ><code class="language-python">import time
+import threading
+
+
+def event(func):
+    co = 0.02
+    time.sleep(co * pow(1.1, float(func)))
+    print(func)
+
+num = [2, 4, 9, 7, -1, 6, 7, 0, 8, -3, 3, 5, 20]
+positive = []
+for i in range(len(num)):
+    temp = threading.Thread(target=event, args=(str(num[i]),))
+    positive.append(temp)
+
+if __name__ == '__main__':
+    for t in positive:
+        t.start()
+</code></pre>
+<strong>结果：</strong>
+
+<img class="alignnone size-full wp-image-3949" src="https://cdn.omegaxyz.com/2018/04/sleepsort.jpg" alt="" width="315" height="282" />
+
+<hr />
+
+<h1><strong>计数排序</strong></h1>
+1.计数排序是一种非常快捷的稳定性强的排序方法，时间复杂度O(n+k),其中n为要排序的数的个数，k为要排序的数的组大值。计数排序对一定量的整数排序时候的速度非常快，一般快于其他排序算法。但计数排序局限性比较大，只限于对整数进行排序。计数排序是消耗空间发杂度来获取快捷的排序方法，其空间发展度为O（K）同理K为要排序的最大值。
+
+2.计数排序的基本思想为一组数在排序之前先统计这组数中其他数小于这个数的个数，则可以确定这个数的位置。例如要排序的数为 7 4 2 1 5 3 1 5；则比7小的有7个数，所有7应该在排序好的数列的第八位，同理3在第四位，对于重复的数字，1在1位和2位（暂且认为第一个1比第二个1小），5和1一样位于6位和7位。
+
+<strong>简单非完美计数排序实现（偷懒了，没统计重复的个数）：</strong>
+<pre ><code class="language-python">num = [2, 4, 9, 7, 1, 6, 7, 8, 3, 5]
+
+result = [None] * (len(num)-1)
+
+for i in range(len(num)):
+    result[num[i]-1] = num[i]
+
+print(result)
+</code></pre>
+
+<hr />
+
+<h1>猴子排序（Bogo排序、量子排序）</h1>
+Bogo排序(Bogo-sort)，又被称为猴子排序，是一种恶搞排序算法，其算法就是坑爹的将元素随机打乱，然后紧紧检查其是否符合排列顺序，若否，则继续进行随机打乱，继续检查结果，直到符合排列顺序。
+Bogo排序的最坏时间复杂度为O(∞)，一辈子也不能输出排序结果，平均时间复杂度为O(n·n!)。
+
+然而，有个看似笑话的方法声称可以用O(n)实现Bogo排序，依照量子理论的平行宇宙解释，使用量子随机性随机地重新排列元素，不同的可能性将在不同的宇宙中展开，总有一种可能猴子得到了正确的顺序，量子计算机找到了这个宇宙后，就开始毁灭其他排序不成功的宇宙，剩下一个观察者可以看到的正确顺序的宇宙。
+
+如果想要迈出这个看似荒诞，但令人无比兴奋的"高效算法"的第一步，请先证明"平行宇宙解释"的正确性。
+
+<strong>代码：</strong>
+<pre ><code class="language-python">import random
+
+
+def monkeySort(num):
+    for i in range(len(num)):
+        if i+1 == len(num):
+            return False
+        if num[i] &gt; num[i+1]:
+            return True
+    return False
+
+count = 0
+num = [2, 6, 7, 8, 3, 5]
+while monkeySort(num):
+    random.shuffle(num)
+    count += 1
+print(num)
+print(count)</code></pre>
+count是计算打乱的次数的
+
+<strong>结果：</strong>
+
+<img class="alignnone size-full wp-image-3950" src="https://cdn.omegaxyz.com/2018/04/bogoSort.jpg" alt="" width="128" height="40" />
+
+你看，重排了710次，时间花销真是大啊，所以这个排序算是一个恶搞排序算法。
+<div class="footer-bar"><aside id="custom_html-7" class="widget_text widget inner-padding widget_custom_html">
+<div class="textwidget custom-html-widget" style="text-align: center;"><strong><span style="color: #ff0000;">网站所有原创代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </span></strong>
+<strong><span style="color: #ff0000;">网站文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</span></strong></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><strong><span style="color: #ff0000;"><span class="copyright">© 2018</span> • <a style="color: #ff0000;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a>-版权所有 转载请注明出处</span></strong></div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

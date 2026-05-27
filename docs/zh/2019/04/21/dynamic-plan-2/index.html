@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动态规划选讲2 · OmegaXYZ</title>
+  <meta name="description" content="简介 动态规划(dynamic programming) 是运筹学的一个分支，是求解决策过程(decision process)最优化的数学方法。20世纪50年代初美国数学家R.E.Bellman等人在研究多阶段决策过程(multistep decision process)的优化问题时，提出了著名的最优化原理(principle of...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/21/dynamic-plan-2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-21</div>
+        <h1>动态规划选讲2</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/leetcode/index.html">LeetCode</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<strong>动态规划(dynamic programming)</strong>是运筹学的一个分支，是求解决策过程(decision process)最优化的数学方法。20世纪50年代初美国数学家R.E.Bellman等人在研究多阶段决策过程(multistep decision process)的优化问题时，提出了著名的最优化原理(principle of optimality)，把多阶段过程转化为一系列单阶段问题，利用各阶段之间的关系，逐个求解，创立了解决这类过程优化问题的新方法——动态规划。
+
+https://omegaxyz.com/2019/04/18/dynamic-plan-1/
+
+<hr />
+
+<h2><strong>LeetCode 1027 最长等差数列</strong></h2>
+给定一个整数数组 <code>A</code>，返回 <code>A</code> 中最长等差子序列的<strong>长度</strong>。
+
+回想一下，<code>A</code> 的子序列是列表 <code>A[i_1], A[i_2], ..., A[i_k]</code> 其中 <code>0 &lt;= i_1 &lt; i_2 &lt; ... &lt; i_k &lt;= A.length - 1</code>。并且如果 <code>B[i+1] - B[i]</code>( <code>0 &lt;= i &lt; B.length - 1</code>) 的值都相同，那么序列 <code>B</code> 是等差的。
+
+&nbsp;
+
+<strong>示例 1：</strong>
+<pre class="">输入：[3,6,9,12]
+输出：4
+解释： 
+整个数组是公差为 3 的等差数列。
+</code></pre>
+<strong>示例 2：</strong>
+<pre class="">输入：[9,4,7,2,10]
+输出：3
+解释：
+最长的等差子序列是 [4,7,10]。
+</code></pre>
+<strong>示例 3：</strong>
+<pre class="">输入：[20,1,15,3,10,5,8]
+输出：4
+解释：
+最长的等差子序列是 [20,15,10,5]。
+</code></pre>
+<strong>提示：</strong>
+<ol>
+ 	<li><code>2 &lt;= A.length &lt;= 2000</code></li>
+ 	<li><code>0 &lt;= A[i] &lt;= 10000</code></li>
+</ol>
+<strong>分析：</strong>
+
+构造一个dp的map类型数组，其中dp[d][x]代表在第x位之前，公差为d的等差数列的长度。显然初始化答案为2，先来一个正常循环，接下来在当前数字i之前的所有数组进行判断，先求出公差d，然后公差d的dp数组是否包含数字j，如果包含则dp[d][i] = dp[d][j] + 1，否则设置为2。
+
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">class Solution {
+public:
+    int longestArithSeqLength(vector&lt;int&gt;&amp; A) {
+        map&lt;int, map&lt;int, int&gt; &gt; dp;  //dp[i][j]代表在第j位之前，公差d的等差数列长度
+        int ans = 2;
+        for(int i = 1; i &lt; A.size(); i++){
+            for(int j = 0; j &lt; i; j++){
+                int d = A[i] - A[j];
+                if(dp[d].count(j) &gt; 0)dp[d][i] = dp[d][j] + 1; //如果存在i之前相同的d，则加1
+                else dp[d][i] = 2;
+                ans = max(ans, dp[d][i]);
+            }
+        }
+        return ans;
+    }
+};</code></pre>
+
+<hr />
+
+<h2><strong>LeetCode 873 最长的斐波那契子序列的长度</strong></h2>
+如果序列 <code>X_1, X_2, ..., X_n</code> 满足下列条件，就说它是 <em>斐波那契式 </em>的：
+<ul>
+ 	<li><code>n &gt;= 3</code></li>
+ 	<li>对于所有 <code>i + 2 &lt;= n</code>，都有 <code>X_i + X_{i+1} = X_{i+2}</code></li>
+</ul>
+给定一个<strong>严格递增</strong>的正整数数组形成序列，找到 <code>A</code> 中最长的斐波那契式的子序列的长度。如果一个不存在，返回  0 。
+
+<em>（回想一下，子序列是从原序列 <code>A</code> 中派生出来的，它从 <code>A</code> 中删掉任意数量的元素（也可以不删），而不改变其余元素的顺序。例如， <code>[3, 5, 8]</code> 是 <code>[3, 4, 5, 6, 7, 8]</code> 的一个子序列）</em>
+
+&nbsp;
+
+<strong>示例 1：</strong>
+<pre class="">输入: [1,2,3,4,5,6,7,8]
+输出: 5
+解释:
+最长的斐波那契式子序列为：[1,2,3,5,8] 。
+</code></pre>
+<strong>示例 2：</strong>
+<pre class="">输入: [1,3,7,11,12,14,18]
+输出: 3
+解释:
+最长的斐波那契式子序列有：
+[1,11,12]，[3,11,14] 以及 [7,11,18] 。
+</code></pre>
+&nbsp;
+
+<strong>提示：</strong>
+<ul>
+ 	<li><code>3 &lt;= A.length &lt;= 1000</code></li>
+ 	<li><code>1 &lt;= A[0] &lt; A[1] &lt; ... &lt; A[A.length - 1] &lt;= 10^9</code></li>
+ 	<li><em>（对于以 Java，C，C++，以及 C# 的提交，时间限制被减少了 50%）</em></li>
+</ul>
+<strong>分析：</strong>
+
+dp数组dp[i][j]代表从i到j斐波那契数组的长度，如果存在tmp = A[i] + A[j]，则有dp[i][j] = dp[j][M[tmp]] + 1;
+
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">class Solution {
+public:
+    int lenLongestFibSubseq(vector&lt;int&gt;&amp; A) {
+	    vector&lt;vector&lt;int&gt;&gt;dp(A.size(), vector&lt;int&gt;(A.size(), 0));
+	    map&lt;int, int&gt; M;
+	    for (int i = 0; i &lt; A.size(); i++)M[A[i]] = i;
+	    int ans = 0;
+	    for (int i = A.size() - 1; i &gt;= 0; i--) {
+		    for (int j = i + 1; j &lt; A.size(); j++) {
+			    dp[i][j] = 2;//默认为2
+			    int tmp = A[i] + A[j];
+			    if (M.count(tmp)) {
+				    dp[i][j] = dp[j][M[tmp]] + 1;
+				    if (dp[i][j] &gt; ans) ans = dp[i][j];
+			    }
+		    }
+	    }
+	    return ans;
+    }
+};
+</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNN算法概述 · OmegaXYZ</title>
+  <meta name="description" content="一、kNN概念描述 kNN算法又称为k最近邻(k-nearest neighbor classification)分类算法。所谓的k最近邻，就是指最接近的k个邻居（数据），即每个样本都可以由它的K个邻居来表达。 kNN算法的核心思想是，在一个含未知样本的空间，可以根据离这个样本最邻近的k个样本的数据类型来确定样本的数据类型。 该算法涉及3...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/08/knn/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-08</div>
+        <h1>KNN算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>一、kNN概念描述</h1>
+kNN算法又称为k最近邻(k-nearest neighbor classification)分类算法。所谓的k最近邻，就是指最接近的k个邻居（数据），即每个样本都可以由它的K个邻居来表达。
+
+kNN算法的核心思想是，在一个含未知样本的空间，可以根据离这个样本最邻近的k个样本的数据类型来确定样本的数据类型。
+
+该算法涉及3个主要因素：训练集、距离与相似的衡量、k的大小；
+
+主要考虑因素：距离与相似度的；
+<h1>二、举例说明</h1>
+右图中，绿色圆要被决定赋予哪个类，是红色三角形还是蓝色四方形？
+
+如果K=3，由于红色三角形所占比例为2/3，绿色圆将被赋予红色三角形那个类，如果K=5，由于蓝色四方形比例为3/5，因此绿色圆被赋予蓝色四方形类。
+
+<img class="alignnone size-full wp-image-2691" src="https://cdn.omegaxyz.com/2018/01/knn.png" alt="" width="190" height="171" />
+<h1>三、kNN算法的特点</h1>
+KNN算法不仅可以用于分类，还可以用于过渡，比如在两个色度之间取过渡色。
+
+KNN算法当前主要使用加权投票法，即根据距离的远近，对近邻的投票进行加权，距离越近则权重越大（权重为距离平方的倒数）。
+
+<strong>优点：</strong>易于实现，无需估计参数，无需训练，支持增量学习，能对超多边形的复杂决策空间建模；
+
+<strong>缺点：</strong>就是计算量较大，分析速度慢；</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3585">
+          <strong>Anonymous</strong>
+          <time>2018-01-09 14:10:15</time>
+          <div>svm蛮不错的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

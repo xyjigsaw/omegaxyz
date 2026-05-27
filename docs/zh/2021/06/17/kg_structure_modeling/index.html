@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>知识图谱中的结构信息建模 · OmegaXYZ</title>
+  <meta name="description" content="什么是知识图谱 全球最具权威的IT研究与顾问咨询公司高德纳发布了2020年AI领域技术成熟度曲线，其中 知识图谱 的期待值处在AI领域的顶峰，还有5到10年的发展机会达到平稳期，也就是大规模商用。知识图谱这个概念是在2012年谷歌知识图谱的提出而火起来的，追根溯源，知识图谱的前身是语义网络。通俗地说，知识图谱将无序分散的信息，以图的方式整...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2021/06/17/kg_structure_modeling/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2021-06-17</div>
+        <h1>知识图谱中的结构信息建模</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>什么是知识图谱</strong></h2>
+全球最具权威的IT研究与顾问咨询公司高德纳发布了2020年AI领域技术成熟度曲线，其中<strong>知识图谱</strong>的期待值处在AI领域的顶峰，还有5到10年的发展机会达到平稳期，也就是大规模商用。知识图谱这个概念是在2012年谷歌知识图谱的提出而火起来的，追根溯源，知识图谱的前身是语义网络。通俗地说，知识图谱将无序分散的信息，以图的方式整合成知识。
+
+<img class="alignnone  wp-image-7080" src="https://cdn.omegaxyz.com/2021/06/ai_cycle-min.png" alt="" width="436" height="414" />
+
+那么知识图谱和图、异质图这些概念有什么区别呢。这里给出了三个概念的形式化定义。
+
+<img class="alignnone wp-image-7073" src="https://cdn.omegaxyz.com/2021/06/graph_cmp-min-e1623895032855.jpg" alt="" width="624" height="387" />
+其中图就是节点和边的集合，社交网络，引文网络，脉络树都是很典型的图。第二个是异质图的定义，异质图，也可以叫做异质信息网络，它与图的主要区别是HG有多种节点类型或关系类型。其中，我们的<a href="https://www.acemap.info/" target="_blank" rel="noopener"><strong>Acemap</strong></a>的学术知识图谱就是一种异构图。因此，知识图谱是一种特殊的异构图，但是，知识图谱侧重于基于事实的三元组，从定义中可以看到，它是由实体，关系类型和事实组成。其中事实就是基于头结点关系尾节点的三元组，本质上是实体的边。需要注意的是，在KG中，两个实体之间边的数量和类型是任意的。因此从结构上讲，知识图谱中节点类型之间的关系和路径是指数级的，远远超过异质图。这就是为什么我把我们的<a href="https://www.acemap.info/" target="_blank" rel="noopener"><strong>Acemap</strong></a>归于异质图的原因。
+
+有趣的是，虽然知识图谱属于异质图，但是这两个方向的研究者几乎不引用对方的论文。
+<h2><strong>知识图谱结构概念</strong></h2>
+<h3><strong>Schema</strong></h3>
+知识图谱和异质图在结构上有一些共享概念，第一个是<strong>schema </strong>[1]。它是由节点类型和关系类型组成的图，独立与实际的节点，反映了知识概念层的信息。最左边是一个学术网络的异质图，和<a href="https://www.acemap.info/" target="_blank" rel="noopener"><strong>Acemap</strong></a>类似，包含了作者、论文等多种类型的实体。
+
+<img class="alignnone wp-image-7081" src="https://cdn.omegaxyz.com/2021/06/schema-min.png" alt="" width="643" height="225" />
+<h3><strong>Meta-path</strong></h3>
+另外一个结构上的概念是<strong>元路径</strong>。
+元路径就是指schema上节点类型之间的路径。由于知识图谱中的节点关系类型很多，因此，元路径的数量也是呈指数级增长的，因此在KG的表示学习领域，很少用所有节点的元路径来建模，但是我们可以将元路径看做一种推理过程，在KG的推理任务中，元路径是非常有价值的，它可以应用到问答系统，推荐系统等具体任务。
+<h2><strong>知识图谱结构信息建模</strong></h2>
+<img class="alignnone wp-image-7077" src="https://cdn.omegaxyz.com/2021/06/structure_based_kg-min.jpg" alt="" width="417" height="208" />
+
+其中，利用KG中的结构信息进行表示学习是研究最多的方向。很显然，结构信息的建模无非是从边、路径和子图三个部分进行。其中大部分工作室基于边的，少部分工作是采用知识图谱中的路径建模的（这个路径是真实路径而不是元路径），几乎没有纯粹使用子图建模的KG表示学习方法。
+<h3><strong>Link-based</strong></h3>
+和基于消息传递的GNN不同的是，由于KG中的实体和关系类型非常多，它的表示学习是通过设计一个三元组评分函数来建模，而不是使用元路径。
+
+<img class="alignnone wp-image-7074" src="https://cdn.omegaxyz.com/2021/06/link_based_kg-min.png" alt="" width="738" height="183" />
+
+基于一阶结构信息的嵌入，也就是基于边的嵌入方法有三种经典的模型 [2]，其中transE生成三元组的嵌入向量，通过评分函数，使得这些向量满足头实体+关系=尾实体这样的性质。但是它只能处理1对1的关系，不能处理1对多多对一多对多的关系，transH和transR分别将实体和关系映射到不同的超平面或坐标系中来解决这样的问题。
+<h3><strong>Path-based</strong></h3>
+<img class="alignnone wp-image-7075" src="https://cdn.omegaxyz.com/2021/06/ptranse-min-e1623895443266.jpg" alt="" width="605" height="336" />
+PtransE [3]是一个基于路径的模型。和transE不同的是，它将实体之间的路径信息考虑到建模过程中去。从图中可以看到，作者将路径变成一种复合关系，使得这些向量满足头实体+复合关系=尾实体的要求来进行训练。其中的能量函数体现了这个过程。
+
+同时，考虑到不同的路径产生的贡献是不同的，因此这个模型通过路径中分支的数量给每个路径打分，分支数量越少，该路径的可靠度就越高。这是第二个公式体现的，最后通过负采样损失函数进行训练。
+<h3><strong>Subgraph-based</strong></h3>
+前面提到过，利用子图进行建模的论文很少，只有一些交叉的工作，例如这里的CoLAKE [4]，这是一个同时训练自然语言和知识的模型，它首先将文本中的单词连成一个完全图，接着从知识图谱中找到文本中出现实体的子图，将文本的完全图和KG的子图合并。在很多自然语言任务上可以获得很好的效果。
+<h3>其他</h3>
+那么我们如何将更具体的结构信息融入到表示学习当中去呢？我们先看到图嵌入中的一个例子。这是一个今年的论文，它是基于VNGE的神经网络GNN模型，叫做VNEstruct [5]。
+
+<img class="alignnone wp-image-7078" src="https://cdn.omegaxyz.com/2021/06/vne_struct-min.png" alt="" width="727" height="195" />
+
+图中，一个节点的一跳邻域是深黄色，二跳是浅黄色，这个模型给每个节点设置了一个半径R，在训练之前，计算这个半径R内，1跳邻域子图的VNGE到R跳领域子图的VNGE。随后，作者将这R个值组合成一个向量进行训练。
+
+但是我觉得这不是一个完美的模型。一个完美的模型应该是将整个图作为输入，通过神经网络提取特征进行训练，而VNEstrcut这个模型，是在输入之前，对节点做特征工程，将人工提取的VNGE向量输入到神经网络。因此一个好的模型应该是端到端的模型，因为神经网络本质上是一个特征提取器，它根据具体任务有选择地提取图的结构特性。
+<h2><strong>参考</strong></h2>
+<ol>
+ 	<li>Wang et al., “<u>A Survey on Heterogeneous Graph Embedding: Methods, Techniques, Applications and Sources</u>,” arXiv. 30-Nov-2020<u>.</u></li>
+ 	<li>Wang et al., “<u>Knowledge Graph Embedding: A Survey of Approaches and Applications</u>,” TKDE, vol. 29, no. 12, pp. 2724–2743, Oct. 2017.</li>
+ 	<li>Lin et al., “<u>Modeling Relation Paths for Representation Learning of Knowledge Bases</u>,” EMNLP, 2015, vol. cs.CL.</li>
+ 	<li>Sun, Tianxiang, et al. "<u>CoLAKE</u><u>: Contextualized Language and Knowledge Embedding</u>." Proceedings of the 28th International Conference on Computational Linguistics. 2020.</li>
+ 	<li>Dasoulas,et al., “<u>Ego-based Entropy Measures for Structural Representations on Graphs</u>,” arXiv, vol. cs.LG. 17-Feb-2021.</li>
+</ol>
+更多内容访问 [omegaxyz.com](https://omegaxyz.com/)
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2021 • OmegaXYZ-版权所有 转载请注明出处
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astar算法解决八数码问题Python实现（GUI） · OmegaXYZ</title>
+  <meta name="description" content="简介 八数码问题：在3*3的方格棋盘上，摆放着1到8这八个数码，有1个方格是空的，其初始状态如图1所示，要求对空格执行空格左移、空格右移、空格上移和空格下移这四个操作使得棋盘从初始状态到目标状态。 状态图搜索： 搜索树：搜索过程中经过的节点和边按原图的连接关系构成一个树型的有向图，称为搜索树。 搜索方式 树式搜索：记录搜索过程中所经过的所...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/22/eight-puzzle-python/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-22</div>
+        <h1>Astar算法解决八数码问题Python实现（GUI）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/pyqt/index.html">PyQt</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+八数码问题：在3*3的方格棋盘上，摆放着1到8这八个数码，有1个方格是空的，其初始状态如图1所示，要求对空格执行空格左移、空格右移、空格上移和空格下移这四个操作使得棋盘从初始状态到目标状态。
+
+<strong>状态图搜索：</strong>
+<ul>
+ 	<li>搜索树：搜索过程中经过的节点和边按原图的连接关系构成一个树型的有向图，称为搜索树。</li>
+ 	<li>搜索方式
+<ul>
+ 	<li>树式搜索：记录搜索过程中所经过的所有节点和边</li>
+</ul>
+</li>
+ 	<li>路径的获得
+<ul>
+ 	<li>树式搜索：反向求解</li>
+</ul>
+</li>
+</ul>
+<strong>树式搜索算法：</strong>
+<ul>
+ 	<li>步1 把初始节点放入OPEN表；</li>
+ 	<li>步2 检查OPEN表，若为空，则问题无解，退出；</li>
+ 	<li>步3 移出OPEN表中第一个节点N并放入CLOSED表中，并编号为n;</li>
+ 	<li>步4 考察节点N是否为目标节点，若是，则搜索成功，退出；</li>
+ 	<li>步5 若N不可扩展，则转步2；</li>
+ 	<li>步6 扩展节点N，生成所有子节点，对这组子节点作如下处理：</li>
+ 	<li>（1）、如果有节点N的先辈节点，则删除；</li>
+ 	<li>（2）、如果有已存在于OPEN表的节点，也删除；但删除之前要比较其返回初始节点的新路径与原路径，如果新路径“短”，则修改这些节点在OPEN表中的原指向父节点的指针，使其指向新的父节点。</li>
+ 	<li>（3）、如果有已存在于CLOSED表中的节点，则作与（2）同样的处理，并且再将其移出CLOSED表，放入OPEN表重新扩展；</li>
+ 	<li>（4）、对其余子节点，配上指向父节点n的指针后放入OPEN表，对OPEN表按某种搜索策略排序后转步2。</li>
+</ul>
+<strong>启发式搜索的实验原理：</strong>
+
+启发式搜索就是在状态空间中的搜索对每一个搜索的位置进行评估，得到最好的位置，再从这个位置进行搜索直到目标。这样可以省略大量无谓的搜索路径，提高了效率。评估函数f(x)定义为：从初始节点S0出发，约束地经过节点X到达目标节点Sg的所有路径中最小路径代价的估计值。
+
+其一般形式为：
+
+<strong>f(x)=g(x)+h(x)</strong>
+
+其中g(x)表示从初始节点S0到节点X的实际代价；h(x)表示从X到目标节点Sg的最优路径的估计代价。但是实际的形式要根据问题特性确定。
+
+<strong>Closed</strong><strong>表和open表</strong>
+
+——closed表对树式搜索来说存储的是正在成长的搜索树，对线式搜索来说存储的是不断伸长的折现，本省就是所求的路径。
+
+——open表存储当前待考察的节点。
+
+<img class="wp-image-5391 aligncenter" src="https://cdn.omegaxyz.com/2019/01/eight-puzzle1.png" alt="" width="424" height="169" />
+
+使用一种启发式搜索方法（A算法）编程求解八数码问题（初始状态任选，并对实验结果进行分析得出合理的结论。
+<h2><strong>流程图</strong></h2>
+<img class="wp-image-5392 aligncenter" src="https://cdn.omegaxyz.com/2019/01/eight-puzzle2.png" alt="" width="406" height="450" />
+<h2><strong>代码</strong></h2>
+<pre ><code class="language-python">import sys
+import random
+from enum import IntEnum
+from PyQt5.QtWidgets import QLabel, QWidget, QApplication, QGridLayout, QMessageBox
+from PyQt5.QtGui import QFont, QPalette
+from PyQt5.QtCore import Qt
+import copy
+
+solution = []
+solutionStep = 0
+times = 0
+
+# 用枚举类表示方向
+class Direction(IntEnum):
+    UP = 0
+    DOWN = 1
+    LEFT = 2
+    RIGHT = 3
+
+
+class NumberHuaRong(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.blocks = []
+        self.zero_row = 0
+        self.zero_column = 0
+        self.gltMain = QGridLayout()
+        self.initUI()
+
+    def initUI(self):
+        # 设置方块间隔
+        self.gltMain.setSpacing(10)
+
+        self.onInit()
+
+        # 设置布局
+        self.setLayout(self.gltMain)
+        # 设置宽和高
+        self.setFixedSize(400, 400)
+        # 设置标题
+        self.setWindowTitle('八数码问题')
+        # 设置背景颜色
+        self.setStyleSheet("background-color:gray;")
+        self.show()
+
+    # 初始化布局
+    def onInit(self):
+        # 产生顺序数组
+        self.numbers = list(range(1, 9))
+        self.numbers.append(0)
+
+        # 将数字添加到二维数组
+        for row in range(3):
+            self.blocks.append([])
+            for column in range(3):
+                temp = self.numbers[row * 3 + column]
+
+                if temp == 0:
+                    self.zero_row = row
+                    self.zero_column = column
+                self.blocks[row].append(temp)
+        print(self.blocks)
+        # 打乱数组
+        for i in range(500):
+            random_num = random.randint(0, 3)
+            self.move(Direction(random_num))
+
+        self.updatePanel()
+
+    # 检测按键
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == Qt.Key_Up or key == Qt.Key_W:
+            self.move(Direction.UP)
+        if key == Qt.Key_Down or key == Qt.Key_S:
+            self.move(Direction.DOWN)
+        if key == Qt.Key_Left or key == Qt.Key_A:
+            self.move(Direction.LEFT)
+        if key == Qt.Key_Right or key == Qt.Key_D:
+            self.move(Direction.RIGHT)
+        if key == Qt.Key_Enter or key == Qt.Key_Space:
+            global solution
+            solutionLen = len(solution)
+            global solutionStep
+            global times
+            self.blocks = solution[solutionLen-solutionStep-3]
+            print(self.blocks)
+            solutionStep = solutionStep + 1
+            times += 1
+        self.updatePanel()
+        if self.checkResult():
+            if QMessageBox.Ok == QMessageBox.information(self, '挑战结果', '恭喜您完成挑战！总步数：' + str(times)):
+                self.onInit()
+
+    # 方块移动算法
+    def move(self, direction):
+        if(direction == Direction.UP): # 上
+            if self.zero_row != 2:
+                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row + 1][self.zero_column]
+                self.blocks[self.zero_row + 1][self.zero_column] = 0
+                self.zero_row += 1
+        if(direction == Direction.DOWN): # 下
+            if self.zero_row != 0:
+                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row - 1][self.zero_column]
+                self.blocks[self.zero_row - 1][self.zero_column] = 0
+                self.zero_row -= 1
+        if(direction == Direction.LEFT): # 左
+            if self.zero_column != 2:
+                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row][self.zero_column + 1]
+                self.blocks[self.zero_row][self.zero_column + 1] = 0
+                self.zero_column += 1
+        if(direction == Direction.RIGHT): # 右
+            if self.zero_column != 0:
+                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row][self.zero_column - 1]
+                self.blocks[self.zero_row][self.zero_column - 1] = 0
+                self.zero_column -= 1
+
+    def updatePanel(self):
+        for row in range(3):
+            for column in range(3):
+                self.gltMain.addWidget(Block(self.blocks[row][column]), row, column)
+
+        self.setLayout(self.gltMain)
+
+    # 检测是否完成
+    def checkResult(self):
+        # 先检测最右下角是否为0
+        if self.blocks[2][2] != 0:
+            return False
+
+        for row in range(3):
+            for column in range(3):
+                # 运行到此处说名最右下角已经为0，pass即可
+                if row == 2 and column == 2:
+                    pass
+                #值是否对应
+                elif self.blocks[row][column] != row * 3 + column + 1:
+                    return False
+
+        return True
+
+class Block(QLabel):
+    """ 数字方块 """
+
+    def __init__(self, number):
+        super().__init__()
+
+        self.number = number
+        self.setFixedSize(80, 80)
+
+        # 设置字体
+        font = QFont()
+        font.setPointSize(30)
+        font.setBold(True)
+        self.setFont(font)
+
+        # 设置字体颜色
+        pa = QPalette()
+        pa.setColor(QPalette.WindowText, Qt.white)
+        self.setPalette(pa)
+
+        # 设置文字位置
+        self.setAlignment(Qt.AlignCenter)
+
+        # 设置背景颜色\圆角和文本内容
+        if self.number == 0:
+            self.setStyleSheet("background-color:white;border-radius:10px;")
+        else:
+            self.setStyleSheet("background-color:blue;border-radius:10px;")
+            self.setText(str(self.number))
+
+#########################################
+app = QApplication(sys.argv)
+ex = NumberHuaRong()
+start = ex.blocks
+start.append(0)
+start.append(0)
+target = [[1, 2, 3], [4, 5, 6], [7, 8, 0], -1]
+
+
+def evaluate(state):
+    global target
+    f = 0
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] != target[i][j]:
+                f += 1
+    return f
+
+
+def findSpace(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+
+
+def expand(state, t):
+    x = findSpace(state)[0]
+    y = findSpace(state)[-1]
+    expState = []
+    # up
+    if x-1 &gt;= 0 and t == 0:
+        up = copy.deepcopy(state)
+        up[x-1][y], up[x][y] = up[x][y], up[x-1][y]
+        expState.append(up)
+        return up
+    if x+1 &lt;= 2 and t == 1:
+        down = copy.deepcopy(state)
+        down[x+1][y], down[x][y] = down[x][y], down[x+1][y]
+        expState.append(down)
+        return down
+    if y-1 &gt;= 0 and t == 2:
+        left = copy.deepcopy(state)
+        left[x][y-1], left[x][y] = left[x][y], left[x][y-1]
+        expState.append(left)
+        return left
+    if y+1 &lt;= 2 and t == 3:
+        right = copy.deepcopy(state)
+        right[x][y+1], right[x][y] = right[x][y], right[x][y+1]
+        expState.append(right)
+        return right
+
+
+def findBestID():
+    global openValue
+    tmin = 10
+    flag = 0
+    for i in range(len(openList)):
+        if openList[i][-1] == 0 and openValue[i] &lt; tmin:
+            tmin = openValue[i]
+            flag = i
+    return flag
+
+
+def judgeSame(state1, state2):
+    for i in range(3):
+        for j in range(3):
+            if state1[i][j] != state2[i][j]:
+                return False
+    return True
+
+
+def evaOpenValue():
+    global openList
+    global openValue
+    openValue = []
+    for i in range(len(openList)):
+        temp = evaluate(openList[i])
+        openValue.append(temp)
+
+def evaCloseValue():
+    global closeList
+    global closeValue
+    closeValue = []
+    for i in range(len(closeList)):
+        temp = evaluate(closeList[i])
+        closeValue.append(temp)
+
+
+openList = []
+openValue = []
+closeList = []
+closeValue = []
+openList.append(start)
+
+tarID = 0
+while openList is not None:
+    evaOpenValue()
+    minID = findBestID()
+    if judgeSame(openList[minID], target):
+        print('ok')
+        tarID = minID
+        break
+    for t in range(4):
+        expTemp = expand(openList[minID], t)
+        if expTemp is not None:
+            evai = evaluate(expTemp)
+
+            expTemp[3] = minID
+            expTemp[-1] = 0
+            flag1 = 0
+            for j in range(len(openList)):
+                if judgeSame(expTemp, openList[j]) and openList[j][-1] == 0:
+                    flag1 = 1
+                    break
+            flag2 = 0
+            for j in range(len(closeList)):
+                if judgeSame(expTemp, closeList[j]):
+                    flag2 = 1
+                    break
+            if flag2 == 0 and flag1 == 0:
+                openList.append(expTemp)
+                openValue.append(evai)
+    closeList.append(openList[minID])
+    openList[minID][-1] = 1
+
+
+temp = openList[tarID]
+
+while temp[-2] != 0:
+    for i in range(3):
+        for j in range(3):
+            print(temp[i][j], end=' ')
+        print('\n')
+    print('---------')
+    solution.append(temp[:3])
+    temp = openList[temp[-2]]
+
+
+solution.append(temp[:3])
+print(temp[:3])
+solution.append(start[:3])
+print(start[:3])
+solutionStep = len(solution) - 1
+print(solution)
+sys.exit(app.exec_())</code></pre>
+<strong>效果如顶部的图所示</strong>
+
+注意GUI部分方向键自己控制，空格键利用算法自动走。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

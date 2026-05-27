@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time series knowledge mapping reasoning based on historical comparisons · OmegaXYZ</title>
+  <meta name="description" content="As a collection of human knowledge, knowledge mapping (KGs) shows good prospects in areas such as natural language processing, referral systems and information retrieval. The traditional KG is usually a static knowledge base, which expands using graphic structure data and integrates facts (also referred to as events) in the form of three-chamber groups (s, p, o), where s and o represent the dominant (head entity) and Penn (tail entity) entities, respectively, and p indicates the term as a relationship type. In the real world, knowing...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2022/12/25/cenet/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2022-12-25</div>
+        <h1>Time series knowledge mapping reasoning based on historical comparisons</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Time series knowledge mapping</strong></h2>Knowledge mapping (KGs), as a collection of human knowledge, shows good prospects in areas such as natural language processing, referral systems and information retrieval. The traditional KG is usually a static knowledge base, which uses graphics and data to expand in three-dimensional groups.<em>（s, p, o）</em>of which<em>s</em>and<em>o</em>The main language (head entity) and the Penn (tail entity) entities, respectively,<em>p</em>The term is used as a relationship type. In the real world, as knowledge continues to develop, the construction and application of time series knowledge (TKG) becomes an area hotspot, of which three groups<em>（s, p, o）</em>It's expanded to a four-dimensional group, adding a time stamp t, that is,<em>（s, p, o, t）</em>I don't know. The chart below is composed of a series of international political events.
+
+<img alt="" class="alignnone wp-image-7665" height="277" src="https://cdn.omegaxyz.com/2022/12/CENET_tkg.png" width="699"/>
+<h2><strong>Time series knowledge mapping reasoning</strong></h2>TKG has provided new perspectives and insights for many downstream applications, such as decision-making, stock forecasting and dialogue systems, thus generating strong interest in TKG reasoning. In doing so, we have focused on predicting future events on TKG.
+
+In order to model the structure and time characteristics of TKG for future event predictions, some mainstream models, such as RE-NET, can easily predict repetitive or cyclical events using a self-return approach. However, in the TKG dataset ICEWS (Integrated Crisis Early Warning System), about 40 per cent of new events occur.
+
+The prediction of these new events is very challenging because they have fewer interactive traces on the historical timeline. For example, the right part of figure 2 shows the query.<em>（the United States, Negotiate, ?, t+1）</em>and its corresponding new events<em>（the United States, Negotiate, Russia, t+1）</em>Most of the existing methods generally yield the wrong results in such inquiries because of the excessive attention paid to frequent repeat events.
+
+Problems with existing models:
+
+<img alt="" class="alignnone wp-image-7664" height="307" src="https://cdn.omegaxyz.com/2022/12/CENET_problems.png" width="699"/>In the reasoning process, on the other hand, the current methodology ranked all the candidate entities in the overall chart with a probability score, without any beas. We believe that this type of bias is necessary in dealing with the missing entities of different events, as is the case in the real world, for example, in the case of repetitive or cyclical events, where priority should be given to entities that are frequently occurring, while in the case of new events, more attention needs to be paid to entities with less historical interaction.
+<h2><strong>Time series knowledge mapping reasoning based on historical comparisons</strong></h2>In doing so, we will go beyond the limitations of historical information to exploit potential time-series patterns from the whole body of knowledge. For the sake of a clearer description of our design, we refer to past events associated with the entities in the current query as historical events of the query and other events as non-historical events. Intuitively, we believe that the TKG events are not only related to its historical events, but are also indirectly related to non-observed potential factors. The historical events we can see are only the tip of the iceberg (figure 2). We proposed a new TKG reasoning model, called CENET. The following chart gives the framework of the model.
+
+<img alt="" class="alignnone wp-image-7658" height="388" src="https://cdn.omegaxyz.com/2022/12/CENET_architecture.png" width="1012"/>
+<strong>CENET model framework:</strong>The left segment is the distribution of learning entities from historical and non-historical relationships. The right side is the two stages of historical comparative learning, the aim of which is to identify highly relevant entities, with the output being the Boolean mask vector. The intermediate part is based on a code-based reasoning process that combines distributions learned from historical and non-historical dependence relationships with mask vectors to produce final results.
+
+Could not close temporary folder: %s<em>（s, p, ?, t）</em>CNENT considers historical and non-historical events and identifies important entities through comparative learning. Specifically, the model starts with a scoring strategy based on a replication mechanism to model the relevance of historical and non-historical events (formula 1 and 2).
+
+<img alt="" class="alignnone wp-image-7666" height="111" src="https://cdn.omegaxyz.com/2022/12/CENET1.png" width="502"/>
+<img alt="" class="alignnone wp-image-7667" height="67" src="https://cdn.omegaxyz.com/2022/12/CENET2.png" width="500"/>In addition, all queries can be divided into two categories depending on the entity to which they are addressed: the latter is a historical or non-historical entity. Therefore, CENET naturally uses oversight against learning losses to train the expression of two types of queries (i.e. in formula 3)<em>v_q</em>) To further assist in the training of sorters with boolean values to identify which entities should receive more attention. In the reasoning process, CENET combines historical and non-historical dependencies distributions and further uses mask-based strategies to consider highly relevant entities based on classification results.
+
+<img alt="" class="alignnone wp-image-7668" height="105" src="https://cdn.omegaxyz.com/2022/12/CENET3.png" width="502"/>
+<strong>Historical comparative learning:</strong>CENET, in phase 1, uses comparative loss learning, and in phase 2, uses cross-cradon loss training binary classification
+
+<img alt="" class="alignnone wp-image-7662" height="482" src="https://cdn.omegaxyz.com/2022/12/CENET_contrastive.png" width="561"/>
+<h2><strong>Experiment</strong></h2>
+<h3><strong>Dataset</strong></h3>We chose five baseline data sets, including three incident-based TKG and two public KGs. These two types of data sets are constructed in different ways. The first three, based on international political events, comprised ICEWS18, ICEWS14 and GDELT, were separated. The events in the last two public KGs (WIKI and YAGO) may have continued for a long time.
+
+<img alt="" class="alignnone wp-image-7663" height="174" src="https://cdn.omegaxyz.com/2022/12/CENET_datasets.png" width="1120"/>
+<h3><strong>Comparative experiments</strong></h3>We have selected the latest TKG reasoning model from 15 industries as a baseline and using Mean Recipal Ranks (MRR) and Hits@1/3/10 (the contribution of correct submissions within top 1/3/10). The results are presented in the table below. The results show that CENET is significantly superior to all available methods for most indicators, and that Hits@1 achieved at least 8.3 per cent relative improvement in the event-based data set compared to the most advanced baseline in the past.
+
+Case-based TKG comparison results:
+<img alt="" class="alignnone wp-image-7660" height="469" src="https://cdn.omegaxyz.com/2022/12/CENET_cmp.png" width="999"/>Public KG comparison test results:
+<img alt="" class="alignnone wp-image-7661" height="483" src="https://cdn.omegaxyz.com/2022/12/CENET_cmp2.png" width="494"/>
+<h3><strong>The digestion experiment.</strong></h3>We analyzed the performance of each of the key components in the model, and the following table shows the results of the digestion experiments. It can be seen that considering historical and non-historical dependence at the same time can achieve better results than considering historical dependence alone, and that historical comparative learning strategies, as well as codes-based inferences, can achieve superior performance.
+
+<img alt="" class="alignnone wp-image-7657" height="318" src="https://cdn.omegaxyz.com/2022/12/CENET_ablation.png" width="1000"/>
+<h3><strong>Case analysis</strong></h3>The case analysis gives examples of models in predicting repeat and new events.
+
+<img alt="" class="alignnone wp-image-7659" height="286" src="https://cdn.omegaxyz.com/2022/12/CENET_case_study.png" width="1000"/>
+<h2><strong>Conclusions</strong></h2>In this paper, we have proposed a new time-series knowledge spectrograph model for event prediction - CENET. The key idea of CENET is to learn a convincing distribution of the whole set of entities and to identify key entities from historical and non-historical dependence in a comparative learning framework. The results of the experiment show that CENET is significantly superior to all available methods on most indicators, especially Hits@1. Future work includes exploring comparative learning skills in knowledge maps, such as finding more rational comparative learning pairs.
+
+<hr/>The work has now been received by AAAI 2023 and the papers and codes are linked as follows:
+
+<img alt="" class="alignnone wp-image-7656" height="151" src="https://cdn.omegaxyz.com/2022/12/CENET_aaai.png" width="702"/>
+<strong>Title of paper:</strong>
+
+Temporal Knowledge Graph Reasoning with Historical Contrastive Learning
+
+<strong>Articles Link:</strong>
+<a href="https://arxiv.org/abs/2211.10904" rel="noopener" target="_blank">https://arxiv.org/abs/2211.10904</a>
+<strong>Code link:</strong>
+<a href="https://github.com/xyjigsaw/CENET" rel="noopener" target="_blank">https://github.com/xyjigsaw/CENET</a>
+
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

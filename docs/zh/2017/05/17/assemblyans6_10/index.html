@@ -1,0 +1,3141 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第六章至第十章 · OmegaXYZ</title>
+  <meta name="description" content="网上的答案是第一版的，重新整理了一下 《汇编语言程序设计教程》人民邮电出版社第二版第六章至第十章 刘慧婷，王庆生 主编 习题及参考答案 第一张到第五章请参考： https://omegaxyz.com/2017/05/04/assemblyans1_5/ 习题6 6.1 画图说明下列数据定义语句所示内存空间的数据，并回答寄存器的值。 OR...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/17/assemblyans6_10/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-17</div>
+        <h1>《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第六章至第十章</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">网上的答案是第一版的，重新整理了一下
+
+《汇编语言程序设计教程》人民邮电出版社第二版第六章至第十章
+刘慧婷，王庆生 主编
+习题及参考答案
+
+第一张到第五章请参考：<a href="https://omegaxyz.com/2017/05/04/assemblyans1_5/">https://omegaxyz.com/2017/05/04/assemblyans1_5/</a>
+
+<strong>习题6</strong>
+
+<strong>6.1</strong> 画图说明下列数据定义语句所示内存空间的数据，并回答寄存器的值。
+
+ORG  0
+
+ARRAY LABEL  BYTE
+
+DA1  DW 2，9，14，3，315H，-6
+
+DA2  DB 7，‘ABCDEDFG’
+
+LEN = $－DA2
+
+ORG  100H
+
+DA3  DW  DA4
+
+DA4  DB  4  DUP(2 DUP(1,2,3),4)
+
+。。。。。。
+
+MOV  AL，ARRAY+2          （AL）=（    ）H
+
+ADD  AL，DA2+1            （AL）=（    ）H
+
+MOV  AX，DA2-DA1          （AX）=（    ）H
+
+MOV  BL，LEN              （BL）=（    ）H
+
+MOV  AX, DA3              （AX）=（    ）H
+
+MOV  BX, TYPE  DA4        （BX）=（    ）H
+
+MOV  BX, OFFSET  DA4      （BX）=（    ）H
+
+MOV  CX, SIZE  DA4        （CX）=（    ）H
+
+MOV  DX, LENGTH  DA4      （DX）=（    ）H
+
+MOV  BX, WORD PTR  DA4    （BX）=（    ）H
+
+MOV  BL, LEN  AND  0FH    （BL）=（    ）H
+
+MOV  BL, LEN  GT  5       （BL）=（    ）H
+
+MOV  AX, LEN  MOD 5       （AX）=（    ）H
+
+答：
+
+MOV  AL，ARRAY+2          （AL）=（ 09    ）H
+
+ADD  AL，DA2+1            （AL）=（ 41    ）H
+
+MOV  AX，DA2-DA1          （AX）=（ 000c  ）H
+
+MOV  BL，LEN              （BL）=（  09   ）H
+
+MOV  AX, DA3              （AX）=（ 0102  ）H
+
+MOV  BX, TYPE  DA4        （BX）=（  0001 ）H
+
+MOV  BX, OFFSET  DA4      （BX）=（  0102 ）H
+
+MOV  CX, SIZE  DA4        （CX）=（  0004 ）H
+
+MOV  DX, LENGTH  DA4      （DX）=（  0004 ）H
+
+MOV  BX, WORD PTR  DA4    （BX）=（  0201 ）H
+
+MOV  BL, LEN  AND  0FH    （BL）=（  09   ）H
+
+MOV  BL, LEN  GT  5       （BL）=（  ff   ）H
+
+MOV  AX, LEN  MOD 5       （AX）=（  0004 ）H
+
+&nbsp;
+
+<strong>6.2 </strong>变量和标号有哪些区别？变量和标号有哪些属性？如何获取属性值？写出指令。
+
+答：变量是为指令提供的操作数，标号是为指令提供标识，都是为了在指令中引用。它们最主要的属性有：偏移属性，段属性，类型属性。例如：
+
+MOV   BX， OFFSET  VAL ；取偏移属性
+
+MOV   BX， SEG   VAL   ；取段属性
+
+MOV   BX， TYPE  VAL   ；取类型属性
+
+<strong> </strong>
+
+<strong>6.3 </strong>指令和伪指令的区别在哪里？伪指令可以出现在代码段吗？指令可以在数据段吗？
+
+答：指令只能出现在代码段，定义数据的伪指令通常在数据段，伪指令在代码段两端也可，但不能在指令之间。
+
+<strong> </strong>
+
+<strong>6.4 </strong>下面的程序能否输出字符0～9？如不能，应如何修改？
+
+CODE    SEGMENT
+
+ASSUME CS:CODE
+
+K=30H
+
+J  DW  0
+
+START:  MOV  DL, K
+
+MOV  AH, 2
+
+INT  21H
+
+K=K+1
+
+INC  J
+
+CMP  J, 10
+
+JNZ  START
+
+MOV  AH, 4CH
+
+INT  21H
+
+CODE    ENDS
+
+END  START
+
+答：通过汇编和连接可以运行，但程序真正意图是输出ASCII码为30H~39H的字符0~9，应作修改。
+
+CODE    SEGMENT
+
+ASSUME CS:CODE
+
+K=30H                ；改为 K  DB  30H
+
+J  DW  0
+
+START:  MOV  DL, K
+
+MOV  AH, 2
+
+INT  21H
+
+K=K+1     ；K=K+1是伪指令，没生成代码，改为 INC  K
+
+INC  J
+
+CMP  J, 10
+
+JNZ  START
+
+MOV  AH, 4CH
+
+INT  21H
+
+CODE    ENDS
+
+END  START
+
+&nbsp;
+
+<strong> </strong>
+
+<strong>6.5 </strong>用16位指令编写完整程序，并上机调试，计算V=(X+Y)*R，其中所有变量均为32位变量，X、Y、R的具体数值由你自己确定，变量定义格式如下：
+
+X    DW ?,?
+
+Y    DW  ?,?
+
+R    DW  ?,?
+
+V    DW 4 dup(?)
+
+答：（32位指令）
+
+data segment
+
+x dw 1
+
+y dw 2
+
+r dw 3
+
+v dw 4 dup(?)
+
+data ends
+
+&nbsp;
+
+code segment
+
+assume cs:code,ds:data
+
+.386p
+
+start:
+
+mov ax,data
+
+mov ds,ax
+
+mov eax,x
+
+add eax,y
+
+mov ebx,r
+
+imul ebx
+
+mov v,eax
+
+mov v+4,edx
+
+mov dl,al
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>6.6</strong>数据定义如下：执行下列指令，填写寄存器的值
+
+ARRAY  LABEL  BYTE
+
+DA1  DW  2，9，14，3
+
+DA2  DB  7，‘ABCDEDF’
+
+LEN = $－DA1
+
+MOV  AL，ARRAY+2          （AL）=（      ）H
+
+ADD  AL，DA2+1             （AL）=（     ）H
+
+MOV  AX，DA2-DA1          （AX）=（     ）H
+
+MOV  AX，DA1+1             （AX）=（    ）H
+
+MOV  BL，LEN               （BL）=（     ）H
+
+&nbsp;
+
+答：  MOV  AL，ARRAY+2          （AL）=（  09  ）H
+
+ADD  AL，DA2+1             （AL）=（  41  ）H
+
+MOV  AX，DA2-DA1          （AX）=（  0008 ）H
+
+MOV  AX，DA1+1             （AX）=（ 0900  ）H
+
+MOV  BL，LEN               （BL）=（  10   ）H
+
+&nbsp;
+
+<strong> </strong>
+
+<strong>6.7 </strong>定义数据段，满足如下要求：
+
+（1）array为字符串变量：‘inspire a generation！’
+
+（2）data1 为十六进制数：0FEDCBAH
+
+（3）data2为二进制数：10101010B。
+
+（4）data3为100个为零的字节变量。
+
+（5）分配500个字的空间待用。
+
+答： data segment
+
+Array db ‘inspire a generation!’
+
+Data1 df  0fedcbah
+
+Data2 db 10101010B
+
+Data3 db 100 dup(0)
+
+dw 500 dup(?)
+
+data ends
+
+<strong> </strong>
+
+<strong>6.8 </strong>假设程序中，数据段定义如下：
+
+Data1 db 50 dup（？）
+
+Data2 dw 10 dup（0）
+
+Data3 dq  5 dup（2 dup（1,2））
+
+（1）用指令将数据段首地址放入数据段寄存器中。
+
+（2）用一条指令将data2的第一个数据放入BX寄存器中。
+
+（3）将数据段字节数放入CX寄存器。
+
+答：mov ax，data1    mov ds，ax
+
+Mov bx，data2[0]
+
+Mov cx, 50+10*2+20*8
+
+<strong> </strong>
+
+<strong>6.9</strong>现有数据定义如下：
+
+Array1 dw  5 DUP（0）
+
+Array2 EQU BYTE PTR Array1
+
+请说明这两个变量之间的联系。
+
+答：当汇编后，PTR类型操作符使Array2具有Array1相同的段地址和偏移地址，但它的数据类型为字节型。
+
+&nbsp;
+
+<strong>6.10 </strong>给出下列程序段汇编后的结果：
+
+Val1 EQU  6
+
+Val2 EQU  3
+
+MOV BX,(Val1 LT 5) AND 20
+
+MOV BX, (VAL2 GE 1) AND 30
+
+MOV BX,(Val2  AND 5) OR (VAL1 GE 5)
+
+MOV BX,(Val2 - VAL1) GE 5
+
+答：MOV BX,0   MOV BX,30   MOV BX,FF   MOV BX,0
+
+&nbsp;
+
+<strong>6.11</strong>设数据段定义如下：
+
+Data segment
+
+Org 20h
+
+Data1=4
+
+Data2=data1+25h
+
+Data3 db ‘123456’
+
+Db 47h,48h
+
+Count EQU $-data1
+
+Data4 dw 49h,4Ah,4Bh
+
+Data ends
+
+回答下列问题：
+
+（1）Data1的偏移地址是多少？
+
+（2）Count的值是多少？
+
+答：（1）0020h   （2）0024h
+
+&nbsp;
+
+<strong>6.12</strong>现有一数据区data1，需对其进行按字和按字节访问，请问应如何进行设置？
+
+答：可以利用“LABEL“标签进行设置，如：
+
+Operator_b LABEL  byte
+
+Operator_w  dw   100dup(0)
+
+其中按字节访问时采用Operator_b变量，按字访问时采用Operator_w变量。
+
+&nbsp;
+
+<strong>6.13</strong>请问什么是PSP，EXE文件和COM文件有何区别？
+
+答：PSP是程序段前缀。程序在执行前调入内存，由DOS确定装入的起始地址，建立PSP，接着再装入程序，其大小为256个字节。EXE文件和COM文件相比，COM文件只有一个段地址，由二进制代码组成，比EXE文件小，并且要求程序从偏移地址0100H单元开始，因为之前存放为PSP。
+
+&nbsp;
+
+<strong>习题7</strong>
+
+<strong>7.1</strong> 下列程序是在3个数中找出最小的数并放入AL，在括号中填入指令使其完整。
+
+<strong>      </strong>mov    al，x
+
+mov    bl，y
+
+mov    cl，z
+
+cmp    al，bl
+
+(          )
+
+xchg   al，bl
+
+l1: cmp   al, cl
+
+jle  l2
+
+(          )
+
+l2: ret
+
+答：（1）jl  l1
+
+（2）xchg al,cl
+
+&nbsp;
+
+<strong>7.2</strong> 数据段如下：
+
+data   segment
+
+da1   db 1，2，‘abcd’
+
+count  = $-da1
+
+da2    db  9 dup(?)
+
+data   ends
+
+补充括号处的指令，使得程序把DA1数据区数据移到DA2数据区。
+
+mov   ax，data
+
+mov    ds, ax
+
+mov   es，(       )
+
+mov   cx，(       )
+
+mov    si, (      )
+
+(         )
+
+(         )
+
+<strong>答：      </strong>mov   es，( AX     )
+
+mov   cx，( COUNT     )
+
+mov    si, ( OFFSET  DA1     )
+
+( MOV  DI, OFFSET  DA2        )
+
+( REP  MOVSB                )
+
+<strong> </strong>
+
+<strong> </strong>
+
+<strong>7.3 </strong>将AX和BX进行加、减、乘或除的运算，每种运算由用户从键盘上选择。程序中设置寄存器的值，或在DEBUG下设定寄存器值并在DEBUG下运行程序。
+
+答：code segment
+
+assume cs:code
+
+main proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ah,1
+
+int 21h
+
+cmp al,31h   ;1加
+
+jz  ad
+
+cmp al,32h    ;2减
+
+jz  su
+
+cmp al,33h   ;3乘
+
+jz  mu
+
+cmp al,34h    ;4除
+
+jz  di
+
+ad:ADD AX,BX
+
+JMP exit
+
+su:SUB AX,BX
+
+JMP exit
+
+mu:MUL BX
+
+JMP exit
+
+d:DIV BX
+
+exit:
+
+ret
+
+main  endp
+
+code ends
+
+end main
+
+&nbsp;
+
+<strong>7.4 </strong>编写程序，从键盘接收一个小写字母，然后找出它的前导字符和后续字符，再按顺序显示这三个字母。
+
+答：code segment
+
+assume cs:code
+
+main   proc far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ah,1
+
+int 21h
+
+cmp al,61h
+
+jb  exit
+
+cmp al,7ah
+
+ja  exit
+
+mov bx,ax
+
+sub al,1h    ;输出前一字符
+
+mov dl,al
+
+mov ah,2
+
+int 21h
+
+mov dl,bl    ；输出当前字符
+
+mov ah,2
+
+int 21h
+
+add dl,1h    ;输出后一字符
+
+mov ah,2
+
+int 21h
+
+exit:ret
+
+main  endp
+
+code ends
+
+end main
+
+&nbsp;
+
+<strong>7.5 </strong>分别用LOOP循环和条件转移指令实现1+2+3+……+100，并将结果存入AX。
+
+答：(1)code segment
+
+assume cs:code
+
+main  proc  far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov bx,1
+
+mov ax,0
+
+mov cx，99
+
+a:add ax,bx
+
+inc bx
+
+loop a
+
+exit:ret
+
+code ends
+
+end main
+
+&nbsp;
+
+(2)code segment
+
+assume cs:code
+
+main  proc  far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov bx,1
+
+mov ax,0
+
+mov cx，99
+
+a:add ax,bx
+
+inc bx
+
+cmp bx,101
+
+jnz a
+
+exit:ret
+
+main  endp
+
+code ends
+
+end main
+
+<strong>7.6</strong> 打印下面图形。
+
+*
+
+**
+
+***
+
+****
+
+*****
+
+******
+
+答：code segment
+
+assume cs:code
+
+main  proc  far
+
+push ds
+
+sub ax,ax
+
+push ax
+
+mov ax,1
+
+a:mov cx,ax
+
+b:mov ah,2
+
+mov dl,’*’
+
+int 21h
+
+loop  b
+
+cmp ax,6
+
+jz exit
+
+inc ax
+
+mov ah,2
+
+mov dl,13
+
+int 21h
+
+mov ah,2
+
+mov dl,10
+
+int 21h
+
+jmp a
+
+exit:ret
+
+code ends
+
+end main
+
+&nbsp;
+
+<strong>7.7 </strong>求已知带符号数字节数组ARRAY的平均值，ARRAY的首字节单元为数组元素的个数。
+
+答：
+
+data segment
+
+ARRAY   db  5,01,12,23,45,F3
+
+data ends
+
+&nbsp;
+
+code segment
+
+assume cs:code
+
+start:
+
+mov ax,data
+
+mov ds，ax
+
+mov ax,0
+
+mov cl,array
+
+mov ch,0
+
+mov bl,cl
+
+lea si,array+1
+
+a:add al,array[si]
+
+inc si
+
+loop a
+
+div bl
+
+exit:mov  ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>7.8 </strong>编写程序，如果输入的是大写字母，则输出对应的小写字母；如果输入的是小写字母，则输出对应的大写字母；如果输入的是数字，原样输出；按回车结束。
+
+答：code segment
+
+assume cs:code
+
+start:
+
+mov ah,1
+
+int 21h
+
+cmp al,30h
+
+jb exit
+
+cmp al,3Ah
+
+jb num
+
+cmp al,41h
+
+jb exit
+
+cmp al,5Bh
+
+jb large
+
+cmp al,61h
+
+jb  exit
+
+cmp al,7ah
+
+ja  exit
+
+sub al,20h
+
+jmp num
+
+large: add al,20h
+
+jmp num
+
+num: mov dl,al
+
+mov ah,2
+
+int 21h
+
+exit:mov ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>7.9</strong> 编写程序，实现对无符号字数组ARRAY的6个元素从小到大排序。
+
+答: data  segment
+
+array  dw 6,5,9,4,5,15,3  ;首地址单元6为元素个数
+
+data  ends
+
+code  segment
+
+assume cs:code,ds:data
+
+start:
+
+mov   ax, data
+
+mov   ds, ax
+
+mov   di, array
+
+k1:     mov   cx, di
+
+mov   bx,0
+
+k2:     mov   ax, array[bx]
+
+cmp   ax, array[bx+2]
+
+jl   next
+
+xchg ax,array[bx+2]
+
+mov array[bx],ax
+
+next:   add  bx,2
+
+loop k2
+
+dec  di
+
+jnz  k1
+
+mov   ah,4ch
+
+int   21h
+
+code  ends
+
+end   start
+
+&nbsp;
+
+<strong>7.10</strong> 数据段有两个等长的字数组，分别求出各自的元素之和，并存入元素后面的单元中，即横向相加。再求出两个数组的对应元素之和，并把和存入新数组SUM中，即纵向相加。
+
+答：data  segment
+
+Array1  dw  3, 1,0,1,?     ；设简单数据,第一个为元素个数
+
+Array2  dw  3,1,1,0,?
+
+Array3  dw  3,3 dup (0)   ；存放array1,2的和
+
+data  ends
+
+code  segment
+
+assume cs:code,ds:data
+
+start:
+
+mov   ax, data
+
+mov   ds, ax
+
+mov   ax, 0
+
+lea   bx, array1+2
+
+mov   cx, array1
+
+sumh1:  add   ax, [bx]
+
+add   bx,2
+
+loop  sumh1
+
+mov  [bx],ax
+
+;第二个数组累加
+
+mov   ax, 0
+
+lea   bx, array2+2
+
+mov   cx, array2
+
+sumh2:  add   ax, [bx]
+
+add   bx,2
+
+loop  sumh2
+
+mov  [bx],ax
+
+lea   bx,2
+
+mov   cx, array2
+
+sum3: mov   ax, array1[bx]
+
+add   ax, array2[bx]
+
+mov array3[bx],ax
+
+add   bx,2
+
+loop  sum3
+
+exit:   mov   ah,4ch
+
+int   21h
+
+code  ends
+
+end   start
+
+&nbsp;
+
+<strong>7.11</strong> 编写程序，比较两个从键盘输入的字符串是否相同，如果相同，则显示 ‘YES’,如果不同，则显示发现不同的字符位置。
+
+答：data  segment
+
+mess1   db     13,10, 'input string1:$'
+
+mess2   db     13,10, 'input string2:$'
+
+mess3   db     13,10, 'YES!$'
+
+mess4   db     13,10, 'no match at $'
+
+&nbsp;
+
+st1     label   byte
+
+max1  db      6
+
+act1  db      ?
+
+stok1 db      6 dup(?)
+
+&nbsp;
+
+st2    label   byte
+
+max2   db      6
+
+act2   db      ?
+
+stok2  db      6 dup(?)
+
+data  ends
+
+&nbsp;
+
+code segment
+
+assume cs:code, ds:data,es:data
+
+start:  mov ax,data
+
+mov ds,ax
+
+mov es,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h         ;qust1?
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h         ;ans1
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h         ;qust2?
+
+lea dx,st2
+
+mov ah,0ah
+
+int 21h         ;ans2
+
+mov cl,act1
+
+mov dl,act2
+
+cmp cl,dl
+
+jnz nomatch
+
+mov ch,0
+
+lea si,stok1
+
+lea di,stok2
+
+repe cmpsb
+
+jnz nomatch
+
+match:  lea dx,mess3
+
+mov ah,09
+
+int 21h
+
+jmp  exit
+
+nomatch:
+
+lea dx,mess4
+
+mov ah,09
+
+int 21h
+
+sub di,offset stok2
+
+mov dx,di
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+exit:
+
+mov  ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>7.12</strong> 编写程序，从键盘输入一个字符串到BUFF，再输入一个字符到AL，在字符串BUFF中查找是否存在该字符，如果找到，显示发现的字符位置。
+
+答：
+
+data  segment
+
+mess1   db     13,10, 'input string:$'
+
+mess2   db     13,10, 'input a char:$'
+
+mess3   db     13,10, 'found at $'
+
+mess4   db     13,10, 'no found !$'
+
+&nbsp;
+
+st1     label   byte
+
+max1  db      6
+
+act1  db      ?
+
+stok1 db      6 dup(?)
+
+&nbsp;
+
+data  ends
+
+&nbsp;
+
+code segment   para'code'
+
+assume cs:code, ds:data
+
+start:  mov ax,data
+
+mov ds,ax
+
+mov es,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h         ;qust1?
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h         ;ans1
+
+&nbsp;
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h         ;qust2?
+
+&nbsp;
+
+mov ah,1
+
+int 21h         ;ans2
+
+lea di,stok1
+
+repne scasb
+
+jz match
+
+nomatch:
+
+lea dx,mess4
+
+jmp exit
+
+match:  lea dx,mess3
+
+&nbsp;
+
+exit:
+
+mov ah,09
+
+int 21h
+
+sub di,offset stok1
+
+mov dx,di
+
+and dx,0fh
+
+add dl,30h
+
+mov ah,2
+
+int 21h
+
+mov ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>7.13</strong> 编写程序，从键盘输入一个字符串到BUFF，并按相反顺序显示输出。
+
+答:
+
+data  segment
+
+mess1   db     13,10, 'input string:$'
+
+mess2   db     13,10,'$'
+
+st1     label   byte
+
+max1  db      6
+
+act1  db      ?
+
+stok1 db      6 dup(?)
+
+data  ends
+
+&nbsp;
+
+code segment
+
+assume cs:code, ds:data
+
+start : mov ax,data
+
+mov ds,ax
+
+lea dx,mess1
+
+mov ah,09
+
+int 21h
+
+lea dx,st1
+
+mov ah,0ah
+
+int 21h
+
+lea dx,mess2
+
+mov ah,09
+
+int 21h
+
+mov cl,act1
+
+mov ch,0
+
+mov bx, offset stok1
+
+add bx, cx
+
+next:  dec bx
+
+mov dl, [bx]
+
+mov ah,2
+
+int 21h
+
+loop next
+
+mov  ah,4ch
+
+int 21h
+
+code ends
+
+end start
+
+&nbsp;
+
+<strong>7.14</strong> 编写程序，从键盘输入一个八位的二进制数，显示其十六进制数。
+
+答：code  segment
+
+assume cs:code
+
+start:
+
+mov cx,8
+
+mov bl,0
+
+next:   mov ah,1
+
+int 21h
+
+cmp al,30h
+
+jb  exit
+
+cmp al,31h
+
+ja  exit
+
+sub al,30h
+
+shl bl,1
+
+add bl,al
+
+loop next
+
+mov cl,4
+
+mov di,2
+
+out1:   rol bl,cl
+
+mov dl,bl
+
+and dl,0fh
+
+add dl,30h
+
+cmp dl,39h
+
+jle dig
+
+add dl,7
+
+dig:    mov ah,2
+
+int 21h
+
+dec di
+
+cmp di,0
+
+jnz out1
+
+exit:   mov   ah,4ch
+
+int   21h
+
+code  ends
+
+end   start
+
+&nbsp;
+
+<strong>7.15 </strong>字数组ARRAY为有符号数，第一个单元为元素个数N，后面为N个元素，编写程序，求数组元素中的最大值，并把它放入MAX单元。
+
+答：data  segment
+
+array  dw  5,9,4,5,15,3
+
+max    dw  ?
+
+data  ends
+
+code  segment
+
+assume cs:code,ds:data
+
+start:
+
+mov   ax, data
+
+mov   ds, ax
+
+mov   cx, array
+
+lea   bx, array+2
+
+mov   ax, [bx]
+
+mov   max, ax
+
+k1:     mov   ax, [bx]
+
+cmp   ax, max
+
+jl    next
+
+mov   max,ax
+
+next:   add   bx,2
+
+loop   k1
+
+mov   ah,4ch
+
+int   21h
+
+code  ends
+
+end   start
+
+&nbsp;
+
+<strong>7.16 </strong>字数组ARRAY，第一个单元为元素个数N，后面为N个元素，编写程序，把零元素从数组中清除，移动元素位置并修改第一个单元(元素个数)。
+
+答：data  segment
+
+array  dw  6,3,4,0,15,0,7
+
+loca   dw  999        ；此单元地址为结束标记
+
+data  ends
+
+code  segment
+
+assume cs:code,ds:data
+
+start:
+
+mov   ax, data
+
+mov   ds, ax
+
+mov   cx, array
+
+lea   bx, array+2
+
+next:   cmp   word ptr[bx],0
+
+jz    move
+
+add   bx,2
+
+dec   cx
+
+cmp   cx,0
+
+jnz   next
+
+jmp   exit
+
+move:   dec   array
+
+mov   di,bx
+
+mnext:
+
+cmp   di,offset loca
+
+ja    next
+
+mov   ax, [di+2]
+
+mov   [di],ax
+
+add   di,2
+
+cmp   di,offset loca
+
+jnb   next
+
+jmp   mnext
+
+exit:   mov   ah,4ch
+
+int   21h
+
+code  ends
+
+end   start
+
+&nbsp;
+
+<strong>习题8</strong>
+
+<strong>8.1</strong> 过程定义如下，补充括号中的指令。
+
+code   segment
+
+assume cs:code
+
+main   proc  far
+
+(           )
+
+(           )
+
+(           )
+
+<strong>…</strong>
+
+<strong>…</strong>
+
+<strong>…</strong>
+
+ret
+
+main    endp
+
+code    ends
+
+end   main
+
+答：(  PUSH  DS         )
+
+(  XOR  AX,AX       )
+
+(  PUSH  AX         )
+
+&nbsp;
+
+<strong>8.2 </strong>补充下列程序括号中的指令，使得程序对堆栈的操作全部利用程序中定义的TOS堆栈，并画出程序执行后堆栈TOS中的数据。
+
+data   segment
+
+dw    100 dup(?)
+
+tos  label  word
+
+data   ends
+
+code   segment
+
+assume cs:code,ss:data
+
+main   proc  far
+
+(            )
+
+(            )
+
+(            )
+
+push  ds
+
+xor   ax， ax
+
+push  ax
+
+call  far ptr suba
+
+<strong>… </strong>；假定此处指令的地址为CS=3400h，IP=30h
+
+<strong>…</strong>
+
+<strong>…</strong>
+
+code   ends
+
+end   main
+
+答：(  MOV  AX,DATA        )
+
+(  MOV  SS,AX          )
+
+(  LEA  SP,TOS         )
+
+&nbsp;
+
+<strong>8.3</strong> 主程序从键盘输入一个字符串到BUFF，再输入一个字符到AL，用子程序在字符串BUFF中查找是否存在该字符，如果找到，显示发现的字符位置。用寄存器传递要查找的字符。
+
+答：Data segment
+
+BUFF1 db 16,?,16 dup(?),13,10,'$'
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov es,ax
+
+Lea dx,BUFF1
+
+Mov ah,10
+
+Int 21h
+
+mov ah,1
+
+int 21h
+
+Lea di,BUFF1+2
+
+Mov cl,BUFF1+1
+
+mov ch,0
+
+Mov ah,0
+
+Repne scasb
+
+Jnz  ye
+
+dec di
+
+mov bx,di
+
+Call BTH
+
+Ye: ret
+
+Main endp
+
+BTH proc near
+
+mov cx,4
+
+s:rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+mov al,bl
+
+and al,0fh
+
+add al,30h
+
+cmp al,39h
+
+jle d
+
+add al,7
+
+d:mov dl,al
+
+mov ah,2
+
+int 21h
+
+loop s
+
+ret
+
+BTH endp
+
+Code ends
+
+End main
+
+&nbsp;
+
+<strong>8.4</strong> 主程序从键盘输入一个八位的二进制数，对其作求补码操作，用子程序对求补后的值以二进制形式显示。(正数的补码=输入)
+
+答：Code segment
+
+Assume cs:code
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov bx,0
+
+Mov cx,8
+
+A:mov ah,1
+
+Int 21h
+
+Shl bx,1
+
+Sub al,30h
+
+Jz b     ；输入为0
+
+INC bx   ;输入为1
+
+B:loop a
+
+Test bx,0080h
+
+Jz   d
+
+XOR bx,00FFh ;取反
+
+INC bx
+
+D:Call disp
+
+Ret
+
+Main endp
+
+disp proc near
+
+mov cx,8
+
+shl bx,cl
+
+ls1:shl bx,1
+
+jnc k30
+
+mov dl,31h
+
+jmp outb
+
+k30: mov dl,30h
+
+outb:mov ah,2
+
+int 21h
+
+loop ls1
+
+ret
+
+disp endp
+
+code ends
+
+end main
+
+&nbsp;
+
+<strong>8.5</strong> 主程序从键盘（连续）输入两个四位的十六进制数A和B，用子程序作十六进制计算A+B，并显示计算结果(二进制)。
+
+答：
+
+&nbsp;
+
+data segment
+
+A dw ?
+
+B dw ?
+
+data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov  ax,data
+
+Mov ds,ax
+
+Call INH ;输入十六进制数到BX寄存器
+
+Mov A，bx
+
+Call INH ;输入十六进制数到BX寄存器
+
+Mov B,bx
+
+Call ad
+
+Ret
+
+Main endp
+
+INH proc near
+
+mov   bx，0             ；初始化
+
+mov   ch，4
+
+mov   cl，4
+
+inchr： mov   ah，1             ；键盘输入
+
+int   21h
+
+cmp   al，30h
+
+jl    exit              ；非法输入
+
+cmp   al，39h
+
+jle   dig               ；输入是数字0～9
+
+cmp   al，41h
+
+jl    exit              ；非法输入
+
+cmp   al，46h
+
+jg    exit              ；非法输入
+
+sub   al，37h           ；输入是大写a～f
+
+jmp   ls4
+
+dig： sub   al，30h
+
+ls4： shl   bx，cl
+
+add   bl，al
+
+dec   ch
+
+jnz   inchr
+
+exit: ret
+
+INH endp
+
+Ad  proc near
+
+Mov ax,a
+
+Mov bx,b
+
+Add bx,ax
+
+Call disp
+
+Ret
+
+Ad endp
+
+disp proc near
+
+mov cx,16
+
+ls1: shl bx,1
+
+jnc l30
+
+mov dl,31h
+
+jmp outb
+
+l30; mov dl,30h
+
+outb: mov ah,2
+
+int 21h
+
+loop ls1
+
+ret
+
+disp endp
+
+Code ends
+
+End main
+
+&nbsp;
+
+<strong>8.6 </strong>某字数组为有符号数，第一个单元为元素个数N，后面为N个元素，编写通用子程序，求数组元素中的最大值，并把它放入MAX单元。
+
+答：MAX_p proc near
+
+Mov di,[bx]     ;个数地址
+
+Mov si,[bx+2]   ;数组地址
+
+Mov cx,[di]
+
+Mov di,MAX
+
+Xor ax,ax
+
+Next:cmp di,[si]
+
+Jg a
+
+Mov di,[si]
+
+A: Add si,2
+
+Loop next
+
+Mov MAX,di
+
+ret
+
+MAX_p endp
+
+&nbsp;
+
+<strong>8.7 </strong>设有一个数组存放学生的成绩（0 ~ 100），编制一个子程序统计0 ~ 59分、60 ~ 69分、70 ~ 79分、80 ~ 89分、90 ~ 100分的人数，并分别存放到scoreE、scoreD、score C、score B及score A单元中。编写一个主程序与之配合使用。
+
+答：
+
+data segment
+
+Array db 6,9,65,78,68,86,93  ;6为学生人数，后面为6个成绩
+
+ScoreE db ?
+
+scoreD db ?
+
+scoreC db ?
+
+scoreB db ?
+
+scoreA db ?
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov cl,array
+
+mov ch,0
+
+Call class
+
+Ret
+
+Main endp
+
+Class proc near
+
+Lea si, array
+
+next:
+
+inc si
+
+Mov bl, [si]
+
+Cmp bl,60
+
+Jl e
+
+Cmp bl,70
+
+Jl d
+
+Cmp bl,80
+
+Jl k
+
+Cmp bl,90
+
+Jl b
+
+Mov dl, scoreA
+
+Inc dl
+
+Mov scoreA,dl
+
+loop  next
+
+jmp exit
+
+B: Mov dl, scoreB
+
+Inc dl
+
+Mov scoreB,dl
+
+loop next
+
+jmp exit
+
+k: Mov dl, scoreC
+
+Inc dl
+
+Mov scoreC,dl
+
+loop next
+
+jmp exit
+
+D: Mov dl, scoreD
+
+Inc dl
+
+Mov scoreD,dl
+
+loop next
+
+jmp exit
+
+E: Mov dl, scoreE
+
+Inc dl
+
+Mov scoreE,dl
+
+loop next
+
+jmp exit
+
+exit:ret
+
+class endp
+
+Code ends
+
+End main
+
+&nbsp;
+
+<strong>8.8</strong> 用多模块程序设计一个简单的计算器程序，实现整数的加减乘除。运算符可以为：+,-,*,/,=。
+
+答：
+
+public  num1,num2,res
+
+extrn   ad:far,su:far,mu:far,dv:far,el:far
+
+data    segment
+
+num1   db   ?
+
+num2   db   ?
+
+res    dw   ?
+
+data    ends
+
+code    segment
+
+assume  cs:code,ds:data
+
+main proc far
+
+push ds
+
+sub  ax,ax
+
+push ax
+
+mov  ax,data
+
+mov  ds,ax
+
+call DTOB
+
+mov num1,bx
+
+call DTOB
+
+mov num2,bx
+
+mov ah,1
+
+int 21h
+
+cmp dl,’+’
+
+jz a
+
+cmp dl,’-’
+
+jz s
+
+cmp dl,’*’
+
+jz m
+
+cmp dl,’/’
+
+jz d
+
+cmp dl,’=’
+
+call el
+
+jmp exit
+
+a:call ad
+
+jmp exit
+
+s:call su
+
+jmp exit
+
+m:call mu
+
+jmp exit
+
+d:call dv
+
+exit:ret
+
+main   endp
+
+dtob        proc  near
+
+mov  bx, 0
+
+input:      mov  ah, 1                ；键盘输入
+
+int  21h
+
+sub  al, 30h              ；把ascii码转变为数值
+
+jl  exit                  ；如不是数则退出
+
+cmp  al, 9
+
+jg  exit                  ；如不是数则退出
+
+cbw                       ；扩展为字
+
+xchg  ax,  bx             ；交换寄存器
+
+mov  cx, 10
+
+mul  cx                   ；a(n)= a(n-1)×10
+
+xchg  ax, bx              ；交换寄存器
+
+add  bx,  ax              ；a(n)＝a(n)＋b(n)
+
+jmp  input
+
+exit:       ret
+
+dtob        endp
+
+code     ends
+
+end main
+
+；------------------
+
+public  ad
+
+extrn   num1:byte,num2:byte,res:word
+
+code    segment
+
+assume  cs:code
+
+ad   proc  near
+
+mov ah,0
+
+mov al,num1
+
+add al,num2
+
+adc ah,0
+
+mov res,ax
+
+ret
+
+order   endp
+
+su   proc  near
+
+mov ah,0
+
+mov al,num1
+
+sub al,num2
+
+sbb ah,0
+
+mov res,ax
+
+ret
+
+su   endp
+
+mu   proc  near
+
+mov al,num1
+
+mul num2
+
+mov res,ax
+
+ret
+
+mu   endp
+
+dv   proc  near
+
+mov al,num1
+
+div num2
+
+mov res,ax
+
+ret
+
+dv   endp
+
+el   proc  near
+
+mov al,num1
+
+cmp al,num2
+
+jz z
+
+mov res,0FFFFH   ;不相等
+
+jmp exit
+
+z: mov res,0         ;相等
+
+exit:ret
+
+el   endp
+
+code    ends
+
+end
+
+&nbsp;
+
+<strong>8.9 </strong>从键盘输入姓名和电话号码，建立通讯录，通讯录的最大容量为9条记录，程序结束时无须保留通讯录，但程序运行时要保留通讯录信息。程序的人机界面和顺序要求如下：
+
+(1)提示信息INPUT NAME：(调用子程序INNAME录入姓名，序号自动产生)
+
+(2)提示信息INPUT TELEPHONE NUMBER：(调用子程序INTELE录入电话号码)
+
+(3)提示信息INPUT 序号：(调用子程序PRINT显示某人的姓名和电话号码，如果序号不存在，则提示信息 NO THIS NUMB )。
+
+答：Inform struc
+
+Sn   db  ?
+
+Name db ‘??????’
+
+Telen  db  ‘???????????’
+
+Inform ends
+
+Data segment
+
+Array struc 9 dup(&lt;&gt;)
+
+Name db ‘INPUT NAME $’
+
+TEL  db  ‘INPUT TELEPHONE NUMBER $’
+
+number db   ‘INPUT SEQUENCE NUMBER $’
+
+err    db   ‘NO THIS NUMB $’
+
+Data ends
+
+code segment
+
+assume cs:code,ds:data
+
+main proc far
+
+push ds
+
+xor ax,ax
+
+push ax
+
+mov ax,data
+
+mov ds,ax
+
+mov cx,0
+
+a:
+
+call inname
+
+call intele
+
+inc cx
+
+cmp cx,9
+
+jl a
+
+call print
+
+ret
+
+main endp
+
+inname proc near
+
+push cx
+
+lea dx,name
+
+mov ah,9
+
+int 21h
+
+mov al, size array
+
+mul cl
+
+mov bx,ax
+
+add bx,array
+
+mov [bx].sn,cl
+
+mov di,0
+
+a:mov ah,1
+
+int 21h
+
+mov [bx].name[di],al
+
+inc di
+
+cmp di,6
+
+jl a
+
+pop cx
+
+ret
+
+inname endp
+
+intele proc near
+
+push cx
+
+lea dx,tel
+
+mov ah,9
+
+int 21h
+
+mov al, size array
+
+mul cl
+
+mov bx,ax
+
+add bx,array
+
+mov di,0
+
+a:mov ah,1
+
+int 21h
+
+mov [bx].telen[di],al
+
+inc di
+
+cmp di,13
+
+jl a
+
+pop cx
+
+ret
+
+intele endp
+
+print proc near
+
+lea dx,number
+
+mov ah,9
+
+int 21h
+
+mov ah,1
+
+int 21h
+
+cmp al,0
+
+jl ex
+
+cmp al,8
+
+jg ex
+
+mov cl,al
+
+mov al, size array
+
+mul cl
+
+mov bx,ax
+
+add bx,array
+
+mov dx,bx
+
+mov ah,9
+
+int 21h
+
+mov dl,13
+
+mov ah,2
+
+int 21h
+
+mov dl,10
+
+mov ah,2
+
+int 21h
+
+lea dx,[bx].telen
+
+mov ah,9
+
+int 21h
+
+jmp r
+
+ex: lea dx,err
+
+mov ah,9
+
+int 21h
+
+r:
+
+ret
+
+print endp
+
+code ends
+
+end main
+
+&nbsp;
+
+<strong>习题9</strong>
+
+<strong>9.1</strong> 宏定义：
+
+MSG  MACRO   P1，P2，P3
+
+IN&amp;P1   P2  P3
+
+ENDM
+
+K=1
+
+展开下列宏调用：
+
+MSG  %K，DB，‘MY  NAME’
+
+MSG  C， AX
+
+答：  1 IN1 DB ‘MY NAME’
+
+2 INC AX
+
+&nbsp;
+
+<strong>9.2</strong> 使用宏指令，在数据段定义九条通讯录记录，宏展开后的数据段形如：
+
+DATA   SEGMENT
+
+DA1  LABEL BYTE
+
+DB   1，‘NAME1’，‘TELE1’
+
+DB   2，‘NAME2’，‘TELE2’
+
+<strong>…</strong>
+
+DB   9，‘NAME9’，‘TELE9’
+
+DATA   ENDS
+
+答：  DEF MACRO
+
+IRP  X,&lt;1,2,3,4,5,6,7,8,9&gt;
+
+DB   X,’NAME&amp;X&amp;’,’TELE&amp;X&amp;’
+
+ENDM
+
+&nbsp;
+
+DATA   SEGMENT
+
+DA1 LABEL BYTE
+
+DEF
+
+DATA SEGMENT
+
+&nbsp;
+
+<strong>9.3</strong> 宏指令和指令的区别是什么？使用宏指令和使用子程序有何异同？宏指令的优点在哪里？
+
+答：宏指令只在汇编时起作用，指令汇编后继续执行。宏指令与子程序的区别如下：（1）空间的区别：宏指令大于子程序，多次调用宏指令，程序长度增加。
+
+（2）时间的区别：宏运行不需要额外的时间，子程序需要。
+
+（3）参数的区别：宏命令可实现多个参数的直接代换，方式简单灵活；而子程序参数传递麻烦。
+
+总之，代码不长和变元较多的功能段，使用宏命令比较合适。
+
+&nbsp;
+
+<strong>9.4 </strong>在宏定义中有时需要LOCAL 伪操作，为什么？
+
+答：在宏定义中，常常使用标号，当多次宏调用后，就会出现标号重复定义的错误。使用LOCAL伪操作，对标号说明为局部标号，这样每次调用，宏展开的标号是不同的。
+
+&nbsp;
+
+<strong>9.5 </strong>宏定义在程序中的位置有何规定？宏调用是否一定放在代码段？
+
+答：宏定义在程序中的位置没有严格要求，可以写在某一段内，也可以不在段内。
+
+&nbsp;
+
+<strong>9.6 </strong>用宏指令计算S=（A+B）*K/2，其中A，B，K为常量。
+
+答：   math  macro S,A,B,K
+
+S=（A+B）*K/2
+
+ENDM
+
+&nbsp;
+
+<strong>9.7</strong> 编写宏定义，比较两个常量X和Y，如果X＞Y，MAX=X，否则MAX=Y。
+
+答：COMPARE MACRO MAX,X,Y
+
+LOCAL A,B
+
+CMP X,Y
+
+JGE A
+
+MOV MAX,Y
+
+JMP B
+
+A: MOV MAX,X
+
+B:
+
+ENDM
+
+&nbsp;
+
+<strong>9.8</strong> 编写非递归的宏定义，计算K的阶乘，K为变元。
+
+答：FAC MACRO K
+
+MOV AX,1
+
+MOV CX,K+1
+
+A:SUB CX,1
+
+MUL CX
+
+CMP CX,1
+
+JG A
+
+ENDM
+
+&nbsp;
+
+<strong>9.9 </strong>在数据段中定义了三个有符号数A、B、C，使用宏指令，给三个数排序，三个变量作为参数。
+
+答：ORDER  MACRO A,B,C
+
+CMP A,B
+
+JG  L1
+
+MOV AX,B
+
+MOV BX,A
+
+MOV A,AX
+
+MOV B,BX
+
+L1:CMP B,C
+
+JG L2
+
+MOV AX,B
+
+MOV BX,C
+
+MOV C,AX
+
+CMP A,BX
+
+JG  L2
+
+MOV AX,A
+
+MOV A,BX
+
+MOV B,AX
+
+L2:
+
+ENDM
+
+&nbsp;
+
+<strong>9.10 </strong>编写一个宏定义SCAN，完成在一个字符串中查找某个字符的工作。被查找的该字符，字符串首地址及其长度均为变元。
+
+答： SCAN MACRO  A,STREE,N
+
+MOV AX,SEG STREE
+
+MOV ES,AX
+
+LEA DI,STREE
+
+MOV CX,N
+
+MOV AL,A
+
+CLD
+
+REPNE SCASB
+
+JZ YES
+
+MOV DL,’N’
+
+JMP DISP
+
+YES:MOV DL,’Y’
+
+DISP:MOV AH,2
+
+INT 21H
+
+ENDM
+
+&nbsp;
+
+<strong>9.11 </strong>编写宏指令COMPSS，比较2个同长度的字符串str1和str2是否相等， 2个字符串的首地址和长度为变元。写出完整程序，在数据段中写出数据定义，在代码段中写出宏定义和宏调用。并处理若相等则显示‘MATCH’，否则显示‘NOT MATCH’.
+
+答：
+
+COMPSS MACRO ST1,ST2,N
+
+LEA SI,ST1
+
+LEA DI,ST2
+
+MOV CX,N
+
+CLD
+
+REPE CMPSB
+
+JZ YES
+
+MOV DX,LEA S2
+
+JMP DISP
+
+YES:MOV DX,LEA S1
+
+DISP:MOV AH,9
+
+INT 21H
+
+ENDM
+
+DATA SEGMENT
+
+STR1 DB ‘’
+
+NUM  DB  ?
+
+S1   DB  ‘MATCH$’
+
+S2   DB   ‘NOT MATCH$’
+
+DATA ENDS
+
+EXT SEGMENT
+
+STR2 DB  ‘’
+
+EXT ENDS
+
+CODE SEGMENT
+
+MAIN PROC FAR
+
+PUSH DS
+
+PUSH ES
+
+MOV AX,0
+
+PUSH AX
+
+MOV AX,DATA
+
+MOV DS,AX
+
+MOV AX,EXT
+
+MOV ES,AX
+
+MOV NUM, LENGTH STR1
+
+COMPSS STR1,STR2, NUM
+
+RET
+
+CODE ENDS
+
+END MAIN
+
+&nbsp;
+
+<strong>9.12</strong> 编写宏定义程序，可以对任意字数组求元素之和，数组名称、元素个数和结果存放单元为宏定义的哑元。
+
+答：ADS MACRO ARRAY,N,SUM
+
+Lea di,ARRAY
+
+Mov cx,N
+
+Mov ax,0
+
+Mov si,0
+
+Ad:add ax,[di][si]
+
+Add si,2
+
+Loop ad
+
+Mov SUM,ax
+
+ENDM
+
+&nbsp;
+
+<strong>9.13 </strong>编写一个宏库文件，其中包括系统功能调用(INT 21H)的00～0A号功能调用。并通过宏调用实现以下各项功能：从键盘输入一个字符串到BUFF；再输入一个单字符，然后在字符串BUFF中查找是否存在该字符；如果找到，显示发现的字符位置。
+
+答： 宏库文件sysmacro.mac文件定义如下：
+
+INPUT MACRO
+
+MOV AH,1
+
+INT 21H
+
+ENDM
+
+OUTPUT MACRO CHA
+
+MOV DL,CHA
+
+MOV AH,2
+
+INT 21H
+
+ENDM
+
+INPUTN MACRO
+
+MOV AH,7
+
+INT 21H
+
+ENDM
+
+OUTSTR MACRO STREE
+
+MOV DX,OFFSET STREE
+
+MOV AH,9
+
+INT 21H
+
+ENDM
+
+INBUFF MACRO BUFF
+
+MOV DX,OFFSET BUFF
+
+MOV AH,0AH
+
+INT 21H
+
+ENDM
+
+WFILE MACRO FIL,NUM,COUNT
+
+MOV DX,OFFSET FIL
+
+MOV BX,NUM
+
+MOV CX,COUNT
+
+MOV AH,40H
+
+INT 21H
+
+ENDM
+
+EXIT MACRO
+
+MOV AH,4CH
+
+INT 21H
+
+ENDM
+
+&nbsp;
+
+调用：include sysmacro.mac
+
+Data segment
+
+BUFF1 db 16,?,16 dup(?),13,10,'$'
+
+Data ends
+
+Code segment
+
+Assume cs:code,ds:data
+
+Main proc far
+
+Push ds
+
+Xor ax,ax
+
+Push ax
+
+Mov ax,data
+
+Mov ds,ax
+
+Mov es,ax
+
+INBUFF BUFF1
+
+INPUT
+
+Lea di,BUFF1+2
+
+Mov cl,BUFF1+1
+
+mov ch,0
+
+Mov ah,0
+
+Repne scasb
+
+Jnz  ye
+
+dec di
+
+mov bx,di
+
+Call BTH
+
+Ye: ret
+
+Main endp
+
+BTH proc near
+
+mov cx,4
+
+s:rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+rol bx,1
+
+mov al,bl
+
+and al,0fh
+
+add al,30h
+
+cmp al,39h
+
+jle d
+
+add al,7
+
+d:OUTPUT al
+
+loop s
+
+ret
+
+BTH endp
+
+Code ends
+
+End main
+
+&nbsp;
+
+<strong>习题10</strong>
+
+<strong>10.1 </strong>I/O数据传送控制方式有哪几种？
+
+答：无条件传送、查询传送、中断传送、直接存储器传送。
+
+<strong> </strong>
+
+<strong>10.2 </strong>什么是I/O接口？什么是端口？接口部件在计算机主机一方还是在外设一方？
+
+答：I/O接口是INPUT/OUTPUT指输入/输出设备接口。CPU与外部设备的连接和数据交换都需要通过接口设备来实现，被称为I/O接口。计算机主机的CPU通过访问这些寄存器来实现与外部设备交换数据。把接口中的这些寄存器称为端口(PORT)。这些寄存器并不是在外部设备一方，而是属于计算机主机。
+
+&nbsp;
+
+<strong>10.3 </strong>通过端口传递哪三种信息？
+
+答：CPU与I/O设备的通信有三种信息，即控制信息、状态信息和数据信息。
+
+&nbsp;
+
+<strong>10.4 </strong>根据以下要求写出输入输出指令：
+
+(1) 读61H端口              (2) 写20H端口
+
+(3) 读3F8H端口             (4) 写3F9H端口
+
+答：(1) IN al,61h
+
+(2) OUT 20h,al
+
+(3)mov dx,3F8H   IN al,dx
+
+(4)mov dx,3F9H   OUT dx,al
+
+&nbsp;
+
+<strong>10.5</strong> 举例说明何为中断类型号，何为中断向量，何为中断向量表。对于INT 8指令，中断向量存放的内存地址是多少？
+
+答：在实际的系统中，中断源有多个，需要给每个中断源编一个号，以便于识别。在执行软件中断指令INT n时，n就是中断类型号。我们把中断处理程序的起始地址称为中断向量。在存储器的最低1KB(地址从0000～3FFH)集中存放256种中断类型的中断向量，每个中断向量为四个字节，其中前两个字节是偏移地址，后两个字节是段地址。这个集中存放中断向量的存储区称为中断向量表。
+
+INT 8对应中断向量存放的内存地址是00020H
+
+&nbsp;
+
+<strong>10.6 </strong>举例说明何为内中断，何为外中断，何为硬件中断，何为可屏蔽中断。
+
+答：内中断：中断指令INT
+
+外中断：也称为硬件中断，如电源故障。
+
+可屏蔽中断：如定时器。
+
+&nbsp;
+
+<strong>10.7 </strong>何为开中断和关中断。关中断情况下，内中断能否被响应？不可屏蔽中断能否被响应？可屏蔽中断能否被响应？
+
+答：所谓开中断，是指程序在运行中，包括中断程序执行中，允许响应其他中断请求，再转去运行中断服务程序。关中断则是不允许系统打断连续的运行。内中断可以响应，不可屏蔽中断可以被相应。可屏蔽中断不能被响应。
+
+&nbsp;
+
+<strong>10.8 </strong>写出仅使定时器、键盘、硬盘、打印机不被屏蔽，并开中断的指令序列。
+
+答： Mov al,01011100
+
+OUT 21h,al
+
+STI
+
+&nbsp;
+
+<strong>10.9 </strong>列出INT指令执行的操作，列出CPU响应外部中断时所做的工作。
+
+答：中断请求，中断优先级判定，中断响应，中断处理，中断返回。
+
+CPU响应外部中断自动完成下列工作：
+
+1.取中断内型号N；
+
+2.标志寄存器入栈；
+
+3.代码段寄存器和指令指针入栈；
+
+4.禁止硬件中断和单步中断；
+
+5.在中断向量表中的N*4开始的单元取两个字分别送IP和CS，获取
+
+中断处理程序入口地址。
+
+&nbsp;
+
+<strong>10.10 </strong>中断处理程序中通常要做哪些工作？中断处理程序中是否一定要开中断？如果有开中断指令，意味着什么？
+
+答：中断处理程序一开始可以根据需要开中断，以允许中断嵌套。用入栈指令把中断处理程序中将要用到的寄存器内容压入堆栈，以保护现场，待中断处理完毕，退出中断处理程序之前再把寄存器的内容从堆栈中弹出，从而恢复现场。
+
+&nbsp;
+
+<strong>10.11 </strong>为什么说程序员应尽可能使用层次较高的DOS功能，其次才是使用BIOS功能，最后才是使用输入输出指令。
+
+答：因为用户通过调用DOS或者BIOS例行程序来实现对外设的访问，可以降低程序设计的复杂程度，缩短开发周期。BIOS存放在机器的ROM中，层次比DOS低，更接近硬件；DOS功能调用是操作系统DOS的一个组成部分，开机时从外存装入内存，DOS可以完成比BIOS更高级的功能，因此DOS操作比使用相应功能的BIOS操作更简易，而且DOS对硬件的依赖性更少。
+
+&nbsp;
+
+<strong>10.12 </strong>编写程序段，使用INT 1CH指令调用首地址为MYINT的中断处理程序。用完后恢复INT 1CH指令的原有功能。
+
+Code segment
+
+Assume cs:code
+
+Start:
+
+Mov al,1ch
+
+Mov ah,35h
+
+Int 21h
+
+Push es
+
+Push bx
+
+Push ds
+
+Mov dx,offset MYINT
+
+Mov ax,seg MYINT
+
+Mov ds,ax
+
+Mov al,1ch
+
+Mov ah,25h
+
+Int 21h
+
+;
+
+;使用中断程序
+
+;
+
+Pop dx
+
+Pop ds
+
+Mov al,1ch
+
+Mov ah,25h
+
+Int 21h
+
+Mov ah,4ch
+
+Int 21h
+
+Code ends
+
+End start
+
+<strong>习题11 （基本可在书中找到参考，省略）</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

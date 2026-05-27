@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>英文字母信息熵与冗余度计算Python实现 · OmegaXYZ</title>
+  <meta name="description" content="26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。 公式: H(信息熵) = -∑ P i log 2 (P i ); P i :为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2 n = X 的话,那么logX = n; 所以可以看出所谓信...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/09/information_entropy_alpha/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-09</div>
+        <h1>英文字母信息熵与冗余度计算Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。
+
+公式: H(信息熵) = -∑ P<sub>i</sub> log<sub>2</sub>(P<sub>i</sub>); P<sub>i</sub>:为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2<sup>n</sup> = X 的话,那么logX = n; <strong>所以可以看出所谓信息熵就二进制的字符集在去掉冗余度后的二进制编码位数.</strong>冗余度是通过统计每个字符出现概率获得的。
+
+各个字母英语中出现的频率
+<table class="table-view log-set-param">
+<tbody>
+<tr>
+<th>
+<div class="para">字母</div></th>
+<th>
+<div class="para">英语中出现的频率</div></th>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>a</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">8.167%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>b</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">1.492%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>c</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.782%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>d</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">4.253%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>e</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">12.702%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>f</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.228%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>g</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.015%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>h</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">6.094%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>i</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">6.966%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>j</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.153%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>k</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.772%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>l</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">4.025%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>m</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.406%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>n</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">6.749%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>o</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">7.507%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>p</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">1.929%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>q</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.095%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>r</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">5.987%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>s</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">6.327%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>t</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">9.056%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>u</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.758%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>v</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.978%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>w</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">2.360%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>x</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.150%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>y</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">1.974%</div></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="0">
+<div class="para"><b>z</b></div></td>
+<td align="left" valign="top" width="0">
+<div class="para">0.074%</div></td>
+</tr>
+</tbody>
+</table>
+python代码实现:
+<pre ><code class="language-python">import math
+
+def calEntropy(string):
+    h = 0.0
+    sumt = 0
+    letter = [0] * 26
+    string = string.lower()
+    for i in range(len(string)):
+        if string[i].isalpha():
+            letter[ord(string[i]) - ord('a')] += 1
+            sumt += 1
+    print('\n', letter)
+    for i in range(26):
+        p = 1.0 * letter[i] / sumt
+        if p &gt; 0:
+            h += -(p * math.log(p, 2))
+
+    return h
+
+
+test = input("输入一个英文句子：")
+print('\n熵为：', calEntropy(test))
+
+'''
+letter = [8167,1492,2782,4253,12702,2228,2015,6094,6966,153,772,4025,2406,6749,7507,1929,95,5987,6327,9056,2758,978,2360,150,1974,74]
+h = 0
+for i in range(26):
+    h += -(letter[i]/sum(letter)*math.log(letter[i]/sum(letter),2))
+print(h)
+'''</code></pre>
+<strong>结果</strong>
+
+<img class="alignnone size-full wp-image-4242" src="https://cdn.omegaxyz.com/2018/05/frequency.jpg" alt="" width="631" height="108" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

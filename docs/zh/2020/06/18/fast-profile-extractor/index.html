@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人主页信息提取器 · OmegaXYZ</title>
+  <meta name="description" content="简介 从研究人员的主页(HTML)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。 可以分成的类别： publication education honor 详细 从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用f...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/06/18/fast-profile-extractor/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-06-18</div>
+        <h1>个人主页信息提取器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+从研究人员的主页(HTML)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。
+
+可以分成的类别：
+<ul>
+ 	<li>publication</li>
+ 	<li>education</li>
+ 	<li>honor</li>
+</ul>
+<h2><strong>详细</strong></h2>
+从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用fastText进行训练生成模型并保存。
+
+<img class="wp-image-6738 aligncenter" src="https://cdn.omegaxyz.com/2020/06/profileExtractor2.png" alt="" width="438" height="132" />
+
+接下来通过Python爬虫获取HTML元数据，将HTML数据传入网页正文提取算法WNBTE中获得正文文本，其中正文提取算法通过统计HTML不同标签中文本字数的比值来判断正文所在的位置，能够有效去除冗余无关的HTML标签。随后对正文文本段落进行短语级切分，分词后传入fastText神经网络，利用已经训练好的数据模型对短语进行分类，打上标签。
+<h2><strong>项目结构</strong></h2>
+<ul>
+ 	<li>ff_classifier: 使用fasttext自动训练和预测学术行为(训练时间小于1s)</li>
+ 	<li>text_toolkit.py: 提取具有一定模式的字符串，如邮箱，手机号，时间等</li>
+ 	<li>profile_class.py: 研究人员的类</li>
+ 	<li>html_extract.py: 提取HTML元素</li>
+ 	<li>demo.py: demo</li>
+</ul>
+<h2><strong>结果预览（部分）</strong></h2>
+<pre ><code class="language-default">honor 0.7774751782417297 2013 Aug. 2013,     KSEM'13 Best Paper Award
+----
+honor 0.7579861879348755 2013 Aug. 2013,     CCML'13 Outstanding Student Paper Award
+----
+honor 0.5015735626220703 2012 Mar.2012,     Google Technology Student Expert Award
+----
+publication 0.7918424606323242  Hongyuan Zhu, Qi Liu*, Nicholas Jing Yuan*, Kun Zhang, Enhong Chen. Pop Music Generation: from Melody to Multi-style Arrangement. ACM Transactions on Knowledge Discovery from Data (ACM TKDD). (Accepted) [Data]
+----
+education 0.5010859370231628 2011 Teaching Assistant, Data Mining (Prof. Hui Xiong). Rutgers Business School, Rutgers University, Feb. 2011~May. 2011.
+----
+education 0.3986995816230774 2010 Development Engineer, Personalized Recommendation Team. Alibaba (China) Technology Co., Ltd.  Mar.2010~Aug.2010.
+----</code></pre>
+<h1><strong>PS</strong></h1>
+如果您想提高提取器的效率或准确性，您可以在ff_classifier/train_data.txt中添加更多的训练数据，或调整ff_classifier/ classifiere .py中的第20行训练配置。
+<pre ><code class="language-python"># Line 20
+self.classifier = ff.train_supervised("ff_classifier/train_data.txt", epoch=100, dim=50, lr=0.1, wordNgrams=2, minCount=0, loss="softmax")</code></pre>
+代码地址：<a href="https://github.com/xyjigsaw/fastProfileExtractor">https://github.com/xyjigsaw/fastProfileExtractor</a>
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

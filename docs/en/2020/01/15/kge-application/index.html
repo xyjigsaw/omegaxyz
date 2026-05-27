@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application scenarios of knowledge graph embedding · OmegaXYZ</title>
+  <meta name="description" content="In-KG application (application within KG scope) Link prediction (Link prediction) The link prediction task is sometimes also called entity prediction or entity ranking, and is used to predict whether there is a specific relationship between two entities. That is, given the head entity h and relationship r, predict the tail entity t; or the tail entity t and relationship r, predict the head entity h. Its essence is a KG completion task, which is to add missing knowledge to the graph. It is also possible to predict the relationship between two given entities, that is...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/15/kge-application/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-15</div>
+        <h1>Application scenarios of knowledge graph embedding</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>In-KG applications (applications within the KG range)</strong></h2>
+<h3><strong>Link prediction</strong></h3>The link prediction task, sometimes called entity prediction or entity ranking, is used to predict whether there is a specific relationship between two entities. That is, given the head entity h and relationship r, predict the tail entity t; or the tail entity t and relationship r, predict the head entity h. Its essence is a KG completion task, which is to add missing knowledge to the graph. At the same time, the relationship between two given entities can also be predicted, that is, the head and tail entities are known, and r is found.
+
+Taking the prediction head entity as an example, each entity h in KG can be used as a candidate answer, and then the f(h,t) score is calculated for each entity. For evaluation purposes, it is common practice to record the order in which the correct answers are ranked in an ordered list, in order to see if the correct answers can be ranked before the incorrect answers. A smaller number of correct answer rankings indicates better performance. Various evaluation criteria were designed based on these rankings, such as average ranking (the average of predicted ranking numbers), average reciprocal ranking (the average of reciprocal rankings), Hits@n (the proportion of n correct rankings), and AUC-PR (area under the precision-recall curve).<h3><strong>Triple Classification</strong></h3>Triplet classification is used to determine whether the facts (h, r, t) represented by the triplet are true or false. This task can also be regarded as a KG input completion. Set a threshold for the scoring function to determine whether the fact is correct.<h3><strong>Entity Classification</strong></h3>Entity classification can be viewed as a specific link prediction task, which aims to classify entities into different semantic categories. Similar prediction and evaluation methods are the same as for link prediction.<h3><strong>Entity Resolution</strong></h3>Determine whether two entities refer to the same object. For example, the two entities Peking University and Peking University are actually the same object. Entity resolution can remove these duplicate nodes. If a relation declares whether two entities are equal (denoted as EqualTo), and the embedding of the relation has been learned. In this case, entity parsing degenerates into a triple classification problem, that is, determining whether the triple (x,EqualTo,y) is correct.<h2><strong>Out-of-KG applications (applications that break through the boundaries of KG input and expand to a wider range of fields)</strong></h2>
+<h3><strong>Relation Extraction</strong></h3>The aim is to extract relational facts from plain text where entities have been detected. Currently, there is a method that combines TransE with text-based extractors for relation extraction. In addition, plain text and KG relationships can be jointly embedded, that is, text and KGs are represented in the same matrix. Each row of the matrix represents a pair of entities, and each column represents a mentioned text or KG relationship, and the corresponding entry is set to 1 if two entities co-occur with a mention in the plain text or with a relationship in KGs, and 0 otherwise. From the figure, you can see that the training instance can see both text mentions and KG relationships, but in the test instance, only text mentions are included. Therefore, relation extraction is used to predict the missing KG relations for test instances.<img alt="" class="alignnone wp-image-6228" height="293" src="https://cdn.omegaxyz.com/2020/01/KGE-Relation-Extraction.png" width="538"/>
+<h3><strong>Question Answering</strong></h3>Given a question expressed in natural language, the task is to retrieve the correct answer supported by triples or triplets from KG. One possible approach is to learn low-dimensional vector embeddings of words and KG components such that the representation of the question and the corresponding answer are close to each other in the embedding space.<h3><strong>Recommender Systems</strong></h3>Recommendation systems are widely used. One method is collaborative filtering technology that models the interaction between users and items as an instant representation of products between users and items. However, the interactions between users and items may be sparse. Some scholars have proposed a hybrid recommendation framework that utilizes heterogeneous information within KG to improve the quality of collaborative filtering - using three types of information stored in KG, including structural knowledge (fact triples), textual knowledge (for example, a summary of the textuality of a book or a movie), and visual knowledge (for example, a book cover or a movie poster image), to generate a semantic representation for each item.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

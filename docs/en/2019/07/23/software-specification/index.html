@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software requirements specification example · OmegaXYZ</title>
+  <meta name="description" content="For the software testing plan corresponding to this sample software requirements specification, please refer to: https://omegaxyz.com/2019/08/02/software-testing/ For PDF documents and more software testing content, please refer to: https://github.com/xyjigsaw/software-testing 1. Introduction 1.1 Positioning and Goals Today, with the highly developed computer technology,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/07/23/software-specification/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-23</div>
+        <h1>Software requirements specification example</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<span style="color: #ff0000;"><strong>For the software testing plan corresponding to this sample software requirements specification, please refer to:</strong></span>https://omegaxyz.com/2019/08/02/software-testing/
+
+For PDF documents and more software testing content, please refer to:<a href="https://github.com/xyjigsaw/software-testing">https://github.com/xyjigsaw/software-testing</a>
+<h2><strong>1. Introduction</strong></h2>
+<h3><strong>1.1 Positioning and goals</strong></h3>Today, with highly developed computer technology, the use of information technology to effectively manage large amounts of complex information has become a common and practical means. On the one hand, this greatly reduces the cost of bookkeeping and manpower. On the other hand, the powerful computing power of modern computers and the widespread deployment of networks have greatly simplified the processing and flow of large amounts of information. The student online examination system is an important component in evaluating students' abilities. It greatly improves teachers' work efficiency. It not only reduces the requirements for paper examination papers, but also reflects the requirements of a conservation-oriented society. This system involves students' online program ability assessment examination, academic performance interrogation, and comprehensive processing of many related information. In order to facilitate teachers to further understand students' performance, it is urgent to develop an online student examination system. The student online examination system integrates part of the management work of test questions, computer marking, and score inquiry into a unified platform. All management personnel work together and cooperate with each other to understand students' programming level in a timely manner. At the same time, it can also facilitate teachers to provide hierarchical guidance according to the different situations of individual students.<h3><strong>1.2 Objects</strong></h3>
+<strong>The intended readers of this Software Requirements Specification are:</strong>
+<ul>
+<li>Program teaching platform development manager</li>
+<li>Technical manager</li>
+<li>All members of the project team</li>
+<li>Test team members</li>
+<li>SQA personnel</li>
+<li>Other persons authorized by the development company to have access to this document</li>
+</ul>
+<h3><strong>1.3 Software requirements analysis theory</strong></h3>Software requirements analysis is what is obtained by studying user needs, fully understanding the complete functions of the user's software requirements, confirming the user's software functional requirements, and establishing a confirmable and verifiable basic basis. Software requirements analysis is the beginning of a project and the most important key point in project implementation. According to the analysis results of relevant institutions, the designed software products have problems such as incompleteness and inaccuracy.<strong>80％</strong>The above are caused by requirements analysis errors, and fundamental functional problems are particularly prominent due to requirements analysis errors. Therefore, software requirements analysis is a critical step for a successful project.<h3><strong>1.4 Software requirements analysis goals</strong></h3>Provide a comprehensive description of the functions of the implemented software to help users judge the correctness, consistency and completeness of the implemented functions, and encourage users to think carefully and comprehensively about the software requirements before starting the software design. Understand and describe all information required for software implementation, providing a baseline for software design, validation, and verification.
+
+Provide a basis for software managers to calculate software costs and prepare software development plans.
+
+The specific content of the requirements analysis can be summarized into six aspects: functional requirements of the software, interface between the software and hardware or other external systems, non-functional requirements of the software, reverse requirements of the software, restrictions on software design and implementation, and reading supporting information.
+
+Software requirements analysis should try to provide all the information about the functional requirements of software implementation, so that software designers and software testers no longer need to contact the demand side. This requires that the software requirements analysis content should be correct, complete, consistent and verifiable. In addition, in order to ensure the quality of software design and facilitate the adjustment and verification of software functions, software requirements must be expressed in an unambiguous, traceable and modifiable manner.<hr/>
+<h2><strong>2. Overview of requirements</strong></h2>
+<h3><strong>2.1 Project background</strong></h3>The software to be developed is called "Computer Programming Ability Online Assessment System". The proposer of this project is the School of Computer Science and Technology of Anhui University, and the developer is the person in charge of the 16th-level software engineering class of Anhui University. The main users are undergraduate graduate students of Anhui University. The software is independent of other systems, a complete system of its own, and easy to apply.<h3><strong>2.2 Requirements Overview</strong></h3>The following is a requirements analysis for the design of an online assessment system for computer programming abilities.
+
+First of all, because the exam is oriented to certain specific objects, examinees should undergo identity verification when entering the system. After entering the examination system, examinees should be able to select the examination ability level according to their own needs, so the system should also have the function of selecting examination difficulty (divided into top level, Level A, and Level B). In order to standardize the online exam, the questions and amount of questions in the test paper should be the same for each candidate, but the test questions are not the same. Online exams are based on a network environment, and test papers should be dynamically generated after randomly selecting test questions from the server's database. In addition, the system should also control the examination time and require examinees to hand in papers when the time is up. After the examinee selects the answer and submits it, the computer should automatically judge the paper and display the score after it is obtained. After the exam is completed, you can return to the login interface or check the results and rankings.<h3><strong>2.3 System structure</strong></h3>
+<img alt="" class="wp-image-5901 aligncenter" height="132" src="https://cdn.omegaxyz.com/2019/07/software-test1-1.png" width="260"/>
+<p style="text-align: center;"><strong>Figure 2.1 System structure</strong></p>
+<hr/>
+<h2><strong>3. System functional requirements</strong></h2>
+<h3><strong>3.1 Function overview</strong></h3>
+<p style="text-align: center;"><strong>Table 3.1 Function overview</strong></p>
+<img alt="" class="wp-image-5902 aligncenter" height="253" src="https://cdn.omegaxyz.com/2019/07/software-test1-2.png" width="538"/>
+<h3><strong>3.2 Business process diagram</strong></h3>This system is an online assessment system based on network technology. The administrator maintains the question bank through the network, adding test questions, modifying test questions, deleting test questions and other operations; candidates complete operations such as exams and score inquiries through the system; the system automatically composes papers and completes operations such as reviewing test papers and counting scores.<img alt="" class="wp-image-5903 aligncenter" height="566" src="https://cdn.omegaxyz.com/2019/07/software-test1-3.png" width="546"/>
+<p style="text-align: center;"><strong>Figure 3.1 Business flow chart</strong></p>
+<h3><strong>3.3 Data flow analysis</strong></h3>After logging into the system, students select a set of test questions from the test question bank, and then start answering the questions. After completing the answers, they submit them to the system. The system will complete the review of the test papers and calculate the scores. Students can log in to query. After logging in to the system, the administrator performs maintenance and updates on the system.<img alt="" class="wp-image-5904 aligncenter" height="399" src="https://cdn.omegaxyz.com/2019/07/software-test1-4.png" width="511"/>
+<p style="text-align: center;"><strong>Figure 3.2 Data flow diagram</strong></p>
+<h3><strong>3.4 Data Dictionary</strong></h3>A data item entry that identifies an entity. The data dictionary is an important part of the database. It stores relevant information used by the database and is a set of read-only tables for users. It is a collection of information about data. It is the place where all elements in the data flow diagram are strictly defined, including data flow, data flow components, files, processing instructions, and all other data that should enter the dictionary, where each element corresponds to an entry in the data dictionary. Among them, some referenced keywords are explained: PK (primary key), FK (foreign key), Check (checked range constraint), Not null (not null value).<p style="text-align: center;"><strong>Table 3.2 Candidate information table</strong></p>
+<table style="height: 518px;" width="815">
+<tbody>
+<tr>
+<td width="78">serial number</td>
+<td width="80">Field name</td>
+<td width="80">Field meaning</td>
+<td width="78">Field type</td>
+<td width="80">field length</td>
+<td width="80">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">uuid</td>
+<td width="80">Candidate examination number</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">name</td>
+<td width="80">Candidate name</td>
+<td width="78">Varchar</td>
+<td width="80">14</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">gender</td>
+<td width="80">gender</td>
+<td width="78">Bool</td>
+<td width="80">1</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">password</td>
+<td width="80">password</td>
+<td width="78">Varchar</td>
+<td width="80">20</td>
+<td width="80"></td>
+<td width="77">123456</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">mail</td>
+<td width="80">Mail</td>
+<td width="78">Varchar</td>
+<td width="80">40</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">phone</td>
+<td width="80">Telephone</td>
+<td width="78">Varchar</td>
+<td width="80">12</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>Table 3.3 Test question difficulty coefficient table</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="78">serial number</td>
+<td width="80">Field name</td>
+<td width="80">Field meaning</td>
+<td width="78">Field type</td>
+<td width="80">field length</td>
+<td width="80">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idl</td>
+<td width="80">Difficulty number</td>
+<td width="78">Varchar</td>
+<td width="80">3</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">dsl</td>
+<td width="80">Difficulty description</td>
+<td width="78">Varchar</td>
+<td width="80">30</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>Table 3.4 Question information table</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="78">serial number</td>
+<td width="80">Field name</td>
+<td width="80">Field meaning</td>
+<td width="78">Field type</td>
+<td width="80">field length</td>
+<td width="80">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idq</td>
+<td width="80">Question number</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">idl</td>
+<td width="80">Difficulty number</td>
+<td width="78">Varchar</td>
+<td width="80">3</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">nameq</td>
+<td width="80">Question name</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">des_q</td>
+<td width="80">Question statement</td>
+<td width="78">Varchar</td>
+<td width="80">100</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">index_q</td>
+<td width="80">Index number</td>
+<td width="78">Varchar</td>
+<td width="80">20</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">pass_n</td>
+<td width="80">Number of people passing</td>
+<td width="78">Longint</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">0</td>
+</tr>
+<tr>
+<td width="78">7</td>
+<td width="80">att_n</td>
+<td width="80">Number of submissions</td>
+<td width="78">Longint</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">0</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong> </strong><strong>Table 3.5 Exam paper information table</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="78">serial number</td>
+<td width="80">Field name</td>
+<td width="80">Field meaning</td>
+<td width="78">Field type</td>
+<td width="80">field length</td>
+<td width="80">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="78">1</td>
+<td width="80">idp</td>
+<td width="80">Paper number</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">2</td>
+<td width="80">score_t</td>
+<td width="80">total score</td>
+<td width="78">Int</td>
+<td width="80">8</td>
+<td width="80"></td>
+<td width="77">100</td>
+</tr>
+<tr>
+<td width="78">3</td>
+<td width="80">nameq</td>
+<td width="80">Question name</td>
+<td width="78">Varchar</td>
+<td width="80">10</td>
+<td width="80"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="78">4</td>
+<td width="80">des_p</td>
+<td width="80">Test paper presentation</td>
+<td width="78">Varchar</td>
+<td width="80">100</td>
+<td width="80"></td>
+<td width="77">NULL</td>
+</tr>
+<tr>
+<td width="78">5</td>
+<td width="80">start_p</td>
+<td width="80">start time</td>
+<td width="78">Date</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">Date()</td>
+</tr>
+<tr>
+<td width="78">6</td>
+<td width="80">end_p</td>
+<td width="80">end time</td>
+<td width="78">Date</td>
+<td width="80">16</td>
+<td width="80"></td>
+<td width="77">Date()</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong>Table 3.6 Administrator information table</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="77">serial number</td>
+<td width="84">Field name</td>
+<td width="79">Field meaning</td>
+<td width="77">Field type</td>
+<td width="79">field length</td>
+<td width="79">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="77">1</td>
+<td width="84">uuid_a</td>
+<td width="79">Job number</td>
+<td width="77">Varchar</td>
+<td width="79">10</td>
+<td width="79">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">2</td>
+<td width="84">name_a</td>
+<td width="79">Name</td>
+<td width="77">Varchar</td>
+<td width="79">8</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">3</td>
+<td width="84">password_p</td>
+<td width="79">password</td>
+<td width="77">Varchar</td>
+<td width="79">20</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">4</td>
+<td width="84">mail_p</td>
+<td width="79">mail</td>
+<td width="77">Varchar</td>
+<td width="79">40</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">5</td>
+<td width="84">phone_p</td>
+<td width="79">Contact number</td>
+<td width="77">Varchar</td>
+<td width="79">12</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><strong> </strong><strong>Table 3.7 Examination room information table</strong></p>
+<table>
+<tbody>
+<tr>
+<td width="77">serial number</td>
+<td width="84">Field name</td>
+<td width="79">Field meaning</td>
+<td width="77">Field type</td>
+<td width="79">field length</td>
+<td width="79">Is it a primary key?</td>
+<td width="77">default value</td>
+</tr>
+<tr>
+<td width="77">1</td>
+<td width="84">uuid_s</td>
+<td width="79">Examination room number</td>
+<td width="77">Varchar</td>
+<td width="79">10</td>
+<td width="79">√</td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">2</td>
+<td width="84">name_s</td>
+<td width="79">Examination room name</td>
+<td width="77">Varchar</td>
+<td width="79">20</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+<tr>
+<td width="77">3</td>
+<td width="84">des_s</td>
+<td width="79">Exam room description</td>
+<td width="77">Varchar</td>
+<td width="79">100</td>
+<td width="79"></td>
+<td width="77"></td>
+</tr>
+</tbody>
+</table>
+<h3><strong>3.5 E-R diagram</strong></h3>
+<img alt="" class="wp-image-5905 aligncenter" height="184" src="https://cdn.omegaxyz.com/2019/07/software-test1-5.png" width="470"/>
+<p style="text-align: center;"><strong>Figure 3.3 Test question E-R diagram</strong></p>
+<p style="text-align: center;"><img alt="" class="alignnone wp-image-5906" height="180" src="https://cdn.omegaxyz.com/2019/07/software-test1-6.png" width="417"/></p>
+<p style="text-align: center;"><strong>Figure 3.4 Candidate E-R diagram</strong></p>
+<p style="text-align: center;"><img alt="" class="alignnone wp-image-5907" height="146" src="https://cdn.omegaxyz.com/2019/07/software-test1-7.png" width="436"/></p>
+<p style="text-align: center;"><strong>Figure 3.5 Transcript E-R diagram</strong></p>
+<hr/>
+<h2><strong>4. Software, hardware and external system interface requirements</strong></h2>
+<h3><strong>4.1 User interface</strong></h3>The user interface is the part of the program that users can see and interact with. It is very important to design a good user interface. This design will provide users with a beautiful, generous, intuitive, and simple-to-operate user interface.<h3><strong>4.2 Hardware requirements</strong></h3>Mobile terminal hardware configuration should follow the following principles: have high reliability, availability and security. [Describe the characteristics of each interface of software and hardware in the system. This description may include the types of hardware supported, the nature of the data and control information exchanged between the software and hardware, and the communication protocols used. 】<h3><strong>4.3 Operating environment</strong></h3>
+<ul>
+<li><strong>Web </strong><strong>Browser:</strong>0+, Chrome, Opera, Safari, Firefox and any browser that supports the HTML5 standard.</li>
+<li><strong>Standard resolution:</strong>1024*768、1920*1080、2K</li>
+</ul>
+<hr/>
+<h2><strong>5. Reliability and availability requirements</strong></h2>
+<h3><strong>5.1 Performance requirements</strong></h3>
+<ul>
+<li><strong>processing power</strong></li>
+</ul>Since it is an online assessment system, its processing capacity mainly considers the maximum number of concurrent users that the system can carry. According to the actual planning, the maximum number of concurrent users that the system can carry is at least the total number of students in the school * φ, where φ is a constant from 0 to 1, depending on the server capacity.<ul>
+<li><strong>response time</strong></li>
+</ul>In order to provide online assessment services quickly, the system should be able to respond to online assessment requests quickly. The response time for the user to finally get the result is not only related to the system response speed, but also related to the network conditions. Therefore, higher requirements are required for the Web server.<p style="text-align: center;"><strong>Table 5.1 Correspondence time analysis</strong></p>
+<img alt="" class="wp-image-5908 aligncenter" height="238" src="https://cdn.omegaxyz.com/2019/07/software-test1-8.png" width="519"/>
+<h3><strong>5.2 Security requirements</strong></h3>The transmitted data is encrypted using a high-strength encryption algorithm (DES), so that even if the data is leaked or intercepted, the relevant data content cannot be identified, ensuring data security. For the data exchanged between the client and the server, the secure socket sublayer (SSL, SSL encrypted transmission is mainly for WEB data transmission, designed based on the security considerations of the transmission of important information) is used for information exchange, and important information is exchanged between the client's mobile terminal and the server.<hr/>
+<h2><strong>6. References</strong></h2>[1] Lu Zhengding, Zhang Zhao, Zhou Yuqiang, et al. Database management system EDDBMS for engineering design applications[J]. Computer Research and Development, 1997(s1):328-332.
+
+[2] Cai Changan, Wang Qi. Design and implementation of student information management system based on B/S model [J]. Computer Engineering and Design, 2006, 27(14):2585-2587.
+
+[3] Li Wenxin, Guo Wei. Peking University program online evaluation system and its application [J]. Journal of Jilin University: Information Science Edition, 2005(S2):170-177.</div>
+        <section class="comments"><h2>Comments (12)</h2>
+        <div class="comment" id="comment-18944">
+          <strong><a href="http://www.spasvo.com/" rel="nofollow">软件测试工具</a></strong>
+          <time>2020-05-14 18:19:03</time>
+          <div>嗯嗯，软件测试工具这个学习一下的哦</div>
+        </div>
+        
+        <div class="comment" id="comment-19114">
+          <strong>Eric</strong>
+          <time>2020-06-29 13:30:08</time>
+          <div>感谢，学到了不少东西~</div>
+        </div>
+        
+        <div class="comment" id="comment-19313">
+          <strong>小李同学</strong>
+          <time>2020-08-17 11:09:32</time>
+          <div>可以发一份测试计划和软件需求规格说明书范例的Word文档给我吗？就下面的邮箱，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19591">
+          <strong>lilioa24</strong>
+          <time>2020-11-09 17:37:56</time>
+          <div>+1</div>
+        </div>
+        
+        <div class="comment" id="comment-22053">
+          <strong>Nai-sheng Yen</strong>
+          <time>2021-05-11 22:29:41</time>
+          <div>可以發一份需求規範說明書的範本給我看嗎？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22061">
+          <strong>xyjisaw</strong>
+          <time>2021-05-12 23:18:12</time>
+          <div>就在本页哈</div>
+        </div>
+        
+        <div class="comment" id="comment-29404">
+          <strong>一念之间</strong>
+          <time>2022-10-03 21:08:34</time>
+          <div>可以发个需求分析报告的案例吗</div>
+        </div>
+        
+        <div class="comment" id="comment-30180">
+          <strong>jcy</strong>
+          <time>2022-11-16 21:13:53</time>
+          <div>可以麻烦你可以发一份测试计划和软件需求规格说明书范例的Word或者pdf文档给我吗？就下面的邮箱，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30240">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:19:57</time>
+          <div>你好，所有内容都在该页面上，你可以免费自由复制。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30243">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:22:33</time>
+          <div>你好，可以参考软件工程专业课本。</div>
+        </div>
+        
+        <div class="comment" id="comment-32741">
+          <strong>芋头汤</strong>
+          <time>2023-03-07 11:31:50</time>
+          <div>感谢感谢，课程设计有头绪了</div>
+        </div>
+        
+        <div class="comment" id="comment-33329">
+          <strong>安</strong>
+          <time>2023-03-31 18:06:58</time>
+          <div>非常感谢分享，理清了一点思路</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

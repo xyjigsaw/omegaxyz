@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>速读-对抗攻击的弹性异构DNN加速器体系结构 · OmegaXYZ</title>
+  <meta name="description" content="Paper: Wang, Xingbin, et al. &quot;Dnnguard: An elastic heterogeneous dnn accelerator architecture against adversarial attacks.&quot; Proceedings of the Twenty-Fifth International...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2021/03/31/dnn-guard/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2021-03-31</div>
+        <h1>速读-对抗攻击的弹性异构DNN加速器体系结构</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/english/index.html">English</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><blockquote><strong>Paper:</strong> Wang, Xingbin, et al. "Dnnguard: An elastic heterogeneous dnn accelerator architecture against adversarial attacks." <i>Proceedings of the Twenty-Fifth International Conference on Architectural Support for Programming Languages and Operating Systems</i>. 2020.</blockquote>
+<h2><strong>简介</strong></h2>
+我们应该相信机器学习和人工智能吗？本文的工作试图解决DNN中经常发生的安全问题，这是计算机科学中一个新兴的新兴方向。如今，深度神经网络容易受到对抗性样本的攻击，但是现有的DNN加速器在检测对抗性样本的攻击方面存在许多问题，更不用说内存成本，计算效率和信息安全性了。而且，这些提到的加速器不能为检测方法所需的特殊计算提供有效的支持。这些是本文要解决的基本问题。
+
+本文提出了一种称为DNNGuard的弹性异构DNN加速器架构，该架构包含三个关键部分：
+<ul>
+ 	<li>可以充分利用数据局部性的弹性片上缓冲区管理机制</li>
+ 	<li>使得检测网络能够执行的弹性PE计算资源管理它比目标网络更快，可通过及时识别可能的攻击同时最大程度地利用计算资源来避免错误预测</li>
+ 	<li>扩展的AI指令集，以支持同步和通信机制。所有这些部件均经过精心设计和实验验证</li>
+</ul>
+如前所述，总体而言，本文着重讨论DNN安全性的挑战，在这种挑战中，注入恶意数据（例如对抗性样本）会造成灾难性的后果。与往常一样，本文的清晰度，新颖性和技术正确性将得到公平详细的讨论。
+
+<hr />
+
+From my perspective, it is a comprehensive paper that combines computer architecture, security, privacy, and artificial intelligence. My research interest is knowledge graph and social network, but I think this paper is suitable for every researcher in all fields of computer science and I hold a positive view of the proposed sophisticated architecture. Next, I will briefly introduce and analyze the work to better share the ideas.
+<h2><strong>Summary</strong></h2>
+Should we believe in machine learning and artificial intelligence? The work in this paper tries to solve the frequently occurring security problems in DNN which is a novel and emerging direction in computer science. Nowadays, the deep neural network is vulnerable to adversarial samples, but the existing DNN accelerators have many problems in the detection of adversarial samples’ attack, let alone memory cost, computational efficiency, and information security. Moreover, these mentioned accelerators do not provide effective support for the special calculations required for detection methods. These are the basic problems to be solved in this paper.
+
+This paper proposes an elastic heterogeneous DNN accelerator architecture called DNNGuard which consists of three key parts: 1) an elastic on-chip buffer management mechanism that can fully exploit the data locality, 2) an elastic PE computing resource management which makes the detection network execute faster than target network to avoid false prediction by identifying possible attacks timely while maximizing the utilization of computing resources 3) an extended AI instruction set to support the synchronization and communication mechanisms. All these parts have been carefully designed and experimentally verified.
+
+As I have mentioned above, in general, this paper focuses on the challenges of DNN security where injected malicious data like adversarial samples will cause disastrous consequences. As usual, the clarity, novelty, and technical correctness of the paper will be discussed in detail fairly.
+<h2><strong>Clarity &amp; Organization</strong></h2>
+Generally speaking, the organization of this paper is clearly structured. Firstly, the authors give a whole overview of the introduction part. In order to illustrate readers to better understand the content of the article, the paper analyzes the existing adversarial sample defense methods and the requirements for accelerator architecture in Section 2. In Section 3, the framework of DNNGuard is presented with implementation details explained in Section 4. Like most papers, the authors evaluate the performance impacts and parameter sensitivity for DNNGuard in Section 5 and discuss various design issues in Section 6. At the end of the paper, the related work is reviewed in Section 7 before concluding the paper in Section 8.
+
+However, as far as I am concerned, I think the abstract part is slightly longer which covers the entire first page with other basic information. Specifically, the background in the abstract has nearly 100 words which look redundant. It is supposed to summarize the related preliminaries of the urgent security situation in two or three sentences while expressing the richest meaning with minimum words for the key ideas and methods of DNNGuard. If there is really something important related to the architecture that is not described, the authors can describe it in the main text.
+
+What needs to be pointed out is that there are many concepts, terminologies, and models in this paper such as Scheduler, PE, MAC, and CACC. The paper could be more reader-friendly to list these words like paper [1] did.
+
+Overall, this part is generally satisfactory in terms of clarity and organization.
+<h2><strong>Novelty</strong></h2>
+Novelty is not only the core of all papers but also the focus of this critique. There is no doubt that this article has many innovations.
+
+First, in Section 3 and 4, the authors consider that there are two different networks (target network and detect network) need to be executed in the situation where adversary samples exist. In the realm of my knowledge, no accelerator architecture that can convert the serial execution of two networks into parallel execution. Therefore, I think the utilization of parallelism is the most significant contribution to this work. Since simply reusing the DNN accelerator does not achieve the highest efficiency, the authors thought of utilizing the CPU to do some serial tasks to ease the pressure on the DNN accelerator, but this will bring high latency caused by data movement. Moreover, due to the deterministic and sequential nature of the target network and the detection network’s processing flow, the authors do not use a complex handshake mechanism to synchronize and schedule the tasks. Instead, a scheduler within the DNN accelerator with an extended AI instruction set is creatively introduced in this paper to dynamically configure the PE and on-chip buffer resources. The author's ability to find innovative solutions based on existing problems is worth learning.
+
+What’s more, we can see the architecture in Figure 2 (The DNNGuard Architecture Based on Elastic DNN Accelerator and CPU Core). Specially, we can find that the CPU core is mainly used for executing the special computing units while the elastic DNN accelerator core is composed of the scheduler, Soc Bus Interface, and the global buffers. One of the biggest advantages and innovations of DNNGuard is the global buffer which is the key to provide efficient data communication in such a complex architecture. Additionally, the authors have designed a complex storage model and corresponding data movement mechanism to effectively calculate these two neural networks simultaneously.
+
+In the discussion section (Section 6), the paper provides several interesting angles to totally analyze the architecture besides performance and effectiveness such as 1) the robust target network, 2) the adaptability to future algorithms, 3) the compatibility with the current DNN accelerator, and 4) the strong security. These aspects are also the critical ingredients of the proposed architecture.
+
+At the end of this part, I have two questions as follows:
+<ul>
+ 	<li>Regarding the training of the two networks, can the training of the detection network be combined with the training of the target network? That is to say, it is possible to integrate these two networks together furtherly considering that the target network is based on traditional DNN or other deep learning models and the detection network may be related to DNN or machine learning.</li>
+ 	<li>Are there some new problems coming up the integrated design of DNNGuard architecture brings? It is an open problem. I think there is room for further improvement.</li>
+</ul>
+<h2><strong>Technical Correctness and Integrity of Experiments</strong></h2>
+In this part, the experimental parts will be analyzed in detail where NVDLA[2] and RISCV[3] are employed to implement the accelerator of DNNGuard.
+
+As a new orchestrated architecture, it is supposed to evaluate the performance on different networks, the area and power it consumes compared to other existing architecture, and sensitivity related to the ratio of frame or bandwidth, etc. Fortunately, the experiments in the work demonstrate kinds of comprehensive evaluations. In addition to what I mentioned above, the work also compares the proposed architecture with others using Non-DNN Defense Methods on CPU. In the part of sensitivity analysis, the authors analyze the impacts of the number of PE, the buffer capacity, DRAM bandwidth, and LLC size of CPU which are the main factors to the whole performance.
+
+The paper lists many results in different experimental parts. Section 5.2 (Results on DNNGuard Architecture) and 5.3 (Detection Mechanism on DNNGuard) are the most important parts where the outcomes of the architecture prove the superiority of DNNGuard over other existing architecture in terms of the elastic NVDLA performance and DRAN access.
+
+However, the paper mentioned the protection for information security and privacy in neural networks. According to their theory, tightly coupling the DNN accelerator and the CPU core in a chip can effectively avoid side-channel information leakage of data interface compared with the deployment scheme of connecting two DNN accelerators through PCIe interface. Nevertheless, the whole paper only mentions the fact rather than theoretical analysis in Section 6. I still do not know why this can improve the security of information due to the limitations of my knowledge. The paper is supposed to leverage existing attack models to test and evaluate the security level of DNNGuard. Only in this way can readers be convinced.
+<h2><strong>Conclusion</strong></h2>
+In summary, this paper is an excellent work with significant contributions in the aspects of neural network architecture against adversarial attacks though there are a few unsatisfactory but trivial in the experimental part.
+<h2><strong>References</strong></h2>
+[1] Wu, Zonghan, et al. "A comprehensive survey on graph neural networks." IEEE Transactions on Neural Networks and Learning Systems (2020).
+
+[2] NVIDIA. Hardware architectural specification. http://nvdla.org/hw/ v1/hwarch.html, 2018.
+
+[3] Andrew Waterman, Yunsup Lee, David A Patterson, and Krste Asanovi. The risc-v instruction set manual. volume 1: User-level isa, version 2.0. Technical report, CALIFORNIA UNIV BERKELEY DEPT OF ELECTRICAL ENGINEERING AND COMPUTER SCIENCES, 2014.
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

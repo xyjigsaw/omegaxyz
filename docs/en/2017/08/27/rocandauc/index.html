@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to ROC curve/AUC curve and confusion matrix · OmegaXYZ</title>
+  <meta name="description" content="ROC curve The ROC (Receiver Operating Characteristic) curve is the receiver operating characteristic curve (ROC curve), also known as the sensitivity curve (sensitivity curve), which is used to evaluate the quality of a binary classifier. ...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/08/27/rocandauc/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-27</div>
+        <h1>Introduction to ROC curve/AUC curve and confusion matrix</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/roc/index.html">ROC</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1>ROC curve</h1>The ROC (Receiver Operating Characteristic) curve is the receiver operating characteristic curve (ROC curve for short), also known as the sensitivity curve (sensitivity curve), which is used to evaluate the quality of a binary classifier.<img alt="" class="alignnone wp-image-1800" height="588" src="https://cdn.omegaxyz.com/2017/08/ROC1-300x291.png" width="606"/>The abscissa of the ROC curve is false positive rate (FPR), and the ordinate is true positive rate (TPR).<h1>confusion matrix</h1>The next picture is the confusion matrix.
+
+Understand it first
+• False positive rate (FPR)
+The probability of being judged to be a positive example but not a real example
+• True Positive Rate (TPR)
+The probability that a positive example is also a true example
+• False Negative Rate (FNR)
+The probability that a negative example is not a true negative example
+• True Negative Rate (TNR)
+The probability that a negative example is also a true negative example<img alt="" class="alignnone wp-image-1801" height="352" src="https://cdn.omegaxyz.com/2017/08/混淆矩阵-300x150.png" width="704"/>
+<img alt="" class="alignnone wp-image-1868" height="268" src="https://cdn.omegaxyz.com/2017/08/20160823164328727-300x106.png" width="758"/>Note that P+N in this figure is the number of all samples.
+Next, we will examine four points:
+①(0,1): That is, FPR=0, TPR=1, which means FN (false negative)=0, and FP (false positive)=0. Wow, it classifies all samples correctly.
+②(1,0), that is, FPR=1, TPR=0, the predictions at this point are all wrong.
+③(0,0), that is, FPR=TPR=0, that is, FP (false positive)=TP (true positive)=0, this classifier predicts that all samples are negative samples (negative).
+④(1,1), the classifier actually predicts that all samples are positive samples.
+
+Conclusion: The closer the ROC curve is to the upper left corner, the better the performance of the classifier.<h1>AUC curve</h1>AUC (Area Under Curve) is defined as the area under the ROC curve, and the value of this area will not be greater than 1. And since the ROC curve is generally above the straight line y=x, the value range of AUC is between 0.5 and 1. The AUC value is used as the evaluation criterion because in many cases the ROC curve cannot clearly illustrate which classifier performs better. As a numerical value, the classifier with a larger AUC performs better. Why? Because the closer the ROC curve is to the upper left corner, the larger the AUC area and the better the classifier performance.
+
+References: Kong Ming’s blog, Baidu Encyclopedia</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly language euclidean division method to find the greatest common divisor · OmegaXYZ</title>
+  <meta name="description" content="Euclidean division, also known as Euclidean algorithm, is a method of finding the greatest common divisor. Its specific method is: divide a larger number with a smaller number, then divide the divisor with the remainder (the first remainder), then divide the first remainder with the remainder (the second remainder), and so on until the final remainder is 0. If you are looking for the greatest common divisor of two numbers, then the final divisor is the greatest common divisor of the two numbers. Main subroutines in assembly ①Main program...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/17/assembly-gcd/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-17</div>
+        <h1>Assembly language euclidean division method to find the greatest common divisor</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">Euclidean division, also known as Euclidean algorithm, is a method of finding the greatest common divisor. Its specific method is: divide a larger number with a smaller number, then divide the divisor with the remainder (the first remainder), then divide the first remainder with the remainder (the second remainder), and so on until the final remainder is 0. If you are looking for the greatest common divisor of two numbers, then the final divisor is the greatest common divisor of the two numbers.<h2><strong>Main subroutines in assembly</strong></h2>
+<ul>
+<li>①Main program module</li>
+<li>②Display module, call DOS command to display string, please note that when displaying characters, you must first convert the numerical type number into character type.</li>
+<li>③Euclation and division module</li>
+</ul>
+<h2><strong>Code (including detailed comments)</strong></h2>The experimental environment is MASM integrated development environment, win10DOSBOX<pre><code class="language-asm">DATA SEGMENT
+X DW ?
+Y DW ?
+Z DW ?
+DATA ENDS
+CODE SEGMENT
+ASSUME CS:CODE, DS:DATA
+START:
+
+CALL SHURU
+MOV X, BX
+CALL SHURU
+MOV Y, BX
+CALL GONGYUESHU
+MOV BX, Z
+CALL XIANSHI
+CALL GONGBEISHU
+JMP  OUT1
+
+SHURU:     ; 输入数字到BX
+MOV BX, 0
+S1: 
+MOV AH, 1   
+INT 21H 
+CMP AL, 0DH ; 输入是回车是结束
+JZ  EXIT
+AND AX, 000FH   
+XCHG AX, BX   
+MOV CX, 10   
+MUL CX       ;之前输入的数乘以10 加上新输得数..比如123先是 0*10+1 -&gt;1*10+2 -&gt;12*10+3
+ADD BX, AX  
+JMP S1
+EXIT:         ;输入了回车 退出
+MOV DL, 0AH  ;换行
+MOV AH, 2
+INT 21H
+RET
+
+
+XIANSHI:        ; 显示BX当中的数
+MOV DL, 0AH  ;换行
+MOV AH, 2
+INT 21H
+MOV AX, BX        
+MOV BX, 10
+MOV CX, 0
+LET1:        ;将要显示的数处以10 把余数入栈
+MOV DX, 0     
+INC CX   
+IDIV BX
+PUSH DX
+CMP AX, 0    ;余数为0时结束
+JNZ LET1
+LET2:        
+POP AX       ;将余数弹入 AX
+ADD AX, 3030H ;余数调整为ASC码
+MOV DL, AL     ;显示
+MOV AH, 2
+INT 21H
+LOOP LET2
+RET
+
+
+
+GONGYUESHU: ;求 X 和 Y 的最大公约数..BX是除数
+MOV BX, 1
+SS1:
+MOV DX, 0
+MOV AX, X
+DIV BX
+CMP DX, 0
+JNZ SS2    ; 如果BX不能被X整除 BX不是公约数 跳到SS2
+MOV DX, 0
+MOV AX, Y
+DIV BX
+CMP DX, 0
+JNZ SS2    ; 如果BX不能被Y整除 BX不是公约数 跳到SS2
+MOV Z, BX   ;如果既能被X整除又能被Y整除的值放到Z里面 
+SS2:      ; BX加到等于被除数的时候跳出 ..否则除数加1..判断BX+1是不用公约数..
+CMP BX, X  
+INC BX    
+JNZ SS1  
+RET
+
+GONGBEISHU: ;公倍数就是X乘Y在除以最大公约数...
+MOV AX, X
+MUL Y
+DIV Z
+MOV BX, AX
+CALL XIANSHI
+
+RET
+
+
+OUT1:  
+MOV AH, 4CH 
+INT 21H
+CODE ENDS
+END START</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone size-full wp-image-4760" height="167" src="https://cdn.omegaxyz.com/2018/07/assembly-gcd.jpg" width="645"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

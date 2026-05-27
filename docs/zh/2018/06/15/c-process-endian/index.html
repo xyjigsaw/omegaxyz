@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C语言判断处理器大端/小端模式 · OmegaXYZ</title>
+  <meta name="description" content="编写C程序，以判断处理器的端（endianness）模式。如果处理器是大端模式，在控制台输出：处理器采用大端模式；否则，输出，处理器采用小端模式。 什么是大端/小端模式 大端模式 所谓的大端模式，是指数据的高字节，保存在内存的低地址中，而数据的低字节，保存在内存的高地址中，这样的存储模式有点儿类似于把数据当作字符串顺序处理：地址由小向大增...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/15/c-process-endian/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-15</div>
+        <h1>C语言判断处理器大端/小端模式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/embedded-system/index.html">嵌入式</a></div>
+        <div class="article-content">编写C程序，以判断处理器的端（endianness）模式。如果处理器是大端模式，在控制台输出：处理器采用大端模式；否则，输出，处理器采用小端模式。
+<h2><strong>什么是大端/小端模式</strong></h2>
+<h3><strong>大端模式</strong></h3>
+所谓的大端模式，是指数据的高字节，保存在内存的低地址中，而数据的低字节，保存在内存的高地址中，这样的存储模式有点儿类似于把数据当作字符串顺序处理：地址由小向大增加，而数据从高位往低位放；
+<strong>例子：</strong>
+0000430: e684 6c4e 0100 1800 53ef 0100 0100 0000
+0000440: b484 6c4e 004e ed00 0000 0000 0100 0000
+在大端模式下，前16位应该这样读: e6 84 6c 4e ( 假设int占4个字节)
+<strong>记忆方法:</strong> 地址的增长顺序与值的增长顺序相反.
+<h3>
+<strong>小端模式</strong></h3>
+所谓的小端模式，是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中，这种存储模式将地址的高低和数据位权有效地结合起来，高地址部分权值高，低地址部分权值低，和我们的逻辑方法一致。
+<strong>例子：</strong>
+0000430: e684 6c4e 0100 1800 53ef 0100 0100 0000
+0000440: b484 6c4e 004e ed00 0000 0000 0100 0000
+在小端模式下，前16位应该这样读: 4e 6c 84 e6( 假设int占4个字节)
+<strong>记忆方法:</strong> 地址的增长顺序与值的增长顺序相同.
+
+<strong>方法一：使用C</strong><strong>语言强制类型转换</strong>
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+
+	int a=0x1234;
+	char b=*(char*)&amp;a;
+	if(b==0x12)
+		printf("处理器采用大端模式\n");
+	else
+		printf("处理器采用小端模式\n");
+	return 0;
+}
+</code></pre>
+<strong>方法二：使用Union</strong>
+<pre ><code class="language-c">#include &lt;stdio.h&gt;
+
+union U{
+    int a;
+    char c;
+}u;
+
+int main()
+{
+    u.a=0x1234;
+    if(0x34 == u.c)
+    {
+        printf("处理器采用小端模式\n");
+    }
+    else if(0x12 == u.c)
+    {
+        printf("处理器采用大端模式\n");
+    }
+    return 0;
+}</code></pre>
+<strong>结果：</strong>
+
+Windows
+
+<img class="alignnone size-full wp-image-4593" src="https://cdn.omegaxyz.com/2018/06/p-endian2.png" alt="" width="479" height="113" />
+
+Linux
+
+<img class="alignnone  wp-image-4594" src="https://cdn.omegaxyz.com/2018/06/p-endian3.png" alt="" width="584" height="242" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

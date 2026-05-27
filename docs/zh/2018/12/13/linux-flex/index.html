@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译原理在类Unix/Lunix上使用flex · OmegaXYZ</title>
+  <meta name="description" content="flex，前身是lex，lex是1975年由Mike Lesk和当时尚在AT&amp;T实习的Eric Schmidt共同完成的基于UNIX环境的词法分析器的生成工具。这个lex很有名气，但是无奈效率太低加上有bug，让人用的很不爽。后来伯克利实验室的Vern Paxson用C重新写了lex，并命名为flex（Fast Lexical Analy...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/13/linux-flex/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-13</div>
+        <h1>编译原理在类Unix/Lunix上使用flex</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content">flex，前身是lex，lex是1975年由Mike Lesk和当时尚在AT&amp;T实习的Eric Schmidt共同完成的基于UNIX环境的词法分析器的生成工具。这个lex很有名气，但是无奈效率太低加上有bug，让人用的很不爽。后来伯克利实验室的Vern Paxson用C重新写了lex，并命名为flex（Fast Lexical Analyzer Generator）。
+
+<strong>下面是使用方法，流程图如上所示</strong>
+
+<strong>①首先创建一个.l文件，里面写上</strong>
+<img class="alignnone  wp-image-5213" src="https://cdn.omegaxyz.com/2018/12/flex1.png" alt="" width="108" height="109" />
+<pre ><code class="language-c">%{
+int chars = 0;
+int words = 0;
+int lines = 0;
+%}
+
+%%
+
+[a-zA-Z]+ {words++; chars += strlen(yytext);}
+\n  { chars++; lines++; }
+.  { chars++; }
+
+%%
+
+int main(int argc, char **argv){
+   yylex();
+   printf("lines: %8d words: %8d chars: %8d\n", lines, words, chars);
+}</code></pre>
+<strong>②接下来打开终端</strong>
+
+输入一下命令：
+
+flex test<span class="hljs-number">.</span>l //生成一个就叫做 <span class="hljs-string">"lex.yy.c"的文件</span>
+
+<img class="alignnone  wp-image-5214" src="https://cdn.omegaxyz.com/2018/12/flex2.png" alt="" width="256" height="126" />
+
+<strong>③输入以下命令，生成a.out文件来读取输入输出</strong>
+
+/*
+this action would generate a file named a.out which would be used for reading inputs and print outputs
+*/
+cc lex.yy.c -ll //参数-ll为mac上运行，如果不好用（Linux上运行），试试参数-lfl
+
+<img class="alignnone  wp-image-5215" src="https://cdn.omegaxyz.com/2018/12/flex3.png" alt="" width="415" height="134" />
+
+<strong>④执行a.out</strong>
+
+命令行中输入./a.out
+
+<img class="alignnone  wp-image-5216" src="https://cdn.omegaxyz.com/2018/12/flex4.png" alt="" width="584" height="146" />
+
+输入一些字符，按下ctrl+D退出。
+
+最后会出现lines、words、chars的个数。
+
+<strong>参考资料：</strong><a href="https://blog.csdn.net/u013225150/article/details/51241256">https://blog.csdn.net/u013225150/article/details/51241256</a>
+
+<a href="http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html">http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

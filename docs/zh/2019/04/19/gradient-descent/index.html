@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>梯度下降法 · OmegaXYZ</title>
+  <meta name="description" content="简介 梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。反过来，如果我们需...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/19/gradient-descent/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-19</div>
+        <h1>梯度下降法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。反过来，如果我们需要求解损失函数的最大值，这时就需要用梯度上升法来迭代了。在机器学习中，基于基本的梯度下降法发展了两种梯度下降方法，分别为随机梯度下降法和批量梯度下降法。
+
+<hr />
+
+<h2><strong>梯度</strong></h2>
+梯度的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。
+<div>
+<div>
+<ul>
+ 	<li>在单变量的函数中，梯度其实就是函数的微分，代表着函数在某个给定点的切线的斜率</li>
+ 	<li>在多变量函数中，梯度是一个向量，向量有方向，梯度的方向就指出了函数在给定点的<strong>上升最快</strong>的方向</li>
+</ul>
+<h3><strong>三变量</strong></h3>
+<img class="wp-image-5699 aligncenter" src="https://cdn.omegaxyz.com/2019/04/gradient.png" alt="" width="220" height="52" />
+<h3><strong>多变量</strong></h3>
+<img class="size-full wp-image-5705 aligncenter" src="https://cdn.omegaxyz.com/2019/04/gradient-descent6.png" alt="" width="391" height="70" />
+
+<hr />
+
+<h2><strong>梯度下降算法</strong></h2>
+<h3><strong>流程</strong></h3>
+<img class="size-full wp-image-5704 aligncenter" src="https://cdn.omegaxyz.com/2019/04/gradient-descent5.png" alt="" width="174" height="288" />
+
+<img class="wp-image-5701 aligncenter" src="https://cdn.omegaxyz.com/2019/04/gradient-descent2.png" alt="" width="740" height="74" />
+
+此公式的意义是：J是关于Θ的一个函数，我们当前所处的位置为Θ0点，要从这个点走到J的最小值点，也就是山底。首先我们先确定前进的方向，也就是梯度的反向，然后走一段距离的步长，也就是α，走完这个段步长，就到达了Θ1这个点！
+
+<img class="wp-image-5702 aligncenter" src="https://cdn.omegaxyz.com/2019/04/gradient-descent3.png" alt="" width="550" height="165" />
+<h3><strong>α含义</strong></h3>
+α在梯度下降算法中被称作为学习率或者步长，意味着我们可以通过α来控制每一步走的距离，不要走太快，步长太大会错过了最低点。同时也要保证不要走的太慢，太小的话半天都无法收敛。
+<h3><strong>负号含义</strong></h3>
+梯度前加一个负号，就意味着朝着梯度相反的方向前进。梯度的方向实际就是函数在此点上升最快的方向，而我们需要朝着下降最快的方向走，自然就是负的梯度的方向，所以此处需要加上负号。
+
+<hr />
+
+<h2><strong>举例</strong></h2>
+<img class="alignnone  wp-image-5703" src="https://cdn.omegaxyz.com/2019/04/gradient-descent4.png" alt="" width="658" height="272" />
+
+<hr />
+
+<h2><strong>缺点</strong></h2>
+<ul>
+ 	<li>参数调整缓慢（谷底较平时出现的问题）</li>
+ 	<li>收敛于局部极小值</li>
+</ul>
+
+<hr />
+
+<h2><strong>随机梯度下降</strong></h2>
+每次更新都需要遍历所有data，当数据量太大或者一次无法获取全部数据时，这种方法并不可行。
+解决这个问题基本思路是：只通过一个随机选取的数据(xn,yn) 来获取“梯度”，以此对w 进行更新。这种优化方法叫做随机梯度下降。
+<p data-source-line="6">It is a iterative method for optimizing a differentiable objective function, a stochastic approximation of gradient descent optimization. It is called stochastic because samples are selected randomly(or shuffled) instead of as a single group (as in standard gradient descent) or in the order they appear in the training set.</p>
+<p data-source-line="8">Note that in each iteration (also called update), only the gradient evaluate at a single point Xi instead of evaluating at the set of all samples.</p>
+<p data-source-line="10">The key difference compared to standard (Batch) Gradient Descent is that only on piece of data from the dataset is used to calculate the step and the piece of data is picked randomly at each step.</p>
+
+
+<hr />
+
+<h2><strong>参考文献</strong></h2>
+<ul>
+ 	<li>https://www.jianshu.com/p/c7e642877b0e</li>
+ 	<li>https://blog.csdn.net/walilk/article/details/50978864</li>
+</ul>
+&nbsp;
+
+</div>
+</div></div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-18678">
+          <strong>z</strong>
+          <time>2020-03-18 07:50:40</time>
+          <div>这个有源码嘛？想学习一下</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18679">
+          <strong>xyjisaw</strong>
+          <time>2020-03-18 08:42:01</time>
+          <div>可以参考TensorFlow的源码</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于三重竞争机制的PSO算法（CSO） · OmegaXYZ</title>
+  <meta name="description" content="TCSO算法来源 论文标题： A modiﬁed competitive swarm optimizer for large scale optimization problems 作者： Prabhujit Mohapatra , Kedar Nath Das, Santanu Roy Department of Mathematics...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/19/tcso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-19</div>
+        <h1>基于三重竞争机制的PSO算法（CSO）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>TCSO算法来源</strong></h2>
+<strong>论文标题：</strong><b>A modiﬁed competitive swarm optimizer for large scale optimization problems</b>
+
+<strong>作者：</strong>Prabhujit Mohapatra , Kedar Nath Das, Santanu Roy Department of Mathematics, National Institute of Technology Silchar, Silchar, Assam, India
+
+<strong>期刊：</strong>Applied Soft Computing 30 May 2017
+<h2><strong>TCSO算法思想</strong></h2>
+①假设在D维搜索空间中，群体规模为N，群体中每个粒子i(1≤i≤N)有如下两个属性
+<ul>
+ 	<li>位置(p_i ) ⃗(t)=(p_i1，p_i1，…，p_id， …，p_iD)</li>
+ 	<li>飞行速度(v_i ) ⃗(t)=(v_i1，v_i1，…，v_id， …， v_iD)</li>
+</ul>
+②接下来，在迭代过程中，首先计算每个粒子的适应度的值（错误率）
+
+③迭代时，使用有别于简单单目标CSO竞争选择机制：随机选取3个粒子进行竞争选择，胜者直接进入子代，两个败者学习胜者、更新后进入子代。
+<h3><strong>流程图</strong></h3>
+Step1:初始化（Initialization）
+
+Step2:竞争选择（Tri-competition）
+
+Step3:粒子升级（Upgradation）
+
+<img class="alignnone wp-image-4313" src="https://cdn.omegaxyz.com/2018/05/TCSO1.png" alt="" width="1048" height="361" />
+<h2><strong>TCSO算法伪代码</strong></h2>
+<img class="alignnone size-full wp-image-4314" src="https://cdn.omegaxyz.com/2018/05/TCSO2.png" alt="" width="826" height="514" />
+<h2><strong>TCSO算法分析</strong></h2>
+<b>①</b>三重竞争机制的单目标CSO继承了双重竞争机制单目标CSO的优点。（如防止PSO陷入局部最优等方面）
+
+<b>②</b>在三重竞争机制的单目标CSO中，每一次迭代中2/3的粒子需要更新，这使得收敛的速度加快了，并且向更优的解发展。
+
+<b>③</b>在三重竞争机制的单目标CSO中，每一次迭代中1/3的粒子直接进入下一代， 2/3的粒子学习胜者，这样使提高了粒子的多样性。
+
+<b>④</b>在时间效率上和双重CSO一样是O(mn)。</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3695">
+          <strong>Anonymous</strong>
+          <time>2018-06-02 02:50:50</time>
+          <div>Thank you very much for highlighting my research work. For collaboration research work contact me prabhujit.mohapatra@gmail.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

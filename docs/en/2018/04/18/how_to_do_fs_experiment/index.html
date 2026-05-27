@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to do feature selection experiments in machine learning · OmegaXYZ</title>
+  <meta name="description" content="Feature selection is a data preprocessing process. Excellent features can improve the performance of the classifier. In the real world, there are many categories that contain many features, such as biological DNA. After using different algorithms to select a smaller subset of features, how to evaluate the selected features is crucial. Take the following points from most feature selection papers. ①The error rates of different feature selection algorithms on different data sets ②The number of solutions selected by different feature selection algorithms on different data sets Note: Obviously, the above two points are...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/18/how_to_do_fs_experiment/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-18</div>
+        <h1>How to do feature selection experiments in machine learning</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>Feature selection is a data preprocessing process. Excellent features can improve the performance of the classifier.
+
+In the real world, there are many categories that contain many features, such as biological DNA. After using different algorithms to select a smaller subset of features, how to evaluate the selected features is crucial.<strong>Take the following points from most feature selection papers.</strong>
+<h2>①Error rates of different feature selection algorithms on different data sets</h2>
+<h2>②The number of solutions selected by different feature selection algorithms on different data sets</h2>
+<strong>illustrate:</strong>Obviously, the above two points are necessary.<h2>③The number of new solutions that appear under different iteration times</h2>
+<strong>illustrate:</strong>The fewer new solutions that appear, it means that the algorithm is gradually converging. Displaying the number of new solutions that appear in multiple algorithms on the same coordinate axis can effectively compare the convergence speed of the algorithms. Although the convergence speed can be compared, the algorithm is not necessarily bad.
+
+The figure below shows the number of new solutions under different numbers of iterations on different data sets.<img alt="" class="alignnone size-full wp-image-4070" height="297" src="https://cdn.omegaxyz.com/2018/04/fse4.jpg" width="972"/>
+<h2>④The frequency of each feature being selected in all generations</h2>
+<strong>illustrate:</strong>If the frequency of some solutions is very high and the frequency of some solutions is very low, it means that this algorithm is relatively stable.
+
+The picture below shows how often each feature is selected. The darker the line, the more frequently this feature is selected. If the entire image is gray, then this algorithm actually has room for improvement.
+
+The figure below shows the situation of CSO and PSO algorithms<img alt="" class="alignnone size-full wp-image-4069" height="364" src="https://cdn.omegaxyz.com/2018/04/fse5.jpg" width="727"/>
+<img alt="" class="alignnone size-full wp-image-4066" height="209" src="https://cdn.omegaxyz.com/2018/04/fse1.png" width="418"/>
+<h2>⑤Experimental results under different parameters</h2>
+<strong>illustrate:</strong>For example, the weight values ​​of c1 and c2 of the PSO algorithm, the different K values ​​of the KNN algorithm, etc.<h2>⑥Experimental results under different classifiers (SVM, KNN)</h2>
+<strong>illustrate:</strong>High-dimensional (more than 5000 dimensions) operations of the KNN algorithm will be more time-consuming, and SVM parameter adjustment is more troublesome.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

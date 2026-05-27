@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python implementation of text topic clustering based on LDA · OmegaXYZ</title>
+  <meta name="description" content="Introduction to LDA LDA (Latent Dirichlet Allocation) is a document topic generation model, also known as a three-layer Bayesian probability model, including a three-layer structure of words, topics and documents. The so-called generative model means that we believe that each word of an article is obtained through the process of &quot;selecting a certain topic with a certain probability, and selecting a certain word from this topic with a certain probability.&quot; Documents to topics obey polynomial distribution, topics to words obey polynomial distribution...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/02/24/lda-topic/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-24</div>
+        <h1>Python implementation of text topic clustering based on LDA</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction to LDA</strong></h2>LDA (Latent Dirichlet Allocation) is a<span style="color: #f25d52;"><strong>Document topic generation model</strong></span>, also known as a three-layer Bayesian probability model, contains three-layer structures of words, topics and documents. The so-called generative model means that we believe that each word of an article is obtained through the process of "selecting a certain topic with a certain probability, and selecting a certain word from this topic with a certain probability." Documents to topics follow a polynomial distribution, and topics to words follow a polynomial distribution.
+
+LDA is an unsupervised machine learning technique that can be used to identify latent topic information in large-scale document collections or corpora. It uses the bag of words method, which treats each document as a word frequency vector, thereby converting text information into digital information that is easy to model. However, the bag-of-words method does not consider the order between words, which simplifies the complexity of the problem and also provides opportunities for model improvement. Each document represents a probability distribution composed of some topics, and each topic represents a probability distribution composed of many words.<strong>Keywords: document topic generation model, unsupervised learning, probabilistic model, NLP</strong>
+<hr/>
+<h2><strong>generation process</strong></h2>For each document in the corpus, LDA defines the following generative process:
+
+1. For each document, extract a topic from the topic distribution;
+
+2. Extract a word from the word distribution corresponding to the extracted topic;
+
+3. Repeat the above process until every word in the document is traversed.
+
+Each document in the corpus corresponds to a multinomial distribution (multinomial distribution) of T topics (given in advance through repeated trials and other methods), and the multinomial distribution is recorded as θ. Each topic corresponds to a multinomial distribution of V words in the vocabulary, and this multinomial distribution is denoted as φ.
+
+For specific derivation, please refer to:<a href="https://zhuanlan.zhihu.com/p/31470216">https://zhuanlan.zhihu.com/p/31470216</a>
+<hr/>
+<h2><strong>Python example</strong></h2>Libraries used: jieba, gensim
+
+In order to make the generated results more accurate, a dictionary of new words, stop words and synonyms needs to be constructed.<pre><code class="language-python">import jieba
+import jieba.posseg as jp
+from gensim import corpora, models
+
+# Global Dictionary
+new_words = ['奥预赛', '折叠屏']  # 新词
+stopwords = {' ', '再', '的', '们', '为', '时', '：'}  # 停用词
+synonyms = {'韩国': '南朝鲜', '传言': '流言'}  # 同义词
+words_nature = ('n', 'nr', 'ns', 'nt', 'eng', 'v', 'd')  # 可用的词性
+
+
+def add_new_words():  # 增加新词
+    for i in new_words:
+        jieba.add_word(i)
+
+
+def remove_stopwords(ls):  # 去除停用词
+    return [word for word in ls if word not in stopwords]
+
+
+def replace_synonyms(ls):  # 替换同义词
+    return [synonyms[i] if i in synonyms else i for i in ls]
+
+
+documents = [
+    '足协申请取消女足奥预赛韩国主场比赛 公平原则保障安全',
+    '芬森发声再回应传言：想念辽宁队友 为中国的球迷们祈福',
+    '电商围剿涉疫商家进行时：哄抬物价，就这么罚你',
+    '今晚视频直播华为新品发布会：全新折叠屏手机亮相']
+add_new_words()
+words_ls = []
+for text in documents:
+    words = replace_synonyms(remove_stopwords([w.word for w in jp.cut(text)]))
+    words_ls.append(words)
+
+# 生成语料词典
+dictionary = corpora.Dictionary(words_ls)
+# 生成稀疏向量集
+corpus = [dictionary.doc2bow(words) for words in words_ls]
+# LDA模型，num_topics设置聚类数，即最终主题的数量
+lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=2)
+# 展示每个主题的前5的词语
+for topic in lda.print_topics(num_words=5):
+    print(topic)
+# 推断每个语料库中的主题类别
+print('推断：')
+for e, values in enumerate(lda.inference(corpus)[0]):
+    topic_val = 0
+    topic_id = 0
+    for tid, val in enumerate(values):
+        if val &gt; topic_val:
+            topic_val = val
+            topic_id = tid
+    print(topic_id, '-&gt;', documents[e])</code></pre>result:<img alt="" class="alignnone wp-image-6500" height="165" src="https://cdn.omegaxyz.com/2020/02/LDA-outcome.png" width="640"/>It can be seen that it is divided into two categories. The titles in the text library are divided into two categories: 0 and 1, that is, one is sports and the other is technology.<strong><span style="color: #f25d52;">It should be noted that the LDA model is an unsupervised clustering, and the results generated may be different each time.</span></strong>
+<hr/>
+<h2><strong>refer to</strong></h2>
+<ul>
+<li>https://www.jianshu.com/p/fa97454c9ffd</li>
+<li>https://zhuanlan.zhihu.com/p/31470216</li>
+</ul>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

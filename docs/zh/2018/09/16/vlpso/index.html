@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于变长PSO的高维特征选择算法（VLPSO）概述 · OmegaXYZ</title>
+  <meta name="description" content="简介 VLPSO是Binh Tran和Bing Xue等人发在人工智能顶尖杂志上IEEE Transactions on Evolutionary Computation 上的一篇解决高维特征选择的PSO算法。 它能够很好地解决高维特征选择问题，尤其是在计算时间上能够大幅度减少。 问题提出 ①高维特征选择，占内存 ②高维特征选择，耗时 V...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/16/vlpso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-16</div>
+        <h1>基于变长PSO的高维特征选择算法（VLPSO）概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+VLPSO是Binh Tran和Bing Xue等人发在人工智能顶尖杂志上IEEE Transactions on Evolutionary Computation 上的一篇解决高维特征选择的PSO算法。
+
+它能够很好地解决高维特征选择问题，尤其是在计算时间上能够大幅度减少。
+<h2><strong>问题提出</strong></h2>
+<ul>
+ 	<li>①高维特征选择，占内存</li>
+ 	<li>②高维特征选择，耗时</li>
+</ul>
+<h2><strong>VLPSO（变长PSO）主要贡献</strong></h2>
+<ul>
+ 	<li>①变长单目标PSO表示方法的提出</li>
+ 	<li>②改编的粒子维度值交互学习方式，借鉴的CLPSO</li>
+</ul>
+<h2><strong>粒子的表示</strong></h2>
+<img class="alignnone size-full wp-image-5006" src="https://cdn.omegaxyz.com/2018/09/VLPSO2.png" alt="" width="736" height="321" />
+
+<b>Exemplar</b><b>：当前个体的每个维度需要学习的粒子的</b><b>index</b>
+
+<b>Learning Probability</b><b>：学习率，达到阈值则学习</b><b>Exemplar</b><b>值，否则学习自身的</b><b>pbest</b>
+
+<b>Renew Exemplar Count</b><b>：</b> <b>对</b><b>Exemplar</b><b>的重置代数</b>
+
+<b>注意这里借鉴的是</b><b>CLPSO</b><b>方法：</b><b>唯一的不同是</b><b>Pc</b><b>的计算方法</b>
+
+例如Exemplar那一行的6表示当前粒子的第4个维度更新时需要学习第6个个体的第6个维度。
+<h2><b>Exemplar</b><b>的生成</b></h2>
+对每个个体的每个维度的Exemplar采取如下操作
+<ul>
+ 	<li>计算学习率Pc</li>
+ 	<li>如果Pc的值小于随机数，则当前维度的Exemplar为自身粒子的index</li>
+ 	<li>否则</li>
+ 	<li>随机选择两个粒子，fitness值较大粒子的index作为当前维度的Exemplar</li>
+</ul>
+<h2><b>学习率</b><b>Pc</b><b>的计算方式</b></h2>
+<img class="alignnone size-full wp-image-5007" src="https://cdn.omegaxyz.com/2018/09/VLPSO3.png" alt="" width="392" height="89" />
+
+0.05与0.45是CLPSO中提出的经验值
+
+Rank(i)是粒子的排序，它通过信息论的对称不确定性计算
+
+学习率越大，学习自身粒子的可能性就越大
+<h2><b>种群长度划分</b></h2>
+<img class="alignnone size-full wp-image-5008" src="https://cdn.omegaxyz.com/2018/09/VLPSO4.png" alt="" width="234" height="81" />
+
+PopSize=100，NbrDiv是一个预设的值，令其等于5，则种群被分为5组，每组20个个体。
+<h2><b>种群维度划分</b></h2>
+<img class="alignnone size-full wp-image-5009" src="https://cdn.omegaxyz.com/2018/09/VLPSO5.png" alt="" width="357" height="81" />
+
+假设有5000维，NbrDiv=5，则种群每一层的长度如下所示：
+
+<img class="alignnone size-full wp-image-5010" src="https://cdn.omegaxyz.com/2018/09/VLPSO6.png" alt="" width="557" height="195" />
+
+注意：从粒子后端除去维度，比如1000维的除去后面4000个维度
+<h2><b>进化中种群</b><b>维</b><b>度的改变</b></h2>
+<b>触发机制：几代过后</b><b>gBest</b><b>没有提升</b>
+
+<b>过程：</b>计算每个层次（不同长度）的粒子适应度的均值，寻找最好的Best Division，保持该层次的长度不变，作为最大长度重新划分其它层次的个体
+
+<img class="alignnone size-full wp-image-5011" src="https://cdn.omegaxyz.com/2018/09/VLPSO7.png" alt="" width="723" height="355" />
+
+注意：长度变小的层次的粒子是去除的末尾的维度，长度变长的粒子增加相应的维度，这些维度的值随机生成。
+<h2><b>流程图</b></h2>
+<img class="alignnone size-full wp-image-5012" src="https://cdn.omegaxyz.com/2018/09/VLPSO8.png" alt="" width="542" height="775" />
+<ul>
+ 	<li>①初始化不同长度的种群，初始化<b>Exemplar</b></li>
+ 	<li>②对每个粒子判断是否需要重置<b>Exemplar</b></li>
+ 	<li>③速度与位置更新，如果<b>pbest</b>在α代后没有更新，则更新学习率Pc下一代需要重置<b>Exemplar</b></li>
+ 	<li>④更新<b>gbest</b></li>
+ 	<li>⑤如果<b>gbset</b>在β代后没有提升，则种群长度重置</li>
+ 	<li>⑥停止准则，否进入第三步</li>
+</ul>
+<h2><b>适应度函数</b><b>Fitness</b><b>，精确度利用</b><b>KNN</b><b>计算</b></h2>
+<img class="alignnone size-full wp-image-5004" src="https://cdn.omegaxyz.com/2018/09/VLPSO9.jpg" alt="" width="863" height="289" />
+
+注意：使用实例被选择的特征子集来计算曼哈顿距离，其中距离的度量可以判断特征子集划分不同类别实例与聚合相同类别实例的能力。
+<h2><b>实验使用的数据集</b></h2>
+<img class="alignnone size-full wp-image-5013" src="https://cdn.omegaxyz.com/2018/09/VLPSO10.png" alt="" width="508" height="262" />
+
+<strong>实验结果请查看原文</strong>
+
+<strong>论文原文：</strong>Tran B, Xue B, Zhang M. <b>Variable-Length Particle Swarm Optimisation for Feature Selection on High-Dimensional Classification</b>[J]. IEEE Transactions on Evolutionary Computation, 2018.
+
+论文Java代码：<a href="https://github.com/xyjigsaw/VarLenPSO">https://github.com/xyjigsaw/VarLenPSO</a></div>
+        <section class="comments"><h2>评论 (17)</h2>
+        <div class="comment" id="comment-17774">
+          <strong>崔俊杰</strong>
+          <time>2019-09-23 14:57:18</time>
+          <div>请问有代码吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17778">
+          <strong>xyjisaw</strong>
+          <time>2019-09-23 15:04:07</time>
+          <div>有，JAVA代码</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17797">
+          <strong>Anonymous</strong>
+          <time>2019-09-24 17:32:32</time>
+          <div>能发一份给我吗，谢谢!<br>email：2811651110@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-17803">
+          <strong>崔俊杰</strong>
+          <time>2019-09-26 10:46:15</time>
+          <div>有代码的话可以发一份给我吗，谢谢!<br>email：2811651110@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17804">
+          <strong>xyjisaw</strong>
+          <time>2019-09-26 14:34:22</time>
+          <div>已发送</div>
+        </div>
+        
+        <div class="comment" id="comment-18044">
+          <strong>kate</strong>
+          <time>2019-10-10 19:33:00</time>
+          <div>请问有代码可以看下吗 谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-18050">
+          <strong>kate</strong>
+          <time>2019-10-11 16:43:10</time>
+          <div>您好，我之前忘了附邮箱，我现在想试着实现这个vlpso，如果有代码的话可以发给我一份吗？万分感谢！我的邮箱是616641766@qq.com。</div>
+        </div>
+        
+        <div class="comment" id="comment-18197">
+          <strong>唐枫</strong>
+          <time>2019-11-12 14:21:10</time>
+          <div>请问可以分享一下实现的代码吗？万分感谢！1825548598@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-18386">
+          <strong>Anonymous</strong>
+          <time>2019-12-20 18:00:49</time>
+          <div>您好，不知道您能否给我也分享一份代码，想详细了解下细节。谢谢。1037537109@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-18502">
+          <strong>Anonymous</strong>
+          <time>2020-01-30 17:10:24</time>
+          <div>您好，请问可以给我也发一份代码吗？想了解一下，谢谢您！691667946@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18505">
+          <strong>xyjisaw</strong>
+          <time>2020-02-01 09:53:40</time>
+          <div>请访问：&lt;a href=&quot;https://github.com/xyjigsaw/VarLenPSO&quot; target=&quot;_blank&quot; rel=&quot;nofollow ugc noopener noreferrer&quot;&gt;https://github.com/xyjigsaw/VarLenPSO&lt;/a&gt;</div>
+        </div>
+        
+        <div class="comment" id="comment-18900">
+          <strong>luoluoluo</strong>
+          <time>2020-05-06 09:01:31</time>
+          <div>请问一下有数据集吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18903">
+          <strong>xyjisaw</strong>
+          <time>2020-05-06 16:38:28</time>
+          <div>https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment" id="comment-19008">
+          <strong>孙丽芹</strong>
+          <time>2020-06-04 18:08:43</time>
+          <div>能发我一份代码吗？我找了，下载不了,,,,,可能我下载错了,,,,,1551340802@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19009">
+          <strong>xyjisaw</strong>
+          <time>2020-06-04 18:58:24</time>
+          <div>已发送。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19010">
+          <strong>孙丽芹</strong>
+          <time>2020-06-04 19:20:43</time>
+          <div>谢谢，非常感谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-19290">
+          <strong>周俊海</strong>
+          <time>2020-08-10 11:40:48</time>
+          <div>请问还有其他数据集吗，那个数据集网址访问不了，我只找到了SRBCT和DLBCL，请问您有其他的吗</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全栈开发与快速部署Demo · OmegaXYZ</title>
+  <meta name="description" content="框架 我们采用的是前后端分离的框架FastAPI + Vue。 优点 1. 职责分明 ：前端负责展示和交互，后端负责数据处理和业务逻辑，各自开发独立，不会相互影响。 2. 提高开发效率 ：前后端可以并行开发，大大减少了项目的开发周期。 3. 提高可维护性 ：由于前后端分离，如果需要修改UI或者后端逻辑，只需要修改对应的部分即可，不会影响到...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2023/11/01/fullstackdemo/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2023-11-01</div>
+        <h1>全栈开发与快速部署Demo</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/vue/index.html">Vue</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>框架</strong></h2>
+我们采用的是前后端分离的框架FastAPI + Vue。
+
+<img class="alignnone wp-image-7813" src="https://cdn.omegaxyz.com/2023/11/fullstack.png" alt="" width="546" height="284" />
+
+<strong>优点</strong>
+
+1.<b>职责分明</b>：前端负责展示和交互，后端负责数据处理和业务逻辑，各自开发独立，不会相互影响。
+
+2.<b>提高开发效率</b>：前后端可以并行开发，大大减少了项目的开发周期。
+
+3.<b>提高可维护性</b>：由于前后端分离，如果需要修改UI或者后端逻辑，只需要修改对应的部分即可，不会影响到整个系统。
+
+4.<b>技术栈灵活</b>：前端和后端可以选择各自适合的技术栈进行开发，满足项目的个性化需求。
+
+5.<b>方便扩展</b>：前后端通过API进行通信，可以方便地进行系统的扩展，比如添加移动端、小程序等。
+
+6.<b>适应微服务架构</b>：在微服务架构中，前后端分离可以更好地对各个服务进行管理和维护。
+<h2><strong>前端</strong></h2>
+1. 下载安装npm（前端必备软件管理工具）
+
+`npm`（Node Package Manager）是一个基于Node.js的包管理工具，主要用于JavaScript编程语言的包管理。它是全球最大的软件注册中心，包含了超过800,000个代码包，每星期大约有30亿次的下载量。
+
+2. 创建一个vue项目
+<pre ><code class="language-default">npm install -g vue-cli
+    
+vue init webpack projec_name
+    
+npm install axios -S
+npm i element-ui -S</code></pre>
+<ul>
+ 	<li>vue-cli: vue脚手架工具</li>
+ 	<li>axios: 访问后端api工具</li>
+ 	<li>element-ui: 后端UI工具</li>
+</ul>
+需要注意的时，在本项目下，由于已经创建好了，可以<strong>直接</strong>键入以下命令，下载所需的包：
+<pre ><code class="language-default">npm install</code></pre>
+3. 在main.js文件中加入
+<pre ><code class="language-js">import "element-ui/lib/theme-chalk/index.css";
+import axios from "axios";
+    
+Vue.use(ElementUI);</code></pre>
+4. 在vue文件中写一个接口连到后端
+
+这部分主要写到js部分，示例代码：
+
+data部分是当前页面所需的所有变量，methods部分是所有函数方法，如果需要在函数中调用data中的变量，需要指定this。
+<pre ><code class="language-js">&lt;script&gt;
+import axios from "axios";
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      tableData: [],
+    }
+  },
+
+  methods: {
+    fetch_paper() {
+      const limit=8
+      const param = `num=${limit}`;
+      // 在这里调接口
+      axios
+        .get(`http://127.0.0.1:8000/paper?${param}`)
+        .then((res) =&gt; {
+          this.tableData = res.data.data;
+          this.time = res.data.time;
+          console.log(this.tableData, this.time);
+        })
+        .catch(() =&gt; {
+          this.$notify({title: "Error", message: "Please try again!", type: "error",});
+        });
+
+    },
+  }
+}
+&lt;/script&gt;</code></pre>
+5. 调整前端样式
+
+为了快速开发，我们采用<a href="https://element.eleme.io/" target="_blank" rel="noopener">elementUI</a>来美化前端，这部分大家不需要花太多时间精力，可以直接找模板套用即可。
+
+6. 测试环境中运行
+<pre ><code class="language-default">npm run dev</code></pre>
+更多内容可以参考：
+
+https://omegaxyz.com/2020/11/30/vue-manual/
+
+<hr />
+
+<h2><strong>后端</strong></h2>
+1. 安装Python包
+
+利用fastapi作为快速的后端部署，如果需要连接数据库，则使用pymysql，如果数据库操作比较多，建议使用aiomysql来异步操作数据库。
+<pre ><code class="language-default">pip install fastapi
+pip install uvicorn
+pip install pymysql</code></pre>
+2. 示例代码：
+<pre ><code class="language-python">import uvicorn
+from fastapi import FastAPI, Query, Form, APIRouter, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+import time
+
+app = FastAPI(
+    title="demo",
+    docs_url='/api/v1/docs',
+    redoc_url='/api/v1/redoc',
+    openapi_url='/api/v1/openapi.json'
+)
+
+router = APIRouter()
+
+@router.get('/paper')
+async def fetch_paper(
+    num: int = Query(..., description='returned paper num', example='10')
+):
+    start = time.time()
+    print(num)
+    return {'time': time.time() - start, 'data': num}
+
+@router.post('/add_paper')
+async def add_paper(
+        name: str = Form(..., description='paper name', example='Attention is all you need'),
+        info: str = Form(..., description='paper info', example='NIPS 2017')
+):
+    start = time.time()
+    print(name, info)
+    return {'time': time.time() - start}
+
+@router.put('/update_paper')
+async def update_paper(
+        p_id: str = Form(..., description='paper id', example='1234'),
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+@router.delete('/delete_paper')
+async def delete_paper(
+        p_id: str = Query(..., description='paper is', example='1234')
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+app.include_router(router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+if __name__ == '__main__':
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, workers=1)</code></pre>
+3. 启动程序
+<pre ><code class="language-default">python apiCore.py</code></pre>
+或者
+<pre ><code class="language-default">uvicorn apiCore:app --reload --port 9918 --host 0.0.0.0</code></pre>
+4. 接口调试
+
+可以采用fastapi自带的一个前端接口进行调试
+
+进入http://127.0.0.1:8000/api/v1/docs 页面调试
+
+更多内容参考：<a href="https://omegaxyz.com/2020/08/18/restful-fastapi/" target="_blank" rel="noopener">https://omegaxyz.com/2020/08/18/restful-fastapi/</a>
+
+<hr />
+
+<h2><strong>数据库</strong></h2>
+1. 下载并安装MySQL数据库以及数据库管理工具，建议使用navicat
+
+2. 在MySQL中导入数据
+
+这里可以使用示例数据paper_db.sql（包含少量的paper信息），直接用navicat导入这个库即可（需要在你创建的数据库下）
+
+3. 后端链接数据库并在数据库中操作（这里的示例是从数据库中取数据）
+<pre ><code class="language-python">import pymysql
+
+# 连接配置信息
+config = {
+    'host': 'localhost',
+    'port': 3306,  # MySQL默认端口
+    'user': 'root',  # mysql默认用户名
+    'password': '12345678',
+    'db': 'paper_db',  # 数据库
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor,
+}
+
+def db_get_paper(num=10):
+		# am_paper为paper_db中的一个表
+    try:
+        con = pymysql.connect(**config)
+        sql = "SELECT * FROM am_paper limit %d" % num
+        with con.cursor() as cursor:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            con.close()
+        return result
+    except Exception as e:
+        print(e)
+        return []</code></pre>
+&nbsp;
+
+<strong>上述代码和Demo可以在<a href="https://github.com/xyjigsaw/FullStackDemo" target="_blank" rel="noopener">Github-FullStackDemo</a>中找到</strong>
+
+更多内容访问 [omegaxyz.com](https://omegaxyz.com)
+网站所有代码采用Apache 2.0授权
+网站文章采用知识共享许可协议BY-NC-SA4.0授权
+© 2023 • OmegaXYZ-版权所有 转载请注明出处</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-36686">
+          <strong><a href="https://www.ccbbp.com" rel="nofollow">ccbbp</a></strong>
+          <time>2023-11-17 16:53:51</time>
+          <div>本站的排版很好看，博主用的工具吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36935">
+          <strong>xyjisaw</strong>
+          <time>2023-11-29 00:50:35</time>
+          <div>对，用的WordPress</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

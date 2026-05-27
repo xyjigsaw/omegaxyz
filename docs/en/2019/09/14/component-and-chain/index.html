@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programming implementation of combination mode and chain of responsibility mode · OmegaXYZ</title>
+  <meta name="description" content="Composite pattern Introduction Compose objects into a tree structure to represent a part-whole hierarchy. The composition pattern allows users to use single objects and composite objects consistently. Motivation Headquarters, branches and offices are in a tree structure, that is, they have an organizational structure and cannot be simply managed in parallel. It is hoped that the organizational structure of the head office, such as the management functions of the human resources department and finance department, can be reused in branch offices. This is actually a question where the whole and the parts can be treated consistently. Applicability Want to express the object...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/09/14/component-and-chain/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-09-14</div>
+        <h1>Programming implementation of combination mode and chain of responsibility mode</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>Combination mode</strong></h2>
+<strong>Introduction</strong>
+<ul>
+<li>Group objects into a tree structure to represent a part-whole hierarchy.</li>
+<li>The composition pattern allows users to use single objects and composite objects consistently.</li>
+</ul>
+<strong>motivation</strong>
+<ul>
+<li>The headquarters, branches and offices are in a tree structure, that is, they have an organizational structure and cannot be simply managed in parallel.</li>
+<li>It is hoped that the organizational structure of the head office, such as the management functions of the human resources department and finance department, can be reused in branch offices. This is actually a question where the whole and the parts can be treated consistently.</li>
+</ul>
+<strong>applicability</strong>
+<ul>
+<li>Want to represent a "part-whole" hierarchy of objects.</li>
+<li>It is hoped that users will ignore the difference between composite objects and single objects, and users will use all objects in the composite structure uniformly.</li>
+</ul>
+<strong>structure</strong>
+<img alt="" class="alignnone wp-image-5964" height="448" src="https://cdn.omegaxyz.com/2019/09/component1.png" width="606"/>
+<strong>participants</strong>
+<ul>
+<li><strong>Component</strong>
+<ul>
+<li>Declare an interface for the objects in the composition.</li>
+<li>Where appropriate, implement the default behavior of interfaces common to all classes.</li>
+<li>Declare an interface for accessing and managing subcomponents of Component.</li>
+<li>Define an interface in a recursive structure that accesses a parent widget and implements it where appropriate. (optional)</li>
+</ul>
+</li>
+<li><strong>Leaf</strong>
+<ul>
+<li>Represents leaf node objects in a combination. Leaf nodes have no child nodes.</li>
+<li>Defines the behavior of leaf node objects in a composition.</li>
+</ul>
+</li>
+<li><strong>Composite</strong>
+<ul>
+<li>Defines the behavior of those components that have subcomponents.</li>
+<li>Store subparts.</li>
+<li>Implement operations related to subcomponents in the Component interface.</li>
+</ul>
+</li>
+<li><strong>Client</strong>
+<ul>
+<li>Manipulate the object of the composite component through the Component interface.</li>
+</ul>
+</li>
+</ul>
+<strong> </strong>
+<strong>cooperation</strong>
+<ul>
+<li>Users use the Component class interface to interact with objects in the composite structure.</li>
+<li>If the recipient is a leaf node, the request is processed directly.</li>
+<li>If the recipient is a Composite, it usually sends the request to its subcomponents, possibly performing some auxiliary operations before and/or after forwarding the request.</li>
+</ul>
+<strong>Effect</strong>
+<ul>
+<li>Defines a class hierarchy containing basic objects and composite objects.</li>
+<li>Simplify client code.</li>
+<li>Makes it easier to add new types of components.</li>
+</ul>
+ 
+<h2><strong>chain of responsibility model</strong></h2>
+<strong>Introduction</strong>
+<ul>
+<li>To decouple the sender and receiver of the request so that multiple objects have the opportunity to handle the request.</li>
+<li>Connect these objects into a chain and pass the request along the chain until an object handles it.</li>
+</ul>
+<strong>motivation</strong>
+<ul>
+<li>Consider leave requests in your company.</li>
+<li>The management personnel in the company are divided into levels from low to high: manager, director, and general manager.</li>
+<li>For leave, you need to apply to managers at different levels according to the length of the day. For example, if it is less than 2 days, you can apply directly to the manager. If it is less than a week, it must be approved by the director. If it is longer, it needs the approval of the general manager.</li>
+</ul>
+<strong>applicability</strong>
+<ul>
+<li>Multiple objects can handle a request, and which object handles the request is determined automatically at runtime.</li>
+<li>Want to submit a request to one of multiple objects without explicitly specifying the recipient.</li>
+<li>The set of objects that can handle a request should be dynamically specified.</li>
+</ul>
+<strong>structure</strong>
+<img alt="" class="alignnone wp-image-5965" height="280" src="https://cdn.omegaxyz.com/2019/09/component2.png" width="602"/>
+<strong>participants</strong>
+<ul>
+<li>Handler
+<ul>
+<li>Define an interface for handling requests.</li>
+<li>Implement the successor chain.</li>
+</ul>
+</li>
+<li>ConcreteHandler
+<ul>
+<li>Process requests for which it is responsible.</li>
+<li>Its successors are accessible.</li>
+<li>If the request can be processed, process it; otherwise, forward the request to its successor.</li>
+</ul>
+</li>
+<li>Client
+<ul>
+<li>Submit a request to the ConcreteHandler object on the chain.</li>
+</ul>
+</li>
+</ul>
+<strong>Effect</strong>
+<ul>
+<li>Reduce coupling.</li>
+<li>Increased flexibility in assigning responsibilities to objects.</li>
+<li>Acceptance is not guaranteed.</li>
+</ul>
+<h2><strong>Example</strong></h2>Use the portfolio model to structure the company based on the diagram below.<img alt="" class="alignnone wp-image-5966" height="157" src="https://cdn.omegaxyz.com/2019/09/component3.png" width="640"/>That is, the head office has a Shanghai East China Branch, and the East China Branch has a Nanjing Office and a Hangzhou Office. Among them, branches at all levels have human resources departments and financial departments.
+
+After using the combination model to build the structure, use the chain of responsibility model to handle salary increase requests from employees in various locations.
+
+For example, if an employee in Nanjing puts forward a request for a salary increase, if the salary increase does not exceed 1,000 yuan, the Nanjing office can approve it; if it exceeds 1,000 yuan, it will be reported to the East China Branch; if it is within 2,000 yuan, it will be approved; if it exceeds 2,000 yuan, it will be reported to the Beijing head office. If it does not exceed 3,000 yuan, the head office will approve it, otherwise it will be rejected.
+
+UML<img alt="" class="alignnone wp-image-5967" height="413" src="https://cdn.omegaxyz.com/2019/09/component4.png" width="571"/>The combination mode Component is an object declaration interface, which corresponds to the Handler of the chain of responsibility mode. The code of the two modes can be merged.
+
+In addition, by adding two variables, low and bound, to control the number of if statements and reduce the number of classes. Therefore, multiple ConcreteHandlers in the responsibility chain correspond to a specific ConcreteCompany.<strong>code</strong>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;list&gt;
+#include &lt;typeinfo&gt;
+
+using namespace std;
+
+class Component{
+public:
+    Component(string name){
+        this-&gt;name = name;
+    }
+    virtual void Add(Component* c) = 0;
+    virtual void Remove(Component* c) = 0;
+    virtual void Display(int depth) = 0;
+    void SetSuccessor(Component* s){
+        this-&gt;successor = s;
+    }
+    void SetBound(int low, int high){
+        this-&gt;low = low;
+        this-&gt;high = high;
+    }
+    virtual void HandleReauest(int request) = 0;
+protected:
+    string name;
+    int low, high;
+    Component* successor;
+};
+
+class Subcom : public Component{
+public:
+    Subcom(string name) : Component(name){}
+    void Add(Component* c){
+        cout&lt;&lt;"Cannot add to a leaf";
+    }
+    void Remove(Component* c){
+        cout&lt;&lt;"Cannot remove from a leaf";
+    }
+    void Display(int depth){
+        for(int i = 0; i &lt;= depth; i++)
+            cout&lt;&lt;"--";
+        cout&lt;&lt;name&lt;&lt;endl;
+    }
+    void HandleReauest(int request){
+        
+    }
+};
+
+class ConcreteCompany: public Component{
+private:
+    list&lt;Component*&gt; children;
+public:
+    ConcreteCompany(string name): Component(name){}
+    void Add(Component *c){
+        children.push_back(c);
+    }
+    void Remove(Component *c){
+        children.remove(c);
+    }
+    void Display(int depth){
+        for(int i = 0; i &lt;= depth; i++)
+            cout&lt;&lt;"--";
+        cout&lt;&lt;name&lt;&lt;endl;
+        for(Component* child : children){
+            child-&gt;Display(depth + 1);
+        }
+    }
+    void HandleReauest(int request){
+        if(request &gt;= low &amp;&amp; request &lt;= high){
+            cout&lt;&lt;this-&gt;name&lt;&lt;"处理请求: "&lt;&lt;request&lt;&lt;endl;
+        }else if(successor != NULL){
+            cout&lt;&lt;this-&gt;name&lt;&lt;"处理失败"&lt;&lt;endl;
+            successor-&gt;HandleReauest(request);
+        }else{
+            cout&lt;&lt;this-&gt;name&lt;&lt;"加薪拒绝"&lt;&lt;request&lt;&lt;endl;
+        }
+    }
+};
+
+/* 
+即总公司下设上海华东分公司，华东分公司下设南京办事处和杭州办事处。其中，各级分公司均设有人力资源部和财务部。
+
+用组合模式构建好该结构后，利用职责链模式处理各地员工加薪请求。
+
+例如，一南京员工提出加薪请求，如果加薪不超过1000元，南京办事处即可批准；如果超过1000元，则上报华东分公司，如果2000元以内，则批准；超过则上报北京总公司，如果不超过3000元，则总公司批准，否则拒绝。、
+
+实验报告内容:	
+
+ */
+
+
+int main(){
+    Component *root = new ConcreteCompany("总公司");
+    root-&gt;Add(new Subcom("人力资源部"));
+    root-&gt;Add(new Subcom("财务部"));
+    root-&gt;SetBound(2000, 3000);
+
+    Component *huadong = new ConcreteCompany("上海华东分公司");
+    huadong-&gt;Add(new Subcom("人力资源部"));
+    huadong-&gt;Add(new Subcom("财务部"));
+    huadong-&gt;SetBound(1000, 2000);
+
+
+    Component *nanjing = new ConcreteCompany("南京办事处");
+    nanjing-&gt;Add(new Subcom("人力资源部"));
+    nanjing-&gt;Add(new Subcom("财务部"));
+    nanjing-&gt;SetBound(0, 1000);
+
+    Component *hanzhou = new ConcreteCompany("杭州办事处");
+    hanzhou-&gt;Add(new Subcom("人力资源部"));
+    hanzhou-&gt;Add(new Subcom("财务部"));
+    hanzhou-&gt;SetBound(0, 1000);
+
+    nanjing-&gt;SetSuccessor(huadong);
+    hanzhou-&gt;SetSuccessor(huadong);
+    huadong-&gt;SetSuccessor(root);
+    root-&gt;SetSuccessor(NULL);
+    huadong-&gt;Add(nanjing);
+    huadong-&gt;Add(hanzhou);
+
+    root-&gt;Add(huadong);
+    root-&gt;Display(1);
+    cout&lt;&lt;"*********************"&lt;&lt;endl;
+    nanjing-&gt;HandleReauest(100);
+    cout&lt;&lt;"*********************"&lt;&lt;endl;
+    hanzhou-&gt;HandleReauest(1500);
+    cout&lt;&lt;"*********************"&lt;&lt;endl;
+    hanzhou-&gt;HandleReauest(2100);
+    cout&lt;&lt;"*********************"&lt;&lt;endl;
+    hanzhou-&gt;HandleReauest(3100);
+    return 0;
+}
+//</code></pre>
+<strong>result</strong>
+<img alt="" class="alignnone wp-image-5968" height="355" src="https://cdn.omegaxyz.com/2019/09/component5.png" width="300"/>
+<strong>Summary</strong>①This time it is necessary to merge the chain of responsibility mode and the combination mode. The combination mode Component is an object declaration interface and corresponds to the Handler of the chain of responsibility mode.
+
+② The nodes in the combination mode need to be placed in the list of the current parent node. For the container list, the corresponding STL statement needs to be mastered.
+
+③For the chain of responsibility model, in order to reduce the number of classes and coupling, it is necessary to set two upper and lower bounds, low and high. Although there are fewer classes, there are no fewer objects. These objects form a chain, and the request is passed along this chain until an object handles it. Indicates client selection by the name of the current object.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

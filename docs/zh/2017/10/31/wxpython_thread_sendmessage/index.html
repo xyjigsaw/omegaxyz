@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython多线程防假死与线程间传递消息 · OmegaXYZ</title>
+  <meta name="description" content="wxpython中启用线程的方法，将GUI和功能的执行分开。 网上关于python多线程防假死与线程传递消息是几年前的，这里由于wxpython和threading模块已经更新最新，因此给出最新修改代码，能在2017年最新版的python和模块中运行。 原来的publisher()和callafter都无法使用。 修改后的代码。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/31/wxpython_thread_sendmessage/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-31</div>
+        <h1>wxpython多线程防假死与线程间传递消息</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content"><div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div class="art_desc mt10">
+<div id="art_demo">wxpython中启用线程的方法，将GUI和功能的执行分开。</div>
+<div>网上关于python多线程防假死与线程传递消息是几年前的，这里由于wxpython和threading模块已经更新最新，因此给出最新修改代码，能在2017年最新版的python和模块中运行。</div>
+<div>原来的publisher()和callafter都无法使用。</div>
+<div>修改后的代码。</div>
+<div></div>
+<div>
+<pre ><code class="language-python">import time
+import wx
+from threading import Thread
+from wx.lib.pubsub import pub
+
+class TestThread(Thread):
+ def __init__(self):
+  #线程实例化时立即启动
+  Thread.__init__(self)
+  self.start()
+ def run(self):
+  #线程执行的代码
+  for i in range(101):
+        time.sleep(0.03)
+        wx.CallAfter(pub.sendMessage, "update", msg=i)
+        time.sleep(0.5)
+
+class MyForm ( wx.Frame ):
+ def __init__( self, parent ):
+  wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = "www.OmegaXYZ.com", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+  self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+  gSizer2 = wx.GridSizer( 0, 3, 0, 0 )
+  self.m_button2 = wx.Button( self, wx.ID_ANY, "执行线程", wx.DefaultPosition, wx.DefaultSize, 0 )
+  gSizer2.Add( self.m_button2, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
+  self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, "MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+  self.m_staticText2.Wrap( -1 )
+  gSizer2.Add( self.m_staticText2, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
+  self.m_gauge1 = wx.Gauge( self, wx.ID_ANY, 100, wx.DefaultPosition, wx.DefaultSize, wx.GA_HORIZONTAL )
+  self.m_gauge1.SetValue( 0 )
+  gSizer2.Add( self.m_gauge1, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
+  self.SetSizer( gSizer2 )
+  self.Layout()
+  gSizer2.Fit( self )
+  self.Centre( wx.BOTH )
+  self.m_button2.Bind( wx.EVT_BUTTON, self.onButton )
+
+  pub.subscribe(self.updateDisplay, "update")
+ def updateDisplay(self, msg):
+  t = msg
+  if isinstance(t, int):#如果是数字，说明线程正在执行，显示数字
+   self.m_staticText2.SetLabel("%s%%" % t)
+   self.m_gauge1.SetValue( t )
+  else:#否则线程未执行，将按钮重新开启
+   self.m_staticText2.SetLabel("%s" % t)
+   self.m_button2.Enable()
+ def onButton( self, event ):
+  TestThread()
+  self.m_staticText2.SetLabel("线程开始")
+  event.GetEventObject().Disable()
+
+
+if __name__ == "__main__":
+ app = wx.App()
+ MyForm(None).Show()
+ app.MainLoop()
+</code></pre>
+<img class="alignnone wp-image-2281 size-full" src="https://cdn.omegaxyz.com/2017/10/threadingandmessage.jpg" alt="" width="594" height="73" />
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

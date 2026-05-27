@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LaTeX科研文献引用编译与风格调整 · OmegaXYZ</title>
+  <meta name="description" content="摘要 文献引用是规范写作的一个重要步骤。文献引用的丢失直接导致作品的抄袭嫌疑，接下来笔者给出了Google学术与百度学术引用文献步骤，与生成 BibTeX 至LaTeX中的具体操作方法。 文献查找 登录谷歌学术或百度学术选择相应的文章，如下图所示： 谷歌的引用 百度的引用 点击后选择你所需要的格式（ 非常重要，具体看你投稿的期刊要求，如果...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/30/latex-reference/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-30</div>
+        <h1>LaTeX科研文献引用编译与风格调整</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/latex/index.html">LaTeX</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>摘要</strong></h2>
+文献引用是规范写作的一个重要步骤。文献引用的丢失直接导致作品的抄袭嫌疑，接下来笔者给出了Google学术与百度学术引用文献步骤，与生成<strong><em>BibTeX</em></strong>至LaTeX中的具体操作方法。
+
+<hr />
+
+<h2><strong>文献查找</strong></h2>
+登录谷歌学术或百度学术选择相应的文章，如下图所示：
+
+谷歌的引用
+
+<img class="alignnone wp-image-5641" src="https://cdn.omegaxyz.com/2019/03/reference4.jpg" alt="" width="510" height="115" />
+
+百度的引用
+
+<img class="alignnone wp-image-5638" src="https://cdn.omegaxyz.com/2019/03/reference1.jpg" alt="" width="532" height="140" />
+
+点击后选择你所需要的格式（<strong><span style="color: #ff0000;">非常重要，具体看你投稿的期刊要求，如果不规范可能会被编辑部打回来reformat</span></strong>）
+
+这样便能在你所需要的文章后面增加引用文献（直接复制粘贴即可）
+
+<img class="alignnone wp-image-5639" src="https://cdn.omegaxyz.com/2019/03/reference2.jpg" alt="" width="437" height="212" />
+
+<img class="alignnone wp-image-5642" src="https://cdn.omegaxyz.com/2019/03/reference5.jpg" alt="" width="429" height="250" />
+
+<hr />
+
+<h2><strong>BibTex导入bib文件</strong></h2>
+当然，很多时候我们会用更专业的文章写作工具LaTeX来写论文，此时对参考文献自动管理与编号就变得非常重要，因为在修改时，我们可能会增加一个参考文献或者删除一个参考文献。
+
+<strong>首先选择BibTex（下图左下角）</strong>
+
+<img class="alignnone wp-image-5639" src="https://cdn.omegaxyz.com/2019/03/reference2.jpg" alt="" width="365" height="177" />
+
+BibTex样式如下（像json）
+
+<img class="alignnone wp-image-5640" src="https://cdn.omegaxyz.com/2019/03/reference3.jpg" alt="" width="507" height="108" />
+
+导入LaTeX时，首先创建一个.bib文件
+
+<span class="token p"><strong>将需要引用的参考文献写入为.bib格式，例如referencet.bib文件，具体如下：</strong></span><span class="token pre">新建txt文件，后缀名改为.bib</span>
+
+内容如图，里面放了两篇论文
+
+<img class="alignnone wp-image-5643" src="https://cdn.omegaxyz.com/2019/03/reference6.png" alt="" width="478" height="254" />
+
+<hr />
+
+<h2><strong>写入 LaTeX代码，自动编号与管理</strong></h2>
+bib文件引用的部分：（这一部分最好放在\end之前）
+<pre ><code class="language-default">\bibliographystyle{splncs04} %这是一个样式文件
+\bibliography{reference} %其中reference为reference.bib文件。</code></pre>
+文献中写入的部分：（用\cite{}即可）
+<pre ><code class="language-default">This is a test\cite{Akundi2018Information} of reference. 
+Machine learning and artificial\cite{Dong2018Packet} intelligence are worse than mathematics.</code></pre>
+<strong>注意\cite{}大括号中应该填写BibTex中@后面的内容</strong>
+<pre ><code class="language-default">\documentclass{article}  % 选择模版，这里是使用Latex自带的article模版
+    \author{Reacubeth}
+    \title{First Test}
+\begin{document} 
+\maketitle
+
+This is a test\cite{Akundi2018Information} of reference. 
+Machine learning and artificial\cite{Dong2018Packet} intelligence are worse than mathematics.
+
+\bibliographystyle{splncs04} %这是一个样式文件
+\bibliography{reference} %其中reference为reference.bib文件
+
+\end{document} 
+</code></pre>
+
+<hr />
+
+<h2><strong>编译（重点）</strong></h2>
+由于需要.aux文件才能正确生成参考文献，因此需要编译多次。
+<h3><strong>第一次编译，模式Latex等</strong></h3>
+编译后生成.aux文件，此时跳出来的.pdf会出现参考文献丢失的问题，如下图
+
+<img class="alignnone wp-image-5644" src="https://cdn.omegaxyz.com/2019/03/reference7.png" alt="" width="512" height="184" />
+<h3><strong>第二次编译，切换模式BibTex</strong></h3>
+<img class="alignnone wp-image-5645" src="https://cdn.omegaxyz.com/2019/03/reference8.png" alt="" width="172" height="301" />
+
+根据.aux文件生成
+<h3><strong>第三次编译，切换模式LaTeX</strong></h3>
+此时，参考文献丢失，但是？去不掉
+
+<img class="alignnone wp-image-5646" src="https://cdn.omegaxyz.com/2019/03/reference9.png" alt="" width="604" height="391" />
+<h3><strong>最后一次编译，模式不变仍然为LaTeX</strong></h3>
+编译后成功
+
+<img class="alignnone wp-image-5647" src="https://cdn.omegaxyz.com/2019/03/referenceX.png" alt="" width="467" height="301" />
+
+<hr />
+
+<h2><strong>风格调整</strong></h2>
+风格文件一般为.cls或.bst类型，具体的风格文件可以从期刊投稿官网上获得。
+
+上述例子参考文献为splncs04风格，适合会议论文包括LNCS，如果需要调整成IEEEtran风格在下面的第一行换掉
+<pre ><code class="language-default">\bibliographystyle{IEEEtran} %换风格
+\bibliography{reference} %其中reference为reference.bib文件。</code></pre>
+<span style="color: #ff0000;"><strong>注意如果在前面已经生成了其他风格的pdf，那么代码改后直接编译时不行的，因为缓存文件.aux及.bbl的缘故，需要删掉所有之前的缓存文件，按上述步骤重新来一遍即可。</strong></span>
+
+结果可以看到参考文献的风格已经调整
+
+<img class="alignnone wp-image-5648" src="https://cdn.omegaxyz.com/2019/03/referenceIEEE.png" alt="" width="529" height="368" />
+
+<hr />
+
+<h2><strong>声明</strong></h2>
+LaTeX版本为官网最新完全版6G大小
+
+<strong>如操作上有不同请谅解</strong>
+
+<hr />
+
+<h2><strong>参考</strong></h2>
+<a href="https://blog.csdn.net/qiang12qiang12/article/details/79105053">https://blog.csdn.net/qiang12qiang12/article/details/79105053</a>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

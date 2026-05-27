@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习数据集制作与划分MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content=".mat数据集制作 若整个数据集是一个.mat文件且最后一列数据时标签，则单独将决策变量和标签划分开，一个为ins，另一个为lab。 相关文章 https://omegaxyz.com/2018/08/24/ml-datasets/ .mat数据集说明 数据集名称GLIOMA GIOMA包含两个矩阵，一个是实例矩阵或者叫决策变量（ins）...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/26/divide-dataset/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-26</div>
+        <h1>机器学习数据集制作与划分MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><h2><strong>.mat数据集制作</strong></h2>
+若整个数据集是一个.mat文件且最后一列数据时标签，则单独将决策变量和标签划分开，一个为ins，另一个为lab。
+<h2><strong>相关文章</strong></h2>
+https://omegaxyz.com/2018/08/24/ml-datasets/
+
+<hr />
+
+<h2><strong>.mat数据集说明</strong></h2>
+<img class="alignnone size-full wp-image-4957" src="https://cdn.omegaxyz.com/2018/08/dataset1.png" alt="" width="102" height="18" />数据集名称GLIOMA
+
+GIOMA包含两个矩阵，一个是实例矩阵或者叫决策变量（ins），另一个是标签矩阵（lab）
+
+<img class="alignnone wp-image-4958 size-full" src="https://cdn.omegaxyz.com/2018/08/dataset2.png" alt="" width="327" height="39" />
+
+Ins矩阵大小50*4434，说明该GLIOMA数据集有50个实例（样本），有4434个特征，这50个实例（样本），每一个实例有一个对应的标签lab，标签就是类别。
+
+打开Ins矩阵，有50行说明有50个实例（样本），有4434列说明有4434个特征（太多了显示不了），这里面的任意一个值（标量）叫做特征值，任意一列是特征向量（列向量），任意一行是实例向量（行向量）
+
+<img class="alignnone wp-image-4959 size-full" src="https://cdn.omegaxyz.com/2018/08/dataset3.png" alt="" width="652" height="703" />
+
+打开lab矩阵
+
+<img class="alignnone wp-image-4960 size-full" src="https://cdn.omegaxyz.com/2018/08/dataset4.png" alt="" width="208" height="642" />
+
+有50个标签，标签就是类别（比如1代表幼儿，2代表青年，以此类推），可以看到这是一个具有4个类别的数据集。
+
+<hr />
+
+<h2><strong>数据集划分为训练集和测试集代码</strong></h2>
+<h3><strong>10折划分</strong></h3>
+<strong>说明：</strong>
+<ul>
+ 	<li>①在代码目录下，新建文件夹dataset，将.mat数据集放入其中</li>
+ 	<li>②输入dataName是一个字符串，如数据集名称为GLIOMA.mat，则输入的dataName为 ‘GLIOMA’（不要加.mat）</li>
+ 	<li>③iter是算法运行的次数，运行第一次调用第一个随机划分的值，运行第i次调用第i次随机划分的值</li>
+ 	<li>④Indices是随机划分数据集的索引，iter = 1是生成，之后的则读取第一次生成的文件。</li>
+</ul>
+<pre ><code class="language-matlab">function [train_F,train_L,test_F,test_L] = DIVDATA10fold(dataName,iter)
+file = ['dataset/',dataName,'.mat'];
+load(file)
+fold = 10
+dataMat=ins;
+len=size(dataMat,1);
+maxV = max(dataMat);
+minV = min(dataMat);
+range = maxV-minV;
+newdataMat = (dataMat-repmat(minV,[len,1]))./(repmat(range,[len,1]));
+if mod(iter, 10) == 1
+    Indices   =  crossvalind('Kfold', length(lab), fold);
+    save Indices;
+else
+    load Indices;
+end
+site = find(Indices==iter);
+test_F = newdataMat(site,:);
+test_L = lab(site);
+site2 = find(Indices~=iter);
+train_F = newdataMat(site2,:);
+train_L =lab(site2);
+end</code></pre>
+<h3><strong>三七划分</strong></h3>
+三七划分和十折划分类似，只是少了个输入参数和全局变量
+<pre ><code class="language-matlab">function [train_F,train_L,test_F,test_L] = DIVDATA37(dataName)
+file = ['dataset/',dataName,'.mat'];
+load(file)
+
+dataMat=ins;
+len=size(dataMat,1);
+%归一化
+maxV = max(dataMat);
+minV = min(dataMat);
+range = maxV-minV;
+newdataMat = (dataMat-repmat(minV,[len,1]))./(repmat(range,[len,1]));
+
+Indices   =  crossvalind('Kfold', length(lab), 10);
+site = find(Indices==1|Indices==2|Indices==3);
+test_F = newdataMat(site,:);
+test_L = lab(site);
+site2 = find(Indices~=1&amp;Indices~=2&amp;Indices~=3);
+train_F = newdataMat(site2,:);
+train_L =lab(site2);
+end</code></pre>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (12)</h2>
+        <div class="comment" id="comment-17151">
+          <strong>空白</strong>
+          <time>2019-06-27 19:24:27</time>
+          <div>代码中的lab是什么</div>
+        </div>
+        
+        <div class="comment" id="comment-18007">
+          <strong>江川</strong>
+          <time>2019-10-03 15:14:04</time>
+          <div>请问楼主如何制作成ins和lab啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18008">
+          <strong>Anonymous</strong>
+          <time>2019-10-03 15:42:49</time>
+          <div>已经解决了，给楼主填麻烦了，谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-18316">
+          <strong>li zhang</strong>
+          <time>2019-12-02 14:02:34</time>
+          <div>请问怎么使用matlab制作ins和lab数据集，本人matlab小白</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18317">
+          <strong>xyjisaw</strong>
+          <time>2019-12-02 14:04:17</time>
+          <div>先去UCI上下载 .mat格式或者.txt格式的数据集，txt格式的需要导入到MATLAB。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21642">
+          <strong>邓崇</strong>
+          <time>2021-03-26 14:04:41</time>
+          <div>请问怎么先在GIOMA下面制作ins和lab数据集</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21643">
+          <strong>邓崇</strong>
+          <time>2021-03-26 14:05:21</time>
+          <div>请问怎么先在GIOMA下面制作ins和lab数据集</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21739">
+          <strong>xyjisaw</strong>
+          <time>2021-03-31 09:49:44</time>
+          <div>手动在matlab变量表保存即可</div>
+        </div>
+        
+        <div class="comment" id="comment-21912">
+          <strong>Xiaoyu Shen</strong>
+          <time>2021-04-14 09:34:49</time>
+          <div>请问楼主，如果不是分类数据，是一维时间序列数据该怎么办？</div>
+        </div>
+        
+        <div class="comment" id="comment-27874">
+          <strong>Adonis</strong>
+          <time>2022-07-19 04:27:56</time>
+          <div>你好，可以分享下GLIOMA数据么？非常感谢！我在UCI上没有找到</div>
+        </div>
+        
+        <div class="comment reply" id="comment-27881">
+          <strong>xyjisaw</strong>
+          <time>2022-07-19 12:51:40</time>
+          <div>可以用这个上面的数据集，和GLIOMA一样的https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment reply" id="comment-28365">
+          <strong>Adonis</strong>
+          <time>2022-08-18 17:04:56</time>
+          <div>好的，非常感谢！</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Machine learning similarity measure (distance measure) · OmegaXYZ</title>
+  <meta name="description" content="Similarity measure is a distance measure. In life, we say that small differences mean similarity, which corresponds to multi-dimensional samples. Each sample can correspond to a data point in a high-dimensional space. If their distance is close, we can call them similar. Basic properties of distance measures Note that the last one can be understood as the sum of the two sides of the triangle is greater than the third side. Euclidean distance Euclidean metric (also called Euclidean distance)...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/16/similarity_measure/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-16</div>
+        <h1>Machine learning similarity measure (distance measure)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content"><strong>measure similarity</strong>(similarity measure) that is<strong>distance measure</strong>, in life we ​​say that small differences mean similarity, which corresponds to multi-dimensional samples. Each sample can correspond to a data point in high-dimensional space. If their distance is close, we can call them similar.<h1><strong>Basic properties of distance measures</strong></h1>
+<img alt="" class="alignnone size-full wp-image-4052" height="196" src="https://cdn.omegaxyz.com/2018/04/similarity-measure.jpg" width="538"/>
+<span style="color: #ff0000;"><strong>Note that the last one can be understood as the sum of the two sides of the triangle is greater than the third side.</strong></span>
+<h1><strong>Euclidean distance</strong></h1>The Euclidean metric (also called Euclidean distance) is a commonly used distance definition, which refers to the real distance between two points in m-dimensional space, or the natural length of a vector (that is, the distance from the point to the origin). The Euclidean distance in two- and three-dimensional spaces is the actual distance between two points.<span style="color: #ff0000;"><strong>Corresponding to machine learning, that is, the sum of squares of the subtraction between corresponding attributes and then the square root.</strong></span>
+<h1><strong>Minkowski distance</strong></h1>
+<h1><strong>Manhattan distance</strong></h1>
+<h1><strong>Chebyshev distance</strong></h1>Minkowski distance is a metric in a normed vector space, which can be thought of as a generalization of both the Euclidean distance and the Manhattan distance.
+
+Minkowski distance between two points<img alt="" class="alignnone size-full wp-image-4053" height="28" src="https://cdn.omegaxyz.com/2018/04/Minkowski1.jpg" width="386"/>
+<img alt="" class="alignnone size-full wp-image-4054" height="74" src="https://cdn.omegaxyz.com/2018/04/Minkowski2.jpg" width="252"/>When p=1, the Minkowski distance is<strong>Manhattan distance</strong>：
+
+<img alt="" class="alignnone size-full wp-image-4055" height="57" src="https://cdn.omegaxyz.com/2018/04/manhaton.jpg" width="298"/>When p=2, the Minkowski distance is<strong>Euclidean distance</strong>In the limit case where p reaches infinity, we get<strong>Chebyshev distance</strong>
+<img alt="" class="alignnone size-full wp-image-4056" height="66" src="https://cdn.omegaxyz.com/2018/04/qiebixuefu.jpg" width="314"/>The Minkowski distance can also be viewed as a multiple of the average of the component differences between P and Q.
+
+The image below shows the unit circle with various p-values:<img alt="" class="alignnone size-full wp-image-4057" height="187" src="https://cdn.omegaxyz.com/2018/04/Minkowski3.jpg" width="1493"/>We know that there are two types of properties:<strong>continuous attribute</strong>and<strong>discrete properties</strong>(Limited number of values). For continuous-valued attributes, they can generally be used by the learner, and sometimes corresponding preprocessing is performed according to the specific situation, such as normalization, etc.; for discrete-valued attributes, the following further processing is required:
+
+If the attribute values are between<strong>existential order relationship</strong>, it can be converted into continuous values, for example: the height attributes "tall", "medium" and "short" can be converted into {1, 0.5, 0}.
+If the attribute values ​​are between<strong>There is no order relationship</strong>, it is usually converted into a vector form, for example: the gender attributes "male" and "female" can be transformed into {(1,0), (0,1)}.
+
+When measuring distance, it is easy to know<strong>Both continuous attributes and discrete attributes with order relationships can be directly involved in calculations.</strong>, because they can all reflect a degree, we call it "<strong>ordered properties</strong>"; and for discrete attributes that do not have order relationships, we call them: "<strong>Unordered attributes</strong>", obviously it will not work to use Minkowski distance for disordered attributes.
+
+For unordered attributes, we generally use VDM to calculate distance. For example: for two values ​​a and b of discrete attributes, define (p200):<img alt="" class="alignnone size-full wp-image-4060" height="81" src="https://cdn.omegaxyz.com/2018/04/VDMNEW1.jpg" width="546"/>Yes, when calculating the distance between two samples, we can mix the Minkowski distance and VDM together for calculation:<img alt="" class="alignnone size-full wp-image-4061" height="143" src="https://cdn.omegaxyz.com/2018/04/VDMNEW2.jpg" width="689"/>If the distance calculation method we define is used to measure similarity, such as the clustering problem to be discussed below, that is, the smaller the distance, the greater the similarity, and conversely, the greater the distance, the smaller the similarity. At this time, the distance measurement method does not necessarily need to satisfy the four basic properties mentioned above. Such a method is called:<strong>non-metric distance</strong>。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Easter eggs in Python (hahaha) · OmegaXYZ</title>
+  <meta name="description" content="Guido van Rossum, the father of Python, invented python in 1989. He liked Monty Python, a six-member British comedy group, the Beatles in the comedy world. Later, the Python interpreter was named IDLE after one of its members. Later, the guys who developed python added easter eggs to the python source code to entertain the public. Let’s take a closer look at the Easter eggs in Python. (Who said the program...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/17/python_easter_egg/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-17</div>
+        <h1>Easter eggs in Python (hahaha)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/programmer/index.html">程序人生</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>Guido van Rossum, the father of Python, invented python in 1989. He liked Monty Python, a six-member British comedy group, the Beatles in the comedy world. Later, the Python interpreter was named IDLE after one of its members. Later, the guys who developed python added easter eggs to the python source code to entertain the public.
+
+Let’s take a closer look at the Easter eggs in Python.
+
+(Who said programmers have low emotional intelligence!!!)<h1>①Hello World (Hello World)</h1>
+ 
+
+<strong>&gt;&gt;&gt; import __hello__</strong>Output:
+
+Hello World!
+
+The origin of hello world dates back to 1972, when Brian Kernighan, a famous researcher at Bell Labs, first used it when writing "Tutorial Introduction to the Language B". Python introduced hello world into a built-in module for the first time.<h1>②The Zen of Python</h1>
+ 
+
+<strong>&gt;&gt;&gt; import this</strong>Output:
+
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+
+Translation:
+
+Beauty is better than ugliness.
+Explicit is better than implicit.
+Simple is better than complex.
+It's better to be complex than to understand.
+Flat is better than nested.
+Sparse is better than dense.
+Readability should be taken seriously.
+Although practicality will trump purity, exceptions cannot override the rules.
+Don't ignore any errors unless you confirm that you want to do so
+In the face of unclear definitions, resist the temptation to guess.
+Find the best and only way to solve the problem.
+Although this approach may not be obvious at first because you are not the father of Python.
+Doing it well or not doing it, but doing it without thinking is worse than not doing it at all
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it's probably a good idea.
+Namespaces are a great idea, please take advantage of them.
+"The Zen of Python" is a book in which core developer Tim Peters condensed Python's language design principles into 20 maxims. It was officially introduced into Python in PEP20, but the actual content is only 19.<h1>③Anti-Gravity Comics</h1>
+<strong>&gt;&gt;&gt; import antigravity</strong>Import antigravity, and the browser will jump to a comic web page http://xkcd.com/353/. The comic is very interesting.<img alt="" class="alignnone wp-image-2211 size-full" height="588" src="https://cdn.omegaxyz.com/2017/10/640.jpg" width="518"/>translate:<strong>Above:</strong>"You're flying! How did you do that?"
+"Python!"<strong>Bottom left:</strong>"I learned Python last night and it was so easy"
+"To run HELLO WORLD just print "Hello World!""<strong>Lower middle:</strong>"I still don't understand...dynamic typing, or spaces?"
+"Come join us, programming is fun again, Python is a whole new world"
+"But how did you fly?"<strong>Bottom right:</strong>"I just typed import antigravity"
+"That's it?"
+“I also sampled and compared everything in the medicine cabinet” (implying that he compared multiple programming languages, but still found Python the easiest)
+"But I guess that's Python."
+
+Of course there are other interesting comics O(∩_∩)O haha~:<img alt="" class="alignnone wp-image-2213 size-full" height="957" src="https://cdn.omegaxyz.com/2017/10/pythonfun.png" width="1920"/>
+<h1>④Benefits of C++ programmers</h1>Braces are used to represent code blocks in C++ and Java programming, but the Python community has made a joke for C++ programmers. Braces translates to "curly brackets". You can use braces by importing braces. However, the true attitude of the Python community is: No way!<strong>&gt;&gt;&gt; from __future__ import braces</strong>
+<strong>SyntaxError: not a chance</strong>
+<h1>⑤April Fools’ Day Easter Eggs</h1>
+<strong>&gt;&gt;&gt; 1&lt;&gt;2</strong>
+<strong> File "&lt;stdin&gt;", line 1</strong>
+<strong> 1&lt;&gt;2</strong>
+<strong> ^</strong>
+<strong> SyntaxError: invalid syntax</strong>
+<strong> &gt;&gt;&gt; from __future__ import barry_as_FLUFL</strong>
+<strong> &gt;&gt;&gt; 1&lt;&gt;2</strong>
+<strong> True</strong>
+<strong> &gt;&gt;&gt; 1!=2</strong>
+<strong> File "&lt;stdin&gt;", line 1</strong>
+<strong> 1!=2</strong>
+<strong> ^</strong>
+<strong> SyntaxError: invalid syntax</strong>This is an easter egg in Python3. How to explain it?
+barry refers to Barry Warsaw, who is also a famous Python developer. FLUFL is the nickname of Uncle Barry. The nickname of the father of Python is BDFL.
+Uncle Barry believes that the two characters of inequality != are at both ends of the keyboard. Because the two keys are too far apart, it causes finger pain when typing on the keyboard, so Barry hopes to restore the &lt;&gt; symbol in Python2 to represent "not equal to".
+Therefore, importing barry_as_FLUFL allows you to use &lt;&gt;, but != does not work.
+
+For more information, please scan the WeChat official account at the bottom of the page~</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

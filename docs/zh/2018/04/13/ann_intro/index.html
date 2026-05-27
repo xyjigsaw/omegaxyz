@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>神经网络模型详解 · OmegaXYZ</title>
+  <meta name="description" content="什么是人工神经网络 人工神经网络基于一组称为人造神经元（在动物脑中的生物神经元的简化版本）的连接单元或节点。人造神经元之间的每个连接（简化版本的突触）可以将信号从一个传送到另一个。接收信号的人工神经元可以处理它，然后发出信号传递与之相连的人造神经元。 在常见的ANN实现中，人造神经元之间的连接处的信号是实数，并且每个人造神经元的输出通过其...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/13/ann_intro/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-13</div>
+        <h1>神经网络模型详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1><strong>什么是人工神经网络</strong></h1>
+人工神经网络基于一组称为人造神经元（在动物脑中的生物神经元的简化版本）的连接单元或节点。人造神经元之间的每个连接（简化版本的突触）可以将信号从一个传送到另一个。接收信号的人工神经元可以处理它，然后发出信号传递与之相连的人造神经元。
+
+在常见的ANN实现中，人造神经元之间的连接处的信号是实数，并且每个人造神经元的输出通过其输入之和的非线性函数来计算。人工神经元和连接通常具有随着学习进行而调整的权重。重量增加或减少连接处信号的强度。人造神经元可能有一个阈值，只有当汇总信号超过该阈值时才会发送信号。通常，人造神经元是分层组织的。不同的层可能会对其输入执行不同类型的转换。可能在多次遍历图层之后，信号从第一个（输入）到最后（输出）层传播。
+
+ANN方法的最初目标是以与人类大脑相同的方式解决问题。然而，随着时间的推移，注意力集中在匹配具体任务上，导致生物学的偏差。人工神经网络已用于各种任务，包括计算机视觉，语音识别，机器翻译，社交网络过滤，游戏板和视频游戏以及医疗诊断。
+<h2><strong>体系</strong></h2>
+<img class="alignnone size-full wp-image-4013" src="https://cdn.omegaxyz.com/2018/04/category.jpg" alt="" width="1823" height="807" />
+<h1><strong>神经网络模型</strong></h1>
+<h2><strong>单层神经元模型</strong></h2>
+神经元模型包括输入和输出，连接是神经元中最重要的东西，每个连接上都有一个权重。
+一个神经网络的训练算法是训练权重，使权重调整到最佳值，使网络的预测效果更好。
+
+<img class="alignnone size-full wp-image-4015" src="https://cdn.omegaxyz.com/2018/04/CNN1.jpg" alt="" width="750" height="437" />
+
+Ai代表输入，wi代表权值。
+
+<img class="alignnone size-full wp-image-4016" src="https://cdn.omegaxyz.com/2018/04/CNN2.jpg" alt="" width="530" height="305" />
+加权传递：[w1, w2, ……,wn]*[a1,a2,…..an]对应相乘。
+
+<img class="alignnone size-full wp-image-4020" src="https://cdn.omegaxyz.com/2018/04/单层CNN.jpg" alt="" width="406" height="445" />
+最终有一个输出z=sgn(∑wi*ai)
+注意sgn是取符号函数。
+
+<img class="alignnone size-full wp-image-4049" src="https://cdn.omegaxyz.com/2018/04/sgnfun.jpg" alt="" width="475" height="219" />
+
+<strong>(左边是sgn函数，右边是sigmoid函数，后面会用到)</strong>
+可见z是在输入和权值的线性加权和叠加了一个函数g的值。在MP模型里，函数g是sgn函数，也就是取符号函数。这个函数当输入大于0时，输出1，否则输出0。
+当然一个神经元可以引出多个值相同的输出，目的是传向其他更多的神经元。
+
+现在更多的神经元的输出可以看做另一个神经元的输入，下图是单层神经网络。
+
+<img class="alignnone size-full wp-image-4022" src="https://cdn.omegaxyz.com/2018/04/单层CNN3.jpg" alt="" width="928" height="615" />
+
+现在我们可以看到这个单层神经网络可以扩展到矩阵相乘。
+输入的变量是[a1，a2，a3]T（代表由a1，a2，a3组成的列向量）
+方程的左边是[z1，z2]T，用向量z来表示。
+于是，输出公式可以改写成：
+<strong>Z</strong> = sgn(<strong>W</strong> * <strong>a</strong>)
+此公式是神经网络中从前一层计算后一层的矩阵运算。
+<h2><strong>扩展到双层神经网络</strong></h2>
+需要说明的是，在两层神经网络中，我们不再使用sgn函数作为函数g，而是使用平滑函数sigmoid作为函数g。我们把函数g也称作激活函数（active function）。
+
+&nbsp;
+
+<img class="alignnone size-full wp-image-4023" src="https://cdn.omegaxyz.com/2018/04/双层CNN1.jpg" alt="" width="777" height="534" />
+<h2><strong>多层神经网络（另开一篇详解）</strong></h2>
+2006年，Hinton在《Science》和相关期刊上发表了论文，首次提出了“深度信念网络”的概念。与传统的训练方式不同，“深度信念网络”有一个“预训练”（pre-training）的过程，这可以方便的让神经网络中的权值找到一个接近最优解的值，之后再使用“微调”(fine-tuning)技术来对整个网络进行优化训练。这两个技术的运用大幅度减少了训练多层神经网络的时间。他给多层神经网络相关的学习方法赋予了一个新名词--“深度学习”。
+
+<img class="alignnone size-full wp-image-4019" src="https://cdn.omegaxyz.com/2018/04/CNNX.jpg" alt="" width="1091" height="865" />
+
+多层神经网络时，通过一系列的研究发现，ReLU函数在训练多层神经网络时，更容易收敛，并且预测性能更好。因此，目前在深度学习中，最流行的非线性函数是ReLU函数。ReLU函数不是传统的非线性函数，而是分段线性函数。其表达式非常简单，就是y=max(x,0)。简而言之，在x大于0，输出就是输入，而在x小于0时，输出就保持为0。这种函数的设计启发来自于生物神经元对于激励的线性响应，以及当低于某个阈值后就不再响应的模拟。
+<h2><strong>比较</strong></h2>
+<img class="alignnone size-full wp-image-4014" src="https://cdn.omegaxyz.com/2018/04/cmp.jpg" alt="" width="1896" height="1259" />
+<h1><strong>结论</strong></h1>
+<p class="_tgt" data-v-3c4f858a=""><span data-v-3c4f858a="" data-group="0">计算世界在神经网络上有很大的增益。</span><span data-v-3c4f858a="" data-group="-1">他们的学习能力使他们非常灵活和强大。</span><span data-v-3c4f858a="" data-group="-2">此外，没有必要设计一种算法来执行特定的任务;</span><span data-v-3c4f858a="" data-group="-3">也就是说，没有必要了解该任务的内部机制。</span><span data-v-3c4f858a="" data-group="-4">它们也非常适合于实时系统，因为它们的快速响应和计算时间是由于它们的并行架构。</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-v-3c4f858a="" data-group="2">神经网络也有助于神经学和心理学等其他领域的研究。</span><span data-v-3c4f858a="" data-group="1">他们经常被用来模拟生物的某些部分，并研究大脑的内部机制。</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-v-3c4f858a="" data-group="4">也许神经网络最令人兴奋的方面是有可能会产生一些“意识”网络。</span><span data-v-3c4f858a="" data-group="3">有许多科学家认为，简洁是一种“机械”性质，而“意识”神经网络是一种现实的可能性。</span></p>
+<p class="_tgt" data-v-3c4f858a=""><span data-v-3c4f858a="" data-group="6">最后，我想说明的是，即使神经网络具有巨大的潜力，当它们与计算、人工智能、模糊逻辑和相关主题进行整合时，我们只会得到最好的结果。</span></p>
+
+<h1><strong>参考文献</strong></h1>
+①<a href="https://www.cnblogs.com/subconscious/p/5058741.html">https://www.cnblogs.com/subconscious/p/5058741.html</a>
+
+②<a href="https://www.doc.ic.ac.uk/~nd/surprise_96/journal/vol4/cs11/report.html">https://www.doc.ic.ac.uk/~nd/surprise_96/journal/vol4/cs11/report.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

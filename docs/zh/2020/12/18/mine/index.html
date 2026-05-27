@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>神经网络高维互信息计算Python实现（MINE） · OmegaXYZ</title>
+  <meta name="description" content="论文 Belghazi, Mohamed Ishmael, et al. &quot; Mutual information neural estimation .&quot; International Conference on Machine Learning . 2018. 利用神经网络的梯度下降法可以实现快速高维连续随机变量之间互信息的估计，上述论...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/12/18/mine/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-12-18</div>
+        <h1>神经网络高维互信息计算Python实现（MINE）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content"><h2><strong>论文</strong></h2>
+Belghazi, Mohamed Ishmael, et al. "<strong>Mutual information neural estimation</strong>." <i>International Conference on Machine Learning</i>. 2018.
+
+利用神经网络的梯度下降法可以实现快速高维连续随机变量之间互信息的估计，上述论文提出了Mutual Information Neural Estimator (MINE)。NN在维度和样本量上都是线性可伸缩的，MI的计算可以通过反向传播进行训练。
+
+<hr />
+
+<h2><strong>核心</strong></h2>
+<img class="alignnone  wp-image-6973" src="https://cdn.omegaxyz.com/2020/12/mine_compute.png" alt="" width="400" height="128" />
+
+<hr />
+
+<h2><strong>Python实现</strong></h2>
+现有github上的代码无法计算和估计高维随机变量，只能计算一维随机变量，下面的代码给出的修改方案能够计算真实和估计高维随机变量的真实互信息。
+
+其中，为了计算理论的真实互信息，我们不直接暴力求解矩阵（耗时，这也是为什么要有MINE的原因），我们采用给定生成随机变量的参数计算理论互信息。
+<pre class="">SIGNAL_NOISE = 0.2
+SIGNAL_POWER = 3</code></pre>
+<strong>完整代码基于pytorch</strong>
+<pre ><code class="language-python"># Name: MINE_simple
+# Author: Reacubeth
+# Time: 2020/12/15 18:49
+# Mail: noverfitting@gmail.com
+# Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import numpy as np
+import torch
+import torch.nn as nn
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+
+
+SIGNAL_NOISE = 0.2
+SIGNAL_POWER = 3
+
+data_dim = 3
+num_instances = 20000
+
+
+def gen_x(num, dim):
+    return np.random.normal(0., np.sqrt(SIGNAL_POWER), [num, dim])
+
+
+def gen_y(x, num, dim):
+    return x + np.random.normal(0., np.sqrt(SIGNAL_NOISE), [num, dim])
+
+
+def true_mi(power, noise, dim):
+    return dim * 0.5 * np.log2(1 + power/noise)
+
+
+mi = true_mi(SIGNAL_POWER, SIGNAL_NOISE, data_dim)
+print('True MI:', mi)
+
+
+hidden_size = 10
+n_epoch = 500
+
+
+class MINE(nn.Module):
+    def __init__(self, hidden_size=10):
+        super(MINE, self).__init__()
+        self.layers = nn.Sequential(nn.Linear(2 * data_dim, hidden_size),
+                                    nn.ReLU(),
+                                    nn.Linear(hidden_size, 1))
+
+    def forward(self, x, y):
+        batch_size = x.size(0)
+        tiled_x = torch.cat([x, x, ], dim=0)
+        idx = torch.randperm(batch_size)
+
+        shuffled_y = y[idx]
+        concat_y = torch.cat([y, shuffled_y], dim=0)
+        inputs = torch.cat([tiled_x, concat_y], dim=1)
+        logits = self.layers(inputs)
+
+        pred_xy = logits[:batch_size]
+        pred_x_y = logits[batch_size:]
+        loss = - np.log2(np.exp(1)) * (torch.mean(pred_xy) - torch.log(torch.mean(torch.exp(pred_x_y))))
+        # compute loss, you'd better scale exp to bit
+        return loss
+
+
+model = MINE(hidden_size)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+plot_loss = []
+all_mi = []
+for epoch in tqdm(range(n_epoch)):
+    x_sample = gen_x(num_instances, data_dim)
+    y_sample = gen_y(x_sample, num_instances, data_dim)
+
+    x_sample = torch.from_numpy(x_sample).float()
+    y_sample = torch.from_numpy(y_sample).float()
+
+    loss = model(x_sample, y_sample)
+
+    model.zero_grad()
+    loss.backward()
+    optimizer.step()
+    all_mi.append(-loss.item())
+
+
+fig, ax = plt.subplots()
+ax.plot(range(len(all_mi)), all_mi, label='MINE Estimate')
+ax.plot([0, len(all_mi)], [mi, mi], label='True Mutual Information')
+ax.set_xlabel('training steps')
+ax.legend(loc='best')
+plt.show()</code></pre>
+<strong>结果</strong>
+
+变量维度为1
+
+<img class="alignnone  wp-image-6974" src="https://cdn.omegaxyz.com/2020/12/mine_plot1.png" alt="" width="375" height="281" />
+
+变量维度为3
+
+<img class="alignnone  wp-image-6975" src="https://cdn.omegaxyz.com/2020/12/mine_plot2.png" alt="" width="371" height="278" />
+
+需要指出的是在计算最终的互信息时需要将基数e转为基数2。如果只是求得一个比较值，在真实使用的过程中可以省略。
+
+<hr />
+
+<h2><strong>参考</strong></h2>
+&nbsp;
+
+<a href="https://github.com/mzgubic/MINE">https://github.com/mzgubic/MINE</a>
+
+https://omegaxyz.com/2018/08/02/mi/
+
+https://omegaxyz.com/2018/08/10/vector-mi-matlab/
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

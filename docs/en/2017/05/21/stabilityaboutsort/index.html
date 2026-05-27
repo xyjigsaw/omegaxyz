@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stable sorting and unstable sorting · OmegaXYZ</title>
+  <meta name="description" content="Selection sort, quick sort, Hill sort, and heap sort are not stable sorting algorithms, while bubble sort, insertion sort, merge sort, and radix sort are stable sorting algorithms. First of all, everyone should know the stability of the sorting algorithm. In layman&#x27;s terms, it means that the order of the front and back positions of the two equal numbers before sorting is guaranteed to be the same as the order of the front and back positions of the two after sorting. To simplify the formalization, if Ai = Aj, Ai was originally in front of the position, but Ai will still be in front of the position of Aj after sorting. Secondly,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/21/stabilityaboutsort/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-21</div>
+        <h1>Stable sorting and unstable sorting</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a></div>
+        <div class="article-content"><strong>Selection sort, quick sort, Hill sort, and heap sort are not stable sorting algorithms, while bubble sort, insertion sort, merge sort, and radix sort are stable sorting algorithms.</strong>First, the stability of the sorting algorithm should be known to all, in general terms, to ensure that the first two equal rankings are in the same order of position before and after the sequence. In a simple formalization, if Ai = Aj, Ai was originally in front of the position, then Ai should be in front of Aj.
+
+Secondly, say the benefits of stability. If the sorting algorithm is stable, it is sorted from one key to another, and the first sorting results can be used to sort the second key. This is how the base figure is sorted, it is sorted lower, it is sorted higher, and the same lower and higher elements are in the same order. In addition, if the ranking algorithm is stable, the number of elements exchanged may be lower for ranking algorithms based on comparison (personal perception, not confirmed).
+
+Turning back to the subject, we now analyse the stability of the usual sorting algorithms, each giving a simple reason.
+
+(1) Bubble Sorting
+
+The bulging sequence is to turn small elements forward or large elements backwards. Compared to the two adjacent elements, the exchange also occurs between them. So if the two elements are equal, I don't think you're going to be bored with the two; if the two equal elements are not adjacent, then it's not going to be the time to exchange them, even through the two-to-one exchange, so the order of the same elements has not changed, so the bubble order is a stable sorting algorithm.
+
+(2) Select Sorting
+
+Selecting the order is given to each position to select the smallest of the current elements, for example, the smallest of the first, the second of the remaining elements to select the second, by analogy, until the n - 1 element, and the n element is left with the largest element. So, if the current element is smaller than an element, and the small element appears behind an element equal to the current element, then stability after exchange is undermined. For example, 5 8 5 2 9 of the sequence, we know that the first selection of the first element 5 will be exchanged with 2 and that the relative sequence of 2 5 in the original sequence will be destroyed, so the sequence is not a stable sorting algorithm.
+
+(3) Insert Sorting
+Inserts a sort of element at a time on the basis of a small sequence that is already in order. Of course, there's only one element, the first element, in this sequence. The comparison starts at the end of the sequence, i.e. when the elements that are intended to be inserted are compared to the largest, and if larger, they are inserted directly behind it, or until the location in which it should be inserted is found. If you see an element that is equal to the element that is inserted, the element that is inserted places the element that you want to insert behind the equivalent element. Therefore, the order of the equivalent elements has not changed, and the order out of the sequence is the order in which the sequence is sequenced, so the order of insertion is stable.
+
+(4) Fast Sorting
+Quick-ordering has two directions, with the left-hand subscript i going straight, when a [i] &lt; = a [center_index], where center_index is the subscript of the number of the central element and normally takes the number zero. The bottom sign on the right is left when a [j] &gt; a [center_index]. If both i and j are unable to move, i &lt; = j, exchange a [i] and a [j] and repeat the process above until i &gt; j. Exchange a [j] and a [center_index] and complete a quick sorting. At the time of the exchange of the central element and a[j], it is likely that the stability of the preceding elements will be disrupted, such as the sequence of 5, 3, 3, 4, 3, 8, 9, 10 and 11, and that the current exchange of the central elements 5 and 3 (the fifth element, marked from 1 to 1) will disrupt the stability of the element 3, so that quick sequencing is an unstable sorting algorithm, which occurs when the central element and a[j] are exchanged.
+
+(5) Grouping
+The grouping is the sorting of the sequences in short series, which is only one element (which is considered to be directly sequenced) or two sequences (one comparison and exchange), and then the sequences of the sequences are combined into an orderly long series, which is constantly consolidated until the original sequence is fully sequenced. It can be found that one element is not exchanged when one or two elements are equal in size and no one intentionally exchanges two elements, which does not undermine stability. So, is stability undermined in the process of short, orderly sequence consolidation? No, during the merger we can ensure that if the two current elements are equal, we keep the elements of the sequence in front of the result sequence, thus ensuring stability. So, sorting is also a stable sorting algorithm.
+
+(6) Sorting of base figures
+The base figure is sorted in descending order and then collected; then sorted in higher order and then collected; and by analogy to the highest level. Sometimes some attributes are in the order of priority, first in the order of low priority and then in the order of high priority, the final order being in the order of high priority and in the case of high priority. The base number ranking is based on a separate sorting and is collected separately, so it is a stable sorting algorithm.
+
+(7) Hill Sort (shell)
+Hill sorting is sorted by non-synchronous long insertions of elements, which are the largest when the elements start in a disorderly manner, so the number of elements inserted into the sequence is very small and fast; when the elements are basically organized and the steps are small, the insertion is very efficient for orderly sequences. So Hill's sort of time is a little more complicated than O. As a result of multiple insertions, we know that the order of one insertion is stable and does not change the relative order of the same elements, but during different insertions, the same elements may move in their respective insertions, and eventually their stability will be disrupted, so the shell order is unstable.
+
+(8) Stack Sorting
+We know that piles of nodes i have 2 * i and 2 * i + 1 node, large piles require a parent node greater than or equal to 2 subnodes, small piles require a parent node smaller than or equal to 2 subnodes. In a long-n sequence, the stacking process starts at n/ 2, with a total of three values, either the largest (large-top pile) or the smallest (small-top pile), and the selection between these three elements certainly does not undermine stability. But when the elements are selected for n / 2 - 1, n / 2 - 2, 1 parent node, it undermines stability. It's possible that the n/two parent node swaps the latter element, while the n/ 2 - one parent node does not exchange the same element, and the stability between the two same elements is undermined. So stacking is not a stable sorting algorithm.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

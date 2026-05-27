@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python爬取微博文字与图片（不使用Cookie） · OmegaXYZ</title>
+  <meta name="description" content="网页版微博是纯正的HTML，而且调用的微博自家的API来获取图片。 网址:https://m.weibo.cn/api/container/即为微博api里面包含了个人的信息与微博文字与图片存储地址。 进入api页面我们可以很清晰的看到各种信息都用json存储起来了。我们再利用python中的json库提取出来即可。这比其它利用cooki...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/13/python_weibo/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-13</div>
+        <h1>Python爬取微博文字与图片（不使用Cookie）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">网页版微博是纯正的HTML，而且调用的微博自家的API来获取图片。
+
+网址:https://m.weibo.cn/api/container/即为微博api里面包含了个人的信息与微博文字与图片存储地址。
+
+<img class="alignnone wp-image-3449" src="https://cdn.omegaxyz.com/2018/02/weibo1.jpg" alt="" width="669" height="264" />
+
+进入api页面我们可以很清晰的看到各种信息都用json存储起来了。我们再利用python中的json库提取出来即可。这比其它利用cookie模拟登陆要方便很多，我们只要输入被爬虫用户的微博ID然后运行便能自动爬取。
+
+ID从这个复制链接里面可以看出来。
+
+<img class="alignnone size-full wp-image-3455" src="https://cdn.omegaxyz.com/2018/02/weibo4.jpg" alt="" width="488" height="714" />
+
+代码采用Python3
+<pre ><code class="language-python"># -*- coding: utf-8 -*-
+import urllib.request
+import json
+import requests
+import os
+
+path = 'C:\\Users\\dell\\Desktop\\weibo\\'
+
+id = '2093492691'
+proxy_addr = "122.241.72.191:808"
+pic_num = 0
+weibo_name = "programmer"
+
+def use_proxy(url,proxy_addr):
+    req=urllib.request.Request(url)
+    req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.221 Safari/537.36 SE 2.X MetaSr 1.0")
+    proxy=urllib.request.ProxyHandler({'http':proxy_addr})
+    opener=urllib.request.build_opener(proxy,urllib.request.HTTPHandler)
+    urllib.request.install_opener(opener)
+    data=urllib.request.urlopen(req).read().decode('utf-8','ignore')
+    return data
+
+def get_containerid(url):
+    data=use_proxy(url,proxy_addr)
+    content=json.loads(data).get('data')
+    for data in content.get('tabsInfo').get('tabs'):
+        if(data.get('tab_type')=='weibo'):
+            containerid=data.get('containerid')
+    return containerid
+
+def get_userInfo(id):
+    url='https://m.weibo.cn/api/container/getIndex?type=uid&amp;value='+id
+    data=use_proxy(url,proxy_addr)
+    content=json.loads(data).get('data')
+    profile_image_url=content.get('userInfo').get('profile_image_url')
+    description=content.get('userInfo').get('description')
+    profile_url=content.get('userInfo').get('profile_url')
+    verified=content.get('userInfo').get('verified')
+    guanzhu=content.get('userInfo').get('follow_count')
+    name=content.get('userInfo').get('screen_name')
+    fensi=content.get('userInfo').get('followers_count')
+    gender=content.get('userInfo').get('gender')
+    urank=content.get('userInfo').get('urank')
+    print("微博昵称："+name+"\n"+"微博主页地址："+profile_url+"\n"+"微博头像地址："+profile_image_url+"\n"+"是否认证："+str(verified)+"\n"+"微博说明："+description+"\n"+"关注人数："+str(guanzhu)+"\n"+"粉丝数："+str(fensi)+"\n"+"性别："+gender+"\n"+"微博等级："+str(urank)+"\n")
+
+
+def get_weibo(id,file):
+    global pic_num
+    i=1
+    while True:
+        url='https://m.weibo.cn/api/container/getIndex?type=uid&amp;value='+id
+        weibo_url='https://m.weibo.cn/api/container/getIndex?type=uid&amp;value='+id+'&amp;containerid='+get_containerid(url)+'&amp;page='+str(i)
+        try:
+            data=use_proxy(weibo_url,proxy_addr)
+            content=json.loads(data).get('data')
+            cards=content.get('cards')
+            if(len(cards)&gt;0):
+                for j in range(len(cards)):
+                    print("-----正在爬取第"+str(i)+"页，第"+str(j)+"条微博------")
+                    card_type=cards[j].get('card_type')
+                    if(card_type==9):
+                        mblog=cards[j].get('mblog')
+                        attitudes_count=mblog.get('attitudes_count')
+                        comments_count=mblog.get('comments_count')
+                        created_at=mblog.get('created_at')
+                        reposts_count=mblog.get('reposts_count')
+                        scheme=cards[j].get('scheme')
+                        text=mblog.get('text')
+                        if mblog.get('pics') != None:
+                            # print(mblog.get('original_pic'))
+                            # print(mblog.get('pics'))
+                            pic_archive = mblog.get('pics')
+                            for _ in range(len(pic_archive)):
+                                pic_num += 1
+                                print(pic_archive[_]['large']['url'])
+                                imgurl = pic_archive[_]['large']['url']
+                                img = requests.get(imgurl)
+                                f = open(path+weibo_name+'\\'+str(pic_num)+ str(imgurl[-4:]), 'ab')  # 存储图片，多媒体文件需要参数b（二进制文件）
+                                f.write(img.content)  # 多媒体存储content
+                                f.close()
+
+                        with open(file,'a',encoding='utf-8') as fh:
+                            fh.write("----第"+str(i)+"页，第"+str(j)+"条微博----"+"\n")
+                            fh.write("微博地址："+str(scheme)+"\n"+"发布时间："+str(created_at)+"\n"+"微博内容："+text+"\n"+"点赞数："+str(attitudes_count)+"\n"+"评论数："+str(comments_count)+"\n"+"转发数："+str(reposts_count)+"\n")
+                i+=1
+            else:
+                break
+        except Exception as e:
+            print(e)
+            pass
+
+if __name__ == "__main__":
+    if os.path.isdir(path+weibo_name):
+        pass
+    else:
+        os.mkdir(path+weibo_name)
+    file = path+weibo_name+'\\'+weibo_name+".txt"
+    get_userInfo(id)
+    get_weibo(id, file)
+</code></pre>
+最终的效果图(爬取的微博txt文件):
+
+<img class="alignnone wp-image-3451" src="https://cdn.omegaxyz.com/2018/02/weibo3.jpg" alt="" width="701" height="477" />
+
+爬取的微博图片：
+
+<img class="alignnone wp-image-3452" src="https://cdn.omegaxyz.com/2018/02/weibo2.jpg" alt="" width="817" height="520" />
+
+以后下壁纸就很简单啦！！！
+
+GUI程序：<a href="https://omegaxyz.com/2018/02/14/python_weibo_gui/">https://omegaxyz.com/2018/02/14/python_weibo_gui/</a>
+
+&nbsp;
+<div class="footer-bar"><aside id="custom_html-7" class="widget_text widget inner-padding widget_custom_html">
+<div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </strong></span>
+<span style="color: #ff0000;"><strong>文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</strong></span></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a style="color: #ff0000;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a>-版权所有 转载请注明出处</strong></span></div>
+<div></div></div>
+        <section class="comments"><h2>评论 (27)</h2>
+        <div class="comment" id="comment-18621">
+          <strong>v</strong>
+          <time>2020-03-04 19:32:06</time>
+          <div>博主的方法是把客户端伪装成了浏览器，设置proxy和user agent，但是这样浏览器端必须登陆过微博才可以用，我理解的对吗？<br>如果我想在一个app里面模拟，也要做这些操作了？<br>麻烦作者回复一下，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18623">
+          <strong>xyjisaw</strong>
+          <time>2020-03-05 09:11:08</time>
+          <div>不是这样的，这个我是直接调用微博的api，我设置proxy和useragent是为了反反爬虫，不需要登录微博，如果你想在app里面模拟，直接调用代码中的url的api即可。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18624">
+          <strong>v</strong>
+          <time>2020-03-05 10:50:59</time>
+          <div>🐂🍺，楼主这个方法厉害了。我准备写一个C#版本，学习了，谢谢了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18625">
+          <strong>xyjisaw</strong>
+          <time>2020-03-05 10:53:50</time>
+          <div>Nice</div>
+        </div>
+        
+        <div class="comment" id="comment-18643">
+          <strong>wen Zeng</strong>
+          <time>2020-03-09 09:02:23</time>
+          <div>长见识了</div>
+        </div>
+        
+        <div class="comment" id="comment-18647">
+          <strong>wen Zeng</strong>
+          <time>2020-03-09 10:19:40</time>
+          <div>你好，这个container和直接查看网页源码获取到的图片链接一样吗？有时间请楼主解答</div>
+        </div>
+        
+        <div class="comment" id="comment-18649">
+          <strong>wen Zeng</strong>
+          <time>2020-03-09 14:36:35</time>
+          <div>找到了用户id，但是脚本函数get_userInfo返回{&quot;ok&quot;:0,&quot;msg&quot;:&quot;\u8fd9\u91cc\u8fd8\u6ca1\u6709\u5185\u5bb9&quot;,&quot;data&quot;:{&quot;cards&quot;:[]}}。但是使用浏览器打开却是正常的{&quot;ok&quot;:1............(省略)。修改了User-Agent，也没好。请指导！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18650">
+          <strong>xyjisaw</strong>
+          <time>2020-03-09 19:30:32</time>
+          <div>这个是用户发的原图</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18651">
+          <strong>xyjisaw</strong>
+          <time>2020-03-09 19:31:44</time>
+          <div>抱歉，细节我记不大清楚了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18657">
+          <strong>wen Zeng</strong>
+          <time>2020-03-12 08:58:10</time>
+          <div>谢谢回复。再请教一下https://m.weibo.cn/api/container/getIndex?type=uid&amp;amp;value=这个微博的API是怎么得到的？我查看了检查选项没找到，难道要抓包吗？谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18670">
+          <strong>will zeng</strong>
+          <time>2020-03-14 10:38:39</time>
+          <div>已解决</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18672">
+          <strong>xyjisaw</strong>
+          <time>2020-03-14 11:25:56</time>
+          <div>GUI 源码：https://github.com/xyjigsaw/Weibo-Crawler-GUI</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19458">
+          <strong>千</strong>
+          <time>2020-09-11 11:23:45</time>
+          <div>请问您的问题解决了吗？我现在也遇到了同样的问题</div>
+        </div>
+        
+        <div class="comment" id="comment-19459">
+          <strong>千</strong>
+          <time>2020-09-11 11:34:29</time>
+          <div>我像个憨批，我ID拿错了</div>
+        </div>
+        
+        <div class="comment" id="comment-19659">
+          <strong><a href="http://www.zhongzemin.cn" rel="nofollow">Biao Piao</a></strong>
+          <time>2020-11-21 15:35:21</time>
+          <div>Nice！<br>I copied the code！</div>
+        </div>
+        
+        <div class="comment" id="comment-29846">
+          <strong>Sunny</strong>
+          <time>2022-10-31 22:42:56</time>
+          <div>你好老師, 我是個初學者, 請問如果我想把下載的相片根據相片的發布日期命名排序, 我應該如何修改代碼?<br>另外如果想同時下載視頻, 是不是難以實踐, 感謝</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30242">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:21:55</time>
+          <div>你好，你可以把他们的meta信息放到同一个tuple里面，然后排序。</div>
+        </div>
+        
+        <div class="comment" id="comment-33874">
+          <strong>nora9377</strong>
+          <time>2023-05-10 08:58:05</time>
+          <div>请问怎么保存为.csv？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33876">
+          <strong>xyjisaw</strong>
+          <time>2023-05-10 10:34:52</time>
+          <div>使用csv库即可。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33881">
+          <strong>nora9377</strong>
+          <time>2023-05-10 17:02:55</time>
+          <div>您好 可否选择时间范围进行爬取？请问可以怎么修改？</div>
+        </div>
+        
+        <div class="comment" id="comment-33888">
+          <strong>ricky</strong>
+          <time>2023-05-11 00:59:49</time>
+          <div>大佬 为什么运行源代码只能爬到一百八十多页？其他人有这样的问题吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33979">
+          <strong>xyjisaw</strong>
+          <time>2023-05-15 17:04:20</time>
+          <div>应该是可以的，只需要捕获到发表时间即可。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33980">
+          <strong>xyjisaw</strong>
+          <time>2023-05-15 17:05:49</time>
+          <div>年代久远，这个代码现在还能跑嘛？<br>欢迎您push最新的代码到：https://github.com/xyjigsaw/Weibo-Crawler-GUI</div>
+        </div>
+        
+        <div class="comment reply" id="comment-34496">
+          <strong>seven</strong>
+          <time>2023-06-25 16:57:36</time>
+          <div>能跑，但是很奇怪的跑到将近200页的时候输出的cards就会变成空值，但是将网站直接贴到浏览器上面又显示明明是有json值的</div>
+        </div>
+        
+        <div class="comment reply" id="comment-34504">
+          <strong>xyjisaw</strong>
+          <time>2023-06-26 16:15:41</time>
+          <div>可能是微博的反爬机制，欢迎你调试并push最新的代码到https://github.com/xyjigsaw/Weibo-Crawler-GUI</div>
+        </div>
+        
+        <div class="comment reply" id="comment-37017">
+          <strong>rene</strong>
+          <time>2023-12-18 21:37:28</time>
+          <div>还可以 但是只能前50页了，之后无限循环</div>
+        </div>
+        
+        <div class="comment reply" id="comment-37112">
+          <strong>xyjisaw</strong>
+          <time>2023-12-22 17:09:33</time>
+          <div>欢迎帮忙修改一下代码：https://github.com/xyjigsaw/Weibo-Crawler-GUI</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

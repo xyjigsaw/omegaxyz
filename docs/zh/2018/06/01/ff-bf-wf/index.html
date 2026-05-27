@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>主存动态连续分配与回收算法（FF,BF,WF） · OmegaXYZ</title>
+  <meta name="description" content="①首次适应算法(First Fit) FF算法要求空闲分区链以地址递增的次序链接。 -- 在分配内存时，从链首开始顺序查找，直至找到一个大小能满足要求的空闲分区为止； -- 然后再按照作业的大小，从该分区中划出一块内存空间分配给请求者，余下的空闲分区仍留在空闲链中。 -- 若从链首直至链尾都不能找到一个能满足要求的分区，则此次内存分配失败...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/01/ff-bf-wf/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-01</div>
+        <h1>主存动态连续分配与回收算法（FF,BF,WF）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><strong>①首次适应算法(First Fit)</strong>
+FF算法要求空闲分区链以地址递增的次序链接。
+-- 在分配内存时，从链首开始顺序查找，直至找到一个大小能满足要求的空闲分区为止；
+-- 然后再按照作业的大小，从该分区中划出一块内存空间分配给请求者，余下的空闲分区仍留在空闲链中。
+-- 若从链首直至链尾都不能找到一个能满足要求的分区，则此次内存分配失败，返回。
+
+首次适应算法倾向于优先利用内存中低址部分的空闲分区，从而保留了高址部分的大空闲区。这给为以后到达的大作业分配大的内存空间创造了条件。其缺点是低址部分不断被划分，会留下许多难以利用的、很小的空闲分区，而每次查找又都是从低址部分开始，这无疑会增加查找可用空闲分区时的开销。
+
+<strong>流程图：</strong>
+
+<img class="alignnone  wp-image-4417" src="https://cdn.omegaxyz.com/2018/05/FF.png" alt="" width="596" height="371" />
+<strong>代码：</strong>
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#define TOTAL 1000
+
+typedef struct Lnode{
+    int id;
+    int size;
+    int start;
+    int end;
+    int flag;//对于内存是是否分配，对于进程是分配编号
+    struct Lnode *next;
+}LinkQueue, *QueuePtr;
+//构造链式队列，用于存储进程和空闲区表
+
+
+LinkQueue *InitQueue(LinkQueue *Q)
+{
+    Q = (LinkQueue *)malloc(sizeof(LinkQueue));
+    Q-&gt;next=NULL;
+    return Q;
+}
+
+
+void showMemory(LinkQueue *Q)
+{
+    LinkQueue *p;
+    p = (LinkQueue *)malloc(sizeof(LinkQueue));
+    for(p = Q-&gt;next; p!=NULL; p=p-&gt;next){
+        if(p-&gt;flag==0){
+            printf("区号    起始地址  长度  结束地址  \n");
+            printf("%2d         %-5d   %-5d  %-5d         \n",p-&gt;id,p-&gt;start,p-&gt;size,p-&gt;end);
+        }
+    }
+}
+
+
+//n进程编号 分配分区编号  起始位置 长度 终止位置
+int InitMemoryFF(LinkQueue *Q)
+{
+    int i,n;
+    LinkQueue *p,*q[TOTAL];
+    p = (LinkQueue *)malloc(sizeof(LinkQueue));
+    for(i = 0; i &lt; TOTAL; i++){
+        q[i] = (LinkQueue *)malloc(sizeof(LinkQueue));
+    }
+    p=Q;
+    printf("输入空闲区数量：");
+    scanf("%d",&amp;n);
+    int start0,size0;
+    for(i = 0; i &lt; n; i++){
+        printf("输入空闲区起始地址和大小：");
+        scanf("%d%d",&amp;start0,&amp;size0);
+        q[i]-&gt;id = i;
+        q[i]-&gt;size = size0;
+        q[i]-&gt;start = start0;
+        q[i]-&gt;end = start0 + size0;
+        q[i]-&gt;flag = 0;
+        q[i]-&gt;next = p-&gt;next;
+        p-&gt;next = q[i];
+        p = p-&gt;next;
+        showMemory(Q);
+    }
+    return i;
+}
+
+LinkQueue *pushProcess(LinkQueue *process,int n,int i,int start0,int size0)
+{
+    int j=1;
+    LinkQueue *q,*p;
+    q=process;
+    while(q-&gt;next){
+        q=q-&gt;next;
+    }
+    p=(LinkQueue *)malloc(sizeof(LinkQueue));
+    p-&gt;id=n;
+    p-&gt;flag=i;
+    p-&gt;start=start0;
+    p-&gt;size=size0;
+    if(p-&gt;flag!=0)
+        p-&gt;end=start0+size0;
+    else
+        p-&gt;end=0;//进程等待
+    p-&gt;next=q-&gt;next;
+    q-&gt;next=p;
+    return process;
+}
+
+void showProcess(LinkQueue *Process)
+{
+	LinkQueue *p;
+	int i;
+	p=(LinkQueue *)malloc(sizeof(LinkQueue));
+	printf("\n进程编号 分配分区编号  起始位置 长度 终止位置\n");
+	for(i=1,p=Process-&gt;next;p!=NULL;p=p-&gt;next,i++)
+	{
+		printf("%3d           %-5d       %-5d  %-5d  %-5d\n",p-&gt;id,p-&gt;flag,p-&gt;start,p-&gt;size,p-&gt;end);
+	}
+}
+
+void Allocate(LinkQueue *memory,LinkQueue *process,int num,int size)
+{
+    LinkQueue *p;
+    p=memory;
+    while(p){
+        p=p-&gt;next;
+        if(!p){
+            printf("无可用空闲区,进程等待！！！\n");
+            process = pushProcess(process,num,0,0,size);
+        }else if(p-&gt;flag==0&amp;&amp;p-&gt;size&gt;=size){
+            process = pushProcess(process,num,p-&gt;id,p-&gt;start,size);
+            if(p-&gt;flag==0)p-&gt;flag=0;
+            p-&gt;start=p-&gt;start+size;
+            p-&gt;size=p-&gt;size-size;
+            printf("分配成功！分配分区为：%d\n",p-&gt;id);
+            break;
+        }
+    }
+}
+
+LinkQueue *Locate(LinkQueue *Q,int what)
+{
+    LinkQueue *p;
+    p=Q;
+    while(p&amp;&amp;p-&gt;id!=what){
+        printf("@%d@\n",p-&gt;id);
+        p=p-&gt;next;
+    }
+    return p;
+}
+
+
+void Recycle(LinkQueue *memory,LinkQueue *process,int num)
+{
+    LinkQueue *p,*q,*t,*s;    //s,t为辅助结点，t帮助合并后多余删除结点
+	p=process;
+	q=memory;
+	int i=1,temp;
+	while(p-&gt;id!=num&amp;&amp;p)           //先找到回收的进程
+	{
+	    printf("@%d@\n",p-&gt;id);
+	    p=p-&gt;next;
+	}
+	while(q&amp;&amp;q-&gt;id!=p-&gt;flag)     //找到回收进程占用的空闲区
+    {
+        q=q-&gt;next;
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
+    if(q-&gt;end==q-&gt;next-&gt;start)     //如果该进程释放后回收的分区可和后一个分区合并
+    {
+        t=q-&gt;next;
+        q-&gt;end=t-&gt;end;         //修改尾地址
+        q-&gt;size+=t-&gt;size;      //修改分区大小
+        q-&gt;flag=0;             //回到未分配状态
+        q-&gt;next=t-&gt;next;       //删除该结点
+        free(t);
+    }///////////////////////////////////////////////////////////////////////////////////////
+    else
+    {   printf("BBB..\n");
+        s=memory;
+        while(s-&gt;next!=q)                //s指向前一个结点
+        {
+            s=s-&gt;next;
+        }
+        if(s-&gt;flag==1)          //如果前后都被分配了，则应该新开辟一段空闲分区
+        {   printf("AAA..\n");
+            //t指向释放进城后得到的新的空闲分区,设置信息，在空闲分区表中新增一个结点
+            t-&gt;id=s-&gt;id+1;//新建节点是s的ID加1
+            t-&gt;start=s-&gt;end;//起始地址是前一个的尾
+            t-&gt;size=p-&gt;size;//大小是该进程的大小
+            t-&gt;end=t-&gt;start+t-&gt;size;
+            t-&gt;flag=0;
+            t-&gt;next=s-&gt;next;   //t插入到空闲分区表中
+            s-&gt;next=t;
+            while(t-&gt;next)//后面所有节点的ID加1
+            {
+                temp=t-&gt;id;
+                t=t-&gt;next;
+                t-&gt;id=temp+1;
+            }
+        }
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
+    s=memory;
+    while(s-&gt;next!=q)                //s指向前一个结点
+    {
+        s=s-&gt;next;
+    }
+    if(s-&gt;flag==0)     //如果该进程释放后回收的分区可和前一个分区合并
+    {
+        t=q;
+        s-&gt;end=t-&gt;end;         //修改尾地址
+        s-&gt;size+=t-&gt;size;      //修改分区大小
+        s-&gt;flag=0;           //回到未分配状态
+        s-&gt;next=t-&gt;next;       //删除该结点
+        free(t);
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //修改进程表
+    p=process;
+    while(p&amp;&amp;p-&gt;next-&gt;id!=num)           //先找到回收的进程前一个进程
+	{
+	    p=p-&gt;next;
+	}
+	t=p-&gt;next;
+	p-&gt;next=t-&gt;next;
+	free(t);
+}
+
+int develop(LinkQueue *Process, LinkQueue *memory,int m,int count)
+{
+    LinkQueue *p,*q;
+    q=memory;
+    while(q-&gt;next-&gt;next)
+    {
+        q=q-&gt;next;
+        m++;
+        Process = pushProcess(Process,m,q-&gt;id+m,q-&gt;end,q-&gt;next-&gt;start-q-&gt;end);
+    }
+    //修改空闲分区表编号
+    q=memory;
+    while(q-&gt;next-&gt;next)
+    {
+        q=q-&gt;next;
+        p=(LinkQueue *)malloc(sizeof(LinkQueue));  //辅助结点
+        p-&gt;start=q-&gt;end;
+        p-&gt;end=q-&gt;next-&gt;start;
+        p-&gt;size=p-&gt;end-p-&gt;start;
+        p-&gt;flag=1;           //因为是已被分配的空闲分区，所以flag为1
+        p-&gt;id=q-&gt;id+1;      //因为位置原因，插入到两个空闲分区之间，修改id值
+        q-&gt;next-&gt;id=p-&gt;id+1;
+        p-&gt;next=q-&gt;next;
+        q-&gt;next=p;
+        q=q-&gt;next;
+    }
+    return m;
+}
+
+int main(){
+    int size;
+	int m=0,count;
+	int num;
+	int flag=1;
+	LinkQueue *memory;
+	LinkQueue *Process;
+	LinkQueue *p,*q;
+    memory=InitQueue(memory);
+    Process=InitQueue(Process);
+	count=InitMemoryFF(memory);
+	m = develop(Process,memory,m,count);//用进程填充空闲分区表中不空闲的部分
+    printf("\n------空闲链表情况：------\n");
+    showMemory(memory);
+    printf("\n------进程表情况：------\n");
+    showProcess(Process);
+
+    while(flag)
+    {
+        if(flag==1){
+        m++;      //进程编号
+        printf("\n请输入进程%d所需要的空间大小：",m);
+        scanf("%d",&amp;size);
+        Allocate(memory,Process,m,size);
+        }
+        else if(flag==2)
+        {
+            printf("请输入所释放进程的编号：");
+            scanf("%d",&amp;num);
+            Recycle(memory,Process,num);
+        }
+        printf("\n------空闲链表情况：------\n");
+        showMemory(memory);
+        printf("\n------进程表情况：------\n");
+        showProcess(Process);
+        printf("\n\n1:内存分配,2:回收:");
+        scanf("%d",&amp;flag);
+    }
+    return 0;
+}
+</code></pre>
+<img class="alignnone size-full wp-image-4418" src="https://cdn.omegaxyz.com/2018/05/FF2.png" alt="" width="456" height="313" />
+
+&nbsp;
+<h2><strong>下面两个算法类似，写在一起</strong></h2>
+<strong>②最佳适应算法(Best Fit)</strong>
+所谓“最佳”是指每次为作业分配内存时，总是把能满足要求、又是最小的空闲分区分配给作业，避免“大材小用”。为了加速寻找，该算法要求将所有的空闲分区按其容量以从小到大的顺序形成一空闲分区链。这样，第一次找到的能满足要求的空闲区，必然是最佳的。
+孤立地看，最佳适应算法似乎是最佳的，然而在宏观上却不一定。因为每次分配后所切割下来的剩余部分总是最小的，这样，在存储器中会留下许多难以利用的小空闲区。
+
+&nbsp;
+
+<strong>③最坏适应算法(Worst Fit)</strong>
+最坏适应分配算法要扫描整个空闲分区表或链表，总是挑选一个最大的空闲区分割给作业使用，其优点是可使剩下的空闲区不至于太小，产生碎片的几率最小，对中、小作业有利，同时最坏适应分配算法查找效率很高。该算法要求将所有的空闲分区按其容量以从大到小的顺序形成一空闲分区链，查找时只要看第一个分区能否满足作业要求。
+但是该算法的缺点也是明显的，它会使存储器中缺乏大的空闲分区。
+
+<strong>FF与WF代码：</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+#include&lt;deque&gt;
+
+using namespace std;
+
+struct Lnode{
+    int id;
+    int length;
+    int start;
+    int tail;
+    int flag;
+};
+
+
+deque&lt;Lnode&gt; freeMemory;
+deque&lt;Lnode&gt; process;
+int processNum=0;
+
+void showFree()
+{
+    printf("\n编号    起始位置  长度  终止位置 \n");
+    for(int i=0;i&lt;freeMemory.size();i++){
+        cout&lt;&lt;freeMemory[i].id&lt;&lt;"\t"&lt;&lt;freeMemory[i].start
+        &lt;&lt;"\t"&lt;&lt;freeMemory[i].length&lt;&lt;"\t"&lt;&lt;freeMemory[i].tail&lt;&lt;endl;
+    }
+}
+
+void showProcess()
+{
+    if(process.size()&gt;0)
+        printf("\nPID    起始位置  大小  终止位置 \n");
+    for(int i=0;i&lt;process.size();i++){
+        cout&lt;&lt;process[i].id&lt;&lt;"\t"&lt;&lt;process[i].start
+        &lt;&lt;"\t"&lt;&lt;process[i].length&lt;&lt;"\t"&lt;&lt;process[i].tail&lt;&lt;endl;
+    }
+}
+
+int setMemory()
+{
+    cout&lt;&lt;"----&gt;&gt;输入空闲区的数量：";
+    int num;
+    cin&gt;&gt;num;
+    struct Lnode temp;
+    int length0;
+    int start0;
+    for(int i=0;i&lt;num;i++){
+        printf("请输入第%d空闲区的初始地址和大小：\n",i);
+        cin&gt;&gt;start0&gt;&gt;length0;
+        temp.start=start0;
+        temp.length=length0;
+        temp.tail=temp.start+temp.length;
+        temp.id=i;
+        freeMemory.push_back(temp);
+        //showFree();
+    }
+    return freeMemory.size();
+}
+
+int addProcess(int num,int flag,int start0,int length0)
+{
+    struct Lnode temp;
+    temp.id=num;
+    temp.start=start0;
+    temp.length=length0;
+    temp.tail=temp.start+temp.length;
+    temp.flag=flag;
+    process.push_back(temp);
+    processNum++;
+    return process.size();
+}
+
+void reLabel()
+{
+    for(int k=0;k&lt;freeMemory.size();k++){
+        freeMemory[k].id=k;
+    }
+}
+
+int allocate(int num,int length0)
+{
+    int i;
+    for(i=0;i&lt;freeMemory.size();i++){
+        if(freeMemory[i].length&gt;length0){
+            addProcess(num,freeMemory[i].id,freeMemory[i].start,length0);
+            freeMemory[i].start+=length0;
+            freeMemory[i].length-=length0;
+            printf("\n-----分配成功！分配分区为：%d-----\n",freeMemory[i].id);
+            showFree();
+            break;
+        }
+        else if(freeMemory[i].length==length0){
+            addProcess(num,freeMemory[i].id,freeMemory[i].start,length0);
+            freeMemory.erase(freeMemory.begin()+i);
+            printf("\n-----分配成功！分配分区为：%d-----\n",freeMemory[i].id);
+            showFree();
+            break;
+        }else{
+            continue;
+        }
+    }
+    if(i==freeMemory.size())
+        cout&lt;&lt;"XXXXXXXX----&gt;&gt;资源不足！！"&lt;&lt;endl;
+    return freeMemory.size();
+}
+
+int recycle(int num)
+{
+    int i,temp,Label;
+    for(i=0;i&lt;freeMemory.size();i++){
+        if(freeMemory[i].id==process[num].flag){
+            Label=i;
+            break;
+        }
+    }
+    if(i!=freeMemory.size()){
+        if(process[num].tail==freeMemory[Label].start){
+            freeMemory[Label].start=process[num].start;
+            freeMemory[Label].length+=process[num].length;
+        }
+        if((Label-1)&gt;=0&amp;&amp;process[num].start==freeMemory[Label-1].tail){
+            freeMemory[Label].tail=process[num].tail;
+            freeMemory[Label].length+=process[num].length;
+        }
+    }else{
+        int j;
+        for(j=0;j&lt;freeMemory.size();j++){
+            if(j-1&lt;freeMemory.size()&amp;&amp;process[num].start&gt;freeMemory[j].tail&amp;&amp;process[num].tail&gt;freeMemory[j+1].start){
+                process[num].flag=0;
+                process[num].id=j+1;
+                freeMemory.insert(freeMemory.begin()+j+1,process[num]);
+                reLabel();
+                break;
+            }
+        }
+        if(j==0){
+            process[num].flag=0;
+            process[num].id=0;
+            freeMemory.push_front(process[num]);
+            reLabel();
+        }
+        if(j==freeMemory.size()){
+            process[num].flag=0;
+            process[num].id=j;
+            freeMemory.push_back(process[num]);
+            reLabel();
+        }
+    }
+    process.erase(process.begin()+num);
+    for(int k=0;k&lt;process.size();k++){
+        process[k].id=k;
+    }
+    showFree();
+    showProcess();
+    return 1;
+}
+
+void dequeSort(char x)
+{
+    if(x=='s'){
+        for(int i=0;i&lt;freeMemory.size();++i){
+            for(int j=0;j&lt;freeMemory.size()-i+1;++j){
+                if(freeMemory[j+1].length&lt;freeMemory[j].length){
+                    swap(freeMemory[j],freeMemory[j+1]);
+                }
+            }
+        }
+    }else{
+        for(int i=0;i&lt;freeMemory.size();++i){
+            for(int j=0;j&lt;freeMemory.size()-i+1;++j){
+                if(freeMemory[j+1].length&gt;freeMemory[j].length){
+                    swap(freeMemory[j],freeMemory[j+1]);
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    cout&lt;&lt;"------动态分区分配算法FF,BF,WF------\n\n";
+    setMemory();
+    int flag=1;
+    while(flag){
+        cout&lt;&lt;"\n------------------------------------\n";
+        cout&lt;&lt;"选择操作：1：增加进程，2：空间回收"&lt;&lt;endl;
+        cin&gt;&gt;flag;
+        cout&lt;&lt;"模式选择：FF:1,BF:2,WF:3?";
+        int way;
+        cin&gt;&gt;way;
+        if(way==2){
+            dequeSort('r');
+        }else if(way==3){
+            dequeSort('r');
+        }
+        if(flag==1){
+            cout&lt;&lt;"输入进程需要的大小：";
+            int size0;
+            cin&gt;&gt;size0;
+            allocate(processNum,size0);
+            cout&lt;&lt;"\n----&gt;&gt;进程表："&lt;&lt;endl;
+            showProcess();
+        }else if(flag==2){
+            cout&lt;&lt;"num:";
+            int num0;
+            cin&gt;&gt;num0;
+            if(num0&gt;=process.size())
+                cout&lt;&lt;"XXXXXXXX----&gt;&gt;ERROR"&lt;&lt;endl;
+            recycle(num0);
+        }
+
+    }
+}
+</code></pre>
+<p style="text-align: center;"><span style="color: #ff0000;">网站所有原创代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license"><strong>Apache 2.0</strong></a>授权 </span>
+<span style="color: #ff0000;">网站文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"><strong>BY-NC-SA4.0</strong></a>授权</span></p>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

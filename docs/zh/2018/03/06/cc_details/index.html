@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>合作协同进化详解及伪代码 · OmegaXYZ</title>
+  <meta name="description" content="协同进化(Cooperative Coevolution)是一种将大问题分解为子问题并独立解决的进化计算方法.子问题也被称为物种。 子组成部分是作为子群实现的，子群之间的唯一交互作用是对每个子群个体的合作评价。 一般的CC框架是自然激发的，一个特定种群的个体在自己之间交配，然而，在不同的物种之间交配是不可行的。 通过将当前个体其他子种群中...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/06/cc_details/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-06</div>
+        <h1>合作协同进化详解及伪代码</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">协同进化(Cooperative Coevolution)是一种将大问题分解为子问题并独立解决的进化计算方法.子问题也被称为物种。
+子组成部分是作为子群实现的，子群之间的唯一交互作用是对每个子群个体的合作评价。
+
+一般的CC框架是自然激发的，一个特定种群的个体在自己之间交配，然而，在不同的物种之间交配是不可行的。
+通过将当前个体其他子种群中最好的个体连接起来，就可以在子种群中对每个个体进行合作评估。
+
+合作协同进化框架已应用于行人检测系统、大规模功能优化、神经网络训练等现实世界问题。它还被进一步扩展到另一种称为“建设性合作共同进化”的方法。
+
+<strong>伪代码：</strong>
+
+<img class="alignnone size-full wp-image-3576" src="https://cdn.omegaxyz.com/2018/03/cc_code.jpg" alt="" width="486" height="314" />
+
+合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。
+
+分解策略的分类:
+
+①随机分解：随机选择基因的顺序，但是用户要决定组的数量和组的大小。
+
+②扰动：使用若干方法扰动决策变量尝试对变量进行分组。
+
+③模型建构：基于个体数量s的概率模型，在进化过程中迭代更新。
+
+下面是CC算法不同的分解策略体现的论文:
+
+Liu, X. Yao, Q. Zhao, and T. Higuchi, “Scaling up fast evolutionary
+programming with cooperative coevolution,” in Proc. IEEE Congr. Evol.
+Comput., 2001, pp. 1101–1108.（这是第一次解决1000维的基准问题采用的合作协同进化算法）
+van den Bergh and A. P. Engelbrecht, “A cooperative approach to
+particle swarm optimization,” IEEE Trans. Evol. Comput., vol. 8, no. 3,225–239, Jun. 2004.（这是第一个应用到PSO算法，将一个n维问题分成k-s维问题，没有在大规模的问题上测试过）
+
+Shi, H. Teng, and Z. Li, “Cooperative co-evolutionary differential
+evolution for function optimization,” in Proc. Int. Conf. Natural Comput.,
+2005, pp. 1080–1088.（应用在差分进化算法中，决策变量被分成两个同样大小的子成分，不适合高维）
+Yang, K. Tang, and X. Yao, “Large scale evolutionary optimization
+using cooperative coevolution,” Inf. Sci., vol. 178, pp. 2986–2999,
+Aug. 2008.（将问题分成k-s维问题，使用随机分组，在1000维上取得了很好的效果）
+
+N. Omidvar, X. Li, Z. Yang, and X. Yao, “Cooperative coevolution
+for large scale optimization through more frequent random
+grouping,” in Proc. IEEE Congr. Evol. Comput., Jul. 2010,1754–1761.（修正的CPSO随机分组方案，达到2000维）
+
+N. Omidvar, X. Li, and X. Yao, “Cooperative co-evolution with delta
+grouping for large scale non-separable function optimization,” in Proc.
+IEEE Congr. Evol. Comput., Jul. 2010, pp. 1762–1769.（增量分组策略，当目标函数存在不可分子成分时性能低）
+
+Yang, K. Tang, and X. Yao, “Multilevel cooperative coevolution
+for large scale optimization,” in Proc. IEEE Congr. Evol. Comput.,
+Jun. 2008, pp. 1663–1670.（MLCC算法，一组不同s的值（子成分的大小）提供给算法，缺点较多）
+
+另外用CC算法做大规模优化的论文数量有不少。因此要应用CC算法，关键在分解策略提出。</div>
+        <section class="comments"><h2>评论 (13)</h2>
+        <div class="comment" id="comment-3696">
+          <strong>Sky</strong>
+          <time>2018-06-03 15:29:19</time>
+          <div>请问对于大规模优化问题，目前是否主流方法都是协同进化？是否有其它方法呢?另外，如果我对于函数决策变量间关系不知道（就是无法用数学公式表示出来，是个黑箱子，只是可以调用），但知道决策变量维数很高，是否可以用此类算法解决呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3697">
+          <strong>xyjisaw</strong>
+          <time>2018-06-03 19:19:52</time>
+          <div>一般来说主流方法是分治，协同进化是分治（分组）中的一种，当然也有其他方法可以做大规模、高维、请问你是主要做哪个方面的问题，能详细说说嘛</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3698">
+          <strong>Anonymous</strong>
+          <time>2018-06-04 11:36:35</time>
+          <div>我们实验室主要是做进化计算的，应导师要求最近开始看large scale，但好像看到的基本都是用协同进化的方法做的（以姚新老师为代表的）。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3699">
+          <strong>xyjisaw</strong>
+          <time>2018-06-04 11:58:00</time>
+          <div>我也对large scale挺感兴趣的，如果你不怕麻烦的话，你可以加一下我的QQ我们细聊一下吧，谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-3955">
+          <strong>lihong</strong>
+          <time>2018-11-19 16:29:19</time>
+          <div>楼主你好哈，看了几天CC，这里一直没有看懂：在用优化算法(DE或者其他改进版本)优化分组后的 subcomponent 时候：<br>1&amp;gt;比如原来n个决策变量分成了s个组，这s个subcomponent 是并行优化的吗<br>2&amp;gt;优化subcomponent 的FE是用的什么评价函数，和全局问题的FE评价函数有什么关系呢<br>3&amp;gt;是否subcomponent 的FE阶段的评价函数需要从全局的FE用到的评价函数来导出呢<br><br>请问博主能加下你的QQ~交流下下吗~~ 谢谢哈</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3959">
+          <strong>xyjisaw</strong>
+          <time>2018-11-21 23:07:35</time>
+          <div>一般来说是并行优化，一般来说subpopulation是用和全局问题的相同的适应度函数，subpopulation优化之前，先取最好的个体，使得最好个体中的其他值不变，只改变（优化）sub中分组的决策变量，然后再用全局函数评价</div>
+        </div>
+        
+        <div class="comment" id="comment-16840">
+          <strong>Anonymous</strong>
+          <time>2019-04-24 22:07:42</time>
+          <div>你好，我方向和你一样，我们可以加一下qq或者微信，详细交流一下吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17084">
+          <strong>shen mingxia</strong>
+          <time>2019-06-11 19:31:29</time>
+          <div>您好，您在研究协同进化吗？我有问题想请教，QQ：2267292688</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17096">
+          <strong>xyjisaw</strong>
+          <time>2019-06-14 11:17:46</time>
+          <div>不好意思啊，现在不研究了。</div>
+        </div>
+        
+        <div class="comment" id="comment-30037">
+          <strong>www</strong>
+          <time>2022-11-09 11:12:12</time>
+          <div>楼主您好，请问在进行多目标两种群合作协同进化的时候，在外部储备集archive里保存的非支配个体是完整的合作个体还是单个的个体？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30068">
+          <strong>请教</strong>
+          <time>2022-11-10 21:47:37</time>
+          <div>老哥，还在做大规模优化吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30069">
+          <strong>kkk</strong>
+          <time>2022-11-10 21:57:03</time>
+          <div>同学，研究大规模优化吗？（不是多目标，是多维）。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30241">
+          <strong>xyjisaw</strong>
+          <time>2022-11-20 17:20:51</time>
+          <div>抱歉，我现在不做这个领域了，多目标的可能还得具体问题具体分析。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>回溯法——素数环C++实现 · OmegaXYZ</title>
+  <meta name="description" content="回溯法简介 回溯法按深度优先策略搜索问题的解空间树。首先从根节点出发搜索解空间树，当算法搜索至解空间树的某一节点时，先利用剪枝函数判断该节点是否可行（即能得到问题的解）。如果不可行，则跳过对该节点为根的子树的搜索，逐层向其祖先节点回溯；否则，进入该子树，继续按深度优先策略搜索。 回溯法的基本行为是搜索，搜索过程使用剪枝函数来为了避免无效的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/17/prime-ring-problem-cpp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-17</div>
+        <h1>回溯法——素数环C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><h2><strong>回溯法简介</strong></h2>
+回溯法按深度优先策略搜索问题的解空间树。首先从根节点出发搜索解空间树，当算法搜索至解空间树的某一节点时，先利用剪枝函数判断该节点是否可行（即能得到问题的解）。如果不可行，则跳过对该节点为根的子树的搜索，逐层向其祖先节点回溯；否则，进入该子树，继续按深度优先策略搜索。
+
+回溯法的基本行为是搜索，搜索过程使用剪枝函数来为了避免无效的搜索。剪枝函数包括两类：
+<ul>
+ 	<li>1. 使用约束函数，剪去不满足约束条件的路径；</li>
+ 	<li>2.使用限界函数，剪去不能得到最优解的路径。</li>
+</ul>
+问题的关键在于如何定义问题的解空间，转化成树（即解空间树）。解空间树分为两种：子集树和排列树。两种在算法结构和思路上大体相同。
+<h2><strong>素数环问题</strong></h2>
+<strong>Problem Description</strong>
+A ring is compose of n circles as shown in diagram. Put natural number 1, 2, ..., n into each circle separately, and the sum of numbers in two adjacent circles should be a prime.
+
+<img class="alignnone size-full wp-image-5786" src="https://cdn.omegaxyz.com/2019/05/prime-ring.gif" alt="" width="211" height="222" />
+
+Note: the number of first circle should always be 1.
+
+<strong>Input</strong>
+n (0 &lt; n &lt; 20).
+
+<strong>Output</strong>
+The output format is shown as sample below. Each row represents a series of circle numbers in the ring beginning from 1 clockwisely and anticlockwisely. The order of numbers must satisfy the above requirements. Print solutions in lexicographical order.
+
+You are to write a program that completes above process.
+
+Print a blank line after each case.
+
+<strong>Sample Input</strong>
+6 8
+
+<strong>Sample Output</strong>
+Case 1:
+<ul>
+ 	<li>1 4 3 2 5 6</li>
+ 	<li>1 6 5 2 3 4</li>
+</ul>
+Case 2:
+<ul>
+ 	<li>1 2 3 8 5 6 7 4</li>
+ 	<li>1 2 5 8 3 4 7 6</li>
+ 	<li>1 4 7 6 5 8 3 2</li>
+ 	<li>1 6 7 4 3 8 5 2</li>
+</ul>
+<strong>C++代码</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+//Nmax = 17
+
+//Prime Ring
+int n;
+int ans[22];
+bool hashx[22];
+int prime[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41};
+
+bool isPrime(int x){
+    for(int i = 0; i &lt; 13; i++){
+        if(prime[i] == x)return true;
+    }
+    return false;
+}
+
+void checkAndPrint(){ //检查输出由回溯法枚举得到的解
+    if(! isPrime(ans[n] + ans[1]))return; //判断最后一个数与第一个数是否为素数，若不是则直接返回
+    for(int i = 1; i &lt;= n; i++){
+        printf("%d%s", ans[i], i == n ? "\n" : " ");
+    }
+}
+
+void DFS(int num){ //num为环中的个数
+    if(num &gt; 1){
+        if(!isPrime(ans[num] + ans[num - 1]))return; //如果不是素数，则返回
+    }
+    if(num == n){
+        checkAndPrint(); //输出结果
+        return;
+    }
+    for(int i = 2; i &lt;= n; i++){
+        if(!hashx[i]){ //没有被放入
+            hashx[i] =true;
+            ans[num + 1] = i;
+            DFS(num + 1); //继续尝试放入下一个
+            hashx[i] = false; //回溯后，重新标记为未使用
+        }
+    }
+}
+
+int main(){
+    int casex = 0;
+    while(cin&gt;&gt;n){
+        casex++;
+        for(int i = 0; i &lt; 22; i++)hashx[i] = false;
+        ans[1] = 1;
+        printf("Case %d:\n", casex);
+        hashx[1] = true; //标记1已经被使用
+        DFS(1);
+    }
+    return 0;
+}
+</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

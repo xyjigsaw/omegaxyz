@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>完全二叉树与堆C++代码及应用 · OmegaXYZ</title>
+  <meta name="description" content="堆的定义 堆其实就是一棵 完全二叉树 （若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边），定义为：具有n个元素的序列（h1,h2,...hn），当且仅当满足（hi&gt;=h2i,hi&gt;=h2i+1）或（hi&lt;=h2i,hi&lt;=2i+1） (i=1,2,...,n/...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/23/heap/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-23</div>
+        <h1>完全二叉树与堆C++代码及应用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content"><h2 id="堆的定义"><strong>堆的定义</strong></h2>
+堆其实就是一棵<span style="color: #ff0000;">完全二叉树</span>（若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边），定义为：具有n个元素的序列（h1,h2,...hn），当且仅当满足（hi&gt;=h2i,hi&gt;=h2i+1）或（hi&lt;=h2i,hi&lt;=2i+1） (i=1,2,...,n/2)时称之为堆。
+<h2 id="大顶堆"><strong>大顶堆</strong></h2>
+堆顶元素（即第一个元素）为最大项，并且（hi&gt;=h2i,hi&gt;=h2i+1），通俗地说父节点比子节点大。
+<h2 id="小顶堆"><strong>小顶堆</strong></h2>
+堆顶元素为最小项，并且（hi&lt;=h2i,hi&lt;=2i+1），父节点比子节点小。
+<h2><strong>堆的性质</strong></h2>
+当前节点的序号为index，其左右两个自节点的序号为index*2和index*2+1，其父节点的序号为int(index/2);
+<h2><strong>满二叉树</strong></h2>
+<div>一棵深度为k，且有 2k+1−1 个节点的二叉树，称为满二叉树（Full Binary Tree）。 这种树的特点是每一层上的节点数都是最大节点数。</div>
+<h2><strong>完全二叉树</strong></h2>
+<div>而在一棵二叉树中，除最后一层外，若其余层都是满的，并且最后一层或者是满的，或者是在右边缺少连续若干节点，则此二叉树为完全二叉树（Complete Binary Tree）。高度（深度）: 即层数k，注意【根】定义为height(root)=0。</div>
+<div></div>
+<div><img class="alignnone size-full wp-image-5514" src="https://cdn.omegaxyz.com/2019/02/completeandfulltree.png" alt="" width="488" height="210" /></div>
+<h2><strong>完全二叉树的性质</strong></h2>
+<div>
+<div>
+<ol>
+ 	<li>具有n个节点的完全二叉树的深度为 k=log2n 。</li>
+ 	<li>【满二叉树】i层的节点数目为：2i</li>
+ 	<li>【满二叉树】节点总数和深度的关系：n=∑ki=02i=2k+1−1</li>
+ 	<li>【完全二叉树】最后一层的节点数为：n−(2k−1)=n+1−2k （因为除最后一层外，为【满二叉树】）</li>
+ 	<li>【完全二叉树】左子树的节点数为（总节点为n）：l(n)={n−2k−1,2k−1,n+1−2k≤2k−1因为最后一层全部都在左子树，右子树为【满二叉树】高度为 k-2n+1−2k&gt;2k−1因为左子树为满二叉树，高度为k-1</li>
+</ol>
+</div>
+<div>
+<ol start="6">
+ 	<li>【完全二叉树】右子树： r(n)=n−l(n)</li>
+</ol>
+<h2><strong>完全二叉树层次遍历转后序遍历（不构造树）</strong></h2>
+从1开始
+<pre ><code class="language-c++">void toPost(int index){
+    if(index &gt; n)return;
+    toPost(index * 2);
+    toPost(index * 2 + 1);
+    printf("%d%s", tree[index], index == 1?"\n":" ");
+}
+</code></pre>
+<h2><strong>PAT 甲级 1147 Heaps （30 分）</strong></h2>
+<div class="problemListItem_2867x">
+<div class="problem_2tXnk">
+<div class="ques-view">
+
+In computer science, a <strong>heap</strong> is a specialized tree-based data structure that satisfies the heap property: if P is a parent node of C, then the key (the value) of P is either greater than or equal to (in a max heap) or less than or equal to (in a min heap) the key of C. A common implementation of a heap is the binary heap, in which the tree is a complete binary tree. (Quoted from Wikipedia at <a href="https://en.wikipedia.org/wiki/Heap_(data_structure">https://en.wikipedia.org/wiki/Heap_(data_structure</a>))
+
+Your job is to tell if a given complete binary tree is a heap.
+<h3 id="input-specification-"><strong>Input Specification</strong></h3>
+Each input file contains one test case. For each case, the first line gives two positive integers: M (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span></span></span></span> 100), the number of trees to be tested; and N (1 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">&lt;</span></span></span></span> N <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span></span></span></span> 1,000), the number of keys in each tree, respectively. Then M lines follow, each contains N distinct integer keys (all in the range of <strong>int</strong>), which gives the level order traversal sequence of a complete binary tree.
+<h3 id="output-specification-"><strong>Output Specification</strong></h3>
+For each given tree, print in a line <code>Max Heap</code> if it is a max heap, or <code>Min Heap</code> for a min heap, or <code>Not Heap</code> if it is not a heap at all. Then in the next line print the tree's postorder traversal sequence. All the numbers are separated by a space, and there must no extra space at the beginning or the end of the line.
+<h3 id="sample-input-"><strong>Sample Input</strong></h3>
+<pre><code class="lang-in">3 8
+98 72 86 60 65 12 23 50
+8 38 25 58 52 82 70 60
+10 28 15 12 34 9 8 56
+</code></code></pre>
+<h3 id="sample-output-"><strong>Sample Output</strong></h3>
+<pre><code class="lang-out">Max Heap
+50 60 65 72 12 23 86 98
+Min Heap
+60 58 52 38 82 70 25 8
+Not Heap
+56 12 34 28 9 8 15 10
+</code></code></pre>
+</div>
+</div>
+<div class="problemInfo_jpKfZ">
+<div>作者: CHEN, Yue</div>
+<div>单位: 浙江大学</div>
+<div>时间限制: 200 ms</div>
+<div>内存限制: 64 MB</div>
+<div>代码长度限制: 16 KB</div>
+</div>
+</div>
+<form class="">
+<h3><strong>代码</strong></h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;cstdio&gt;
+
+using namespace std;
+
+int n;
+vector&lt;int&gt; tree(10001);
+
+void toPost(int index){
+    if(index &gt; n)return;
+    toPost(index * 2);
+    toPost(index * 2 + 1);
+    printf("%d%s", tree[index], index == 1?"\n":" ");
+}
+
+int main(){
+    int t;
+    cin&gt;&gt;t&gt;&gt;n;
+    while(t--){
+        bool isMin = true, isMax = true;
+        for(int i = 1; i &lt;= n; i++)scanf("%d", &amp;tree[i]);
+        for(int i = 2; i &lt;= n; i++){
+            if(tree[i/2] &lt; tree[i]) isMax = false;
+            if(tree[i/2] &gt; tree[i]) isMin = false;
+        }
+
+        if(isMin)cout&lt;&lt;"Min Heap"&lt;&lt;endl;
+        if(isMax)cout&lt;&lt;"Max Heap"&lt;&lt;endl;
+        if(!isMin&amp;&amp;!isMax)cout&lt;&lt;"Not Heap"&lt;&lt;endl;
+        toPost(1);
+    }
+    return 0;
+}</code></pre>
+<h2><strong>PAT 甲级 1155 Heap Paths （30 分）</strong></h2>
+<div class="problemListItem_2867x">
+<div class="problem_2tXnk">
+<div class="ques-view">
+
+In computer science, a <strong>heap</strong> is a specialized tree-based data structure that satisfies the heap property: if P is a parent node of C, then the key (the value) of P is either greater than or equal to (in a max heap) or less than or equal to (in a min heap) the key of C. A common implementation of a heap is the binary heap, in which the tree is a complete binary tree. (Quoted from Wikipedia at <a href="https://en.wikipedia.org/wiki/Heap_(data_structure">https://en.wikipedia.org/wiki/Heap_(data_structure</a>))
+
+One thing for sure is that all the keys along any path from the root to a leaf in a max/min heap must be in non-increasing/non-decreasing order.
+
+Your job is to check every path in a given complete binary tree, in order to tell if it is a heap or not.
+<h3 id="input-specification-"><strong>Input Specification</strong></h3>
+Each input file contains one test case. For each case, the first line gives a positive integer <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mrel">&lt;</span><span class="mord mathit">N</span><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>), the number of keys in the tree. Then the next line contains <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> distinct integer keys (all in the range of <strong>int</strong>), which gives the level order traversal sequence of a complete binary tree.
+<h3 id="output-specification-"><strong>Output Specification</strong></h3>
+For each given tree, first print all the paths from the root to the leaves. Each path occupies a line, with all the numbers separated by a space, and no extra space at the beginning or the end of the line. The paths must be printed in the following order: for each node in the tree, all the paths in its right subtree must be printed before those in its left subtree.
+
+Finally print in a line <code>Max Heap</code> if it is a max heap, or <code>Min Heap</code> for a min heap, or <code>Not Heap</code> if it is not a heap at all.
+<h3 id="sample-input-1-"><strong>Sample Input 1</strong></h3>
+<pre><code class="lang-in">8
+98 72 86 60 65 12 23 50
+</code></code></pre>
+<h3 id="sample-output-1-"><strong>Sample Output 1</strong></h3>
+<pre><code class="lang-out">98 86 23
+98 86 12
+98 72 65
+98 72 60 50
+Max Heap
+</code></code></pre>
+<h3 id="sample-input-2-"><strong>Sample Input 2</strong></h3>
+<pre><code class="lang-in">8
+8 38 25 58 52 82 70 60
+</code></code></pre>
+<h3 id="sample-output-2-"><strong>Sample Output 2</strong></h3>
+<pre><code class="lang-out">8 25 70
+8 25 82
+8 38 52
+8 38 58 60
+Min Heap
+</code></code></pre>
+<h3 id="sample-input-3-"><strong>Sample Input 3</strong></h3>
+<pre><code class="lang-in">8
+10 28 15 12 34 9 8 56
+</code></code></pre>
+<h3 id="sample-output-3-"><strong>Sample Output 3</strong></h3>
+<pre><code class="lang-out">10 15 8
+10 15 9
+10 28 34
+10 28 12 56
+Not Heap
+</code></code></pre>
+</div>
+</div>
+<div class="problemInfo_jpKfZ">
+<div>作者: 陈越</div>
+<div>单位: 浙江大学</div>
+<div>时间限制: 400 ms</div>
+<div>内存限制: 64 MB</div>
+<div>代码长度限制: 16 KB</div>
+</div>
+</div>
+<div></div>
+<div> <strong>代码</strong></div>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+
+using namespace std;
+
+int n;
+vector&lt;int&gt; tree(10001);
+vector&lt;int&gt; v;
+
+
+void dfs(int index) {
+    if (index * 2 &gt; n &amp;&amp; index * 2 + 1 &gt; n) {//满足此条件的为叶子节点
+        if (index &lt;= n) {//对只有左叶节点没有右叶节点的点，与最后一个节点有关
+            for (int i = 0; i &lt; v.size(); i++)
+                printf("%d%s", v[i], i != v.size() - 1 ? " " : "\n");
+        }
+    } else {
+        v.push_back(tree[index * 2 + 1]);
+        dfs(index * 2 + 1);
+        v.pop_back();
+        v.push_back(tree[index * 2]);
+        dfs(index * 2);
+        v.pop_back();
+    }
+}
+
+
+int main(){
+
+    cin&gt;&gt;n;
+    bool isMin = true, isMax = true;
+    for(int i = 1; i &lt;= n; i++)scanf("%d", &amp;tree[i]);
+    v.push_back(tree[1]);
+    dfs(1);
+    for(int i = 2; i &lt;= n; i++){
+        if(tree[i/2] &lt; tree[i]) isMax = false;
+        if(tree[i/2] &gt; tree[i]) isMin = false;
+    }
+
+    if(isMin)cout&lt;&lt;"Min Heap"&lt;&lt;endl;
+    if(isMax)cout&lt;&lt;"Max Heap"&lt;&lt;endl;
+    if(!isMin&amp;&amp;!isMax)cout&lt;&lt;"Not Heap"&lt;&lt;endl;
+    return 0;
+}</code></pre>
+&nbsp;
+
+</form></div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjM2LTE1NTA4MzgyMTY4MzQiLCJibG9ja1R5cGUiOiJsaXN0LWl0ZW0iLCJzdHlsZXMiOnsibGluZS1oZWlnaHQiOjEuOCwiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6Imxpc3QtaXRlbSIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLlhbciLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaciSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LiqIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLoioIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueCuSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi55qEIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlrowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWFqCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi55qEIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmt7EiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW6piIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJrIn0seyJjaGFyIjoiPSJ9LHsiY2hhciI6ImwifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoiZyJ9LHsiY2hhciI6IjIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Im4ifSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgIIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX0sImxldmVsIjoxLCJpbmRleCI6MSwibGlzdElkIjoiMzEtMTU1MDgzODIxNjgyNiIsImxpc3RUeXBlIjoib3JkZXJlZCJ9LHsiYmxvY2tJZCI6IjU3LTE1NTA4MzgyMTY4NDEiLCJibG9ja1R5cGUiOiJsaXN0LWl0ZW0iLCJzdHlsZXMiOnsibGluZS1oZWlnaHQiOjEuOCwiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6Imxpc3QtaXRlbSIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLjgJAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iua7oSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi44CRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJpIn0seyJjaGFyIjoi5bGCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuiKgiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi54K5Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmlbAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuebriIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvJoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IjIifSx7ImNoYXIiOiJpIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9LCJsZXZlbCI6MSwiaW5kZXgiOjIsImxpc3RJZCI6IjMxLTE1NTA4MzgyMTY4MjYiLCJsaXN0VHlwZSI6Im9yZGVyZWQifSx7ImJsb2NrSWQiOiI5Mi0xNTUwODM4MjE2ODU0IiwiYmxvY2tUeXBlIjoibGlzdC1pdGVtIiwic3R5bGVzIjp7ImxpbmUtaGVpZ2h0IjoxLjgsImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJsaXN0LWl0ZW0iLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi44CQIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmu6EiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS6jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y+JIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuOAkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IqCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLngrkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaAuyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pWwIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlkowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iua3sSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bqmIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWFsyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi57O7Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvJoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Im4ifSx7ImNoYXIiOiI9In0seyJjaGFyIjoi4oiRIn0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiaSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiPSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiMCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiMiJ9LHsiY2hhciI6ImkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Ij0ifSx7ImNoYXIiOiIyIn0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiKyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiMSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi4oiSIn0seyJjaGFyIjoiMSJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX0sImxldmVsIjoxLCJpbmRleCI6MywibGlzdElkIjoiMzEtMTU1MDgzODIxNjgyNiIsImxpc3RUeXBlIjoib3JkZXJlZCJ9LHsiYmxvY2tJZCI6IjIyLTE1NTA4MzgyMTY4NjMiLCJibG9ja1R5cGUiOiJsaXN0LWl0ZW0iLCJzdHlsZXMiOnsibGluZS1oZWlnaHQiOjEuOCwiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6Imxpc3QtaXRlbSIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLjgJAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWujCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5YWoIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWPiSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuacgCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ZCOIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuIAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWxgiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi55qEIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLoioIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueCuSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pWwIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8miIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibiJ9LHsiY2hhciI6IuKIkiJ9LHsiY2hhciI6IigifSx7ImNoYXIiOiIyIn0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi4oiSIn0seyJjaGFyIjoiMSJ9LHsiY2hhciI6IikifSx7ImNoYXIiOiI9In0seyJjaGFyIjoibiJ9LHsiY2hhciI6IisifSx7ImNoYXIiOiIxIn0seyJjaGFyIjoi4oiSIn0seyJjaGFyIjoiMiJ9LHsiY2hhciI6ImsiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IiAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8iCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ZugIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IumZpCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pyAIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlkI4iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4gCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bGCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlpJYiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgJAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iua7oSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi44CRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvIkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX0sImxldmVsIjoxLCJpbmRleCI6NCwibGlzdElkIjoiMzEtMTU1MDgzODIxNjgyNiIsImxpc3RUeXBlIjoib3JkZXJlZCJ9LHsiYmxvY2tJZCI6IjgzLTE1NTA4MzgyMTY4NjYiLCJibG9ja1R5cGUiOiJsaXN0LWl0ZW0iLCJzdHlsZXMiOnsibGluZS1oZWlnaHQiOjEuOCwiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6Imxpc3QtaXRlbSIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLjgJAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWujCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5YWoIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWPiSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW3piIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5a2QIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueahCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IqCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLngrkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaVsCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvIgiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaAuyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IqCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLngrkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4uiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yJIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvJoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX0sImxldmVsIjoxLCJpbmRleCI6NSwibGlzdElkIjoiMzEtMTU1MDgzODIxNjgyNiIsImxpc3RUeXBlIjoib3JkZXJlZCJ9LHsiYmxvY2tJZCI6IjA1LTE1NTA4MzgyMTY4OTUiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJjZW50ZXIiLCJsaW5lLWhlaWdodCI6MS44LCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6ImwifSx7ImNoYXIiOiIoIn0seyJjaGFyIjoibiJ9LHsiY2hhciI6IikifSx7ImNoYXIiOiI9In0seyJjaGFyIjoieyJ9LHsiY2hhciI6Im4ifSx7ImNoYXIiOiLiiJIifSx7ImNoYXIiOiIyIn0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi4oiSIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIxIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIsIn0seyJjaGFyIjoiMiJ9LHsiY2hhciI6ImsiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuKIkiJ9LHsiY2hhciI6IjEifSx7ImNoYXIiOiIsIn0seyJjaGFyIjoibiJ9LHsiY2hhciI6IisifSx7ImNoYXIiOiIxIn0seyJjaGFyIjoi4oiSIn0seyJjaGFyIjoiMiJ9LHsiY2hhciI6ImsiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuKJpCJ9LHsiY2hhciI6IjIifSx7ImNoYXIiOiJrIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLiiJIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IjEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWboCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmnIAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWQjiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LiAIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlsYIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWFqCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6YOoIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLpg70iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWcqCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bemIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlrZAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj7MiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWtkCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuOAkCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ruhIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWPiSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IumrmCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bqmIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IiAifSx7ImNoYXIiOiJrIn0seyJjaGFyIjoiLSJ9LHsiY2hhciI6IjIifSx7ImNoYXIiOiJuIn0seyJjaGFyIjoiKyJ9LHsiY2hhciI6IjEifSx7ImNoYXIiOiLiiJIifSx7ImNoYXIiOiIyIn0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiPiJ9LHsiY2hhciI6IjIifSx7ImNoYXIiOiJrIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLiiJIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IjEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWboCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlt6YiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWtkCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iua7oSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLpq5giLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW6piIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Li6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJrIn0seyJjaGFyIjoiLSJ9LHsiY2hhciI6IjEifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIyNS0xNTUwODM4MjE2OTA0IiwiYmxvY2tUeXBlIjoibGlzdC1pdGVtIiwic3R5bGVzIjp7ImxpbmUtaGVpZ2h0IjoxLjgsImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJsaXN0LWl0ZW0iLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi44CQIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlrowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWFqCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi44CRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj7MiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWtkCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5qCRIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvJoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IiAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6InIifSx7ImNoYXIiOiIoIn0seyJjaGFyIjoibiJ9LHsiY2hhciI6IikifSx7ImNoYXIiOiI9In0seyJjaGFyIjoibiJ9LHsiY2hhciI6IuKIkiJ9LHsiY2hhciI6ImwifSx7ImNoYXIiOiIoIn0seyJjaGFyIjoibiJ9LHsiY2hhciI6IikifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9LCJsZXZlbCI6MSwiaW5kZXgiOjYsImxpc3RJZCI6IjMxLTE1NTA4MzgyMTY4MjYiLCJsaXN0VHlwZSI6Im9yZGVyZWQifV0=-->
+
+</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjA2LTE1NTA4MzgyMTY3OTciLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJqdXN0aWZ5IiwibGluZS1oZWlnaHQiOjEuOCwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLmu6EiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS6jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y+JIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6Ijk4LTE1NTA4MzgyMTY4MDUiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJqdXN0aWZ5IiwibGluZS1oZWlnaHQiOjEuOCwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiI6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuIAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuajtSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5rexIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLluqYiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4uiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuJQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaciSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiMiJ9LHsiY2hhciI6ImsiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IisiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IjEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuKIkiJ9LHsiY2hhciI6IjEifSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuKoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuiKgiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi54K5Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS6jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y+JIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi56ewIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuLoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iua7oSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yIIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJGIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJ1Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJsIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJsIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJpIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJuIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJhIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJyIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJ5Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiIgIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJUIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJyIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJlIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiJlIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvIkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuOAgiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6L+ZIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnp40iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi55qEIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnibkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueCuSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pivIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmr48iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4gCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bGCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuIoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueahCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IqCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLngrkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaVsCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6YO9Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmmK8iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuacgCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5aSnIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLoioIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IueCuSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pWwIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgIIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjA1LTE1NTA4MzgyMTY4MTAiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJqdXN0aWZ5IiwibGluZS1oZWlnaHQiOjEuOCwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLlrowiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWFqCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNzQtMTU1MDgzODIxNjgxMCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6Imp1c3RpZnkiLCJsaW5lLWhlaWdodCI6MS44LCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IjoiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IiAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuiAjCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ZyoIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuIAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuajtSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LqMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj4kiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuagkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5LitIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLvvIwiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IumZpCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5pyAIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlkI4iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4gCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bGCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlpJYiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IulIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlhbYiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS9mSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bGCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLpg70iLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaYryIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ruhIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5bm2Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuJQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuacgCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ZCOIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuIAiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuWxgiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5oiWIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLogIUiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaYryIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ruhIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5oiWIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLogIUiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaYryIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5ZyoIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlj7MiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iui+uSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi57y6Iiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlsJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iui/niIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi57utIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLoi6UiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW5siIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi6IqCIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLngrkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5YiZIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmraQiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS6jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y+JIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4uiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5a6MIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlhagiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS6jCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y+JIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoJEiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6Iu+8iCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiQyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoicCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoidCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiQiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiaSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoibiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiYSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiciIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoieSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiVCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiciIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yJIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLjgIIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjE0LTE1NTA4MzgyMTY4MTIiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJqdXN0aWZ5IiwibGluZS1oZWlnaHQiOjEuOCwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLpq5giLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW6piIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yIIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmt7EiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuW6piIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yJIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIxNi0xNTUwODM4MjE2ODIwIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoianVzdGlmeSIsImxpbmUtaGVpZ2h0IjoxLjgsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoiOiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5Y2zIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLlsYIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaVsCIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLms6giLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuaEjyIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi44CQIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLmoLkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuOAkSIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoi5a6aIiwic3R5bGVzIjp7ImZvbnQtc2l6ZSI6MTJ9fSx7ImNoYXIiOiLkuYkiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19LHsiY2hhciI6IuS4uiIsInN0eWxlcyI6eyJmb250LXNpemUiOjEyfX0seyJjaGFyIjoiaCJ9LHsiY2hhciI6ImUifSx7ImNoYXIiOiJpIn0seyJjaGFyIjoiZyJ9LHsiY2hhciI6ImgifSx7ImNoYXIiOiJ0In0seyJjaGFyIjoiKCJ9LHsiY2hhciI6InIifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoibyJ9LHsiY2hhciI6InQifSx7ImNoYXIiOiIpIn0seyJjaGFyIjoiPSJ9LHsiY2hhciI6IjAifSx7ImNoYXIiOiLjgIIiLCJzdHlsZXMiOnsiZm9udC1zaXplIjoxMn19XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==--></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

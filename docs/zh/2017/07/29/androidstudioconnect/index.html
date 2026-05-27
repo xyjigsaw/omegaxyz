@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Android Studio程序无法加载到虚拟机解决方法 · OmegaXYZ</title>
+  <meta name="description" content="安装玩Android studio之后创建一个项目(hello world)具体描述为：”Waiting for target device to come online”。即“等待目标设备在线”。 问题解决： ①：命令行（win+r–cmd）定位到android_sdk/platform-tools/目录下,执行”adb kill-se...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/29/androidstudioconnect/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-29</div>
+        <h1>Android Studio程序无法加载到虚拟机解决方法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../tag/android/index.html">Android</a></div>
+        <div class="article-content">安装玩Android studio之后创建一个项目(hello world)具体描述为：”Waiting for target device to come online”。即“等待目标设备在线”。
+
+&nbsp;
+
+问题解决：
+
+①：命令行（win+r–cmd）定位到android_sdk/platform-tools/目录下,执行”adb kill-server”
+
+②：
+Go to SDK tools &gt; SDK Tools
+Check Android Emulator and click Apply
+
+<img class="alignnone size-medium wp-image-1511" src="https://cdn.omegaxyz.com/2017/07/20170430132149218-300x212.png" alt="" width="300" height="212" />
+
+③以上两种方法不行看此方法：绝对是虚拟机权限不够没有开成开发者USB调试模式（图片基于Android7.0）
+
+首先进入设置界面
+
+<img class="alignnone  wp-image-1505" src="https://cdn.omegaxyz.com/2017/07/androids1-162x300.jpg" alt="" width="317" height="587" />
+
+接着选择关于手机-&gt;版本号，连续点击7次版本号（安卓系统的一个trick）系统会提醒你进入开发者模式
+
+<img class="alignnone  wp-image-1506" src="https://cdn.omegaxyz.com/2017/07/androids2-161x300.jpg" alt="" width="317" height="591" />
+
+然后设置界面就出现了开发者选项，进入打开USB调试模式
+
+<img class="alignnone  wp-image-1507" src="https://cdn.omegaxyz.com/2017/07/androids3-160x300.jpg" alt="" width="317" height="594" />
+
+<img class="alignnone  wp-image-1508" src="https://cdn.omegaxyz.com/2017/07/androids4-156x300.jpg" alt="" width="317" height="610" />
+
+运行程序即可
+
+<img class="alignnone  wp-image-1509" src="https://cdn.omegaxyz.com/2017/07/androids5-161x300.jpg" alt="" width="315" height="587" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

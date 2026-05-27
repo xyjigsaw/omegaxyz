@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython table drawing code · OmegaXYZ</title>
+  <meta name="description" content="wxPython is an excellent GUI graphics library for the Python language. Allows Python programmers to easily create a complete GUI user interface with full function keys. wxPython is provided to users as a Python package and Python module of the excellent cross-platform GUI library wxWidgets. Use the wx.grid command to draw a table similar to Excel. grid.SetCellValu...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/12/10/wxpython-grid/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-10</div>
+        <h1>wxpython table drawing code</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">wxPython is an excellent GUI graphics library for the Python language. Allows Python programmers to easily create a complete GUI user interface with full function keys. wxPython is provided to users as a Python package and Python module of the excellent cross-platform GUI library wxWidgets.
+
+Use the wx.grid command to draw a table similar to Excel.
+
+grid.SetCellValue is used to assign values ​​to elements in the table.<pre><code class="language-python">import wx
+import wx.grid
+
+
+class GridFrame(wx.Frame):
+    def __init__(self, parent):
+        wx.Frame.__init__(self, parent)
+
+        # Create a wxGrid object
+        grid = wx.grid.Grid(self, -1)
+
+        # Then we call CreateGrid to set the dimensions of the grid
+        # (100 rows and 10 columns in this example)
+        grid.CreateGrid(100, 10)
+
+        # We can set the sizes of individual rows and columns
+        # in pixels
+        grid.SetRowSize(0, 60)
+        grid.SetColSize(0, 120)
+
+        # And set grid cell contents as strings
+        grid.SetCellValue(0, 0, 'wxGrid is good')
+
+        # We can specify that some cells are read.only
+        grid.SetCellValue(0, 3, 'This is read.only')
+        grid.SetReadOnly(0, 3)
+
+        # Colours can be specified for grid cell contents
+        grid.SetCellValue(3, 3, 'green on grey')
+        grid.SetCellTextColour(3, 3, wx.GREEN)
+        grid.SetCellBackgroundColour(3, 3, wx.LIGHT_GREY)
+
+        # We can specify the some cells will store numeric
+        # values rather than strings. Here we set grid column 5
+        # to hold floating point values displayed with width of 6
+        # and precision of 2
+        grid.SetColFormatFloat(5, 6, 2)
+        grid.SetCellValue(0, 6, '3.1415')
+
+        self.Show()
+
+
+if __name__ == '__main__':
+
+    app = wx.App(0)
+    frame = GridFrame(None)
+    app.MainLoop()</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone wp-image-5205" height="355" src="https://cdn.omegaxyz.com/2018/12/wxgrid.png" width="580"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

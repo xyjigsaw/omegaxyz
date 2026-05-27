@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA继承和多态 · OmegaXYZ</title>
+  <meta name="description" content="1.可以从现有的类定义新的类，这称为类的继承。新类称为次类、子类或继承类现有的类称为超类、父类或基类。 2.构造方法用来构造类的实例。不同于属性和方法，子类不继承父类的构造方法。它们只能用关键字super从子类的构造方法中调用。 3.构造方法可以调用重载的构造方法或它的父类的构造方法。这种调用必须是构造方法的第一条语句。如果没有显式地调用...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/13/overridingandpolymorphism/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-13</div>
+        <h1>JAVA继承和多态</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><!--StartFragment -->
+<div>1.可以从现有的类定义新的类，这称为类的继承。新类称为次类、子类或继承类现有的类称为超类、父类或基类。</div>
+<div></div>
+<div>
+
+2.构造方法用来构造类的实例。不同于属性和方法，子类不继承父类的构造方法。它们只能用关键字super从子类的构造方法中调用。
+
+3.构造方法可以调用重载的构造方法或它的父类的构造方法。这种调用必须是构造方法的第一条语句。如果没有显式地调用它们中的任何一个，编译器就会把supe r O作为构造方法的第一条语句，它调用的是父类的无参构造方法。
+
+4.为了重写一个方法，必须使用与它的父类中的方法相同的签名来定义子类中的方法。
+
+5.实例方法只有在可访问时才能重写。这样，私有方法是不能重写的，因为它是不能在类本身之外访问的。如果子类中定义的方法在父类中是私有的，那么这两个方法是完全没有关系的。
+
+6.静态方法与实例方法一样可以继承。但是，静态方法不能重写，如果父类中定义的静态方法在子类中重新定义，那么父类中定义的方法被隐藏。
+
+7.Java中的每个类都继承自java.lang.Object类。如果一个类在定义时没有指定继承关系，那么它的父类就是Object.
+
+8.如果一个方法的参数类型是父类(例如Object)，可以向该方法的参数传递任何子类(例如Circle类或String类)的对象。这称为多态。
+
+9.因为子类的实例总是它的父类的实例，所以，总是可以将一个子类的实例转换成一个父类的变量。当把父类实例转换成它的子类变量时，必须使用转换记号(子类名)进行显式转换，向编译器表明你的意图。
+
+10.一个类定义一个类型。子类定义的类型称为子类型，而父类定义的类型称为父类型。
+
+11.当从引用变量调用实例方法时，该变量的实际类型在运行时决定使用该方法的哪个实现。这称为动态绑定。
+
+12.可以使用表达式obj instanceof class(对象名instanceof类名)测试一个对象是否是一个类的实例。
+
+13.可以使用Array Li st类来创建一个对象，用于存储一个对象列表。
+
+14.可以使用protected修饰符来防止方法和数据被不同包的非子类访问。
+
+15.可以用final修饰符来表明一个类是最终类，是不能被继承的；也可以表明一个方法是最终的，是不能重写的。
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

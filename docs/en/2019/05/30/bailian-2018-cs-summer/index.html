@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bailian-2018 Computer Science Summer Camp Computer Test Question Solutions (to be continued) · OmegaXYZ</title>
+  <meta name="description" content="As a programming novice, I will first brush up on the first few questions. I will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform AC on 3 questions (don’t laugh at me, boss). Since some questions have been closed, it is impossible to see whether it is AC (the following code may not pass all test cases). If there are any errors, please point them out, O(∩_∩)O Thank you. Address: http://bailian.openjudge.cn/xly2018/ A: Calculate the number of days between two dates. Global question number 759...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/30/bailian-2018-cs-summer/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-30</div>
+        <h1>Bailian-2018 Computer Science Summer Camp Computer Test Question Solutions (to be continued)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>As a programming novice, I will first brush up on the first few questions. I will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform AC on 3 questions (don’t laugh at me, boss). Since some topics have been closed,<strong><span style="color: #ff0000;">Unable to see whether AC (the following code may not pass all test cases)</span></strong>, if there are any errors, please point them out, O(∩_∩)OThank you.
+
+address:<a href="http://bailian.openjudge.cn/xly2018/">http://bailian.openjudge.cn/xly2018/</a>
+<h2><strong>A: Calculate the number of days between two dates</strong></h2>
+<strong><span style="color: #ff0000;">Global question number 7595, number of submissions 663, number of attempts 225, number of passes 211</span></strong>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Given two dates, calculate the number of days apart. For example, the difference between 2010-1-1 and 2010-1-3 is 2 days.</dd>
+<dt>enter</dt>
+<dd>Two lines in total:
+The first line contains three integers startYear, startMonth, and startDay, which are the starting year, month, and day respectively.
+The second line contains three integers endYear, endMonth, and endDay, which are the end year, month, and day respectively.
+Separate two adjacent integers with a single space. The year range is 1~3000. Make sure the date is correct and the end date is no earlier than the start date.</dd>
+<dt>output</dt>
+<dd>Output an integer, which is the number of days between the two dates.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>2008 1 1
+2009 1 1</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre>366</pre>
+</dd>
+<dt>hint</dt>
+<dd>A leap year is defined as a year divisible by 4, with the exception of years divisible by 100 but not 400, which are not leap years. February in leap years has 29 days.</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;cstdio&gt;
+
+/* 
+第一行包含三个整数startYear，startMonth，startDay，分别是起始年、月、日。
+第二行包含三个整数endYear，endMonth，endDay，分别是结束年、月、日。
+ */
+
+int leappp(int n){
+    if((n % 4 == 0 &amp;&amp; n % 100 != 0) || n % 400 == 0)return 1;
+    return 0;
+}
+
+int month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+int main(){
+    int startYear, startMonth, startDay;
+    int endYear, endMonth, endDay;
+    int res = 0;
+    scanf("%d%d%d", &amp;startYear, &amp;startMonth, &amp;startDay);
+    scanf("%d%d%d", &amp;endYear, &amp;endMonth, &amp;endDay);
+
+    if(startYear == endYear){
+        if(startMonth == endMonth){
+            printf("%d\n", endDay - startDay);
+            return 0;
+        }else{
+            for(int i = startMonth; i &lt; endMonth; i++){
+                if(i == 2)res += leappp(startYear);
+                res += month[i - 1];
+            }
+            res = res - startDay + endDay;
+            printf("%d\n", res);
+        }
+    }else{
+        for(int i = startYear; i &lt; endYear; i++){
+            res += 365 + leappp(i);
+        }
+        int prestart = 0;
+        for(int i = 1; i &lt; startMonth; i++){
+            if(i == 2)prestart += leappp(startYear);
+            prestart += month[i];
+        }
+        prestart += startDay;
+        res -= prestart;
+        for(int i = 1; i &lt; endMonth; i++){
+            if(i == 2)res += leappp(endYear);
+            res += month[i];
+        }
+        res += endDay;
+        printf("%d\n", res);
+    }
+
+    return 0;
+}</code></pre>
+<hr/>
+<dl class="problem-params">
+<dt>
+<h2><strong>B: palindrome substring</strong></h2>
+</dt>
+</dl>
+<strong><span style="color: #ff0000;">Global question number 17415, number of submissions 450, number of attempts 215, number of passes 199</span></strong>
+<dl class="problem-params">
+<dt>dynamic programming</dt>
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Given a string, find and output the longest palindrome substring in the string. A palindrome is a string that reads the same from left to right and from right to left.
+If the string contains multiple palindrome substrings, the first one is returned.</dd>
+<dt>enter</dt>
+<dd>The first line is the integer n, the number of strings (n &lt; 20)</dd>
+<dt>output</dt>
+<dd>Next n lines, each line contains a string
+The length of the string does not exceed 100</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>3
+ab
+babadec
+scdedcd
+</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">a
+bab
+cdedc</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+string work(string str){
+    if(str.size() &lt; 2)return str;
+    bool dp[101][101];
+    int start = 0, len = 1;
+    for(int i = 0; i &lt; str.size(); i++){
+        dp[i][i] = true;
+        if(i &lt; str.size() - 1 &amp;&amp; str[i] == str[i + 1])dp[i][i + 1] = dp[i + 1][i] = true;
+        for(int j = i - 1; j &gt;= 0; j--){
+            if(str[i] == str[j]){
+                dp[i][j] = dp[i - 1][j + 1];
+                if(dp[i][j] &amp;&amp; i - j + 1 &gt; len){
+                    start = j;
+                    len = i - j + 1;
+                }
+            }
+        }
+    }
+    return str.substr(start, len);
+}
+
+int main(){
+    int T;
+    string str;
+    cin&gt;&gt;T;
+    while(T--){
+        cin&gt;&gt;str;
+        cout&lt;&lt;work(str)&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+<hr/>
+<h2><strong>C:The Die Is Cast</strong></h2>
+<span style="color: #ff0000;"><strong>Global question number 483, number of submissions 293, number of attempts 77, number of passes 39</strong></span>
+<strong>DFS backtracking</strong>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>InterGames is a high-tech startup company that specializes in developing technology that allows users to play games over the Internet. A market analysis has alerted them to the fact that games of chance are pretty popular among their potential customers. Be it Monopoly, ludo or backgammon, most of these games involve throwing dice at some stage of the game.
+Of course, it would be unreasonable if players were allowed to throw their dice and then enter the result into the computer, since cheating would be way to easy. So, instead, InterGames has decided to supply their users with a camera that takes a picture of the thrown dice, analyzes the picture and then transmits the outcome of the throw automatically.For this they desperately need a program that, given an image containing several dice, determines the numbers of dots on the dice.We make the following assumptions about the input images. The images contain only three different pixel values: for the background, the dice and the dots on the dice. We consider two pixels connected if they share an edge - meeting at a corner is not enough. In the figure, pixels A and B are connected, but B and C are not.
+
+<center><img alt="" class="alignnone size-full wp-image-5810" height="175" src="https://cdn.omegaxyz.com/2019/05/the-die-is-cast.gif" width="176"/></center>
+A set S of pixels is connected if for every pair (a,b) of pixels in S, there is a sequence a1, a2, ..., ak in S such that a = a1 and b = ak , and a<sub>i</sub> and a<sub>i+1</sub> are connected for 1 &lt;= i &lt; k.
+
+We consider all maximally connected sets consisting solely of non-background pixels to be dice. `Maximally connected' means that you cannot add any other non-background pixels to the set without making it dis-connected. Likewise we consider every maximal connected set of dot pixels to form a dot.</dd>
+<dt>enter</dt>
+<dd>The input consists of pictures of several dice throws. Each picture description starts with a line containing two numbers w and h, the width and height of the picture, respectively. These values satisfy 5 &lt;= w, h &lt;= 50.
+
+The following h lines contain w characters each. The characters can be: "." for a background pixel, "*" for a pixel of a die, and "X" for a pixel of a die's dot.
+
+Dice may have different sizes and not be entirely square due to optical distortion. The picture will contain at least one die, and the numbers of dots per die is between 1 and 6, inclusive.
+
+The input is terminated by a picture starting with w = h = 0, which should not be processed.</dd>
+<dt>output</dt>
+<dd>For each throw of dice, first output its number. Then output the number of dots on the dice in the picture, sorted in increasing order.
+
+Print a blank line after each test case.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre class="">30 15
+..............................
+..............................
+...............*..............
+...*****......****............
+...*X***.....**X***...........
+...*****....***X**............
+...***X*.....****.............
+...*****.......*..............
+..............................
+........***........******.....
+.......**X****.....*X**X*.....
+......*******......******.....
+.....****X**.......*X**X*.....
+........***........******.....
+..............................
+0 0</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">Throw 1
+1 2 2 4</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+int sum;
+int m, n;
+char v[55][55];
+int go[][2] = {0, 1, 0, -1, 1, 0, -1, 0};
+
+void DFSX(int x, int y){
+    //目的是将相邻的X换成*
+    v[x][y] = '*';
+    for(int i = 0; i &lt; 4; i++){
+        int nx = x + go[i][0];
+        int ny = y + go[i][1];
+        if(nx &lt; 0 || nx &gt; m - 1 || ny &lt; 0 || ny &gt; n - 1)continue;
+        if(v[nx][ny] == 'X')DFSX(nx, ny);
+    }
+}
+
+void DFSstar(int x, int y){
+    v[x][y] = '.';
+    for(int i = 0; i &lt; 4; i++){
+        int nx = x + go[i][0];
+        int ny = y + go[i][1];
+        if(nx &lt; 0 || nx &gt; m - 1 || ny &lt; 0 || ny &gt; n - 1)continue;
+        if(v[nx][ny] == 'X'){
+            DFSX(nx, ny);
+            sum++; //相邻的X换成*号后就只有1个了
+        }
+        if(v[nx][ny] == '*')DFSstar(nx, ny); //如果是*就继续搜索，直到将所有点都搜完
+    }
+}
+
+int main(){
+    int t = 1;
+    
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(m == 0 || n == 0)break;
+        vector&lt;int&gt; ans;
+        for(int i = 0; i &lt; m; i++){
+            scanf("%s", v[i]);
+        }
+        for(int i = 0; i &lt; m; i++){
+            for(int j = 0; j &lt; n; j++){
+                if(v[i][j] == '*'){
+                    sum = 0;
+                    DFSstar(i, j);
+                    ans.push_back(sum);
+                }
+            }
+        }
+        sort(ans.begin(), ans.end());
+        cout&lt;&lt;"Throw "&lt;&lt;t&lt;&lt;endl;
+        t++;
+        for(int i = 0; i &lt; ans.size(); i++){
+            printf("%d%s", ans[i], i == ans.size() - 1 ? "\n\n" : " ");
+        }
+    }
+    return 0;
+}</code></pre>
+<hr/>
+<h2><strong>D:Euro Efficiency</strong></h2>dynamic programming<span style="color: #ff0000;"><strong>Global question number 254, number of submissions 90, number of attempts 35, number of passes 17</strong></span>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>On January 1st 2002, The Netherlands, and several other European countries abandoned their national currency in favour of the Euro. This changed the ease of paying, and not just internationally.
+A student buying a 68 guilder book before January 1st could pay for the book with one 50 guilder banknote and two 10 guilder banknotes, receiving two guilders in change. In short:50+10+10-1-1=68. Other ways of paying were: 50+25-5-1-1, or 100-25-5-1-1.Either way, there are always 5 units (banknotes or coins) involved in the payment process, and it
+could not be done with less than 5 units.
+Buying a 68 Euro book is easier these days: 50+20-2 = 68, so only 3 units are involved.This is no coincidence; in many other cases paying with euros is more efficient than paying with guilders. On average the Euro is more efficient. This has nothing to do, of course, with the value of the Euro, but with the units chosen. The units for guilders used to be: 1, 2.5, 5, 10, 25, 50,whereas the units for the Euro are: 1, 2, 5, 10, 20, 50.
+For this problem we restrict ourselves to amounts up to 100 cents. The Euro has coins with values 1, 2, 5, 10, 20, 50 eurocents. In paying an arbitrary amount in the range [1, 100] eurocents, on average 2.96 coins are involved, either as payment or as change. The Euro series is not optimal in this sense. With coins 1, 24, 34, 39, 46, 50 an amount of 68 cents can be paid using two coins.The average number of coins involved in paying an amount in the range [1, 100] is 2.52.
+Calculations with the latter series are more complex, however. That is, mental calculations.These calculations could easily be programmed in any mobile phone, which nearly everybody carries around nowadays. Preparing for the future, a committee of the European Central Bank is studying the efficiency of series of coins, to find the most efficient series for amounts up to 100 eurocents. They need your help.
+Write a program that, given a series of coins, calculates the average and maximum number of coins needed to pay any amount up to and including 100 cents. You may assume that both parties involved have sufficient numbers of any coin at their disposal.</dd>
+<dt>enter</dt>
+<dd>The first line of the input contains the number of test cases. Each test case is described by 6 different positive integers on a single line: the values of the coins, in ascending order. The first number is always 1. The last number is less than 100.</dd>
+<dt>output</dt>
+<dd>For each test case the output is a single line containing first the average and then the maximum number of coins involved in paying an amount in the range [1, 100]. These values are separated by a space. As in the example, the average should always contain two digits behind the decimal point. The maximum is always an integer.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>3
+1 2 5 10 20 50
+1 24 34 39 46 50
+1 2 3 7 19 72</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">2.96 5
+2.52 3
+2.80 4</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+vector&lt;int&gt; coins(6);
+
+int min(int a, int b){
+    return a  &lt;  b  ? a : b;
+}
+
+int main(){
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        int dp[101], max_ = 0;
+        double ave = 0;
+        for(int i = 0; i &lt; 6; i++){
+            cin&gt;&gt;coins[i];
+        }
+        for(int i = 1; i &lt;= 100; i++)
+            dp[i] = 999;
+
+        for(int i = 0; i &lt; 6; i++){
+            for(int j = coins[i]; j &lt;= 100; j++){
+                dp[j] = min(dp[j], dp[j - coins[i]]+1);
+            }
+        }
+        for(int i = 0; i &lt; 6; i++){
+            for(int j = 100 - coins[i]; j &gt;= 1; j--){
+                dp[j] = min(dp[j], dp[j + coins[i]]+1);
+            }
+        }
+
+        for(int i = 1; i &lt;= 100; i++){
+            ave += dp[i];
+            max_ = max_ &gt; dp[i] ? max_ : dp[i];
+        }
+        printf("%.2f %d\n", ave/100, max_);
+    }
+    return 0;
+}
+
+</code></pre>
+<hr/>
+
+ </div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18724">
+          <strong>1</strong>
+          <time>2020-03-26 20:35:09</time>
+          <div>Euro Efficiency中动态规划的二重循环次数不够，无法仿真高面值货币的情况，建议j的范围到2000</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构图的基本操作及遍历（存储结构为邻接矩阵） · OmegaXYZ</title>
+  <meta name="description" content="数据结构图的基本操作及遍历 邻接表的存储结构遍历请看 https://omegaxyz.com/2017/05/16/graphofds/ 实验目的： 编写程序，建立该图的邻接矩阵存储。 基于上面所建立的存储结构，编程实现深度优先和广度优先搜索算法。 头文件 文中使用到的队列请使用C++ &lt;queue&gt;头文件或自己写 函数 ①图的构建 ②...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/17/graphofds2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-17</div>
+        <h1>数据结构图的基本操作及遍历（存储结构为邻接矩阵）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">数据结构图的基本操作及遍历
+
+邻接表的存储结构遍历请看<a href="https://omegaxyz.com/2017/05/16/graphofds/">https://omegaxyz.com/2017/05/16/graphofds/</a>
+
+实验目的：
+
+编写程序，建立该图的邻接矩阵存储。
+
+基于上面所建立的存储结构，编程实现深度优先和广度优先搜索算法。
+
+头文件
+<pre ><code class="language-c++">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define OK 1
+#define ERROR 0
+#define TRUE 1
+#define FALSE 0
+
+typedef int Status; /* Status是函数的类型,其值是函数结果状态代码，如OK等 */
+typedef int Boolean; /* Boolean是布尔类型,其值是TRUE或FALSE */
+
+typedef char VertexType; /* 顶点类型应由用户定义 */
+typedef int EdgeType; /* 边上的权值类型应由用户定义 */
+
+#define MAXSIZE 9 /* 存储空间初始分配量 */
+#define MAXEDGE 15
+#define MAXVEX 9
+#define INFINITY 65535
+
+typedef struct
+{
+    VertexType vexs[MAXVEX]; /* 顶点表 */
+    EdgeType arc[MAXVEX][MAXVEX];/* 邻接矩阵，可看作边表 */
+    int numVertexes, numEdges; /* 图中当前的顶点数和边数 */
+}MGraph;</code></pre>
+文中使用到的队列请使用C++  &lt;queue&gt;头文件或自己写
+
+函数
+
+①图的构建
+<pre ><code class="language-default">void CreateMGraph(MGraph *G)
+{
+    int i, j;
+
+    G-&gt;numEdges=12;
+    G-&gt;numVertexes=9;
+
+    G-&gt;vexs[0]='0';
+    G-&gt;vexs[1]='1';
+    G-&gt;vexs[2]='2';
+    G-&gt;vexs[3]='3';
+    G-&gt;vexs[4]='4';
+    G-&gt;vexs[5]='5';
+    G-&gt;vexs[6]='6';
+    G-&gt;vexs[7]='7';
+    G-&gt;vexs[8]='8';
+
+
+    for (i = 0; i &lt; G-&gt;numVertexes; i++)/* 初始化图 */
+    {
+        for ( j = 0; j &lt; G-&gt;numVertexes; j++)
+        {
+            G-&gt;arc[i][j]=0;
+        }
+    }
+
+    G-&gt;arc[0][2]=1;
+
+    G-&gt;arc[1][3]=1;
+    G-&gt;arc[1][4]=1;
+
+    G-&gt;arc[2][4]=1;
+    G-&gt;arc[2][5]=1;
+
+    G-&gt;arc[3][6]=1;
+    G-&gt;arc[3][7]=1;
+
+    G-&gt;arc[4][7]=1;
+    G-&gt;arc[4][8]=1;
+
+    G-&gt;arc[5][7]=1;
+
+    G-&gt;arc[6][7]=1;
+    G-&gt;arc[7][8]=1;
+
+
+    for(i = 0; i &lt; G-&gt;numVertexes; i++)
+    {
+        for(j = i; j &lt; G-&gt;numVertexes; j++)
+        {
+            G-&gt;arc[j][i] =G-&gt;arc[i][j];
+        }
+    }
+
+}
+
+Boolean visited[MAXVEX]; //访问标志的数组</code></pre>
+②DFS遍历
+<pre ><code class="language-c++">void DFS(MGraph G, int i)
+{
+    int j;
+    visited[i] = TRUE;
+    printf("%c ", G.vexs[i]);/* 打印顶点，也可以其它操作 */
+    for(j = 0; j &lt; G.numVertexes; j++)
+        if(G.arc[i][j] == 1 &amp;&amp; !visited[j])
+            DFS(G, j);/* 对为访问的邻接顶点递归调用 */
+}
+
+/* 邻接矩阵的深度遍历操作 */
+void DFSTraverse(MGraph G)
+{
+    int i;
+    for(i = 0; i &lt; G.numVertexes; i++)
+        visited[i] = FALSE; /* 初始所有顶点状态都是未访问过状态 */
+    for(i = 0; i &lt; G.numVertexes; i++)
+        if(!visited[i]) /* 对未访问过的顶点调用DFS，若是连通图，只会执行一次 */
+            DFS(G, i);
+}</code></pre>
+③BFS遍历
+<pre ><code class="language-c++">void BFSTraverse(ALGraph G,VertexType x)
+{
+    struct
+    {
+        ArcNode *Q[Maxsize];
+        int front,rear;
+    }Que;
+    Que.front=Que.rear;
+    int k,i;
+    k=LocateX(G,x);
+    visited[k]=1;
+    printf("%d /",G.vertices[k].data);
+    Que.rear=(Que.rear+1)%Maxsize;
+    Que.Q[Que.rear]=G.vertices[k].firstarc;
+    ArcNode *p;
+    while(Que.rear!=Que.front)
+    {
+        Que.front=(Que.front+1)%Maxsize;
+        p=Que.Q[Que.front];
+        while(p)
+        {
+            if(visited[p-&gt;adjvex]==0)
+            {
+                visited[p-&gt;adjvex]=1;
+                printf("%d /",G.vertices[p-&gt;adjvex].data);
+                Que.rear=(Que.rear+1)%Maxsize;
+                Que.Q[Que.rear]=G.vertices[p-&gt;adjvex].firstarc;
+            }
+            p=p-&gt;nextarc;
+        }
+    }
+}
+</code></pre>
+MAIN函数
+<pre ><code class="language-c++">int main(void)
+{
+    MGraph G;
+    printf("--------------徐奕 软件工程 E21614061--------------------\n");
+    CreateMGraph(&amp;G);
+    printf("\n深度遍历序列为：");
+    DFSTraverse(G);
+    printf("\n广度遍历序列为：");
+    BFSTraverse(G);
+    return 0;
+}
+</code></pre>
+<img class="alignnone wp-image-775" src="https://cdn.omegaxyz.com/2017/05/Graph4-300x62.png" alt="" width="706" height="146" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

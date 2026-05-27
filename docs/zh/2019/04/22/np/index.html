@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>算法复杂度与NP问题 · OmegaXYZ</title>
+  <meta name="description" content="引言 美剧《基本演绎法》S2E2中，两位研究 NP 问题的数学家被谋杀了，凶手是同行，因为被害者即将证明“P=NP 问题”。假设人类证明了P=NP 是真的，那么就会有一个算法，能够很快算出某个帐号的密码。《基本演绎法》里面所想象的可能就要成真了，所有的加密系统都会失去效果——应该说，所有会把密码变成数字信息的系统都会失去效果。 一大批耳熟...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/22/np/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-22</div>
+        <h1>算法复杂度与NP问题</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>引言</strong></h2>
+美剧《基本演绎法》S2E2中，两位研究 NP 问题的数学家被谋杀了，凶手是同行，因为被害者即将证明“P=NP 问题”。假设人类证明了P=NP 是真的，那么就会有一个算法，能够很快算出某个帐号的密码。《基本演绎法》里面所想象的可能就要成真了，所有的加密系统都会失去效果——应该说，所有会把密码变成数字信息的系统都会失去效果。
+<ul>
+ 	<li>一大批耳熟能详的游戏，如扫雷、俄罗斯方块、超级玛丽等，人们将为它们编写出高效的AI，使得电脑玩游戏的水平无人能及。</li>
+ 	<li>整数规划、旅行商问题等许多运筹学中的难题会被高效地解决，这个方向的研究将提升到前所未有的高度。</li>
+ 	<li>蛋白质的折叠问题也是一个 NPC 问题，新的算法无疑是生物与医学界的一个福音。</li>
+</ul>
+
+<hr />
+
+<h2><strong>算法复杂度</strong></h2>
+一个具有时间复杂度为<strong><em>O(p(n))</em></strong>的算法，其中<strong><em>p(n)</em></strong>是一个多项式函数，成为多项式算法（polynomial algorithm）,另一方面不是以多项式函数为界的时间复杂度算法称为指数算法（exponential algorithm）
+
+<hr />
+
+<h2><strong>NP问题的定义</strong></h2>
+<h3><strong>P类问题</strong></h3>
+所有可以在多项式时间内求解的判定问题构成P类问题。
+<h3><strong>判定问题（相对于优化问题）</strong></h3>
+判断是否有一种能够解决某一类问题的能行算法的研究课题，简单地说判定问题的答案只有两种（是、否）
+
+<img class="alignnone size-full wp-image-5714" src="https://cdn.omegaxyz.com/2019/04/NP3.jpg" alt="" width="500" height="313" />
+<h3><strong>NP类问题（Non-deterministic Polynomial）</strong></h3>
+所有的非确定性多项式时间可解的判定问题构成NP类问题。非确定性算法：非确定性算法将问题分解成猜测和验证两个阶段。算法的猜测阶段是非确定性的，算法的验证阶段是确定性的，它验证猜测阶段给出解的正确性。设算法A是解一个判定问题Q的非确定性算法，如果A的验证阶段能在多项式时间内完成，则称A是一个多项式时间非确定性算法。有些计算问题是确定性的，例如加减乘除，只要按照公式推导，按部就班一步步来，就可以得到结果。但是，有些问题是无法按部就班直接地计算出来。比如，找大质数的问题。有没有一个公式能推出下一个质数是多少呢？这种问题的答案，是无法直接计算得到的，只能通过间接的“猜算”来得到结果。这也就是非确定性问题。而这些问题的通常有个算法，它不能直接告诉你答案是什么，但可以告诉你，某个可能的结果是正确的答案还是错误的。这个可以告诉你“猜算”的答案正确与否的算法，假如可以在多项式（polynomial）时间内算出来，就叫做多项式非确定性问题。
+<h3><strong>NPC问题</strong></h3>
+NP中的某些问题的复杂性与整个类的复杂性相关联.这些问题中任何一个如果存在多项式时间的算法,那么所有NP问题都是多项式时间可解的.这些问题被称为NP-完全问题(NPC问题)。
+
+<img class="alignnone size-full wp-image-5713" src="https://cdn.omegaxyz.com/2019/04/NP2.png" alt="" width="507" height="291" />
+
+<hr />
+
+<h2><strong>SAT问题</strong></h2>
+布尔可满足性问题（SATISFIABILITY或SAT），这是第一个被证明的NP问题（即可以在多项式时间验证答案正确与否的问题）
+
+定义：是判断一个以合取范式形式给出的逻辑命题公式是否存在一个真值指派，使得公式为真。
+
+<hr />
+
+<h2><strong>近似解决NPC问题的算法</strong></h2>
+
+<h3><strong>近邻法</strong></h3>
+近邻法（nearest neighbor)　推销员从某个城镇出发，永远选择前往最近且尚未去过的城镇，最后再返回原先的出发点。这方法简单，也许是多数人的直觉做法，但是近邻法的短视使其表现非常不好，通常后段的路程会非常痛苦。
+
+<h3><strong>插入法</strong></h3>
+插入法（insertion)　先产生连接部分点的子路线，再根据某种法则将其它的点逐一加入路线。比如最近插入法（nearest insertion），先针对外围的点建构子路线，然后从剩余的点里面评估何者加入后路线总长度增加的幅度最小，再将这个点加入路线。又比如最远插入法（farthest insertion），是从剩余的点里面选择距离子路线最远的点，有点先苦后甜的滋味。
+
+<h3><strong>模拟退火算法</strong></h3>
+<img class="alignnone wp-image-3007" src="https://cdn.omegaxyz.com/2018/01/ml3.jpg" alt="" width="309" height="303" />
+
+模拟退火算法（Simulated Annealing) 来源于固体退火原理，将固体加温至充分高，再让其徐徐冷却，加温时，固体内部粒子随温升变为无序状，内能增大，而徐徐冷却时粒子渐趋有序，在每个温度都达到平衡态，最后在常温时达到基态，内能减为最小。根据Metropolis准则，粒子在温度T时趋于平衡的概率为e-ΔE/(kT），其中E为温度T时的内能，ΔE为其改变量，k为Boltzmann常数。用固体退火模拟组合优化问题，将内能E模拟为目标函数值f，温度T演化成控制参数t，即得到解组合优化问题的模拟退火算法：由初始解i和控制参数初值t开始，对当前解重复“产生新解→计算目标函数差→接受或舍弃”的迭代，并逐步衰减t值，算法终止时的当前解即为所得近似最优解。
+
+<h3><strong>遗传算法</strong></h3>
+&nbsp;
+
+遗传算法是仿真生物遗传学和自然选择机理，通过人工方式所构造的一类搜索算法，从某种程度上说遗传算法是对生物进化过程进行的数学方式仿真。生物种群的生存过程普遍遵循达尔文进化准则，群体中的个体根据对环境的适应能力而被大自然所选择或淘汰。进化过程的结果反映在个体的结构上，其染色体包含若干基因，相应的表现型和基因型的联系体现了个体的外部特性与内部机理间逻辑关系。通过个体之间的交叉、变异来适应大自然环境。生物染色体用数学方式或计算机方式来体现就是一串数码，仍叫染色体，有时也叫个体；适应能力是对应着一个染色体的一个数值来衡量；染色体的选择或淘汰则按所面对的问题是求最大还是最小来进行。
+
+<h3><strong>神经网络算法</strong></h3>
+<img class="alignnone size-full wp-image-4463" src="https://cdn.omegaxyz.com/2018/06/CNN2.jpg" alt="" width="474" height="277" />
+
+根据一个简化的统计，人脑由百亿条神经组成 — 每条神经平均连结到其它几千条神经。通过这种连结方式，神经可以收发不同数量的能量。神经的一个非常重要的功能是它们对能量的接受并不是立即作出响应，而是将它们累加起来，当这个累加的总和达到某个临界阈值时，它们将它们自己的那部分能量发送给其它的神经。大脑通过调节这些连结的数目和强度进行学习。尽管这是个生物行为的简化描述。但同样可以充分有力地被看作是神经网络的模型。
+
+<hr />
+
+<h2><strong>参考文献</strong></h2>
+<ol>
+ 	<li>https://baike.baidu.com/item/NP%E5%AE%8C%E5%85%A8%E9%97%AE%E9%A2%98/4934286?fr=aladdin</li>
+ 	<li>https://blog.csdn.net/hawo11/article/details/74908233</li>
+ 	<li>https://en.wikipedia.org/wiki/List_of_NP-complete_problems</li>
+</ol></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

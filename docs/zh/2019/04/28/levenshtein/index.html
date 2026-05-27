@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Levenshtein编辑距离C++实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 Levenshtein Distance是1965年由苏联数学家Vladimir Levenshtein发明的。Levenshtein Distance也被称为编辑距离（Edit Distance）。 在信息论和计算机科学中，Levenshtein Distance是一个度量两个字符序列之间差异的字符串度量标准，两个单词之间的Lev...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/28/levenshtein/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-28</div>
+        <h1>Levenshtein编辑距离C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+Levenshtein Distance是1965年由苏联数学家Vladimir Levenshtein发明的。Levenshtein Distance也被称为编辑距离（Edit Distance）。
+
+在信息论和计算机科学中，Levenshtein Distance是一个度量两个字符序列之间差异的字符串度量标准，两个单词之间的Levenshtein Distance是将一个单词转换为另一个单词所需的单字符编辑（插入、删除或替换）的最小数量。
+
+<hr />
+
+<h2><strong>定义</strong></h2>
+对于两个字符串a, b
+
+<img class="wp-image-5721 aligncenter" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance1.png" alt="" width="841" height="144" />
+
+<hr />
+
+<h2><strong>例子</strong></h2>
+<ul>
+ 	<li>1.kitten-&gt;sitten(用’s’取代‘k’)</li>
+ 	<li>2.sitten-&gt;sittin(用’i’取代’e’)</li>
+ 	<li>3.sittin-&gt;sitting(在末尾插入’g’)</li>
+</ul>
+因此距离为3
+
+<hr />
+
+<h2><strong>上下界</strong></h2>
+1.至少总是两个字符串大小的差值；
+
+2.至多是较长字符串的长度；
+
+3.当且仅当两个字符串相等时值为0；
+
+4.如果两个字符串大小相等，汉明距离是其上界；
+
+5.两个字符串的莱文斯坦距离不大于分别与第三个字符串的莱文斯坦距离之和（三角不等式）。
+
+<hr />
+
+<h2><strong>C++代码</strong></h2>
+<strong>包含递归与动态规划</strong>
+
+<strong>动态规划矩阵示意图：</strong>
+
+<img class="alignnone  wp-image-5723" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance3.png" alt="" width="426" height="255" />
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;ctime&gt;
+using namespace std;
+
+int min3(int a, int b, int c){
+    a = a &lt; b ? a : b;
+    return a &lt; c ? a : c;
+}
+
+int LevenshteinDis(string s, int s_len, string t, int t_len){
+    int cost;
+    //基本情况，若字符串s和t的最小距离为0，则返回其中的最大距离作为编辑距离  
+    if(s_len == 0)return t_len;
+    if(t_len == 0)return s_len;
+    //测试s和t的各自最后一个字符是否匹配  
+    if(s[s_len - 1] == t[t_len - 1])cost = 0;
+    else cost = 1;
+    return min3(LevenshteinDis(s, s_len - 1, t, t_len) + 1,
+                LevenshteinDis(s, s_len, t, t_len - 1) + 1,
+                LevenshteinDis(s, s_len - 1, t, t_len - 1) + cost);
+    
+}
+
+int LevenshteinDP(string s, string t){
+    //levenshtein距离的自底向上方式的动态规划实现，把重复计算的距离存入一个矩阵中
+    int dp[s.length()+1][t.length()+1];//d[i][j]表示字符串s的前i字符和t的前j个字符的莱文斯坦距离
+    for(int i = 0; i &lt;= s.length(); i++)dp[i][0] = i;//源字符串s到空字符串t只要删除每个字符
+    for(int j = 1; j &lt;= t.length(); j++)dp[0][j] = j;//从空字符s到目标字符t只要添加每个字符
+    for(int j = 0; j &lt; t.length(); j++){
+        for(int i = 0; i &lt; s.length(); i++){
+            if(s[i] == t[j])dp[i+1][j+1] = dp[i][j];//无任何操作
+            else dp[i+1][j+1] = min3(dp[i][j+1]+1, dp[i+1][j]+1, dp[i][j]+1);
+            //分别为删除、添加、替换操作
+        }
+    }
+    return dp[s.length()][t.length()];
+}
+
+
+
+int main(){
+    string m = "kittesnsssdcjks";
+    string n = "sitdftingwcsdcc";
+    clock_t start,finish;
+    double totaltime;
+    start=clock();
+    cout&lt;&lt;"recursion: "&lt;&lt;LevenshteinDis(m, m.length(), n, n.length())&lt;&lt;endl;
+    finish=clock();
+    totaltime=(double)(finish-start)/CLOCKS_PER_SEC;
+    cout&lt;&lt;"递归运行时间为"&lt;&lt;totaltime&lt;&lt;"秒！"&lt;&lt;endl&lt;&lt;endl;
+
+    start=clock();
+    cout&lt;&lt;"Dynamic Programming: "&lt;&lt;LevenshteinDP(m, n)&lt;&lt;endl;
+    finish=clock();
+    totaltime=(double)(finish-start)/CLOCKS_PER_SEC;
+    cout&lt;&lt;"DP运行时间为"&lt;&lt;totaltime&lt;&lt;"秒！"&lt;&lt;endl&lt;&lt;endl;
+    return 0;
+}</code></pre>
+结果：
+
+<img class="alignnone  wp-image-5724" src="https://cdn.omegaxyz.com/2019/04/Levenshtein-distance4.png" alt="" width="565" height="99" />
+
+可以看到DP时间很快
+
+<hr />
+
+<h2><strong>参考资料</strong></h2>
+https://en.wikipedia.org/wiki/Levenshtein_distance
+
+https://blog.csdn.net/lhkaikai/article/details/25186255
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

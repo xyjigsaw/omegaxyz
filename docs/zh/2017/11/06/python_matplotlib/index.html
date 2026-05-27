@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python matplotlib模块画简单图像 · OmegaXYZ</title>
+  <meta name="description" content="Matplotlib 是一个 Python 的 2D绘图库，它以各种硬拷贝格式和跨平台的交互式环境生成出版质量级别的图形 [1] 。 通过 Matplotlib，开发者可以仅需要几行代码，便可以生成绘图，直方图，功率谱，条形图，错误图，散点图等。 Matplotlib基础知识 1.Matplotlib中的基本图表包括的元素 x轴和y轴 水...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/06/python_matplotlib/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-06</div>
+        <h1>Python matplotlib模块画简单图像</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a></div>
+        <div class="article-content"><div class="para">Matplotlib 是一个 <a href="https://baike.baidu.com/item/Python" target="_blank" rel="noopener">Python</a> 的 2D绘图库，它以各种硬拷贝格式和跨平台的交互式环境生成出版质量级别的图形<sup>[1]</sup><a class="sup-anchor" name="ref_[1]_21128868"></a>  。</div>
+<div class="para">通过 Matplotlib，开发者可以仅需要几行代码，便可以生成绘图，直方图，功率谱，条形图，错误图，散点图等。</div>
+<div class="para">Matplotlib基础知识</div>
+<div class="para"><strong>1.Matplotlib中的基本图表包括的元素</strong></div>
+<div class="para">x轴和y轴</div>
+<div class="para">水平和垂直的轴线</div>
+<div class="para">x轴和y轴刻度</div>
+<div class="para">刻度标示坐标轴的分隔，包括最小刻度和最大刻度</div>
+<div class="para">x轴和y轴刻度标签</div>
+<div class="para">表示特定坐标轴的值</div>
+<div class="para">绘图区域</div>
+<div class="para">实际绘图的区域</div>
+<div class="para"><strong>2.hold属性</strong></div>
+<div class="para">hold属性默认为True，允许在一幅图中绘制多个曲线；将hold属性修改为False，每一个plot都会覆盖前面的plot。</div>
+<div class="para">但是目前不推荐去动hold这个属性，这种做法（会有警告）。因此使用默认设置即可。</div>
+<div class="para"><strong>3.网格线</strong></div>
+<div class="para">grid方法</div>
+<div class="para">使用grid方法为图添加网格线</div>
+<div class="para">设置grid参数（参数与plot函数相同）</div>
+<div class="para">.lw代表linewidth，线的粗细</div>
+<div class="para">.alpha表示线的明暗程度</div>
+<div class="para"><strong>4.axis方法</strong></div>
+<div class="para">如果axis方法没有任何参数，则返回当前坐标轴的上下限</div>
+<div class="para"><strong>5.xlim方法和ylim方法</strong></div>
+<div class="para">除了plt.axis方法，还可以通过xlim，ylim方法设置坐标轴范围</div>
+<div class="para"><strong>6.legend方法</strong></div>
+<div class="para">两种传参方法：</div>
+<div class="para">【推荐使用】在plot函数中增加label参数</div>
+<div class="para">在legend方法中传入字符串列表</div>
+<div class="para">配置matplotlib参数</div>
+<div class="para">永久配置</div>
+<div class="para">matplotlib配置信息是从配置文件读取的。在配置文件中可以为matplotlib的几乎所有属性指定永久有效的默认值</div>
+<div class="para">安装级配置文件（Per installation configuration file)</div>
+<div class="para">Python的site-packages目录下（site-packages/matplotlib/mpl-data/matplotlibrc）</div>
+<div class="para">系统级配置，每次重新安装matplotlib后，配置文件会被覆盖</div>
+<div class="para">如果希望保持持久有效的配置，最好选择在用户级配置文件中进行设置</div>
+<div class="para">对本配置文件的最佳应用方式，是将其作为默认配置模板</div>
+<div class="para">用户级.matplotlib/matplotlibrc文件（Per user .matplotlib/matplotlibrc）</div>
+<div class="para">用户的Documents and Settings目录</div>
+<div class="para">可以用matplotlib.get_configdir()命令来找到当前用户的配置文件目录</div>
+<div class="para">当前工作目录</div>
+<div class="para">代码运行的目录</div>
+<div class="para">在当前目录下，可以为目录所包含的当前项目代码定制matplotlib配置项。配置文件的文件名是matplotlibrc</div>
+<div class="para">在Windows系统中，没有全局配置文件，用户配置文件的位置在C:\Documents and Settings\yourname\.matplotlib。</div>
+<div class="para">在Linux系统中，全局配置文件的位置在/etc/matplotlibrc，用户配置文件的位置在$HOME/.matplotlib/matplotlibrc。</div>
+<div class="para">动态配置</div>
+<div class="para">程序中配置代码</div>
+<div class="para">To finetune settings only for that execution; this overwrites every configuration file.</div>
+<div class="para">配置方法的优先级为：</div>
+<div class="para">Matplotlib functions in Python code</div>
+<div class="para">matplotlibrc file in the current directory</div>
+<div class="para">User matplotlibrc file</div>
+<div class="para">Global matplotlibrc file</div>
+<div class="para">rcParams方法</div>
+<div class="para">通过rcParams字典访问并修改所有已经加载的配置项</div>
+<div></div>
+<div>一个简单的例子：</div>
+<pre ><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+# **coding=utf-8
+
+x = np.array([-0.5, -1.5, -2, -3.5,-5,-6,-6.2,-6.25,-6.3,-6.35,   0.2,0.4,0.6,0.7,0.72,0.74,0.76,0.78,0.8,0.82])
+y = np.array([-0.1,-0.5,-0.6,-1,-1.5,-1.75,-2,-6,-46.5,-74.5,    0,0.45,0.5,1,1.6,3.25,5.5,8,15.4,35.5])
+
+z1 = np.polyfit(x, y,1)  # 用3次多项式拟合
+
+p1 = np.poly1d(z1)
+
+print(p1)  # 在屏幕上打印拟合多项式
+
+yvals = p1(x)  # 也可以使用yvals=np.polyval(z1,x)
+
+plot1 = plt.plot(x, y, '*', label='original')
+plot2 = plt.plot(x, yvals, 'r', label='ployfit')
+
+plt.xlabel(u'X')
+plt.ylabel(u'Y')
+plt.legend(loc=4)  # 指定legend的位置,读者可以自己help它的用法
+plt.title('UnLiner R Curve ')
+plt.grid()
+plt.show()
+</code></pre>
+<img class="alignnone size-medium wp-image-2292" src="https://cdn.omegaxyz.com/2017/11/matplot-300x251.jpg" alt="" width="300" height="251" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

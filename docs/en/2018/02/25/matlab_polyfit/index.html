@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB curve fitting · OmegaXYZ</title>
+  <meta name="description" content="Curve fitting function Polynomial fitting function: polyfit. The result of this function will ensure that the sum of squares of the difference between the fitted value and the data value at the data point is minimized, that is, a least squares curve fit. Calling format: polyfit(X,Y,n) Executing this function will generate an n-order polynomial P, and make P(X)=Y. Example: Use a fifth-order polynomial to perform least squares fitting of the sine function on [0,pi/2]. Interpolation function Interpolation is divided into one-dimensional interpolation and two-dimensional interpolation. One-dimensional interpolation is...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/25/matlab_polyfit/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-25</div>
+        <h1>MATLAB curve fitting</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><b>curve fitting function</b>Polynomial fitting function: polyfit. The result of this function will ensure that the sum of squares of the difference between the fitted value and the data value at the data point is minimized, that is, a least squares curve fit.
+Calling format: polyfit(X,Y,n)
+Executing this function will produce a polynomial P of order n such that P(X)=Y.
+
+Example: Use a fifth-order polynomial to perform least squares fitting of the sine function on [0,pi/2].<pre><code class="language-matlab">x=0:pi/20:pi/2; 
+y=sin(x);
+a=polyfit(x,y,5);  %用5阶多项式拟合
+x1=0:pi/30:pi/2; 
+y1=sin(x1);
+y2=a(1)*x1.^5+a(2)*x1.^4+a(3)*x1.^3+a(4)*x1.^2+a(5)*x1+a(6);
+plot(x1,y1,'b-',x1,y2,'r*')
+legend('原曲线','拟合曲线')
+axis([0,2,0,1.5])
+</code></pre>
+<b>interpolation function</b>Interpolation is divided into one-dimensional interpolation and two-dimensional interpolation. One-dimensional interpolation is to interpolate data points in the direction of the line; two-dimensional interpolation can be understood as interpolation in the direction of the surface.
+
+The one-dimensional interpolation function is the simplest and most important interpolation function. Its calling method is:
+
+Y1=interp(X,Y,X1,'interpolation method')
+
+Among them, X is the node vector value, Y is the corresponding node function value, and X1 is the interpolation point. The returned Y1 is the function value that calculates the interpolation point X1.<img alt="" class="alignnone size-full wp-image-3515" height="437" src="https://cdn.omegaxyz.com/2018/02/matlab_plotfit.jpg" width="622"/>Interpolation methods are:
+
+nearest Linear nearest term interpolation
+linear linear interpolation (default method)
+spine cubic spline interpolation
+cubic cubic interpolation
+
+Requirement: X may not be equally spaced, but it must be monotonic.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

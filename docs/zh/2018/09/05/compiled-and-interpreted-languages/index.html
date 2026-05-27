@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译型、解释型与脚本语言 · OmegaXYZ</title>
+  <meta name="description" content="编译型语言在程序执行之前，有一个单独的编译过程，将程序翻译成机器语言就不用再进行翻译了。 解释型语言，是在运行的时候将程序翻译成机器语言，所以运行速度相对于编C/C++ 等都是编译型语言，而Java，C#等都是解释型语言。 虽然Java程序在运行之前也有一个编译过程，但是并不是将程序编译成机器语言，而是将它编译成字节码（可以理解为一个中间...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/05/compiled-and-interpreted-languages/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-05</div>
+        <h1>编译型、解释型与脚本语言</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/programming/index.html">编程语言概述</a></div>
+        <div class="article-content">编译型语言在程序执行之前，有一个单独的编译过程，将程序翻译成机器语言就不用再进行翻译了。
+
+解释型语言，是在运行的时候将程序翻译成机器语言，所以运行速度相对于编C/C++ 等都是编译型语言，而Java，C#等都是解释型语言。
+
+虽然Java程序在运行之前也有一个编译过程，但是并不是将程序编译成机器语言，而是将它编译成字节码（可以理解为一个中间语言）。
+在运行的时候，由JVM将字节码再翻译成机器语言。
+
+脚本语言一般都有相应的脚本引擎来解释执行。 他们一般需要解释器才能运行。JAVASCRIPT,ASP,PHP,PERL,Nuva都是脚本语言。C/C++编译、链接后，可形成独立执行的exe文件。
+<h2>编译型语言</h2>
+<ol>
+ 	<li>编译型语言最大的优势之一就是其执行速度。用C/C++编写的程序运行速度要比用Java编写的相同程序快30%-70%。</li>
+ 	<li>编译型程序比解释型程序消耗的内存更少。</li>
+ 	<li>不利的一面——编译器比解释器要难写得多。</li>
+ 	<li>编译器在调试程序时提供不了多少帮助——有多少次在你的C语言代码中遇到一个“空指针异常”时，需要花费好几个小时来明确错误到底在代码中的什么位置。</li>
+ 	<li>可执行的编译型代码要比相同的解释型代码大许多。例如，C/C++的.exe文件要比同样功能的Java的.class文件大很多。</li>
+ 	<li>编译型程序是面向特定平台的因而是平台依赖的。</li>
+ 	<li>编译型程序不支持代码中实现安全性——例如，一个编译型的程序可以访问内存的任何区域，并且可以对你的PC做它想做的任何事情（大部分病毒是使用编译型语言编写的）</li>
+ 	<li>由于松散的安全性和平台依赖性，编译型语言不太适合开发因特网或者基于Web的应用。</li>
+</ol>
+<h2>解释型语言（包含脚本语言）</h2>
+<ol>
+ 	<li>解释型语言提供了极佳的调试支持。一名Java程序员只需要几分钟就可以定位并修复一个“空指针异常”，因为Java运行环境不仅指明了异常的性质，而且给出了异常发生位置具体的行号和函数调用顺序（著名的堆栈跟踪信息）。这样的便利是编译型语言所无法提供的。</li>
+ 	<li>另一个优势是解释器比编译器容易实现</li>
+ 	<li>解释型语言最大的优势之一是其平台独立性</li>
+ 	<li>解释型语言也可以保证高度的安全性——这是互联网应用迫切需要的</li>
+ 	<li>中间语言代码的大小比编译型可执行代码小很多</li>
+ 	<li>平台独立性，以及严密的安全性是使解释型语言成为适合互联网和Web应用的理想语言的2个最重要的因素。</li>
+ 	<li>解释型语言存在一些严重的缺点。解释型应用占用更多的内存和CPU资源。这是由于，为了运行解释型语言编写的程序，相关的解释器必须首先运行。解释器是复杂的，智能的，大量消耗资源的程序并且它们会占用很多CPU周期和内存。</li>
+ 	<li>由于解释型应用的decode-fetch-execute（解码-抓取-执行）的周期，它们比编译型程序慢很多。</li>
+ 	<li>解释器也会做很多代码优化，运行时安全性检查；这些额外的步骤占用了更多的资源并进一步降低了应用的运行速度。</li>
+</ol>
+<h2><strong>脚本语言</strong></h2>
+定义：为了缩短传统的编写-编译-链接-运行（edit-compile-link-run）过程而创建的计算机编程语言。
+
+它的特点是：程序代码即是最终的执行文件，只是这个过程需要解释器的参与，所以说脚本语言与解释型语言有很大的联系。脚本语言通常是被解释执行的，而且程序是文本文件。
+
+典型的脚本语言有，JavaScript，Python等。
+
+与脚本语言相对应的是系统语言，他们的区别是：
+
+1、抽象的级别：这是最重要也是最明显示的不同。脚本语言对程序员提供了更高级的抽象。这一点明显表现在：在这种语言自身中，存在有高级的数据结构，如列表和字典结构，和对这种结构简单方便的嵌套和操作。这样可以创建非常成功的程序。
+
+2、类型定义：系统语言通常是强类型和静态类型定义。这就意味着所有变量的类型要在程序中指定，在编译时检查。相反地，脚本语言是最松散的类型定义，完全没有类型声明，并且在运行时进行动态类型检查。
+
+3、执行：系统语言的特点是编译的。程序被编译成可执行的二进制。另一方面，脚本语言的特点是解释，也就是，指令被立即执行，不存在一个编译的中间状态。这就意味着脚本语言是交互式的(你可以在提示符下敲入命令，并且看到结果)，这是另一个巨大的胜利。这样完全将编译过程从编辑-编译-运行循环中去掉了。
+
+4、速度：以上三点是脚本语言一方面在速度与效率， 一方面在易用性与表示式的强大性之间进行折衷的典型例子。这就使得脚本语言的执行速度比系统语言慢一个数量级。这就是对脚本语言诽谤最多的方面。性能的降低不是真正的问题，因为思想是用脚本语言来组合组件，这些组件是用象C  这样的快速系统语言来编写的。所以所有需要运行快速的东西将因为是用快速的语言实现的而运行得快速。脚本语言只用于将东西绑在一起，并且这些通常不是性能的瓶颈(   或如果是，你需要重新检查你的设计)。
+
+<strong>解释型语言和脚本语言的区别</strong>
+
+脚本语言是解释型的语言，也就是解释型语言包括脚本语言。
+
+解释语言是说解释执行的语言，但执行的代码并不一定是文本格式的。
+
+脚本语言的程序是文本文件，并且是解释执行的。
+
+&nbsp;
+
+<strong>参考资料</strong>：<a href="https://blog.csdn.net/Andrew_ym/article/details/79514089">https://blog.csdn.net/Andrew_ym/article/details/79514089</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

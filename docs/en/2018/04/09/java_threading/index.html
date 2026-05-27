@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA multi-thread Thread class · OmegaXYZ</title>
+  <meta name="description" content="Threads and processes 1 Thread: The execution unit in the process responsible for program execution. The thread itself relies on the program to run. Threads are the sequential control flow in the program and can only use the resources and environment assigned to the program. 2 Process: The executing program. A process contains at least one thread. 3 Single thread: There is only one thread in the program. In fact, the main method is a main thread. 4 Multi-threading: Running multiple tasks in a program. The purpose is to better use CPU resources. For detailed explanation, please see: https...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/09/java_threading/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-09</div>
+        <h1>JAVA multi-thread Thread class</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a></div>
+        <div class="article-content"><h2>Threads and processes</h2>1 Thread: The execution unit responsible for program execution in the process
+The thread itself relies on the program to run
+A thread is a sequential flow of control in a program that can only use the resources and environment assigned to the program
+
+2 Process: Executing program
+A process contains at least one thread
+
+3 Single thread: There is only one thread in the program. In fact, the main method is a main thread.
+
+4 Multithreading: Run multiple tasks in one program
+The purpose is to make better use of CPU resources
+
+For detailed explanation, please see:<a href="https://omegaxyz.com/2018/03/14/progressandthread/">https://omegaxyz.com/2018/03/14/progressandthread/</a>
+<h2>Thread implementation</h2>
+<h3>Inherit the Thread class</h3>exist<code>java.lang</code>Defined in the package, the inherited Thread class must be rewritten<code>run()</code>method<pre><code class="language-java">class MyThread extends Thread{
+    private static int num = 0;
+ 
+    public MyThread(){
+        num++;
+    }
+ 
+    @Override
+    public void run() {
+        System.out.println("主动创建的第"+num+"个线程");
+    }
+}</code></pre>After creating your own thread class, you can create a thread object and then start the thread through the start() method. Note that the run() method is not called to start the thread. The run method only defines the tasks that need to be performed. If the run method is called, it is equivalent to executing the run method in the main thread. There is no difference from ordinary method calls. At this time, a new thread will not be created to perform the defined tasks.<pre><code class="language-java">public class Test {
+    public static void main(String[] args)  {
+        MyThread thread = new MyThread();
+        thread.start();
+    }
+}
+class MyThread extends Thread{
+    private static int num = 0;
+    public MyThread(){
+        num++;
+    }
+    @Override
+    public void run() {
+        System.out.println("主动创建的第"+num+"个线程");
+    }
+}</code></pre>In the above code, by calling the start() method, a new thread will be created. In order to distinguish the difference between start() method call and run() method call, please look at the following example:<pre><code class="language-java">public class Test {
+    public static void main(String[] args)  {
+        System.out.println("主线程ID:"+Thread.currentThread().getId());
+        MyThread thread1 = new MyThread("thread1");
+        thread1.start();
+        MyThread thread2 = new MyThread("thread2");
+        thread2.run();
+    }
+}
+ 
+class MyThread extends Thread{
+    private String name;
+ 
+    public MyThread(String name){
+        this.name = name;
+    }
+ 
+    @Override
+    public void run() {
+        System.out.println("name:"+name+" 子线程ID:"+Thread.currentThread().getId());
+    }
+}</code></pre>result:<img alt="" class="alignnone size-full wp-image-3975" height="138" src="https://cdn.omegaxyz.com/2018/04/java_threading.jpg" width="374"/>The following conclusions can be drawn from the output results:
+
+1) The thread IDs of thread1 and thread2 are different, and the ID of thread2 and the main thread are the same, which means that calling the run method does not create a new thread, but runs the run method directly in the main thread, which is no different from ordinary method calls;
+
+2) Although the start method call of thread1 is called before the run method of thread2, the information related to the run method call of thread2 is output first, indicating that the process of creating a new thread will not block the subsequent execution of the main thread.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

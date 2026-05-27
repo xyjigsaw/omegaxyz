@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>子集生成算法模板C++实现 · OmegaXYZ</title>
+  <meta name="description" content="子集生成简介 给定n个数字，枚举出所有可能的子集 例如给定n=3，枚举出{1，2，3}所有可能的子集 {1}、{2}、{3}、{1,2}、{1,2,3}、{2,3} 增量构造法 位向量法 二进制法">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/08/gensubset/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-08</div>
+        <h1>子集生成算法模板C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><h2><strong>子集生成简介</strong></h2>
+给定n个数字，枚举出所有可能的子集
+例如给定n=3，枚举出{1，2，3}所有可能的子集
+{1}、{2}、{3}、{1,2}、{1,2,3}、{2,3}
+<h2><strong>增量构造法</strong></h2>
+<img class="alignnone wp-image-5868" src="https://cdn.omegaxyz.com/2019/06/gensubset1.png" alt="" width="587" height="225" />
+<pre ><code class="language-c++">#include &lt;cstdio&gt;
+const int maxn = 100 + 10;
+
+//打印0~n-1的所有子集
+//按照递增顺序就行构造子集 防止子集的重复 
+void GenSubsetIncr(int *arr, int n, int cur){
+    for(int i = 0; i &lt; cur; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+    int s = cur ? arr[cur-1] + 1 : 0;  //确定当前元素的最小可能值
+    for(int i = s; i &lt; n; i++){
+        arr[cur] = i;
+        GenSubsetIncr(arr, n, cur+1);
+    }
+}
+int main(){
+    int n, arr[maxn];
+    scanf("%d", &amp;n);
+    GenSubsetIncr(arr, n, 0);
+    return 0;
+}
+</code></pre>
+&nbsp;
+<h2><strong>位向量法</strong></h2>
+<img class="alignnone wp-image-5869" src="https://cdn.omegaxyz.com/2019/06/gensubset2.png" alt="" width="616" height="218" />
+<pre ><code class="language-default">// 1~n 的所有子集：位向量法
+#include &lt;cstdio&gt;
+const int maxn = 100 + 10;
+using namespace std;
+int bits[maxn];//位向量bits[i] = 1,当且仅当i在子集 A 中
+
+void GenSubsetBit(int n,int cur){
+    if(cur == n){
+        for(int i = 0; i &lt; cur; i++)
+            if(bits[i])
+                printf("%d ",i);
+        printf("\n");
+        return;
+    }
+    bits[cur] = 1;
+    GenSubsetBit(n,cur + 1);
+    bits[cur] = 0;
+    GenSubsetBit(n,cur + 1);
+}
+
+int main() {
+    int n;
+    scanf("%d", &amp;n);
+    GenSubsetBit(n,0);
+    return 0;
+}
+
+</code></pre>
+&nbsp;
+<h2><strong>二进制法</strong></h2>
+<img class="alignnone wp-image-5870" src="https://cdn.omegaxyz.com/2019/06/gensubset3.png" alt="" width="557" height="679" />
+<pre ><code class="language-c++">// 0 ~ n-1的所有子集：二进制法枚举0 ~ n-1的所有子集
+#include &lt;cstdio&gt;
+const int maxn = 100 + 10;
+using namespace std;
+void GenSubset01(int n,int cur){
+    //这一步其实就是判断 cur 的二进制的各个位上是不是1，如果是1,就输出对应的那个位置(位置从0开始)
+    for(int i = 0; i &lt; n; i++)
+        if(1 &amp; (cur &gt;&gt; i))
+            printf("%d ",i);   
+    printf("\n");
+}
+int main(int argc, char const** argv)
+{
+    int n;
+    scanf("%d",&amp;n);
+    for(int i = 0; i &lt; (1 &lt;&lt; n); i++)
+        GenSubset01(n,i);//枚举各子集对应的编码 0,1,2...pow(2,n) - 1
+    return 0;
+}
+</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

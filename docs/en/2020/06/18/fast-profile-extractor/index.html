@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal home page information extractor · OmegaXYZ</title>
+  <meta name="description" content="Introduction Extracts information from a researcher&#x27;s homepage (HTML) and automatically classifies the information into three categories (you can add more categories). Supports Chinese and English pages. Categories that can be divided into: publication education honor Details The process of extracting and classifying academic behaviors from Internet text data is shown in the figure below. The entire process is linear. Before formally extracting academic behaviors, a small number of academic behaviors on the Internet are first manually labeled. After generating a training set, f...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/06/18/fast-profile-extractor/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-06-18</div>
+        <h1>Personal home page information extractor</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Extracts information from a researcher's homepage (HTML) and automatically categorizes the information into three categories (you can add more categories). Supports Chinese and English pages.
+
+Categories that can be divided into:<ul>
+<li>publication</li>
+<li>education</li>
+<li>honor</li>
+</ul>
+<h2><strong>detailed</strong></h2>The process of extracting and classifying academic behaviors from Internet text data is shown in the figure below. The entire process is linear. Before formally extracting academic behaviors, a small amount of academic behaviors on the Internet are first manually annotated. After generating a training set, fastText is used to train the generated model and save it.<img alt="" class="wp-image-6738 aligncenter" height="132" src="https://cdn.omegaxyz.com/2020/06/profileExtractor2.png" width="438"/>Next, the HTML metadata is obtained through a Python crawler, and the HTML data is passed into the web page text extraction algorithm WNBTE to obtain the text. The text extraction algorithm determines the location of the text by counting the ratio of the number of text words in different HTML tags, and can effectively remove redundant and irrelevant HTML tags. Then the text paragraphs are segmented at the phrase level, and then passed into the fastText neural network after word segmentation. The trained data model is used to classify the phrases and label them.<h2><strong>Project structure</strong></h2>
+<ul>
+<li>ff_classifier: Use fasttext to automatically train and predict academic behavior (training time is less than 1s)</li>
+<li>text_toolkit.py: Extract strings with a certain pattern, such as email, mobile phone number, time, etc.</li>
+<li>profile_class.py: researcher class</li>
+<li>html_extract.py: Extract HTML elements</li>
+<li>demo.py: demo</li>
+</ul>
+<h2><strong>Result preview (partial)</strong></h2>
+<pre><code class="language-default">honor 0.7774751782417297 2013 Aug. 2013,     KSEM'13 Best Paper Award
+----
+honor 0.7579861879348755 2013 Aug. 2013,     CCML'13 Outstanding Student Paper Award
+----
+honor 0.5015735626220703 2012 Mar.2012,     Google Technology Student Expert Award
+----
+publication 0.7918424606323242  Hongyuan Zhu, Qi Liu*, Nicholas Jing Yuan*, Kun Zhang, Enhong Chen. Pop Music Generation: from Melody to Multi-style Arrangement. ACM Transactions on Knowledge Discovery from Data (ACM TKDD). (Accepted) [Data]
+----
+education 0.5010859370231628 2011 Teaching Assistant, Data Mining (Prof. Hui Xiong). Rutgers Business School, Rutgers University, Feb. 2011~May. 2011.
+----
+education 0.3986995816230774 2010 Development Engineer, Personalized Recommendation Team. Alibaba (China) Technology Co., Ltd.  Mar.2010~Aug.2010.
+----</code></pre>
+<h1><strong>PS</strong></h1>If you want to improve the efficiency or accuracy of the extractor, you can add more training data in ff_classifier/train_data.txt, or adjust line 20 of the training configuration in ff_classifier/classifiere.py.<pre><code class="language-python"># Line 20
+self.classifier = ff.train_supervised("ff_classifier/train_data.txt", epoch=100, dim=50, lr=0.1, wordNgrams=2, minCount=0, loss="softmax")</code></pre>Code address:<a href="https://github.com/xyjigsaw/fastProfileExtractor">https://github.com/xyjigsaw/fastProfileExtractor</a>
+
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kaggle Introduction to Titanic Passenger Survival Prediction · OmegaXYZ</title>
+  <meta name="description" content="Introduction to Kaggle Kaggle was founded in Melbourne in 2010 by co-founder and CEO Anthony Goldbloom. It mainly provides developers and data scientists with a platform to host machine learning competitions, host databases, and write and share code. The platform has attracted the attention of 800,000 data scientists, and these user resources may be the main factor that attracts Google. Introduction to the problem: Contains labeled training sets and unlabeled...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/03/10/kaggle-titanic/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-10</div>
+        <h1>Kaggle Introduction to Titanic Passenger Survival Prediction</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/kaggle/index.html">kaggle</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction to Kaggle</strong></h2>Kaggle was founded in Melbourne in 2010 by co-founder and CEO Anthony Goldbloom. It mainly provides developers and data scientists with a platform to host machine learning competitions, host databases, and write and share code. The platform has attracted the attention of 800,000 data scientists, and these user resources may be the main factor that attracts Google.<hr/>
+<h2><strong>Problem introduction</strong></h2>
+<img alt="" class="alignnone wp-image-5602" height="240" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic1.png" width="873"/>Contains a labeled training set and an unlabeled test set
+
+Finally submit the csv file with column names (format such as<b>gender_submission.csv</b>）
+
+Overview
+
+The data has been split into two groups:
+<ul>
+<li>training set (train.csv)</li>
+<li>test set (test.csv)</li>
+</ul>
+<b>The training set </b>should be used to build your machine learning models. For the training set, we provide the outcome (also known as the “ground truth”) for each passenger. Your model will be based on “features” like passengers’ gender and class. You can also use feature engineering to create new features.
+
+<b>The test set </b>should be used to see how well your model performs on unseen data. For the test set, we do not provide the ground truth for each passenger. It is your job to predict these outcomes. For each passenger in the test set, use the model you trained to predict whether or not they survived the sinking of the Titanic.
+
+We also include <b>gender_submission.csv</b>, a set of predictions that assume all and only female passengers survive, as an example of what a submission file should look like.
+
+<hr/>
+<h2><strong>Dataset</strong></h2>
+<strong>Contains the following features</strong>
+<table>
+<tbody>
+<tr>
+<th><b>Variable</b></th>
+<th><b>Definition</b></th>
+<th><b>Key</b></th>
+</tr>
+<tr>
+<td>survival</td>
+<td>Survival</td>
+<td>0 = No, 1 = Yes</td>
+</tr>
+<tr>
+<td>pclass</td>
+<td>Ticket class</td>
+<td>1 = 1st, 2 = 2nd, 3 = 3rd</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>Sex</td>
+<td></td>
+</tr>
+<tr>
+<td>Age</td>
+<td>Age in years</td>
+<td></td>
+</tr>
+<tr>
+<td>sibsp</td>
+<td># of siblings / spouses aboard the Titanic</td>
+<td></td>
+</tr>
+<tr>
+<td>parch</td>
+<td># of parents / children aboard the Titanic</td>
+<td></td>
+</tr>
+<tr>
+<td>ticket</td>
+<td>Ticket number</td>
+<td></td>
+</tr>
+<tr>
+<td>fare</td>
+<td>Passenger fare</td>
+<td></td>
+</tr>
+<tr>
+<td>cabin</td>
+<td>Cabin number</td>
+<td></td>
+</tr>
+<tr>
+<td>embarked</td>
+<td>Port of Embarkation</td>
+<td>C = Cherbourg, Q = Queenstown, S = Southampton</td>
+</tr>
+</tbody>
+</table>
+ 
+
+<strong>Variable Notes</strong>
+<b>pclass</b>: A proxy for socio-economic status (SES)
+1st = Upper
+2nd = Middle
+3rd = Lower
+
+<b>age</b>: Age is fractional if less than 1. If the age is estimated, is it in the form of xx.5
+
+<b>sibsp</b>: The dataset defines family relations in this way...
+Sibling = brother, sister, stepbrother, stepsister
+Spouse = husband, wife (mistresses and fiancés were ignored)
+
+<b>parch</b>: The dataset defines family relations in this way...
+Parent = mother, father
+Child = daughter, son, stepdaughter, stepson
+Some children travelled only with a nanny, therefore parch=0 for them.
+<h3><strong>Preview</strong></h3>
+<img alt="" class="alignnone size-full wp-image-5603" height="524" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic2.png" width="2206"/>
+<hr/>
+<h2><strong>feature engineering</strong></h2>Here's how I do it:
+
+Considering that I am still good at MATLAB, I will draw real numbers from the test set and training set downloaded from the official website. Since it is just an introduction for the first time, I first deleted the PassengerID column feature (obviously useless). Next, for convenience, I deleted the name column. (Of course, in order to improve the accuracy, this column can be mined and analyzed from the perspective of social engineering, so everything is simplified here). Similarly, I deleted the column where the Cabin data was seriously lost, and converted the other Sex columns to 0 and 1, and Embarked to 1, 2, and 3. All other data that cannot be converted or missing data are replaced with NaN.
+
+Finally, a data set of 9 features was generated, and the Survived column was used as the label.
+
+Since there are better features and worse features among the 9 features, I used the improved PSO feature selection algorithm to select a better feature subset.<hr/>
+<h2><strong>Choice of classification algorithm</strong></h2>The KNN algorithm is handwritten, K=1 during training, and K=5 during prediction.<hr/>
+<h2><strong>Generate csv file and submit</strong></h2>
+<strong>matlab code:</strong>
+<pre><code class="language-matlab">load('.mat');
+[row,col]=size(labelx);
+filename='resultnew.csv';%.csv可以更改为.txt等
+fid=fopen(filename,'w');
+count=0;
+fprintf(fid,'PassengerID,Survived\n');
+for index=1:row
+    fprintf(fid,'%d,%d\n',ansx(index,1),ansx(index,2));
+end</code></pre>
+<strong>Submit results:</strong>Accuracy: 0.78947
+
+Ranking: 3103/10000<img alt="" class="alignnone size-full wp-image-5604" height="316" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic3.png" width="1918"/>There are multiple accuracy rates of 1 on the Leaderboard. It is estimated that each feature of the data set was analyzed and an advanced classification model was used.<hr/>
+<h2><strong>Getting started</strong></h2>
+<ul>
+<li>When registering, you need to verify the user's mobile phone number. Add +860 in front of your mobile phone number. For example, if your mobile phone number is 18799999999, you should fill in +86018799999999.</li>
+<li>When submitting data, you must pay attention to the format of the data. There cannot be multiple spaces or few spaces. There are many accuracy rates of 0 on the Leaderboard, which are probably due to irregular formats.</li>
+</ul>
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

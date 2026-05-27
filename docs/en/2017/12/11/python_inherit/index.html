@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python class inheritance (calling parent class members and methods) · OmegaXYZ</title>
+  <meta name="description" content="The initialization method of a class in python is __init__(), so the initialization method of the parent class and subclasses is this. If the child class does not implement this function, the parent class&#x27;s initialization function is called during initialization. If the child class implements this function, it will overwrite the parent class&#x27;s function. Since it inherits the parent class, it is necessary to explicitly call the parent class&#x27;s __init__() in this function. This is different from C++ and jAVA, which automatically call the parent class&#x27;s initialization function. The following methods are available for calling parent class functions...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/12/11/python_inherit/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-12-11</div>
+        <h1>Python class inheritance (calling parent class members and methods)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">The initialization method of a class in python is __init__(), so the initialization method of the parent class and subclasses is this. If the child class does not implement this function, the parent class's initialization function is called during initialization. If the child class implements this function, it will overwrite the parent class's function. Since it inherits the parent class, it is necessary to explicitly call the parent class's __init__() in this function. This is different from C++ and jAVA, which automatically call the parent class's initialization function.
+
+The following methods are available for calling parent class functions:<pre><code class="language-python">class Animal():
+    def __init__(self, name):
+        self.name = name
+
+    def saySomething(self):
+        print("I am " + self.name)
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def saySomething(self):
+        print ("I am "+ self.name + ", and I can bark")
+</code></pre>1. Directly write the class name to call: parent_class.parent_attribute(self)
+
+2. Use the super(type, obj).method(arg) method to call: super(child_class, child_object).parent_attribute(arg) [No need to write self]
+
+3. Call the parent class method of this class in the class definition, you can directly super().parent_method(arg) [I personally recommend this writing method]
+
+An example is as follows:<pre><code class="language-python">class Animal():
+    def __init__(self, name):
+        self.name = name
+
+    def saySomething(self):
+        print("I am " + self.name)
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def saySomething(self):
+        print ("I am "+ self.name + ", and I can bark")
+
+    def animal_say_1(self):
+        # 子类调用父类的方法
+        #  方式1
+        super(Dog, self).saySomething()
+
+    def animal_say_2(self):
+        #  方式2 [推荐]
+        super().saySomething()
+    
+    def animal_say_3(self):
+        # 方式3
+        Animal.saySomething(self)
+
+
+if __name__ == "__main__":
+    dog = Dog("Blake")
+    dog.saySomething()
+    dog.animal_say_1()
+    dog.animal_say_2()
+    dog.animal_say_3()
+    # 子类对象调用被覆盖的父类方法
+    super(Dog, dog).saySomething()
+
+'''
+输出结果如下：
+python python_class_inheritance_example.py
+I am Blake, and I can bark
+I am Blake
+I am Blake
+I am Blake
+I am Blake
+'''
+</code></pre>If you want to call members of the parent class, remember that they cannot be private variables in the parent class, and self.__NAME cannot be called in the subclass!</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web链接测试——Omegaxyz.com测试报告 · OmegaXYZ</title>
+  <meta name="description" content="Web测试简介 基于Web的系统测试与传统的软件测试不同，它不但需要检查和验证是否按照设计的要求运行，而且还要测试系统在不同用户的浏览器端的显示是否合适。 Web测试需要进行以下几个方面的内容： 1.功能测试 2.性能测试（包括负载/压力测试） 3.用户界面测试 4.兼容性测试 5.安全测试 6.接口测试 链接测试 链接是Web应用系统的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/08/web-mysite-test/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-08</div>
+        <h1>Web链接测试——Omegaxyz.com测试报告</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-testing/index.html">软件测试</a></div>
+        <div class="article-content"><h2><strong>Web测试简介</strong></h2>
+基于Web的系统测试与传统的软件测试不同，它不但需要检查和验证是否按照设计的要求运行，而且还要测试系统在不同用户的浏览器端的显示是否合适。
+
+Web测试需要进行以下几个方面的内容：
+<ul>
+ 	<li>1.功能测试</li>
+ 	<li>2.性能测试（包括负载/压力测试）</li>
+ 	<li>3.用户界面测试</li>
+ 	<li>4.兼容性测试</li>
+ 	<li>5.安全测试</li>
+ 	<li>6.接口测试</li>
+</ul>
+<h2><strong>链接测试</strong></h2>
+链接是Web应用系统的一个主要特征，它是在页面之间切换和指导用户去一些不知道地址的页面的主要手段。链接测试可分为三个方面。首先，测试所有链接是否按指示的那样确实链接到了该链接的页面；其次，测试所链接的页面是否存在；最后，保证Web应用系统上没有孤立的页面，所谓孤立页面是指没有链接指向该页面，只有知道正确的URL地址才能访问。
+
+链接测试可以自动进行，现在已经有许多工具可以采用。链接测试必须在集成测试阶段完成，也就是说，在整个Web应用系统的所有页面开发完成之后进行链接测试。
+<h2><strong>Xenu</strong></h2>
+下面采用Xenu进行连接测试：
+
+Xenu用于检测网站链接有效性的绿色软件，使用简单，最大支持100线程( Parallel threads)，检测速度非常快。在对某网站的6层连接100630个连接进行检测时，使用默认的100线程耗仅费了1小时40分钟。当然耗费的网络资源比较多。
+
+常见状态
+<ul class="custom_dot para-list list-paddingleft-1">
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">ok、mail host ok ：表示链接正常；</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">timeout、no connection、no such host：表示访问超时或者无法访问（不代表是空链）；</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">not found：如果是not found，表示没有找到，即空链接。</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">no info to return：没有对象返回，即空页面。</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">no object data：没有对象数据，常见于访问服务器出现400错误等访问出错情况</div></li>
+ 	<li class="list-dot list-dot-paddingleft">
+<div class="para">keep same verb：url是一致的，例如&lt;a href="网址链接A"&gt;网址链接A&lt;/a&gt;这种形式，在软件识别此状态后，建议在源码里检查一下，如只有类似刚才举例形式是无需担心的，如有其他形式的链接，需要看其是否符合seo优化标准再做修改</div></li>
+</ul>
+<dl class="lemma-reference collapse nslog-area log-set-param" data-nslog-type="2"></dl>
+<strong>下载地址：</strong>http://www.baidu.com/link?url=hQEJmqu-_BJ-0BoXpTXUuOx9qQY3t9ArGkygu5L-BFj4WtkQy_9sas1ZCRzQS3oG&amp;wd=&amp;eqid=e0cc85d60001dd78000000045cd19ac2
+<h2><strong>测试报告</strong></h2>
+<img class="alignnone wp-image-5736" src="https://cdn.omegaxyz.com/2019/05/mytest1.png" alt="" width="662" height="266" />
+
+<img class="alignnone size-full wp-image-5737" src="https://cdn.omegaxyz.com/2019/05/mytest2.png" alt="" width="2492" height="1208" />
+
+<img class="alignnone wp-image-5738" src="https://cdn.omegaxyz.com/2019/05/mytest3.png" alt="" width="479" height="412" />
+
+可以看到omegaxyz.com网站有大部分链接无法读取，仔细查看，是下面此种错误的not found类型的占多数.
+
+<img class="alignnone wp-image-5739" src="https://cdn.omegaxyz.com/2019/05/mytest4.png" alt="" width="578" height="317" />
+
+原来#wechat部分即Broken page-local links (also named 'anchors', 'fragment identifiers')占大多数，不过，此anchor在本网站是作为一种trick。
+
+<img class="alignnone  wp-image-5741" src="https://cdn.omegaxyz.com/2019/05/wechat.png" alt="" width="272" height="94" />
+
+<strong>点击上方，关注公众号图灵技术域（页面最下方）</strong>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人机交互的形式 · OmegaXYZ</title>
+  <meta name="description" content="命令行交互 优点： ①专家用户使用命令行能够更加快速地完成任务 ②较图形界面更加节约系统资源 ③对用户而言是开放的，不存在图形界面中不能动态配置用户可操作选项的问题 ④键盘操作方式较鼠标操作更加精确，对应用的掌控力更强 ⑤支持用户自定义命令 缺点： ①命令语言的掌握对用户的长时记忆和短时记忆提出了较高要求 ②界面使用基于回忆的方式，没有图...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/26/hci/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-26</div>
+        <h1>人机交互的形式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/hci/index.html">HCI</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>命令行交互</strong></h2>
+<strong>优点：</strong>
+<ul>
+ 	<li>①专家用户使用命令行能够更加快速地完成任务</li>
+ 	<li>②较图形界面更加节约系统资源</li>
+ 	<li>③对用户而言是开放的，不存在图形界面中不能动态配置用户可操作选项的问题</li>
+ 	<li>④键盘操作方式较鼠标操作更加精确，对应用的掌控力更强</li>
+ 	<li>⑤支持用户自定义命令</li>
+</ul>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①命令语言的掌握对用户的长时记忆和短时记忆提出了较高要求</li>
+ 	<li>②界面使用基于回忆的方式，没有图形用户界面基于识别的方式容易使用</li>
+ 	<li>③要求使用者对键盘布局较为熟悉，出错频率较高</li>
+ 	<li>④命令编写贴近计算机的执行方式，与可用性理论所强调的不应要求用户了解计算机底层的实现相违背</li>
+</ul>
+<h2><strong>菜单驱动的界面</strong></h2>
+<strong>优点：</strong>
+<ul>
+ 	<li>①基于识别机制，对记忆的需求较低</li>
+ 	<li>②具有自解释性</li>
+ 	<li>③容易纠错。相比较而言，命令行方式下需要对用户输入的命令进行解析</li>
+ 	<li>④适合新手用户。若提供了较好的快捷键功能，则对专家用户同样适用</li>
+</ul>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①导航方式不够灵活</li>
+ 	<li>②当菜单规模较大时，导航效率不高</li>
+ 	<li>③占用屏幕空间，不适合小型显示设备。为节省空间，通常组织为下拉菜单或弹出式菜单</li>
+ 	<li>④对专家用户而言适用效率不高</li>
+</ul>
+<h2><strong>基于表格的界面</strong></h2>
+<strong>优点：</strong>
+<ul>
+ 	<li>①简化了数据输入</li>
+ 	<li>②由于待填写区域已经预先定义，因而只需识别而无需学习</li>
+ 	<li>③通过预定义格式来指导用户完成数据输入</li>
+ 	<li>④特别适合与日常文书处理等需要键入大量数据的工作</li>
+</ul>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①会占用大量屏幕空间</li>
+ 	<li>②可能导致业务流程较形式化的情况</li>
+</ul>
+<h2><strong>直接操纵</strong></h2>
+<strong>优点：</strong>
+<ul>
+ 	<li>①将任务概念可视化，用户可以非常方便地辨别他们</li>
+ 	<li>②容易学习，适合新手用户</li>
+ 	<li>③操纵基于识别，对记忆要求不高，可有效避免错误发生</li>
+ 	<li>④支持空间线索，鼓励用户对界面进行探索</li>
+ 	<li>⑤可实现对用户操作的快速反馈，具有较高的用户主观满意度</li>
+</ul>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①实现起来较困难</li>
+ 	<li>②对专家用户而言效率不高</li>
+ 	<li>③不适合小屏幕显示设备</li>
+ 	<li>④对图形显示性能的需求较高</li>
+ 	<li>⑤不具备自解释性，可能误导用户</li>
+</ul>
+<h2><strong>问答界面（向导）</strong></h2>
+<strong>优点：</strong>
+<ul>
+ 	<li>①对记忆的要求较低</li>
+ 	<li>②每个界面具有自解释性</li>
+ 	<li>③将任务流程以简单的线性表示</li>
+ 	<li>④适合新手用户</li>
+</ul>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①要求从用户端获得有效输入</li>
+ 	<li>②要求用户熟悉界面控制</li>
+ 	<li>③纠错的过程可能比较乏味</li>
+</ul>
+<h2><strong>隐喻界面</strong></h2>
+<strong>缺点：</strong>
+<ul>
+ 	<li>①隐喻不可拓展</li>
+ 	<li>②隐喻依赖于设计者与用户之间相似的联想方式</li>
+ 	<li>③很难找到恰当的隐喻</li>
+ 	<li>④限制了我们的思维</li>
+</ul>
+<h2><strong>自然语言交互</strong></h2>
+例如：Siri、小娜等</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

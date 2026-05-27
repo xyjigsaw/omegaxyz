@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>scrapy selenium phantomJS动态网页爬虫 · OmegaXYZ</title>
+  <meta name="description" content="目前phantomJS已经停止更新了，最新的selenium包在调用phantomJS时也发出了警告，说不再支持phantomJS了，可以用headless参数调用其他浏览器替代phantomJS。但是这个隐藏浏览器确实好用，况且也支持Windows，Linux，macOS。 下面给出一个通用的middleware，使得scrapy能够调...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/11/scrapy-phantomjs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-11</div>
+        <h1>scrapy selenium phantomJS动态网页爬虫</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">目前phantomJS已经停止更新了，最新的selenium包在调用phantomJS时也发出了警告，说不再支持phantomJS了，可以用headless参数调用其他浏览器替代phantomJS。但是这个隐藏浏览器确实好用，况且也支持Windows，Linux，macOS。
+
+下面给出一个通用的middleware，使得scrapy能够调用phantomJS实现动态网页爬虫。
+<h2><strong>middlewares.py</strong></h2>
+其中js是浏览器中要进行的操作。
+<pre ><code class="language-python">from scrapy import signals
+from selenium import webdriver
+from scrapy.http import HtmlResponse
+import time
+
+class JSMiddleware(object):
+    def process_request(self, request, spider):
+        driver = webdriver.PhantomJS("/Users/reacubeth/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs")  # 指定使用的浏览器
+        driver.get(request.url)
+        time.sleep(1)
+        js = "var q=document.documentElement.scrollTop=10000"
+        driver.execute_script(js)  # 可执行js，模仿用户操作。此处为将页面拉至最底端。
+        body = driver.page_source
+        print("访问" + request.url)
+        return HtmlResponse(driver.current_url, body=body, encoding='utf-8', request=request)</code></pre>
+<strong>js = "var q=document.documentElement.scrollTop=10000"</strong> 这个目的是将页面滑到浏览器最底端
+
+如果页面是动态加载，即页面持续变长，没有底部的（如知乎），可以使用如下代码（250是预设的一个值）：
+<pre ><code class="language-default">js = "window.scrollTo(0,document.body.scrollHeight)"
+for i in range(250):
+    driver.execute_script(js)
+    time.sleep(random.randint(1, 3))</code></pre>
+<h2><strong>settings.py</strong></h2>
+在DOWNLOADER_MIDDLEWARES中添加：
+<pre ><code class="language-default">'route_track.middlewares.JSMiddleware': 100,</code></pre>
+最前面的项目名称需要改动</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全部文章 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../index.html">主页</a><a href="../../index.html">文章</a><a href="../../../pages/index.html">页面</a><a href="../../../categories/index.html">分类</a><a href="../../../search/index.html">搜索</a>
+          <a href="../../../../en/archive/page/12/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>全部文章</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2018-06-03</time>
+      <div>
+        <h2><a href="../../../2018/06/03/python-matplotlib-dynamic-graph/index.html">Python使用matplotlib画动态图</a></h2>
+        <p>机器学习需要使用python实现相应的算法，因此学习了Matplotlib中的画图。 当然为了能显示机器学习中每次迭代的效果与收敛速度，需要画出动态图形。 下面给出两个例子，分别可以画出动态条形图和动态折线图（使用两种不同的方法）。 注意要使用到plt.pause(time)函数。 动态条形图 基本原理是将数据放入数组，然后每次往数组里面...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-02</time>
+      <div>
+        <h2><a href="../../../2018/06/02/cnn1/index.html">卷积神经网络CNN概述上（黑白图像卷积）</a></h2>
+        <p>1.边界检测 检测图像的物体可以有垂直边缘和水平边缘检测。 如下是一个6*6的灰度图像，构造一个3*3的矩阵，在卷积神经网络中通常称之为filter，对这个6*6的图像进行卷积运算，以左上角的-5计算为例 3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5 其它的以此类推，让过滤器在图像上逐步滑动，对整...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-01</time>
+      <div>
+        <h2><a href="../../../2018/06/01/ff-bf-wf/index.html">主存动态连续分配与回收算法（FF,BF,WF）</a></h2>
+        <p>①首次适应算法(First Fit) FF算法要求空闲分区链以地址递增的次序链接。 -- 在分配内存时，从链首开始顺序查找，直至找到一个大小能满足要求的空闲分区为止； -- 然后再按照作业的大小，从该分区中划出一块内存空间分配给请求者，余下的空闲分区仍留在空闲链中。 -- 若从链首直至链尾都不能找到一个能满足要求的分区，则此次内存分配失败...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-31</time>
+      <div>
+        <h2><a href="../../../2018/05/31/tensorflow-simple-classification/index.html">TensorFlow实现简单神经网络分类问题</a></h2>
+        <p>利用TensorFlow来训练所有的神经网络的训练过程可以分为如下3个步骤： ①定义神经网络的结构和前向传播的输出结果。 ②定义损失函数以及选择反向传播优化算法。 ③生成会话（tf.Session）并且在训练数据上反复运行反向传播优化算法。 下面给出一个简单的二分类问题的神经网络算法（完整的流程） 神经网络具体结构如下图： 训练流程图：...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-30</time>
+      <div>
+        <h2><a href="../../../2018/05/30/cpp-stl-bfs-dfs/index.html">C++STL实现图的深度与广度优先遍历（BFS&amp;DFS）</a></h2>
+        <p>C语言数据结构图的基本操作及遍历（存储结构为邻接矩阵）请查看： https://omegaxyz.com/2017/05/17/graphofds2/ 邻接表的存储结构遍历请看 https://omegaxyz.com/2017/05/16/graphofds/ 下面给出C++STL实现图的深度与广度优先遍历（BFS&amp;DFS） 其中BFS...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-29</time>
+      <div>
+        <h2><a href="../../../2018/05/29/python-click-and-input/index.html">Python模拟鼠标点击与键盘输入</a></h2>
+        <p>很多时候我们需要点击一个按钮很久，比如抢票或者博彩需要连续点击刷新按钮，一直守在电脑旁点击是很不现实的，因此需要自动化脚本来实现点击事件。 同样的，我们有时也希望电脑自动能够输入事件。 下面的代码能够模拟鼠标点击和键盘输入： 注意（500,280）只的是鼠标点击的位置,key_input函数是输入字符。 这样已经能模拟了，但是注意该代码不...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-28</time>
+      <div>
+        <h2><a href="../../../2018/05/28/mediocrity/index.html">你是如何变平庸的？</a></h2>
+        <p>当你醒来第一件事就是找手机时， 当你下床后就立刻打开电脑时， 当你感到无聊便用游戏打发时间时， 当你感到寂寞就在各大社交网站寻求刺激时， 当你一遍遍刷新知乎、微博、朋友圈时， 当你沉迷游戏、小说、漫画不能自控时， 当你承受不住压力就要朝别人宣泄时， 当你感到委屈就忍不住对别人发火时， 当你愤怒不能自控向别人恶语相加时， 当你每次受到不公就...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-28</time>
+      <div>
+        <h2><a href="../../../2018/05/28/se-software-team/index.html">软件工程-软件小组的组织形式</a></h2>
+        <p>为什么要形成软件小组 大多数软件产品由一个软件专业人员不可能在有限时间内单独完成。因而，产品必须分配给一组专业人员，形成一个小组。在具体说软件小组的组织形式之前先介绍一下布鲁克斯法则。 布鲁克斯法则 布鲁克斯是上世纪60年代IBM System/360的操作系统OS/360的开发负责人，这之后基于当时的经验写了《人月神话》一书。 有这样一...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-27</time>
+      <div>
+        <h2><a href="../../../2018/05/27/whatstensor/index.html">Tensor（张量）的简介与运用</a></h2>
+        <p>张量 （Tensor）是一个很重要的概念。在 TensorFlow 中所有的数据都用张量来表示，当然张量可以被简单得理解为多维数组。 其中零阶张量表示标量（scalar），一阶张量表示向量（vector），n阶张量就是n阶数组。但是张量在TensorFlow中的实现并不想Numpy那样是数组的形式， 而只是运算结果的引用，即是一种计算过程...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-26</time>
+      <div>
+        <h2><a href="../../../2018/05/26/cpp_complex/index.html">C++复数类重载基本运算符</a></h2>
+        <p>复数格式即实部＋虚部。 在C++中是个练习运算符重载很好的例子，下面的代码给出了复数类中的基本运算。 重载了运算符： 效果：</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-25</time>
+      <div>
+        <h2><a href="../../../2018/05/25/python_confusion/index.html">混淆矩阵简介与Python实现</a></h2>
+        <p>什么是混淆矩阵 混淆矩阵是机器学习中总结分类模型预测结果的情形分析表，以矩阵形式将数据集中的记录按照真实的类别与分类模型作出的分类判断两个标准进行汇总。这个名字来源于它可以非常容易的表明 多个类别是否有混淆 （也就是一个 class被预测成另一个class ） 如下图： 其中绿色部分是预测正确的，红色是预测错误的。 对于二分类（正误）问题...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-24</time>
+      <div>
+        <h2><a href="../../../2018/05/24/python_get_article/index.html">Python抓取网页文章GUI（CSDN、简书、各大国内外新闻网站等）</a></h2>
+        <p>Python能做很多事，而爬虫则是获取信息的快速方法。 很多时候我们只是针对一个特定的网站去爬，而不去考虑程序的通用性。 下面给出爬取网页文章的pythonGUI程序，是用wxpython写的。可以抓取CSDN、简书、基于wordpress的博客、各大国内外新闻网站等文章。 虽然能爬取大多数网站的文章，但是对于 代码 丰富的文章，暂时还不...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-23</time>
+      <div>
+        <h2><a href="../../../2018/05/23/python_gui_calculator/index.html">不使用栈Python计算器GUI程序</a></h2>
+        <p>实现一个计算器功能需要使用栈。 比如我要计算：7-3*2+1，这个得先乘除后加减，这就需要栈了。 1.自左向右扫描表达式，凡是遇到操作数一律进操作数栈。 2.当遇到运算符时，如果他的优先级比运算符栈栈顶元素的优先级高就栈。反之，取出栈顶运算符和操作数栈顶的两个连续操作数运算，并将结果存入操作数栈，然后继续比较该运算符与栈顶的运算符的优先级...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-22</time>
+      <div>
+        <h2><a href="../../../2018/05/22/nfl/index.html">NFL（没有免费的午餐）定理</a></h2>
+        <p>NLF讲的是在不考虑具体问题的情况下，没有任何一个算法比另一个算法更优，甚至没有胡乱猜测更好。 不存在一个与具体应用无关的，普遍适用的“最优分类器” 学习算法必须要作出一个与问题领域有关的“假设”，分类器必须与问题域相适应。 但是，NFL定理的前提是，所有问题出现的机会相等、或所有问题都是同等重要。但是现实中，我们往往会得到特定的数据，特...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-21</time>
+      <div>
+        <h2><a href="../../../2018/05/21/github_communist/index.html">Github是代码共产主义？</a></h2>
+        <p>什么是Github gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名gitHub。 gitHub于2008年4月10日正式上线，除了git代码仓库托管及基本的 Web管理界面以外，还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱（报表）、代码片段分享（Gist）等功能。目前，...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-20</time>
+      <div>
+        <h2><a href="../../../2018/05/20/multi2bi_ml/index.html">机器学习多分类问题转二分类问题</a></h2>
+        <p>什么是多分类问题？ 简单地说就是在监督学习下样本实例的标签有多个，而我们很多问题是二分类分体（正确，错误或者是0,1问题）。 很多算法在原理推导上都是假设样本是二分类的，比如SVM、Adaboost等，整个推导过程以至结论都是相对二分类的，根本没有考虑多分类，如果你想直接将SVM直接应用在多分类上是不可能的，除非你在从原理上去考虑多分类的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-19</time>
+      <div>
+        <h2><a href="../../../2018/05/19/tcso/index.html">基于三重竞争机制的PSO算法（CSO）</a></h2>
+        <p>TCSO算法来源 论文标题： A modiﬁed competitive swarm optimizer for large scale optimization problems 作者： Prabhujit Mohapatra , Kedar Nath Das, Santanu Roy Department of Mathematics...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-18</time>
+      <div>
+        <h2><a href="../../../2018/05/18/os_banker/index.html">操作系统银行家算法C语言实现</a></h2>
+        <p>算法简介 银行家算法（Banker&#x27;s Algorithm）是一个避免死锁（Deadlock）的著名算法，是由艾兹格·迪杰斯特拉在1965年为T.H.E系统设计的一种避免死锁产生的算法。它以银行借贷系统的分配策略为基础，判断并保证系统的安全运行。 算法目的 为了了解系统的资源分配情况，假定系统的任何一种资源在任意时刻只能被一个进程使用，任...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-17</time>
+      <div>
+        <h2><a href="../../../2018/05/17/cpp_pointer/index.html">C++指针总结</a></h2>
+        <p>指针与变量 int p; //这是一个普通的整型变量. int *p; //首先从P 处开始,先与*结合,所以说明P是一个指针,然后再与int结合,说明指针所指向的内容的类型为int型.所以P是一个返回整型数据的指针。 指针与数组 int p[3]; //首先从P 处开始,先与[]结合,说明P是一个数组,然后与int结合说明数组里的元素整...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-16</time>
+      <div>
+        <h2><a href="../../../2018/05/16/template/index.html">C++函数模板与类模板（template）</a></h2>
+        <p>函数模板 函数模板可以用来创建一个通用功能的函数，以支持多种不同形参，进一步简化重载函数的函数体设计。 声明方法： template &lt;typename 标识符&gt; 函数声明 绝对值函数模板实例： 编译器从调用abs()时实参的类型，推导出函数模板的类型参数。例如，对于调用表达式abs(n)，由于实参n为int型，所以推导出模板中类型参数T...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-15</time>
+      <div>
+        <h2><a href="../../../2018/05/15/tongtai/index.html">同态加密</a></h2>
+        <p>什么是同态 同态是离散数学中的一个概念，期中考试最后一题是同态加密，这激发了我的兴趣，是时候研究一下了。 下面是离散数学中同态的定义： 设(M,*)和(S,·)是两个群，σ:M→S，∀a,b∈M，有σ(a*b)=σ(a)·σ(b)，则称σ为M到S的同态或群映射。 同态加密 如果我们有一个加密函数 f , 把明文A变成密文A’, 把明文B变...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-14</time>
+      <div>
+        <h2><a href="../../../2018/05/14/numpy_array/index.html">Numpy矩阵、数组操作（MATLAB转Python）</a></h2>
+        <p>MATLAB和Python都是解释性语言，如何将代码从MATLAB转换为Python呢，这就需要numpy了。 NumPy是一个关于矩阵运算的库 ，熟悉Matlab的都应该清楚，这个库就是让python能够进行矩阵话的操作，而不用去写循环操作。 下面对numpy中的操作进行总结。 numpy包含两种基本的数据类型：数组和矩阵。 数组创建：...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-13</time>
+      <div>
+        <h2><a href="../../../2018/05/13/priority_c_os/index.html">操作系统动态优先级调度算法C语言实现</a></h2>
+        <p>动态优先级算法 动态优先数是指在进程创建时先确定一个初始优先数， 以后在进程运行中随着进程特性的改变不断修改优先数，这样，由于开始优先数很低而得不到CPU的进程，就能因为等待时间的增长而优先数变为最高而得到CPU运行。 例如：在进程获得一次CPU后就将其优先数减少1，或者进程等待的时间超过某一时限时增加其优先数的值。 在每次运行你所设计的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-12</time>
+      <div>
+        <h2><a href="../../../2018/05/12/huffman_python/index.html">哈夫曼文件加密与压缩算法Python实现</a></h2>
+        <p>突然对压缩算法感兴趣，当然要拜HBO《硅谷》所赐。 该剧描述四个不善社交但绝顶聪明的计算机程序员受到依靠互联网站发家的百万富翁的特殊照顾。他们可以免费住在他家中，但他们的项目日后如果获得成功，他要拿10%的股份。刚开始这些人没能说动一名亿万富翁投资他们的项目，于是各自回到原先的工作岗位。这名亿万富翁和其中一名计算机程序员供职的公司很快意识...</p>
+      </div>
+    </article>
+    </div><nav class="terms"><a class="pill" href="../11/index.html">Previous</a><a class="pill" href="../13/index.html">Next</a></nav></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多目标CSO算法（MOCSO）理解 · OmegaXYZ</title>
+  <meta name="description" content="MOCSO（M ulti-Objective Competitive Swarm Optimizer）是PSO（粒子群优化算法）的变体 基于多目标优化的竞争性的粒子群优化算法（MOCSO） 摘要： 在进化计算中，探索有效的多目标优化技术是值得关注的。我们提出了一种基于最近发展的群集智能范例的多目标优化算法。在该算法的基础上，我们提出了一种...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/24/mocso1/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-24</div>
+        <h1>多目标CSO算法（MOCSO）理解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content">MOCSO（M<a>ulti-Objective </a>Competitive Swarm Optimizer）是PSO（粒子群优化算法）的变体
+
+基于多目标优化的竞争性的粒子群优化算法（MOCSO）
+摘要：
+在进化计算中，探索有效的多目标优化技术是值得关注的。我们提出了一种基于最近发展的群集智能范例的多目标优化算法。在该算法的基础上，我们提出了一种针对学习更新拟合的引导性学习策略，以加快收敛速度，避免了多目标优化算法多样性减少。选择出来的方法随机在现有群体中选择两个解来指导每一个粒子飞行。而大多数粒子群优化算法中的粒子通常基于先前的信息来判断的(P best和G best)。通过与几种最先进的多目标演化算法的比较，验证了该算法的性能，包括三种现有的多目标粒子群优化算法和三种基于遗传算法的流行多目标算法。实验结果表明，该算法具有多目标优化的优越性。
+
+关键字：多目标优化，竞争群算法，多目标进化算法，群智能算法。
+
+竞争粒子优化算法
+
+与PSO主要不同：成对的竞争机制（两个从现有群体中精英粒子随机选择选择出来的解）用来指导搜索来代替pbest &amp;gbest
+
+主要贡献：
+1.一个基于领导粒子的竞争机制策略来更新粒子。两个从现有群体中精英粒子随机选择选择出来的解能更好地平衡收敛性与多样性。
+2.不需要额外的存储空间来记录历史信息。与OMOPSO,SMPSO,CMPSO,MMPSO不同。
+
+主要步骤：
+
+<img class="alignnone  wp-image-1138" src="https://cdn.omegaxyz.com/2017/06/MOCSO1-159x300.png" alt="" width="298" height="562" />
+
+主要算法：
+
+<img class="alignnone  wp-image-1139" src="https://cdn.omegaxyz.com/2017/06/MOCSO2-300x169.png" alt="" width="559" height="315" />
+
+<img class="alignnone  wp-image-1140" src="https://cdn.omegaxyz.com/2017/06/MOCSO3-300x238.png" alt="" width="558" height="443" />
+
+<img class="alignnone  wp-image-1141" src="https://cdn.omegaxyz.com/2017/06/MOCSO4-300x295.png" alt="" width="405" height="398" /></div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-18128">
+          <strong>Anonymous</strong>
+          <time>2019-10-26 19:59:15</time>
+          <div>请问这个算法的论文是哪个，是《A competitive mechanism based multi-objective particle swarm optimizer with fast convergence》这篇论文吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18134">
+          <strong>xyjisaw</strong>
+          <time>2019-10-28 10:11:11</time>
+          <div>是的</div>
+        </div>
+        
+        <div class="comment" id="comment-21856">
+          <strong>H</strong>
+          <time>2021-04-04 14:01:42</time>
+          <div>有代码吗?</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21883">
+          <strong>xyjisaw</strong>
+          <time>2021-04-07 10:30:50</time>
+          <div>百度搜索BIMK有的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

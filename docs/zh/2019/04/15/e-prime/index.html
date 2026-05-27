@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>素数筛C++实现及应用 · OmegaXYZ</title>
+  <meta name="description" content="埃拉托斯特尼筛法（sieve of Eratosthenes ） 是古希腊数学家埃拉托斯特尼发明的计算素数的方法。对于求解不大于 n 的所有素数，我们先找出 sqrt(n) 内的所有素数 p1 到 pk ，其中 k = sqrt(n) ，依次剔除 Pi 的倍数，剩下的所有数都是素数。 具体操作如上述 图片所示。 C++实现 整除问题 给定...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/15/e-prime/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-15</div>
+        <h1>素数筛C++实现及应用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><strong>埃拉托斯特尼筛法（sieve of Eratosthenes ）</strong> 是古希腊数学家埃拉托斯特尼发明的计算素数的方法。对于求解不大于<strong><em>n</em></strong>的所有素数，我们先找出<strong><em>sqrt(n)</em></strong>内的所有素数<em><strong>p1</strong></em>到<em><strong>pk</strong></em>，其中<em><strong>k =</strong></em> <strong><em>sqrt(n)</em></strong>，依次剔除<em><strong>Pi</strong></em>的倍数，剩下的所有数都是素数。
+
+具体操作如上述 图片所示。
+<h2><strong>C++实现</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    vector&lt;bool&gt; isprime(n+5, true);
+    vector&lt;int&gt; ans;
+    for(int i = 2; i &lt;= n; i++){
+        if(isprime[i]){
+            ans.push_back(i);
+            for(int j = i * i; j &lt;= n; j += i)isprime[j] = false;
+        }
+    }
+    for(auto i : ans)cout&lt;&lt;i&lt;&lt;" ";
+    cout&lt;&lt;endl;
+    return 0;
+}</code></pre>
+<h2></h2>
+<h2 class="subject-item-title"><strong>整除问题</strong></h2>
+<div class="subject-describe">
+<div>给定n，a求最大的k，使n！可以被a^k整除但不能被a^(k+1)整除。</div>
+<h3>输入描述</h3>
+<pre>两个整数n(2&lt;=n&lt;=1000)，a(2&lt;=a&lt;=1000)</code></pre>
+<h3>输出描述</h3>
+<pre>一个整数.</code></pre>
+<div class="question-oi">
+<div class="question-oi-hd">示例1</div>
+<div class="question-oi-bd">
+<div class="question-oi-mod">
+<h3>输入</h3>
+<div class="question-oi-cont">
+<pre class="">555 12</code></pre>
+</div>
+</div>
+<div class="question-oi-mod">
+<h3>输出</h3>
+<div class="question-oi-cont">
+<pre class="">274</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h3>代码</h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;map&gt;
+using namespace std;
+
+int main(){
+    int n, a, temp;
+    int ans = 0x7fffffff;
+    cin&gt;&gt;n&gt;&gt;a;
+    vector&lt;bool&gt; isprime(1010, true);
+    vector&lt;int&gt; prime;  //素数列表
+    map&lt;int, int&gt; primecntnp;  //存储n!的质因子的指数
+    map&lt;int, int&gt; primecnta;  //存储a的质因子的指数
+    for(int i = 2; i &lt;= 1010; i++){  //采用素数筛选出前1010个数中的素数，并将map初始化
+        if(isprime[i]){
+            prime.push_back(i);
+            primecntnp[i] = primecnta[i] = 0;
+            for(int j = i*i; j&lt;= 1010; j += i)isprime[j] = false;
+        }
+    }
+    //4! = 24 = 1*2*3*4 = 2*2*2*3
+    for(int i = 0; i &lt; prime.size(); i++){ //对n!进行因式分解
+        temp = n;
+        while(temp){ //按照p、p*p、p*p*p来进行因式分解
+            primecntnp[prime[i]] += temp/prime[i];
+            temp /= prime[i];
+        }
+    }
+    for(int i = 0; i &lt; prime.size(); i++){ //对a进行因式分解
+        temp = a;
+        while(temp % prime[i] == 0){
+            primecnta[prime[i]]++;
+            temp /= prime[i];
+        }
+        if(primecnta[prime[i]] == 0)continue; //a里面不存在的则无法提供
+        if(primecntnp[prime[i]]/primecnta[prime[i]] &lt; ans)ans = primecntnp[prime[i]]/primecnta[prime[i]];
+    }//找到最小的指数，便是最大的k值
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+ }
+ /*
+555 12
+274
+ */</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

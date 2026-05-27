@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepScience: Academic Trend Forecasting and Analysis · OmegaXYZ</title>
+  <meta name="description" content="Introduction In this Github repository, we choose the fields of COVID-19 and deep learning to predict scientific development trends. We use paper and field information from AceMap, and it is worth noting that we also collect papers from the entire academic community, including 19 disciplines (mathematics, history, psychology, economics, sociology, art, geography, business, physics, political science, philosophy, biology, computer science, materials science, environmental science, medicine, chemistry...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2022/03/30/deepscience-学术趋势预测与分析/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2022-03-30</div>
+        <h1>DeepScience: Academic Trend Forecasting and Analysis</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>here<a href="https://github.com/xyjigsaw/DeepScience" rel="noopener" target="_blank">Github repository</a>, we choose<strong>COVID-19</strong>and<strong>deep learning</strong>field to predict scientific development trends.
+we use<a href="https://www.acemap.info/" rel="noopener" target="_blank">AceMap</a>It is worth noting that we also collected papers from the entire academic community, including 19 disciplines (mathematics, history, psychology, economics, sociology, art, geography, business, physics, political science, philosophy, biology, computer science, materials science, environmental science, medicine, chemistry, engineering, and geology) and 292 subfields (subdisciplines).
+
+To predict academic trends, we constructed a domain graph based on paper citations. Specifically, the papers we crawled all have domain tags. Each paper may belong to several areas. We use reference relationships to link these fields. For example, paper P1 belongs to fields F1 and F2, paper P2 belongs to fields F2 and F3, and similarly, P1 refers to P2. Then, we add edges (F1, F2), (F1, F3), (F2, F2) and (F2, F3), with the weight of each edge being the total number of citations in the domain. The ID of the node can be found on Acemap, for example the ID of the business is 2024422753, then you can view the field by visiting https://www.acemap.info/field/2024422753.<h2><strong>Statistics</strong></h2>We generated a dynamic field map of COVID-19 on a day-by-day basis from January 1, 2020 to March 31, 2021 (456 days). The time range of deep learning is from October 1, 2017 to March 31, 2021. Finally, a dynamic domain graph is constructed and called COVID-19 (deep learning) academic graph.
+You can start from<a href="https://drive.google.com/drive/folders/11GArAGnx655sOrDBPm5BwKH-eDsUJvQX?usp=sharing">Google Drive</a>Download both datasets.<div class="table-container">
+<table style="height: 142px;" width="392">
+<thead>
+<tr>
+<th></th>
+<th>COVID-19</th>
+<th>Deep Learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fields</td>
+<td>18,369</td>
+<td>40,930</td>
+</tr>
+<tr>
+<td>Relations</td>
+<td>198,137</td>
+<td>669,426</td>
+</tr>
+<tr>
+<td>Relations (weight &gt; 1)</td>
+<td>54,106</td>
+<td>186,255</td>
+</tr>
+</tbody>
+</table>
+ 
+
+</div>
+<h2><strong>Introduction to analysis</strong></h2>
+<h4><strong>MotifTrends</strong></h4>
+<img alt="" class="alignnone wp-image-7550" height="266" src="https://cdn.omegaxyz.com/2022/03/motifs.png" width="593"/>Cross-topic patterns are rising in both fields, with the number of cross-topics in deep learning far greater than COVID-19. Later in the pandemic, cross-trends slowed down and reached convergence. From the end of 2018 to 2019, the field of deep learning experienced explosive growth. Although the pace of deep learning paper publication has slowed down in recent months, there is still a lot of progress ahead compared to COVID-19.<h4><strong>network characteristics</strong></h4>We also computed several network features of the field graph. More details can be found in our paper.<img alt="" class="alignnone wp-image-7549" height="310" src="https://cdn.omegaxyz.com/2022/03/metrics.png" width="660"/>
+<img alt="" class="alignnone wp-image-7552" height="253" src="https://cdn.omegaxyz.com/2022/03/clustering_coefficient.png" width="670"/>
+<img alt="" class="alignnone wp-image-7553" height="248" src="https://cdn.omegaxyz.com/2022/03/degree_assortativity.png" width="670"/>
+<h4><strong>hot topics</strong></h4>we use<a href="https://github.com/yanghaoxie/GCN-GAN-for-Weighted-Dynamic-Networks" rel="noopener" target="_blank">GCN-GAN</a>and<a href="https://github.com/yanghaoxie/GCN-GAN-for-Weighted-Dynamic-Networks" rel="noopener" target="_blank">EvolveGCN</a>Predict future interdisciplinary development trends.<img alt="" class="alignnone size-full wp-image-7548" height="352" src="https://cdn.omegaxyz.com/2022/03/gcn-gan.png" width="544"/>On COVID-19, we found:<ul>
+<li>Computer-aided medicine deepens the reform of internal medicine diagnosis</li>
+<li>Surgery focuses more on risk assessment</li>
+<li>Online medical diagnosis further ensures user privacy</li>
+<li>Endocrine surgery intersection continues to increase</li>
+<li>Medical waste management will consider environmental protection more</li>
+<li>Machine learning-assisted epidemic demographic analysis</li>
+</ul>
+<h4><strong>transfer entropy</strong></h4>Transfer entropy is a nonparametric statistic that measures the amount of directional (temporally asymmetric) information transferred between two random processes. We use transfer entropy to mine the potential influence between different fields from the PageRank perspective. More details can be found in our paper.<img alt="" class="alignnone wp-image-7551" height="260" src="https://cdn.omegaxyz.com/2022/03/transfer_entropy_cs.png" width="670"/>If you use this repository, please cite it.<pre><code class="language-default">@software{Yi_DeepScience_2022,
+author = {Yi, Xu and Zhe, Li and Yihan, Zhang},
+month = {3},
+title = {DeepScience},
+version = {0.1.0},
+year = {2022}
+}</code></pre>
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

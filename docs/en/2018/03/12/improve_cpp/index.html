@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methods to improve C++ operating efficiency · OmegaXYZ</title>
+  <meta name="description" content="1. Minimize value transfer and use references to transfer parameters. As for the reason, I believe everyone is very clear. If the parameter is a language-defined type such as int, the performance impact may not be great, but if the parameter is an object of a class, then the efficiency problem is self-evident. For example, a function that determines whether two strings are equal is declared as follows: If the first function (value transfer) is used, the constructor and destructor of string need to be called when passing parameters and returning the function...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/12/improve_cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-12</div>
+        <h1>Methods to improve C++ operating efficiency</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><strong>1. Minimize value transfer and use references to transfer parameters.</strong>As for the reason, I believe everyone is very clear. If the parameter is a language-defined type such as int, the performance impact may not be great, but if the parameter is an object of a class, then the efficiency problem is self-evident. For example, a function that determines whether two strings are equal is declared as follows:<pre><code class="language-c++">bool Compare（string s1, string s2)
+bool Compare(string *s1, string *s2)
+bool Compare(string &amp;s1, string &amp;s2)
+bool Compare(const string &amp;s1, const string &amp;s2)</code></pre>If the first function (value passing) is used, the constructor and destructor of string need to be called twice when passing parameters and returning from the function (that is, a total of four more functions are called), while the other three functions (pointer passing and reference passing) do not need to call these four functions. Because neither pointers nor references create new objects. If the overhead of constructing an object and destroying an object is huge, this will have a certain impact on efficiency.
+However, in the eyes of many people, pointers are a nightmare. Using pointers means errors, so use references! It is as convenient and intuitive as using ordinary value passing, but with the efficiency and power of pointer passing. Because a reference is an alias of a variable, operating on it is equivalent to operating on the actual object, so when you are sure that your function will not or does not need the value of the variable parameter, boldly add a const in front of the declaration, just like the last function declaration.
+At the same time, adding a const has another advantage, that is, you can reference the constant. If you do not add the const modifier, the reference cannot reference the constant.<strong>2. Efficiency issues derived from ++i and i++</strong>After reading the first point above, you may think that it is just calling four more functions, and you may dismiss it. So take a look at the following example, it should surprise you.
+As for the difference between pre-adding and post-adding of integer variables, I believe everyone is also very clear. However, what I want to talk to you about here is operator overloading in C++ classes. In order to be consistent with the usage of integer variables, when overloading operator++ in C++, both pre-add and post-add are generally overloaded. You may say that you will not overload the ++ operator in your code, but do you dare to say that you have not used the ++ operator overloading in a class? You have always used the iterator class! Maybe you still don’t quite understand what I’m talking about, so let’s take a look at the following example first, which is an internal iterator I wrote for a linked list.<pre><code class="language-c++">_SingleList::Iterator&amp; _SingleList::Iterator::operator++()//前加
+{
+pNote = pNote-&gt;pNext;
+return *this;
+}
+_SingleList::Iterator _SingleList::Iterator::operator++(int)//后加
+{
+Iterator tmp(*this);
+pNote = pNote-&gt;pNext;
+return tmp;
+}</code></pre>From the implementation method added later, we can know that the object uses itself to create a temporary object (a copy of itself in the function call), then changes its own state, and returns the temporary object, while the implementation method added earlier directly changes its own internal state and returns its own reference.
+From the discussion of the first point, we can know that the copy constructor will be called during the post-add implementation, and the destructor will be called when the function returns. Since the pre-add implementation directly changes the internal state of the object and returns its own reference, no new object is created from beginning to end, so the constructor and destructor will not be called.
+But what's even worse is that iterators are usually used to traverse containers, and they are mostly used in loops. Imagine that your linked list has 100 elements, and you can traverse it in the following two ways:<pre><code class="language-c++">for(_SingleList::Iterator it = list.begin(); it != list.end(); ++it)
+{
+//do something
+} 
+
+for(_SingleList::Iterator it = list.begin(); it != list.end(); it++)
+{
+//do something
+}</code></pre>If you have bad habits and write the second form, then unfortunately, if you do the same thing, just because of the difference between a pre-add and a post-add, you will have to call 200 more functions, and its impact on efficiency cannot be ignored.<strong>3. Discussion 1 caused by loops (define inside the loop or define the object outside the loop)</strong>Please look at the following two pieces of code:
+Code 1:<pre><code class="language-c++">ClassTest CT；
+for(int i = 0; i &lt; 100; ++i)
+{
+CT = a;
+//do something
+}</code></pre>Code 2:<pre><code class="language-c++"> for(int i = 0; i &lt; 100; ++i)
+{
+ClassTest CT = a;
+//do something
+}</code></pre>Which piece of code do you think is more efficient? Is a code 1 scientist a code 2? In fact, in this case, it is uncertain which piece of code is more efficient, or it is determined by the nature of this class ClassTest. The analysis is as follows:
+For code 1: the constructor of ClassTest needs to be called once and the assignment operation function (operator=) 100 times; for code 2: the constructor (copy) needs to be called 100 times and the destructor 100 times.
+If the cost of calling the assignment operation function is smaller than the total cost of calling the constructor and destructor, then the first method is more efficient, otherwise the second method is more efficient.<strong>4. Discussion 2 caused by loops (avoiding excessive loops)</strong>Now look at the following two pieces of code,
+Code 1:<pre><code class="language-c++"> for(int i = 0; i &lt; n; ++i)
+{
+fun1();
+fun2();
+}</code></pre>Code 2:<pre><code class="language-c++">for(int i = 0; i &lt; n; ++i)
+{
+fun1();
+}
+for(int i = 0; i &lt; n; ++i)
+{
+fun2();
+}</code></pre>Note: fun1() and fun2() here are not related, that is, the results produced by the two pieces of code are the same.
+From the code level, it seems that code 1 is more efficient, because after all, code 1 has n fewer self-adding operations and judgments. After all, self-adding operations and judgments also take time. But is this really the case?
+This depends on the scale (or complexity) of the two functions fun1 and fun2. If the code statements of these multiple functions are few, the running efficiency of code 1 is higher. However, if fun1 and fun2 have many statements and are large in scale, the running efficiency of code 2 will be significantly higher than code 1. Maybe you don’t understand why this is, but why this starts with the computer hardware.
+Since the CPU can only read data from the memory, and the computing speed of the CPU is much greater than that of the memory, in order to increase the running speed of the program and effectively utilize the power of the CPU, there is a memory called Cache between the memory and the CPU, and its speed is close to that of the CPU. The data in the Cache is loaded from the memory. This process requires access to the memory and is slow.
+Let’s first talk about the design principles of Cache, which are temporal locality and spatial locality. Temporal locality means that if a storage unit is accessed, it may be accessed again soon because of loops in the program. Spatial locality means that if a storage unit is accessed, units adjacent to the unit may also be accessed quickly. This is because most instructions in the program are stored and executed sequentially, and data are generally clustered together in the form of vectors, arrays, trees, tables, etc.
+At this point you may already understand the reason. Yes, that’s it! If the amount of code for fun1 and fun2 is large, for example, both are larger than the capacity of the Cache, then in code 1, the Cache cannot be fully utilized (known from time locality and space locality), because every time the loop is cycled, the contents of the Cache must be kicked out and the code instructions of another function are reloaded from the memory. Order and data, and code 2 makes better use of the Cache. Using two loop statements, almost all the data used in each loop has been loaded into the Cache. Each loop can read and write data from the Cache, accessing less memory and faster. In theory, it only needs to completely kick out the data of fun1 once.<strong>5. Local variables VS static variables</strong>Many people think that local variables will only allocate storage units in memory when they are used, while static variables exist in memory at the beginning of the program, so the efficiency of using static variables should be higher than that of local variables. In fact, this is a misunderstanding. The efficiency of using local variables is higher than using static variables.
+This is because local variables exist on the stack, and allocating their space only requires modifying the contents of the esp register once (even if a set of local variables is defined, it is modified once). The biggest advantage of local variables existing in the stack is that functions can reuse memory. When a function is called, the program stack is exited and the memory space is recycled. When a new function is called, local variables can reuse the same address. When a piece of data is read and written repeatedly, the data will remain in the CPU's first-level cache (Cache), and the access speed is very fast. Static variables do not exist on the stack.
+It can be said that static variables are inefficient.<strong>6. Avoid using multiple inheritance</strong>In C++, multiple inheritance is supported, that is, a subclass can have multiple parent classes. Books will tell us about the complexity of multiple inheritance and the difficulty of using it, and warn us not to use multiple inheritance lightly. In fact, multiple inheritance not only makes programs and codes more complex, but also affects the running efficiency of the program.
+This is because in C++ each object has a this pointer pointing to the object itself, and the use of member variables by a class in C++ is calculated by adding the address of this and the offset. In the case of multiple inheritance, this calculation will make the variables more complex, thereby reducing the running efficiency of the program. In order to resolve ambiguity, multiple inheritance using virtual base classes has a more serious impact on efficiency, because its inheritance relationship is more complex and the parent class relationship to which the member variables belong is more complex.<strong>7. Use dynamic_cast as little as possible</strong>The function of dynamic_cast is to perform type conversion of pointers or references. The conversion of dynamic_cast requires a certain relationship between the target type and the source object: inheritance relationship. To implement pointer conversion from subclass to base class, in fact, this conversion is very inefficient and has a large impact on the performance of the program. It cannot be used in large quantities. Moreover, the more complex the inheritance relationship and the deeper the level, the greater the conversion time overhead. Use should be minimized in programs.<strong>8. Reduce the use of division operations</strong>Whether it is an integer or floating-point number operation, division is a very slow operation instruction, and it is relatively complicated to implement division in a computer. Therefore, to reduce the number of division operations, here are some simple methods to improve efficiency:
+1. Use mathematical methods to change division into multiplication, such as if (a &gt; b/c). If a, b, and c are all positive numbers, it can be written as if (a*c &gt; b)
+2. Let the compiler have room for optimization. For example, if the operation you want to do is n/8 of type int, writing it as (unsigned) n/8 will help the compiler optimize. To allow the compiler to have room for optimization, the divisor must be a constant, and this can also be achieved by modifying a variable with const.<strong>9. Declare small-granularity functions as inline functions (inline)</strong>As we know, calling a function requires overheads such as protecting the scene, allocating memory for local variables, and restoring the scene after the function ends. Inline functions write their code directly to the calling function, so these overheads are not required, but the source code length of the program will increase.
+Therefore, if it is a small-granularity function, such as the Max function below, it does not require the overhead of calling ordinary functions, so the efficiency of the program can be improved.<pre><code class="language-c++"> int Max(int a, int b)
+{
+return a&gt;b?a:b;
+}</code></pre>
+<strong>10. Multi-purpose direct initialization</strong>Corresponding to direct initialization is copy initialization. What is direct initialization? What is copy initialization? To give a simple example,<pre><code class="language-c++"> ClassTest ct1;
+ClassTest ct2(ct1); //直接初始化
+ClassTest ct3 = ct1; //复制初始化</code></pre>So what is the difference between direct initialization and copy initialization? Direct initialization is to directly construct another object from one object, such as using ct1 to construct ct2. Copy initialization is to construct an object first, and then copy the value of another object to this object. For example, first construct an object ct3, and then copy the value of the member variable in ct1 to ct3. From here, we can see that direct initialization is more efficient, and using direct initialization is also a benefit, that is, for objects that cannot be copied, such as stream objects, assignment initialization cannot be used, and only direct initialization can be performed. Maybe I didn't explain it clearly, so let me quote the classics below!
+The following are Primer’s original words:
+"When used for class type objects, the copy and direct forms of initialization are different: direct initialization directly calls the constructor that matches the actual parameters, and copy initialization always calls the copy constructor. Copy initialization first creates a temporary object using the specified constructor, and then uses the copy constructor to copy that temporary object to the object being created." Another paragraph says, "Usually direct initialization and copy initialization only differ in low-level optimization. However, for types that do not support copying, or when using non-explicit constructors, they are essentially different:
+ifstream file1("filename")://ok:direct initialization
+ifstream file2 = "filename";//error:copy constructor is private
+"
+Note: If you still have questions about direct initialization and copy initialization, you can refer to the previous article:
+An in-depth analysis of the difference between direct initialization and copy initialization in C++. There is a detailed explanation of direct initialization and copy initialization.
+Supplement:
+Here are just a few suggestions. Although I have said so much, I still want to say this: avoid unnecessary optimization and immature optimization. Immature optimization is the source of errors, because the compiler will do a lot of optimizations for you that you don't know about.
+
+Reprinted from the evil script house:<a href="http://www.jb51.net/article/54792.htm"><strong>http://www.jb51.net/article/54792.htm</strong></a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

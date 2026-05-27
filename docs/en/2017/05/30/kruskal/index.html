@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kruskal greedy algorithm of minimum spanning tree · OmegaXYZ</title>
+  <meta name="description" content="Basic ideas: (1) Construct a subgraph containing only n vertices and an empty edge set. If each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) Select an edge with the smallest weight from the edge set E of the network. If the two vertices of this edge belong to different trees, add it to the subgraph. In other words, combine the two trees where the two vertices are located into one tree; on the contrary, if the two vertices of the edge already fall on the same tree, it is not advisable, and the one with the smallest weight should be taken...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/05/30/kruskal/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-30</div>
+        <h1>Kruskal greedy algorithm of minimum spanning tree</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a></div>
+        <div class="article-content"><strong>Basic idea:</strong>(1) Construct a subgraph containing only n vertices and an empty edge set. If each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) Select an edge with the smallest weight from the edge set E of the network. If the two vertices of this edge belong to different trees, add it to the subgraph. In other words, the two trees where the two vertices are located are combined into one tree; on the contrary, if the two vertices of the edge have fallen on the same tree, it is not advisable. Instead, you should take the edge with the smallest weight and try again (3) and so on, until there is only one tree in the forest, that is, the subgraph contains n-1 edges.<strong>Vernacular:</strong>(1) Remove all edges in the picture. (2) Add edges to the graph in order from small to large weights to ensure that no loops are formed during the addition process. (3) Repeat the previous step until all vertices are connected. At this time, a minimum spanning tree is generated. This is a greedy strategy.<strong>difficulty:</strong>Determine whether the addition of an edge &lt;u, v&gt; will form a cycle in the selected edge set.
+Solution: Use union search to find the root nodes of the tree where the two vertices u and v are located. If the root nodes are the same, it means that u and v are in the same tree, and then u and v will form a ring when connected; if the root nodes are different, then u and v are not in the same tree, and they will not form a ring when connected, but the two trees will be merged.<strong>Time complexity of Kruskal's algorithm</strong>is O(eloge) (e is the number of edges in the network), so compared to Prim's algorithm, it is suitable for finding the minimum spanning tree of a network with sparse edges.
+Kruskal's algorithm finds the minimum spanning tree of the network from another approach. Assuming a connected network N = (V, {E}), let the initial state of the minimum spanning tree be a non-connected graph T = (V, {∮}) with only n vertices and no edges. Each vertex in the graph forms a connected component. Select the edge with the smallest cost in E. If the vertex attached to the edge falls on a different connected component in T, add this edge to T. Otherwise, discard this edge and select the next edge with the smallest cost. And so on, until all vertices in T are on the same connected component.<img alt="" class="alignnone wp-image-848" height="405" src="https://cdn.omegaxyz.com/2017/05/Kruskal1-300x281.jpg" width="432"/>
+<img alt="" class="alignnone wp-image-849" height="571" src="https://cdn.omegaxyz.com/2017/05/Kruskal2-226x300.jpg" width="430"/>Code:<pre><code class="language-c++">void kruskal(edgeset ge, int n, int e)          //ge为权值按照从小到大的边集数组  
+{  
+        int set[MAX], v1, v2, i, j;               
+        for(i = 1; i &lt;=n; i++)                   //set中每个元素赋初值  
+        {  
+            set[i] = 0;  
+        }  
+        i = 1;                                  //i表示获取的生成树中的边数，初值为1              
+        j = 1;                                  //j表示ge中的下标，初始值为1  
+        while(j &lt; n &amp;&amp; i &lt;= e)                    //检查该边是否加入到了生成树中  
+        {  
+                    v1 = seeks(set, ge[i].beginver);  
+                    v2 = seeks(set, ge[i].endver);  
+                    if(v1 != v2)  
+                    {  
+                            printf("(%d, %d)", ge[i].beginver, ge[i].endver);  
+                            set[v1] = v2;  
+                            j++;  
+                    }  
+                    i++;  
+        }  
+}</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

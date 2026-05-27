@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGL数值微分法（DDA）画直线 · OmegaXYZ</title>
+  <meta name="description" content="DDA算法，是计算机图形学中一种基于直线的微分方程来生成直线的方法，由于有浮点数运算与取整，该算法不利于硬件实现。 其主要思想是由直线公式 y = kx + b 推导出来的。 我们已知直线段两个端点P0(x0,y0)和P1(x1,y1)，就能求出 k 和 b 。 在k，b均求出的条件下，只要知道一个x值，我们就能计算出一个y值。如果x的步...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/23/dda_cg/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-23</div>
+        <h1>OpenGL数值微分法（DDA）画直线</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/opengl/index.html">openGL</a></div>
+        <div class="article-content">DDA算法，是计算机图形学中一种基于直线的微分方程来生成直线的方法，由于有浮点数运算与取整，该算法不利于硬件实现。
+
+其主要思想是由直线公式<strong>y = kx + b</strong>推导出来的。
+我们已知直线段两个端点P0(x0,y0)和P1(x1,y1)，就能求出 k 和 b 。
+
+在k，b均求出的条件下，只要知道一个x值，我们就能计算出一个y值。如果x的步进为1（x每次加1，即x = x +1），那么y的步进就为k+b；同样知道一个y值也能计算出x值，此时y的步进为1，x的步进为(1-b)/k。根据计算出的x值和y值，向下取整，得到坐标(x’,y’)，并在(x’,y’)处绘制直线段上的一点。
+
+为进一步简化计算，通常可令b取0，将起点看作(0,0)。设当前点为(xi, yi)则用DDA算法求解(xi+1，yi+1)的计算公式可以概括为：
+
+xi+1 = xi + xStep (1)
+yi+1 = yi + yStep (2)
+我们一般通过计算 Δx 和 Δy 来确定xStep和yStep：
+
+如果 Δx &gt; Δy ，说明x轴的最大差值大于y轴的最大差值，x轴方向为步进的主方向，xStep = 1，yStep = k；
+如果 Δy&gt; Δx，说明y轴的最大差值大于x轴的最大差值，y轴方向为步进的主方向，yStep = 1，xStep = 1 / k。
+根据这个公式，就能通过(xi，yi)迭代计算出(xi+1、yi+1)，然后在坐标系中绘制计算出的(x,y)坐标点。
+
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">#include &lt;GL/GLUT.H&gt;
+#include &lt;iostream&gt;
+#include &lt;math.h&gt;
+
+
+//数值微分法
+using namespace std;
+
+float xs = 0.0;
+float ys = 0.0;
+float xe = 0.0;
+float ye = 0.0;
+
+void LineDDA(int x0, int y0, int x1, int y1)
+{
+	float x = 0.0;
+	float y = 0.0;
+	float m = 0.0;
+	float dx = x1 - x0;
+	float dy = y1 - y0;
+	if (dx != 0)
+	{
+		m = dy / dx;
+		if (m &lt;= 1 &amp;&amp; m &gt;= -1)
+		{
+			y = y0;
+			for (x = x0; x &lt;= x1; x++)
+			{
+				glVertex2i(x, int(y + 0.5));
+				y += m;
+			}
+		}
+		if (m&gt;1 || m&lt;-1)
+		{
+			m = 1 / m;
+			x = x0;
+			for (y = y0; y &lt;= y1; y++)
+			{
+				glVertex2i(int(x + 0.5), y);
+				x += m;
+			}
+		}
+	}
+	else
+	{
+		int x = x0;
+		int y = 0;
+		y = (y0 &lt;= y1) ? y0 : y1;
+		int d = fabs((double)(y0 - y1));
+		while (d &gt;= 0)
+		{
+			glVertex2i(x, y);
+			y++;
+			d--;
+		}
+	}
+}
+
+void lineSegment()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_POINTS);
+	LineDDA(xs, ys, xe, ye);
+	glEnd();
+	glFlush();
+}
+
+int main(int argc, char *argv[])
+{
+	glutInit(&amp;argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
+	cout &lt;&lt; "输入线段起始和终点坐标（范围为 0 - 500, 0-500，空格隔开四个数）:";
+	cin &gt;&gt; xs &gt;&gt; ys &gt;&gt; xe &gt;&gt; ye;
+	glutInitWindowPosition(50, 100);
+	glutInitWindowSize(500, 500);
+	glutCreateWindow("DDA");
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glMatrixMode(GL_PROJECTION);
+	gluOrtho2D(0.0, 500, 0.0, 500.0);
+	glutDisplayFunc(lineSegment);
+	glutMainLoop();
+
+	return 0;
+}</code></pre>
+<strong>效果图：</strong>
+
+<img class="alignnone size-full wp-image-5020" src="https://cdn.omegaxyz.com/2018/09/DDA.jpg" alt="" width="467" height="542" />
+
+<strong>参考资料：</strong><a href="https://blog.csdn.net/u010429424/article/details/77834046?utm_source=copy">https://blog.csdn.net/u010429424/article/details/77834046?utm_source=copy</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

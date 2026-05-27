@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习相似性度量（距离度量） · OmegaXYZ</title>
+  <meta name="description" content="度量相似性 （similarity measure）即 距离度量 ，在生活中我们说差别小则相似，对应到多维样本，每个样本可以对应于高维空间中的一个数据点，若它们的距离相近，我们便可以称它们相似。 距离度量的基本性质 注意最后一个可以理解为三角形两边之和大于第三边。 欧式距离 欧几里得度量（euclidean metric）（也称欧氏距离）...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/16/similarity_measure/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-16</div>
+        <h1>机器学习相似性度量（距离度量）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="article-content"><strong>度量相似性</strong>（similarity measure）即<strong>距离度量</strong>，在生活中我们说差别小则相似，对应到多维样本，每个样本可以对应于高维空间中的一个数据点，若它们的距离相近，我们便可以称它们相似。
+<h1><strong>距离度量的基本性质</strong></h1>
+<img class="alignnone size-full wp-image-4052" src="https://cdn.omegaxyz.com/2018/04/similarity-measure.jpg" alt="" width="538" height="196" />
+
+<span style="color: #ff0000;"><strong>注意最后一个可以理解为三角形两边之和大于第三边。</strong></span>
+<h1><strong>欧式距离</strong></h1>
+欧几里得度量（euclidean metric）（也称欧氏距离）是一个通常采用的距离定义，指在m维空间中两个点之间的真实距离，或者向量的自然长度（即该点到原点的距离）。在二维和三维空间中的欧氏距离就是两点之间的实际距离。
+
+<span style="color: #ff0000;"><strong>对应于机器学习即对应属性之间相减的平方和再开根号。</strong></span>
+<h1><strong>闵可夫斯基距离（Minkowski distance)</strong></h1>
+<h1><strong>曼哈顿距离（Manhattan distance）</strong></h1>
+<h1><strong>切比雪夫距离（Chebyshev distance）</strong></h1>
+闵可夫斯基距离是度量在赋范向量空间，其可以被认为是两个的一般化欧几里德距离和曼哈顿距离。
+
+两点之间的闵可夫斯基距离
+
+<img class="alignnone size-full wp-image-4053" src="https://cdn.omegaxyz.com/2018/04/Minkowski1.jpg" alt="" width="386" height="28" />
+
+<img class="alignnone size-full wp-image-4054" src="https://cdn.omegaxyz.com/2018/04/Minkowski2.jpg" alt="" width="252" height="74" />
+
+当p=1时，闵可夫斯基距离即<strong>曼哈顿距离（Manhattan distance）</strong>：
+
+<img class="alignnone size-full wp-image-4055" src="https://cdn.omegaxyz.com/2018/04/manhaton.jpg" alt="" width="298" height="57" />
+
+当p=2时，闵可夫斯基距离即<strong>欧氏距离（Euclidean distance）</strong>
+
+在p达到无穷大的极限情况下，我们得到<strong>切比雪夫距离（Chebyshev distance）</strong>
+
+<img class="alignnone size-full wp-image-4056" src="https://cdn.omegaxyz.com/2018/04/qiebixuefu.jpg" alt="" width="314" height="66" />
+
+闵可夫斯基距离也可以看作P和Q之间分量差异的平均值的倍数。
+
+下图显示了具有各种p值的单位圆：
+
+<img class="alignnone size-full wp-image-4057" src="https://cdn.omegaxyz.com/2018/04/Minkowski3.jpg" alt="" width="1493" height="187" />
+
+我们知道属性分为两种：<strong>连续属性</strong>和<strong>离散属性</strong>（有限个取值）。对于连续值的属性，一般都可以被学习器所用，有时会根据具体的情形作相应的预处理，例如：归一化等；而对于离散值的属性，需要作下面进一步的处理：
+
+若属性值之间<strong>存在序关系</strong>，则可以将其转化为连续值，例如：身高属性“高”“中等”“矮”，可转化为{1, 0.5, 0}。
+若属性值之间<strong>不存在序关系</strong>，则通常将其转化为向量的形式，例如：性别属性“男”“女”，可转化为{（1,0），（0,1）}。
+
+在进行距离度量时，易知<strong>连续属性和存在序关系的离散属性都可以直接参与计算</strong>，因为它们都可以反映一种程度，我们称其为“<strong>有序属性</strong>”；而对于不存在序关系的离散属性，我们称其为：“<strong>无序属性</strong>”，显然无序属性再使用闵可夫斯基距离就行不通了。
+
+对于无序属性，我们一般采用VDM进行距离的计算，例如：对于离散属性的两个取值a和b，定义（p200）：
+
+<img class="alignnone size-full wp-image-4060" src="https://cdn.omegaxyz.com/2018/04/VDMNEW1.jpg" alt="" width="546" height="81" />
+
+是，在计算两个样本之间的距离时，我们可以将闵可夫斯基距离和VDM混合在一起进行计算：
+
+<img class="alignnone size-full wp-image-4061" src="https://cdn.omegaxyz.com/2018/04/VDMNEW2.jpg" alt="" width="689" height="143" />
+
+若我们定义的距离计算方法是用来度量相似性，例如下面将要讨论的聚类问题，即距离越小，相似性越大，反之距离越大，相似性越小。这时距离的度量方法并不一定需要满足前面所说的四个基本性质，这样的方法称为：<strong>非度量距离（non-metric distance）</strong>。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

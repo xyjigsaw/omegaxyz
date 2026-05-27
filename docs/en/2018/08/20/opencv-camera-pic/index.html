@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenCV face recognition-still pictures and dynamic cameras · OmegaXYZ</title>
+  <meta name="description" content="Introduction Environment: Python3+OpenCV3.4 In OpenCV, two features (i.e. two methods) are mainly used for face detection, Haar features and LBP features. Use the already trained classifier in XML format for face detection. In the data folder in the sources folder under the OpenCV installation directory, you can see the content shown in the figure below (opencv\sources\data\haarcascades...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/08/20/opencv-camera-pic/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-20</div>
+        <h1>OpenCV face recognition-still pictures and dynamic cameras</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/opencv/index.html">OpenCV</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Environment: Python3+OpenCV3.4
+
+In OpenCV, two features (i.e. two methods) are mainly used for face detection, Haar features and LBP features. Use the already trained classifier in XML format for face detection. In the data folder in the sources folder under the OpenCV installation directory, you can see the content shown in the figure below (opencv\sources\data\haarcascades):<img alt="" class="alignnone size-full wp-image-4948" height="412" src="https://cdn.omegaxyz.com/2018/08/opencvdata.jpg" width="688"/>The names of the folders "haarcascades", "hogcascades" and "lbpcascades" respectively represent classifiers trained through three different features: "haar", "hog" and "lbp": the "haar" feature is mainly used for face detection, the "hog" feature is mainly used for pedestrian detection, the "lbp" feature is mainly used for face recognition, and the "eye" feature is mainly used for eye detection and recognition.<h2><strong>Introduction to OpenCV</strong></h2>
+https://omegaxyz.com/2018/08/19/python3-opencv/
+<h2><strong>Static picture face recognition code</strong></h2>
+<pre><code class="language-python">import cv2
+
+# 指定图片的人脸识别然后存储
+img = cv2.imread("./opencvpic/1.jpg")
+
+color = (0, 255, 0)
+
+grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+classfier = cv2.CascadeClassifier("./data/haarcascade_frontalface_alt2.xml")
+
+faceRects = classfier.detectMultiScale(grey, scaleFactor=1.2, minNeighbors=3, minSize=(32, 32))
+if len(faceRects) &gt; 0:  # 大于0则检测到人脸
+    for faceRect in faceRects:  # 单独框出每一张人脸
+        x, y, w, h = faceRect
+        cv2.rectangle(img, (x - 10, y - 10), (x + w + 10, y + h + 10), color, 40)  # 控制绿色框的粗细
+
+# 写入图像
+cv2.imwrite('./opencvpic/aaa.jpg', img)</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone wp-image-4950" height="352" src="https://cdn.omegaxyz.com/2018/08/2.jpg" width="626"/>             <img alt="" class="alignnone wp-image-4951" height="353" src="https://cdn.omegaxyz.com/2018/08/aaa.jpg" width="626"/>
+<h2><strong>Dynamic camera face recognition</strong></h2>Read pictures by frame number<pre><code class="language-python">import cv2
+
+cap = cv2.VideoCapture(0)
+face_cascade = cv2.CascadeClassifier(r'./data/haarcascade_frontalface_default.xml') # 加载人脸特征库
+
+while(True):
+    ret, frame = cap.read() # 读取一帧的图像
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # 转灰
+
+    faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.15, minNeighbors = 5, minSize = (5, 5)) # 检测人脸
+    for(x, y, w, h) in faces:
+        cv2.rectangle(gray, (x, y), (x + w, y + h), (0, 255, 0), 2) # 用矩形圈出人脸
+
+    cv2.imshow('Face Recognition', gray)
+    if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+        break
+
+cap.release() # 释放摄像头
+cv2.destroyAllWindows()</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone size-full wp-image-4952" height="651" src="https://cdn.omegaxyz.com/2018/08/opencvcamera.jpg" width="800"/></div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-3827">
+          <strong><a href="http://www.mebugs.cm" rel="nofollow">米虫博客</a></strong>
+          <time>2018-08-21 10:57:12</time>
+          <div>虽然不明白，但是感觉最后一张图好厉害的样子，哈啊哈</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3832">
+          <strong>xyjisaw</strong>
+          <time>2018-08-24 14:55:23</time>
+          <div>哈哈哈哈</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

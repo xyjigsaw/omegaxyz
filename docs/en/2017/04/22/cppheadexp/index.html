@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ header file explanation · OmegaXYZ</title>
+  <meta name="description" content="As a learning reference, excerpted from Baidu Library Traditional C++ #include &lt;assert.h&gt; //Set the insertion point #include &lt;ctype.h&gt; //Character processing #include &lt;errno.h&gt; //Define error code #include &lt;float.h&gt; //Floating point number processing #include &lt;fstream.h&gt; //File input/output #include &lt;...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/22/cppheadexp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-22</div>
+        <h1>C++ header file explanation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">As a learning reference, excerpted from Baidu Library<strong>Traditional C++</strong>#include &lt;assert.h&gt; //Set the insertion point
+#include &lt;ctype.h&gt; //Character processing
+#include &lt;errno.h&gt; //Define error code
+#include &lt;float.h&gt; //Floating point number processing
+#include &lt;fstream.h&gt; //File input/output
+#include &lt;iomanip.h&gt; //Parameterized input/output
+#include &lt;iostream.h&gt; //Data stream input/output
+#include &lt;limits.h&gt; //Define the maximum value constants of various data types
+#include &lt;locale.h&gt; //Define localization function
+#include &lt;math.h&gt; //Define mathematical functions
+#include &lt;stdio.h&gt; //Define input/output functions
+#include &lt;stdlib.h&gt; //Define miscellaneous functions and memory allocation functions
+#include &lt;string.h&gt; //String processing
+#include &lt;strstrea.h&gt; //Array-based input/output
+#include &lt;time.h&gt; //Define functions about time
+#include &lt;wchar.h&gt; //Wide character processing and input/output
+#include &lt;wctype.h&gt; //Wide character classification<strong>Standard C++<em>(No more comments about the same as above)</em></strong>#include &lt;algorithm&gt; //STL general algorithm
+#include &lt;bitset&gt; //STL bitset container
+#include &lt;cctype&gt; //Character processing
+#include &lt;cerrno&gt; //Define error code
+#include &lt;clocale&gt; //Define localization function
+#include &lt;cmath&gt; //Define mathematical functions
+#include &lt;complex&gt; //Plural class
+#include &lt;cstdio&gt; //Define input/output functions
+#include &lt;cstdlib&gt; //Define miscellaneous functions and memory allocation functions
+#include &lt;cstring&gt; //String processing
+#include &lt;ctime&gt; //Define functions about time
+#include &lt;deque&gt; //STL double-ended queue container
+#include &lt;exception&gt; //Exception handling class
+#include &lt;fstream&gt; //File input/output
+#include &lt;functional&gt; //STL defines arithmetic functions (replacing operators)
+#include &lt;limits&gt; /Define the most valuable constants of various data types
+#include &lt;list&gt; //STL linear list container
+#include &lt;map&gt; //STL mapping container
+#include &lt;iomanip&gt; //Parameterized input/output
+#include &lt;ios&gt; //Basic input/output support
+#include &lt;iosfwd&gt; //Predeclaration used by input/output system
+#include &lt;iostream&gt; //Data stream input/output
+#include &lt;istream&gt; //Basic input stream
+#include &lt;ostream&gt; //Basic output stream
+#include &lt;queue&gt; //STL queue container
+#include &lt;set&gt; //STL collection container
+#include &lt;sstream&gt; //String-based stream
+#include &lt;stack&gt; //STL stack container
+#include &lt;stdexcept&gt; //Standard exception class
+#include &lt;streambuf&gt; //Underlying input/output support
+#include &lt;string&gt; //String class
+#include &lt;utility&gt; //STL general template class
+#include &lt;vector&gt; //STL dynamic array container
+#include &lt;cwchar&gt; //Wide character processing and input/output
+#include &lt;cwctype&gt; //Wide character classification
+using namespace std;<strong>C99 increase</strong>#include &lt;complex.h&gt; //Plural processing
+#include &lt;fenv.h&gt; //Floating point environment
+#include &lt;inttypes.h&gt; //Integer format conversion
+#include &lt;stdbool.h&gt; //Boolean environment
+#include &lt;stdint.h&gt; //Integer environment
+#include &lt;tgmath.h&gt; //General type math macro<strong>1. Precompiled header file description</strong>The so-called header file pre-compilation is to pre-compile some MFC standard header files (such as Windows. This speeds up compilation and saves time.
+
+The precompiled header file is generated by compiling stdafx.cpp and is named after the project name. Since the suffix of the precompiled header file is "pch", the compilation result file is projectname.pch.
+
+The compiler uses precompiled header files through a header file stdafx.h. The header file name stdafx.h can be specified in the project's compilation settings. The compiler believes that all code before the directive #include "stdafx.h" is precompiled. It skips the #include "stdafx.h" directive and uses projectname.pch to compile all code after this directive. (During compilation, the statements before #include "stdafx. h" will not be compiled)
+
+Therefore, the first statement of all CPP implementation files is: #include "stdafx.h".
+
+In addition, each implementation file CPP contains the following statements:<table>
+<tbody>
+<tr>
+<td width="740">#ifdef _DEBUG
+
+#undef THIS_FILE
+
+static char THIS_FILE[] = __FILE__;
+
+#endif</td>
+</tr>
+</tbody>
+</table>This means, if building a debug build, to indicate the name of the current file. __FILE__ is a macro, which is assigned the name of the file currently being compiled during the compiler's compilation process.
+
+When the end of the file cannot be found, the solution is as follows:
+
+vc.net uses precompiled headers (/Yu) by default. If you don't understand, fatal error C1010 always occurs during compilation after adding a new .h file: An unexpected end-of-file error was encountered when searching for precompiled header instructions. The solution is to add #include "stdafx.h" where the header file is included, or go to the project properties, find the "C/C++" folder, and click the "Precompiled Header" property page. Modify the "Create/Use Precompiled Header" property to "Do Not Use Precompiled Header".<strong>3. The origin of preprocessing</strong>In the historical development of C++, many language features (especially the obscurity of the language) come from the C language, and preprocessing is one of them. C++ inherits the C language preprocessor from the C language (C language preprocessor, referred to as Cpp by Dr. Bjarne, I don’t know if it is the abbreviation of C Program Preprocessor).<strong>4. Common preprocessing functions</strong>The main function of the preprocessor is to equivalently replace a resource through the built-in functions of preprocessing. The most common preprocessors are: file inclusion, conditional compilation, layout control and macro replacement.
+
+File inclusion: #include is the most common preprocessing, mainly used as a reference to combine the source program text with the file.
+
+Conditional compilation: #if, #ifndef, #ifdef, #endif, #undef, etc. are also relatively common preprocessing. They mainly perform selective selection during compilation and comment out some specified codes to achieve version control and prevent repeated inclusion of files.
+
+Layout control: #pragma, this is also an important aspect of our application preprocessing. Its main function is to provide unconventional control flow information to the compiler.
+
+Macro replacement: #define, this is the most common usage. It can define various functions such as symbolic constants, function functions, renaming, and string splicing.<strong>5. Preprocessing instructions</strong>The format of the preprocessing directive is as follows:
+
+#directive tokens
+
+The # symbol should be the first non-empty character in this line, and generally we put it at the beginning. If the command cannot fit in one line, it can be controlled through "\", for example:
+
+#define Error if(error) exit(1)
+
+Equivalent to
+
+#defineError\
+
+if(error) exit(1)
+
+Let’s take a look at common preprocessing instructions:
+
+#define macro definition
+
+#undef undefined macro
+
+#include text includes
+
+#ifdef compile if macro is defined
+
+#ifndef Compile if macro not defined
+
+#endif ends the control of the compiled block
+
+#if the expression is non-zero, compile the code
+
+#else Compile as remaining options for other preprocessors
+
+#elif This is a combination option of #else and #if //There are examples later
+
+#line Change the current line number and file name
+
+#error Output an error message
+
+#pragma provides non-conventional control flow information to the compiler
+
+Below we will explain these preprocessing one by one. Considering the importance and cumbersomeness of macros, we will put it at the end.<strong>6. File contains instructions</strong>This method of preprocessing is the most common. We usually use it when writing programs. The most common usage is:
+
+#include &lt;iostream&gt; //Standard library header file
+
+#include &lt;iostream.h&gt; //Old standard library header file
+
+#include "IO.h" //User-defined header file
+
+#include "../file.h" //Header file in the parent directory under UNIX
+
+#include "/usr/local/file.h" //Full path under UNIX
+
+#include "..\file.h" //Header file in the parent directory under Dos
+
+#include "\usr\local\file.h" //Full path under Dos
+
+ 
+
+Complete collection of C header files
+
+ 
+
+Classification function, the function library is ctype.h
+
+int isalpha(int ch) If ch is a letter ('A'-'Z','a'-'z'), return a non-zero value, otherwise return 0
+
+int isalnum(int ch) if ch is a letter ('A'-'Z','a'-'z') or a number ('0'-'9')
+
+Returns a non-zero value, otherwise returns 0
+
+int isascii(int ch) returns a non-zero value if ch is a character (0-127 in ASCII code), otherwise returns 0
+
+int iscntrl(int ch) If ch is an invalid character (0x7F) or a normal control character (0x00-0x1F)
+
+Returns a non-zero value, otherwise returns 0
+
+int isdigit(int ch) If ch is a number ('0'-'9'), return a non-0 value, otherwise return 0
+
+int isgraph(int ch) If ch is a printable character (excluding spaces) (0x21-0x7E), return a non-zero value, otherwise return 0
+
+int islower(int ch) returns a non-zero value if ch is a lowercase letter ('a'-'z'), otherwise returns 0
+
+int isprint(int ch) If ch is a printable character (including spaces) (0x20-0x7E), return a non-0 value, otherwise return 0
+
+int ispunct(int ch) returns a non-zero value if ch is a punctuation character (0x00-0x1F), otherwise returns 0
+
+int isspace(int ch) If ch is a space (' '), horizontal tab ('\t'), carriage return ('\r'),
+
+Paper feeding line feed ('\f'), vertical tab ('\v'), newline ('\n')
+
+Returns a non-zero value, otherwise returns 0
+
+int isupper(int ch) returns a non-zero value if ch is an uppercase letter ('A'-'Z'), otherwise returns 0
+
+int isxdigit(int ch) If ch is a hexadecimal number ('0'-'9','A'-'F','a'-'f'), return a non-0 value,
+
+Otherwise return 0
+
+int tolower(int ch) If ch is an uppercase letter ('A'-'Z'), return the corresponding lowercase letter ('a'-'z')
+
+int toupper(int ch) If ch is a lowercase letter ('a'-'z'), return the corresponding uppercase letter ('A'-'Z')
+
+ 
+
+Mathematical functions, the function libraries are math.h, stdlib.h, string.h, float.h
+
+int abs(int i) Returns the absolute value of the integer parameter i
+
+double cabs(struct complex znum) Returns the absolute value of the complex number znum
+
+double fabs(double x) Returns the absolute value of the double parameter x
+
+long labs(long n) Returns the absolute value of the long integer parameter n
+
+double exp(double x) Returns the value of the exponential function ex
+
+double frexp(double value,int *eptr) Returns the value of x in value=x*2n, n is stored in eptr
+
+double ldexp(double value,int exp); Returns the value of value*2exp
+
+double log(double x) returns the value of logex
+
+double log10(double x) Returns the value of log10x
+
+double pow(double x,double y) returns the value of xy
+
+double pow10(int p) Returns the value of 10p
+
+double sqrt(double x) Returns the value of +√x
+
+double acos(double x) Returns the inverse cosine cos-1(x) value of x, x is radians
+
+double asin(double x) Returns the arcsine sin-1(x) value of x, x is radians
+
+double atan(double x) Returns the arctangent tan-1(x) value of x, x is radians
+
+double atan2(double y,double x) Returns the arctangent tan-1(x) value of y/x, x of y is radians
+
+double cos(double x) Returns the cosine cos(x) value of x, x is radians
+
+double sin(double x) Returns the sine sin(x) value of x, x is radians
+
+double tan(double x) Returns the tangent tan(x) value of x, x is radians
+
+double cosh(double x) Returns the hyperbolic cosine cosh(x) value of x, x is radians
+
+double sinh(double x) Returns the hyperbolic sine sinh(x) value of x, x is radians
+
+double tanh(double x) Returns the hyperbolic tangent tanh(x) value of x, x is radians
+
+double hypot(double x,double y) Returns the length (z) of the hypotenuse of a right triangle,
+
+x and y are the lengths of the right angle sides, z2=x2+y2
+
+doub</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

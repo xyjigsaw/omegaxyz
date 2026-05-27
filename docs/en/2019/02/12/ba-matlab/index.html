@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB implementation of classic bat algorithm · OmegaXYZ</title>
+  <meta name="description" content="Why are there so many algorithms based on swarm intelligence, such as ant colonies, particle swarms, fish swarms, fireworks, firecrackers, pigs, cattle, horses, sheep, monkeys, and chickens. . . algorithm. ? ? ? ? ? ? Black question mark.jpg The Bat Algorithm (BA) is a heuristic search algorithm proposed by Professor Yang in 2010 based on swarm intelligence. It is an effective method for searching for the global optimal solution. The algorithm is an optimization technology based on iteration, which is initialized as a set of random solutions, and then searches for the optimal solution through iteration...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/02/12/ba-matlab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-12</div>
+        <h1>MATLAB implementation of classic bat algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">Why are there so many algorithms based on swarm intelligence, such as ant colonies, particle swarms, fish schools, fireworks,<del>Firecrackers, pigs, cattle, horses, sheep, monkeys, chickens. . . algorithm. ? ? ? ? ? ?</del>
+<strong>Black question mark.jpg</strong>The Bat Algorithm (BA) is a heuristic search algorithm based on swarm intelligence proposed by Professor Yang in 2010. It is an effective method to search for the global optimal solution. This algorithm is an optimization technology based on iteration, which is initialized as a set of random solutions, and then searches for the optimal solution through iteration, and generates local new solutions through random flying around the optimal solution, which strengthens the local search. Compared with other algorithms, BA is far superior to other algorithms in terms of accuracy and effectiveness, and does not have many parameters to adjust.<div class="para">The BA algorithm is a random search algorithm that simulates the use of sonar by bats in nature to detect prey and avoid obstacles. It simulates the most basic detection and positioning capabilities of bats using ultrasonic waves to detect obstacles or prey and connects it with the optimization target function. The bionic principle of the BA algorithm maps a population of individual bats to NP feasible solutions in a D-dimensional problem space, and simulates the optimization process and search into the movement process of individual bats in the population and searching for prey. The fitness function value of the solution problem is used to measure the advantages and disadvantages of the bat's location. The individual survival of the fittest process is analogized to the iterative process of replacing poor feasible solutions with good feasible solutions in the optimization and search process. In the bat search algorithm, in order to simulate bats detecting prey and avoiding obstacles, the following three approximate or idealized rules need to be assumed:</div>
+<ul>
+<li class="para">1) All bats use echolocation to sense distance, and they use an ingenious way to distinguish the difference between prey and background obstacles.</li>
+<li class="para">2) The bat flies randomly at position xi with speed vi, and searches for prey with a fixed frequency fmin, variable wavelength λ and volume A0. The bat automatically adjusts the wavelength (or frequency) of the emitted pulse and adjusts the pulse emission rate r according to its proximity to the target. It belongs to [0,1]</li>
+<li class="para">3) Although there are many ways to change the volume, in the bat algorithm, it is assumed that the volume A changes from a maximum value A0 (integer) to a fixed minimum value Amin</li>
+</ul>
+<strong>pseudocode:</strong>
+<img alt="" class="alignnone wp-image-5499" height="254" src="https://cdn.omegaxyz.com/2019/02/BA1.png" width="470"/>
+<strong>Maltab implementation:</strong>
+<strong>Main function code:</strong>
+<pre><code class="language-matlab">function [bestMin, bestID] = MYBA()
+%A new modification approach on bat algorithm for solving optimization problems
+%omegaxyz.com 2019年2月12日
+clc
+%% BA参数设置
+t = 1; 
+maxT = 500; %最大迭代次数
+dim = 30; %问题的维度
+sizep = 50; %种群大小
+xmin = -100;
+xmax = 100; %位置向量的范围
+
+A = 0.6.*ones(sizep,1);    % 响度 (不变或者减小)
+r = zeros(sizep,1);      % 脉冲率 (不变或增加))
+r0 = 0.7;
+Af = 0.9;
+Rf = 0.9;
+Qmin = 0;         % 最小频率
+Qmax = 1;         % 最大频率
+
+%% 初始化
+Lb = xmin*ones(1,dim);
+Ub = xmax*ones(1,dim);
+pop = Lb+(Ub-Lb).*rand(sizep,dim); %种群初始化
+popv = zeros(sizep,dim);   % 速度
+Q = zeros(sizep,1);   % 频率
+
+pfitness = zeros(sizep,1);
+for i = 1:sizep
+    pfitness(i) = evaluate(pop(i,:)); %评价
+end
+[bestMin, bestID]=min(pfitness);
+bestS = pop(bestID, :);
+bestArchive = zeros(maxT,1);
+%% 具体迭代过程
+while t &lt;= maxT
+    for i = 1:sizep
+        Q(i)=Qmin+(Qmin-Qmax)*rand();
+        popv(i,:)=popv(i,:)+(pop(i,:)-bestS)*Q(i);
+        Stemp = pop(i,:)+popv(i,:);
+        % 脉冲率
+         if rand&gt;r(i)
+             Stemp=bestS-1+2*rand(1,dim);
+         end
+         fitTemp = evaluate(Stemp);
+         if (fitTemp&lt;=pfitness(i))&amp;&amp;(rand()&lt;A(i))
+            pop(i,:) = Stemp;
+            pfitness(i) = fitTemp;
+            A(i) = Af*A(i);
+            r(i) = r0*(1-exp(-Rf*t));
+         end
+         if fitTemp &lt;= bestMin
+            bestMin = fitTemp;
+         	bestS = Stemp;
+         end
+    end
+    bestArchive(t) = bestMin;
+    fprintf('GEN: %d  min: %.4f\n', t, bestMin);
+    t = t +1;
+end
+
+
+end
+</code></pre>
+<strong>Among them, evaluate is the evaluation function, written by yourself.</strong></div>
+        <section class="comments"><h2>Comments (14)</h2>
+        <div class="comment" id="comment-19209">
+          <strong>zjh</strong>
+          <time>2020-07-21 09:20:55</time>
+          <div>您好，我想请教一下为什么代码51行中是fitTemp&amp;lt;=pfitness(i)而不是fitTemp&amp;lt;evaluate(bestS(1,:)呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19210">
+          <strong>xyjisaw</strong>
+          <time>2020-07-21 11:23:21</time>
+          <div>evaluate的结果存在pfitness中</div>
+        </div>
+        
+        <div class="comment" id="comment-19300">
+          <strong>lyj</strong>
+          <time>2020-08-13 09:37:29</time>
+          <div>您好，我想请教一下代码第32行中pfitness为什么是以dim为维度的矩阵而不是以sizep为维度呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19303">
+          <strong>xyjisaw</strong>
+          <time>2020-08-13 18:02:14</time>
+          <div>感谢您的批评指正，你是对的，已修改。</div>
+        </div>
+        
+        <div class="comment" id="comment-19542">
+          <strong>类媛媛</strong>
+          <time>2020-10-20 20:41:24</time>
+          <div>您好，我想请教一下代码中28行，种群初始化错误需要怎么改</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19544">
+          <strong>xyjisaw</strong>
+          <time>2020-10-21 08:58:51</time>
+          <div>生成某个范围的随机矩阵，大小size*dim</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19546">
+          <strong>类媛媛</strong>
+          <time>2020-10-21 09:52:02</time>
+          <div>我懂您的意思，我运行了下不对，这是我自己改的<br>for i = 1:sizep<br>    pop(i,:) = Lb+(Ub-Lb).*rand(1,dim);<br>end</div>
+        </div>
+        
+        <div class="comment" id="comment-19547">
+          <strong>xiebs</strong>
+          <time>2020-10-21 10:07:03</time>
+          <div>我想问一下你这里Af和Rf有什么用</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19555">
+          <strong>xyjisaw</strong>
+          <time>2020-10-22 23:52:26</time>
+          <div>建议看一下论文</div>
+        </div>
+        
+        <div class="comment" id="comment-19558">
+          <strong>xiebs</strong>
+          <time>2020-10-23 09:14:27</time>
+          <div>请问您做过蝙蝠算法优化vmd参数的程序吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19559">
+          <strong>xyjisaw</strong>
+          <time>2020-10-23 09:15:03</time>
+          <div>没有</div>
+        </div>
+        
+        <div class="comment" id="comment-22052">
+          <strong>陈</strong>
+          <time>2021-05-11 15:39:53</time>
+          <div>第48行，Stemp=bestS-1+2*rand(1,dim)<br>(1) 没有×A嘛，就这样Stemp=bestS-1+2*rand(1,dim)*A,我看论文里有xnew= xold+ ǫA<br>(2)为什么中间要  -1+2*  这样写？bestS+rand(1,dim)*A 这样写对吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-31441">
+          <strong>求助</strong>
+          <time>2023-01-23 14:10:17</time>
+          <div>请问作者原文在哪找啊，能给个题目吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-31570">
+          <strong>xyjisaw</strong>
+          <time>2023-02-01 11:20:33</time>
+          <div>Google Scholar上应该有吧，蝙蝠算法( BA) 是 Yang 教授于 2010。我也记不大清楚了。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

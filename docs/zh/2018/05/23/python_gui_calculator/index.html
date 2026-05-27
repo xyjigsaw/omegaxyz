@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>不使用栈Python计算器GUI程序 · OmegaXYZ</title>
+  <meta name="description" content="实现一个计算器功能需要使用栈。 比如我要计算：7-3*2+1，这个得先乘除后加减，这就需要栈了。 1.自左向右扫描表达式，凡是遇到操作数一律进操作数栈。 2.当遇到运算符时，如果他的优先级比运算符栈栈顶元素的优先级高就栈。反之，取出栈顶运算符和操作数栈顶的两个连续操作数运算，并将结果存入操作数栈，然后继续比较该运算符与栈顶的运算符的优先级...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/23/python_gui_calculator/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-23</div>
+        <h1>不使用栈Python计算器GUI程序</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a><a class="pill" href="../../../../tag/tkinter/index.html">tkinter</a></div>
+        <div class="article-content"><strong>实现一个计算器功能需要使用栈。</strong>
+
+比如我要计算：7-3*2+1，这个得先乘除后加减，这就需要栈了。
+
+<em>1.自左向右扫描表达式，凡是遇到操作数一律进操作数栈。</em>
+
+<em>2.当遇到运算符时，如果他的优先级比运算符栈栈顶元素的优先级高就栈。反之，取出栈顶运算符和操作数栈顶的两个连续操作数运算，并将结果存入操作数栈，然后继续比较该运算符与栈顶的运算符的优先级。</em>
+
+<em>3.左括号一律进运算符栈，右括号一律不进运算符栈，取出栈顶运算符和操作数栈顶的两个连续操作数运算，并将结果存入操作数栈，直到取出左括号为止。</em>
+
+然而，在Python中由于有eval函数的存在，就不需要使用栈来实现计算器了。
+
+<strong>eval(expression, globals=None, locals=None)  --- 官方文档中的解释是，将字符串str当成有效的表达式来求值并返回计算结果。</strong>
+
+例如：
+
+<img class="alignnone size-full wp-image-4354" src="https://cdn.omegaxyz.com/2018/05/eval.jpg" alt="" width="358" height="72" />
+
+接下来是利用tkinter编写的代码：
+<pre ><code class="language-python">from tkinter import *
+from tkinter import messagebox
+from math import *
+
+
+root = Tk()
+root.geometry('430x300+400+100')
+root.title('计算器')
+# 总显示
+frame = Frame()
+Main = Listbox(frame, height=5, width=50)
+scb = Scrollbar(frame)
+scb.pack(side=RIGHT)
+Main.pack()
+scb.pack()
+Main['yscrollcommand'] = scb.set
+scb['command'] = Main.yview
+
+
+# 记录输入字符串
+record = ''
+# 结果字符串
+result = ''
+# 优先级
+priotry = {}
+priotry['+'] = 0
+priotry['-'] = 0
+priotry['*'] = 1
+priotry['/'] = 1
+priotry['%'] = 1
+priotry['^'] = 2
+
+
+# 定义各按钮符号
+def appendstr(temp):
+    global record
+    if len(record) != 0:
+
+        record = record + temp
+    else:
+        record = record + temp
+    if Main.get(0) != '':
+        alltemp = Main.get(0)
+        alltemp = alltemp + temp
+        Main.delete(0)
+        Main.insert(0, alltemp)
+    else:
+        Main.insert(0, temp)
+
+
+# 初始化数字按钮
+b = [None] * 10
+for i in range(0, 10):
+    b[i] = Button(text=str(i), width=10)
+# b[i]=Button(text=str(i),width=10,command=lambda:appendstr(str(i)))错误，因为i在后面又被重新使用
+b[0]['command'] = lambda: appendstr('0')
+b[1]['command'] = lambda: appendstr('1')
+b[2]['command'] = lambda: appendstr('2')
+b[3]['command'] = lambda: appendstr('3')
+b[4]['command'] = lambda: appendstr('4')
+b[5]['command'] = lambda: appendstr('5')
+b[6]['command'] = lambda: appendstr('6')
+b[7]['command'] = lambda: appendstr('7')
+b[8]['command'] = lambda: appendstr('8')
+b[9]['command'] = lambda: appendstr('9')
+
+# 布局数字按钮
+for i in range(7, 10):
+    b[i].grid(row=1, column=i - 7)
+for i in range(4, 7):
+    b[i].grid(row=2, column=i - 4)
+for i in range(1, 4):
+    b[i].grid(row=3, column=i - 1)
+b[0].grid(row=4, column=0)
+
+
+def cal(temp):
+    global record
+    global result
+    record = record + '#'
+    alltemp = Main.get(0)
+    Main.delete(0)
+    if temp == '=':
+        result = eval(alltemp)
+    elif temp == '1/x':
+        if result == '0':
+            messagebox.showerror('计算错误', '0没有倒数')
+        else:
+            print(alltemp)
+            result = str(1 / float(alltemp))
+    elif temp == 'sin':
+        result = str(sin(float(alltemp)))
+    elif temp == 'cos':
+        result = str(cos(float(alltemp)))
+    elif temp == 'tan':
+        result = str(tan(float(alltemp)))
+
+    alltemp = alltemp + '=' + str(result)
+    Main.insert(0, alltemp)
+    Main.insert(0, '')
+    f = open("我的计算日志.txt", "a+")  # 以追加的方式
+    f.write('\n' + str(alltemp))  # 写完通过\n进行换行
+
+
+# 清除一个字符
+def delete():
+    global record
+    global Main
+    # 防止多次点击清除上一行
+    if record == '':
+        return
+    index = record.rfind(' ')
+    record = record[0:index]
+    Main.delete(0)
+    if index - 1 &gt;= 0:  # 如果是第一字符就不插入空白行
+        Main.insert(0, record)
+
+
+# 清楚一行
+def deleteall():
+    global record
+    global Main
+    record = ''
+    Main.delete(0)
+    Main.insert(0, '')
+
+
+# 初始化符号按钮
+bdel = Button(text='C', command=delete, width=5)
+bdelall = Button(text='AC', command=deleteall, width=5)
+bsub = Button(text='-', width=2, command=lambda: appendstr('-'))
+badd = Button(text='+', width=2, command=lambda: appendstr('+'))
+bmul = Button(text='*', width=2, command=lambda: appendstr('*'))
+bdiv = Button(text='/', width=2, command=lambda: appendstr('/'))
+bmod = Button(text='%', width=2, command=lambda: appendstr('%'))
+bcon = Button(text='1/x', width=10, command=lambda: cal('1/x'))
+bsin = Button(text='sin', width=2, command=lambda: cal('sin'))
+bcos = Button(text='cos', width=2, command=lambda: cal('cos'))
+btan = Button(text='tan', width=4, command=lambda: cal('tan'))
+bpoi = Button(text='.', width=10, command=lambda: appendstr('.'))
+bequ = Button(text='=', width=2, height=5, command=lambda: cal('='))
+# 布局符号按钮
+bsub.grid(row=2, column=3)
+badd.grid(row=1, column=3)
+bmul.grid(row=3, column=3)
+bdiv.grid(row=4, column=3)
+bmod.grid(row=2, column=4)
+bcon.grid(row=4, column=2)
+bsin.grid(row=3, column=4)
+bcos.grid(row=4, column=4)
+btan.grid(row=1, column=4)
+bpoi.grid(row=4, column=1)
+bequ.grid(row=2, column=5, rowspan=3)
+bdel.grid(row=5, column=0, columnspan=4)
+bdelall.grid(row=5, column=4, columnspan=4)
+frame.grid(row=0, column=0, columnspan=10)
+menubar = Menu(root)
+root.config(menu=menubar)
+root.mainloop()</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone size-full wp-image-4355" src="https://cdn.omegaxyz.com/2018/05/calculator.jpg" alt="" width="551" height="457" />
+
+<strong>当然，计算结果会自动保存到当前目录下的txt文件中去。</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

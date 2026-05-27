@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PEP8 Python coding specification · OmegaXYZ</title>
+  <meta name="description" content="Why do programmers who habitually press the space bar earn more than programmers who press the Tap key? Because of code specifications! ! ! The following introduces PEP8 - Code layout 1 indentation. 4-space indentation (all editors can complete this function), do not use Tap, and cannot mix Tap and spaces. 2 The maximum length of each line is 79. You can use backslashes for line breaks. It is best to use parentheses. The line break point must be hit after the operator. 3 There are two spaces between class and top-level function definitions...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/14/pep8_python/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-14</div>
+        <h1>PEP8 Python coding specification</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>Why do programmers who habitually press the space bar earn more than programmers who press the Tap key?
+
+Because of code specifications! ! !
+
+The following introduces PEP8<h1><strong>one</strong> <strong>Code layout</strong></h1>1 indent. 4-space indentation (all editors can complete this function), do not use Tap, and cannot mix Tap and spaces.
+2 The maximum length of each line is 79. You can use backslashes for line breaks. It is best to use parentheses. The line break point must be hit after the operator.
+3. There are two blank lines between class and top-level function definitions; one blank line between method definitions in classes; one blank line between logically irrelevant paragraphs within functions; try to avoid blank lines elsewhere.<h1><strong>two</strong> <strong>Document layout</strong></h1>1 The order of module content: module description and docstring—import—globals&amp;constants—other definitions. The import part is arranged in the order of standard, third party and self-written, with a blank line in between.
+2. Do not use multiple libraries in one import sentence. For example, import os and sys are not recommended.
+3. If you use from XX import XX to reference the library, you can omit 'module.', but naming conflicts may occur. In this case, import XX must be used.<h1><strong>three</strong> <strong>Use of spaces</strong></h1>As a general rule, avoid unnecessary spaces.
+1 Do not add spaces before various closing brackets.
+2 Do not add spaces before commas, colons, and semicolons.
+3. Do not add spaces before the left bracket of the function. Such as Func(1).
+4. Do not add spaces before the opening bracket of the sequence. Such as list[2].
+5 Add a space to the left and right of the operator. Do not add spaces for alignment.
+6 Omit spaces around the assignment characters used by the default parameters of the function.
+7 Do not write multiple statements on the same line, although using ';' allows it.
+8 In the if/for/while statement, even if there is only one execution statement, it must start on a new line.<h1><strong>Four</strong> <strong>Comment</strong></h1>As a general principle, wrong comments are worse than no comments at all. So when a piece of code changes, the first thing to do is to modify the comments!
+Comments must be in English, preferably complete sentences, with the first letter capitalized. There must be a terminator after the sentence, and the terminator should be followed by two spaces to start the next sentence. If it is a phrase, the terminator can be omitted.
+1 block comment, a comment added before a piece of code. Add a space after '#'. Separate paragraphs with lines of only '#'. for example:<pre><code class="language-python"># Description : Module config.
+# 
+# Input : None
+#
+# Output : None
+</code></pre>2 lines of comments, add comments after a line of code. For example: x = x + 1 # Increment x
+But use this method as little as possible.
+3. Avoid unnecessary comments.<h1><strong>five</strong> <strong>Document description</strong></h1>1. Write docstrings for all public modules, functions, classes, and methods; it is not necessary for non-public ones, but you can write comments (on the next line of def).
+2 If the docstring needs to be newline, refer to the following example. For details, see PEP 257<pre><code class="language-python">"""Return a foobang
+
+Optional plotz says to frobnicate the bizbaz first.
+
+"""
+</code></pre>
+<h1><strong>six</strong> <strong>Naming convention</strong></h1>As a general principle, new code must be compiled according to the following naming style, and the coding of existing libraries must maintain the style as much as possible.
+1 Try to use the lowercase letter ‘l’, the uppercase letter ‘O’ and other easily confused letters alone.
+2. Module names should be as short as possible, using all lowercase letters, and underscores can be used.
+3. The package name should be as short as possible, using all lowercase letters, and underscores are not allowed.
+4. Class naming uses CapWords, and classes used within the module use _CapWords.
+5. Exception naming uses CapWords+Error suffix.
+6. Global variables should only be valid within the module as much as possible, similar to static in C language. There are two implementation methods, one is the __all__ mechanism; the other is prefixing an underscore.
+7 Use all lowercase letters for function names, and underscores can be used.
+8 Constants should be named in all uppercase letters, and underscores can be used.
+9. Class attributes (methods and variables) should be named in all lowercase letters, and underscores can be used.
+9 Class attributes have three scopes: public, non-public and subclass API, which can be understood as public, private and protected in C++. Before non-public attributes, there is an underscore prefix.
+11. If the attributes of a class conflict with keyword names, suffix them with an underscore and try not to use abbreviations or other methods.
+12 To avoid naming conflicts with subclass attributes, prefix some attributes of the class with two underscores. For example: __a is declared in class Foo, and when accessed, it can only be accessed through Foo._Foo__a to avoid ambiguity. If the subclass is also called Foo, there's nothing you can do.
+13 The first parameter of a class method must be self, and the first parameter of a static method must be cls.<h1><strong>seven</strong> <strong>Coding suggestions</strong></h1>1. Issues such as the efficiency of other Python implementations are taken into consideration during coding. For example, the operator ‘+’ is very efficient in CPython (Python), but very low in Jython, so the .join() method should be used.
+2 Use ‘is’ and ‘is not’ instead of ‘==’ whenever possible. For example, if x is not None is better than if x.
+3 Using class-based exceptions, each module or package has its own exception class, which inherits from Exception.
+4. Do not use naked except in exceptions. Except is followed by specific exceptions.
+5. The try code in the exception should be as small as possible. for example:<pre><code class="language-python">try:
+value = collection[key]
+except KeyError:
+return key_not_found(key)
+else:
+return handle_value(value)
+</code></pre>Better than:<pre><code class="language-python">try:
+# Too broad!
+return handle_value(collection[key])
+except KeyError:
+# Will also catch KeyError raised by handle_value()
+return key_not_found(key)
+</code></pre>6 Use startswith() and endswith() instead of slicing to check sequence prefix or suffix. For example
+
+Yes: if foo.startswith(‘bar’): Better than
+No: if foo[:3] == ‘bar’:
+7 Use isinstance() to compare the types of objects. For example
+Yes: if isinstance(obj, int): Better than
+No: if type(obj) is type(1):
+8 To determine whether a sequence is empty or not, there are the following rules
+Yes: if not seq:
+if seq:
+better than
+No: if len(seq)
+if not len(seq)
+9. Do not end the string with a space.
+10 Use the if boolvalue method to judge binary data.
+
+PEP8 official website explains:<a href="https://www.python.org/dev/peps/pep-0008/">https://www.python.org/dev/peps/pep-0008/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

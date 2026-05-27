@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Summary of C++ pointers · OmegaXYZ</title>
+  <meta name="description" content="Pointers and variables int p; //This is an ordinary integer variable. int *p; //Start from P first and combine it with *, so it means that P is a pointer, and then combine it with int, which means that the type of the content pointed to by the pointer is int type. So P is a pointer that returns integer data. Pointers and arrays int p[3]; //Start from P first, combine it with [] to show that P is an array, and then combine it with int to show that the elements in the array are integer...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/17/cpp_pointer/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-17</div>
+        <h1>Summary of C++ pointers</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h3><strong>Pointers and variables</strong></h3>
+<ul>
+<li>int p; //This is an ordinary integer variable.</li>
+<li>int *p; //Start from P first and combine it with * first, so it means that P is a pointer, and then combine it with int, which means that the type of the content pointed to by the pointer is int type. So P is a pointer that returns integer data.</li>
+</ul>
+<h3><strong>Pointers and arrays</strong></h3>
+<ul>
+<li>int p[3]; //Start from P first, first combine it with [] to show that P is an array, and then combine it with int to show that the elements in the array are integer, so P is an array composed of integer data.</li>
+</ul>
+<ul>
+<li>int *p[3]; //Start from P, first combine it with [], because its priority is higher than *, so P is an array, and then combine it with *, indicating that the elements in the array are pointer types, and then combine it with int, indicating that the type of the content pointed to by the pointer is integer, so P is an array composed of pointers that return integer data.</li>
+</ul>
+<ul>
+<li>int (*p)[3]; //Start from P, first combine it with *, indicating that P is a pointer, and then combine it with [] (this step with "()" can be ignored, just to change the priority), indicating that the content pointed to by the pointer is an array, and then combine it with int, indicating that the elements in the array are integers. So P is a pointer to an array composed of integer data.</li>
+</ul>
+<h3><strong>Pointers and functions</strong></h3>
+<ul>
+<li>int p(int); //Start from P, first combine it with (), indicating that P is a function, and then enter () for analysis, indicating that the function has a parameter of an integer variable, and then combine it with the external int, indicating that the return value of the function is an integer data.</li>
+<li>Int (*p)(int); //Start from P, first combine it with the pointer, indicating that P is a pointer, then combine it with (), indicating that the pointer points to a function, then combine it with the int in (), indicating that the function has an int type parameter, and then combine it with the outermost int, indicating that the return type of the function is an integer type, so P is a pointer to a function with an integer parameter and an integer return type.</li>
+<li>Call: p (actual parameters)</li>
+</ul>
+<h3><strong>Pointers and objects</strong></h3>
+<ul>
+<li>Point p; //Declare a Point class object</li>
+<li>Point *Ptr=&amp;p; //Declare a pointer Ptr pointing to Point class object p to call object members through the pointer</li>
+</ul>
+<ul>
+<li>Ptr-&gt;data member name ((*Ptr).data member name) Ptr-&gt;function member name ((*Ptr).function member name)</li>
+</ul>
+<h3><strong>Pointer to non-static member of class</strong></h3>
+<ul>
+<li>1 statement</li>
+</ul>–Declares a pointer type specifier pointing to a public data member Class name::*Pointer name;
+
+– Declare a pointer type specifier pointing to a public function member (class name::*pointer name) (parameter list);<ul>
+<li>2 points</li>
+</ul>--Pointer to data member pointer name =&amp; class name::data member name;
+
+--Pointer to function member pointer name = class name::function member name;<ul>
+<li>3 calls</li>
+</ul>– Access data members by combining the object name (or object pointer) with the member pointer
+
+Object name.* Class member pointer name or:
+
+Object pointer name—&gt;*Class member pointer name
+
+– Access function members by combining the object name (or object pointer) with the member pointer
+
+(Object name.* Class member pointer name) (Parameter list) Or:
+
+(Object pointer name—&gt;* class member pointer name) (parameter list)<h3><strong>Pointer to static member of class</strong></h3>
+<ul>
+<li>Access to static members of a class does not depend on the object</li>
+<li>You can use ordinary pointers to point to and access static members</li>
+</ul>
+<pre><code class="language-c++">static int countP;	//静态数据成员引用性说明
+
+int Point::countP=0;	//静态数据成员定义性说明
+
+int *count=&amp;Point::countP; 
+cout&lt;&lt;" Object id="&lt;&lt;*count&lt;&lt;endl;	
+</code></pre>
+<strong>this pointer (pointer to the current object)</strong>– When calling a member function through an object, the system first assigns the address of the object to the this pointer, and then calls the member function. When the member function operates on the data members of the object, the this pointer is implicitly used.<h3><b>void</b><b>type pointer</b></h3>
+<b>void *pv;       //</b><b>can be declared</b><b>void</b><b>type pointer</b>
+<ul>
+<li>int *pint; int i;</li>
+<li>pv = &amp;i; //void type pointer points to integer variable</li>
+<li>pint = (int *)pv; // Assigning a void pointer to an int pointer requires type cast</li>
+</ul>
+<h3><strong>pointer variable to constant</strong></h3>
+<ul>
+<li>Format: const type identifier *pointer variable name;</li>
+<li>through this pointer variable<u><i>can only read the value of the constant it refers to</i></u></li>
+<li><u><i>Cannot be changed through pointer variables</i></u>Place<u><i>refers to the value of the object</i></u>,but<u><i>The value of the pointer variable itself can be changed</i></u>, can point to another object.</li>
+</ul>
+<h3><strong>pointer constant</strong></h3>
+<ul>
+<li>Format:</li>
+</ul>
+<u>Type identifier *</u><u>const </u><u>pointer variable name</u><u>=</u><u>initial pointer value</u>；
+<ul>
+<li>This kind of pointer must be initialized when it is defined.<u>the value of the pointer itself</u>cannot be changed, but can<u>Read or modify the value of the variable it refers to</u>。</li>
+</ul></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

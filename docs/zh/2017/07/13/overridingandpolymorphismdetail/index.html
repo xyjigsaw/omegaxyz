@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA继承和多态代码详解 · OmegaXYZ</title>
+  <meta name="description" content="Java中的每个类都继承自j ava.lang.Object类。如果一个类在定义时没有指定继承关系，那么它的父类就是Object. 因此每个类都隐含 extends java.lang.Object 先写一个几何图形类 圆也是几何图形，因此继承上面SimpleGeometricObject类 下面是多态： 多态即父类的对象可以用子类来替换...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/13/overridingandpolymorphismdetail/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-13</div>
+        <h1>JAVA继承和多态代码详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">Java中的每个类都继承自j ava.lang.Object类。如果一个类在定义时没有指定继承关系，那么它的父类就是Object.
+
+因此每个类都隐含  extends java.lang.Object
+
+先写一个几何图形类
+<pre ><code class="language-java">public class SimpleGeometricObject {
+	//JAVA中所有类都继承自java.lang.Object类
+	private String color="white";
+	private boolean filled;
+	private java.util.Date dateCreated;
+	
+	public SimpleGeometricObject(){
+		dateCreated=new java.util.Date();
+	}
+	public SimpleGeometricObject(String color,boolean filled){
+		dateCreated=new java.util.Date();
+		this.color=color;
+		this.filled=filled;
+	}
+	public String getColor(){
+		return color;
+	}
+	public void setColor(String color){
+		this.color=color;
+	}
+	public boolean isFilled(){
+		return filled;
+	}
+	public void setFilled(boolean filled){
+		this.filled=filled;
+	}
+	public java.util.Date getDateCreated(){
+		return dateCreated;
+	}
+	public String toString(){
+		return "created on "+dateCreated+"\ncolor: "+color+" and filled: "+filled;
+	}
+}
+</code></pre>
+圆也是几何图形，因此继承上面SimpleGeometricObject类
+<pre ><code class="language-java">import java.util.*;
+public class Circle extends SimpleGeometricObject{
+	private double radius;
+	public Circle(){
+	}
+	public Circle(double radius){
+		this.radius=radius;
+	}
+	public Circle(double radius,String color,boolean filled){
+		super(color,filled);//注意super构造时必须位于子类构造代码的第一行。
+		//setColor(color);
+		//setFilled(filled);
+		this.radius=radius;
+	}
+	public double getRadius(){
+		return radius;
+	}
+	public void setRadius(double radius){
+		this.radius=radius;
+	}
+	public double getArea(){
+		return radius*radius*Math.PI;
+	}
+	public double getDiameter(){
+		return 2*radius;
+	}
+	public double getPerimeter(){
+		return 2*radius*Math.PI;
+	}
+	public void printCircle(){
+		System.out.println("The circle is created "+getDateCreated()+" and the radius is "+radius);
+	}
+	//方法重写，要在Circle类中调用定义在SimpleGeometricObject中的toString()方法需要使用super.toString()
+	@Override//重写标注可加可不加
+	public String toString(){
+		return super.toString()+"\nradius is "+radius;
+	}
+}
+</code></pre>
+下面是多态：
+
+多态即父类的对象可以用子类来替换
+<pre ><code class="language-java">public class Polymorphism {
+	//多态
+	public static void main(String[] args){
+		display(new Circle(1,"red",false));
+	}
+	public static void display(SimpleGeometricObject object){
+		System.out.println("Created on "+object.getDateCreated()+".Color is "+object.getColor());
+	}
+}
+</code></pre>
+可以使用表达式obj  instanceof class(对象名instanceof类名)测试一个对象是否是一个类的实例。
+
+对象转换：
+<pre ><code class="language-java">public class Casting {
+        //对象转换
+	//JAVA中所有类都继承自java.lang.Object类
+	public static void main(String[] args){
+		Object o1=new Circle(1);//首先程序隐式转换将一个Circle对对象赋值给Object对象
+		display(o1);
+	}
+	public static void display(Object o){
+		if(o instanceof Circle){
+			System.out.println("The circle area is "+((Circle)o).getArea());
+			//这里用显式将Object对象转换为Circle对象
+		}
+		else if(o instanceof Object){
+			System.out.println("ERROR!!");
+		}
+	}
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

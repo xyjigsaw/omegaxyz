@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>蒙提霍尔问题（三门问题，概率论）C语言验证 · OmegaXYZ</title>
+  <meta name="description" content="三门问题——亦称为蒙提霍尔问题，出自美国的电视游戏节目Let&#x27;s Make a Deal。问题的名字来自该节目的主持人蒙提·霍尔（Monty Hall）。问题是这样的： 据说此节目一经播出就引起了一场热烈的讨论，有人说应该换，有人认为换不换都一样。主持人给出的答案是应该换，并在下一期的节目中给出了一个分析表格用来说明她的理由。但这下反对的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/07/threedoor/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-07</div>
+        <h1>蒙提霍尔问题（三门问题，概率论）C语言验证</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">三门问题——亦称为蒙提霍尔问题，出自美国的电视游戏节目Let's Make a Deal。问题的名字来自该节目的主持人蒙提·霍尔（Monty Hall）。问题是这样的：
+<div class="cnblogs_code">
+<pre class="">参赛者面前有三扇关闭着的门，其中一扇的后面是一辆汽车，选中后面有车的那扇门就可以赢得该汽车，
+而另外两扇门后面则各藏有一只山羊。当参赛者选定了一扇门，但未去开启它的时候，主持人会开启剩
+下两扇门中的一扇，露出其中一只山羊。主持人其后会问参赛者要不要更换选择，选另一扇仍然关着的门。</code></pre>
+据说此节目一经播出就引起了一场热烈的讨论，有人说应该换，有人认为换不换都一样。主持人给出的答案是应该换，并在下一期的节目中给出了一个分析表格用来说明她的理由。但这下反对的声音更大了，在几千封来信中，反对者达到了9成。[1]
+
+在所有认为该换和不该换的争论中，正反两方形成了两种对立的观点。
+一种是认为不换的中奖几率是1/3，换的话将有2/3的几率中奖，因此当然应该换。因为：
+根据参赛者的选择，一共有下面三种可能情况（两只山羊分别称为山羊A和山羊B）：
+
+(1) 参赛者选择山羊A，主持人选择山羊B；
+(2) 参赛者选择山羊B，主持人选择山羊A；
+(3) 参赛者选择了汽车，主持人选择两只山羊的任何一只
+
+三种情况几率各为1/3，如果换的话，前两种都会中奖，仅第三种不会中奖。所以选择换的中奖概率为2/3，不换几率只有1/3。
+
+下面再来看看“反方”观点，这种观点认为换不换都一样，几率都是50%。因为：
+<div class="cnblogs_code">
+<pre class="">当参赛者选择一扇门时，他中奖的几率确实只有1/3。但当主持人帮忙排除掉一只山羊时，
+车要么在参赛者所选的这个门中，要么在剩下的未被选择的那扇门中。此时参赛者变更选
+择的话，当然中奖几率会提升到1/2。</code></pre>
+</div>
+还可以换一个角度来理解。即使他没有变更选择，他实际上也做出了选择，只是选择的是“不变更”而已。虽然选择的是“不变”，但不代表他的几率不变。整个过程重新组织一下会更容易看明白：
+<div class="cnblogs_code">
+<pre class="">(1) 参赛者选了一扇门但不打开
+(2) 此时主持人在剩下的两扇门中选出一扇后面是山羊的门
+(3) 然后参赛者在剩下的两扇门中再次选择了第一次选择的门</code></pre>
+</div>
+所以，他选到车的概率为50%。
+
+为什么第二种观点是错误的呢？这是因为当我们第一次做出选择时，所基于的样本总数为3，此时选定的门后面为汽车的几率是1/3。并且选定后这一几率不会再改变（第二种答案正是基于几率会变的观点），因为对于已发生的事件来说，后来发生的事件是不可能影响它的几率的。
+
+千万不要误解了上面这句话，这里谈到的是几率，是多次事件的统计结果，并不是确定的一次已发生事件的结果。例如，当把剩下的两个门都打开后，就能够确定第一扇门后面是否为汽车，但第一扇门的“几率”会因此而改变吗？不会，因为此时我们在谈的是特定一次的结果，而不是几率。如果我们将此过程重复很多次，每次选择一扇门之后都通过另外2扇门来判断这扇门后面是不是汽车，我们会发现，此时得到的几率仍然为1/3。
+
+第二种答案之所以是错的，还在于它搞错了一件事情，当我们说“当我们做出选择时，几率就随之确定了”这句话时，实际上是在说“三扇门中任何一扇门后面是汽车的几率都是1/3”，而不是“我们的选择决定了这件事的几率”。我想很多人都搞错了这一点，一件事的发生几率是由事物的本质规律决定的，并不会因我们人类的意志为转移。
+
+附：
+
+我们不妨假设现在讨论的不是“三门问题”，是“一万个门”问题，看看结果怎么样？ 情景假设：面前有1W扇门，只有1扇后面有羊，其他门后面什么都没有。 情况1：直接选一扇门，后面有羊的几率是1/10000； 情况2：有一个好心人先帮我排除了9998扇门，留下两扇门给我选，选中有羊的几率是1/2； 上述两种情况说明的问题是：排除前后下决定，概率会有所改变！所以讨论的时候不要混为一谈！ 实际的情况是我先选了一扇门。选好后别人打开了9998扇门，后面都是空的。但如果我不更改选项，别人做的”排除行为，对我选的门有羊的概率不会有任何的影响，所以还是1/10000。 而剩下两扇门中必然有一扇后面有羊，因此剩下一扇门后有羊的概率是1-1/10000=9999/10000。 这和我们实际的感受也很接近，相信大家都会直觉地不相信自己一下就能”万里挑一“把有羊的门选出来，肯定选择”换“。 同理，三个门的情况下，不换得羊的概率是1/3，换了得羊的概率是2/3，只是三个门的情况只是分母太小，迷惑了大家的直观感受而已。
+
+C语言实现：
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;ctime&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+
+int openNone(bool *boxes, int choice)
+{
+    int i = rand()%3;
+    while(i==choice&amp;&amp;boxes[i]==true)
+    {
+        i = rand()%3;
+    }
+    return i;
+}
+
+int main()
+{
+    int totalTimes = 1000000;
+    int bingo = 0;
+    bool boxes[3];
+    double myratio;
+    srand((unsigned)time(NULL));
+    for(int i = 0; i &lt; totalTimes; i++){
+        boxes[0]=boxes[1]=boxes[2] = false;
+        boxes[rand()%3] = true;
+        int choice = rand()%3;
+        int hostChoice = openNone(boxes, choice);
+        // 判断另一个盒子是否中奖等同于判断开始选的盒子没有中奖
+        if(!boxes[choice]){
+            bingo++;
+        }
+    }
+    // 更换选择的中奖几率
+    myratio = (double)bingo*100/totalTimes;
+    cout&lt;&lt;"主持人排除一个山羊，概率为："&lt;&lt;myratio&lt;&lt;"%"&lt;&lt;endl;
+}
+</code></pre>
+<img class="alignnone wp-image-2297 size-full" src="https://cdn.omegaxyz.com/2017/11/threedoor2.jpg" alt="" width="662" height="115" />
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

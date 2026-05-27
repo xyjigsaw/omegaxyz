@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译原理 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ is a long-running notebook for study and research across programming, machine learning, knowledge engineering, mathematics, and personal ideas. It is now a static site: lighter pages, steadier links, and preserved formulas and media.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">Home</a><a href="../../archive/index.html">Archive</a><a href="../../pages/index.html">Pages</a><a href="../../categories/index.html">Categories</a><a href="../../search/index.html">Search</a>
+          <a href="../../../zh/category/fundamentals-of-compiling/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>编译原理</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2020-01-14</time>
+      <div>
+        <h2><a href="../../2020/01/14/design-pattern-interpreter/index.html">Interpreter mode C++ implementation</a></h2>
+        <p>Introduction Given a language, define a representation of its grammar, and define an interpreter that uses the representation to interpret sentences in the language. Motivation for the Interpreter Pattern Searching for a string matching a pattern is a common problem. Regular expressions are a standard language for describing string patterns. A common search algorithm is used to interpret and execute a regular expression that defines the set of strings to be matched. The Interpreter pattern describes how to define a text...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-05</time>
+      <div>
+        <h2><a href="../../2019/03/05/predicttable/index.html">Top-down syntax analysis implementation of predictive analysis table based on compilation principle</a></h2>
+        <p>Recursive descent The idea of ​​the recursive subroutine method: The recursive subroutine method is a deterministic top-down grammar analysis method, which requires the grammar to be an LL(1) grammar. Its implementation idea is to write a recursive process corresponding to each non-terminal symbol in the grammar. The function of each process is to identify the string derived from the non-terminal symbol. When the production of a certain non-terminal symbol has multiple candidates, it can uniquely select a candidate for derivation in the form of LL(1). For details, please see: https://omegaxyz.co...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-27</time>
+      <div>
+        <h2><a href="../../2019/02/27/lr0-table/index.html">Compilation principle automatically generates LR(0) analysis table Python implementation</a></h2>
+        <p>Introduction For LR grammar, we can automatically construct the corresponding LR parsing table. In order to construct an LR analysis table, we need to define an important concept - the standard sentence pattern of grammar &quot;living prefix&quot;. A prefix that does not contain any symbols after such a handle is called a live prefix. At any time during the LR analysis process, the grammar symbols in the stack (from the bottom of the stack) X 1</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-22</time>
+      <div>
+        <h2><a href="../../2019/02/22/first_and_follow/index.html">Compilation principle calculation first set and follow set C++ implementation</a></h2>
+        <p>Suppose the grammar G[S]=(V N , V T , P, S), then the first character set is: FIRST (α) = {a | α a β, a ∈ V T , α , β∈ V * }. If αε, ε∈FIRST(α). It can be seen from the definition that FIRST (α) refers to the set of terminal symbols at the beginning of all symbol strings that can be derived from the symbol string α. Therefore, the FIRST set is also called the first symbol set. Let α=x 1 x...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-03</time>
+      <div>
+        <h2><a href="../../2019/02/03/toll/index.html">Eliminate left recursion in a grammar</a></h2>
+        <p>Introduction 1. Elimination of direct left recursion Eliminating direct left recursion in productions is relatively easy. For example, assume that the rule for non-terminal P is P → Pα / β where β is a symbol string that does not start with P. Then, we can rewrite the rules of P into the following non-direct left recursive form: P → βP’ P’ → αP’ / ε These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same. Let there be a simple expression grammar G[E]: E...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-01</time>
+      <div>
+        <h2><a href="../../2019/02/01/hopcroft-min-dfa/index.html">Python implementation of Hopcroft algorithm DFA minimization</a></h2>
+        <p>DFA Minimization Principle The so-called automaton simplification problem is to construct another deterministic finite automaton DFA M&#x27; for any deterministic finite automaton DFA M, such that L (M) = L (M&#x27;), and the number of states of M&#x27; is not more than the number of states of M, and it can be said with certainty that an M&#x27; with the smallest number of states can be found. Let&#x27;s first introduce some related basic concepts. Suppose S i is a state of the automaton M. The set of all symbol strings that can be derived from S i...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-29</time>
+      <div>
+        <h2><a href="../../2019/01/29/nfa2dfa/index.html">Compilation principle NFA to DFA-Python and C++ implementation</a></h2>
+        <p>A certain finite automaton, if the successor state of each state transition is unique, is called a deterministic finite automaton (DFA); if the successor states after the transition are not all unique, it is called an indeterminate finite automaton (NFA). The starting working state of a finite automaton is called the initial state, and the ending working state is called the terminal working state or receiving state. If each node of the state transition diagram in the previous section is regarded as a certain state, the initial node is the initial state, the termination node is the termination state, and...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-25</time>
+      <div>
+        <h2><a href="../../2019/01/25/rg2re/index.html">The compilation principle constructs regular expressions (regular expressions) from regular grammar</a></h2>
+        <p>Type 3 grammar (regular grammar, linear grammar) If for a certain grammar G, each rule in P has the following form: U :: = T or U :: = WT where T∈V T ; U, W∈V N , then the grammar G is called a left-linear grammar. If for a certain grammar G, each rule in P has the following form: U :: = T or U :: = TW where T∈V T ; U, W∈V N , then the grammar G is called a right linear grammar. ...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-24</time>
+      <div>
+        <h2><a href="../../2019/01/24/flex-bision-cal/index.html">Using Flex and Bison to implement console calculator on Mac</a></h2>
+        <p>Introduction We use Flex and Bison to perform lexical and syntactic analysis of a given expression, and complete corresponding calculations while performing syntactic analysis. Use Flex and Bison to implement a more powerful calculator, including the following operations: a) addition, subtraction, multiplication, and division operations b) exponentiation and square root operations c) bit operations – AND &amp;, or |, not ~ d) factorial operation! e) trigonometric operations sin cos tan Lex and Y...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-23</time>
+      <div>
+        <h2><a href="../../2019/01/23/chomsky-grammar/index.html">Chomsky grammar type judgment</a></h2>
+        <p>Introduction to grammar 1. Type 0 grammar (phrase grammar) If for a certain grammar G, each rule in P has the following form: u:: = v where u∈V＋, v∈V*, then the grammar G is called a type 0 grammar or phrase grammar, abbreviated as PSG. The corresponding language of type 0 grammar or phrase structure grammar is called type 0 language or phrase structure language L0. Since this kind of grammar has no other restrictions, Type 0 grammar is also called an unrestricted grammar, and its corresponding language is called an unrestricted language. Any 0...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-21</time>
+      <div>
+        <h2><a href="../../2018/12/21/ll1-recursiondown/index.html">Recursive descent to implement LL(1) grammar analysis in C language and Python</a></h2>
+        <p>The necessary and sufficient condition for a definite top-down grammatical analysis of sentences of grammar G is that any two productions A—&gt;α|β of G with the same left part satisfy the following conditions: (1) If neither α nor β can derive ε, then FIRST(α) ∩ FIRST(β) = ∅. (2) At most one of α and β can derive ε. (3) If β *═&gt; ε, then FIRST(α) ∩ FOLLOW(A) = ∅. will satisfy...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-13</time>
+      <div>
+        <h2><a href="../../2018/12/13/linux-flex/index.html">Compilation principles using flex on Unix/Lunix-like systems</a></h2>
+        <p>Flex, formerly lex, is a lexical analyzer generation tool based on the UNIX environment that was completed in 1975 by Mike Lesk and Eric Schmidt, who was an intern at AT&amp;T at the time. This lex is very famous, but its efficiency is too low and it has bugs, which makes it very uncomfortable to use. Later Vern Paxson of Berkeley Lab rewrote lex in C and named it flex (Fast Lexical Analy...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-07</time>
+      <div>
+        <h2><a href="../../2018/09/07/fundamentals-of-compiling-process/index.html">Compilation process</a></h2>
+        <p>Compilation process The working process of a compiler can generally be divided into six stages: 1. Lexical analysis 2. Syntax analysis 3. Semantic analysis 4. Intermediate code generation 5. Optimization 6. Target code generation Lexical analysis The task of lexical analysis is to input the source program, scan and decompose the strings that constitute the source program, and identify each word (definition, identifier, operator, delimiter, constant). What is followed in the lexical analysis stage is the grammatical rules (or construction) of the language...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

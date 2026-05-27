@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab · OmegaXYZ</title>
+  <meta name="description" content="This page is used to test the operation of plug-ins and HTML code. Sorry for the slow loading speed and page bugs. Dynamically display the system date and time on the web page. Current time:">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a><a href="../archive/index.html">Archive</a><a href="../pages/index.html">Pages</a><a href="../categories/index.html">Categories</a><a href="../search/index.html">Search</a>
+          <a href="../../zh/lab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-07</div>
+        <h1>Lab</h1>
+        <div class="terms"></div>
+        <div class="article-content"><div class="panel-layout" id="pl-190"><div class="panel-grid panel-no-style" id="pg-190-0"><div class="panel-grid-cell" data-weight="1" id="pgc-190-0-0"><div class="so-panel widget widget_text panel-first-child" data-index="0" data-style='{"background_image_attachment":false,"background_display":"tile","background_image_size":"full","background_image_opacity":"100","border_thickness":"1px"}' id="panel-190-0-0-0"> <div class="textwidget"><p><strong>This page is used to test the operation of plug-ins and HTML code.</strong></p>
+<p><strong>Sorry for the slow loading speed and page bugs.</strong></p>
+</div>
+</div><div class="so-panel widget widget_text" data-index="1" data-style='{"background_image_attachment":false,"background_display":"tile","background_image_size":"full","background_image_opacity":"100","border_thickness":"1px"}' id="panel-190-0-0-1"> <div class="textwidget"><html>
+<head>
+<title>Dynamically display system date and time in web pages</title>
+<script language="JavaScript">
+            function startTime()   
+            {   
+                var today=new Date();//定义日期对象   
+                var yyyy = today.getFullYear();//通过日期对象的getFullYear()方法返回年    
+                var MM = today.getMonth()+1;//通过日期对象的getMonth()方法返回年    
+                var dd = today.getDate();//通过日期对象的getDate()方法返回年     
+                var hh=today.getHours();//通过日期对象的getHours方法返回小时   
+                var mm=today.getMinutes();//通过日期对象的getMinutes方法返回分钟   
+                var ss=today.getSeconds();//通过日期对象的getSeconds方法返回秒   
+                // 如果分钟或小时的值小于10，则在其值前加0，比如如果时间是下午3点20分9秒的话，则显示15：20：09   
+                MM=checkTime(MM);
+                dd=checkTime(dd);
+                mm=checkTime(mm);   
+                ss=checkTime(ss);    
+                var day; //用于保存星期（getDay()方法得到星期编号）
+                if(today.getDay()==0)   day   =   "星期日 " 
+                if(today.getDay()==1)   day   =   "星期一 " 
+                if(today.getDay()==2)   day   =   "星期二 " 
+                if(today.getDay()==3)   day   =   "星期三 " 
+                if(today.getDay()==4)   day   =   "星期四 " 
+                if(today.getDay()==5)   day   =   "星期五 " 
+                if(today.getDay()==6)   day   =   "星期六 " 
+                document.getElementById('nowDateTimeSpan').innerHTML=yyyy+"-"+MM +"-"+ dd +" " + hh+":"+mm+":"+ss+"   " + day;   
+                setTimeout('startTime()',1000);//每一秒中重新加载startTime()方法 
+            }   
+             
+            function checkTime(i)   
+            {   
+                if (i<10){
+                    i="0" + i;
+                }   
+                  return i;
+            }  
+        </script>
+</head>
+<body onload="startTime()">Current time:<font color="#33FFFF"><span id="nowDateTimeSpan"></span></font>
+</body>
+</html></div>
+</div><div class="so-panel widget widget_media_audio" data-index="2" data-style='{"background_image_attachment":false,"background_display":"tile","background_image_size":"full","background_image_opacity":"100","border_thickness":"1px"}' id="panel-190-0-0-2"></div><div class="so-panel widget widget_calendar" data-index="3" id="panel-190-0-0-3"></div><div class="so-panel widget widget_recent-comments widget_recent_comments" data-index="4" data-style='{"background_display":"tile"}' id="panel-190-0-0-4"></div><div class="so-panel widget widget_custom_html" data-index="5" data-style='{"background_image_attachment":false,"background_display":"tile"}' id="panel-190-0-0-5"></div><div class="so-panel widget widget_custom_html panel-last-child" data-index="6" data-style='{"background_image_attachment":false,"background_display":"tile"}' id="panel-190-0-0-6"></div></div></div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../assets/site.js"></script>
+</body>
+</html>

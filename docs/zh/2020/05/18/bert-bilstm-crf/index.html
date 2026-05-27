@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BERT-BiLSTM-CRF命名实体识别应用 · OmegaXYZ</title>
+  <meta name="description" content="引言 本文将采用BERT+BiLSTM+CRF模型进行命名实体识别（Named Entity Recognition 简称NER），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 BERT（Bidirectional Encoder Representation from Transf...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/05/18/bert-bilstm-crf/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-05-18</div>
+        <h1>BERT-BiLSTM-CRF命名实体识别应用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>引言</strong></h2>
+本文将采用BERT+BiLSTM+CRF模型进行命名实体识别（Named Entity Recognition 简称NER），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。
+<ul>
+ 	<li>BERT（Bidirectional Encoder Representation from Transformers），即双向Transformer的Encoder。模型的创新点在预训练方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的表示。</li>
+ 	<li>BiLSTM是Bi-directional Long Short-Term Memory的缩写，是由前向LSTM与后向LSTM组合而成。</li>
+ 	<li>CRF为条件随机场，可以用于构造在给定一组输入随机变量的条件下,另一组输出随机变量的条件概率分布模型。</li>
+</ul>
+<h2><strong>环境</strong></h2>
+采用的Python包为：<a href="https://github.com/BrikerMan/Kashgari/" target="_blank" rel="noopener noreferrer">Kashgari</a>，此包封装了NLP传统和前沿模型，可以快速调用，快速部署模型。
+<ul>
+ 	<li>Python: 3.6</li>
+ 	<li>TensorFlow: 1.15</li>
+ 	<li>Kashgari: 1.x</li>
+</ul>
+其中Kashgari1.x版本必须使用TensorFlow一代。
+<h2><strong>BERT中文预训练数据</strong></h2>
+谷歌提前训练好的数据，其中中文模型可以从<a href="https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip" rel="noopener noreferrer">https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip</a>下载。
+
+更多预训练模型参考：<a href="https://github.com/ymcui/Chinese-BERT-wwm" target="_blank" rel="noopener noreferrer">https://github.com/ymcui/Chinese-BERT-wwm</a>
+<h2><strong>自带数据训练评价</strong></h2>
+数据为中国日报的NER语料库，代码自动下载。
+
+训练集、测试集和验证集的存储格式：
+
+<span style="color: #999999;"><em>train_x: [[char_seq1],[char_seq2],[char_seq3],..... ]</em></span>
+<span style="color: #999999;"><em>train_y:[[label_seq1],[label_seq2],[label_seq3],..... ]</em></span>
+<span style="color: #999999;"><em>其中 char_seq1:["我"，"爱"，"中"，"国"]</em></span>
+<span style="color: #999999;"><em>对应的的label_seq1:["O"，"O"，"B_LOC"，"I_LOC"]</em></span>
+<pre ><code class="language-python">from kashgari.corpus import ChineseDailyNerCorpus
+from kashgari.embeddings import BERTEmbedding
+from kashgari.tasks.labeling import BiLSTM_CRF_Model
+import kashgari
+
+
+train_x, train_y = ChineseDailyNerCorpus.load_data('train')
+test_x, test_y = ChineseDailyNerCorpus.load_data('test')
+valid_x, valid_y = ChineseDailyNerCorpus.load_data('valid')
+
+
+embedding = BERTEmbedding("chinese", sequence_length=10, task=kashgari.LABELING)
+model = BiLSTM_CRF_Model(embedding)
+model.fit(train_x, train_y, x_validate=valid_x, y_validate=valid_y, epochs=1, batch_size=100)
+model.evaluate(test_x, test_y)
+
+# model.save('save')
+# loaded_model = kashgari.utils.load_model('xxx')</code></pre>
+最后注释的为模型保存和调用代码。
+<h2><strong>实例</strong></h2>
+此本分将用自己的数据来进行命名实体识别。train_x和y存储格式和上面相同。
+<h3><strong>可用的标注格式</strong></h3>
+BIO标注模式: (B-begin，I-inside，O-outside)
+
+BIOES标注模式: (B-begin，I-inside，O-outside，E-end，S-single)
+<ul>
+ 	<li>B，即Begin，表示开始</li>
+ 	<li>I，即Intermediate，表示中间</li>
+ 	<li>E，即End，表示结尾</li>
+ 	<li>S，即Single，表示单个字符</li>
+ 	<li>O，即Other，表示其他，用于标记无关字符</li>
+</ul>
+<h3><strong>代码</strong></h3>
+<pre ><code class="language-default">from kashgari.embeddings import BERTEmbedding
+from kashgari.tasks.labeling import BiLSTM_CRF_Model
+import kashgari
+import re
+
+def text2array(text, sequence_length):
+    textArr = re.findall('.{' + str(sequence_length) + '}', text)
+    textArr.append(text[(len(textArr) * sequence_length):])
+    return [[c for c in text] for text in textArr]
+
+
+train_x = [['周', '志', '华', '，', '男', '，', '毕', '业', '于', '南', '京', '大', '学', '计', '算', '机', '科', '学', '与', '技', '术',
+            '系', '（', '学', '士', '、', '硕', '士', '、', '博', '士', '）', '。'],
+           ['现', '为', '南', '京', '大', '学', '教', '授', ',', '国', '家', '杰', '出', '青', '年', '基', '金', '获', '得', '者', '。']]
+train_y = [['B_PER', 'I_PER', 'I_PER', 'O', 'O', 'O', 'O', 'O', 'B_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF',
+            'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'O', 'B_DEG', 'I_DEG', 'O', 'B_DEG', 'I_DEG',
+            'O', 'B_DEG', 'I_DEG', 'O', 'O'],
+           ['O', 'O', 'B_AFF', 'I_AFF', 'I_AFF', 'I_AFF', 'O', 'O', 'O', 'B_HON', 'I_HON', 'I_HON', 'I_HON', 'I_HON', 'I_HON',
+            'I_HON', 'I_HON', 'I_HON', 'I_HON', 'I_HON', 'O']]
+
+
+embedding = BERTEmbedding("chinese", sequence_length=20, task=kashgari.LABELING)
+model = BiLSTM_CRF_Model(embedding)
+model.fit(train_x, train_y, epochs=10, batch_size=100)
+
+# model.save('save')
+sentences = '吴恩达在北京大学。'
+texts = text2array(sentences, sequence_length=20)
+
+ners = model.predict_entities(texts)
+print(ners)</code></pre>
+<h3><strong>结果</strong></h3>
+<pre ><code class="language-default">Model: "model_4"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+Input-Token (InputLayer)        [(None, 20)]         0                                            
+__________________________________________________________________________________________________
+Input-Segment (InputLayer)      [(None, 20)]         0                                            
+__________________________________________________________________________________________________
+Embedding-Token (TokenEmbedding [(None, 20, 768), (2 16226304    Input-Token[0][0]                
+__________________________________________________________________________________________________
+Embedding-Segment (Embedding)   (None, 20, 768)      1536        Input-Segment[0][0]              
+__________________________________________________________________________________________________
+Embedding-Token-Segment (Add)   (None, 20, 768)      0           Embedding-Token[0][0]            
+                                                                 Embedding-Segment[0][0]          
+__________________________________________________________________________________________________
+Embedding-Position (PositionEmb (None, 20, 768)      15360       Embedding-Token-Segment[0][0]    
+__________________________________________________________________________________________________
+Embedding-Dropout (Dropout)     (None, 20, 768)      0           Embedding-Position[0][0]         
+__________________________________________________________________________________________________
+Embedding-Norm (LayerNormalizat (None, 20, 768)      1536        Embedding-Dropout[0][0]          
+__________________________________________________________________________________________________
+Encoder-1-MultiHeadSelfAttentio (None, 20, 768)      2362368     Embedding-Norm[0][0]             
+__________________________________________________________________________________________________
+Encoder-1-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-1-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-1-MultiHeadSelfAttentio (None, 20, 768)      0           Embedding-Norm[0][0]             
+                                                                 Encoder-1-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-1-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-1-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-1-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-1-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-1-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-1-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-1-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-1-MultiHeadSelfAttention-
+                                                                 Encoder-1-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-1-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-1-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-2-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-1-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-2-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-2-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-2-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-1-FeedForward-Norm[0][0] 
+                                                                 Encoder-2-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-2-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-2-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-2-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-2-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-2-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-2-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-2-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-2-MultiHeadSelfAttention-
+                                                                 Encoder-2-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-2-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-2-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-3-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-2-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-3-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-3-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-3-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-2-FeedForward-Norm[0][0] 
+                                                                 Encoder-3-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-3-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-3-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-3-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-3-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-3-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-3-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-3-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-3-MultiHeadSelfAttention-
+                                                                 Encoder-3-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-3-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-3-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-4-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-3-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-4-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-4-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-4-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-3-FeedForward-Norm[0][0] 
+                                                                 Encoder-4-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-4-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-4-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-4-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-4-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-4-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-4-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-4-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-4-MultiHeadSelfAttention-
+                                                                 Encoder-4-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-4-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-4-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-5-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-4-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-5-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-5-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-5-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-4-FeedForward-Norm[0][0] 
+                                                                 Encoder-5-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-5-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-5-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-5-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-5-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-5-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-5-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-5-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-5-MultiHeadSelfAttention-
+                                                                 Encoder-5-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-5-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-5-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-6-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-5-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-6-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-6-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-6-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-5-FeedForward-Norm[0][0] 
+                                                                 Encoder-6-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-6-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-6-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-6-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-6-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-6-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-6-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-6-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-6-MultiHeadSelfAttention-
+                                                                 Encoder-6-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-6-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-6-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-7-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-6-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-7-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-7-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-7-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-6-FeedForward-Norm[0][0] 
+                                                                 Encoder-7-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-7-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-7-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-7-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-7-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-7-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-7-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-7-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-7-MultiHeadSelfAttention-
+                                                                 Encoder-7-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-7-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-7-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-8-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-7-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-8-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-8-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-8-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-7-FeedForward-Norm[0][0] 
+                                                                 Encoder-8-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-8-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-8-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-8-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-8-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-8-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-8-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-8-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-8-MultiHeadSelfAttention-
+                                                                 Encoder-8-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-8-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-8-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-9-MultiHeadSelfAttentio (None, 20, 768)      2362368     Encoder-8-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-9-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-9-MultiHeadSelfAttention[
+__________________________________________________________________________________________________
+Encoder-9-MultiHeadSelfAttentio (None, 20, 768)      0           Encoder-8-FeedForward-Norm[0][0] 
+                                                                 Encoder-9-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-9-MultiHeadSelfAttentio (None, 20, 768)      1536        Encoder-9-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-9-FeedForward (FeedForw (None, 20, 768)      4722432     Encoder-9-MultiHeadSelfAttention-
+__________________________________________________________________________________________________
+Encoder-9-FeedForward-Dropout ( (None, 20, 768)      0           Encoder-9-FeedForward[0][0]      
+__________________________________________________________________________________________________
+Encoder-9-FeedForward-Add (Add) (None, 20, 768)      0           Encoder-9-MultiHeadSelfAttention-
+                                                                 Encoder-9-FeedForward-Dropout[0][
+__________________________________________________________________________________________________
+Encoder-9-FeedForward-Norm (Lay (None, 20, 768)      1536        Encoder-9-FeedForward-Add[0][0]  
+__________________________________________________________________________________________________
+Encoder-10-MultiHeadSelfAttenti (None, 20, 768)      2362368     Encoder-9-FeedForward-Norm[0][0] 
+__________________________________________________________________________________________________
+Encoder-10-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-10-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-10-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-9-FeedForward-Norm[0][0] 
+                                                                 Encoder-10-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-10-MultiHeadSelfAttenti (None, 20, 768)      1536        Encoder-10-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-10-FeedForward (FeedFor (None, 20, 768)      4722432     Encoder-10-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-10-FeedForward-Dropout  (None, 20, 768)      0           Encoder-10-FeedForward[0][0]     
+__________________________________________________________________________________________________
+Encoder-10-FeedForward-Add (Add (None, 20, 768)      0           Encoder-10-MultiHeadSelfAttention
+                                                                 Encoder-10-FeedForward-Dropout[0]
+__________________________________________________________________________________________________
+Encoder-10-FeedForward-Norm (La (None, 20, 768)      1536        Encoder-10-FeedForward-Add[0][0] 
+__________________________________________________________________________________________________
+Encoder-11-MultiHeadSelfAttenti (None, 20, 768)      2362368     Encoder-10-FeedForward-Norm[0][0]
+__________________________________________________________________________________________________
+Encoder-11-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-11-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-11-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-10-FeedForward-Norm[0][0]
+                                                                 Encoder-11-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-11-MultiHeadSelfAttenti (None, 20, 768)      1536        Encoder-11-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-11-FeedForward (FeedFor (None, 20, 768)      4722432     Encoder-11-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-11-FeedForward-Dropout  (None, 20, 768)      0           Encoder-11-FeedForward[0][0]     
+__________________________________________________________________________________________________
+Encoder-11-FeedForward-Add (Add (None, 20, 768)      0           Encoder-11-MultiHeadSelfAttention
+                                                                 Encoder-11-FeedForward-Dropout[0]
+__________________________________________________________________________________________________
+Encoder-11-FeedForward-Norm (La (None, 20, 768)      1536        Encoder-11-FeedForward-Add[0][0] 
+__________________________________________________________________________________________________
+Encoder-12-MultiHeadSelfAttenti (None, 20, 768)      2362368     Encoder-11-FeedForward-Norm[0][0]
+__________________________________________________________________________________________________
+Encoder-12-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-12-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-12-MultiHeadSelfAttenti (None, 20, 768)      0           Encoder-11-FeedForward-Norm[0][0]
+                                                                 Encoder-12-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-12-MultiHeadSelfAttenti (None, 20, 768)      1536        Encoder-12-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-12-FeedForward (FeedFor (None, 20, 768)      4722432     Encoder-12-MultiHeadSelfAttention
+__________________________________________________________________________________________________
+Encoder-12-FeedForward-Dropout  (None, 20, 768)      0           Encoder-12-FeedForward[0][0]     
+__________________________________________________________________________________________________
+Encoder-12-FeedForward-Add (Add (None, 20, 768)      0           Encoder-12-MultiHeadSelfAttention
+                                                                 Encoder-12-FeedForward-Dropout[0]
+__________________________________________________________________________________________________
+Encoder-12-FeedForward-Norm (La (None, 20, 768)      1536        Encoder-12-FeedForward-Add[0][0] 
+__________________________________________________________________________________________________
+Encoder-Output (Concatenate)    (None, 20, 3072)     0           Encoder-9-FeedForward-Norm[0][0] 
+                                                                 Encoder-10-FeedForward-Norm[0][0]
+                                                                 Encoder-11-FeedForward-Norm[0][0]
+                                                                 Encoder-12-FeedForward-Norm[0][0]
+__________________________________________________________________________________________________
+non_masking_layer (NonMaskingLa (None, 20, 3072)     0           Encoder-Output[0][0]             
+__________________________________________________________________________________________________
+layer_blstm (Bidirectional)     (None, 20, 256)      3277824     non_masking_layer[0][0]          
+__________________________________________________________________________________________________
+layer_dense (Dense)             (None, 20, 64)       16448       layer_blstm[0][0]                
+__________________________________________________________________________________________________
+layer_crf_dense (Dense)         (None, 20, 10)       650         layer_dense[0][0]                
+__________________________________________________________________________________________________
+layer_crf (CRF)                 (None, 20, 10)       100         layer_crf_dense[0][0]            
+==================================================================================================
+Total params: 104,594,222
+Trainable params: 3,295,022
+Non-trainable params: 101,299,200
+__________________________________________________________________________________________________
+Epoch 1/10
+
+1/1 [==============================] - 6s 6s/step - loss: 52.2269 - accuracy: 0.1250
+Epoch 2/10
+
+1/1 [==============================] - 1s 687ms/step - loss: 22.6029 - accuracy: 0.6750
+Epoch 3/10
+
+1/1 [==============================] - 1s 754ms/step - loss: 12.7078 - accuracy: 0.8500
+Epoch 4/10
+
+1/1 [==============================] - 1s 767ms/step - loss: 12.8406 - accuracy: 0.8250
+Epoch 5/10
+
+1/1 [==============================] - 1s 717ms/step - loss: 10.0257 - accuracy: 0.8750
+Epoch 6/10
+
+1/1 [==============================] - 1s 638ms/step - loss: 7.3283 - accuracy: 0.8750
+Epoch 7/10
+
+1/1 [==============================] - 1s 738ms/step - loss: 4.4533 - accuracy: 0.9500
+Epoch 8/10
+
+1/1 [==============================] - 1s 734ms/step - loss: 5.0040 - accuracy: 0.9750
+Epoch 9/10
+
+1/1 [==============================] - 1s 698ms/step - loss: 2.6457 - accuracy: 1.0000
+Epoch 10/10
+
+1/1 [==============================] - 1s 743ms/step - loss: 2.0256 - accuracy: 1.0000
+[{'text': '吴 恩 达 在 北 京 大 学 。', 'text_raw': ['吴', '恩', '达', '在', '北', '京', '大', '学', '。'], 'labels': [{'entity': 'B_PER', 'start': 0, 'end': 0, 'value': '吴'}, {'entity': 'I_PER', 'start': 1, 'end': 2, 'value': '恩 达'}, {'entity': 'I_AFF', 'start': 4, 'end': 7, 'value': '北 京 大 学'}]}]
+</code></pre>
+输出展示了BERT的12层Transformer结构，以及它的参数量。最后是NER的结果。
+<h2><strong>参考资料</strong></h2>
+<ul>
+ 	<li>https://kashgari-zh.bmio.net/</li>
+ 	<li>https://www.jianshu.com/p/1d6689851622</li>
+ 	<li>https://blog.csdn.net/ctwy291314/article/details/102819221</li>
+</ul>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (5)</h2>
+        <div class="comment" id="comment-19094">
+          <strong>刘嘉宇</strong>
+          <time>2020-06-26 19:07:04</time>
+          <div>re.error: nothing to repeat at position 0；运用以上代码跑出来是这个结果，对比你给出的结果，那个结果中最后一行没有[{&#x27;text&#x27;: &#x27;吴 恩 达 在 北 京 大 学 。&#x27;, &#x27;text_raw&#x27;: [&#x27;吴&#x27;, &#x27;恩&#x27;, &#x27;达&#x27;, &#x27;在&#x27;, &#x27;北&#x27;, &#x27;京&#x27;, &#x27;大&#x27;, &#x27;学&#x27;, &#x27;。&#x27;……这个出不来，其他都有。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19095">
+          <strong>xyjisaw</strong>
+          <time>2020-06-26 20:09:07</time>
+          <div>巨危啊，我的出得来，你看看那个接口调用对不对。</div>
+        </div>
+        
+        <div class="comment" id="comment-25459">
+          <strong>ElenaDeerm</strong>
+          <time>2022-03-09 05:52:43</time>
+          <div>Help the Ukrainians leave the war zone - https://no-war.site/</div>
+        </div>
+        
+        <div class="comment" id="comment-31875">
+          <strong>扣扣扣</strong>
+          <time>2023-02-13 13:22:26</time>
+          <div>您好~想请教一下这个模型evaluate后，关于p、r、f1的micro avg和macro avg这两个值怎么解读，为什么我看有的关于kashgari的使用教程最后出来的有avg / total（p、r、f1）值，即有个总值，我评估出来的没有这个呀（因为没法贴图不知道您是否可以理解我的疑问</div>
+        </div>
+        
+        <div class="comment reply" id="comment-31982">
+          <strong>xyjisaw</strong>
+          <time>2023-02-14 10:16:50</time>
+          <div>macro avg:对所有类别的平均。<br><br>micro avg:对数据集中的每⼀个实例不分类别进⾏统计建⽴全局混淆矩阵，然后计算相应指标。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

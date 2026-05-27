@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++STL generic programming container library · OmegaXYZ</title>
+  <meta name="description" content="STL = Standard Template Library, the collective name for a series of software developed by HP Labs. It was developed by Alexander Stepanov, Meng Lee, and David R Musser while working at HP Labs. Fundamentally speaking, STL is a collection of &quot;containers&quot;, such as list, vector, set, map, etc. STL is also...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/14/cppstlmodel/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-14</div>
+        <h1>C++STL generic programming container library</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content">STL = Standard Template Library, the collective name for a series of software developed by HP Labs. It was developed by Alexander Stepanov, Meng Lee, and David R Musser while working at HP Labs. Fundamentally speaking, STL is a collection of "containers" such as list, vector, set, map, etc. STL is also a collection of algorithms and other components. The collection of "containers" and algorithms here refers to the masterpieces of many smart people in the world over many years. The purpose of STL is to standardize components so that they do not need to be redeveloped and ready-made components can be used. STL is now part of C++, so there is nothing extra to install.
+
+sequence container
+Vector (vector) Continuously stored elements &lt;vector&gt;
+List (list) A doubly linked list composed of nodes, each node contains an element &lt;list&gt;
+Double-ended queue (deque) An array of consecutively stored pointers to different elements &lt;deque&gt;
+adapter container
+stack (stack) Last-in-first-out arrangement of values &lt;stack&gt;
+Queue (queue) First-in first-out arrangement of values &lt;queue&gt;
+Priority queue (priority_queue) A queue in which the order of elements is determined by some predicate acting on the stored value pairs &lt;queue&gt;
+associative container
+A set is a red-black tree composed of nodes. Each node contains an element. The nodes are arranged according to some predicate that acts on pairs of elements. No two different elements can have the same order &lt;set&gt;
+Multiset allows the existence of two sets of elements with equal order &lt;set&gt;
+Map (map) A collection of {key, value} pairs, arranged with some predicate acting on the key pairs &lt;map&gt;
+Multimap: A mapping that allows key pairs to be in equal order &lt;map&gt;
+
+1. Stack<pre><code class="language-c++">stack&lt;int&gt;st;//栈st，用于存放int型数据  
+st.push(3);//将3入栈  
+st.push(2);//将2入栈  
+st.pop();//栈顶2出栈  
+int Top = st.top();//获取栈顶元素,即3  
+int Size = st.size();//求栈中的元素个数  
+bool isEmpty = st.empty(); //栈中元素是否为空，1表示空，0表示非空 
+stack&lt;T&gt;st; // T是存放数据的类型，可以是int, double等，也可以是自定义的结构体类型 
+</code></pre>
+2.Queue
+<pre><code class="language-c++">queue&lt;int&gt;que;//队列que,存放int型数据  
+que.push(3);//将3入队列  
+que.push(2);//将2入队列  
+que.pop();//队首3出队列  
+int Front = que.front();//获取队首元素  
+int Size = que.size();//队列中元素个数  
+bool isEmpty = que.empty(); //是否为空   
+queue&lt;T&gt;que;  // T是存放数据的类型，可以是int, double等，也可以是自定义的结构体类型. 
+</code></pre>
+3.Priority Queue
+<pre><code class="language-c++">const int len = 5;  
+int a[len] = {3, 5, 9, 6, 2};  
+priority_queue&lt;int&gt; q;  
+for(int i = 0; i &lt; len; ++ i)  
+{  
+      q.push(a[i]);  
+}  
+for(int i = 0; i &lt; len; ++ i)  
+{  
+        cout&lt;&lt; q.top() &lt;&lt;endl;  
+        q.pop();  
+}
+</code></pre>The output elements are 9 6 5 3 2
+
+If you want to sort from small to large, replace the statement priority_queue&lt;int&gt;q; with
+priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt;&gt;q; can be achieved.
+
+In addition, we can define the priority ourselves according to the needs and overload the '&lt;' symbol so that the elements in the queue are arranged in a certain order. Suppose we define a job structure in the operating system. There are two elements in it, one is the job name char name[5]; the other is the arrival time; put the job object into the priority queue. It is required that the priority queue is arranged in ascending order of job arrival time, that is, the job with the smallest arrival time is at the head of the queue.<pre><code class="language-c++">struct Job //定义作业结构体  
+	{  
+	    char name[5];//作业名  
+	    int arriveTime;//到达时间  
+	    bool operator &lt; (const Job another)const{//如果当前作业到达时间大于另一个，则当前作业优先级小  
+	        if(arriveTime &gt; another.arriveTime)  
+            return true;  
+	        return false;  
+	    }  
+	}job[3];  
+	  
+	int main()  
+	{  
+	    strcpy(job[0].name, "no1");  
+	    strcpy(job[1].name, "no2");  
+	    strcpy(job[2].name, "no3");  
+     job[0].arriveTime = 2;  
+	    job[1].arriveTime = 1;  
+	    job[2].arriveTime = 3;  
+	  
+	    priority_queue&lt;Job&gt; que;  
+	    que.push(job[0]);  
+	    que.push(job[1]);  
+     que.push(job[2]);  
+	    for(int i = 0; i &lt; 3; ++ i)  
+	    {  
+	        Job tempJob = que.top();  
+	        que.pop();  
+	        cout&lt;&lt; tempJob.name &lt;&lt;"  "&lt;&lt;tempJob.arriveTime&lt;&lt;endl;  
+	}  
+	return 0;  
+	}  
+</code></pre>The output is:
+no2 1
+no1 2
+no3 3
+Implemented the ordering of jobs in the priority queue according to arrival time
+
+4.Vector<pre><code class="language-default">vector&lt;int&gt;vec;  
+	vec.push_back(2);//尾部插入数字2,即 vec[0]=2  
+	vec.push_back(4);//尾部插入数字4,即 vec[1]=4  
+	int Size = vec.size();//容器中存放数字的个数  
+	cout&lt;&lt; vec[1] &lt;&lt;endl;//访问第二个数字，即4  
+	  
+	for(int i = 0; i &lt; vec.size(); ++ i)//按照下标遍历元素,此时vec[0]=2  vec[1]=4  
+	{  
+	    cout&lt;&lt; vec[i] &lt;&lt; " ";  
+	}  
+	cout&lt;&lt;endl;  
+	  
+	vector&lt;int&gt;::iterator it;//按照迭代器遍历元素  
+	for(it = vec.begin(); it != vec.end(); ++ it)  
+	{  
+	    cout&lt;&lt; *it &lt;&lt;" ";  
+	}  
+	cout&lt;&lt;endl;  
+	  
+	vec.insert(vec.begin() + 1, 6);//在第二个位置上插入元素6，即vec[1]=6  
+	vec.erase(vec.begin() + 1);//删除第二个位置上的元素  
+	vec.clear();//把容器中的元素全部清除  
+//其它
+vector&lt;int&gt;v;  
+	   v.erase(v.begin() + 2);//删除第2个元素，从0开始计数  
+	   v.erase(v.begin() + 1, v.begin() + 5);//删除第1到第5个元素  
+	   sort(v.begin(), v.end());//元素排序  
+	   //sort(v.begin(), v.end(), cmp);//自定义排序规则，cmp函数自定义  
+ reverse(v.begin(), v.end());  
+</code></pre>In addition, you can also define a two-dimensional dynamic array, vector&lt;int&gt;vec[2]; that is, two containers, which can be used to easily save the adjacency list of a directed graph, that is, vec[i] stores the vertices adjacent to the i-th vertex (starting from vertex i). To operate, just change vec in the above code to vec[i].
+
+5.Set
+
+The elements stored in a container like set are unique, that is, it is impossible for two identical numbers to exist in set. The efficiency of set is relatively high, and an efficient balanced retrieval binary tree is used internally: a red-black tree. The inserted elements are automatically sorted from small to large, with the first element being the smallest value.<pre><code class="language-c++">        set&lt;int&gt;st;//容器中存放int型数据  
+	st.insert(2);//插入元素2  
+	st.insert(1);  
+	st.insert(3);  
+	st.insert(8);  
+	  
+	int Size = st.size();//容器中元素个数  
+	bool isEmpty = st.empty();//元素是否为空  
+	int has1 = st.count(1);//1这个元素是否在set中 st.count()不是1就是0  
+	int has2 = st.count(6);//6这个元素是否在set中，has1值为1  has2值为0  
+	st.erase(1);//在容器中删除1这个元素  
+	bool inSet = (st.find(-2)!= st.end());//-2这个元素是否在set中  
+	cout&lt;&lt;*st.lower_bound(1)&lt;&lt;endl;//返回set中第一个大于等于1的数  
+	cout&lt;&lt;*st.upper_bound(1)&lt;&lt;endl;//返回set中第一个大于1的数  
+	  
+	set&lt;int&gt;:: iterator it;//遍历set容器，输出 1 2 3  
+	for(it = st.begin(); it != st.end(); ++ it)  
+	{  
+	    cout&lt;&lt; *it &lt;&lt;"  ";  
+	}  
+	cout&lt;&lt;endl;  
+	  
+	st.clear();//清空set中的元素
+
+//其它
+set&lt;int&gt;st;  
+	   //反向遍历，从大到小  
+	   set&lt;int&gt;::reverse_iterator rit;//定义反向迭代器  
+	   for(rit = st.rbegin(); rit != st.rend(); rit ++)  
+           {  
+	       cout &lt;&lt; *rit &lt;&lt; endl;  
+	   }  
+</code></pre>Values ​​in multiset can be repeated<pre><code class="language-c++">multiset&lt;int&gt; ms;  
+   int n = ms.erase(3); //删除里面所有的3，返回删除元素总个数  
+	   multiset&lt;int&gt;::iterator it;  
+	   it = ms.find(3);  
+	   if(it != ms.end())//找到了3这个元素  
+	   {  
+	       cout &lt;&lt; *it &lt;&lt;endl;  
+	   }  
+	   else  
+	   {  
+	       cout&lt;&lt; "not find it"&lt;&lt;endl;  
+	   } 
+</code></pre>6.Map
+
+Map is a mapping relationship, one-to-one, the first is the keyword (first), the second is the key value (second), the keyword is unique, and the elements in the map are ordered by the keyword. In practical applications, the meanings of keywords and key values must be considered and used flexibly.<pre><code class="language-c++">map&lt;string, int&gt; mp; //关键字为string类型，键值为int 类型，我们可以用来表示某一个符  
+	//串str出现的次数,int型键值默认为0  
+	cout&lt;&lt; mp[“hello”] &lt;&lt;endl; //输出”hello”这个字符串出现的次数，这里原来map是空的，但  
+	//但是我们输出了一下以后，mp的元素个数自动变成了1，但是”hello”对应的键值仍然为0  
+	  
+	mp.clear();//清空元素  
+	mp.insert(make_pair("hello",1));//插入键值对，代表初始的时候"hello"出现的次数为1  
+	mp.insert(make_pair("world",3));//插入键值对，初始的时候"world"出现的次数为3  
+	mp.insert(make_pair("apple",1));//插入键值对，初始的时候"apple”出现的次数为1  
+	cout&lt;&lt;mp.size()&lt;&lt;endl;//map中的元素个数，这里输出3  
+	  
+	map&lt;string, int&gt;:: iterator it;//遍历map  
+	for(it = mp.begin(); it!= mp.end(); ++ it)  
+	{  
+	    cout&lt;&lt;it-&gt;first&lt;&lt;"  "&lt;&lt;it-&gt;second&lt;&lt;endl;  
+	}
+</code></pre>The output is as follows:
+apple 1
+hello 1
+world 3<pre><code class="language-c++">cout&lt;&lt; mp[“hello”]&lt;&lt;end;//查看”hello”出现的次数  
+	mp[“hello”] ++ ;//”hello”出现的次数+1  
+	  
+	bool inMap = mp.count(“hello”); //”hello”是否在map中，返回0或1  
+	inMap = (mp.find("hello") != mp.end()); //”hello”是否在map中，返回0或1  
+	  
+	for(it = mp.begin(); it != mp.end(); ++ it)//查找到”hello”,然后删除该元素  
+	{  
+	    if(it-&gt;first == "hello")  
+	    {  
+	        mp.erase(it);  
+	        break;  
+	    }  
+	}
+</code></pre>
+<pre><code class="language-c++">//map-----------键值--&gt;映照数据  
+	   map&lt;int&gt; mp;  
+	   mp.erase(2);//删除键值为2的元素  
+	   map&lt;int&gt;::iterator it;  
+	   it = mp.find(2);//查找键值  
+	   if(it != mp.end())//找到了  
+	   {  
+	       cout &lt;&lt; (*it).first &lt;&lt; (*it).second &lt;&lt;endl;  
+	   }  
+</code></pre>7.Header file #include&lt;algorithm&gt;
+
+Arrays can be sorted easily using sort, which can pass two or three parameters. The first parameter is the first address of the interval to be sorted, and the second parameter is the next address of the end address of the interval, that is, the sorted interval is [a, b). For example, there is an array int a[5], so that a[0] to a[4] are ordered from small to large. Just write sort(a, a + 5). The general sort(a, a+ n); // n is the number of elements. Sort uses quick sort internally, which is generally very efficient.<pre><code class="language-c++">const int n = 3;  
+	int arr[n] = {1, 3, 2};  
+	sort(arr,arr+n);  
+	for(int i = 0; i &lt; n; ++ i)  
+	cout&lt;&lt; arr[i] &lt;&lt;endl;
+</code></pre>In addition, we can also sort the elements according to our own needs. The elements can be structures. The third parameter, the comparison function, is used here to tell the computer in what order to sort.
+For example: sort from largest to smallest.<pre><code class="language-c++">bool cmp(int a, int b)//定义比较函数，从大到小  
+	{  
+	    if(a &gt;= b)  
+	        return true;  
+	    return false;  
+	}  
+</code></pre>In the main function: sort(arr, arr+n,cmp);
+Another example is the following structure, which should be sorted according to the age of the students from youngest to oldest.<pre><code class="language-c++">struct Student  
+	{  
+	    int age; //年龄  
+	    string name;//姓名  
+	}student[3];  
+	  
+	bool cmp(Student a, Student b)  
+	{  
+	    if(a.age &lt;= b.age)  
+	        return true;  
+	    return false;  
+	}  
+	  
+	student[0].name = "aa";student[0].age = 15;  
+	student[1].name = "bb";student[1].age = 10;  
+	student[2].name = "cc";student[2].age = 8;  
+	sort(student, student+3, cmp);  
+	for(int i = 0; i &lt; 3; ++ i)  
+	cout&lt;&lt; student[i].name &lt;&lt;"  "&lt;&lt;student[i].age&lt;&lt;endl;
+</code></pre>Output:
+cc 8
+bb 10
+aa 15
+
+8.cmath<pre><code class="language-c++">cout&lt;&lt; log2(8) &lt;&lt;endl;  //输出3 , 因为2的3次方为8  
+cout&lt;&lt; log10(100) &lt;&lt;endl;  //输出2，因为10的2次方为100  
+cout&lt;&lt; log(20) &lt;&lt;endl;  //计算 ln(20)的值 
+</code></pre>Replenish<pre><code class="language-c++"> //重载'&lt;'操作符，自定义排序规则，在map中  
+	       bool operator &lt; (const Info &amp;a) const  
+	       {  
+	           //按score从小到大排序  
+	           return a.score &lt; score;  
+	       }  
+	   };  
+	  
+	   map&lt;Info, int&gt; mmp;  
+	  
+	   //multimap------------允许键值相同的存在  
+	   multimap&lt;string, double&gt;m;  
+	   m.insert(pair&lt;string, double&gt; ("jack", 20.4));  
+	   m.insert(pair&lt;string, double&gt; ("jack", 34.1));  
+	   m.erase("jack");//删除键值等于"jack"的元素  
+	   //find()函数只返回重复键值中的第一个元素的迭代器位置  
+  
+	  
+	   //deque-------------双端队列  
+	   push_back()方法在尾部插入元素，不断扩张队列  
+	   push_front()和insert()在首部和中间位置插入元素，只是将原位置上的元素值覆盖，不会增加新元素  
+	   deque&lt;int&gt; d;  
+	   d.push_back(1);  
+       d.push_back(2);  
+	   d.push_back(3);  
+	   d.insert(d.begin() + 1, 88);  
+	   cout &lt;&lt; d[0] &lt;&lt; d[1] &lt;&lt; d[2] &lt;&lt;endl; //输出 1 88 3  
+	   d.pop_front();//头部删除元素  
+	   d.pop_back();//尾部删除元素  
+	   d.erase(d.begin() + 1);  
+  
+	  
+   //list--------------链表  
+	   list&lt;int&gt; l;  
+	   l.push_back(2);  
+	   l.push_back(1);  
+	   l.push_back(5);//链表尾部插入元素，链表自动扩张  
+	   l.push_front(8);//链表头部插入元素，链表自动扩张  
+	   list&lt;int&gt;::iterator it;  
+	   it = l.begin();  
+	   it ++;//注意链表的迭代器只能进行 ++ 或者 -- ，不能 + n  
+	   l.insert(it, 20);  
+	   for(it = l.begin(); it != l.end(); it ++)  
+	   {  
+	       cout &lt;&lt; *it &lt;&lt;endl;  //输出 8 20 2 1 5  
+   }  
+	   l.remove(2);//值为2的节点都删除  
+	   l.pop_front();//删除首部元素  
+	   l.pop_back();//删除尾部元素  
+	   l.sort();//排序  
+	   l.unique();//剔除重复元素， 3 8 1 1 1 3 1 ----&gt;  3 8 1 3 1  
+	  
+	  
+	   //bitset 位集合容器  
+	   bitset&lt;10&gt;b; //能容纳10个元素，也就是10位，默认都为0  
+	   //赋值  
+	   b[1] = 1;  
+	   b[6] = 1;  
+      b[9] = 1;  
+	   //第0位是最低位，第9位是最高位  
+   for(int i = b.size() - 1; i &gt;= 0; i --)  
+	   {  
+	       cout &lt;&lt; b[i] &lt;&lt; " ";   //输出 1001000010  
+   }  
+       b.set();//全部重置为1  
+	   b.set(1, 1);//将第1位置为1  
+	   b.set(6, 1);  
+	   b.set(9, 1);  
+	   b.reset(9);//将第9位置为0  
+	   cout &lt;&lt; b &lt;&lt;endl;// 和上面效果相同，也是输出1001000010
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

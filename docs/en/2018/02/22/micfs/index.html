@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feature selection based on MIC (maximum mutual information coefficient) · OmegaXYZ</title>
+  <meta name="description" content="Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient. I have written an introduction to MIC before, which includes the principles of MIC. Link: https://omegaxyz.com/2018/01/18/mic/ For the installation of the MATLAB package used, please see: https://omegaxyz.com/2018/02/2...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/22/micfs/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-22</div>
+        <h1>Feature selection based on MIC (maximum mutual information coefficient)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient.
+
+I wrote an introduction to MIC before, which includes the principles of MIC. Link:<a href="https://omegaxyz.com/2018/01/18/mic/">https://omegaxyz.com/2018/01/18/mic/</a>For the installation of MATLAB packages used, please see:<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>Feature selection steps
+
+① Calculate the MIC value between different dimensions (features). The larger the MIC value, the closer the two dimensions are.
+②Look for dimensions with smaller MIC values ​​than other dimensions, and select these features based on the threshold.
+③Use SVM training
+④The training results determine the error rate on the test set
+
+For the installation of minepy, please refer to:<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>MATLAB code:<pre><code class="language-default">clc
+load train_F.mat;
+load train_L.mat;
+load test_F.mat;
+load test_L.mat;
+Dim = 22;
+MIC_matrix = zeros(Dim, Dim);
+for i = 1:Dim
+    for j = 1:Dim
+        X_v = reshape(train_F(:,i),1,size(train_F(:,i),1));
+        Y_v = reshape(train_F(:,j),1,size(train_F(:,j),1));
+        [A, ~] = mine(X_v, Y_v);
+        MIC_matrix(i, j) = A.mic;
+    end
+end
+MIC_matrix(MIC_matrix&gt;0.4) = 0;
+MIC_matrix(MIC_matrix~=0) = 1;
+inmodel = sum(MIC_matrix);
+threshold = sum(inmodel)/Dim;
+inmodel(inmodel &lt;= threshold) = 0;
+inmodel(inmodel &gt; threshold) = 1;
+
+model = libsvmtrain(train_L,train_F(:,inmodel));
+[predict_label, ~, ~] = libsvmpredict(test_L,test_F(:,inmodel),model); 
+error=0;
+for j=1:length(test_L)
+    if(predict_label(j,1) ~= test_L(j,1))
+        error = error+1;
+    end
+end
+error = error/length(test_L);
+</code></pre>
+<div class="footer-bar"><aside class="widget_text widget inner-padding widget_custom_html" id="custom_html-7">
+<div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>Code adoption<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license" style="color: #ff0000;">Apache 2.0</a>Authorize</strong></span>
+<span style="color: #ff0000;"><strong>The article is licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" style="color: #ff0000;">BY-NC-SA4.0</a>Authorize</strong></span></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a href="https://omegaxyz.com/" rel="noopener" style="color: #ff0000;" target="_blank">OmegaXYZ</a>-All rights reserved. Please indicate the source for reprinting.</strong></span></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

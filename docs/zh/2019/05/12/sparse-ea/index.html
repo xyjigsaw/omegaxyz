@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于稀疏大规模矩阵的多目标进化算法简介 · OmegaXYZ</title>
+  <meta name="description" content="简介 可以看到本文的特色图片是个极度稀疏连接的神经网络，它是由我们即将介绍论文中的算法SparseEA得到的。 此篇论文是BIMK的田野、张兴义等人发表在IEEE Transactions on Evolutionary Computation(SCI 一区)期刊上的，时间2019.4。 论文提出了一种解决大规模稀疏问题的多目标算法，大规...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/12/sparse-ea/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-12</div>
+        <h1>基于稀疏大规模矩阵的多目标进化算法简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+可以看到本文的特色图片是个极度稀疏连接的神经网络，它是由我们即将介绍论文中的算法SparseEA得到的。
+
+此篇论文是BIMK的田野、张兴义等人发表在IEEE Transactions on Evolutionary Computation(SCI 一区)期刊上的，时间2019.4。
+
+<img class="alignnone  wp-image-5770" src="https://cdn.omegaxyz.com/2019/05/sparse-ea1.png" alt="" width="768" height="175" />
+<div>论文提出了一种解决大规模稀疏问题的多目标算法，大规模稀疏存在于许多领域：机器学习、数据挖掘、神经网络。</div>
+<div>作者主要讨论了四个具体的问题</div>
+<ul>
+ 	<li>①特征选择</li>
+ 	<li>②模式挖掘</li>
+ 	<li>③关键节点检测</li>
+ 	<li>④神经网络训练</li>
+</ul>
+<div>上面四个问题虽然存在于不同领域，但是它们都属于多目标问题，它们的pareto面的解集都是稀疏的。举例来说，对于大规模特征选择问题，10000维中只能选取不到100个，压缩率达到了99%，是典型的稀疏问题。</div>
+<h2><strong>具体问题</strong></h2>
+<div><img class="alignnone  wp-image-5771" src="https://cdn.omegaxyz.com/2019/05/sparse-ea2.png" alt="" width="708" height="320" /></div>
+<div><img class="alignnone  wp-image-5772" src="https://cdn.omegaxyz.com/2019/05/sparse-ea3.png" alt="" width="718" height="324" /></div>
+<h2><strong>算法的贡献</strong></h2>
+<ul>
+ 	<li>①设计了新的种群初始化策略（根据稀疏大规模特性，能够获得一个很好的前沿面）</li>
+ 	<li>②设计了新的基于pareto解集稀疏性的遗传算子</li>
+</ul>
+<h2><strong>具体算法</strong></h2>
+<h3><strong>算法框架</strong></h3>
+类似于NSGA2的框架
+
+<img class="alignnone  wp-image-5777" src="https://cdn.omegaxyz.com/2019/05/sparse-ea8.png" alt="" width="450" height="357" />
+<h3><strong>初始化策略</strong></h3>
+<div>为了集成两种编码，需要引入两个向量，一个是决策变量向量dec （实际上是进化的解，对于01编码来说，可以全置1），另一个是掩码向量mask（实际上一个01向量，用来记录每个维度的好坏，好的置1），最终的决策变量是两者的内积。</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjUwMTgtMTU1NzY2MDM4NDc5NCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLkuLoifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLpm4YifSx7ImNoYXIiOiLmiJAifSx7ImNoYXIiOiLkuKQifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLnvJYifSx7ImNoYXIiOiLnoIEifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLpnIAifSx7ImNoYXIiOiLopoEifSx7ImNoYXIiOiLlvJUifSx7ImNoYXIiOiLlhaUifSx7ImNoYXIiOiLkuKQifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLvvIwifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI4NTY0LTE1NTc2NjA2OTMwOTgiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5YazIn0seyJjaGFyIjoi562WIn0seyJjaGFyIjoi5Y+YIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoi5ZCRIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoiZCIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiZSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiYyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiICIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yIIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlrp4iLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IumZhSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5LiKIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLmmK8iLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6Iui/myIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5YyWIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLnmoQiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuinoyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yMIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlr7kiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuS6jiIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMCIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi57yWIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLnoIEiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuadpSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi6K+0Iiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLvvIwiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6IuWPryIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi5LulIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fSx7ImNoYXIiOiLlhagiLCJzdHlsZXMiOnsiYm9sZCI6dHJ1ZX19LHsiY2hhciI6Iue9riIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiMSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yJIiwic3R5bGVzIjp7ImJvbGQiOnRydWV9fV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1MDE5LTE1NTc2NjA3MDI5NDIiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5Y+mIn0seyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5o6pIn0seyJjaGFyIjoi56CBIn0seyJjaGFyIjoi5ZCRIn0seyJjaGFyIjoi6YePIn0seyJjaGFyIjoibSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiYSIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoicyIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoiayIsInN0eWxlcyI6eyJib2xkIjp0cnVlfX0seyJjaGFyIjoi77yIIn0seyJjaGFyIjoi5a6eIn0seyJjaGFyIjoi6ZmFIn0seyJjaGFyIjoi5LiKIn0seyJjaGFyIjoi5LiAIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoiMCJ9LHsiY2hhciI6IjEifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnlKgifSx7ImNoYXIiOiLmnaUifSx7ImNoYXIiOiLorrAifSx7ImNoYXIiOiLlvZUifSx7ImNoYXIiOiLmr48ifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLnu7QifSx7ImNoYXIiOiLluqYifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlpb0ifSx7ImNoYXIiOiLlnY8ifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLlpb0ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLnva4ifSx7ImNoYXIiOiIxIn0seyJjaGFyIjoi77yJIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNTAyMi0xNTU3NjYwNzMzNDc1IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuacgCJ9LHsiY2hhciI6Iue7iCJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuWGsyJ9LHsiY2hhciI6IuetliJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IumHjyJ9LHsiY2hhciI6IuaYryJ9LHsiY2hhciI6IuS4pCJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IuWGhSJ9LHsiY2hhciI6IuenryJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==-->
+
+<img class="alignnone  wp-image-5773" src="https://cdn.omegaxyz.com/2019/05/sparse-ea4.png" alt="" width="422" height="667" />
+
+经过初始化后的结果：
+
+<img class="alignnone  wp-image-5774" src="https://cdn.omegaxyz.com/2019/05/sparse-ea5.png" alt="" width="440" height="352" />
+
+可以看到，通过该初始化策略，获得一个一个近似于pareto面的良好分布。
+<h3><strong>交叉变异算子</strong></h3>
+<div>这个交叉变异是算法的核心，它每次在二进制向量mask中，以同样的概率每次在0元素中翻转一个元素，或者在非0元素中翻转一个元素，翻转是根据决策变量的适应度值进行的。因此，生成的子代不会有同样数量的0和1，并且可以保持子代的稀疏度。</div>
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjU2MTAtMTU1NzY2MjI5NDE2NyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLov5kifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLkuqQifSx7ImNoYXIiOiLlj4kifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLlvIIifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLnrpcifSx7ImNoYXIiOiLms5UifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLmoLgifSx7ImNoYXIiOiLlv4MifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLlroMifSx7ImNoYXIiOiLmr48ifSx7ImNoYXIiOiLmrKEifSx7ImNoYXIiOiLlnKgifSx7ImNoYXIiOiLkuowifSx7ImNoYXIiOiLov5sifSx7ImNoYXIiOiLliLYifSx7ImNoYXIiOiLlkJEifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiJtIn0seyJjaGFyIjoiYSJ9LHsiY2hhciI6InMifSx7ImNoYXIiOiJrIn0seyJjaGFyIjoi5LitIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5LulIn0seyJjaGFyIjoi5ZCMIn0seyJjaGFyIjoi5qC3In0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5qaCIn0seyJjaGFyIjoi546HIn0seyJjaGFyIjoi5q+PIn0seyJjaGFyIjoi5qyhIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoiMCJ9LHsiY2hhciI6IuWFgyJ9LHsiY2hhciI6Iue0oCJ9LHsiY2hhciI6IuS4rSJ9LHsiY2hhciI6Iue/uyJ9LHsiY2hhciI6Iui9rCJ9LHsiY2hhciI6IuS4gCJ9LHsiY2hhciI6IuS4qiJ9LHsiY2hhciI6IuWFgyJ9LHsiY2hhciI6Iue0oCJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuaIliJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IuWcqCJ9LHsiY2hhciI6IumdniJ9LHsiY2hhciI6IjAifSx7ImNoYXIiOiLlhYMifSx7ImNoYXIiOiLntKAifSx7ImNoYXIiOiLkuK0ifSx7ImNoYXIiOiLnv7sifSx7ImNoYXIiOiLovawifSx7ImNoYXIiOiLkuIAifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLlhYMifSx7ImNoYXIiOiLntKAifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnv7sifSx7ImNoYXIiOiLovawifSx7ImNoYXIiOiLmmK8ifSx7ImNoYXIiOiLmoLkifSx7ImNoYXIiOiLmja4ifSx7ImNoYXIiOiLlhrMifSx7ImNoYXIiOiLnrZYifSx7ImNoYXIiOiLlj5gifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLpgIIifSx7ImNoYXIiOiLlupQifSx7ImNoYXIiOiLluqYifSx7ImNoYXIiOiLlgLwifSx7ImNoYXIiOiLov5sifSx7ImNoYXIiOiLooYwifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLjgIIifSx7ImNoYXIiOiLlm6AifSx7ImNoYXIiOiLmraQifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLnlJ8ifSx7ImNoYXIiOiLmiJAifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlrZAifSx7ImNoYXIiOiLku6MifSx7ImNoYXIiOiLkuI0ifSx7ImNoYXIiOiLkvJoifSx7ImNoYXIiOiLmnIkifSx7ImNoYXIiOiLlkIwifSx7ImNoYXIiOiLmoLcifSx7ImNoYXIiOiLmlbAifSx7ImNoYXIiOiLph48ifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiIwIn0seyJjaGFyIjoi5ZKMIn0seyJjaGFyIjoiMSJ9LHsiY2hhciI6Iu+8jCJ9LHsiY2hhciI6IuW5tiJ9LHsiY2hhciI6IuS4lCJ9LHsiY2hhciI6IuWPryJ9LHsiY2hhciI6IuS7pSJ9LHsiY2hhciI6IuS/nSJ9LHsiY2hhciI6IuaMgSJ9LHsiY2hhciI6IuWtkCJ9LHsiY2hhciI6IuS7oyJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IueogCJ9LHsiY2hhciI6IueWjyJ9LHsiY2hhciI6IuW6piJ9LHsiY2hhciI6IuOAgiJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19XQ==-->
+
+<img class="alignnone  wp-image-5775" src="https://cdn.omegaxyz.com/2019/05/sparse-ea6.png" alt="" width="427" height="878" />
+
+采用交叉变异后的结果：
+
+<img class="alignnone  wp-image-5776" src="https://cdn.omegaxyz.com/2019/05/sparse-ea7.png" alt="" width="418" height="325" />
+
+可以看到，通过此策略，提高了稀疏度，被置为1的维度越来越少。
+<h2><strong>其他</strong></h2>
+对于实验部分，作者设计了具体的测试套件，结果也非常乐观，在此不赘述。
+
+&nbsp;
+
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjM3ODgtMTU1NzY2MDMxNjYyOCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaAifSx7ImNoYXIiOiLorr4ifSx7ImNoYXIiOiLorqEifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLmlrAifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLnvqQifSx7ImNoYXIiOiLliJ0ifSx7ImNoYXIiOiLlp4sifSx7ImNoYXIiOiLljJYifSx7ImNoYXIiOiLnrZYifSx7ImNoYXIiOiLnlaUifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiIxMjk2LTE1NTc2NjAzMzc1NjkiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi4pGhIn0seyJjaGFyIjoi6K6+In0seyJjaGFyIjoi6K6hIn0seyJjaGFyIjoi5LqGIn0seyJjaGFyIjoi5pawIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi5Z+6In0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoicCJ9LHsiY2hhciI6ImEifSx7ImNoYXIiOiJyIn0seyJjaGFyIjoiZSJ9LHsiY2hhciI6InQifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoi6KejIn0seyJjaGFyIjoi6ZuGIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi5oCnIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi6YGXIn0seyJjaGFyIjoi5LygIn0seyJjaGFyIjoi566XIn0seyJjaGFyIjoi5a2QIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX1d-->
+
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6Ijg0MTctMTU1NzY1OTI4MTk4NyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLorroifSx7ImNoYXIiOiLmlocifSx7ImNoYXIiOiLmj5AifSx7ImNoYXIiOiLlh7oifSx7ImNoYXIiOiLkuoYifSx7ImNoYXIiOiLkuIAifSx7ImNoYXIiOiLnp40ifSx7ImNoYXIiOiLop6MifSx7ImNoYXIiOiLlhrMifSx7ImNoYXIiOiLlpKcifSx7ImNoYXIiOiLop4QifSx7ImNoYXIiOiLmqKEifSx7ImNoYXIiOiLnqIAifSx7ImNoYXIiOiLnlo8ifSx7ImNoYXIiOiLpl64ifSx7ImNoYXIiOiLpopgifSx7ImNoYXIiOiLnmoQifSx7ImNoYXIiOiLlpJoifSx7ImNoYXIiOiLnm64ifSx7ImNoYXIiOiLmoIcifSx7ImNoYXIiOiLnrpcifSx7ImNoYXIiOiLms5UifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI5NjgwLTE1NTc2NTkzNzk2NDciLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5aSnIn0seyJjaGFyIjoi6KeEIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi5a2YIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi6K64In0seyJjaGFyIjoi5aSaIn0seyJjaGFyIjoi6aKGIn0seyJjaGFyIjoi5Z+fIn0seyJjaGFyIjoi77yaIn0seyJjaGFyIjoi5py6In0seyJjaGFyIjoi5ZmoIn0seyJjaGFyIjoi5a2mIn0seyJjaGFyIjoi5LmgIn0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi5pWwIn0seyJjaGFyIjoi5o2uIn0seyJjaGFyIjoi5oyWIn0seyJjaGFyIjoi5o6YIn0seyJjaGFyIjoi44CBIn0seyJjaGFyIjoi56WeIn0seyJjaGFyIjoi57uPIn0seyJjaGFyIjoi572RIn0seyJjaGFyIjoi57ucIn0seyJjaGFyIjoi44CCIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNjgxNy0xNTU3NjU5NDM5NjM5IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuS9nCJ9LHsiY2hhciI6IuiAhSJ9LHsiY2hhciI6IuS4uyJ9LHsiY2hhciI6IuimgSJ9LHsiY2hhciI6IuiuqCJ9LHsiY2hhciI6IuiuuiJ9LHsiY2hhciI6IuS6hiJ9LHsiY2hhciI6IuWbmyJ9LHsiY2hhciI6IuS4qiJ9LHsiY2hhciI6IuWFtyJ9LHsiY2hhciI6IuS9kyJ9LHsiY2hhciI6IueahCJ9LHsiY2hhciI6IumXriJ9LHsiY2hhciI6IumimCJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjcxNDMtMTU1NzY1OTUwMTY1OSIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaAifSx7ImNoYXIiOiLnibkifSx7ImNoYXIiOiLlvoEifSx7ImNoYXIiOiLpgIkifSx7ImNoYXIiOiLmi6kifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI2MDI4LTE1NTc2NTk1MTA1MzAiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi4pGhIn0seyJjaGFyIjoi5qihIn0seyJjaGFyIjoi5byPIn0seyJjaGFyIjoi5oyWIn0seyJjaGFyIjoi5o6YIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiNTU5MS0xNTU3NjU5NTM1MzYxIiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuKRoiJ9LHsiY2hhciI6IuWFsyJ9LHsiY2hhciI6IumUriJ9LHsiY2hhciI6IuiKgiJ9LHsiY2hhciI6IueCuSJ9LHsiY2hhciI6IuajgCJ9LHsiY2hhciI6Iua1iyJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjE4NDItMTU1NzY1OTU0NjM0MiIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaMifSx7ImNoYXIiOiLnpZ4ifSx7ImNoYXIiOiLnu48ifSx7ImNoYXIiOiLnvZEifSx7ImNoYXIiOiLnu5wifSx7ImNoYXIiOiLorq0ifSx7ImNoYXIiOiLnu4MifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI1MjI0LTE1NTc2NTk2ODcwMDkiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi5LiKIn0seyJjaGFyIjoi6Z2iIn0seyJjaGFyIjoi5ZubIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi6ZeuIn0seyJjaGFyIjoi6aKYIn0seyJjaGFyIjoi6Jm9In0seyJjaGFyIjoi54S2In0seyJjaGFyIjoi5a2YIn0seyJjaGFyIjoi5ZyoIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi5LiNIn0seyJjaGFyIjoi5ZCMIn0seyJjaGFyIjoi6aKGIn0seyJjaGFyIjoi5Z+fIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5L2GIn0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi5a6DIn0seyJjaGFyIjoi5LusIn0seyJjaGFyIjoi6YO9In0seyJjaGFyIjoi5bGeIn0seyJjaGFyIjoi5LqOIn0seyJjaGFyIjoi5aSaIn0seyJjaGFyIjoi55uuIn0seyJjaGFyIjoi5qCHIn0seyJjaGFyIjoi6ZeuIn0seyJjaGFyIjoi6aKYIn0seyJjaGFyIjoi77yMIn0seyJjaGFyIjoi5a6DIn0seyJjaGFyIjoi5LusIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoicCJ9LHsiY2hhciI6ImEifSx7ImNoYXIiOiJyIn0seyJjaGFyIjoiZSJ9LHsiY2hhciI6InQifSx7ImNoYXIiOiJvIn0seyJjaGFyIjoi6Z2iIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi6KejIn0seyJjaGFyIjoi6ZuGIn0seyJjaGFyIjoi6YO9In0seyJjaGFyIjoi5pivIn0seyJjaGFyIjoi56iAIn0seyJjaGFyIjoi55aPIn0seyJjaGFyIjoi55qEIn0seyJjaGFyIjoi44CCIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX1d--></div>
+        <section class="comments"><h2>评论 (8)</h2>
+        <div class="comment" id="comment-16973">
+          <strong>tian</strong>
+          <time>2019-05-16 10:44:11</time>
+          <div>你好，请问能否回复一下此篇论文的DOI或者有效链接啊，google搜不到，感觉是不是撤回了啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16974">
+          <strong>xyjisaw</strong>
+          <time>2019-05-16 11:52:10</time>
+          <div>上个月刚过审，可能还没更新，太巧了<br>你评论的时候我刚把代码写好</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17174">
+          <strong>Anonymous</strong>
+          <time>2019-07-04 14:34:39</time>
+          <div>如果可以的话，能提供以下实现的代码学习吗 <br>hellokangkang@yahoo.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17185">
+          <strong>xyjisaw</strong>
+          <time>2019-07-06 23:41:09</time>
+          <div>可以啊，月底我有时间到时候联系</div>
+        </div>
+        
+        <div class="comment" id="comment-18079">
+          <strong>Wenhao</strong>
+          <time>2019-10-17 11:01:06</time>
+          <div>你好，能麻烦你提供一下实现的代码以供学习吗？谢谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18080">
+          <strong>xyjisaw</strong>
+          <time>2019-10-17 11:34:08</time>
+          <div>直接找论文作者吧，百度搜索BIMK实验室，里面有代码。</div>
+        </div>
+        
+        <div class="comment" id="comment-35218">
+          <strong>赵微</strong>
+          <time>2023-08-21 15:53:54</time>
+          <div>您好，我可以问下，为什么代码中 for i = 1 : 1+4*REAL，这个为什么是1：1+4*REAL么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-35893">
+          <strong>yuki</strong>
+          <time>2023-10-15 10:12:33</time>
+          <div>您好，可以麻烦提供一份代码用来学习吗，没有在BIMK网站上找到，谢谢！<br>1094559939@qq.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

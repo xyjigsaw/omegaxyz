@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython displays static text · OmegaXYZ</title>
+  <meta name="description" content="As a GUI graphical interface module, wx must display text. Let’s display the static text first. wx.StaticText in wxpython can display static text. Parameters of wx.StaticText constructor parent: parent widget. id: identifier. Use -1 to automatically create a unique ID. label: The text you want to display in the static control. pos: a wx.Point or...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/21/wxpython_static/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-21</div>
+        <h1>wxpython displays static text</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">As a GUI graphical interface module, wx must display text.
+Let’s display the static text first.<tt>wx.StaticText in wxpython can display static text.</tt>
+
+ 
+<h1>wx.StaticText constructor parameters</h1>parent: Parent widget.
+
+id: identifier. Use -1 to automatically create a unique ID.
+label: The text you want to display in the static control.
+pos : A wx.Point or a Python tuple that is the position of the widget.
+size : A wx.Size or a Python tuple that is the size of the widget.
+style: style tag.
+name: The name of the object, used for search purposes.
+
+Next we discuss style tags in more detail.<h1>Some styles specific to wx.StaticText.</h1>wx.ALIGN_CENTER: The static text is located in the center of the static text control.
+wx.ALIGN_LEFT : Text is left aligned in the widget. This is the default style.
+wx.ALIGN_RIGHT: Text is right-aligned in the widget.
+wx.ST_NO_AUTORESIZE: If this style is used, the static text control will not resize itself after using SetLabel() to change the text. You should combine this with a centered or right-aligned control to maintain alignment.
+
+The wx.StaticText control overrides SetLabel() to adjust itself to the new text unless the wx.ST_NO_AUTORESIZE style is set.
+
+When creating a single line of static text that is centered or right-aligned, you should explicitly set the control's dimensions in the constructor. Specify a size to prevent wxPython from automatically resizing the control. The default size of wxPython is a rectangle that just contains the text, so alignment is not necessary. To dynamically change the text in a widget in a program without changing the size of the widget, set the wx.ST_NO_AUTORESIZE style. This prevents the widget from automatically resizing to fit the text after the text is reset. If the static text is in a dynamic layout, changing its size may cause other widgets on the screen to move, which is disruptive to the user.
+
+Code:<pre><code class="language-python">import wx
+
+
+class StaticTextFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, -1, 'Static Text Example',
+                          size=(400, 300))
+        panel = wx.Panel(self, -1)
+
+        # 这是一个基本的静态文本
+        wx.StaticText(panel, -1, "This is an example of static text",
+                      (100, 10))
+
+        # 指定了前景色和背景色的静态文本
+        rev = wx.StaticText(panel, -1, "Static Text With Reversed Colors",
+                            (100, 30))
+        rev.SetForegroundColour('white')
+        rev.SetBackgroundColour('black')
+
+        # 指定居中对齐的的静态文本
+        center = wx.StaticText(panel, -1, "align center", (100, 50),
+                               (160, -1), wx.ALIGN_CENTER)
+        center.SetForegroundColour('white')
+        center.SetBackgroundColour('black')
+
+        # 指定右对齐的静态文本
+        right = wx.StaticText(panel, -1, "align right", (100, 70),
+                              (160, -1), wx.ALIGN_RIGHT)
+        right.SetForegroundColour('white')
+        right.SetBackgroundColour('black')
+
+        # 指定新字体的静态文本
+        str = "You can also change the font."
+        text = wx.StaticText(panel, -1, str, (20, 100))
+        font = wx.Font(18, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
+        text.SetFont(font)
+
+        # 显示多行文本
+        wx.StaticText(panel, -1, "Your text\ncan be split\n"
+                                 "over multiple lines\n\neven blank ones", (20, 150))
+
+        # 显示对齐的多行文本
+        wx.StaticText(panel, -1, "Multi-line text\ncan also\n"
+                                 "be right aligned\n\neven with a blank", (220, 150),
+                      style=wx.ALIGN_RIGHT)
+
+
+if __name__ == '__main__':
+    app = wx.PySimpleApp()
+    frame = StaticTextFrame()
+    frame.Show()
+app.MainLoop()
+</code></pre>
+<img alt="" class="alignnone wp-image-2227 size-full" height="344" src="https://cdn.omegaxyz.com/2017/10/wxpython_static.jpg" width="449"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

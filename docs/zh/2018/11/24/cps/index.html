@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>进化计算中基于分类的预处理代理模型 · OmegaXYZ</title>
+  <meta name="description" content="问题提出 代理模型的构造较复杂，作者希望构造一个更为简单的廉价（cheap）的代理模型来评估子集的质量。 因此作者提出了一个叫做CPS（classification based preselection）算法。 预选择（ preselection ） 在进化算法中，预选择是一种分类问题。准确地说，是将 子代解 作为外部数据集进行二分类，分...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/24/cps/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-24</div>
+        <h1>进化计算中基于分类的预处理代理模型</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content"><h2><strong>问题提出</strong></h2>
+代理模型的构造较复杂，作者希望构造一个更为简单的廉价（cheap）的代理模型来评估子集的质量。
+
+因此作者提出了一个叫做CPS（classification based preselection）算法。
+<h2><b>预选择（</b><b>preselection</b><b>）</b></h2>
+在进化算法中，预选择是一种分类问题。准确地说，是将<b>子代解</b>作为外部数据集进行二分类，分为promising和unpromissing的解。
+<h2><b>CPS</b><b>的主要步骤</b></h2>
+<ul>
+ 	<li>① 根据父代解更新外部种群，给外部种群加上标签</li>
+ 	<li>②构造基于KNN的预分类器</li>
+ 	<li><b>③</b><b>根据构造的分类器，预测子代候选解标签（代理模型的核心）</b></li>
+ 	<li>④根据预测标签选择子代解</li>
+</ul>
+<h2><b>数据准备 （</b><b>Data</b> <b>Preparation）</b></h2>
+<img class="alignnone  wp-image-5152" src="https://cdn.omegaxyz.com/2018/11/cps1.png" alt="" width="147" height="349" />
+
+<b>初始化：</b>算法一开始先建立一个外部种群，置空。外部种群随着迭代而更新（同时外部种群可以当做archive，最终的大小  小于5*N）
+
+<b>迭代过程：</b>真实评价当前父代每个每个个体，加入外部种群。对外部种群非支配排序。P+包含了外部种群前一半大小的作为非支配解 ，标记为+1。P-包含了外部种群后一半大小的作为被支配解，标记为-1。
+<h2><b>分类模型 （</b><b>Classification</b> <b>Model）</b></h2>
+<img class="alignnone  wp-image-5153" src="https://cdn.omegaxyz.com/2018/11/cps2.png" alt="" width="211" height="197" />
+
+<img class="alignnone  wp-image-5161" src="https://cdn.omegaxyz.com/2018/11/knn.png" alt="" width="528" height="124" />
+
+K是一个KNN的K，为一个奇数。Xi是第k近的特征向量，C是外部种群特征向量标签。
+
+当新产生一个子代解时，我们，可以在不做真实评价时，利用这种分类模型给子代解打上标签。
+<h2><b>子代选择（ </b><b>Offspring</b> <b>Selection）</b></h2>
+每一个父代解将会生成M个子代解，在这M个子代解中，只评价其中的<b>一部分，</b>将会大大降低计算消耗。
+
+<img class="alignnone  wp-image-5155" src="https://cdn.omegaxyz.com/2018/11/cps4.png" alt="" width="672" height="270" />
+<h2><b>策略嵌入算法流程图</b></h2>
+<img class="alignnone  wp-image-5154" src="https://cdn.omegaxyz.com/2018/11/cps3.png" alt="" width="857" height="446" />
+<h2><b>实验结果（</b><b>IGD</b><b>评价）</b></h2>
+<img class="alignnone  wp-image-5156" src="https://cdn.omegaxyz.com/2018/11/cps5.png" alt="" width="784" height="427" />
+
+<img class="alignnone  wp-image-5157" src="https://cdn.omegaxyz.com/2018/11/cps6.png" alt="" width="791" height="305" />
+
+参考文献：Zhang J, Zhou A, Tang K, et al. Preselection via classification: A case study on evolutionary multiobjective optimization[J]. Information Sciences, 2018, 465: 388-403.</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3984">
+          <strong><a href="https://fnafworld.co" rel="nofollow">fnaf world</a></strong>
+          <time>2018-12-01 18:21:40</time>
+          <div>The classification-based preprocessor model in this evolutionary calculation is new. I am very impressed with this model.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

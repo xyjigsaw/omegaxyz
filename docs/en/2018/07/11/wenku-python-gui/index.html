@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Baidu library downloader Python implementation · OmegaXYZ</title>
+  <meta name="description" content="Introduction: In the past, you could use your school&#x27;s corporate account to download documents. Later, Baidu Library was revised and you needed to buy a download coupon or membership. Therefore, a Baidu Library downloader is needed. There was a Freezing Library downloader before, but it didn’t work anymore. The following is a Baidu library downloader written in Python. This downloader can download doc type, txt type text documents and PPT, but the PPT will eventually be saved in the form of pictures. Due to limitations of Baidu Library, it is temporarily impossible to break through the documents for trial reading. PD...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/11/wenku-python-gui/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-11</div>
+        <h1>Baidu library downloader Python implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>In the past, you could use your school's corporate account to download documents. Later, Baidu Library was revised and you needed to buy a download coupon or membership. Therefore, a Baidu Library downloader is needed.
+
+There was a Freezing Library downloader before, but it didn’t work anymore.<strong>The following is a Baidu library downloader written in Python.</strong>This downloader can download doc type, txt type text documents and PPT, but the PPT will eventually be saved in the form of pictures. Due to limitations of Baidu Library, it is temporarily impossible to break through the documents for trial reading. PDF documents can be downloaded at will.<h2><strong>Implement ideas and steps</strong></h2>①Document link webpage GBK transcoding
+
+②Get the document type
+
+③ Get the document ID. Each document has an ID. Get the ID value and get the image resources in the following format (taking PPT as an example).
+
+https://wenku.baidu.com/browse/getbcsurl?doc_id=" +<strong>doc_id</strong> + "&amp;pn=1&amp;rn=99999&amp;type=ppt
+
+<span style="color: #ff0000;"><strong>The principle is that this in the preview page is not a PPT but a PPT image. We need to understand where this PPT was obtained. Once we find the address, we can download these images.</strong></span>
+<img alt="" class="alignnone size-full wp-image-4748" height="640" src="https://cdn.omegaxyz.com/2018/07/pythonwenku2.png" width="1085"/>
+<h2><strong>PPT conversion core source code</strong></h2>
+<pre><code class="language-default">def gen_PPT(doc_id):
+    global url
+    index = 0
+    content_url = "https://wenku.baidu.com/browse/getbcsurl?doc_id=" + doc_id + "&amp;pn=1&amp;rn=99999&amp;type=ppt"
+    content = fetch_url(content_url)
+    urlList = re.findall('{"zoom":"(.*?)","page"', content)
+    urllist = [item.replace("\\", '') for item in url_list]
+    if not os.path.exists(doc_id):
+        os.mkdir(doc_id)
+    for url in URLlist:
+        content = session.get(url).content
+        path = os.path.join(doc_id, str(index) + '.jpg')
+        with open(path, 'wb') as f:
+            f.write(content)
+        index = index + 1</code></pre>
+<h2><strong>interface</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4749" height="193" src="https://cdn.omegaxyz.com/2018/07/pythonwenku3.jpg" width="646"/>
+<strong><span style="color: #ff0000;">The interface is too ugly, don’t care</span></strong>
+<h2><strong>saved file</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4747" height="866" src="https://cdn.omegaxyz.com/2018/07/pythonwenku1.png" width="843"/>
+<h2><strong>CSDN download address</strong></h2>
+<a href="https://download.csdn.net/download/xyisv/10531452">https://download.csdn.net/download/xyisv/10531452</a>Thank you for your support!</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于非支配排序的多目标PSO算法 · OmegaXYZ</title>
+  <meta name="description" content="这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说NSPSO。 CMDPSO算法 https://omegaxyz.com/2018/10/15/cmdpso/ 非支配排序 来自NSGA2中的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/01/nspso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-01</div>
+        <h1>基于非支配排序的多目标PSO算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说NSPSO。
+<h2><strong>CMDPSO算法</strong></h2>
+https://omegaxyz.com/2018/10/15/cmdpso/
+<h2><strong>非支配排序</strong></h2>
+<strong>来自NSGA2中的非支配排序</strong>
+
+该需要保存两个量：
+
+(1).支配个数np。该量是在可行解空间中可以<strong>支配个体p的所有个体</strong>的数量。
+
+(2).被支配个体集合SP。该量是可行解空间中所有<strong>被个体p支配</strong>的个体组成的集合。
+
+下面是fast_nondominated_sort的伪代码
+<h2><strong>个体拥挤距离</strong></h2>
+在同一层Fk中需要进行选择性排序，按照个体拥挤距离(crowding distance)大小排序。个体拥挤距离是Fk上与i相邻的个体i+1和i-1之间的距离，其计算步骤为：
+①对同层的个体距离初始化，令L[i]d=0（表示任意个体i的拥挤距离）。
+②对同层的个体按照第m个目标函数值升序排列。
+③对于处在排序边缘上的个体要给予其选择优势。
+④对于排序中间的个体，求拥挤距离：
+
+<img class="alignnone size-medium wp-image-354" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" sizes="(max-width: 300px) 100vw, 300px" srcset="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png 300w, https://cdn.omegaxyz.com/2017/04/NSGA2-1.png 626w" alt="" width="300" height="25" />
+
+（其中：L[i+1]m为第i+1个体的第m目标函数值fmax，fmin分别为集合中第m目标函数的最大和最小值。）
+⑤对于不同的目标函数，重复②到④的步骤，得到个体i的拥挤距离L[i]d，有限选择拥挤距离较大的个体，可以是计算结果在目标空间均匀地分布，维持群体的多样性。
+<h2><strong>伪代码</strong></h2>
+<img class="alignnone size-full wp-image-4975" src="https://cdn.omegaxyz.com/2018/09/NSPSO2.jpg" alt="" width="411" height="934" />
+<h2><strong>具体流程</strong></h2>
+<ul>
+ 	<li>①划分数据集为测试集和训练集</li>
+ 	<li>②初始化PSO算法</li>
+ 	<li>③迭代开始</li>
+ 	<li>④计算两个目标值（论文中是特征数和错误率）</li>
+ 	<li>⑤非支配排序</li>
+ 	<li>⑥拥挤距离度量并排序</li>
+ 	<li>⑥对每个粒子从第一前沿面选择一个粒子作为gbest，更新当前粒子</li>
+ 	<li>⑦调整粒子群</li>
+ 	<li>⑧迭代结束返回</li>
+</ul>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (5)</h2>
+        <div class="comment" id="comment-18581">
+          <strong>lanlan</strong>
+          <time>2020-02-18 22:24:31</time>
+          <div>请问计算拥挤距离的第二步，对同层的个体按照第m个目标函数值升序排列。这里的m<br>是指的什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18582">
+          <strong>xyjisaw</strong>
+          <time>2020-02-19 09:02:46</time>
+          <div>多目标的目标数量</div>
+        </div>
+        
+        <div class="comment" id="comment-18584">
+          <strong>lanlan</strong>
+          <time>2020-02-19 16:45:28</time>
+          <div>首先感谢你的回复！我还有不明白的就是，m是多目标的目标数量，假设m=2，这里的排序是要对两个目标函数值都进行排序吗？排序的规则是什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18585">
+          <strong>lanlan</strong>
+          <time>2020-02-19 16:45:57</time>
+          <div>首先感谢你的回复！我还有不明白的就是，m是多目标的目标数量，假设m=2，这里的排序是要对两个目标函数值都进行排序吗？排序的规则是什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18587">
+          <strong>xyjisaw</strong>
+          <time>2020-02-19 16:54:15</time>
+          <div>具体的请参考NSGA2的论文中拥挤距离排序。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

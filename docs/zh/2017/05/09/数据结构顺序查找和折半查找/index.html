@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构顺序查找和折半查找 · OmegaXYZ</title>
+  <meta name="description" content="实验目的 使用C语言实现静态查找表中的顺序查找和折半查找，并分析时间长短。 Search.h 文件 主要函数： ① 顺序表的创建 ②.顺序表的输出 ③顺序查找 ④折半查找 Main 函数 Main函数中增加了时间函数用来测试查找时间的大小，当然，在试验中，无法输入大量数据，故两者查找时间相差不大。 数据： 查找： 三.实验小结 1. Ma...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/09/数据结构顺序查找和折半查找/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-09</div>
+        <h1>数据结构顺序查找和折半查找</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a></div>
+        <div class="article-content">实验目的
+使用C语言实现静态查找表中的顺序查找和折半查找，并分析时间长短。
+
+<strong>Search.h</strong><strong>文件</strong>
+<pre ><code class="language-c++">#define OK 1
+#define ERROR -1
+#include &lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;time.h&gt;
+#define MAXSIZE 100
+typedef int KeyType;
+typedef int ElemType;
+
+typedef struct{
+	ElemType data[10];
+	KeyType key;
+}Node;
+
+typedef struct{
+	Node elem[MAXSIZE];
+	int length;
+}SSTable;
+
+int CreateTable(SSTable &amp;ST,int n);
+void OutputTable(SSTable ST);
+int Search_Seq(SSTable ST,KeyType key);
+int Search_Bin(SSTable ST,KeyType key);
+</code></pre>
+主要函数：
+① 顺序表的创建
+<pre ><code class="language-c++">int CreateTable(SSTable &amp;ST,int n)
+{
+
+	int i;
+	ST.length=n;
+	for(i=1;i&lt;=n;i++)
+	{
+		printf("输入关键字：");
+		scanf("%d",&amp;ST.elem[i].key);
+		printf("输入值：");
+		scanf("%s",&amp;ST.elem[i].data);
+	}
+	return OK;
+}
+</code></pre>
+②.顺序表的输出
+<pre ><code class="language-c++">void OutputTable(SSTable ST)
+{
+    int i;
+    printf("关键字: ");
+    for(i=1;i&lt;=ST.length;i++)
+        printf("%6d",ST.elem[i].key);
+    printf("\n值    : ");
+    for(i=1;i&lt;=ST.length;i++)
+        printf("  %s ",ST.elem[i].data);
+}
+</code></pre>
+③顺序查找
+<pre ><code class="language-c++">int Search_Seq(SSTable ST,KeyType key)
+{
+	ST.elem[0].key=key;
+	int i=ST.length;
+	while(ST.elem[i].key!=key)i--;
+	return i;
+}
+</code></pre>
+④折半查找
+<pre ><code class="language-c++">int Search_Bin(SSTable ST,KeyType key)
+{
+    int low=1,high=ST.length;
+    while(low&lt;=high)
+    {
+        int mid=(low+high)/2;
+        if(key==ST.elem[mid].key)return mid;
+        else if(key&lt;ST.elem[mid].key)high=mid-1;
+        else low=mid+1;
+    }
+    return 0;
+}
+</code></pre>
+<strong>Main</strong><strong>函数</strong>
+
+<strong> </strong>
+
+Main函数中增加了时间函数用来测试查找时间的大小，当然，在试验中，无法输入大量数据，故两者查找时间相差不大。
+<pre ><code class="language-c++">int main(int argc, char* argv[])
+{
+	clock_t start,finish;
+	printf("输入构造的顺序表的长度：");
+	SSTable ST;int n;
+	scanf("%d",&amp;n);
+	CreateTable(ST,n);
+	printf("检查顺序表\n");
+	OutputTable(ST);
+	printf("\n--------------顺序查找--------------------\n");
+	printf("输入要查找的值的序号：");
+	int key;
+    scanf("%d",&amp;key);
+    int t;
+    start=clock();
+    t=Search_Seq(ST,key);
+    finish=clock();
+    if(t==0)
+        printf("查找失败，无匹配\n");
+    else
+        {
+            printf("关键字为%d的数据是%s。\n",t,ST.elem[Search_Seq(ST,key)].data);
+            printf("查找时间为: %lf\n",(double)(finish-start));
+        }
+    printf("\n--------------折半查找--------------------\n");
+	printf("输入要查找的值的序号：");
+	scanf("%d",&amp;key);
+	start=clock();
+	t=Search_Bin(ST,key);
+	finish=clock();
+	if(t==0)
+        printf("查找失败，无匹配\n");
+    else
+        {
+            printf("关键字为%d的数据是%s。\n",t,ST.elem[Search_Bin(ST,key)].data);
+            printf("查找时间为: %lf\n",(double)(finish-start));
+        }
+	return 0;
+}
+</code></pre>
+数据：
+
+<img class="alignnone  wp-image-725" src="https://cdn.omegaxyz.com/2017/05/search1-300x196.png" alt="" width="736" height="481" />
+
+查找：
+
+<img class="alignnone  wp-image-726" src="https://cdn.omegaxyz.com/2017/05/search2-300x196.png" alt="" width="730" height="477" />
+
+<img class="alignnone  wp-image-727" src="https://cdn.omegaxyz.com/2017/05/search3-300x196.png" alt="" width="729" height="476" />
+
+三.实验小结
+1. Main函数中增加了时间函数用来测试查找时间的大小，当然，在试验中，无法输入大量数据，故两者查找时间相差不大。
+2.定义结构体的时候要注意
+每个数据有两个元素，一个是关键字，一个是保存数据
+<pre ><code class="language-c++">typedef struct{
+ElemType data[10];
+KeyType key;
+}Node;
+
+typedef struct{
+Node elem[MAXSIZE];
+int length;
+}SSTable;</code></pre>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-27">
+          <strong><a href="http://。。" rel="nofollow">Anonymous</a></strong>
+          <time>2017-05-10 02:19:23</time>
+          <div>膜</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

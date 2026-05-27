@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势 · OmegaXYZ</title>
+  <meta name="description" content="摘录自CSDN loonggg（侵删！！！） 作者简介：loonggg，一个文艺傲娇而又喜欢编码的程序猿，一个喜欢挑战而又喜欢分享的攻城狮。一个科技数码爱好者，又是一个爱好写作的达人。公众号「非著名程序员」的运营者。 你们知道程序员最熟悉，最熟练，最常用的两个快捷键是哪两个吗？ 没错，估计你现在心中所想的就是：ctrl+c 和 ctrl+...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/31/code_copy/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-31</div>
+        <h1>如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/programmer/index.html">程序人生</a><a class="pill" href="../../../../tag/programming/index.html">编程语言概述</a><a class="pill" href="../../../../tag/ideas/index.html">ideas</a></div>
+        <div class="article-content"><blockquote><strong>摘录自CSDN loonggg（侵删！！！）</strong>
+
+<em><strong>作者简介：loonggg，一个文艺傲娇而又喜欢编码的程序猿，一个喜欢挑战而又喜欢分享的攻城狮。一个科技数码爱好者，又是一个爱好写作的达人。公众号「非著名程序员」的运营者。</strong></em></blockquote>
+<strong>你们知道程序员最熟悉，最熟练，最常用的两个快捷键是哪两个吗？</strong>没错，估计你现在心中所想的就是：ctrl+c 和 ctrl+v ，俗名为：复制和粘贴。对于大部分程序员来说：复制和粘贴就是他敲代码，写程序员创造伟大产品的左膀和右臂，而复制和粘贴更是形影不离的好兄弟。
+
+所谓，天下代码一大抄，亦不过在程序员心中就是复制和粘贴。更何况我们是身处在一个热爱开源的世界，而程序员更是创造和开创开源世界的积极分子呢。目前，我们身处在共享经济当中，可是殊不知我们这是一个伪共享的时代。共享单车，共享汽车，乃至共享充电宝都不是真正的共享，所谓共享就是把闲置和剩余资源利用起来，进行分享，以达到资源利用，资源价值的最大化。现在的共享经济，都不是把闲置和剩余资源的重复再利用，而是花钱买好的，每天，每月正在造成更大的资源浪费。
+
+但是，代码的开源，技术的开源可以说是真正的共享，但是还不属于经济，毕竟开源太多都是免费的，所以，我们技术开源才是真正的共享鼻祖。有点扯远了，我尽量拉回来。之所以谈这个话题是因为近日加州大学欧文分校、捷克技术大学、微软研究院和美国东北大学的研究人员组成的一个团队开展了一项调查，结果发现，GitHub 上托管的大多数源代码文件实际上是以前所创建的文件的复制版。
+<blockquote>八名研究人员组成的这个国际团队起初倒不是想研究 GitHub 的重复现象。最初的目标是试图定义代码复制的 “精细度”（即不同的复制版之间多少文件发生了变化），但后来他们发现了 “高得惊人的文件重复率”，于是他们改变了研究方向。
+
+研究人员查看了 450 万个原创（非分支）的 GitHub 项目，这些项目共有 4.28 亿个不同的文件。他们发现，只有 8500 万个文件是独特的，在所有分析的文件中约占 17.63%。</blockquote>
+其实 GitHub 的一个使命就是共享代码，所以在 GitHub 平台上发现代码重复率高并不是一个令人吃惊的事情。但是有一点是非常让你警醒的，那就是：
+<blockquote>用来构建 GitHub 的源代码控制系统 Git 鼓励项目分支（forking）。然而，GitHub 中出现了大量的代码重复现象，这些代码并没有经历过 fork 机制，而是通过复制粘贴文件、甚至复制粘贴整个库进入的。</blockquote>
+很多研究人员也表示了疑问，明明可以 fork 或者依赖使用的，现在大部分人都是复制粘贴文件、甚至复制粘贴整个库到自己的项目，再共享出来，真的是让人有点吃惊。
+
+<strong>开源库的正确用法</strong>
+
+由此，我们应该得感觉和意识到一些开源许可证的使用，应该正确使用开源库以及开源代码才可以。不知道有多少开发者意识到了开源库的正确使用方法？我相信现在几乎每个程序员开发的项目中都使用了 GitHub 上的开源库，但是你们尊重开源和版权了吗？一般在应用中应该声明一下使用了哪些开源库，以开源许可证等信息。我发现支付宝在这方面做的就挺好的。比如人家就在应用中有个版权信息模块，专门声明使用了哪些开源库。例如：
+<div class="m-photo ">
+<figure class="js-img img-loaded" data-min="120" data-retry="1" data-alt="" data-echo=""><img class="alignnone size-full wp-image-3181" src="https://cdn.omegaxyz.com/2018/01/cao.webp_.jpg" alt="" width="690" height="3255" /></figure>
+</div>
+看到了吗？支付宝这个应用程序用到的开源库是不是很多，大家也可以研究一下，支付宝用的这些开源库应该都是非常不错，有保证的，以后说不定你也能够用到，这就是学习。我相信大家都没有正确使用和声明开源库这种做法和行为。
+
+<strong>总结</strong>
+
+其实通过研究其实我们可以发现：首先，GitHub 本身似乎可以大幅压缩代码库，不至于现在这么庞大。其次，如今在使用从 GitHub 唾手可得的一大批开源项目，开展越来越多的研究工作。但是我们在研究和使用的时候，应该正确使用，而不是乱用。
+<div class="m-photo ">
+<figure class="js-img img-loaded" data-min="120" data-retry="1" data-alt="" data-echo=""><img class="alignnone size-full wp-image-3176" src="https://cdn.omegaxyz.com/2018/01/allofthen.webp_.jpg" alt="" width="690" height="497" /> <img class="alignnone size-full wp-image-3178" src="https://cdn.omegaxyz.com/2018/01/four.webp_.jpg" alt="" width="518" height="499" /></figure>
+</div>
+你们知道哪种语言在 GitHub 上代码重复率最高吗？JavaScript 项目含有的重复文件最多，研究团队只查看了用 C++、Java、JavaScript 和 Python 编写的源代码项目。在这四种项目中，JavaScript 项目所含的重复代码最多，94% 的文件是与 GitHub 上托管的另一个文件百分之百相同的克隆版（基于文件哈希）。C++ 排名第二，所有文件中 73% 是其他文件的复制版，而 Python 的代码重用率也有 71%， Java 只有 40%。其实JavaScript 包含最多的重用代码示例，原因很容易解释，那就是 NPM，这是所有客户端和服务器端 JavaScript 项目的事实上的软件包管理器。
+
+<strong>所谓天下代码一大抄，但是抄也应该正确的抄，也应该正确的用，在规则和许可下玩才行。</strong>不要在没声明的情况下，整体的复制粘贴到你的代码库里，不尊重作者，感觉是你做的似的。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

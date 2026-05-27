@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dynamic programming - maximum divisible subset C++ · OmegaXYZ</title>
+  <meta name="description" content="From LeetCode 368 Description Given a set of non-repeating positive integers, find the largest divisible subset. Any pair (S i, S j) in the subset must satisfy: S i % S j = 0 or S j % S i = 0. If there are multiple target subsets, any one of them can be returned. This question is similar to finding the longest increasing subsequence https://omegaxyz.com/2017/05...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/03/24/lds-cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-24</div>
+        <h1>Dynamic programming - maximum divisible subset C++</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/leetcode/index.html">LeetCode</a></div>
+        <div class="article-content">from LeetCode 368<h2><strong>describe</strong></h2>give a given by<strong>No duplicates</strong>A set of positive integers, find the largest divisible subset, any pair (S<sub>i，</sub>S<sub>j</sub>) must be satisfied: S<sub>i</sub> % S<sub>j</sub>= 0 or S<sub>j</sub> % S<sub>i</sub>= 0.
+
+If there are multiple target subsets, any one of them can be returned.<strong>This question is similar to finding the longest increasing subsequence</strong>
+
+https://omegaxyz.com/2017/05/12/longest_ascending_sequence/
+<h2><strong>C++ code</strong></h2>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; largestDivisibleSubset(vector&lt;int&gt;&amp; nums) {
+        vector&lt;int&gt; ans;
+        if(nums.size() == 0)return ans;
+        sort(nums.begin(), nums.end());
+        int maxlen = 0;
+        vector&lt;int&gt; longest(nums.size(), 1);
+        vector&lt;int&gt; cnt(nums.size()+1, 0);
+        cnt[nums.size()] = 0;
+        for(int i = 1; i &lt; nums.size(); i++){
+            for(int j = 0; j &lt; i; j++){
+                if(nums[i] % nums[j] == 0){
+                    if(longest[i] &lt; longest[j] + 1)longest[i] = longest[j] + 1;
+                }
+            }
+        }
+        for(int i = 0; i &lt; nums.size(); i++){
+            if(cnt[longest[i]] == 0)cnt[longest[i]] = nums[i];
+            if(maxlen &lt; longest[i])maxlen = longest[i];
+        }
+        for(int i = 1; i &lt;= maxlen; i++)ans.push_back(cnt[i]);
+        return ans;
+    }
+};</code></pre>
+<strong>Note that when using dynamic programming, you need to sort the array first</strong>
+<h2><strong>Attached is the longest increasing subsequence code</strong></h2>
+<pre><code class="language-c++">int LCS(int *arr, int len){
+    int longest[len], cnt[len];
+    int maxlen = 0;
+    for(int i = 0; i &lt; len; i++){
+        longest[i] = 1;
+        cnt[i] = 0;
+    }
+    for(int i = 1; i &lt; len; i++){
+        for(int j = 0; j &lt; i; j++){
+            if(arr[i] &gt; arr[j] &amp;&amp; longest[i] &lt; longest[j] + 1)
+            longest[i] = longest[j] + 1;
+        }
+    }
+
+    for(int i = 0; i &lt; len; i++){
+        if(cnt[longest[i]] == 0)cnt[longest[i]] = arr[i];
+        if(longest[i] &gt; maxlen)maxlen = longest[i];
+    }
+    for(int i = 1; i &lt;= maxlen; i++)cout&lt;&lt;cnt[i]&lt;&lt;" ";
+    cout&lt;&lt;endl;
+    return maxlen;
+}</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

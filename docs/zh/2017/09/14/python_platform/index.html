@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python platform模块查看电脑信息 · OmegaXYZ</title>
+  <meta name="description" content="platform模块能够查询到 获取操作系统名称及版本号 获取操作系统版本号 获取操作系统的位数 计算机类型 计算机的网络名称 计算机处理器信息 获取操作系统类型 汇总信息">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/14/python_platform/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-14</div>
+        <h1>Python platform模块查看电脑信息</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">platform模块能够查询到
+
+获取操作系统名称及版本号
+获取操作系统版本号
+获取操作系统的位数
+计算机类型
+计算机的网络名称
+计算机处理器信息
+获取操作系统类型
+汇总信息
+<pre ><code class="language-python">import platform
+print(platform.machine())  # Returns the machine type, e.g. 'i386'
+print(platform.node())  # Returns the computer's network name
+print(platform.platform(aliased=0, terse=0))  # Returns a single string identifying the underlying platform
+print(platform.processor())  # Returns the (true) processor name
+print(platform.python_branch())  # Returns a string identifying the Python implementation branch.
+print(platform.python_build())  # Returns a tuple (buildno, builddate) stating the Python build number and date as strings.
+print(platform.python_compiler())  # Returns a string identifying the compiler used for compiling Python.
+print(platform.python_version())  # Returns the Python version as string 'major.minor.patchlevel'
+print(platform.release())  # Returns the system's release, e.g. '2.2.0' or 'NT'
+print(platform.system())  # Returns the system/OS name, e.g. 'Linux', 'Windows' or 'Java'.
+print(platform.uname())  # Fairly portable uname interface. Returns a tuple of strings (system,node,release,version,machine,processor) identifying the underlying platform.</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

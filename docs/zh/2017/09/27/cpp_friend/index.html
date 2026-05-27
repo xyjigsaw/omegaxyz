@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++中的友元函数的总结 · OmegaXYZ</title>
+  <meta name="description" content="友元函数目的 采用类的机制后实现了数据的隐藏与封装，类的数据成员一般定义为私有成员，成员函数一般定义为公有的，依此提供类与外界间的通信接口。但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。除了友元函数外，还有友元类，两者统称为友元。友元的作用是提高了程序的运行效...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/27/cpp_friend/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-27</div>
+        <h1>C++中的友元函数的总结</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><h1>友元函数目的</h1>
+采用类的机制后实现了数据的隐藏与封装，类的数据成员一般定义为私有成员，成员函数一般定义为公有的，依此提供类与外界间的通信接口。但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。除了友元函数外，还有友元类，两者统称为友元。友元的作用是提高了程序的运行效率（即减少了类型检查和安全性检查等都需要时间开销），但它破坏了类的封装性和隐藏性，使得非成员函数可以访问类的私有成员。
+<h1>使用的情况</h1>
+实际上具体大概有下面两种情况需要使用友元函数：
+①运算符重载的某些场合需要使用友元。
+②两个类要共享数据的时候。
+<h1>友元函数的优缺点</h1>
+优点：能够提高效率，表达简单、清晰。
+缺点：友元函数破环了封装机制，尽量不使用成员函数，除非不得已的情况下才使用友元函数。
+<h1>友元函数的使用</h1>
+<h2>友元函数的参数：</h2>
+①因为友元函数没有this指针，则参数要有三种情况：
+②要访问非static成员时，需要对象做参数；
+③要访问static成员或全局变量时，则不需要对象做参数；
+④如果做参数的对象是全局对象，则不需要对象做参数；
+<h2>友元函数的位置</h2>
+因为友元函数是类外的函数，所以它的声明可以放在类的私有段或公有段且没有区别。
+<h2>友元函数的分类：</h2>
+根据这个函数的来源不同，可以分为三种方法：
+
+①普通函数友元函数
+
+目的：使普通函数能够访问类的友元
+语法：
+声明： friend + 普通函数声明
+实现位置：可以在类外或类中
+实现代码：与普通函数相同
+调用：类似普通函数，直接调用
+
+代码：
+<pre ><code class="language-c++">class INTEGER
+{
+    friend void Print(const INTEGER&amp; obj);//声明友元函数
+};
+void Print(const INTEGER&amp; obj）
+{
+    //函数体
+}
+void main()
+{
+    INTEGER obj;
+    Print(obj);//直接调用
+
+}</code></pre>
+&nbsp;
+
+②类Y的所有成员函数都为类X友元函数—友元类
+
+目的：使用单个声明使Y类的所有函数成为类X的友元，它提供一种类之间合作的一种方式，使类Y的对象可以具有类X和类Y的功能。
+语法：
+声明位置：公有私有均可，常写为私有(把类看成一个变量)
+声明： friend + 类名（不是对象哦）
+代码：
+<pre ><code class="language-c++">class girl;
+class boy
+{
+    public:
+    void disp(girl &amp;);
+};
+void boy::disp(girl &amp;x) 
+//函数disp()为类boy的成员函数，也是类girl的友元函数
+{
+    cout&lt;&lt;"girl's name is:"&lt;&lt;x.name&lt;&lt;",age:"&lt;&lt;x.age&lt;&lt;endl;
+    //借助友元，在boy的成员函数disp中，借助girl的对象，直接访问girl的私有变量
+}
+
+class girl
+{
+    private：
+    char *name;
+    int age;
+    friend boy; //声明类boy是类girl的友元
+};</code></pre>
+&nbsp;
+
+main函数和普通调用时一样的。
+
+③类Y的一个成员函数为类X的友元函数
+
+目的：使类Y的一个成员函数成为类X的友元，具体而言：在类Y的这个成员函数中，借助参数X，可以直接以X的私有变量
+语法：
+声明位置：声明在公有中 （本身为函数）
+声明：friend + 成员函数的声明
+调用：先定义Y的对象y---使用y调用自己的成员函数---自己的成员函数中使用了友元机制
+
+代码：
+<pre ><code class="language-default">class girl;
+class boy
+{
+    public:
+    void disp(girl &amp;);
+};
+void boy::disp(girl &amp;x) 
+//函数disp()为类boy的成员函数，也是类girl的友元函数
+{
+    cout&lt;&lt;"girl's name is:"&lt;&lt;x.name&lt;&lt;",age:"&lt;&lt;x.age&lt;&lt;endl;
+//借助友元，在boy的成员函数disp中，借助girl的对象，直接访问girl的私有变量
+}
+
+class girl
+{
+    private：
+    char *name;
+    int age;
+    friend void boy::disp(girl &amp;); //声明类boy是类girl的友元
+};</code></pre>
+&nbsp;
+
+小结：其实一些操作符的重载实现也是要在类外实现的，那么通常这样的话，声明为类的友元是必须。
+<h1>友元函数和类的成员函数的区别</h1>
+① 成员函数有this指针，而友元函数没有this指针。
+② 友元函数是不能被继承的，就像父亲的朋友未必是儿子的朋友。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

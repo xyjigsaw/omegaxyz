@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python uses matplotlib to draw dynamic graphs · OmegaXYZ</title>
+  <meta name="description" content="Machine learning requires the use of python to implement corresponding algorithms, so I learned drawing in Matplotlib. Of course, in order to display the effect and convergence speed of each iteration in machine learning, dynamic graphics need to be drawn. Two examples are given below, which can draw dynamic bar charts and dynamic line charts respectively (using two different methods). Note that you need to use the plt.pause(time) function. The basic principle of dynamic bar chart is to put the data into the array, and then put it into the array each time...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/03/python-matplotlib-dynamic-graph/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-03</div>
+        <h1>Python uses matplotlib to draw dynamic graphs</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">Machine learning requires the use of python to implement corresponding algorithms, so I learned drawing in Matplotlib.
+
+Of course, in order to display the effect and convergence speed of each iteration in machine learning, dynamic graphics need to be drawn.
+
+Two examples are given below, which can draw dynamic bar charts and dynamic line charts respectively (using two different methods).
+
+Note that you need to use the plt.pause(time) function.<h3><strong>Dynamic bar chart</strong></h3>The basic principle is to put the data into an array, then add a number to the array each time, clear the previous image, and redraw the image.<strong>Code:</strong>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+y1 = []
+for i in range(50):
+    y1.append(i)  # 每迭代一次，将i放入y1中画出来
+    ax.cla()   # 清除键
+    ax.bar(y1, label='test', height=y1, width=0.3)
+    ax.legend()
+    plt.pause(0.1)</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone size-full wp-image-4466" height="403" src="https://cdn.omegaxyz.com/2018/06/matplotlib1.gif" width="545"/>
+<h3><strong>Dynamic line chart</strong></h3>The basic principle is to use an array of length 2, replace the data each time and append after the original image.<strong>Code:</strong>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+plt.axis([0, 100, 0, 1])
+plt.ion()
+
+xs = [0, 0]
+ys = [1, 1]
+
+for i in range(100):
+    y = np.random.random()
+    xs[0] = xs[1]
+    ys[0] = ys[1]
+    xs[1] = i
+    ys[1] = y
+    plt.plot(xs, ys)
+    plt.pause(0.1)
+</code></pre>
+<strong>Effect:</strong>
+<img alt="" class="alignnone size-full wp-image-4467" height="410" src="https://cdn.omegaxyz.com/2018/06/matplotlib2.gif" width="540"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

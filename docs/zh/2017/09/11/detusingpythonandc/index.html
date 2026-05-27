@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>n阶行列式计算Python和C语言实现 · OmegaXYZ</title>
+  <meta name="description" content="行列式在数学中，是一个函数，其定义域为det的矩阵A，取值为一个标量，写作det(A)或 | A | 。无论是在线性代数、多项式理论，还是在微积分学中（比如说换元积分法中），行列式作为基本的数学工具，都有着重要的应用。 行列式可以看做是有向面积或体积的概念在一般的欧几里得空间中的推广。或者说，在 n 维欧几里得空间中，行列式描述的是一个线...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/11/detusingpythonandc/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-11</div>
+        <h1>n阶行列式计算Python和C语言实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div class="para"></div>
+<div>行列式在数学中，是一个函数，其定义域为det的矩阵A，取值为一个标量，写作det(A)或 | A | 。无论是在线性代数、多项式理论，还是在微积分学中（比如说换元积分法中），行列式作为基本的数学工具，都有着重要的应用。
+行列式可以看做是有向面积或体积的概念在一般的欧几里得空间中的推广。或者说，在 n 维欧几里得空间中，行列式描述的是一个线性变换对“体积”所造成的影响。</div>
+这里介绍一下计算机计算行列式的简单方法，只用于我们一般计算行列式用，不适合科研计算大数据。
+
+这里使用对角线法和递归降价代数余子式求和的方法。
+
+Python递归求行列式代码：
+<pre ><code class="language-python">def det(m):
+    if len(m) &lt;= 0:
+        return None
+    elif len(m) == 1:
+        return m[0][0]
+    else:
+        s = 0
+        for i in range(len(m)):
+            n = [[row[a] for a in range(len(m)) if a != i] for row in m[1:]]  # 这里生成余子式
+            s += m[0][i] * det(n) * (-1) ** (i % 2)
+        return s
+print('答案为: ', det(eval(input('输入行列式（格式为 [[a11,a12],[a21,a22]] 以此类推）: \n'))))
+</code></pre>
+python效果图：
+
+<img class="alignnone  wp-image-1924" src="https://cdn.omegaxyz.com/2017/09/det1-300x52.jpg" alt="" width="519" height="90" />
+
+C语言求行列式代码：
+<pre ><code class="language-c">#include"stdio.h"
+int main()
+{
+    int z,r,s,j,i;
+    double a[20][20],m=1.0,k;
+    printf("请输入阶数:");
+        scanf("%d",&amp;r);
+        printf("请输入数字\n");
+        for(i=0;i&lt;r;i++)
+        for(j=0;j&lt;r;j++)
+            scanf("%lf",&amp;a[i][j]);
+        for(z=0;z&lt;r-1;z++)
+        for(i=z;i&lt;r-1;i++)
+        {    if(a[z][z]==0)
+                for(i=z;a[z][z]==0;i++)
+                {
+                    {
+                        for(j=0;j&lt;r;j++)
+                        a[z][j]=a[z][j]+a[i+1][j];
+                    }
+                    if(a[z][z]!=0)break;
+                }
+                    {
+                        k=-a[i+1][z]/a[z][z];
+                        for(j=z;j&lt;r;j++)
+                        a[i+1][j]=k*(a[z][j])+a[i+1][j];
+                    }
+        }
+         for(z=0;z&lt;r;z++)
+         m=m*(a[z][z]);
+         printf("%f",m);
+}
+</code></pre>
+C语言效果图：
+
+<img class="alignnone  wp-image-1925" src="https://cdn.omegaxyz.com/2017/09/det2-300x82.jpg" alt="" width="534" height="146" />
+
+需要行列式计算器exe程序的联系我。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

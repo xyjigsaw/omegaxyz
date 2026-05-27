@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dedupe deduplication and entity alignment · OmegaXYZ</title>
+  <meta name="description" content="Introduction Dedupe is a python library that uses machine learning to quickly perform fuzzy matching, deduplication and entity alignment on structured data. Input data: Single file csv table Execution: The user can mark a small amount of similar data in the console according to the prompts Output data: Single file csv table, and label similar records at the same time Dedupe operation example: Delete duplicate entries from the spreadsheet of names and addresses. List with customer information...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/07/24/dedupe/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-07-24</div>
+        <h1>Dedupe deduplication and entity alignment</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Dedupe is a python library that uses machine learning to quickly perform fuzzy matching, deduplication and entity alignment on structured data.<strong>Entered data</strong>:Single file csv table<strong>implement</strong>: The user can mark a small amount of similar data in the console according to the prompts.<strong>Output data</strong>: Single file csv table, tag similar records at the same time<strong>Dedupe operation example</strong>：
+<ul>
+<li>From a spreadsheet of names and addresses<strong>Remove duplicate entries</strong></li>
+<li><strong>Will</strong>Have customer information<strong>list link</strong>to have order history<strong>list of</strong>, even without a unique customer ID</li>
+<li>Collect databases of campaign contributions and<strong>Find out what the same person did</strong>Contributions, even if the name is entered slightly differently for each record</li>
+</ul>
+<strong>Python library address</strong>：
+
+<a href="https://github.com/dedupeio/dedupe">https://github.com/dedupeio/dedupe</a>
+<h2><strong>Example</strong></h2>
+<strong>Original csv file:</strong>
+<img alt="" class="alignnone wp-image-6811" height="359" src="https://cdn.omegaxyz.com/2020/07/dedupe1.jpg" width="740"/>The following code will deduplicate the name in the third column<strong>code</strong>：
+<pre><code class="language-python"># Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import os
+import csv
+import logging
+import optparse
+import dedupe
+import re
+
+reg = r'&lt;p&gt;(.*?)&lt;/p&gt;'
+
+def readData(filename):
+    """
+    Remap columns for the following cases:
+    - Lat and Long are mapped into a single LatLong tuple
+    - Class and Coauthor are stored as delimited strings but mapped into
+      tuples
+    """
+    data_d = {}
+    with open(filename, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for idx, row in enumerate(reader):
+            row = dict((k, v.lower()) for k, v in row.items())
+            data_d[idx] = row
+    return data_d
+
+
+# These generators will give us the corpora setting up the Set
+# distance metrics
+def names(data):
+    for record in data.values():
+        yield record['name']
+
+def types(data):
+    for record in data.values():
+        yield record['type']
+
+
+if __name__ == '__main__':
+    # ## Logging
+    # Dedupe uses Python logging to show or suppress verbose output. Added
+    # for convenience.  To enable verbose logging, run `python
+    # patent_example.py -v`
+
+    optp = optparse.OptionParser()
+    optp.add_option('-v', '--verbose', dest='verbose', action='count',
+                    help='Increase verbosity (specify multiple times for more)'
+                    )
+    (opts, args) = optp.parse_args()
+    log_level = logging.WARNING
+
+    if opts.verbose:
+        if opts.verbose == 1:
+            log_level = logging.INFO
+        elif opts.verbose &gt; 1:
+            log_level = logging.DEBUG
+    logging.getLogger().setLevel(log_level)
+
+    input_file = 'resource_all.csv'
+
+    output_file = 'resource_all_output.csv'
+    settings_file = 'resource_all_settings.json'
+    training_file = 'resource_all_training.json'
+    print('importing data ...')
+    data_d = readData(input_file)
+
+    if os.path.exists(settings_file):
+        print('reading from', settings_file)
+        with open(settings_file, 'rb') as sf:
+            deduper = dedupe.StaticDedupe(sf, num_cores=2)
+    else:
+        # Define the fields dedupe will pay attention to
+        '''
+            {'field': 'type',
+             'variable name': 'type',
+             'type': 'Text',
+             'corpus': types(data_d),
+             'has missing': False},
+        '''
+        fields = [
+            {'field': 'name',
+             'variable name': 'name Text',
+             'type': 'Text',
+             'corpus': names(data_d),
+             'has missing': False},
+        ]
+
+        # Create a new deduper object and pass our data model to it.
+        deduper = dedupe.Dedupe(fields, num_cores=2)
+        # If we have training data saved from a previous run of dedupe,
+        # look for it an load it in.
+        if os.path.exists(training_file):
+            print('reading labeled examples from ', training_file)
+            with open(training_file) as tf:
+                deduper.prepare_training(data_d, training_file=tf)
+        else:
+            deduper.prepare_training(data_d)
+        # ## Active learning
+
+        # Starts the training loop. Dedupe will find the next pair of records
+        # it is least certain about and ask you to label them as duplicates
+        # or not.
+
+        # use 'y', 'n' and 'u' keys to flag duplicates
+        # press 'f' when you are finished
+        print('starting active labeling...')
+        dedupe.console_label(deduper)
+
+        deduper.train()
+
+        # When finished, save our training away to disk
+        with open(training_file, 'w') as tf:
+            deduper.write_training(tf)
+
+        # Save our weights and predicates to disk.  If the settings file
+        # exists, we will skip all the training and learning next time we run
+        # this file.
+        with open(settings_file, 'wb') as sf:
+            deduper.write_settings(sf)
+    clustered_dupes = deduper.partition(data_d, 0.5)
+
+    print('# duplicate sets', len(clustered_dupes))
+
+    # ## Writing Results
+
+    # Write our original data back out to a CSV with a new column called
+    # 'Cluster ID' which indicates which records refer to each other.
+
+    cluster_membership = {}
+    for cluster_id, (records, scores) in enumerate(clustered_dupes):
+        for record_id, score in zip(records, scores):
+            cluster_membership[record_id] = {
+                "Cluster ID": cluster_id,
+                "confidence_score": score
+            }
+
+    with open(output_file, 'w', encoding='utf-8') as f_output, open(input_file, encoding='utf-8') as f_input:
+        reader = csv.DictReader(f_input)
+        fieldnames = ['Cluster ID', 'confidence_score'] + reader.fieldnames
+
+        writer = csv.DictWriter(f_output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for row_id, row in enumerate(reader):
+            row.update(cluster_membership[row_id])
+            writer.writerow(row)</code></pre>
+<strong>Label small amounts of data</strong>:
+
+The program will automatically jump out of the two lines of name segment content, and mark whether the two names are the same entity based on your knowledge. The options include yes, no, unsure, and finish.<img alt="" class="alignnone wp-image-6813" height="230" src="https://cdn.omegaxyz.com/2020/07/dedupe3.png" width="533"/>
+<strong>Generated csv</strong>：
+
+<img alt="" class="alignnone wp-image-6812" height="284" src="https://cdn.omegaxyz.com/2020/07/dedupe2.jpg" width="735"/>You can see that there are two more columns, one column is the cluster number, the same cluster number is similar entities, and the other column is the confidence level.</div>
+        <section class="comments"><h2>Comments (6)</h2>
+        <div class="comment" id="comment-19497">
+          <strong>两袖青蛇</strong>
+          <time>2020-09-28 13:44:35</time>
+          <div>请问可以贴一下dataset吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19499">
+          <strong>xyjisaw</strong>
+          <time>2020-09-28 17:15:31</time>
+          <div>你好，data在这里https://github.com/xyjigsaw/COVID19-KBQA-DEMO</div>
+        </div>
+        
+        <div class="comment" id="comment-24882">
+          <strong>九月</strong>
+          <time>2021-12-03 17:08:58</time>
+          <div>你好，请问代码具体哪里决定了输出的类型呢？我的数据是中文，但让标注的时候输出是拼音</div>
+        </div>
+        
+        <div class="comment reply" id="comment-24908">
+          <strong>xyjisaw</strong>
+          <time>2021-12-06 12:59:45</time>
+          <div>这是一个调用代码，具体得到dedupe包中看源码</div>
+        </div>
+        
+        <div class="comment" id="comment-25382">
+          <strong>头秃的代码狗</strong>
+          <time>2022-02-23 17:20:10</time>
+          <div>当我使用dedupe的时候，出现AttributeError: &#x27;Dedupe&#x27; object has no attribute &#x27;prepare_training&#x27;.请问您使用的是什么版本的dedupe呢~ 谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25383">
+          <strong>xyjisaw</strong>
+          <time>2022-02-23 19:00:20</time>
+          <div>抱歉，我环境变了，你可以查找一下2020-07-24最新的dedupe是哪个版本。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

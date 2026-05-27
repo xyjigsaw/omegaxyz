@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python密码存储器 · OmegaXYZ</title>
+  <meta name="description" content="（不使用数据库）设计一个密码记录及查询小软件，模拟记录自己在各个网站上所使用的账号及密码，保存在文件中。要求自行设计存储方式，并实现浏览，查询，增加，删除，修改等基本操作，可自行拓展其他功能。 拓展功能： ① 对软件进行加密，并使用用户指定的秘钥对文件中存储的密码进行加密，如果密码输错，则密码解密出来的是乱码，无法看到正确的密码。本程序利...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/16/python_password_archive/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-16</div>
+        <h1>Python密码存储器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">（不使用数据库）设计一个密码记录及查询小软件，模拟记录自己在各个网站上所使用的账号及密码，保存在文件中。要求自行设计存储方式，并实现浏览，查询，增加，删除，修改等基本操作，可自行拓展其他功能。
+
+<strong>拓展功能：</strong>
+
+①<strong>对软件进行加密，并使用用户指定的秘钥对文件中存储的密码进行加密，如果密码输错，则密码解密出来的是乱码，无法看到正确的密码。本程序利用简单的二进制凯撒密码将字符串通过gbk编码后进行转化。</strong>
+
+②wxpython GUI编程。
+
+③提供两种查找方式一种是下来列表查找，另外一种是输入查找。
+
+代码：
+<pre ><code class="language-default">import wx
+
+password = {}
+num = []
+
+class InfoPanel(wx.Frame):
+    def __init__(self, parent, id):
+        global password
+        wx.Frame.__init__(self, parent, id, "密码管家", pos=(0, 0), size=(480, 300))
+        panel = wx.Panel(self, -1)
+        self.proof = None
+        self.userpw(self)
+        self.load_file(self)
+        rev = wx.StaticText(panel, -1, '欢迎使用密码小管家！', pos=(50, 
+                                0))
+        rev.SetForegroundColour("black")
+        rev.SetBackgroundColour("")
+        rev2 = wx.StaticText(panel, -1, '记录总数', pos=(200, 0))
+        self.total_pw = wx.TextCtrl(panel, -1, "", pos=(250, 0), 
+                        size=(20, 20))
+        rev3 = wx.StaticText(panel, -1, '所有记录', pos=(5, 30))
+        self.PSList = wx.Choice(panel, -1, choices=list(password), 
+                         pos=(60, 30), size=(100, -1))
+        button2 = wx.Button(panel, wx.ID_ANY, pos=(161, 29), size=(80, 27), label='显示')
+        button2.Bind(wx.EVT_BUTTON, self.show_password)
+        self.findpw = wx.TextCtrl(panel, -1, "", pos=(250, 30), size=(100, -1))
+        button5 = wx.Button(panel, wx.ID_ANY, pos=(351, 29), size=(100, 27), label='查找')
+        button5.Bind(wx.EVT_BUTTON, self.find_password)
+        rev4 = wx.StaticText(panel, -1, '密码', pos=(15, 65))
+        self.PSList_show = wx.TextCtrl(panel, -1, "", pos=(60, 60), size=(180, 35))
+        rev5 = wx.StaticText(panel, -1, '强度', pos=(250, 65))
+        self.strength = wx.TextCtrl(panel, -1, "", pos=(280, 60), size=(30, -1))
+        button3 = wx.Button(panel, wx.ID_ANY, pos=(0, 100), size=(220, 30), label='修改')
+        button3.Bind(wx.EVT_BUTTON, self.revise_password)
+        button4 = wx.Button(panel, wx.ID_ANY, pos=(220, 100), size=(220, 30), label='删除')
+        button4.Bind(wx.EVT_BUTTON, self.del_password)
+        rev_ = wx.StaticText(panel, -1, '-----------------------------------------------------------------------------------------', pos=(0, 150))
+        rev6 = wx.StaticText(panel, -1, '名称', pos=(15, 180))
+        rev6 = wx.StaticText(panel, -1, '密码', pos=(180, 180))
+        self.temp_Name = wx.TextCtrl(panel, -1, "", pos=(60, 180), size=(100, -1))
+        self.temp_key = wx.TextCtrl(panel, -1, "", pos=(225, 180), size=(100, -1))
+        button = wx.Button(panel, wx.ID_ANY, pos=(330, 180), size=(100, 26), label='添加记录')
+        button.Bind(wx.EVT_BUTTON, self.get_password)
+        self.get_total_pw(self)
+
+    def userpw(self, event):
+        dlg = wx.TextEntryDialog(None, "请输入用户口令：", '秘钥认证')
+        while True:
+            try:
+                if dlg.ShowModal() == wx.ID_OK:
+                    self.proof = int(dlg.GetValue())
+            except:
+                pass
+            dlg2 = wx.MessageDialog(self,
+                                        '将使用您的口令加密与解码，若口令错误你将无法看到正确密码', '注意！！！',
+                                        wx.OK | wx.ICON_INFORMATION)
+            dlg2.ShowModal()
+            dlg2.Destroy()
+            break
+        dlg.Destroy()
+
+    def load_file(self, event):
+        global password
+        global num
+        f = open("E:\\密码记录.txt", 'r')
+        for line in f.readlines():
+            if ':' in line and line[:line.index(':')] not in num:
+                password[line[:line.index(':')]] = line[line.index(':')+1:len(line)-1]
+                num.append(line[:line.index(':')])
+        f.close()
+
+    def add_password(self, name, key):
+        f = open("E:\\密码记录.txt", 'a+')
+        if name != "" and key != "":
+            f.write(name + ':' + key + '\n')
+        f.close()
+        self.PSList.Append(name)
+        self.get_total_pw(self)
+
+    def get_password(self, event):
+        global num
+        if self.temp_Name.GetValue() != None and 
+                               self.temp_key.GetValue() != None:
+            if self.temp_Name.GetValue() in num:
+                dlg = wx.MessageDialog(self,
+                                       '记录已经存在', '！',
+                                       wx.OK | wx.ICON_INFORMATION)
+                dlg.ShowModal()
+                dlg.Destroy()
+            else:
+                raw = self.temp_key.GetValue()
+                raw = encrypt(self.proof, raw)
+                self.add_password(self.temp_Name.GetValue(), raw)
+                self.load_file(self)
+                self.PSList.Refresh()
+        self.temp_Name.Clear()
+        self.temp_key.Clear()
+
+
+    def get_total_pw(self, event):
+        global num
+        self.total_pw.Clear()
+        self.total_pw.AppendText(str(len(num)))
+
+    def show_password(self, event):
+        temp = self.PSList.GetSelection()
+        self.PSList_show.Clear()
+        self.PSList_show.AppendText(decrypt(self.proof, 
+                                            password[num[temp]]))
+        self.strength.Clear()
+        if self.judge(decrypt(self.proof, password[num[temp]])):
+            self.strength.AppendText('强')
+        else:
+            self.strength.AppendText('弱')
+
+    def revise_password(self, event):
+        global num
+        global password
+        temp = self.PSList.GetSelection()
+        temp2 = None
+        dlg = wx.TextEntryDialog(None, "请输入修改后的密码：", '修改密码')
+        while True:
+            try:
+                if dlg.ShowModal() == wx.ID_OK:
+                    temp2 = dlg.GetValue()
+                break
+            except:
+                pass
+        dlg.Destroy()
+        if temp2 != "":
+            f = open("E:\\密码记录.txt", 'r+')
+            new_key = num[temp] + ':' + encrypt(self.proof, temp2) + '\n'
+            x = f.readlines()
+            flag = x.index(num[temp] + ':' + password[num[temp]] + '\n')
+            x[flag] = new_key
+            password[num[temp]] = encrypt(self.proof, temp2)
+            f = open("E:\\密码记录.txt", 'w+')
+            f.writelines(x)
+            f.close()
+        self.strength.Clear()
+        if self.judge(decrypt(self.proof, temp2)):
+            self.strength.AppendText('强！')
+        else:
+            self.strength.AppendText('弱！')
+
+    def del_password(self, event):
+        global num
+        global password
+        temp = self.PSList.GetSelection()
+        f = open("E:\\密码记录.txt", 'r+')
+        x = f.readlines()
+        flag = x.index(num[temp] + ':' + password[num[temp]] + '\n')
+        del password[num[temp]]
+        del num[temp]
+        x[flag] = ""
+        f = open("E:\\密码记录.txt", 'w+')
+        f.writelines(x)
+        f.close()
+        self.PSList.Delete(temp)
+        self.get_password(self)
+        self.PSList_show.Clear()
+        self.strength.Clear()
+        self.get_total_pw(self)
+
+    def find_password(self, event):
+        global password
+        if self.findpw.GetValue() != "":
+            temp = self.findpw.GetValue()
+            self.PSList_show.Clear()
+            try:
+                self.PSList_show.AppendText(decrypt(self.proof, 
+                             password[temp]))
+            except:
+                self.PSList_show.AppendText("没有找到！！")
+
+    def judge(self, pw):
+        if len(pw) &lt; 10:
+            return False
+        flag = [0, 0, 0, 0]
+        symbol = ['_', '!', '@', '#', '%', '^', '*', '(', ')', '&amp;']
+        for i in pw:
+            if i.isupper():
+                flag[0] = 1
+            elif i.islower():
+                flag[1] = 1
+            elif i.isdigit():
+                flag[2] = 1
+            elif i in symbol:
+                flag[3] = 1
+            else:
+                return False
+        if sum(flag) &gt;= 3:
+            return True
+        else:
+            return False
+
+class MainApp(wx.App):
+    def OnInit(self):
+        self.frame1 = InfoPanel(None, -1)
+        self.frame1.Center()
+        self.frame1.Show(True)
+        self.SetTopWindow(self.frame1)
+        return True
+
+if __name__ == '__main__':
+    app = MainApp(0)
+    app.MainLoop()
+</code></pre>
+<strong>以上代码缺少加密与解密模块（请理解！！，谢谢支持！！）</strong>
+
+<strong>完整代码请访问：<a href="http://download.csdn.net/download/xyisv/10208927">http://download.csdn.net/download/xyisv/10208927</a></strong>
+
+<strong>运行截图：</strong>
+
+①秘钥认证;
+<img class="alignnone size-full wp-image-2876" src="https://cdn.omegaxyz.com/2018/01/pypa1.png" alt="" width="346" height="164" />
+
+<img class="alignnone size-full wp-image-2877" src="https://cdn.omegaxyz.com/2018/01/pypa2.png" alt="" width="424" height="134" />
+②主界面：
+<img class="alignnone size-full wp-image-2878" src="https://cdn.omegaxyz.com/2018/01/pypa3.png" alt="" width="480" height="300" />
+③密码查找（包括强度判断）：
+
+<img class="alignnone size-full wp-image-2879" src="https://cdn.omegaxyz.com/2018/01/pypa4.png" alt="" width="457" height="77" />
+
+验证密码在txt文件中如何保存（经过加密）
+<img class="alignnone size-full wp-image-2880" src="https://cdn.omegaxyz.com/2018/01/pypa5.png" alt="" width="446" height="120" />
+注意如果秘钥错误则显示的不是正确的密码
+例如我此时输入错误的秘钥：此时密码杂乱无章！！！
+
+<img class="alignnone size-full wp-image-2881" src="https://cdn.omegaxyz.com/2018/01/pypa6.png" alt="" width="480" height="300" />
+
+④添加密码：
+
+<img class="alignnone size-full wp-image-2882" src="https://cdn.omegaxyz.com/2018/01/pypa7.png" alt="" width="470" height="270" />
+
+如果重复会显示：
+
+<img class="alignnone size-full wp-image-2883" src="https://cdn.omegaxyz.com/2018/01/pypa8.png" alt="" width="366" height="134" />
+
+注意如果要记录一个网站的多个用户则可以像CSDN1 CSDN2来编辑。
+⑤密码修改：
+<img class="alignnone size-full wp-image-2884" src="https://cdn.omegaxyz.com/2018/01/pypa9.png" alt="" width="479" height="289" />
+修改后：
+<img class="alignnone size-full wp-image-2885" src="https://cdn.omegaxyz.com/2018/01/pypa10.png" alt="" width="359" height="77" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

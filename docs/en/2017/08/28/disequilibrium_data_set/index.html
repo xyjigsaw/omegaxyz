@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of unbalanced data sets for machine learning · OmegaXYZ</title>
+  <meta name="description" content="Definition: Imbalanced data set: In problems such as classification, the number of positive and negative samples, or the number of samples in each category is inconsistent. When studying imbalanced classes, it is generally believed that imbalance means that the minority class only accounts for 10~20%. In fact, some data sets are far more imbalanced than this. For example: 1. Approximately 2% of credit card accounts are defrauded every year. (Most fraud detection fields are severely unbalanced.) 2. Status medical screening usually detects a very small number of people with a status in a large population where the status does not exist (such as HI in the United States...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/08/28/disequilibrium_data_set/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-28</div>
+        <h1>Overview of unbalanced data sets for machine learning</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content">Definition: Imbalanced data set: In problems such as classification, the number of positive and negative samples, or the number of samples in each category is inconsistent.<img alt="" class="alignnone wp-image-1836" height="451" src="https://cdn.omegaxyz.com/2017/08/disequilibrium2-300x206.png" width="657"/>When studying imbalanced classes, it is generally believed that imbalance means that the minority class only accounts for 10~20%. In fact, some data sets are far more imbalanced than this. For example:
+
+1. Approximately 2% of credit card accounts are defrauded every year. (Most fraud detection fields are severely imbalanced.)
+
+2. Status medical screening usually detects a very small number of people who do have the status in a large population where the status does not exist (for example, only 0.4% of people with HIV in the United States are HIV positive).
+
+3. Disk drive failures occur approximately 1% per year.
+
+4. The conversion rate of online advertising is estimated to be 10<sup>-3</sup>to 10<sup>-6</sup>between.
+
+5. Factory production failure rate is usually about 0.1%.
+
+The intuitive impact is that the prediction results of the model trained with these unbalanced data are biased towards the category with more data in the training data. In the example of face detection, most of the detection results of the detector are biased towards not detecting the face image.
+Another unbalanced data set is credit card fraud transactions. If the data is extracted on average, most of the data will be non-fraudulent transactions, and only a very small part of the data will be fraudulent transactions.
+
+Impact: When training and testing on an unbalanced data set, the accuracy obtained is falsely high. For example, in unbalanced data, when the ratio of positive and negative samples is 9:1, when its accuracy is 90%, we have reason to suspect that it will judge all categories as the category with more data.
+
+ 
+
+1. Don’t use accuracy (or error rate) to evaluate your classifier. There are two serious problems. First, the accuracy is simply thresholded at 0.5 to handle binary classification, but this is often wrong when the data is unbalanced. Second, classification accuracy is based on a simple count of errors, and you should know better. You should know which classes are obfuscated and where. If you don't understand these points, read<a href="http://www.svds.com/classifiers2/" rel="noopener" target="_blank">The Basics of Classifier Evaluation, Part 2</a>Might be useful. You can use a ROC curve, or a PR curve to visualize the performance of your classifier.
+
+2. Instead of using score and predict to obtain hard classifications (labels) from the classifier, use proba and predict_proba to obtain probability estimates.
+
+3. After you obtain the probability estimate, do not blindly use 0.5 as the threshold to divide the categories. Observe the performance curve to determine the threshold to be sampled. Many errors in early papers occurred because researchers simply cut off at 0.5.
+
+4. No matter what you train, always test on the natural distribution. See<code>sklearn.cross_validation.StratifiedKFold</code>5. You may not need probability estimates for classification, but when you do, use calibration. see
+
+sklearn.calibration.CalibratedClassifierCV
+
+The following is from the blog<a href="http://blog.csdn.net/chenriwei2/article/details/49227205">http://blog.csdn.net/chenriwei2/article/details/49227205</a>solution
+
+Solutions: 8
+
+1. Collect more data: Benefits: It can reveal the essential differences of data categories and increase the number of small samples for subsequent data resampling.
+
+2. Try to change the performance evaluation criteria:
+When data is unbalanced, accuracy has lost its original meaning.
+Metrics that can be referenced are: 1&gt; Confusion matrix CM 2&gt; Precision 3&gt; Recall 4&gt; F1 score (weighing precision and recall); 5. Kappa 6, ROC curve
+
+3. Resample data:
+1. Copy a part of the data with a small number of samples and divide it into more points, reaching a balance (oversampling);
+2. Delete some data with too many samples to achieve balance (undersampling);
+In practice, both oversampling and undersampling are used.
+In the test, if the total number of samples is relatively large, you can use undersampled data for testing. If the total number of samples is relatively small, you can use oversampled data for testing. In addition, you should test randomly sampled data and non-randomly sampled data, and at the same time, test data with different proportions of positive and negative samples.
+
+4. Generate synthetic data:
+The simplest is to randomly sample attributes with a relatively small number of samples.
+Another well-known method is: SMOTE: It is an oversampling method. It creates new sample instances from categories with relatively few samples. Generally, it randomly perturbs a feature from several similar samples.
+
+5. Use different algorithms:
+Don't try to solve all problems with one method, try some other different methods, such as decision trees, which generally perform better on imbalanced data sets.
+
+6. Try a penalty model:
+This means adding a new penalty term to the cost function, so that the cost of misjudgment of small sample categories is greater, forcing the model to pay attention to small sample data.
+For example: SVM with penalty term
+
+7. Use different perspectives:
+For unbalanced data sets, there are specialized neighborhoods and algorithms to do this. You can refer to their practices and terminology.
+For example: anomaly detection.
+
+8. Try new improvements:
+For example: 1. Decompose categories with more samples into more small categories. For example: originally we wanted to distinguish the number 0 from other numbers, which is a two-class classification problem. We can divide other numbers into 9 categories and turn it into a 0-9 classification problem;
+
+ 
+
+Original English text:<a href="https://www.svds.com/learning-imbalanced-classes/">https://www.svds.com/learning-imbalanced-classes/</a>Original translation:<a href="http://blog.csdn.net/zhangf666/article/details/53364465">http://blog.csdn.net/zhangf666/article/details/53364465</a>
+<h3>Resources and further reading</h3>1. Several Jupyter notebooks illustrate various aspects of unbalanced learning.
+
+◎Sampled Gaussian:<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/Gaussians.ipynb" rel="noopener" target="_blank"><code>Gaussians.ipynb</code></a>◎Wallance method:<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/blagging.py" rel="noopener" target="_blank"><code>blagging.py</code></a>
+
+◎<a href="https://github.com/silicon-valley-data-science/learning-from-imbalanced-classes/blob/master/ImbalancedClasses.ipynb" rel="noopener" target="_blank"><code>ImbalancedClasses.ipynb</code></a>2. MATLAB code:<a href="http://web.mit.edu/rudin/www/code/BoxDrawingsCode.zip" rel="noopener" target="_blank">http://web.mit.edu/rudin/www/code/BoxDrawingsCode.zip</a>3. R ​​isolated forest:<a href="https://sourceforge.net/projects/iforest/" rel="noopener" target="_blank">https://sourceforge.net/projects/iforest/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

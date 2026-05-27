@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BP neural network MATLAB implementation · OmegaXYZ</title>
+  <meta name="description" content="BP neural network BP (back propagation) neural network is a concept proposed by scientists led by Rumelhart and McClelland in 1986. It is a multi-layer feedforward neural network trained according to the error back propagation algorithm. It is currently the most widely used neural network. The calculation process of BP neural network consists of forward calculation process and reverse calculation process. In the forward propagation process, the input pattern is processed layer by layer from the input layer through the hidden unit layer, and then transferred to the output layer...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/03/bp-matlab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-03</div>
+        <h1>BP neural network MATLAB implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>BP neural network</strong></h2>BP (back propagation) neural network is a concept proposed by scientists led by Rumelhart and McClelland in 1986. It is a multi-layer feedforward neural network trained according to the error back propagation algorithm. It is currently the most widely used neural network.
+
+The calculation process of BP neural network consists of forward calculation process and reverse calculation process. In the forward propagation process, the input pattern is processed layer by layer from the input layer through the hidden unit layer and transferred to the output layer. The state of the neurons in each layer only affects the state of the neurons in the next layer. If the expected output cannot be obtained in the output layer, backpropagation is switched to return the error signal along the original connection path, and the error signal is minimized by modifying the weight of each neuron.<h2><strong>Python code</strong></h2>
+https://omegaxyz.com/2018/04/19/2nn_tensorflow_py/
+<h2><strong>MATLAB code</strong></h2>
+<pre><code class="language-matlab">clc
+clear all
+
+%读取训练数据
+[f1,f2,f3,f4,class] = textread('trainData.txt' , '%f%f%f%f%f',150);
+
+%特征值归一化
+[input,minI,maxI] = premnmx( [f1 , f2 , f3 , f4 ]')  ;
+
+%构造输出矩阵
+s = length( class) ;
+output = zeros( s , 3  ) ;
+for i = 1 : s 
+   output( i , class( i )  ) = 1 ;
+end
+
+%创建神经网络
+net = newff( minmax(input) , [10 3] , { 'logsig' 'purelin' } , 'traingdx' ) ; 
+
+%设置训练参数
+net.trainparam.show = 50 ;
+net.trainparam.epochs = 500 ;
+net.trainparam.goal = 0.01 ;
+net.trainParam.lr = 0.01 ;
+
+%开始训练
+net = train( net, input , output' ) ;
+
+%读取测试数据
+[t1 t2 t3 t4 c] = textread('testData.txt' , '%f%f%f%f%f',150);
+
+%测试数据归一化
+testInput = tramnmx ( [t1,t2,t3,t4]' , minI, maxI ) ;
+
+%仿真
+Y = sim( net , testInput ) 
+
+%统计识别正确率
+[s1 , s2] = size( Y ) ;
+hitNum = 0 ;
+for i = 1 : s2
+    [m , Index] = max( Y( : ,  i ) ) ;
+    if( Index  == c(i)   ) 
+        hitNum = hitNum + 1 ; 
+    end
+end
+sprintf('识别率是 %3.3f%%',100 * hitNum / s2 )</code></pre>
+<h2><strong>Effect</strong></h2>The recognition rate is 97.333%<img alt="" class="alignnone size-full wp-image-4692" height="657" src="https://cdn.omegaxyz.com/2018/07/BP-MATLAB.jpg" width="482"/>
+<strong>References:</strong><a href="http://www.cnblogs.com/heaad/archive/2011/03/07/1976443.html">http://www.cnblogs.com/heaad/archive/2011/03/07/1976443.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

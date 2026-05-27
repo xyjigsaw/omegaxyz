@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python寻找第N个默尼森数 · OmegaXYZ</title>
+  <meta name="description" content="寻找第n个默尼森数。 代码格式如下： def prime(num): ... def monisen(no): … … return xxx print(monisen(int(input()))) #此处不需要自己输入，只要写这样一条语句即可，主要完成monisen()函数（4分） 经典程序设计问题：找第n个默尼森数。P是素数且M也是素...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/11/python_monisen/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-11</div>
+        <h1>Python寻找第N个默尼森数</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div class="j-title f-cb title questionDes">
+<div class="qaDescription f-richEditorText f-fl edueditor_styleclass_6">寻找第n个默尼森数。 代码格式如下： def prime(num): ... def monisen(no): … … return xxx print(monisen(int(input()))) #此处不需要自己输入，只要写这样一条语句即可，主要完成monisen()函数（4分）</div>
+</div>
+<div class="j-detail f-richEditorText detail f-fs0 edueditor_styleclass_7">
+
+<strong>经典程序设计问题：找第n个默尼森数。P是素数且M也是素数，并且满足等式M=2**P-1，则称M为默尼森数。例如，P=5，M=2**P-1=31，5和31都是素数，因此31是默尼森数。</strong>
+
+<strong>输入格式:按提示用input()函数输入</strong>
+
+<strong>输出格式：int类型</strong>
+
+<strong>输入样例：4</strong>
+
+<strong>输出样例：127</strong>
+
+</div>
+<div class="j-limit f-fc6 limit f-fs0"><span class="itm">时间限制：500ms</span>内存限制：32000kb</div>
+<div>python3代码：</div>
+<div>
+<pre ><code class="language-python">from math import sqrt
+
+
+def prime(num):
+    if 0 not in [num % d for d in range(2, int(sqrt(num))+1)]:
+        return 1
+    else:
+        return 0
+
+
+def monisen(no):
+    flag = 2
+    x = 1
+    a = []
+    a.append(0)
+    while x - 1 != no:
+        if prime(flag) == 1:
+            temp = 2**flag-1
+            if prime(temp) == 1:
+                a.append(temp)
+                x += 1
+        flag += 1
+    return a[no]
+
+print(monisen(int(input())))
+</code></pre>
+&nbsp;
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

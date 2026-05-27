@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>最大互信息系数(MIC)详解 · OmegaXYZ</title>
+  <meta name="description" content="最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数 目的： Maximal Information Coefficient (MIC) 最大信息系数，属于Maximal Information-based Nonparametric Exploration (MINE) 最大的基于...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/18/mic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-18</div>
+        <h1>最大互信息系数(MIC)详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content"><b>最大信息系数 </b><b>maximal information coefficient (MIC)，又称最大互信息系数</b>
+
+<strong>目的：</strong>Maximal Information Coefficient (MIC) 最大信息系数，属于Maximal Information-based Nonparametric Exploration (MINE) 最大的基于信息的非参数性探索，用于衡量两个变量X和Y的线性或非线性的强度。
+
+<strong>MIC度量具有普适性</strong>。其不仅可以发现变量间的线性函数关系，还能发现非线性函数关系(指数的，周期的)；不仅能发现函数关系，还能发现非函数关系(比如函数关系的叠加，或者有趣的图形模式)。
+
+<strong>MIC度量具有均衡性</strong>。对于相同噪声水平的函数关系或者非函数关系，MIC度量具有近似的值。所以MIC度量不仅可以用来纵向比较同一相关关系的强度，还可以用来横向比较不同关系的强度。
+
+<strong>优点:</strong>generality：拥有足够的统计样本时，可以捕获广泛的关系，而不限定于特定的函数类型（如线性、指数型、周期型等）。
+equitability：对不同类型的噪声程度同等的关系给予相近的分数。
+
+<strong>缺点:</strong>“MIC的统计能力遭到了一些质疑，当零假设不成立时，MIC的统计就会受到影响。在有的数据集上不存在这个问题，但有的数据集上就存在这个问题。”
+
+<strong>最早出处：</strong><a href="http://science.sciencemag.org/content/334/6062/1518.full">http://science.sciencemag.org/content/334/6062/1518.full</a>
+
+<strong>MIC度量计算的方法</strong>。具有两个属性的数据点的集合分布在两维的空间中，使用m乘以n的网格划分数据空间，使落在第(x,y)格子中的数据点的频率作为P(x,y)的估计即<img class="alignnone size-full wp-image-2922" src="https://cdn.omegaxyz.com/2018/01/MIC1.png" alt="" width="185" height="31" />，使落在第x行的数据点的频率作为P(x)的估计，同理获得P(y)的估计。然后计算随机变量X、Y的互信息。因为m乘以n的网格划分数据点的方式不止一种，所以我们要获得使互信息最大的网格划分。然后使用归一化因子，将互信息的值转化为(0,1)区间之内。最后，找到能使归一化互信息最大的网格分辨率，作为MIC的度量值。其中网格的分辨率限制为m x n &lt; B，<img class="alignnone size-full wp-image-2924" src="https://cdn.omegaxyz.com/2018/01/MIC3.png" alt="" width="134" height="21" />。将MIC的计算过程概括为公式为：<img class="alignnone size-full wp-image-2923" src="https://cdn.omegaxyz.com/2018/01/MIC2.png" alt="" width="298" height="60" />
+
+<strong>详解：</strong>
+
+详细解释来源：<a href="http://blog.csdn.net/u014271612/article/details/51781250">http://blog.csdn.net/u014271612/article/details/51781250</a>
+
+MIC计算分为三个步骤：
+
+1.给定i、j，对XY构成的散点图进行i列j行网格化，并求出最大的互信息值
+
+2.对最大的互信息值进行归一化
+
+3.选择不同尺度下互信息的最大值作为MIC值
+
+<img class="alignnone size-full wp-image-2925" src="https://cdn.omegaxyz.com/2018/01/MIC4.jpg" alt="" width="681" height="453" />
+
+（1）红色网格化方案将所有数据点分为四个区域：左上，右上，左下，右下。每个区域对应的数据点数量为1，4，4，1。将数据点数归一化得到四个区域的数据点频率，分别为0.1，0.4，0.4，0.1。也就是说，此时，X有两种取值：左和右，Y有两种取值：上和下。P(X=左,Y=上)=0.1，P(X=右,Y=上)=0.4，P(X=左,Y=下)=0.4，P(X=右,Y=下)=0.1。并且，P(X=左)=0.5，P(X=右)=0.5，P(Y=上)=0.5，P(Y=下)=0.5。
+
+<img class="alignnone size-full wp-image-2926" src="https://cdn.omegaxyz.com/2018/01/MIC5.png" alt="" width="608" height="289" />
+
+（2）对最大的互信息值进行归一化
+将得到的最大互信息除以log(min(X,Y))，即为归一化！
+
+（3）选择不同尺度下互信息的最大值作为MIC值
+上面讲述了给定i和j的情况下M(X,Y,D,i,j)的计算方法。这一步就是给定很多(i,j)值，计算每一种情况下M(X,Y,D,i,j)的值，将所有M(X,Y,D,i,j)中的最大那个值作为MIC值。注意的是，这里的(i,j)是有条件的，要满足，n表示数据集D的数据量。当然，B(n)这个值可以自己定，这里是别人做实验认为效果最好的值。
+
+参考资料：
+
+<a href="http://blog.csdn.net/lijiancheng0614/article/details/50826270">http://blog.csdn.net/lijiancheng0614/article/details/50826270</a>
+
+<a href="http://blog.csdn.net/u014271612/article/details/51781250">http://blog.csdn.net/u014271612/article/details/51781250</a>
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-19999">
+          <strong>王强</strong>
+          <time>2021-01-14 10:29:31</time>
+          <div>有matlab代码吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-21235">
+          <strong>tangchang</strong>
+          <time>2021-03-05 10:44:27</time>
+          <div>MIC的缺点从哪篇文章里看到的？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

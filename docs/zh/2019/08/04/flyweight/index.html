@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>享元模式C++实现（flyweight） · OmegaXYZ</title>
+  <meta name="description" content="简介 动机 假设成立一个外包公司，主要给一些私营业主建网站。 商家客户都类似，要求也就是信息发布、产品展示、博客留言、论坛等功能。 各个客户要求差别不大，但客户数量多。 内部状态和外部状态 在享元对象内部并且不会随环境改变而改变的共享部分，可以成为是享元对象的内部状态。 随环境改变而改变的、不可以共享的状态就是外部状态。 享元模式可以避免...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/08/04/flyweight/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-04</div>
+        <h1>享元模式C++实现（flyweight）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<strong>动机</strong>
+<ul>
+ 	<li>假设成立一个外包公司，主要给一些私营业主建网站。</li>
+ 	<li>商家客户都类似，要求也就是信息发布、产品展示、博客留言、论坛等功能。</li>
+ 	<li>各个客户要求差别不大，但客户数量多。</li>
+</ul>
+<strong>内部状态和外部状态</strong>
+<ul>
+ 	<li>在享元对象内部并且不会随环境改变而改变的共享部分，可以成为是享元对象的内部状态。</li>
+ 	<li>随环境改变而改变的、不可以共享的状态就是外部状态。</li>
+ 	<li>享元模式可以避免大量非常相似类的开销。在程序设计中，有时需要生成大量细粒度的类实例来表示数据，如果能发现这些实例除了几个参数外基本都是相同的，有时就能大幅度减少需要实例化的类的数量。</li>
+ 	<li>如果能把那些参数移到类实例外面，在方法调用时将它们传递进来，就可以通过共享大幅度地减少单个实例的数目。</li>
+</ul>
+<strong>适用性</strong>
+<ul>
+ 	<li>当以下情况成立时使用享元模式：
+<ul>
+ 	<li>一个应用程序使用大量的对象，并且完全是由于使用大量的对象，造成很大的存储开销。</li>
+ 	<li>对象的大多数状态都可变为外部状态，并且如果删除对象的外部状态，那么可以用相对较少的共享对象取代很多组对象。</li>
+ 	<li>应用程序不依赖于对象表示。由于Flyweight对象可以被共享，对于概念上明显有别的对象，表示测试将返回真值。</li>
+</ul>
+</li>
+</ul>
+<strong>结构</strong>
+
+<img class="alignnone  wp-image-5949" src="https://cdn.omegaxyz.com/2019/08/flyweight-1.png" alt="" width="620" height="324" />
+
+<strong>参与者</strong>
+<ul>
+ 	<li>Flyweight
+<ul>
+ 	<li>描述一个接口，通过这个接口Flyweight可以接受并作用于外部状态。</li>
+</ul>
+</li>
+ 	<li>ConcreteFlyweight
+<ul>
+ 	<li>实现Flyweight接口，并为内部状态增加空间。ConcreteFlyweight对象必须是可共享的。它所存储状态必须是内部的；即，它必须独立于ConcreteFlyweight的场景。</li>
+</ul>
+</li>
+ 	<li>UnsharedConcreteFlyweight
+<ul>
+ 	<li>并非所有的Flyweight子类都需要被共享。 Flyweight接口使共享成为可能，但它并不强制共享。</li>
+</ul>
+</li>
+ 	<li>FlyweightFactory
+<ul>
+ 	<li>创建并管理flyweight对象。</li>
+ 	<li>确保合理地共享flyweight。当用户请求一个flyweight时，Flyweight对象提供一个已创建的实例或者创建一个（如果不存在的话）。</li>
+</ul>
+</li>
+ 	<li>Client
+<ul>
+ 	<li>维持一个对flyweight的引用。</li>
+ 	<li>计算或存储一个（多个）flyweight的外部状态。</li>
+</ul>
+</li>
+</ul>
+<strong>协作</strong>
+<ul>
+ 	<li>Flyweight执行时所需状态必定是内部的或外部的。内部状态存储于ConcreteFlyweight对象之中；而外部对象则由Client对象存储或计算。当用户调用flyweight对象的操作时，将该状态传递给它。</li>
+ 	<li>用户不直接对ConcreteFlyweight类进行实例化，而只能从FlyweightFactory对象得到ConcreteFlyweight对象，这可以保证对它们适当地进行共享。</li>
+</ul>
+<h2><strong>实例</strong></h2>
+假设成立一个外包公司，主要给一些私营业主建网站。商家客户要求的功能包括信息发布、产品展示、博客留言等功能。
+
+共有a-j 10个客户，其中a-c客户需要信息发布，d-f需要产品展示，g-j客户需要博客功能。
+
+利用享元模式模拟该公司建立网站，输出如下：
+
+客户a: 信息发布
+
+客户b：信息发布
+
+。。。
+
+网站分类总数为：3
+
+<strong>UML</strong>
+
+<img class="alignnone  wp-image-5950" src="https://cdn.omegaxyz.com/2019/08/flyweight-2.png" alt="" width="547" height="389" />
+
+<strong>代码</strong>
+
+<strong>在本次实验中：客户的号码就是外部状态，应该由专门的对象来处理，在这里简化为</strong><strong>char</strong><strong>类型的</strong><strong>id</strong><strong>。</strong>
+
+<strong>另外注意没有</strong><strong>UnsharedConcreteFlyweight</strong><strong>类</strong>
+
+<strong> </strong>
+
+<strong>Website</strong><strong>类即</strong><strong>Flyweight</strong><strong>类</strong>
+
+<strong>ConcreteWebsite</strong><strong>类即</strong><strong>ConcreteFlyweight</strong><strong>类</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;map&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+/* 
+假设成立一个外包公司，主要给一些私营业主建网站。商家客户要求的功能包括信息发布、产品展示、博客留言等功能。
+共有a-j 10个客户，其中a-c客户需要信息发布，d-f需要产品展示，g-j客户需要博客功能。
+利用享元模式模拟该公司建立网站，输出如下：
+
+客户a: 信息发布
+客户b：信息发布
+。。。
+
+网站分类总数为：3
+ */
+
+class Website{
+public:
+    virtual void Operation(char extrinsicstate) = 0;
+};
+
+class ConcreteWebsite: public Website {
+public:
+    ConcreteWebsite(string function){
+        this-&gt;function = function;
+    }
+    void Operation(char extrinsicstate){
+        cout&lt;&lt;"客户"&lt;&lt;extrinsicstate&lt;&lt;": "&lt;&lt;function&lt;&lt;endl;
+    }
+private:
+    string function;
+};
+
+class FlyweightFactory{
+private:
+    map&lt;string, ConcreteWebsite*&gt; flyweights;
+public:
+    FlyweightFactory(){
+        flyweights.insert(make_pair("信息发布", new ConcreteWebsite("信息发布")));
+        flyweights.insert(make_pair("产品展示", new ConcreteWebsite("产品展示")));
+        flyweights.insert(make_pair("博客功能", new ConcreteWebsite("博客功能")));
+    }
+    Website* GetFlyweight(string key){
+        if(! flyweights.count(key)){
+            flyweights.insert(make_pair(key, new ConcreteWebsite(key)));
+            cout&lt;&lt;"添加状态: "&lt;&lt;key&lt;&lt;"成功"&lt;&lt;endl;
+        }
+        return (Website*) flyweights[key];
+    }
+    int getSize(){
+        return flyweights.size();
+    }
+};
+
+int main(){
+    FlyweightFactory *factory = new FlyweightFactory();
+    vector&lt;Website*&gt; pool;
+    for(char i = 'a'; i &lt;= 'j'; i++){
+        Website *f;
+        if(i &gt;= 'a' &amp;&amp; i &lt;= 'c'){
+            f = factory-&gt;GetFlyweight("信息发布");
+            f-&gt;Operation(i);
+        }else if(i &gt;= 'd' &amp;&amp; i &lt;= 'f'){
+            f = factory-&gt;GetFlyweight("产品展示");
+            f-&gt;Operation(i);
+        }else{
+            f = factory-&gt;GetFlyweight("博客功能");
+            f-&gt;Operation(i);
+        }
+        pool.push_back(f);
+    }
+    cout&lt;&lt;"网站分类总数为："&lt;&lt;factory-&gt;getSize()&lt;&lt;endl;
+    //if(pool[0] == pool[1])cout&lt;&lt;"THEY ARE THE SAME!"&lt;&lt;endl;
+    return 0;
+}</code></pre>
+&nbsp;
+
+<strong>结果</strong>
+
+<img class="alignnone  wp-image-5951" src="https://cdn.omegaxyz.com/2019/08/flyweight-3.png" alt="" width="415" height="266" />
+
+<strong>总结</strong>
+
+①本次实验掌握了享元模式的原理与方法，在选择flyweight时，要注意选择合适的享元类。
+
+②按照实际情况分情况讨论具体的Flyweight类。
+
+③不管建几个网站，只要是‘产品展示’，都是一样的，只要是‘博客’，也是完全相同的，但这样是有问题的，给企业建的网站不是一家企业，它们的数据不会相同，所以至少它们都应该有不同的账号（id值）。实际上这样写没有体现对象间的不同，只体现了它们共享的部分。
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

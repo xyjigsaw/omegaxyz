@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特征工程——特征离散化与选择 · OmegaXYZ</title>
+  <meta name="description" content="概要 由于许多特征选择问题处理的是离散数据，一种常见的处理方式是在特征选择之前应用离散化。为了提升效率，特征通常单变量地进行离散化。这个方案是基于假设每个特性都独立地影响任务，在存在特性交互的情况下，这一点可能不成立。因此，单变量离散化会降低性能信息显示后的特征选择阶段在离散化过程中，特性交互可能会丢失。 除了特征选择，特征离散化也是处理...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/23/feature-discretization-selection/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-23</div>
+        <h1>特征工程——特征离散化与选择</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><strong>概要</strong></h2>
+由于许多特征选择问题处理的是离散数据，一种常见的处理方式是在特征选择之前应用离散化。为了提升效率，特征通常单变量地进行离散化。这个方案是基于假设每个特性都独立地影响任务，在存在特性交互的情况下，这一点可能不成立。因此，单变量离散化会降低性能信息显示后的特征选择阶段在离散化过程中，特性交互可能会丢失。
+
+除了特征选择，特征离散化也是处理高维数据的一种至关重要的方法。特征的离散化能够把连续值转化为离散值。通过离散化，微小的波动或者可能的噪声能够被发现。<strong>因此特征选择＋特征离散化能够有效地提升分类器性能，降低计算时间和存储空间。</strong>
+
+在这篇论文中作者提出了一种叫做PPSO的算法来降低搜索空间，当然这里的适应度函数也做了相应的调整来提高搜索性能。结果中其压缩率可达95%。
+
+<strong>关键词：PSO，特征选择，离散化，分类，高维</strong>
+
+&nbsp;
+
+在PSO特征选择中，PSO代表着一个N维变量。实数编码中每一个值在0到1之间。这样可能导致的一种结果是不同的两个向量选出相同的特征子集。在离散化中，一个细小的不同进化切点（cut-point）可能会导致不同的离散特征。
+
+<strong>熵基切点能够起到降低搜索空间的作用。</strong>
+<h2><strong>目标</strong></h2>
+提出一种新的方式将离散化和特征选择结合到同一个阶段（BBPSO）
+<h2><strong>研究的问题有</strong></h2>
+①如何进行多变量离散和选择在单一阶段中改进特征集的识别性权力。
+
+②PPSO是否对特征进行离散和选择能比使用full获得更好的分类精度吗特性集。
+
+③PPSO的表现是否优于相应的。两阶段方法的准确性，特征子集。大小和计算时间。
+
+④PPSO是否比EPSO要好，是否达到更好的分类性能，且没有FS bias。
+
+⑤PPSO的结果是否能很好地推广到学习中除包装方法以外的算法。
+<h2><strong>Feature Discretization（特征的量化、离散化）</strong></h2>
+对特征的离散化的研究具有悠久的历史。现存很多离散化的方法，但是这些方法都基于同一种目标：确定cut-points来划分特征使之变为离散值。
+
+Cut-points，或者称作split-points是一个在特征值范围内的实数值，作用是使特征范围划分多个不同的间隔。
+
+现存的离散化方法有以下几个分类：
+
+①直接法，间隔由预先定义的参数生成
+
+②增量法，递归划分或合并间隔指导达到要求
+
+这些都是我们熟知的自顶向下或自下而上的方法
+
+当然还有监督与非监督的方法。
+
+非监督方法的效果没有监督方法的效果好，下面主要来说明监督方法。
+
+最小化离散长度（MDL）是目前较流行的一种方法，它是一种熵基增量划分的离散化方法。信息增益被用来评价cut-points。通过递归，MDL能够选择最好的cut-point来使一个间隔变为两个间隔，直到最小的离散化长度达到要求。作者在本文出将熵基切点作为BBPSO的初始的候选的切点方式。
+<h2><strong>利用离散化的特征选择</strong></h2>
+<h3><strong>双阶段</strong></h3>
+将特征选择和离散化处理结合在一起的研究并不是很多。首先通过离散化过程来给特征排序，接着TOP-RANKED特征将会被选中。这种方式是分两步走，第一步离散化第二步特性选择。
+
+<img class="alignnone size-full wp-image-4829" src="https://cdn.omegaxyz.com/2018/07/FDFS2.png" alt="" width="754" height="261" />
+<h3><strong>单阶段（离散化的同时进行特征选择）</strong></h3>
+为了实现离散化，低于cut-point点的特征值特征置0，反之置1，如果一个特征的所有值同置0或1，那么可以认为这是一个不相关的特征，因为它不能区别实例中的类别。特征选择将会把这些特征去掉。
+
+<img class="alignnone size-full wp-image-4828" src="https://cdn.omegaxyz.com/2018/07/FDFS1.png" alt="" width="755" height="281" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

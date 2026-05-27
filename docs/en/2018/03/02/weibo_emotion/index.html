@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dictionary-based sentiment analysis of social media content (Python implementation) · OmegaXYZ</title>
+  <meta name="description" content="I previously wrote an article based on NLTK emotion prediction https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b The emotion dictionary is an emotion polarity dictionary automatically constructed from millions of emotion annotation data from Weibo, news, forums and other data sources. Because the annotation includes Weibo data, the dictionary includes many Internet terms and informal abbreviations, and it also has a high level of non-standard text...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/02/weibo_emotion/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-02</div>
+        <h1>Dictionary-based sentiment analysis of social media content (Python implementation)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content">I previously wrote an article based on NLTK sentiment prediction<a href="https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27">https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b</a>The emotional dictionary is an emotional polarity dictionary automatically constructed from millions of emotion annotated data from Weibo, news, forums and other data sources. Because the annotation includes Weibo data, the dictionary includes many Internet terms and informal abbreviations, and also has a high coverage of non-standard texts. This sentiment dictionary can be used to build social media sentiment analysis engines, negative content discovery and other applications.
+
+This is a generated sentiment dictionary (txt document) based on machine learning,<span style="color: #ff0000;">Note that it can only predict non-normative texts such as social media (the accuracy of article sentiment prediction has errors)</span>Dictionary download:<a href="https://bosonnlp.com/resources/BosonNLP_sentiment_score.zip">https://bosonnlp.com/resources/BosonNLP_sentiment_score.zip</a>Python implementation uses jieba word segmentation prediction<pre><code class="language-python">import time
+import jieba
+
+emotion_dic = {}
+filename = 'BosonNLP_sentiment_score.txt'  # txt文件和当前脚本在同一目录下，所以不用写具体路径
+with open(filename, 'rb') as file:
+    while True:
+        try:
+            senList = file.readline().decode('utf-8')
+            # print(senList)
+            senList = senList[:-1]
+            senList = senList.split(' ')
+            emotion_dic[senList[0]] = senList[1]
+        except IndexError:
+            break
+
+def get_emotion(score):
+    emotion_archive = ['绝望，十分愤怒，对生活不在抱有希望', '难过，失望，抑郁', '有点小难过或者小愤怒', '轻微的难受或者不屑，想得太多啦，洗洗睡觉吧', '生活也就这样吧', '有点小开心或者小激动',
+                       '蛮开心的，生活多美好', '喜笑颜开，每天的太阳都是新的，生活充满了希望']
+    if score &lt;= -3.9:
+        return emotion_archive[0]
+    elif -3.9 &lt; score &lt;= -2.5:
+        return emotion_archive[1]
+    elif -2.5 &lt; score &lt;= -1:
+        return emotion_archive[2]
+    elif -1 &lt; score &lt;= 0:
+        return emotion_archive[3]
+    elif 0 &lt;score &lt;= 1:
+        return emotion_archive[4]
+    elif 1 &lt; score &lt;= 2.5:
+        return emotion_archive[5]
+    elif 2.5 &lt; score &lt; 3.9:
+        return emotion_archive[6]
+    else:
+        return emotion_archive[7]
+
+test = "才拒绝做爱情代罪的羔羊"
+
+seg_list = jieba.cut(test, cut_all=True)
+string = "/ ".join(seg_list)
+string_list = string.split('/')
+emotion_index = 0
+time.sleep(1)
+print("-5分为极端消极，5分为非常高兴")
+
+for _ in range(len(string_list)):
+    if string_list[_] in emotion_dic:
+        emotion_index += float(emotion_dic[string_list[_]])
+print(emotion_index)
+print(get_emotion(emotion_index))
+</code></pre>The test text comes from "Only the one who refuses to be the scapegoat for love" in Eason Chan's "Love Transfer"
+
+Result:<img alt="" class="alignnone size-full wp-image-3527" height="173" src="https://cdn.omegaxyz.com/2018/03/weibo_emotion.jpg" width="427"/>-0.730524151526
+Slight discomfort or disdain, thinking too much, go to bed<p style="text-align: center;"><strong><span style="color: #ff0000;">All original codes on the website use<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license" style="color: #ff0000;">Apache 2.0</a>Authorize</span></strong>
+<strong><span style="color: #ff0000;">Articles on this website are licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" style="color: #ff0000;">BY-NC-SA4.0</a>Authorize</span></strong></p>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

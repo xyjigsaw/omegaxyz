@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculation of MIC (maximum mutual information coefficient) · OmegaXYZ</title>
+  <meta name="description" content="Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient. I wrote an introduction to MIC before, which includes the principles of MIC. Link: https://omegaxyz.com/2018/01/18/mic/ The following describes how to use a third-party library for calculation (python library, which can be used on MATLAB and C). The calculation of MIC uses...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/02/21/minepy/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-21</div>
+        <h1>Calculation of MIC (maximum mutual information coefficient)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient.
+
+I wrote an introduction to MIC before, which includes the principles of MIC. Link:<a href="https://omegaxyz.com/2018/01/18/mic/">https://omegaxyz.com/2018/01/18/mic/</a>The following describes how to use third-party library calculations (python library, can be used in MATLAB and C)
+
+The calculation of MIC uses Minepy-master, link address:<a href="https://pypi.python.org/pypi/minepy">https://pypi.python.org/pypi/minepy</a>When using Minepy's MATLAB code to implement, mine_mex is implemented using c. MATLAB needs to configure the mex environment. This is done by you. When compiling C, you need to add lib at the end. Otherwise, it will prompt that mine_mic is an external reference, error, error, error. The solution given by the official website below:<img alt="" class="alignnone size-full wp-image-3505" height="753" src="https://cdn.omegaxyz.com/2018/02/minepy.jpg" width="881"/>The mic in the picture below is the calculated value.<img alt="" class="alignnone size-full wp-image-3506" height="343" src="https://cdn.omegaxyz.com/2018/02/minepy2.jpg" width="513"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

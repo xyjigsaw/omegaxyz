@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mixed implementation of abstract factory pattern and singleton pattern in C++ · OmegaXYZ</title>
+  <meta name="description" content="Abstract Factory When each abstract product has more than one concrete subclass, how does the factory role know which subclass to instantiate? For example, each abstract product role has two concrete products. The abstract factory pattern provides two specific factory roles, corresponding to these two specific product roles. Each specific factory role is only responsible for the instantiation of a certain product role. Each concrete factory class is only responsible for creating instances of a specific subclass of the abstract product. Singleton mode Singleton is to ensure that a...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/07/20/abstract-factory-and-singleton-cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-20</div>
+        <h1>Mixed implementation of abstract factory pattern and singleton pattern in C++</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>abstract factory</strong></h2>When each abstract product has more than one concrete subclass, how does the factory role know which subclass to instantiate? For example, each abstract product role has two concrete products. The abstract factory pattern provides two specific factory roles, corresponding to these two specific product roles. Each specific factory role is only responsible for the instantiation of a certain product role. Each concrete factory class is only responsible for creating instances of a specific subclass of the abstract product.<hr/>
+<h2><strong>Singleton mode</strong></h2>Singleton ensures that there is only one instance of a class. Singleton is mainly used for object creation, which means that if a class adopts the Singleton pattern, after the class is created, it will have and only one instance available for access. Many times we will need the Singleton pattern. The most common example is that we hope that there will be only one Connection instance that connects to the database in the entire application; another example is that we require that there be only a unique instance of a certain user data structure in an application. We can all achieve this by applying the Singleton pattern.
+
+https://omegaxyz.com/2019/03/19/design-pattern-singleton/<hr/>
+<h2><strong>Example</strong></h2>The company's database has three tables, namely user table, department table and project table. Each table operation supports query and add functions. The database supports both MySQL and SQL Server. The simulation code of this system is given by combining the abstract factory pattern and the singleton pattern.
+
+In the abstract factory pattern, each product in an application generally requires only one instance of a specific factory. Therefore, the factory is usually best implemented using the singleton pattern. The experiment requires combining the abstract factory pattern and the singleton pattern to simulate the company's database creation process.<h3><strong>UML diagram</strong></h3>
+<img alt="" class="alignnone wp-image-5894" height="594" src="https://cdn.omegaxyz.com/2019/07/abstract-factory-and-singleton-cpp1.png" width="668"/>
+<h3><strong>C++ code</strong></h3>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+
+class User{
+    int id;
+};
+
+class Department{
+    int id;
+};
+
+class Project{
+    int id;
+};
+
+
+
+
+class IUser{
+public:
+    virtual void Insert(User* user) = 0;
+    virtual User* GetUser(int id) = 0;
+};
+
+class IDepartment{
+public:
+    virtual void Insert(Department* department) = 0;
+    virtual Department* GetDepartment(int id) = 0;
+};
+
+class IProject{
+public:
+    virtual void Insert(Project* project) = 0;
+    virtual Project* GetProject(int id) = 0;
+};
+
+class IFactory{
+public:
+    virtual ~IFactory(){cout&lt;&lt;"抽象工厂实例删除！"&lt;&lt;endl;}
+    virtual IUser* CreateUser()=0;
+    virtual IDepartment* CreateDepartment()=0;
+    virtual IProject* CreateProject()=0;    
+};
+
+class SqlserverUser: public IUser{
+public:
+    void Insert(User* user){
+        cout&lt;&lt;"增加一个用户"&lt;&lt;endl;
+    }
+    User* GetUser(int id){
+        cout&lt;&lt;"得到一个用户"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+class SqlserverDepartment: public IDepartment{
+public:
+    void Insert(Department* department){
+        cout&lt;&lt;"增加一个部门"&lt;&lt;endl;
+    }
+    Department* GetDepartment(int id){
+        cout&lt;&lt;"得到一个部门"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+class SqlserverProject: public IProject{
+public:
+    void Insert(Project* project){
+        cout&lt;&lt;"增加一个项目"&lt;&lt;endl;
+    }
+    Project* GetProject(int id){
+        cout&lt;&lt;"得到一个项目"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+class MysqlUser: public IUser{
+public:
+    void Insert(User* user){
+        cout&lt;&lt;"增加一个用户"&lt;&lt;endl;
+    }
+    User* GetUser(int id){
+        cout&lt;&lt;"得到一个用户"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+class MysqlDepartment: public IDepartment{
+public:
+    void Insert(Department* department){
+        cout&lt;&lt;"增加一个部门"&lt;&lt;endl;
+    }
+    Department* GetDepartment(int id){
+        cout&lt;&lt;"得到一个部门"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+class MysqlProject: public IProject{
+public:
+    void Insert(Project* project){
+        cout&lt;&lt;"增加一个项目"&lt;&lt;endl;
+    }
+    Project* GetProject(int id){
+        cout&lt;&lt;"得到一个项目"&lt;&lt;endl;
+        return NULL;
+    }
+};
+
+
+class SqlserverFactory: public IFactory{
+public:
+    ~SqlserverFactory(){cout&lt;&lt;"SQL Server抽象工厂实例删除！"&lt;&lt;endl;}
+    IUser* CreateUser(){
+        return new SqlserverUser();
+    }
+    IDepartment* CreateDepartment(){
+        return new SqlserverDepartment();
+    }
+    IProject* CreateProject(){
+        return new SqlserverProject();
+    }
+    static IFactory *GetInstance(){
+        if (factory == NULL ){
+                return new SqlserverFactory();
+                cout&lt;&lt;"抽象工厂实例生成！"&lt;&lt;endl;
+        
+        }else cout&lt;&lt;"Error, 抽象工厂实例已有！"&lt;&lt;endl;
+        return factory;
+    }
+private:
+    
+    SqlserverFactory(){}
+    static SqlserverFactory* factory;
+};
+SqlserverFactory* SqlserverFactory::factory = NULL;
+
+
+
+class MysqlFactory: public IFactory{
+public:
+    ~MysqlFactory(){cout&lt;&lt;"SQL Server抽象工厂实例删除！"&lt;&lt;endl;}
+    IUser* CreateUser(){
+        return new MysqlUser();
+    }
+    IDepartment* CreateDepartment(){
+        return new MysqlDepartment();
+    }
+    IProject* CreateProject(){
+        return new MysqlProject();
+    }
+    static IFactory *GetInstance(){
+        if (factory == NULL ){
+            cout&lt;&lt;"抽象工厂实例生成！"&lt;&lt;endl;
+            factory =  new MysqlFactory();
+                
+        }else cout&lt;&lt;"Error, 抽象工厂实例已有！"&lt;&lt;endl;
+        return factory;
+    }
+private:
+    MysqlFactory(){}
+    static MysqlFactory* factory;
+};
+MysqlFactory* MysqlFactory::factory = NULL;
+
+int main(){
+    User* user = new User();
+    Department* dept = new Department();
+    Project* pro = new Project();
+
+
+    cout&lt;&lt;endl&lt;&lt;"MySQL"&lt;&lt;endl;
+    IFactory *factory1 = MysqlFactory::GetInstance();
+    IFactory *factory2 = MysqlFactory::GetInstance();
+    //生成第二个失败
+    IUser* iu = factory1-&gt;CreateUser();
+    iu-&gt;Insert(user);
+    iu-&gt;GetUser(1);
+    
+    IDepartment* idept = factory1-&gt;CreateDepartment();
+    idept-&gt;Insert(dept);
+    idept-&gt;GetDepartment(1);
+
+    IProject* ipro = factory1-&gt;CreateProject();
+    ipro-&gt;Insert(pro);
+    ipro-&gt;GetProject(1);
+
+    cout&lt;&lt;endl&lt;&lt;"SQL Server"&lt;&lt;endl;
+    IFactory *factory12 = MysqlFactory::GetInstance();
+    IFactory *factory22 = MysqlFactory::GetInstance();
+    //生成第二个失败
+    IUser* iu2 = factory12-&gt;CreateUser();
+    iu-&gt;Insert(user);
+    iu-&gt;GetUser(1);
+    
+    IDepartment* idept2 = factory12-&gt;CreateDepartment();
+    idept-&gt;Insert(dept);
+    idept-&gt;GetDepartment(1);
+
+    IProject* ipro2 = factory12-&gt;CreateProject();
+    ipro-&gt;Insert(pro);
+    ipro-&gt;GetProject(1);
+    return 0;
+}</code></pre>
+<h3><strong>Effect</strong></h3>
+<img alt="" class="alignnone wp-image-5895" height="339" src="https://cdn.omegaxyz.com/2019/07/abstract-factory-and-singleton-cpp2.png" width="509"/>Note that the second line is to generate a MySQL factory again, but since there can only be one, it cannot be created again.<hr/>
+<h2><strong>Summary</strong></h2>
+<ul>
+<li>Note that when using the singleton mode to write specific factories for MySQL and SQL Server, you can only write the singleton of itself, that is, when generating a MySQL factory,<strong>A second MySQL factory cannot be generated again, but a SQL Server factory can be generated.</strong></li>
+<li>When using the singleton mode, the constructor of the specific factory needs to be placed in private, so that the client cannot create multiple factories at will. You need to add the getInstance function in public to determine whether a factory has been generated. If it exists, you cannot create a second one. Note that this is a static type.</li>
+<li>The pointer of the specific factory needs to be initialized to NULL in the global part outside the class.</li>
+</ul></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

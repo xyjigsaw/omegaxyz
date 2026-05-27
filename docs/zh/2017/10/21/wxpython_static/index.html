@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython显示静态文本 · OmegaXYZ</title>
+  <meta name="description" content="wx作为一个GUI图形界面的模块一定要显示文本。 先显示静态文本吧。 wxpython中wx.StaticText可以显示静态文本。 wx.StaticText 构造函数的参数 parent ：父窗口部件。 id ：标识符。使用-1可以自动创建一个唯一的标识。 label ：你想显示在静态控件中的文本。 pos ：一个wx.Point 或...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/21/wxpython_static/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-21</div>
+        <h1>wxpython显示静态文本</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">wx作为一个GUI图形界面的模块一定要显示文本。
+先显示静态文本吧。
+<tt>wxpython中wx.StaticText可以显示静态文本。</tt>
+
+&nbsp;
+<h1> wx.StaticText 构造函数的参数</h1>
+parent ：父窗口部件。
+
+id ：标识符。使用-1可以自动创建一个唯一的标识。
+label ：你想显示在静态控件中的文本。
+pos ：一个wx.Point 或一个Python 元组，它是窗口部件的位置。
+size ：一个wx.Size 或一个Python 元组，它是窗口部件的尺寸。
+style ：样式标记。
+name ：对象的名字，用于查找的需要。
+
+接下来我们更详细地讨论样式标记。
+<h1>一些专用于wx.StaticText 的样式。</h1>
+wx.ALIGN_CENTER ：静态文本位于静态文本控件的中心。
+wx.ALIGN_LEFT ：文本在窗口部件中左对齐。这是默认的样式。
+wx.ALIGN_RIGHT ：文本在窗口部件中右对齐。
+wx.ST_NO_AUTORESIZE ：如果使用了这个样式，那么在使用了SetLabel() 改变文本之后，静态文本控件不将自我调整尺寸。你应结合使用一个居中或右对齐的控件来保持对齐。
+
+wx.StaticText 控件覆盖了SetLabel() ，以便根据新的文本来调整自身，除非wx.ST_NO_AUTORESIZE 样式被设置了。
+
+当创建了一个居中或右对齐的单行静态文本时，你应该显式地在构造器中设置控件的尺寸。指定尺寸以防止wxPython 自动调整该控件的尺寸。wxPython 的默认尺寸是刚好包容了文本的矩形尺寸，因此对齐就没有什么必要。要在程序中动态地改变窗口部件中的文本，而不改变该窗口部件的尺寸，就要设置wx.ST_NO_AUTORESIZE 样式。这样就防止了在文本被重置后，窗口部件自动调整尺寸到刚好包容了文本。如果静态文本是位于一个动态的布局中，那么改变它的尺寸可能导致屏幕上其它的窗口部件移动，这就对用户产生了干扰。
+
+代码：
+<pre ><code class="language-python">import wx
+
+
+class StaticTextFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, -1, 'Static Text Example',
+                          size=(400, 300))
+        panel = wx.Panel(self, -1)
+
+        # 这是一个基本的静态文本
+        wx.StaticText(panel, -1, "This is an example of static text",
+                      (100, 10))
+
+        # 指定了前景色和背景色的静态文本
+        rev = wx.StaticText(panel, -1, "Static Text With Reversed Colors",
+                            (100, 30))
+        rev.SetForegroundColour('white')
+        rev.SetBackgroundColour('black')
+
+        # 指定居中对齐的的静态文本
+        center = wx.StaticText(panel, -1, "align center", (100, 50),
+                               (160, -1), wx.ALIGN_CENTER)
+        center.SetForegroundColour('white')
+        center.SetBackgroundColour('black')
+
+        # 指定右对齐的静态文本
+        right = wx.StaticText(panel, -1, "align right", (100, 70),
+                              (160, -1), wx.ALIGN_RIGHT)
+        right.SetForegroundColour('white')
+        right.SetBackgroundColour('black')
+
+        # 指定新字体的静态文本
+        str = "You can also change the font."
+        text = wx.StaticText(panel, -1, str, (20, 100))
+        font = wx.Font(18, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
+        text.SetFont(font)
+
+        # 显示多行文本
+        wx.StaticText(panel, -1, "Your text\ncan be split\n"
+                                 "over multiple lines\n\neven blank ones", (20, 150))
+
+        # 显示对齐的多行文本
+        wx.StaticText(panel, -1, "Multi-line text\ncan also\n"
+                                 "be right aligned\n\neven with a blank", (220, 150),
+                      style=wx.ALIGN_RIGHT)
+
+
+if __name__ == '__main__':
+    app = wx.PySimpleApp()
+    frame = StaticTextFrame()
+    frame.Show()
+app.MainLoop()
+</code></pre>
+<img class="alignnone wp-image-2227 size-full" src="https://cdn.omegaxyz.com/2017/10/wxpython_static.jpg" alt="" width="449" height="344" />
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

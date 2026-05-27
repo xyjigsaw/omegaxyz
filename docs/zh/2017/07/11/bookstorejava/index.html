@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图书馆管理系统JAVA · OmegaXYZ</title>
+  <meta name="description" content="1.代码原理 ①JAVA对象数组的构建 ②类的调用 ③方法的重载（OVERLODING） ④构造方法的使用 2.源代码 ①bookFeature 此类是每本书的信息和操作 ②bookList 此类是书的列表对象及方法 ③public class main 主程序调用类 3.实验结果 基于eclipse 书信息的输入 删除指定的书，xxx....">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/11/bookstorejava/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>图书馆管理系统JAVA</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>1.代码原理</h1>
+①JAVA对象数组的构建
+
+②类的调用
+
+③方法的重载（OVERLODING）
+
+④构造方法的使用
+<h1>2.源代码</h1>
+<h2>①bookFeature</h2>
+此类是每本书的信息和操作
+<pre ><code class="language-java">class bookFeature {
+	private int ID;
+	private String name;
+	private double price;
+	private String author;
+	public bookFeature(){
+		ID=0;
+		name=null;
+		author=null;
+		price=0;
+	}
+	public void setID(int ID){
+		this.ID=ID;
+	}
+	public void setName(String name){
+		this.name=name;
+	}
+	public void setPrice(double price){
+		this.price=(price&gt;0)?price:0;
+	}
+	public void setAuthor(String author){
+		this.author=author;
+	}
+	public int getID(){
+		return ID;
+	}
+	public String getName(){
+		return name;
+	}
+	public double getPrice(){
+		return price;
+	}
+	public String getAuthor(){
+		return author;
+	}
+	public void clearBook(){
+		this.author=null;
+		this.name=null;
+		this.price=0;
+		this.ID=0;
+	}
+}
+</code></pre>
+<h2>②bookList</h2>
+此类是书的列表对象及方法
+<pre ><code class="language-java">import java.util.*;
+class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List=new bookFeature[MAXSIZE];
+	
+	public bookList(){
+		bookNum=0;
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}
+	
+	public void moreBook() {
+		bookNum++;
+		bookFeature book=new bookFeature();
+		String tempName,tempAuthor;
+		double tempPrice;
+		book.setID(bookNum);
+		Scanner input=new Scanner(System.in);
+		System.out.print("Please input this book's name: ");
+		tempName=input.next();
+		book.setName(tempName);
+		System.out.print("Please input this book's author: ");
+		tempAuthor=input.next();
+		book.setAuthor(tempAuthor);
+		System.out.print("Please input this book's price: ");
+		tempPrice=input.nextDouble();
+		book.setPrice(tempPrice);
+		List[bookNum]=book;
+		System.out.println("Input Succeed!!!");
+	}
+	
+	public void delBook(int index){
+		for(int i=index;i&lt;=bookNum;i++){
+			List[i]=List[i+1];
+		}
+		List[bookNum].clearBook();
+		bookNum--;
+	}
+	
+	public void delBook(String name){
+		int index=0;
+		for(int i=1;i&lt;=bookNum;i++){
+			if(List[i].getName().equals(name)){
+				index=i;break;
+			}
+		}
+		for(int i=index;i&lt;=bookNum;i++){
+			List[i]=List[i+1];
+		}
+		List[bookNum].clearBook();
+		bookNum--;
+	}
+
+	public void getInfo(){
+		System.out.println("Book Num: "+bookNum);
+		System.out.println("Here is the list!");
+		System.out.println("********************************");
+		System.out.println("ID   Title   Author   Price ");
+		for(int i=1;i&lt;=bookNum;i++){
+			System.out.println(i+"    "+List[i].getName()+"    "+List[i].getAuthor()+"     "+List[i].getPrice());
+		}
+		System.out.println("********************************");
+	}
+}
+</code></pre>
+<h2>③public class main</h2>
+主程序调用类
+<pre ><code class="language-java">import java.util.*;
+public class test {
+	public static void main(String[] args){
+		bookList my=new bookList();
+		Scanner input=new Scanner(System.in);
+		System.out.println("Input the size of all book:");
+		int n=input.nextInt();
+		for(int i=1;i&lt;=n;i++){
+			System.out.println(i+"  ");
+			my.moreBook();
+		}
+		my.getInfo();
+		System.out.println("---------------Delete Books----------------");
+		System.out.println("Please input ID of the book you wanna delete: ");
+		Scanner input2=new Scanner(System.in);
+		int index=input2.nextInt();
+		my.delBook(index);
+		my.getInfo();
+		System.out.println("Please input name of the book you wanna delete: ");
+		Scanner input3=new Scanner(System.in);
+		String name=input3.next();
+		my.delBook(name);
+		my.getInfo();
+	}
+}
+</code></pre>
+<h1>3.实验结果</h1>
+基于eclipse
+
+书信息的输入
+
+<img class="alignnone  wp-image-1392" src="https://cdn.omegaxyz.com/2017/07/BOOK1-300x262.png" alt="" width="531" height="464" />
+
+删除指定的书，xxx.delBook(int ID)和xxx.delBook(String name)函数的重载
+
+<img class="alignnone  wp-image-1393" src="https://cdn.omegaxyz.com/2017/07/BOOK2-300x180.png" alt="" width="543" height="326" />
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

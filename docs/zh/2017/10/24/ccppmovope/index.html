@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C/C++移位运算符 · OmegaXYZ</title>
+  <meta name="description" content="在一般的C语言教学中，移位运算符很多情况下讲师直接跳过，更多的会在汇编语言中系统得讲述。然而，熟练掌握。高级语言中的移位很大程度上可以展现一个人的代码功底并且能提高编程效率。 C/C ++提供位逻辑运算符和移位运算符。二者只能用于整形和字符型。位运算符是对每位进行操作而不影响左右两位，这有别于常规运算符（&amp;&amp;|| !）是将整个数进行操作的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/24/ccppmovope/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-24</div>
+        <h1>C/C++移位运算符</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+在一般的C语言教学中，移位运算符很多情况下讲师直接跳过，更多的会在汇编语言中系统得讲述。然而，熟练掌握。高级语言中的移位很大程度上可以展现一个人的代码功底并且能提高编程效率。
+
+&nbsp;
+
+C/C ++提供位逻辑运算符和移位运算符。二者只能用于整形和字符型。位运算符是对每位进行操作而不影响左右两位，这有别于常规运算符（&amp;&amp;|| !）是将整个数进行操作的。
+<h1>一． 位逻辑运算符</h1>
+<strong>1． ~ 按位取反</strong>
+将1变为0，将0变为1
+EG：
+~(10011010)
+(01100101)
+注：
+VC++编译器，计算～10，得出的结果是－11。为什么不是5呢
+10的二进制表示为1010，按位取反应该为0101，也就是十进制的5，为什么会得出－11？
+VC是32位编译器，所以
+10 = 00000000 00000000 00000000 00001010
+~10 = 11111111 11111111 11111111 11110101 = -11
+可以通过掩码（位与） 与15位与
+15 = 00000000 00000000 00000000 00001111
+~10 = 00000000 00000000 00000000 00000101 = -11
+
+<strong>2． &amp; 按位取与</strong>
+只有两个操作数都是1结果才是1，否则为0
+10 = 00000000 00000000 00000000 00001010
+12 = 00000000 00000000 00000000 00001100
+&amp;
+8 = 00000000 00000000 00000000 00001000
+
+<strong>3． | 按位取或</strong>
+两个操作数任意一位为1结果就是1
+10 = 00000000 00000000 00000000 00001010
+12 = 00000000 00000000 00000000 00001100
+|
+14 = 00000000 00000000 00000000 00001110
+
+<strong>4． ^ 按位异或</strong>
+两个操作数不同为1，相同为0
+10 = 00000000 00000000 00000000 00001010
+12 = 00000000 00000000 00000000 00001100
+^
+14 = 00000000 00000000 00000000 00000110
+
+<strong>5． 用法：掩码</strong>
+掩码是通过&amp;（位与）将某些位设置为开（1），将某些位设置为关（0）。将掩码0看做不透明，将1看着透明。
+EG：
+如只显示第二、三位
+107 = 0110 1011
+6 = 0000 0110
+&amp;
+2 = 0000 0010
+
+<strong>6． 用法：打开位</strong>
+打开位是通过 |（位或）打开一个值的特定位，同时保持其他位的不变。这是因为和0位或都为0，和1位或都为1。
+EG：
+如只打开第二、三位
+107 = 0110 1011
+6 = 0000 0110
+|
+111 = 0110 1111
+
+<strong>7． 用法：关闭位</strong>
+关闭某些位
+EG：
+如关闭第二、三位
+107 = 0110 1011
+6 = 0000 0110
+&amp; ~
+105 = 0110 1001
+
+<strong>8． 用法：转置位</strong>
+如果一位为1则转置为0，如果一位为1则转置为0
+EG：
+如转置第二、三位
+107 = 0110 1011
+6 = 0000 0110
+^
+105 = 0110 1101
+<h1>二． 移位运算符</h1>
+<strong>1.&lt;&lt; 左移</strong>
+左移运算符是把操作数的值的每一位向左移动，移动的位数有右边的操作数决定，右侧空出的位数用0填充
+EG：
+如转置第二、三位
+107 = 0110 1011 &lt;&lt;2
+&lt;&lt;
+172 = 1010 1100
+在计算机中由于是32位的
+107 = 0000 0000 0000 0000 0000 0000 0110 1011 &lt;&lt;2
+&lt;&lt;
+428 = 0000 0000 0000 0000 0000 0001 1010 1100
+<strong>2.&gt;&gt; 右移</strong>
+右移运算符是把操作数的值的每一位向右移动，移动的位数有右边的操作数决定，左边丢弃的位数用0填充
+EG：
+如转置第二、三位
+107 = 0110 1011 &gt;&gt;2
+&gt;&gt;
+26 = 0001 1010
+
+<img class="alignnone wp-image-2266 size-full" src="https://cdn.omegaxyz.com/2017/10/cppmov3.jpg" alt="" width="678" height="652" />
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+    cout &lt;&lt; "Enter a number:";
+    int Input = 0;
+    cin &gt;&gt; Input;
+
+    int Half = Input &gt;&gt; 1;
+    int Quarter = Input &gt;&gt; 2;
+    int Double = Input &lt;&lt; 1;
+    int Quadruple = Input &lt;&lt; 2;
+
+    cout &lt;&lt; "Half:" &lt;&lt; Half &lt;&lt; endl;
+    cout &lt;&lt; "Quarter:" &lt;&lt; Quarter &lt;&lt; endl;
+    cout &lt;&lt; "Double:" &lt;&lt; Double &lt;&lt; endl;
+    cout &lt;&lt; "Quadruple:" &lt;&lt; Quadruple &lt;&lt; endl;
+
+
+    return 0;
+
+}</code></pre>
+<img class="alignnone wp-image-2265 size-full" src="https://cdn.omegaxyz.com/2017/10/cppmov2.png" alt="" width="973" height="575" />
+
+&nbsp;
+<h1>三、传统的C方式位操作：</h1>
+<strong>1.基本操作：</strong>
+使用一个unsigned int变量来作为位容器。
+
+<strong>2.操作符：</strong>
+
+| 按位或操作符：result=exp1|exp2;当exp1和exp2中对应位中至少有一个为1时，result中对应位为1，否则为0。
+&amp; 按位与操作符：：result=exp1&amp;exp2;当exp1和exp2中对应位全为1时，result中对应位为1，否则为0。
+^ 按位异或或操作符：result=exp1^exp2;当exp1和exp2中对应位不相同时，result中对应位为1，否则为0。
+~ 反转操作符：将位容器中的所有位都反转，1变为0，0变为1。
+&lt;&lt; 按位左移操作符：exp&lt;&lt;n，将容器中所有的位向左移n位，空出的位用0填充。
+&gt;&gt; 按位右移操作符：exp&gt;&gt;n，将容器中所有的位向右移n位，空出的位用0填充。
+|=,&amp;=,^= 分别对应|&amp;^三种操作符的复合操作符。
+
+<strong>3.常用操作</strong>
+
+这里我们假设有一个result的unsigned int变量用来储存32个学生的成绩（通过和不通过分别用0和1），这样result就有33位（result从右至左，从0开始计算位数，在这个例子中0位被浪费）。
+(a) 将第27位设置为及格（设作1）其他位不变：
+result|＝(1&lt;&lt;27) //任意的位值与1作按位或操作其值为1，而与0作按位与操作其值不变
+(b) 将第27位设置成不及格（设为0）。
+result&amp;=~(1&lt;&lt;27) //任意的位值与0作按位与操作其值为0，而与1作按位与操作其值不变
+(c) 反转第27位的值。
+result^=(1&lt;&lt;27) //任意的位值与1作按位异或操作其值为1，而与0作按位异与操作其值不变
+<h1>四、C++中的bitset容器</h1>
+<strong>1.头文件：</strong>
+#include &lt;bitset&gt;
+
+<strong>2.声明一个容器：</strong>
+
+(a)声明一个指定位数的空容器（所有位设为0）: bitset&lt;int&gt; bits;
+(b)声明一个指定位数并将指定的几个位初始化为相应值的容器： bitset&lt;n&gt; bits(int);
+bitdet&lt;int&gt; bits(string&amp;)
+总结：bitset模板类中类型参数传递容器的位数，而构造函数参数通过一个int或一个string&amp;值来从右至左初始化容器中的相应值。
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>3.bitset的基本用法：</strong>
+
+<img class="alignnone wp-image-2264 size-full" src="https://cdn.omegaxyz.com/2017/10/cppmov.jpg" alt="" width="362" height="725" />
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+
+<strong>4.bitset与传统C位操作及字符串的转换</strong>
+
+可以通过to_string()成员将容器转输出为一个string字符串，另外还可以用to_long()成员将容器输出到传统的用于C风格的位容器中。如：
+
+unsigned long bits = bits.to_long();
+
+sting str(bits.to_string());
+
+&nbsp;
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

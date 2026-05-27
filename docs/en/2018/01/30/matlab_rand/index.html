@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB random number generator · OmegaXYZ</title>
+  <meta name="description" content="1. rand() generates uniformly distributed random numbers on the (0,1) interval. Basic syntax: rand([M,N,P...]) generates random numbers arranged into M*N*P*... multi-dimensional vectors. If only M is written, an M*M matrix will be generated; if the parameters are [M, N], the square brackets can be omitted. 2. randn() generates random numbers that obey the standard normal distribution (mean is 0, variance is 1). Basic syntax: randn([M,N,P,...]) Solution...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/30/matlab_rand/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-30</div>
+        <h1>MATLAB random number generator</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><div><strong><u>1、rand()</u></strong></div>
+<div><strong>Generate random numbers uniformly distributed on the interval (0,1)</strong></div>
+<div>Basic syntax:<em><span style="color: #fc1b02;">rand([M,N,P...])</span></em></div>
+<div>Generate random numbers arranged into M*N*P*... multidimensional vectors. If only M is written, an M*M matrix will be generated; if the parameters are [M, N], the square brackets can be omitted.</div>
+<div><strong><u>2、randn()</u></strong></div>
+<div><strong>Generate random numbers obeying the standard normal distribution (mean 0, variance 1)</strong></div>
+<div>Basic syntax:<em><span style="color: #fc1b02;">randn([M,N,P,...])</span></em></div>
+<div>The explanation is the same as 1</div>
+<div>If the Statistic Toolbox is installed, in addition to the above two basic distributions, you can also use Matlab internal functions to generate random numbers that conform to the following distributions.</div>
+<div><strong><u>3、unifrnd()</u></strong></div>
+<div><strong>Generate random numbers uniformly distributed within an interval</strong></div>
+<div>Basic syntax:<em><span style="color: #fb1a00;">unifrnd(a,b,[M,N,P,...])</span></em></div>
+<div>The generated random numbers are arranged into M*N*P... multi-dimensional vectors within the interval (a, b). If only M is written, an M*M matrix will be generated; if the parameter is [M, N], the square brackets can be omitted.</div>
+<div><strong><u>4、normrnd()</u></strong></div>
+<div><strong>Generates random numbers from a normal distribution with a specified mean and standard deviation.</strong></div>
+<div>Basic syntax:<span style="color: #fb1a00;"><em>normrnd(mu,sigma,[M,N,P,...])</em></span></div>
+<div><u><strong>5、chi2rnd()</strong></u></div>
+<div><strong>Generate random numbers obeying the chi-square distribution. The chi-square distribution has only one parameter: degree of freedom v</strong></div>
+<div>Basic syntax:<em><span style="color: #fb1a00;">chi2rnd(v,[M,N,P,...])</span></em></div>
+<div><strong><u>6、frnd()</u></strong></div>
+<div><strong>Generate random numbers obeying F distribution. F distribution has two parameters: v1, v2</strong></div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">frnd(v1,v2,[M,N,P,...])</span></em></div>
+<div><u><strong>7、trnd()</strong></u></div>
+<div>Generate random numbers that obey t (Student's t Distribution, here student does not mean student, but the pen name of cosset.W.S.) distribution. The t distribution has only one parameter: degree of freedom v</div>
+<div>Basic syntax:<span style="color: #ed1c24;"><em>trnd(v,[M,N,P,...])</em></span></div>
+<div>The t distribution is "thinner" than the normal distribution. As the degree of freedom v increases, the t distribution gradually becomes fatter. When the degree of freedom becomes positive and infinite, it becomes the standard normal distribution.</div>
+<div><strong><u>8、betarnd()</u></strong></div>
+<div>Generate random numbers following beta distribution. The beta distribution has two parameters A and B. The figure below is the PDF graph of the beta distribution of A=2, B=5.</div>
+<div><img alt="" class="alignnone size-full wp-image-3162" height="167" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYxm8PF640690.jpg" width="200"/>Basic syntax:<span style="color: #ed1c24;"><em>betarnd(A,B,[M,N,P,...])</em></span></div>
+<div><strong><u>9、exprnd()</u></strong></div>
+<div>This function generates random numbers following an exponential distribution. The exponential distribution has only one parameter: mu. The following figure is the PDF graphic of the exponential distribution when mu=3.</div>
+<div><img alt="" class="alignnone size-full wp-image-3159" height="162" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYwWUxOI2c690-1.jpg" width="200"/>Basic syntax:<em><span style="color: #ed1c24;">exprnd(mu,[M,N,P,...])</span></em></div>
+<div><strong><u>10、gamrnd()</u></strong></div>
+<div>Generate random numbers obeying gamma distribution. The Gamma distribution has two parameters: A and B. The picture below is the PDF graphic of A=2, B=5, Gamma distribution</div>
+<div><img alt="" class="alignnone size-full wp-image-3160" height="165" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYx7NRHLb5690.jpg" width="200"/></div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">gamrnd(A,B,[M,N,P,...])</span></em></div>
+<div><strong><u>11、logrnd()</u></strong></div>
+<div>Generate random numbers following a lognormal distribution. It has two parameters: mu and sigma. After taking the logarithm of the random numbers obeying this distribution, they all obey the normal distribution with mean mu and standard deviation sigma. The picture below is the PDF graph of the lognormal distribution with mu=1, sigma=1/1.2.</div>
+<div><img alt="" class="alignnone size-full wp-image-3158" height="163" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYwKkFqMe0690.jpg" width="200"/></div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">logrnd(mu,sigma,[M,N,P,...])</span></em></div>
+<div><strong><u>12、raylrnd()</u></strong></div>
+<div>Generate random numbers following the Rayleigh distribution. Its distribution has 1 parameter: B. The figure below is the PDF graphic of the Rayleigh distribution of B=2</div>
+<div><img alt="" class="alignnone size-full wp-image-3163" height="164" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYxx5KOb27690.jpg" width="200"/>Basic syntax:<em><span style="color: #ed1c24;">raylrnd(B,[M,N,P,...])</span></em></div>
+<div><strong><u>13、wblrnd()</u></strong></div>
+<div>Generate random numbers following Weibull distribution. Its distribution has two parameters: scale parameter A and shape parameter B. The picture below is the PDF graph of the Weibull distribution with A=3 and B=2.</div>
+<div><img alt="" class="alignnone size-full wp-image-3161" height="165" src="https://cdn.omegaxyz.com/2018/01/002IEY3hzy6RYxIWcTFfb690.jpg" width="200"/>Basic syntax:<em><span style="color: #ed1c24;">wblrnd(A,B,[M,N,P,...])</span></em></div>
+<div> <wbr/></div>
+<div>There is also a non-central chi-square distribution (<em>ncx2rnd</em>), non-central F distribution (<em>ncfrnd</em>), non-central t distribution (<em>nctrnd</em>)</div>
+<div> <wbr/></div>
+<div><strong><u>14、unidrnd()</u></strong></div>
+<div>Generate random numbers following a discrete uniform distribution. unifrnd is to uniformly select real numbers (can be decimals or integers) within a certain interval, and unidrnd is to uniformly select integer random numbers. The discrete uniformly distributed random number has 1 parameter: n, which means from {1,2,3,. . . , n} These n integers are sampled with the same probability.</div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">unidrnd(n,[M,N,P,...])</span></em></div>
+<div><strong><u>15、binornd()</u></strong></div>
+<div>This function generates random numbers following a binomial distribution. The binomial distribution has 2 parameters: n, p</div>
+<div>Basic syntax:<span style="color: #ed1c24;"><em>binornd(n,p,[M,N,P,...])</em></span></div>
+<div><strong><u>16、geornd()</u></strong></div>
+<div>Generate random numbers following a geometric distribution. The geometric distribution has only one parameter p</div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">geornd(p,[M,N,P,...])</span></em></div>
+<div><strong><u>17、poissrnd()</u></strong></div>
+<div>Generate random numbers obeying the possion distribution. There is only one parameter of position distribution: lambda. This parameter must be greater than zero.</div>
+<div>Basic syntax:<em><span style="color: #ed1c24;">poissrnd(lambda,[M,N,P,...])</span></em></div>
+<div></div>
+<div>Attached:</div>
+<div>betarnd random number generator from beta distribution
+binornd Random number generator for binomial distribution
+chi2rnd random number generator from chi-square distribution
+exprnd exponentially distributed random number generator
+frnd f-distributed random number generator
+gamrnd Gamma distributed random number generator
+geornd Geometrically distributed random number generator
+hygernd random number generator for hypergeometric distribution
+lognrnd Random number generator for lognormal distribution
+nbinrnd random number generator for negative binomial distribution
+ncfrnd random number generator from non-central f distribution
+nctrnd random number generator from non-central t distribution
+ncx2rnd random number generator from non-central chi-square distribution
+normrnd Normal (Gaussian) distributed random number generator
+poissrnd Poisson distributed random number generator
+raylrnd Rayleigh distributed random number generator
+trnd random number generator from Student's t distribution
+unidrnd discrete uniformly distributed random number generator
+unifrnd Continuous uniformly distributed random number generator
+weibrnd Weibull distributed random number generator</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

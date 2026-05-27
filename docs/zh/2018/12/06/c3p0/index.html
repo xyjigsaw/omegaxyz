@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据库c3p0配置SQL Server与MySQL · OmegaXYZ</title>
+  <meta name="description" content="C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，支持JDBC3规范和JDBC2的标准扩展。目前使用它的开源项目有Hibernate，Spring等。 SQL Server配置： 注意1433是端口号，xxx是数据库名称，相应的用户名和密码均需改正。 MySQL配置： 注意3306是端口号，xxx是数据库名称，相应的用户名...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/06/c3p0/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-06</div>
+        <h1>数据库c3p0配置SQL Server与MySQL</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content">C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，支持JDBC3规范和JDBC2的标准扩展。目前使用它的开源项目有Hibernate，Spring等。
+
+<strong>SQL Server配置：</strong>
+
+注意1433是端口号，xxx是数据库名称，相应的用户名和密码均需改正。
+<pre ><code class="language-default">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;c3p0-config&gt;
+    &lt;default-config&gt;
+        &lt;!-- 数据库驱动，用户名，密码等基本配置 --&gt;
+        &lt;property name="jdbcUrl"&gt;jdbc:sqlserver://localhost:1433;databaseName=xxx&lt;/property&gt;
+        &lt;property name="driverClass"&gt;com.microsoft.sqlserver.jdbc.SQLServerDriver&lt;/property&gt;
+        &lt;property name="user"&gt;me&lt;/property&gt;
+        &lt;property name="password"&gt;123456&lt;/property&gt;
+
+        &lt;!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;
+        &lt;property name="acquireIncrement"&gt;3&lt;/property&gt;
+        &lt;!-- 初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;
+        &lt;property name="initialPoolSize"&gt;10&lt;/property&gt;
+        &lt;!-- 连接池中保留的最小连接数。--&gt;
+        &lt;property name="minPoolSize"&gt;2&lt;/property&gt;
+        &lt;!-- 连接池中保留的最大连接数。--&gt;
+        &lt;property name="maxPoolSize"&gt;10&lt;/property&gt;
+    &lt;/default-config&gt;
+&lt;/c3p0-config&gt;</code></pre>
+<strong>MySQL配置：</strong>
+
+注意3306是端口号，xxx是数据库名称，相应的用户名和密码均需改正。
+<pre ><code class="language-default">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;c3p0-config&gt;
+&lt;default-config&gt;
+    &lt;property name="driverClass"&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+    &lt;property name="jdbcUrl"&gt;jdbc:mysql://localhost:3306/xxx?useSSL=true&lt;/property&gt;
+    &lt;property name="user"&gt;root&lt;/property&gt;
+    &lt;property name="password"&gt;123456&lt;/property&gt;
+    &lt;property name="initialPoolSize"&gt;5&lt;/property&gt;
+    &lt;property name="minPoolSize"&gt;2&lt;/property&gt;
+    &lt;property name="acquireIncrement"&gt;3&lt;/property&gt;
+    &lt;property name="maxPoolSize"&gt;10&lt;/property&gt;
+&lt;/default-config&gt;
+
+&lt;/c3p0-config&gt;
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

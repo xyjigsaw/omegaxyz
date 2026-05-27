@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython画表格代码 · OmegaXYZ</title>
+  <meta name="description" content="wxPython是Python语言的一套优秀的GUI图形库。允许Python程序员很方便的创建完整的、功能键全的GUI用户界面。 wxPython是作为优秀的跨平台GUI库wxWidgets的Python封装和Python模块的方式提供给用户的。 利用wx.grid命令可以画出类似于Excel一样的表格。 grid.SetCellValu...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/10/wxpython-grid/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-10</div>
+        <h1>wxpython画表格代码</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">wxPython是Python语言的一套优秀的GUI图形库。允许Python程序员很方便的创建完整的、功能键全的GUI用户界面。 wxPython是作为优秀的跨平台GUI库wxWidgets的Python封装和Python模块的方式提供给用户的。
+
+利用wx.grid命令可以画出类似于Excel一样的表格。
+
+grid.SetCellValue用来个表格中的元素赋值。
+<pre ><code class="language-python">import wx
+import wx.grid
+
+
+class GridFrame(wx.Frame):
+    def __init__(self, parent):
+        wx.Frame.__init__(self, parent)
+
+        # Create a wxGrid object
+        grid = wx.grid.Grid(self, -1)
+
+        # Then we call CreateGrid to set the dimensions of the grid
+        # (100 rows and 10 columns in this example)
+        grid.CreateGrid(100, 10)
+
+        # We can set the sizes of individual rows and columns
+        # in pixels
+        grid.SetRowSize(0, 60)
+        grid.SetColSize(0, 120)
+
+        # And set grid cell contents as strings
+        grid.SetCellValue(0, 0, 'wxGrid is good')
+
+        # We can specify that some cells are read.only
+        grid.SetCellValue(0, 3, 'This is read.only')
+        grid.SetReadOnly(0, 3)
+
+        # Colours can be specified for grid cell contents
+        grid.SetCellValue(3, 3, 'green on grey')
+        grid.SetCellTextColour(3, 3, wx.GREEN)
+        grid.SetCellBackgroundColour(3, 3, wx.LIGHT_GREY)
+
+        # We can specify the some cells will store numeric
+        # values rather than strings. Here we set grid column 5
+        # to hold floating point values displayed with width of 6
+        # and precision of 2
+        grid.SetColFormatFloat(5, 6, 2)
+        grid.SetCellValue(0, 6, '3.1415')
+
+        self.Show()
+
+
+if __name__ == '__main__':
+
+    app = wx.App(0)
+    frame = GridFrame(None)
+    app.MainLoop()</code></pre>
+<strong>效果：</strong>
+
+<img class="alignnone wp-image-5205" src="https://cdn.omegaxyz.com/2018/12/wxgrid.png" alt="" width="580" height="355" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

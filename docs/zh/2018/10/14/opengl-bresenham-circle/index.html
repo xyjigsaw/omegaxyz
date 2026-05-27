@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGL实现Bresenham画圆算法 · OmegaXYZ</title>
+  <meta name="description" content="中点Bresenham算法 Bresenham画圆算法又称中点画圆算法，与Bresenham 直线算法一样，其基本的方法是利用判别变量来判断选择最近的像素点，判别变量的数值仅仅用一些加、减和移位运算就可以计算出来。为了简便起见，考虑一个圆 心在坐标原点的圆，而且只计算八分圆周上的点，其余圆周上的点利用对称性就可得到。 为什么只计算八分圆周...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/10/14/opengl-bresenham-circle/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-14</div>
+        <h1>OpenGL实现Bresenham画圆算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cg/index.html">计算机图形学</a><a class="pill" href="../../../../tag/opengl/index.html">openGL</a></div>
+        <div class="article-content"><h2><strong>中点Bresenham算法</strong></h2>
+Bresenham画圆算法又称中点画圆算法，与Bresenham 直线算法一样，其基本的方法是利用判别变量来判断选择最近的像素点，判别变量的数值仅仅用一些加、减和移位运算就可以计算出来。为了简便起见，考虑一个圆 心在坐标原点的圆，而且只计算八分圆周上的点，其余圆周上的点利用对称性就可得到。
+
+为什么只计算八分圆周上的点就可以了呢？和上面的直线算法类似，圆也有一个“八对称性”，如下图所示。
+
+<img class="size-full wp-image-5078 aligncenter" src="https://cdn.omegaxyz.com/2018/10/CG_CIRCLE.png" alt="" width="434" height="352" />
+
+&nbsp;
+
+显然，我们只需要知道了圆上的一个点的坐标 (x, y) ，利用八对称性，我们马上就能得到另外七个对称点的坐标。
+
+和直线算法类似，Bresenham画圆算法也是用一系列离散的点来近似描述一个圆，如下图。
+
+<img class="size-full wp-image-5079 aligncenter" src="https://cdn.omegaxyz.com/2018/10/CG_CIRCLE2.png" alt="" width="410" height="176" />
+
+考虑圆心在原点，半径为R的圆在第一象限内的八分之一圆弧，从点（0, R）到点（R' , R' ）顺时针方向确定这段圆弧。假定某点P<sub>i</sub>(x<sub>i</sub>, y<sub>i</sub>)已经是该圆弧上最接近实际圆弧的点，那么Pi的下一个点只可能是正右方的P1或右下方的P2两者之一，如下图所示：
+<p align="center"><img class="alignnone size-full wp-image-5080" src="https://cdn.omegaxyz.com/2018/10/CG_CIRCLE3.gif" alt="" width="213" height="215" /></p>
+构造判别函数：
+<p style="text-align: center;"><em><strong>F(x, y）= x<sup>2 </sup>+ y<sup>2 </sup>– R<sup>2</sup></strong></em></p>
+当F(x, y）= 0，表示点在圆上，当F(x, y）&gt; 0，表示点在圆外，当F(x, y）&lt; 0，表示点在圆内。如果M是P<sub>1</sub>和P<sub>2</sub>的中点，则M的坐标是（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5），当F（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5）&lt; 0时，M点在圆内，说明P<sub>1</sub>点离实际圆弧更近，应该取P<sub>1</sub>作为圆的下一个点。同理分析，当F（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5）&gt; 0时，P<sub>2</sub>离实际圆弧更近，应取P<sub>2</sub>作为下一个点。当F（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5）= 0时，P<sub>1</sub>和P<sub>2</sub>都可以作为圆的下一个点，算法约定取P<sub>2</sub>作为下一个点。
+
+现在将M点坐标（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5）带入判别函数F(x, y），得到判别式d：
+<p style="text-align: center;"><em><strong>d = F（x<sub>i</sub> + 1, y<sub>i</sub> – 0.5）= (x<sub>i</sub> + 1)<sup>2</sup> + (y<sub>i</sub> – 0.5)<sup>2</sup> – R<sup>2</sup></strong></em></p>
+若d &lt; 0，则取P<sub>1</sub>为下一个点，此时P<sub>1</sub>的下一个点的判别式为：
+<p style="text-align: center;"><em><strong>d’ = F（x<sub>i</sub> + 2, y<sub>i</sub> – 0.5）= (x<sub>i</sub> + 2)<sup>2</sup> + (y<sub>i</sub> – 0.5)<sup>2</sup> – R<sup>2</sup></strong></em></p>
+展开后将d带入可得到判别式的递推关系：
+<p style="text-align: center;"><em><strong>d’ = d + 2x<sub>i</sub> + 3</strong></em></p>
+若d &gt; 0，则取P<sub>2</sub>为下一个点，此时P<sub>2</sub>的下一个点的判别式为：
+<p style="text-align: center;"><em><strong>d’ = F（x<sub>i</sub> + 2, y<sub>i</sub> – 1.5）= (x<sub>i</sub> + 2)<sup>2</sup> + (y<sub>i</sub> – 1.5)<sup>2</sup> – R<sup>2</sup></strong></em></p>
+展开后将d带入可得到判别式的递推关系：
+<p style="text-align: center;"><em><strong>d’ = d + 2(x<sub>i</sub> - y<sub>i</sub>) + 5</strong></em></p>
+特别的，在第一个象限的第一个点（0, R）时，可以推倒出判别式d的初始值d<sub>0</sub>：
+<p style="text-align: center;"><em><strong>d<sub>0</sub> = F(1, R – 0.5) = 1 – (R – 0.5)<sup>2</sup> – R<sup>2</sup> = 1.25 - R</strong></em></p>
+
+<h2><strong>改进的中点Bresenham算法</strong></h2>
+中点画圆法中，计算判别式d使用了浮点运算，影响了圆的生成效率。如果能将判别式规约到整数运算，则可以简化计算，提高效率。于是人们针对中点画圆法进行了多种改进，其中一种方式是将d的初始值由<strong>1.25 – R</strong>改成<strong>1 – R</strong>，考虑到圆的半径R总是大于2，因此这个修改不会影响d的初始值的符号，同时可以避免浮点运算。
+<h2><strong>代码</strong></h2>
+(未改进)
+<pre ><code class="language-c++">// Bresenham_circile.cpp : 定义控制台应用程序的入口点。
+#include&lt;stdlib.h&gt;
+#include &lt;GL/glut.h&gt;
+
+/* initialization: */
+void myinit(void)
+{
+
+	/* attributes */
+
+	glClearColor(1.0, 1.0, 1.0, 0.0); /* white background */
+	glColor3f(1.0, 0.0, 0.0); /* draw in red */
+
+	/* set up viewing: */
+	/* 500 x 500 window with origin lower left */
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 500.0, 0.0, 500.0);
+	glMatrixMode(GL_MODELVIEW);
+}
+void  plot_circle_points(int xc, int yc, int x, int y)
+{
+	glBegin(GL_POINTS);
+	glVertex3f(xc + x, yc + y, 0);
+	glVertex3f(xc - x, yc + y, 0);
+	glVertex3f(xc + x, yc - y, 0);
+	glVertex3f(xc - x, yc - y, 0);
+	glVertex3f(xc + y, yc + x, 0);
+	glVertex3f(xc - y, yc + x, 0);
+	glVertex3f(xc + y, yc - x, 0);
+	glVertex3f(xc - y, yc - x, 0);
+	glEnd();
+}
+void drawcircle(int xc, int yc, int radius)
+{
+	int x, y, p;
+	x = 0;
+	y = radius;
+	p = 3 - 2 * radius;
+	glClear(GL_COLOR_BUFFER_BIT);
+	glBegin(GL_POINTS);
+	while (x&lt;y)
+	{
+		plot_circle_points(xc, yc, x, y);
+		if (p&lt;0)
+			p = p + 4 * x + 6;
+		else
+		{
+			p = p + 4 * (x - y) + 10;
+			y -= 1;
+		}
+		x += 1;
+	}
+	if (x == y)
+		plot_circle_points(xc, yc, x, y);
+}
+
+
+/* the display callback: */
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);  /*clear the window */
+
+	/*----------------------------------------*/
+	/*  viewport stuff                        */
+	/*----------------------------------------*/
+	/* set up a viewport in the screen window */
+	/* args to glViewport are left, bottom, width, height */
+	glViewport(0, 0, 500, 500);
+	/* NB: default viewport has same coords as in myinit, */
+	/* so this could be omitted: */
+
+
+	drawcircle(200, 200, 100);
+
+	/* and flush that buffer to the screen */
+	glFlush();
+}
+
+int main(int argc, char** argv)
+{
+
+	/* Standard GLUT initialization */
+
+	glutInit(&amp;argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); /* default, not needed */
+	glutInitWindowSize(500, 500); /* 500 x 500 pixel window */
+	glutInitWindowPosition(0, 0); /* place window top left on display */
+	glutCreateWindow("Bresenham  circile"); /* window title */
+	glutDisplayFunc(display); /* display callback invoked when window opened */
+	myinit(); /* set attributes */
+	glutMainLoop(); /* enter event loop */
+}</code></pre>
+<h2><img class="alignnone size-full wp-image-5081" src="https://cdn.omegaxyz.com/2018/10/CG_CIRCLE4.png" alt="" width="482" height="527" /></h2>
+<h2><strong>参考资料</strong></h2>
+<a href="https://blog.csdn.net/zhouzhouzf/article/details/39183265">https://blog.csdn.net/zhouzhouzf/article/details/39183265</a>
+
+<a href="https://blog.csdn.net/MMogega/article/details/53055625">https://blog.csdn.net/MMogega/article/details/53055625</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

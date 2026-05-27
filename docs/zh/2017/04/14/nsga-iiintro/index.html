@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSGA-II多目标遗传算法概述 · OmegaXYZ</title>
+  <meta name="description" content="什么是NSGA-II Non dominated sorting genetic algorithm -II NSGA-Ⅱ是目前最流行的多目标遗传算法之一，它降低了非劣排序遗传算法的复杂性，具有运行速度快，解集的收敛性好的优点，成为其他多目标优化算法性能的基准。 NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/14/nsga-iiintro/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-14</div>
+        <h1>NSGA-II多目标遗传算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
+        <div class="article-content">什么是NSGA-II
+
+Non dominated sorting genetic algorithm -II
+NSGA-Ⅱ是目前最流行的多目标遗传算法之一，它降低了非劣排序遗传算法的复杂性，具有运行速度快，解集的收敛性好的优点，成为其他多目标优化算法性能的基准。
+NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对如上所述的三个方面：
+①提出了快速非支配排序算法，一方面降低了计算的复杂度，另一方面它将父代种群跟子代种群进行合并，使得下一代的种群从双倍的空间中进行选取，从而保留了最为优秀的所有个体；
+②引进精英策略，保证某些优良的种群个体在进化过程中不会被丢弃，从而提高了优化结果的精度；
+③采用拥挤度和拥挤度比较算子，不但克服了NSGA中需要人为指定共享参数的缺陷，而且将其作为种群中个体间的比较标准，使得准Pareto域中的个体能均匀地扩展到整个Pareto域，保证了种群的多样性。
+
+算法目的:针对当前M个个体，选取N个个体(M&gt;N)。
+NSGA-II关键算法（步骤）
+1.先对M个个体求pareto解。然后得到F1，F2……等这些pareto的集合。
+2.把F1的所有个体全部放入N，若N没满，继续放F2，直到有Fk不能全部放入已经放入F1、F2、…、F(k-1)的N（空间）。此时对Fk进行求解。
+3.对于Fk中的个体，求出Fk中的每个个体的拥挤距离Lk[i](crowding distance)，在fk中按照Lk[i]递减排序，放入N中，直到N满。
+
+NSGA-II关键子程序算法
+1. 快速非支配排序算法
+多目标优化问题的关键在于求取Pareto最优解集。NSGA-II快速非支配排序是依据个体的非劣解水平对种群M进行分层得到Fi，作用是使得解靠近pareto最优解。这是一个循环的适应值分级过程，首先找出群体中的非支配解集，记为F1，将其所有个体赋予非支配序irank=1（其中irank是个体i的非支配序值），并从整个群体M中除去，然后继续找出余下群体中的非支配解集，记为F2，F2中的个体被赋予irank=2,如此进行下去，知道整个种群被分层，Fi层中的非支配序值相同。
+2.个体拥挤距离
+在同一层Fk中需要进行选择性排序，按照个体拥挤距离(crowding distance)大小排序。个体拥挤距离是Fk上与i相邻的个体i+1和i-1之间的距离，其计算步骤为：
+①对同层的个体距离初始化，令L[i]d=0（表示任意个体i的拥挤距离）。
+②对同层的个体按照第m个目标函数值升序排列。
+③对于处在排序边缘上的个体要给予其选择优势。
+④对于排序中间的个体，求拥挤距离：
+
+<img class="alignnone size-medium wp-image-354" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" alt="" width="300" height="25" />
+
+（其中：L[i+1]m为第i+1个体的第m目标函数值fmax，fmin分别为集合中第m目标函数的最大和最小值。）
+⑤对于不同的目标函数，重复②到④的步骤，得到个体i的拥挤距离L[i]d，有限选择拥挤距离较大的个体，可以是计算结果在目标空间均匀地分布，维持群体的多样性。
+3.精英策略选择算法
+保持父代中优良个体直接进入子代，防止Pareto最优解丢失。
+选择指标对父代Ci和子代Di合成的种群Ri进行优选，组成新父代Ci+1.
+先淘汰父代中方案检验标志不可行的方案，接着按照非支配序值irank从低到高将整层种群依次放入Ci+1，直到放入某一层Fk超过N的限制，最后，依据拥挤距离大小填充Ci+1直到种群数量为N。
+
+注释：
+多目标规划中，由于存在目标之间的冲突和无法比较的现象，一个解在某个目标上是最好的，在其他的目标上可能比较差。Pareto 在1986 年提出多目标的解不受支配解(Non-dominated set)的概念。其定义为：假设任何二解S1 及S2 对所有目标而言，S1均优于S2，则我们称S1 支配S2，若S1 的解没有被其他解所支配，则S1 称为非支配解（不受支配解），也称Pareto解。这些非支配解的集合即所谓的Pareto Front。所有坐落在Pareto front 中的所有解皆不受Pareto Front 之外的解（以及Pareto Front 曲线以内的其它解）所支配，因此这些非支配解较其他解而言拥有最少的目标冲突，可提供决策者一个较佳的选择空间。在某个非支配解的基础上改进任何目标函数的同时，必然会削弱至少一个其他目标函数。
+
+&nbsp;
+
+<em>原创文章非商业转载请注明出处，商业转载请联系。</em></div>
+        <section class="comments"><h2>评论 (22)</h2>
+        <div class="comment" id="comment-16978">
+          <strong>小小</strong>
+          <time>2019-05-17 12:27:22</time>
+          <div>如果问题有等式约束和不等式约束，写在哪里呀？如果想要写在自定义评价函数里面，怎么实现呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16980">
+          <strong>xyjisaw</strong>
+          <time>2019-05-17 12:39:39</time>
+          <div>应该写到环境选择中，也就是评价之前，可以直接拿一个函数进行约束。</div>
+        </div>
+        
+        <div class="comment" id="comment-17149">
+          <strong>刘影影</strong>
+          <time>2019-06-27 15:28:08</time>
+          <div>你好，在NSGA2中，不等式约束条件和等式约束条件只写在initialize variables 函数中，可以吗？后面产生的子代能保证也在此约束条件之内吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17152">
+          <strong>xyjisaw</strong>
+          <time>2019-06-27 23:36:15</time>
+          <div>可以呀</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17158">
+          <strong>彭超华</strong>
+          <time>2019-06-30 23:24:31</time>
+          <div>作者大大，能加一下您的QQ吗，刚刚入门的小白有两个问题想问您。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17163">
+          <strong>xyjisaw</strong>
+          <time>2019-07-02 19:39:25</time>
+          <div>你可以直接在留言板留言呀</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17217">
+          <strong>Anonymous</strong>
+          <time>2019-07-16 15:41:55</time>
+          <div>谢谢了啊，我再想想</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17469">
+          <strong>骁</strong>
+          <time>2019-09-05 00:04:45</time>
+          <div>博主您好，我实在不明白评价函数里g(x)代表什么意思，博主可以帮我简单实现 下面的多目标吗?万分感谢<br>min   f(1)=2*x(1)+5*x(2);<br>          f(2)=4*x(1)+x(2);<br> s.t   -x(1)-x(2)&amp;lt;=-7;<br>        0&amp;lt;=x(1)&amp;lt;=5;<br>        0&amp;lt;=x(2)&amp;lt;=6;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17497">
+          <strong>xyjisaw</strong>
+          <time>2019-09-05 08:32:46</time>
+          <div>评价函数与算法没有关系，是自己设置的，本质上是两个目标。</div>
+        </div>
+        
+        <div class="comment" id="comment-17755">
+          <strong>宁</strong>
+          <time>2019-09-20 16:09:14</time>
+          <div>博主您好，要解决的问题中，变量是变化的但有时遇到某些条件会设置为0，那这个属于等式约束嘛，还是将这个变量的变化放在目标函数当中呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17777">
+          <strong>xyjisaw</strong>
+          <time>2019-09-23 15:03:57</time>
+          <div>都可以</div>
+        </div>
+        
+        <div class="comment" id="comment-17791">
+          <strong>Anonymous</strong>
+          <time>2019-09-24 10:43:55</time>
+          <div>博主，目标函数有约束怎么办，目标函数y给个范围，要在范围里求，那这个范围怎么加进去，谢谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17796">
+          <strong>xyjisaw</strong>
+          <time>2019-09-24 15:26:55</time>
+          <div>建议上谷歌学术或者知网查看带约束的进化多目标算法。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18083">
+          <strong>蜻</strong>
+          <time>2019-10-17 17:30:20</time>
+          <div>你好 请问你做出来了吗 我也在学习这个方法  ，如果能够指点一下的话，万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18172">
+          <strong>Anonymous</strong>
+          <time>2019-11-07 17:24:52</time>
+          <div>你好，你的问题解决了吗？能不能加我qq1339230417向你请教一下</div>
+        </div>
+        
+        <div class="comment" id="comment-19243">
+          <strong>李志</strong>
+          <time>2020-07-28 21:57:15</time>
+          <div>您好，我在做一些关于映射的问题，变量是映射结果，可以表示为[0,1,0,3,4,5,0,2]，通过这个结果可以求出两个函数值。我现在虽然有交叉变异，但是迭代到后边，每次留下的映射结果有好多重复的结果，并且算出来的拥挤度好多是INF或者0，不知道该怎么解决，希望大佬可以指点一二，非常感谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19245">
+          <strong>xyjisaw</strong>
+          <time>2020-07-29 11:03:15</time>
+          <div>重复结果说明已经收敛了或者陷入了局部最优，出现拥挤度INF是正常的。建议提高变异概率，或者换一个演化计算的方法，NSGA2也是有局限性的。</div>
+        </div>
+        
+        <div class="comment" id="comment-19328">
+          <strong>张丹丹</strong>
+          <time>2020-08-19 10:53:56</time>
+          <div>你好，请问在源代码中加约束的问题您这边解决了吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19329">
+          <strong>张丹丹</strong>
+          <time>2020-08-19 10:55:10</time>
+          <div>你好，请问在源代码中添加约束的算法您这边实现了吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19332">
+          <strong>xyjisaw</strong>
+          <time>2020-08-19 14:14:00</time>
+          <div>源代码中我没加约束呢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19549">
+          <strong>李</strong>
+          <time>2020-10-21 21:47:03</time>
+          <div>你好，这是我的qq，方便加一下讨论一下吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19556">
+          <strong>xyjisaw</strong>
+          <time>2020-10-22 23:53:08</time>
+          <div>抱歉，现在不做这个方向了。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

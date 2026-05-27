@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of convolutional neural network CNN (black and white image convolution) · OmegaXYZ</title>
+  <meta name="description" content="1. Boundary detection Objects detected in images can have vertical edge and horizontal edge detection. The following is a 6*6 grayscale image, construct a 3*3 matrix, usually called filter in a convolutional neural network, perform a convolution operation on this 6*6 image, take the -5 calculation in the upper left corner as an example 3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5 The rest can be deduced in the same way, let the filter gradually slide on the image, and the entire...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/02/cnn1/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-02</div>
+        <h1>Overview of convolutional neural network CNN (black and white image convolution)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/cnn/index.html">CNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><h2><strong>1. Boundary detection</strong></h2>Detecting objects in images can have vertical edge and horizontal edge detection.<img alt="" class="alignnone size-full wp-image-4462" height="219" src="https://cdn.omegaxyz.com/2018/06/Gedge.jpg" width="345"/>The following is a 6*6 grayscale image. Construct a 3*3 matrix, which is usually called filter in a convolutional neural network. Perform a convolution operation on this 6*6 image. Take the -5 calculation in the upper left corner as an example.<strong>3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5</strong>The rest can be deduced by analogy, let the filter slide gradually on the image, and perform convolution calculation on the entire image to obtain a 4*4 image.<img class="alignnone wp-image-4449" height="706" src="https://cdn.omegaxyz.com/2018/06/image-2.jpg" width="1696"/>Why can this convolution calculation get the edge of the image? In the figure below, 0 represents the dark area of ​​the image, and 10 represents the brighter area of ​​the image. We also use a 3*3 filter to convolve the image. The resulting image is bright in the middle and dark on both sides. The bright area corresponds to the edge of the image.<img class="alignnone wp-image-4450" height="858" src="https://cdn.omegaxyz.com/2018/06/image-3.jpg" width="1764"/>Through the following horizontal and vertical filters, image horizontal and vertical edge detection can be achieved.<img class="alignnone wp-image-4451" height="406" src="https://cdn.omegaxyz.com/2018/06/image-4.jpg" width="1656"/>The following lists some commonly used filters. There are also different arguments for different filters. In the convolutional neural network, these filters are regarded as the parameters we want to learn. The goal of convolutional neural network training is to understand the parameters of the filter.<img class="alignnone wp-image-4452" height="866" src="https://cdn.omegaxyz.com/2018/06/image-5.jpg" width="1812"/>
+<h2><strong>2. padding</strong></h2>In the previous part, a 6*6 image was convolved through a 3*3 filter, and a 4*4 image was obtained. Assuming that the output image size is n*n and the filter size is f*f, the output image size is
+
+(n−f+1)*(n−f+1)
+
+The disadvantage of this convolution operation is that the size of the convolution image will continue to shrink. In addition, the element in the upper left corner of the image is only used by one output, so the pixels at the edge of the image are used less in the output, which means that you lose a lot of information on the edge of the image. In order to solve these two problems, the padding operation is introduced, that is, before the image convolution operation, the image is padded with 0 along the edge of the image. For a 3*3 filter, when our padding width is 1, we can ensure that the output image is as large as the input image.<img class="alignnone wp-image-4453" height="990" src="https://cdn.omegaxyz.com/2018/06/image-6.jpg" width="1844"/>
+<strong>Two modes of padding:</strong>
+<strong>①Valid：no padding</strong>Input image n*n, filter f*f, the output image size is:
+
+(n−f+1)*(n−f+1)<strong>②Same: The output image is the same size as the input image</strong>
+<h2><strong>3. Convolution step size</strong></h2>The convolution step size refers to the distance the filter slides on the image. The first two parts of the step size default to 1. If the convolution step size is 2, the convolution operation process is:<img class="alignnone wp-image-4456" height="606" src="https://cdn.omegaxyz.com/2018/06/image-9.jpg" width="1512"/> <img class="alignnone wp-image-4457" height="604" src="https://cdn.omegaxyz.com/2018/06/image-10.jpg" width="1480"/> <img class="alignnone wp-image-4454" height="578" src="https://cdn.omegaxyz.com/2018/06/image-7.jpg" width="1498"/>The general calculation formula for the size of the convolution image after adding stride is:
+Input image: n*n, filter: f*f step size: s, padding: p
+The output image size is: ⌊(n+2p−fs+1))⌋∗⌊(n+2p−fs+1)⌋⌊(n+2p−fs+1))⌋∗⌊(n+2p−fs+1)⌋, ⌊⌋⌊⌋ means rounding down
+
+Taking the input image as 6*6, the filter as 3*3, the step size as 2, and the padding mode as valid as an example, the output image size is: ⌊(6+2*0−32+1)⌋*⌊6+2*0−32+1)⌋=3*3<strong>For color image convolution and single-layer neural network, please refer to:</strong>
+
+https://omegaxyz.com/2018/08/14/cnn2-rgb/
+
+<strong>Reprinted from:</strong><a href="https://blog.csdn.net/ice_actor/article/details/78648780">https://blog.csdn.net/ice_actor/article/details/78648780</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

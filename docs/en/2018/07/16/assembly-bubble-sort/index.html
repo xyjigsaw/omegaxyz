@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly language sorting algorithm · OmegaXYZ</title>
+  <meta name="description" content="Problem: Use variables to pass parameter keyboard input string into the buffer, sort the contents of the buffer in descending order and output (bubble sort) Process ① Input the string into the buffer through the keyboard ② Sort the string in descending order according to the ASCII code (subroutine) ③ Output the sorted string (subroutine) Difficulty Multi-loop implementation of the sorting algorithm Code results">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/16/assembly-bubble-sort/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-16</div>
+        <h1>Assembly language sorting algorithm</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content"><h2><strong>question</strong></h2>After using the variable to pass parameter keyboard input string into the buffer, sort the contents of the buffer in descending order and output (bubble sort)<h2><strong>process</strong></h2>①Input the string into the buffer through the keyboard
+② Sort strings in descending order according to ASCII code (subroutine)
+③Output the sorted strings (subroutine)<h2><strong>difficulty</strong></h2>Multiple loop implementation of sorting algorithm<h2><strong>code</strong></h2>
+<pre><code class="language-asm">;author XY
+
+;数据区
+Data segment
+;注意此处一定要按照顺序写
+buff db 16	;缓冲区大小
+numb db '?' ;输入的数量自动统计
+arry db 16 dup('?') ;缓冲区的内容一共16个字符
+Data ends
+;---------------------------
+
+Code segment
+assume cs:code,ds:data
+main proc far
+push ds
+sub ax,ax
+push ax
+mov ds,ax
+lea dx,buff
+mov ah,10 ;即0A键盘输入至缓冲区
+int 21h
+call order
+ret
+main endp
+;---------------------------
+
+order proc near
+mov cl,numb
+mov ch,0
+mov di,cx
+lp1:mov cx,di	;外循环由di控制
+	mov bx,0	;下标
+lp2:mov al,arry[bx]	;内循环由cx控制
+	cmp al,arry[bx+1]
+	jge cont
+	xchg al,arry[bx+1]
+	mov arry[bx],al
+cont:inc bx
+	 loop lp2
+	 dec di
+	 jnz lp1
+call output
+ret
+order endp
+;---------------------------
+output proc near
+mov bl,numb
+mov bh,0
+mov byte ptr[arry+bx],'$'
+mov dx,offset arry
+mov ah,9
+int 21h
+ret
+output endp
+Code ends
+end main
+</code></pre>
+<h2><strong>result</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4756" height="124" src="https://cdn.omegaxyz.com/2018/07/assemblysort.jpg" width="646"/>
+<img alt="" class="alignnone size-full wp-image-4757" height="128" src="https://cdn.omegaxyz.com/2018/07/assemblysort2.jpg" width="646"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

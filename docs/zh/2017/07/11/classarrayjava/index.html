@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA“类”数组的创建与调用 · OmegaXYZ</title>
+  <meta name="description" content="JAVA“类”数组的创建与调用和C++相比是不同的。 先看这样一个类数组的创建 注：bookFeature 是一个类 错误1： 这里在构造方法bookList()里定义了bookFeature[] List=new bookFeature[MAXSIZE]; 这样是不行的，JAVA要求对每个变量都要初始化，必须在 构造方法 里加上这样一行...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/11/classarrayjava/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-11</div>
+        <h1>JAVA“类”数组的创建与调用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content">JAVA“类”数组的创建与调用和C++相比是不同的。
+
+先看这样一个类数组的创建
+
+注：bookFeature 是一个类
+
+错误1：
+<pre ><code class="language-java">class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	public bookList(){
+		bookNum=0;
+		bookFeature[] List=new bookFeature[MAXSIZE];
+		}
+	}</code></pre>
+这里在构造方法bookList()里定义了bookFeature[] List=new bookFeature[MAXSIZE];
+
+这样是不行的，JAVA要求对每个变量都要初始化，必须在<strong>构造方法</strong>里加上这样一行代码：
+<pre ><code class="language-java">for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();</code></pre>
+这样是否就行了呢？接下来看错误2
+
+错误2：
+<pre ><code class="language-java">class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List;
+	public bookList(){
+		bookNum=0;
+		bookFeature[] List=new bookFeature[MAXSIZE];
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}</code></pre>
+这里先定义了  bookFeature[] List;再在构造方法，这样也是不行的，这里数组变量必须放在对象中。
+
+两种错误都会报错   java.lang.NullPointerException
+
+<img class="alignnone  wp-image-1396" src="https://cdn.omegaxyz.com/2017/07/classarray1-300x84.png" alt="" width="718" height="201" />
+
+<strong>记住数组在JAVA中是对象！！！</strong>
+
+下面给出正确的类数组的声明
+<pre ><code class="language-java">import java.util.*;
+class bookList {
+	private int bookNum=0;
+	final int MAXSIZE=1001;
+	bookFeature[] List=new bookFeature[MAXSIZE];
+	public bookList(){
+		bookNum=0;
+		for(int i=0;i&lt;MAXSIZE;i++){
+			List[i]=new bookFeature();
+		}
+	}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

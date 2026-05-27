@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorBoard显示TensorFlow流程图 · OmegaXYZ</title>
+  <meta name="description" content="TensorFlow 涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。 为了更方便 TensorFlow 程序的理解、调试与优化，Google发布了一套叫做 TensorBoard 的可视化工具。你可以用 TensorBoard 来展现你的 TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。 如...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/27/tensorboard_tensorflow/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-27</div>
+        <h1>TensorBoard显示TensorFlow流程图</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content">TensorFlow 涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。
+
+为了更方便 TensorFlow 程序的理解、调试与优化，Google发布了一套叫做 TensorBoard 的可视化工具。你可以用 TensorBoard 来展现你的 TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。
+
+<strong>如何显示？</strong>
+
+①在整个代码后面加上这样一行代码：
+<pre ><code class="language-python">writer = tf.summary.FileWriter("test", sess.graph)</code></pre>
+注意“test”是文件名字及位置，这里以名字作为位置，即代码的根目录。
+
+②打开代码的根目录文件夹（即代码保存的地方）打开cmd（或者powershell）
+③输入这样的语句：
+
+<strong>tensorboard --logdir=test</strong>
+
+注意test是上面定义的位置。
+
+<img class="alignnone size-full wp-image-4142" src="https://cdn.omegaxyz.com/2018/04/tensorboardtest.jpg" alt="" width="984" height="171" />
+
+等一会会显示一个本地网址，复制到浏览器输入即可。
+
+下面就是一个TensorFlow的流程图
+
+<img class="alignnone size-full wp-image-4143" src="https://cdn.omegaxyz.com/2018/04/tensorboardtest2.jpg" alt="" width="1872" height="854" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

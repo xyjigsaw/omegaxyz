@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>粒子群优化（PSO）算法概述 · OmegaXYZ</title>
+  <meta name="description" content="PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 Kennedy和Eberhart提出粒子群算法的主要设计思想与两个方面的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/04/introductionofpso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-04</div>
+        <h1>粒子群优化（PSO）算法概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a></div>
+        <div class="article-content">PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法）
+粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。
+Kennedy和Eberhart提出粒子群算法的主要设计思想与两个方面的研究密切相关：
+<strong>一是进化算法</strong>，粒子群算法和进化算法一样采用种群的方式进行搜索，这使得它可以同时搜索待优化目标函数解空间中的较多区域。
+<strong>二是人工生命</strong>，即研究具有生命特征的人工系统，它采用的主要工具是计算机，主要方法是利用计算机编程模拟。
+Millonas在用人工生命理论来研究群居动物的行为时，对于如何采用计算机构建具有合作行为的群集人工生命系统，提出了五条基本原则：
+（1）邻近原则（ProximityPrinciple）：群体应该能够执行简单的空间和时间运算。
+（2）质量原则（Quality Principle）：群体应该能感受到周围环境中质量因素的变化，并对其产生响应。
+（3）反应多样性原则（Principle ofDiverse Response）：群体不应将自己获取资源的途径限制在狭窄的范围之内。
+（4）稳定性原则（Principle ofStability）：群体不应随着环境的每一次变化而改变自己的行为模式。
+（5）适应性原则（Principle ofAdaptability）：当改变行为模式带来的回报是值得的时候，群体应该改变其行为模式。
+其中4、5两条原则是同一个问题的两面。微粒群系统满足以上五条原则。
+近十余年来，针对粒子群算法展开的研究很多，前国内外已有多人从多个方面对微粒群算法进行过综述；并出现了多本关于粒子群算法的专著和以粒子群算法为主要研究内容的博士论文。
+
+<strong>与多目标的关系</strong>
+在多目标优化问题中，每个目标函数可以分别独立进行优化，然后为每个目标找到最优值。但是，很少能找到对所有目标都是最优的完美解，因为目标之间经常是互相冲突的，只能找到Pareto最优解。
+PSO算法中的信息共享机制与其他基于种群的优化工具有很大的不同。在遗传算法（GA）中，染色体通过交叉互相交换信息，是一种双向信息共享机制。但是在PSO算法中，只有gBest（或nBest）给其他微粒提供信息，是一种单向信息共享机制。由于点吸引特性，传统的PSO算法不能同时定位构成Pareto前锋的多个最优点。虽然通过对所有目标函数赋予不同的权重将其组合起来并进行多次运行，可以获得多个最优解，但是还是希望有方法能够一次同时找到一组Pareto最优解。
+在PSO算法中，一个微粒是一个独立的智能体，基于其自身和同伴的经验来搜索问题空间。前者为微粒更新公式中的认知部分，后者为社会部分，这二者在引导微粒的搜索方面都有关键的作用。因此，选择适当的社会和认知引导者（gBest和pBest）就是MO-PSO算法的关键点。认知引导者的选择和传统PSO算法应遵循相同的规则，唯一的区别在于引导者应按照Pareto支配性来确定。社会引导者的选择包括两个步骤。第一步是建立一个从中选取引导者的候选池。在传统PSO算法中，引导者从邻居的pBest之中选取。而在MO-PSO算法中更常用的方法是使用一个外部池来存储更多的Pareto最优解。第二步就是选择引导者。gBest的选择应满足如下两个标准：首先，它应该能为微粒提供有效的引导来获得更好的收敛速度；第二，它还需要沿Pareo前锋来提供平衡的搜索，以维持种群的多样性。文献中通常使用两种典型的方法：（1）轮盘选择模式，该方式按照某种标准进行随机选择，其目的是维持种群的多样性；（2）数量标准：按照某种不涉及随机选择的过程来确定社会引导者。
+Moore最早研究了PSO算法在多目标优化中的应用，强调了个体和群体搜索二者的重要性，但是没有采用任何维持多样性的方法。Coello在非劣最优概念的基础上应用了一个外部“容器”来记录已找到的非支配向量，并用这些解来指导其它微粒的飞行。Fieldsend采用一种称为支配树的数据结构来对最优微粒进行排序。Parsopoulos应用了权重聚合的方法。Hu应用了动态邻域，并在此基础上利用扩展记忆，按词典顺序依次优化各个目标。Ray使用聚集机制来维持多样性，并用一个多水平筛来处理约束。Lu使用了动态种群策略。Bartz-Beielstein采用归档技术来提高算法性能。Li在PSO算法中采用NSGA-II算法中的主要机制，在局部最优微粒及其后代微粒之间确定局部最优微粒；并此基础上又提出一种新的算法，在适应值函数中使用最大最小策略来确定Pareto支配性。张利彪使用多个目标函数下各最优位置的均值来指导微粒飞行。Pulido使用多个子种群并采用聚类技术来求解多目标规划问题。Mahfouf采用加权聚合方法来计算微粒的适应值，并据此确定引导微粒的搜索。Salazar-Lechuga使用适应值共享技术来引导微粒的搜索。Gong提出微粒角度的概念，并使用最小微粒角度和微粒密度来确定局部最优和全局最优微粒。基于AER模型，Zhang提出一种新的智能PSO模型，来将种群驱向Pareto最优解集。Ho提出一种新的适应值分配机制，并使用寿命（Age）变量来保存和选择最优历史记录。Huang将CLPSO算法应用到多目标规划中。Ho提出另一种基于Pareto的与尺度无关的适应值函数，并使用一种基于正交试验设计的智能运动机制（IMM）来确定微粒的下一步运动。Branke系统研究了多种个体最优微粒的选择方法对MOPSO算法性能的影响。张勇考虑储备集更新策略在多目标PSO算法中的关键作用，提出一种两阶段储备集更新策略。
+原萍提出一种分布式PSO算法—分割域多目标PSO算法（DRMPSO），并将其应用到基站优化问题。向量评价PSO算法（VEPSO）是一种受向量评价遗传算法（VEGA）的启发提出的一种算法，在VEPSO算法中，每个种群仅使用多个目标函数之一来进行评价，同时各种群之间互相交互经验。将每个种群分配到一台网络PC上，即可直接使VEPSO算法并行化，以加速收敛。Vlachogiannis应用并行VEPSO算法来确定发电机对输电系统的贡献。熊盛武利用PSO算法的信息传递机制，在PSO算法中引入多目标演化算法常用的归档技术，并采用环境选择和配对选择策略，使得整个群体在保持适当的选择压力的情况下收敛于Pareto最优解集。
+由于适应值的计算非常消耗计算资源，为了减少计算量，需要减少适应值评价的次数。Reyes-Sierra采用适应值继承和估计技术来实现该目标，并比较了十五种适应值继承技术和四种估计技术应用于多目标PSO算法时的效果。
+保持MOPSO中的多样性的方法主要有两种：sigma方法和ε-支配方法。Villalobos-Arias在目标函数空间中引入条块划分来形成聚类，从而保持多样性。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

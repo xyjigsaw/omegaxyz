@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAT乙级1002写出这个数 · OmegaXYZ</title>
+  <meta name="description" content="读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。 输入格式： 每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10 100 。 输出格式： 在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。 输入样例： 123456789098765432112345678...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/07/22/patbasic1002/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-07-22</div>
+        <h1>PAT乙级1002写出这个数</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content">读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+
+<b>输入格式：</b>每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10<sup>100</sup>。
+
+<b>输出格式：</b>在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+
+<b>输入样例：</b>
+
+1234567890987654321123456789
+
+<b>输出样例：</b>
+
+yi san wu
+
+代码：
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+using namespace std;
+
+void print_n(int n,int a){
+    switch(n){
+        case 0:cout&lt;&lt;"ling";break;
+        case 1:cout&lt;&lt;"yi";break;
+        case 2:cout&lt;&lt;"er";break;
+        case 3:cout&lt;&lt;"san";break;
+        case 4:cout&lt;&lt;"si";break;
+        case 5:cout&lt;&lt;"wu";break;
+        case 6:cout&lt;&lt;"liu";break;
+        case 7:cout&lt;&lt;"qi";break;
+        case 8:cout&lt;&lt;"ba";break;
+        case 9:cout&lt;&lt;"jiu";break;
+        }
+    if(a!=0)
+        cout&lt;&lt;" ";
+}
+
+void pinyin(char *sum){
+    int len=strlen(sum);
+    int n=0,flag=0;
+    for(int i=len-1;i&gt;=0;i--){
+        n=sum[i]-'0';
+        print_n(n,i);
+    }
+}
+
+int main(){
+    char bigNum[101];
+    while(scanf("%s",bigNum)!=EOF){
+        int sum1=0,sum2=0,mod=0,flag=0;
+        for(int i=0;i&lt;strlen(bigNum);i++){
+            sum1+=bigNum[i]-'0';
+        }
+        sum2=sum1;
+        char sum_storage[5]={'\0'};
+        while(sum2&gt;0){
+            mod=sum2%10;
+            sum2/=10;
+            sum_storage[flag]=mod+'0';
+            flag++;
+        }
+        pinyin(sum_storage);
+    }
+}</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

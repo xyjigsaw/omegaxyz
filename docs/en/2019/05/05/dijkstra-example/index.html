@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selected Lectures on Dijkstra Algorithm Examples 1 · OmegaXYZ</title>
+  <meta name="description" content="Introduction Dijkstra&#x27;s algorithm is a typical single-source shortest path algorithm, used to calculate the shortest path from one node to all other nodes. The main feature is that it expands outward layer by layer from the starting point until it reaches the end point. Dijkstra&#x27;s algorithm is a very representative shortest path algorithm and is introduced in detail as a basic content in many professional courses, such as data structure, graph theory, operations research, etc. Note that this algorithm requires that there are no negative weight edges in the graph. Problem description: In the undirected graph G=(V,E...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/05/dijkstra-example/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-05</div>
+        <h1>Selected Lectures on Dijkstra Algorithm Examples 1</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>Dijkstra's algorithm is a typical single-source shortest path algorithm, used to calculate the shortest path from one node to all other nodes. The main feature is that it expands outward layer by layer from the starting point until it reaches the end point. Dijkstra's algorithm is a very representative shortest path algorithm and is introduced in detail as a basic content in many professional courses, such as data structure, graph theory, operations research, etc. Note that this algorithm requires that there are no negative weight edges in the graph.
+Problem description: In the undirected graph G=(V,E), assuming that the length of each edge E[i] is w[i], find the shortest path from the vertex V0 to the remaining points. (single source shortest path).<h2><strong>template</strong></h2>
+https://omegaxyz.com/2019/02/21/dijkstra_cpp_more/?hilite=%27Dijkstra%27
+<h2><strong>PAT 1003 Emergency (25 points)</strong></h2>
+As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.
+<h3 id="input-specification-">Input Specification:</h3>
+Each input file contains one test case. For each test case, the first line contains 4 positive integers: <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> (<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">5</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>) - the number of cities (and the cities are numbered from 0 to <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span>), <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> - the number of roads, <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">1</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> and <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">2</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> - the cities that you are currently in and that you must save, respectively. The next line contains <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> integers, where the <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">i</span></span></span></span>-th integer is the number of rescue teams in the <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">i</span></span></span></span>-th city. Then <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> lines follow, each describes a road with three integers <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">c</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">1</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>, <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">c</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">2</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> and <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">L</span></span></span></span>, which are the pair of cities connected by a road and the length of that road, respectively. It is guaranteed that there exists at least one path from <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">1</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> to <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">2</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>.
+<h3 id="output-specification-">Output Specification:</h3>
+For each test case, print in one line two numbers: the number of different shortest paths between <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">1</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span> and <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">C</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathrm mtight">2</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>, and the maximum amount of rescue teams you can possibly gather. All the numbers in a line must be separated by exactly one space, and there is no extra space allowed at the end of a line.
+<h3 id="sample-input-">Sample Input:</h3>
+<pre><code class="lang-in">5 6 0 2
+1 2 1 5 3
+0 1 1
+0 2 2
+0 3 1
+1 2 1
+2 4 1
+3 4 1
+</code></pre>
+<h3 id="sample-output-">Sample Output:</h3>
+<pre class=""><code class="lang-out">2 4</code></pre>
+<strong>C++ code:</strong>
+<pre><code class="language-c++">#include &lt;iostream&gt; 
+#include &lt;algorithm&gt; 
+using namespace std; 
+int n, m, c1, c2;
+
+int e[510][510], weight[510], dis[510], num[510], w[510];
+//e为边到边的距离，weight每个节点的权重，dis出发点到i的距离，
+//num表示从出发点到i的最短路径条数，w代表出发点到i的点权之和
+bool visit[510];
+const int inf = 0x7fffffff;
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;c1&gt;&gt;c2;
+    for(int i = 0; i &lt; n; i++){
+        cin&gt;&gt;weight[i];
+    }
+    fill(e[0], e[0] + 510*510, inf);
+    fill(dis, dis + 510, inf);
+    int a, b, c;
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+        e[a][b] = e[b][a] = c;
+    }
+    dis[c1] = 0;
+    w[c1] = weight[c1];
+    num[c1] = 1;
+    for(int i = 0; i &lt; n; i++){
+        int u = -1, minn = inf;
+        for(int j = 0; j &lt; n; j++){
+            if(visit[j] == false &amp;&amp; dis[j] &lt; minn){
+                u = j;
+                minn = dis[j];
+            }
+        }//找到到出发点最短的距离
+        if(u == -1)break;
+        visit[u] = true;
+        for(int v = 0; v &lt; n; v++){
+            if(visit[v] == false &amp;&amp; e[u][v] != inf){
+                if(dis[u] + e[u][v] &lt; dis[v]){
+                    dis[v] = dis[u] + e[u][v];
+                    num[v] = num[u];
+                    w[v] = w[u] + weight[v];
+                }else if(dis[u] + e[u][v] == dis[v]){
+                    num[v] = num[v] + num[u];
+                    if(w[u] + weight[v] &gt; w[v])
+                        w[v] = w[u] + weight[v];
+                }
+            }
+        }
+    }
+    cout&lt;&lt;num[c2]&lt;&lt;" "&lt;&lt;w[c2]&lt;&lt;endl;
+    return 0;
+}</code></pre>
+<h2><strong>PAT 1030 Travel Plan (30 points)</strong></h2>
+A traveler's map gives the distances between cities along the highways, together with the cost of each highway. Now you are supposed to write a program to help a traveler to decide the shortest path between his/her starting city and the destination. If such a shortest path is not unique, you are supposed to output the one with the minimum cost, which is guaranteed to be unique.
+<h3 id="input-specification-">Input Specification:</h3>
+Each input file contains one test case. Each case starts with a line containing 4 positive integers <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span>, <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span>, <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">S</span></span></span></span>, and <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">D</span></span></span></span>, where <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> (<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">5</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>) is the number of cities (and hence the cities are numbered from 0 to <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">N</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span>); <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> is the number of highways; <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">S</span></span></span></span> and <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">D</span></span></span></span> are the starting and the destination cities, respectively. Then <span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mord mathit">M</span></span></span></span> lines follow, each provides the information of a highway, in the format:
+<pre><code>City1 City2 Distance Cost
+</code></pre>
+where the numbers are all integers no more than 500, and are separated by a space.
+<h3 id="output-specification-">Output Specification:</h3>
+For each test case, print in one line the cities along the shortest path from the starting point to the destination, followed by the total distance and the total cost of the path. The numbers must be separated by a space and there must be no extra space at the end of output.
+<h3 id="sample-input-">Sample Input:</h3>
+<pre><code class="lang-in">4 5 0 3
+0 1 1 20
+1 3 2 30
+0 3 4 10
+0 2 2 20
+2 3 1 20
+</code></pre>
+<h3 id="sample-output-">Sample Output:</h3>
+<pre class=""><code class="lang-out">0 2 3 3 40</code></pre>
+<strong>C++ code:</strong>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#define _MAX 510
+using namespace std;
+
+int e[_MAX][_MAX], dis[_MAX], cost[_MAX][_MAX], discost[_MAX], next2[_MAX];
+bool visit[_MAX];
+const int inf = 0x7fffffff;
+
+int main(){
+    int n, m, s, d;
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;s&gt;&gt;d;
+    int a, b, tdis, tcost;
+    fill(e[0], e[0]+_MAX*_MAX, inf);
+    fill(dis, dis+_MAX, inf);
+    for(int i = 0; i &lt; _MAX; i++){
+        next2[i] = i;
+    }
+    for(int i = 0 ; i &lt; m; i++){
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;tdis&gt;&gt;tcost;
+        e[a][b] = e[b][a] = tdis;
+        cost[a][b] = cost[b][a] = tcost;
+    }
+    dis[s] = 0;
+    discost[s] = 0;
+    for(int i = 0; i &lt; n; i++){
+        int u = -1, minn = inf;
+        for(int j = 0; j &lt; n; j++){
+            if(!visit[j] &amp;&amp; dis[j] &lt; minn){
+                u = j;
+                minn = dis[j];
+            }
+        }
+        if(u == -1)break;
+        visit[u] = true;
+        for(int v = 0; v &lt; n; v++){
+            if(!visit[v] &amp;&amp; e[u][v] &lt; inf){
+                if(dis[u] + e[u][v] &lt; dis[v]){
+                    dis[v] = dis[u] + e[u][v];
+                    discost[v] = discost[u] + cost[u][v];
+                    next2[u] = v;
+                }else if(dis[u] + e[u][v] == dis[v]){
+                    if(discost[u] + cost[u][v] &lt; discost[v]){
+                        discost[v] = discost[u] + cost[u][v];
+                        next2[u] = v;
+                    }
+                }
+            }
+        }
+    }
+
+    int i = s;
+    cout&lt;&lt;s&lt;&lt;" ";
+    while(next2[i] != d){
+        cout&lt;&lt;next2[i]&lt;&lt;" ";
+        i = next2[i];
+    }
+    cout&lt;&lt;d&lt;&lt;" ";
+    cout&lt;&lt;dis[d]&lt;&lt;" "&lt;&lt;discost[d]&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

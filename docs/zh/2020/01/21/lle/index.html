@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLE（Locally Linear Embedding）算法 · OmegaXYZ</title>
+  <meta name="description" content="Core idea LLE is inherently a non-linear dimensionality reduction strategy 即局部线性嵌入算法。该算法是针对非线性信号特征矢量维数的优化方法，这种维数优化并不是仅仅在数量上简单的约简，而是在保持原始数据性质不变的情况下，将高维空间的信号映射到低维空间上，即特征值的二...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/01/21/lle/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-21</div>
+        <h1>LLE（Locally Linear Embedding）算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><h2><strong>Core idea</strong></h2>
+LLE is inherently a non-linear dimensionality reduction strategy
+
+即局部线性嵌入算法。该算法是针对非线性信号特征矢量维数的优化方法，这种维数优化并不是仅仅在数量上简单的约简，而是在保持原始数据性质不变的情况下，将高维空间的信号映射到低维空间上，即特征值的二次提取。
+
+Charateristics: neighborhood-preserving
+<h2><strong>Steps</strong></h2>
+<ul>
+ 	<li>Select neighbors</li>
+ 	<li>Reconstruct with linear weights</li>
+ 	<li>Map to embedded coordinates</li>
+</ul>
+<img class="alignnone  wp-image-6326" src="https://cdn.omegaxyz.com/2020/01/LLE-steps.png" alt="" width="352" height="355" />
+<h3>
+<strong>Basic formulas</strong></h3>
+<img class="alignnone  wp-image-6324" src="https://cdn.omegaxyz.com/2020/01/LLE-detail1.png" alt="" width="514" height="321" />
+<h4><strong>How to translate this problem to eigenvalue solution</strong></h4>
+<img class="alignnone  wp-image-6325" src="https://cdn.omegaxyz.com/2020/01/LLE-detail2.png" alt="" width="512" height="240" />
+<h3><strong>Use a Lagrange multiplier</strong></h3>
+More details can be found on <a href="https://segmentfault.com/a/1190000016491406">https://segmentfault.com/a/1190000016491406</a>
+<h3><strong>Graph Embedding</strong></h3>
+<ul>
+ 	<li>寻找neighborhood：直接用Graph的邻接结构表示neighborhood</li>
+ 	<li>计算linear weights：直接用邻接矩阵W</li>
+ 	<li>生成embedding：计算矩阵M特征值，当节点数为n，embedding为q维时，取[n-q, n-1]的特征向量为embedding结果</li>
+</ul>
+<h2><strong>Code</strong></h2>
+<strong>simple_code:</strong>
+<pre ><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets, manifold
+from mpl_toolkits.mplot3d import Axes3D
+
+swiss_roll = datasets.make_swiss_roll(n_samples=1000)
+X = swiss_roll[0]
+Y = np.floor(swiss_roll[1])
+d = 3
+k = 999
+
+fig_original = plt.figure('swiss_roll')
+ax = Axes3D(fig_original)
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], marker='o', c=Y)
+
+LLE = manifold.LocallyLinearEmbedding(n_components=d, n_neighbors=k, eigen_solver='auto')
+X_r = LLE.fit_transform(X)
+fig = plt.figure('LLE')
+ax = Axes3D(fig)
+ax.scatter(X_r[:, 0], X_r[:, 1], marker='o', c=Y, alpha=0.5)
+ax.set_title("k = %d" % k)
+
+plt.xticks(fontsize=10, color='darkorange')
+plt.yticks(fontsize=10, color='darkorange')
+plt.show()
+</code></pre>
+<img class="alignnone  wp-image-6327" src="https://cdn.omegaxyz.com/2020/01/LLE-PY1.png" alt="" width="600" height="470" />
+
+<img class="alignnone  wp-image-6328" src="https://cdn.omegaxyz.com/2020/01/LLE-PY2.png" alt="" width="600" height="487" />
+
+<strong>another version:</strong>
+<pre ><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets, decomposition, manifold
+from mpl_toolkits.mplot3d import Axes3D
+
+
+def load_data():
+    '''
+    从sklearn中读取swiss_roll数据集
+    :return:
+    '''
+    swiss_roll = datasets.make_swiss_roll(n_samples=1000)
+    return swiss_roll[0], np.floor(swiss_roll[1])
+
+
+def LLE_components(*data):
+    X, Y = data
+    for n in [3, 2, 1]:  # 最终的降维目标
+        lle = manifold.LocallyLinearEmbedding(n_components=n)  # sklearn的LLE方法
+        lle.fit(X)
+        print("n = %d 重建误差：" % n, lle.reconstruction_error_)
+
+
+def LLE_neighbors(*data):
+    X, Y = data
+    Neighbors = [1, 2, 3, 4, 5, 15, 30, 100, Y.size - 1]  # 可以选择的几个邻域值
+
+    fig = plt.figure("LLE", figsize=(9, 9))
+
+    for i, k in enumerate(Neighbors):
+        lle = manifold.LocallyLinearEmbedding(n_components=2, n_neighbors=k, eigen_solver='dense')
+        '''
+        eigen_solver：特征分解的方法。有‘arpack’和‘dense’两者算法选择。
+        当然也可以选择'auto'让scikit-learn自己选择一个合适的算法。
+        ‘arpack’和‘dense’的主要区别是‘dense’一般适合于非稀疏的矩阵分解。
+        而‘arpack’虽然可以适应稀疏和非稀疏的矩阵分解，但在稀疏矩阵分解时会有更好算法速度。
+        当然由于它使用一些随机思想，所以它的解可能不稳定，一般需要多选几组随机种子来尝试。
+        '''
+        X_r = lle.fit_transform(X)
+        ax = fig.add_subplot(3, 3, i + 1)
+        ax.scatter(X_r[:, 0], X_r[:, 1], marker='o', c=Y, alpha=0.5)
+        ax.set_title("k = %d" % k)
+        plt.xticks(fontsize=10, color="darkorange")
+        plt.yticks(fontsize=10, color="darkorange")
+    plt.suptitle("LLE")
+    plt.show()
+
+
+X, Y = load_data()
+fig = plt.figure('data')
+ax = Axes3D(fig)
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], marker='o', c=Y)
+LLE_components(X, Y)
+LLE_neighbors(X, Y)
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

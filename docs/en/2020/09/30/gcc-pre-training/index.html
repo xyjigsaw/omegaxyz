@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GCC graph neural network pre-training overview · OmegaXYZ</title>
+  <meta name="description" content="Paper GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training Conference : KDD Keywords : Contrastive Learning, Instance Discrimination, Transferability, Pre-...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/09/30/gcc-pre-training/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-09-30</div>
+        <h1>GCC graph neural network pre-training overview</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/english/index.html">English</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
+        <div class="article-content"><h2><strong>Paper</strong></h2>
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training
+
+<strong>Conference</strong>: KDD
+
+<strong>Keywords</strong>: Contrastive Learning, Instance Discrimination, Transferability, Pre-training
+<h2><strong>Recent Work</strong></h2>
+However, most representation learning work on graphs has thus far focused on learning representations for one single graph or a fixed set of graphs and very limited work can be transferred to out-of-domain data and tasks.
+<h2><strong>Challenge</strong></h2>
+How to design the pre-training task such that the universal structural patterns in and across networks can be captured and further transferred?
+<h2><strong>Main idea</strong></h2>
+The idea of pre-training is to use the pre-trained model as a good initialization for fine-tuning over (different) tasks on unseen datasets. Contrastive learning is another idea. Here are three critical steps. (1) Define instances in graphs (2) Define similar instance pairs in and across graphs (3) Choose the proper graph encoders.
+<h2><strong>Contributions</strong></h2>
+(1) Formalize the problem of GNN pre-training
+(2) Regard pre-training as instance discrimination to capture the universal and transferable structural patterns from multiple input graphs
+(3) GCC framework is proposed
+(4) Experiments
+<h2><strong>Requirements</strong></h2>
+(1) Structural Similarity, it maps vertices with similar local network topologies close to each other in the vector space.
+(2) Transferability, it is compatible with vertices and graphs unseen by the pre-training algorithm.
+<h2><strong>Steps</strong></h2>
+Ideally, given a (diverse) set of input graphs, such as the Facebook social graph and the DBLP co-author graph, we aim to pre-train a GNN on them with a self-supervised task, and then fine-tune it on different graphs for different graph learning tasks, such as node classification on the US-Airport graph.
+<h2><strong>Compared Algorithms</strong></h2>
+RolX
+Panther++
+GraphWave
+<h2><strong>Some thoughts</strong></h2>
+Combine attributes
+BERT-GRAPH
+Remove nodes with noise
+Aggregate nodes as a new instance
+<h2><strong>More Papers About Pre-Training</strong></h2>
+Strategies for Pre-training Graph Neural Networks. 2020. ICLR
+GPT-GNN: Generative Pre-Training of Graph Neural Networks. 2020. KDD
+Pre-TrainingGraphNeuralNetworksfor Generic Structural Feature Extraction. 2020
+Self-supervised Learning: Generative or Contrastive. 2020.
+Gaining insight into SARS-CoV-2 infection and COVID-19 severity using self-supervised edge features and Graph Neural Networks. 2020. ICML
+When Does Self-Supervision Help Graph Convolutional Networks? 2020. ICML
+Multi-Stage Self-Supervised Learning for Graph Convolutional Networks on Graphs with Few Labeled Nodes. 2020. AAAI
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training. 2020. KDD
+Self-Supervised Graph Representation Learning via Global Context Prediction. 2020.
+Contrastive Multi-View Representation Learning on Graphs. 2020.
+Self-supervised Training of Graph Convolutional Networks. 2020.
+Self-supervised Learning on Graphs: Deep Insights and New Directions. 2020.
+GRAPH-BERT: Only Attention is Needed for Learning Graph Representations. 2020.
+Graph Neural Distance Metric Learning with GRAPH-BERT. 2020.
+Segmented GRAPH-BERT for Graph Instance Modeling. 2020.
+<h2><strong>Reference</strong></h2>
+https://zhuanlan.zhihu.com/p/150456349
+
+<hr/>Keywords: contrastive learning, instance discrimination, transferability, pre-training
+
+Graph contrastive coding with graph neural network pre-training
+
+Recent work:
+However, to date, most work on graph representation learning has focused on learning representations for a single graph or a fixed set of graphs, with very limited work transferable to out-of-domain data and tasks.
+
+Challenge:
+How to design pre-training tasks so that common structural patterns within and across networks are captured and further transferred?
+
+Main idea:
+The idea of pre-training is to use the pre-trained model as a good initialization for fine-tuning on (different) tasks on unseen datasets. Contrastive learning is another perspective. There are three key steps here. (1) Define instances in the graph (2) Define similar pairs of instances in the graph or graphs (3) Select an appropriate graph encoder.
+
+ 
+
+Contribution:
+1. Formalize the GNN pre-training problem
+2. Use pre-training as instance recognition to obtain common and transferable structural patterns from multiple input graphs
+3. Proposal of GCC framework
+4. Experiment
+
+Requirements:
+(1) Structural similarity, which maps vertices with similar local network topology into vector space.
+(2) Transferability, which can be compatible with vertices and graphs not discovered by the pre-training algorithm.
+
+Steps:
+Ideally, given a (diverse) set of input graphs, such as Facebook's social graph and DBLP co-authorship graph, we aim to pre-train GNNs on them for self-supervised tasks, and then adjust different graphs on the graph for different learning tasks, such as node classification graphs in US airports.
+
+Algorithm comparison:
+Rx
+Panther++
+GraphWave
+
+Some ideas:
+Combine attributes
+BERT-GRAPH
+Remove noisy nodes
+Aggregate nodes into a new instance
+
+ 
+
+ 
+
+More papers on pre-training:
+
+Strategies for Pre-training Graph Neural Networks. 2020. ICLR
+GPT-GNN: Generative Pre-Training of Graph Neural Networks. 2020. KDD
+Pre-TrainingGraphNeuralNetworksfor Generic Structural Feature Extraction. 2020
+Self-supervised Learning: Generative or Contrastive. 2020.
+Gaining insight into SARS-CoV-2 infection and COVID-19 severity using self-supervised edge features and Graph Neural Networks. 2020. ICML
+When Does Self-Supervision Help Graph Convolutional Networks? 2020. ICML
+Multi-Stage Self-Supervised Learning for Graph Convolutional Networks on Graphs with Few Labeled Nodes. 2020. AAAI
+GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training. 2020. KDD
+Self-Supervised Graph Representation Learning via Global Context Prediction. 2020.
+Contrastive Multi-View Representation Learning on Graphs. 2020.
+Self-supervised Training of Graph Convolutional Networks. 2020.
+Self-supervised Learning on Graphs: Deep Insights and New Directions. 2020.
+GRAPH-BERT: Only Attention is Needed for Learning Graph Representations. 2020.
+Graph Neural Distance Metric Learning with GRAPH-BERT. 2020.
+Segmented GRAPH-BERT for Graph Instance Modeling. 2020.
+
+Reference:
+https://zhuanlan.zhihu.com/p/150456349</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

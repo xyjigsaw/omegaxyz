@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>反世代距离评价指标IGD · OmegaXYZ</title>
+  <meta name="description" content="反世代距离评价指标(Inverted Generational Distance, IGD) 是一个综合性能评价指标。它主要通过计算每个在真实 Pareto前沿面上的点(个体)到算法获取的个体集合之间的最小距离和，来评价算法的收敛性能和分布性能。值越小，算法的综合性能包括收敛性和分布性能越好。 公式： 其中，P 为均匀分布在真实 Pare...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/14/igd/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-14</div>
+        <h1>反世代距离评价指标IGD</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content"><strong>反世代距离评价指标(Inverted Generational Distance, IGD)</strong> 是一个综合性能评价指标。它主要通过计算每个在真实 Pareto前沿面上的点(个体)到算法获取的个体集合之间的最小距离和，来评价算法的收敛性能和分布性能。值越小，算法的综合性能包括收敛性和分布性能越好。
+
+<strong>公式：</strong>
+
+<img class="wp-image-5275 aligncenter" src="https://cdn.omegaxyz.com/2019/01/IGD1.png" alt="" width="312" height="106" />
+
+其中，P 为均匀分布在真实 Pareto 面上的点集，|P|为分布在真实 Pareto 面上的点集的个体数。 Q为算法获取的最优 Pareto 最优解集。而d(v,Q)为 P 中个体v到种群Q的最小欧几里得距离。因此，IGD 是通过计算真实 Pareto 面上点集到获取的种群的最小距离的平均值来评价算法的综合性能。通过上式，可知当算法的收敛性能比较的好，则d(v,Q)相对要小，从而可以评价算法的收敛性能；然而，当算法的分布性能很差，种群中大部分的个体都集中在一个狭小的区域，由式可知很多个体的d(v,Q)会很大，因而来评价算法的分布性能。
+
+<img class="wp-image-5276 aligncenter" src="https://cdn.omegaxyz.com/2019/01/IGD2.png" alt="" width="377" height="360" />
+<p style="text-align: center;"><strong>IGD评价指标分析示意图</strong></p>
+IGD能很好的评价算法的综合性能，但是由其定义可知，指标需要真实Pareto面，然而现实中，往往是不知道优化问题的真实 Pareto 前沿。
+
+<strong>参考资料：</strong>基于分解的偏好多目标进化算法及其评价指标的研究[D]. 湘潭大学, 2015.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

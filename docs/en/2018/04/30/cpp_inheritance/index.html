@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detailed explanation of C++ inheritance · OmegaXYZ</title>
+  <meta name="description" content="Three types of inheritance C++ has the following three forms of inheritance (1) Public inheritance (public) The characteristic of public inheritance is that when the public members and protected members of the base class are members of the derived class, they maintain their original status, while the private members of the base class remain private and cannot be accessed by subclasses of this derived class. (2) Private inheritance (private) The characteristic of private inheritance is that the public members and protected members of the base class are used as private members of the derived class and cannot be used by children of this derived class...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/30/cpp_inheritance/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-30</div>
+        <h1>Detailed explanation of C++ inheritance</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h1><strong>Three kinds of inheritance</strong></h1>C++ has the following three forms of inheritance:<h2>（1）<strong>public inheritance(public)</strong></h2>The characteristic of public inheritance is that when the public members and protected members of the base class become members of the derived class, they maintain their original status, while the private members of the base class remain private and cannot be accessed by subclasses of this derived class.<h2>（2）<strong>private inheritance</strong></h2>The characteristic of private inheritance is that the public members and protected members of the base class are private members of the derived class and cannot be accessed by subclasses of this derived class.<h2>（3）<strong>protected inheritance</strong></h2>The characteristic of protected inheritance is that all public members and protected members of the base class become protected members of the derived class and can only be accessed by its derived class member functions or friends. Private members of the base class remain private.
+
+Private can be kept secret from the outside and subclasses, that is, no one else can directly access it except the class itself where the member is located. protected can be kept secret from the outside world, but allows subclasses to directly access these members. The degree of protection of member data or member functions by public, private and protected can be described by the following table:<img alt="" class="alignnone size-full wp-image-4162" height="333" src="https://cdn.omegaxyz.com/2018/04/cpp_inherit2.png" width="809"/>
+<h2><strong>Sample code</strong></h2>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+
+
+class Base    //父类
+{
+private:
+	int privateTemp;
+protected:
+	int protectedTemp;
+public:
+	int publicTemp;
+};
+
+class publicClass : public Base    //子类，继承自base,继承类型为公有继承
+{
+private:
+	int _d_pri;
+protected:
+	int _d_pro;
+public:
+	void funct()
+	{
+		int d;
+		d = privateTemp;       //error：基类中私有成员在派生类中是不可见的
+		d = protectedTemp;       //ok： 基类的保护成员在派生类中为保护成员
+		d = publicTemp;       //ok： 基类的公共成员在派生类中为公共成员
+	}
+	int _d_pub;
+};
+//总结：（1）.public继承是一个接口继承，保持is - a原则，每个父类可用的成员对子类也可用， 因为每个子类对象也都是一个父类对象。
+
+class privateClass :private Base    //基类Base的派生类C（私有继承）
+{
+public:
+	void funct()
+	{
+		int c;
+		c = privateTemp;      //error：基类中私有成员在派生类中是不可见的
+		c = protectedTemp;      //ok：基类的保护成员在派生类中为私有成员
+		c = publicTemp;      //ok：基类的公共成员在派生类中为私有成员
+	}
+};
+
+class protectedClass :protected Base   //基类Base的派生类E（保护继承）
+{
+public:
+	void funct()
+	{
+		int e;
+		e = privateTemp;    //error：基类中私有成员在派生类中是不可见的
+		e = protectedTemp;    //ok：基类的保护成员在派生类中为保护成员
+		e = publicTemp;    //ok：基类的公共成员在派生类中为保护成员
+	}
+};
+//总结：
+//（2）.基类的private成员 在派生类中是不能被访问的， 如果基类成员 不想在类外直接被访问， 但需要 在派生类中能访问， 就定义为protected。 可以看出保护成员限定符是因继承才出现的。
+//（3）. protected / private继承是一个实现继承， 基类的部分成员 并非完全成为子类接口 的一部分， 是 has - a 的关系原则， 所以非特殊情况下不会使用这两种继承关系， 在绝大多数的场景下使用的 都是公有继承。 私有继承以为这is - implemented - in - terms - of(是根据……实现的) 。 通常比组合(composition) 更低级， 但当一个派生类需要访问 基类保护成员 或需要重定义基类的虚函数时它就是合理的。
+int main()
+{
+	int a;
+	publicClass d;
+	a = d.privateTemp;     //error：公有继承基类中私有成员在派生类中是不可见的,对对象不可见
+	a = d.protectedTemp;     //error：公有继承基类的保护成员在派生类中为保护成员，对对象不可见
+	a = d.publicTemp;     //ok：公有继承基类的公共成员在派生类中为公共成员，对对象可见
+	privateClass c;
+	a = c.privateTemp;    //error：私有继承基类中私有成员在派生类中是不可见的, 对对象不可见
+	a = c.protectedTemp;    //error：私有继承基类的保护成员在派生类中为私有成员，对对象不可见
+	a = c.publicTemp;    //error：私有继承基类的公共成员在派生类中为私有成员，对对象不可见
+	protectedClass e;
+	a = e.privateTemp;    //error：保护继承基类中私有成员在派生类中是不可见的, 对对象不可见
+	a = e.protectedTemp;    //error：保护继承基类的保护成员在派生类中为保护成员，对对象不可见
+	a = e.publicTemp;    //error：保护继承基类的公共成员在派生类中为保护成员，对对象不可见
+	system("pause");
+	return 0;
+}</code></pre>
+<h2><strong>Compiler specific effects</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4164" height="349" src="https://cdn.omegaxyz.com/2018/04/cpp_inherit3.jpg" width="776"/>
+<h2><strong>Summary</strong></h2>(1) Public inheritance is an interface inheritance that maintains the is-a principle. Members available to each parent class are also available to subclasses, because each subclass object is also a parent class object.
+
+(2) Private members of the base class cannot be accessed in the derived class. If the base class member does not want to be accessed directly outside the class, but needs to be accessible in the derived class, it is defined as protected. It can be seen that the protected member qualifier appears because of inheritance.
+(3) Protected/private inheritance is an implementation inheritance. Some members of the base class do not completely become part of the subclass interface. It is a has-a relationship principle. Therefore, these two inheritance relationships will not be used except in special circumstances. In most scenarios, public inheritance is used. Private inheritance means that this is - implemented - in - terms - of (is implemented in accordance with...). Typically lower level than composition, but reasonable when a derived class needs to access a base class protected member or needs to override a base class virtual function.<strong><span style="color: #ff0000;">What if you want to initialize with a private member of the base class? The solution is as follows.</span></strong>
+<h1><strong>How to call base class private members</strong></h1>
+<span style="color: #ff0000;"><strong>First of all, a statement: the constructor and destructor of a class cannot be inherited.</strong></span>So you need to use the private member initialization of the base class<span style="color: #ff0000;"><strong>You must define a constructor in the derived class and explicitly call the constructor of the base class</strong></span>.
+
+Add a colon (:), and then add the parent class's parameterized constructor. In this way, when the constructor of the subclass is called, the system will call the constructor of the parent class with parameters to construct the object. It should be called like this (Square inherits from Rectangle)<pre><code class="language-c++">Square(string n, double x):Rectangle(n, x, x){}</code></pre>
+<h2><strong>Specific example code</strong></h2>
+<strong>Topic: Programming to calculate the area of ​​a graphic. The program can calculate the area of ​​circles, rectangles, and squares. When running, the user is first prompted to select the type of graphic. Then, the user is required to enter the radius value for the circle, the length and width for the rectangle, and the side length for the square. After calculating the area value, it is displayed.</strong>
+<strong>Rectangular design:</strong>Private variables are: name, width, length, area.
+
+Member functions include: constructor, information display function, and area function.<strong>Square design:</strong>
+<strong>The Square class publicly inherits from the Rectangle class:</strong>When the inheritance mode of a class is public inheritance, the access attributes of the public members and protected members of the base class remain unchanged in the derived class, while the private members of the base class are not directly accessible.
+
+The square class explicitly calls the constructor of the rectangle class as follows:
+
+Private variables are: name, side length, area.
+
+Member functions include: constructor, information display function, and area function.<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;stdlib.h&gt;
+#define pi 3.1415927
+using namespace std;
+
+class Rectangle{
+private:
+	string name;
+	double width;
+	double height;
+	double area;
+public:
+	Rectangle(string x, double w, double h) :name(x), width(w), height(h){}
+	void showInfo();
+	double getArea(){ return width*height; }
+
+};
+
+void Rectangle::showInfo(){
+	if (width == height){
+		cout &lt;&lt; "正方形： 边长为：" &lt;&lt; width &lt;&lt; endl;
+	}
+	else{
+		cout &lt;&lt; "长方形： 长为：" &lt;&lt; width &lt;&lt; "  宽为：" &lt;&lt; height &lt;&lt; endl;
+	}
+	cout &lt;&lt; "面积为：" &lt;&lt; getArea() &lt;&lt; endl;
+}
+
+class Square :public Rectangle{
+private:
+	string name;
+	double width;
+	double area;
+public:
+	Square(string n, double x) :Rectangle(n, x, x){}
+};
+
+
+class Circle{
+private:
+	string name;
+	double radius;
+public:
+	Circle(string x, double r) :name(x), radius(r){}
+	double getArea(){ return pi*radius*radius; }
+	void showInfo(){ cout &lt;&lt; "圆：半径为：" &lt;&lt; radius &lt;&lt; endl &lt;&lt; "面积为：" &lt;&lt; getArea() &lt;&lt; endl; }
+};
+
+
+int main()
+{
+	cout &lt;&lt; "--------------------------" &lt;&lt; endl;
+	int choice;
+	cout &lt;&lt; "选择序号建立图形\n1：长方形 2：正方形 3：圆\n";
+	cin &gt;&gt; choice;
+	while (1){
+		if (choice == 1){
+			cout &lt;&lt; "输入长和宽:";
+			int width, height;
+			cin &gt;&gt; width &gt;&gt; height;
+			Rectangle a("Rectangle", height, width);
+			a.showInfo();
+		}
+		else if (choice == 2){
+			cout &lt;&lt; "输入边长:";
+			int width2;
+			cin &gt;&gt; width2;
+			Square b("Square", width2);
+			b.showInfo();
+		}
+		else{
+			cout &lt;&lt; "输入半径：";
+			int radius;
+			cin &gt;&gt; radius;
+			Circle c("Circle", radius);
+			c.showInfo();
+		}
+		system("pause");
+		system("cls");
+		cout &lt;&lt; "选择序号建立图形\n1：长方形 2：正方形 3：圆\n";
+		cin &gt;&gt; choice;
+	}
+}
+</code></pre>
+<p style="text-align: center;"><strong><span style="color: #ff0000;">All original codes on the website use<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license" style="color: #ff0000;">Apache 2.0</a>Authorize</span></strong>
+<strong><span style="color: #ff0000;">Articles on this website are licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" style="color: #ff0000;">BY-NC-SA4.0</a>Authorize</span></strong></p></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

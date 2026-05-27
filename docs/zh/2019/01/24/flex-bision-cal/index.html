@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mac下利用Flex和Bison实现控制台计算器 · OmegaXYZ</title>
+  <meta name="description" content="简介 我们借助Flex和Bison对给定的表达式进行词法和语法分析，并在语法分析的同时完成相应的计算。 用 Flex 和 Bison 实现一个功能更为强大的计算器，包含以下运算： a) 加、减、乘、除运算 b) 乘方、开方运算 c) 位运算– 与 &amp; 、或 |、非 ~ d) 阶乘运算 ! e)三角运算sin cos tan Lex 和 Y...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/24/flex-bision-cal/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-24</div>
+        <h1>Mac下利用Flex和Bison实现控制台计算器</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/mac/index.html">mac</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+我们借助Flex和Bison对给定的表达式进行词法和语法分析，并在语法分析的同时完成相应的计算。
+
+用 Flex 和 Bison 实现一个功能更为强大的计算器，包含以下运算：
+<ul>
+ 	<li>a) 加、减、乘、除运算</li>
+ 	<li>b) 乘方、开方运算</li>
+ 	<li>c) 位运算– 与 &amp; 、或 |、非 ~</li>
+ 	<li>d) 阶乘运算 !</li>
+ 	<li>e)三角运算sin cos tan</li>
+</ul>
+<strong>Lex</strong><strong>和</strong><strong>Yacc</strong><strong>是</strong><strong>unix</strong><strong>系统上面的词法和语法分析的自动化处理工具，</strong><strong><a href="http://dinosaur.compilertools.net/">http://dinosaur.compilertools.net/</a></strong><strong>上有对两者详细的介绍。后人在此基础之上开发了基本兼容的版本</strong><strong>Flex</strong><strong>和</strong><strong>Bison</strong><strong>。</strong>
+
+<strong>Flex</strong><strong>使用手册：</strong><a href="http://tinf2.vub.ac.be/~dvermeir/courses/compilers/flex/flex_toc.html">http://tinf2.vub.ac.be/~dvermeir/courses/compilers/flex/flex_toc.html</a>
+
+<strong>Bison</strong><strong>使用手册：</strong>http://www.gnu.org/software/bison/manual/index.html
+
+<hr />
+
+<h2><strong>环境配置</strong></h2>
+<strong>环境类Unix系统：macOS 10.14.2</strong>
+
+由于Unix系统自带yacc，因此需要配置bison与flex软件包。
+
+在从App Store上下载<strong>Xcode</strong>后，默认是不会安装<strong>Command Line Tools的，Command Line Tools</strong>是在Xcode中的一款工具，可以在命令行中运行C程序。为了配置编译原理的环境，我们需要安装Xcode Command Line Tools。
+
+在终端中输入以下命令：<strong>xcode-select –install</strong> ，按回车；
+
+<img class="alignnone wp-image-5398" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal1.png" alt="" width="799" height="86" />
+
+随后下载完毕，查看Xcode Command Line Tools中的程序,可以看到存在bison和flex两个文件。
+
+<img class="alignnone wp-image-5399" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal2.png" alt="" width="800" height="426" />
+
+接下来就可以进行计算器的编写。
+
+查看bison的信息：
+
+<img class="alignnone wp-image-5400" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal3.png" alt="" width="714" height="353" />
+
+<img class="alignnone wp-image-5401" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal4.png" alt="" width="713" height="99" />
+
+可以看到此时的bison版本为2.3
+
+<hr />
+
+<h2><strong>代码编写</strong></h2>
+<ul>
+ 	<li>新建一个文件夹用来存放编写的文件。</li>
+ 	<li>词法分析flex的使用</li>
+</ul>
+<ul>
+ 	<li>定义一个flex的输入文件，描述词法。该文件以.l结尾，可以分成三个部分。</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td width="26">1</td>
+<td width="466">%{ 到 }% 标记的部分。
+
+此部分会原封不动的复制到flex的生成代码中。
+
+文件开头定义了一个YYSTYPE宏。
+
+每个TOKEN可以有一个lval值属性，
+
+YYSTYPE定义类型就是token的lval的类型。
+
+_EasyTData是我们的web服务层和web页面层公用的通用数据结构。
+
+另外包括一些include的头文件</td>
+</tr>
+<tr>
+<td width="26">2</td>
+<td width="466">从 % } 到 % % 之间的部分，
+
+这部分用<strong>正则表达式</strong>定义了一些数据类型。
+
+比如int num string ignore_char identifier等。
+
+注意这里使用的正则表达式的形式是ERE而不是BRE。
+
+ERE与BRE比较明显的区别就是，
+
+ERE使用+表示字符重复一次以上，*表示字符重复0次以上。
+
+BRE使用{1,}这种方式表示字符重a</td>
+</tr>
+<tr>
+<td width="26">3</td>
+<td width="466">文件的第三部分，是% % 到% % 的部分。
+
+这里定义了词法分析器在解析的处理动作。
+
+yytext是一个flex内部的标识符，表示匹配到的字符串。
+
+上文介绍了，lval也是一个内部标识符，表示TOKEN的值。
+
+json2tdata_是标识符的前缀, 在执行flex的时候，用-P指定。</td>
+</tr>
+</tbody>
+</table>
+<strong>a.l</strong><strong>文件代码：</strong>
+<pre ><code class="language-default">%{
+    /*
+     *  2018 Calculation
+     */
+    int yywrap();
+    #define YYSTYPE double
+    void yyerror(char*);
+    #include "a.tab.h"
+%}
+
+%%
+
+     /* a-z为变量 */   
+[a-z]   {
+            yylval = *yytext - 'a';
+            return VARIABLE;
+        }
+    /*16进制数*/
+0x\.?[a-f0-9]+|0x[a-f0-9]+\.[a-f0-9]* {
+            yylval=atof(yytext);
+            return HEXADECIMAL;
+        }
+
+    /* 实数部分 */
+\.?[0-9]+|[0-9]+\.[0-9]*    {
+            yylval = atof(yytext);
+            return INTEGER;
+        }
+
+    /* 运算符 */
+[-+()=/*&amp;|~!^@\n]  {return *yytext;}
+
+    /* 三角函数 */
+sin {
+    return SIN;
+    }
+
+cos {
+    return COS;
+    }
+tan {
+    return TAN;
+    }
+    /* 空白被忽略 */
+[ \t]    ;
+
+    /* 其他字符都是非法的 */
+.    yyerror("警告！输入无效ERROR！");
+
+%%
+int yywrap()
+{return 1;}
+</code></pre>
+<ul>
+ 	<li>用flex程序处理这个文件，生成对应的C语言源代码文件yy.c</li>
+</ul>
+<strong>处理命令：flex a.l</strong>
+
+<img class="alignnone size-full wp-image-5402" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal5.png" alt="" width="95" height="110" />
+
+该文件较长，在此便不再贴出内容。
+
+<img class="alignnone wp-image-5403" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal6.png" alt="" width="659" height="766" />
+
+<hr />
+
+<ul>
+ 	<li>语法分析器bison的使用</li>
+</ul>
+<ul>
+ 	<li>写bison文件，以.y作为后缀名结尾，和flex的词法分析输入文件类似，bison的输入文件也是分成3部分（不是巧合）</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td width="26">1</td>
+<td width="466">第一部分% {和% }之间，是原封不动拷贝到输出的C语言源文件中的。
+
+json2tdata_lex这个函数是flex生成的。
+
+json2tdata_error是用来处理错误信息的函数。
+
+通过定义和实现这个函数你可以把错误信息写到任何地方。
+
+与flex类似，json2tdata也是自定义的前缀。</td>
+</tr>
+<tr>
+<td width="26">2</td>
+<td width="466">%token INT NUM STRING R_BRACKET COLON
+
+SEMICOLON COMMA IDENTIFIER TRUE FALSE NIL这一行，
+
+这一行的作用就是声明在flex中定义的那些TOKEN。</td>
+</tr>
+<tr>
+<td width="26">3</td>
+<td width="466">% %  % %包围的部分。
+
+这部分就是语法的推导过程。
+
+可以比较轻松的看出，这部分主要就是采用BNF对语法进行描述。
+
+比如Array， 它有两种形式。
+
+第一种是 L_BRACKET ELEMENTS R_BRACKET,
+
+第二种则是L_BRACKET R_BRACKET，
+
+这表示一个空的Array。
+
+Bison能够完全支持LR(1)文法。
+
+这种文法的特点是只要多向前看一个TOKEN，
+
+就能够决定如何解析。
+
+因此如果bison告诉你语法ambiguous的时候，
+
+可以想一想如何把自己的文法改成LR(1)型文法。
+
+另外，每一条规则的后面可以用{}来定义解析的动作
+
+bison用$$表示规则左边的对象，
+
+用$1 $2 $3 等依次表示规则右边的对象。</td>
+</tr>
+</tbody>
+</table>
+a.y代码：
+<pre ><code class="language-default">%token   HEXADECIMAL INTEGER VARIABLE SIN COS TAN
+%left    '+' '-'
+%left    '*' '/'
+%left    '&amp;'
+%left    '|'
+%left    '^'
+%right   '@''~'
+%left    '!'
+
+%{
+
+/*for Xcode */
+/*  #define  __STDC__   0   */   
+
+    #include &lt;stdio.h&gt;   
+    #include &lt;math.h&gt;
+    #define YYSTYPE double
+    #define pi 3.1415926 
+    void yyerror(char*);
+    int yylex(void);
+
+    double sym[26];
+%}
+
+%%
+program:
+    program statement '\n'
+    |
+    ;
+statement:
+     expr    {printf("=%lf\n[calculation]:$ ", $1);}
+     |VARIABLE '=' expr    {sym[(int)$1] = $3;}
+     ;
+expr:
+    INTEGER
+    |HEXADECIMAL
+    |VARIABLE{$$ = sym[(int)$1];}
+    |expr '+' expr    {$$ = $1 + $3;}
+    |expr '-' expr    {$$ = $1 - $3;}
+    |expr '*' expr    {$$ = $1 * $3;}
+    |expr '/' expr    {$$ = $1 / $3;}
+    |expr '&amp;' expr    {$$ = (int)$1 &amp; (int)$3;}
+    |expr '|' expr    {$$ = (int)$1 | (int)$3;}
+    |'~' expr         {$$ = ~(int)$2;}
+    |'@' expr         {$$ = sqrt($2);}
+    |expr '@' expr    {$$ = $1*sqrt($3);}
+    |expr '!'         {int i=1,s=1;for(;i&lt;=$2;i++)s*=i;$$=s;}
+    |expr '^' expr    {$$=pow($1,$3);}
+    |'('expr')'       {$$ = $2;}
+    |SIN'('expr')'       {$$ = sin($3*pi/180.0);}
+    |COS'('expr')'       {$$ = cos($3*pi/180.0);}
+    |TAN'('expr')'       {$$ = tan($3*pi/180.0);}
+    ;
+
+%%
+
+void yyerror(char* s)
+{
+    fprintf(stderr, "---%s\n", s);
+}
+
+int main(void)
+{
+    printf("计算器\n支持的运算符：+-*/&amp;|~!^@ \n");
+    printf("+: 加法 2+3 \n");
+    printf("-: 减法 2-3 \n");
+    printf("*: 乘法 2*3 \n");
+    printf("/: 除法 2/3 \n");
+    printf("！: 阶乘 2！\n");
+    printf("^: 乘方  2^3 \n");
+    printf("^: 开方  2@3 \n");
+    printf("&amp;: 与 2&amp;3 结果为二进制转化的十进制数\n");
+    printf("|: 或 2|3 结果为二进制转化的十进制数\n");
+    printf("~: 非 2|3 结果为二进制转化的十进制数\n");
+    printf("sin: 正弦值  sin(30) 单位为rad \n");
+    printf("sin: 余弦值  cos(30) 单位为rad \n");
+    printf("tan: 正切值  tan(30) 单位为rad \n");
+    yyparse();
+    return 0;
+}
+</code></pre>
+<ul>
+ 	<li>在终端执行命令生成两个文件</li>
+</ul>
+<strong>bison -d a.y</strong>
+
+<img class="alignnone wp-image-5404" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal7.png" alt="" width="290" height="142" />
+
+<strong>或者执行bison -o calc.tab.h calc.y生成三个文件，   本文采取第一种做法。</strong>
+
+<hr />
+
+<h2><strong>联合编译</strong></h2>
+<strong>在终端输入下面的命令：</strong>
+
+<strong>cc lex.yy.c a.tab.c</strong>
+
+<strong>执行后将会生成可执行的a.out文件，最终所有文件如下所示：</strong>
+
+<img class="alignnone wp-image-5405" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal8.png" alt="" width="641" height="250" />
+
+<strong>所有指令：</strong>
+
+<img class="alignnone wp-image-5406" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal9.png" alt="" width="731" height="137" />
+
+<hr />
+
+<h2><strong>验证结果</strong></h2>
+<strong>在终端输入：./a.out</strong>
+<ul>
+ 	<li><strong>基本人机交互界面：</strong></li>
+</ul>
+<img class="alignnone wp-image-5407" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal10.png" alt="" width="616" height="280" />
+<ul>
+ 	<li><strong>基本四则运算</strong></li>
+</ul>
+<img class="alignnone wp-image-5408" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal11.png" alt="" width="624" height="230" />
+<ul>
+ 	<li><strong>括号运算</strong></li>
+</ul>
+<img class="alignnone wp-image-5409" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal12.png" alt="" width="615" height="113" />
+
+<hr />
+
+<h2><strong>遇到的难点和解决方案</strong></h2>
+<ul>
+ 	<li><strong>环境的配置</strong></li>
+</ul>
+由于macOS与windows不同，因此需要针对特殊问题进行特殊处理，从<a href="http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html">http://www.itdaan.com/keywords/Flex+Bison+Using+flex+on+OSX+%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8Flex.html</a>网站中学习，问题得到了解决。
+<ul>
+ 	<li><strong>代码修改</strong></li>
+</ul>
+从网址<a href="https://blog.csdn.net/qq_35208390/article/details/78249181">https://blog.csdn.net/qq_35208390/article/details/78249181</a>
+
+中了解，将简单的计算器修改为复杂的计算器需要从以下几个部分进行修改：
+
+运算符合三角函数部分需要用正则表达式在a.l文件中修改。
+
+<img class="alignnone wp-image-5410" src="https://cdn.omegaxyz.com/2019/01/flex-bison-cal13.png" alt="" width="506" height="333" />
+
+另外需要在a.y文件中对不同的操作符进行定义。
+<ul>
+ 	<li>最后在编译的过程中要注意标点符号的使用，注意执行的语句不能包含中文字符逗号等，另外一定要引用math库函数，否则无法进行高级数学表达式运算。</li>
+</ul>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

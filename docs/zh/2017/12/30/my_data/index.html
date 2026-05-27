@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python日期类的实现 · OmegaXYZ</title>
+  <meta name="description" content="Python日期时间函数。所有日期、时间的api都在datetime模块内。但是我们有时想用Python学习一下面向对象于是： 设计一个日期类，能够实现与日期有关的有关操作，如计算两个日期之间的间隔，指定日期之后若干天所对应的日期，比较两个日期的大小等。可自行拓展其他功能。 拓展功能: ①判断该日期是一年中的第几天。 ②按照YMD（yea...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/12/30/my_data/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-12-30</div>
+        <h1>Python日期类的实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+Python日期时间函数。所有日期、时间的api都在datetime模块内。但是我们有时想用Python学习一下面向对象于是：
+
+设计一个日期类，能够实现与日期有关的有关操作，如计算两个日期之间的间隔，指定日期之后若干天所对应的日期，比较两个日期的大小等。可自行拓展其他功能。
+<h1><strong>拓展功能:</strong></h1>
+①判断该日期是一年中的第几天。
+②按照YMD（year-month-day）、MDY、DMY和default格式打印日期。
+③利用吉姆拉尔森公式计算指定日期所对应是星期几。
+④计算两个日期的间隔。
+⑤给出指定日期后多少天是那一天。
+⑥初始化类的时候检查是否合法。
+<h1><strong>说明文档（设计思路）：</strong></h1>
+①类设计私有变量normal_year和leap_year，在初始化类的时候将检查日期是否合法。如果不合法将返回错误。
+②比较两个日期大小时即compare函数，我摒弃了传统的日期比较方法，直接将日期转化为int类型，比较两个数字大小。
+③计算日期间隔（cal_interval）和增加天数（add_days）函数采用传统的日期操作方法。
+④在计算日期是星期几的时候采用了基姆拉尔森算法。
+⑤在检查类是否正确时对闰年和非法变量等情况均综合考虑。
+⑥按照YMD（year-month-day）、MDY、DMY和default格式打印日期。
+<h1><strong>代码：</strong></h1>
+<pre ><code class="language-python">class Date:
+    def __init__(self, year, month, day):
+        self.__normal_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        self.__leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        self.not_leap = 1
+        if self.check(year, month, day):
+            self.__year = year
+            self.__month = month
+            self.__day = day
+        else:
+            print('日期输入错误！！！')
+
+    def check(self, year, month, day):
+        if year &lt; 0:
+            return False
+        if month &gt; 12:
+            return False
+        if year % 4 == 0 and year % 100 != 0 or year % 400 == 0:
+            self.not_leap = 0
+            if day &gt; self.__leap_year[month - 1]:
+                return False
+        else:
+            if day &gt; self.__normal_year[month - 1]:
+                return False
+        return True
+
+    def get_year(self):
+        return self.__year
+
+    def set_year(self, year):
+        self.__year = year
+
+    def get_month(self):
+        return self.__month
+
+    def set_month(self, month):
+        self.__month = month
+
+    def get_day(self):
+        return self.__day
+
+    def set_day(self, day):
+        self.__day = day
+
+    def compare(self, temp):
+        cur_date = int(str(self.__year) + str(self.__month) + str(self.__day))
+        temp_date = int(str(temp.get_year()) + str(temp.get_month()) + str(temp.get_day()))
+        if cur_date &gt; temp_date:
+            return 1
+        elif cur_date == temp_date:
+            return 0
+        else:
+            return -1
+
+    def cal_interval(self, date):
+        interval = 0
+        myself = self
+        if self.compare(date) == 0:
+            pass
+        if self.compare(date) &lt; 0:
+            date, myself = myself, date
+        while myself.compare(date) != 0:
+            date.add_days(1)
+            interval += 1
+        return interval + 1
+
+    def add_days(self, plus_day):
+        while plus_day != 0:
+            if self.not_leap == 0:
+                temp = self.__leap_year
+            else:
+                temp = self.__normal_year
+            if temp[self.get_month()-1] &gt;= self.get_day() + plus_day:
+                self.__day = self.get_day() + plus_day
+                plus_day = 0
+            else:
+                total = 0
+                for i in range(self.__month, 12):
+                    total += temp[i]
+                plus_day -= temp[self.__month-1] - self.__day
+                if total &gt;= plus_day:
+                    temp_month = self.__month+1
+                    while plus_day != 0:
+                        if plus_day &lt;= temp[temp_month-1]:
+                            self.__day = plus_day
+                            plus_day = 0
+                        else:
+                            plus_day -= temp[temp_month-1]
+                        temp_month += 1
+                        self.__month += 1
+                else:
+                    plus_day -= total + 1
+                    self.__year += 1
+                    self.__month = 1
+                    self.__day = 1
+
+    def printf(self, form):
+        if form == 'MDY':
+            print('日期: %d-%d-%d ' % (self.__month, self.__day, self.__year))
+        elif form == 'YMD':
+            print('日期: %d-%d-%d ' % (self.__year, self.__month, self.__day))
+        elif form == 'DMY':
+            print('日期: %d-%d-%d ' % (self.__day, self.__month, self.__year))
+        else:
+            print('日期: %d-%d-%d ' % (self.__year, self.__month, self.__day))
+
+    def get_day_in_the_year(self):
+        sum_ = 0
+        if self.not_leap:
+            temp = self.__normal_year
+        else:
+            temp = self.__leap_year
+        for i in range(self.__month - 1):
+            sum_ += temp[i]
+        return sum_ + self.__day
+
+    def get_week(self):
+        week = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
+        # 基姆拉尔森计算公式
+        if self.__month == 1 or self.__month == 2:
+            temp = int((self.__day + 2 * (self.__month + 12) + 3 * ((self.__month + 12) + 1) / 5 + (self.__year - 1) +
+                        (self.__year - 1) / 4 - (self.__year - 1) / 100 + (self.__year - 1) / 400) % 7)
+            print(week[temp])
+        else:
+            temp = int((self.__day + 2 * self.__month + 3 * (self.__month + 1) / 5 + self.__year + self.__year / 4 -
+                        self.__year / 100 + self.__year / 400) % 7)
+            print(week[temp])
+
+
+day1 = Date(1998, 5, 5)
+day1.printf("default")
+day1.get_week()
+day2 = Date(2017, 12, 16)
+day2.printf("default")
+day2.get_week()
+print(day1.cal_interval(Date(2017, 12, 16)))
+day3 = Date(2017, 2, 29)
+print(Date(2017, 12, 31).get_day_in_the_year())
+print(Date(2008, 3, 1).get_day_in_the_year())
+</code></pre>
+<img class="alignnone size-medium wp-image-2643" src="https://cdn.omegaxyz.com/2017/12/my_date-300x149.png" alt="" width="300" height="149" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

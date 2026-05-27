@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python利用shelve模块设计简单数据库程序 · OmegaXYZ</title>
+  <meta name="description" content="利用shelve模块写数据库文件在程序关闭时仍然能存储之前的数据。 将所有内容都放到函数中会让程序更加结构化。 主程序放在main函数中，只有在if__name__==&#x27;__main__&#x27;条件成立的时候才被调用 意味着可以在其他程序中将这个程序作为模块导入，然后调用main函数。 我在main函数中打开数据库(shelf)，然后将其作为参...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/09/06/shelve_database/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-09-06</div>
+        <h1>Python利用shelve模块设计简单数据库程序</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">利用shelve模块写数据库文件在程序关闭时仍然能存储之前的数据。
+
+将所有内容都放到函数中会让程序更加结构化。
+主程序放在main函数中，只有在if__name__=='__main__'条件成立的时候才被调用
+意味着可以在其他程序中将这个程序作为模块导入，然后调用main函数。
+
+我在main函数中打开数据库(shelf)，然后将其作为参数传给另外需要它的函数。
+我也可以使用全局变量，毕竟这个程序很小。不过，在大多数情况下最好避免用全局变
+量，除非有充足的理由要使用它。
+
+我使用try/finally确保数据库能够正确关闭。（）我们永远不知道什么时候会出错程序会抛出异常)。如果程序在没有正确关闭数据库的情况下终止，那么，数据库文件可能被损坏了，这样的数据文件是毫无用处的。
+
+下面是整个数据库文件代码：
+<pre ><code class="language-python">#©OmegaXYZ
+import shelve
+
+def store_person(db):
+    "Query user for data and store it in the shelf object"
+
+    pid = input("Enter unique ID number: ")
+    person = {}
+    person['name'] = input("input your name: ")
+    person['age'] = input("input your age: ")
+    person['phone'] = input("Enter your phone number: ")
+
+    db[pid] = person
+
+def lookup_person(db):
+    "Query user for ID and desired field. and fetch the corresponding data from the shelf object"
+
+    pid = input("Enter ID number")
+    field = input("What would you like to know?  (name, age, phone)")
+    field = field.strip().lower()
+    print(field.capitalize() + ':' + db[pid][field])
+
+def print_help():
+    print("The available commands are: ")
+    print("store : Stores information about a person")
+    print("lookup : Look up a person from ID number")
+    print("quit : Save changes and exit")
+    print("? : Print this message")
+
+def enter_command():
+    cmd = input("Enter command (? for help): ")
+    cmd = cmd.strip().lower()
+    return cmd
+
+def main():
+    database = shelve.open('E:\\Temporary\\database.dat')# You may want to change this name
+    try:
+        while True:
+            cmd = enter_command()
+            if cmd == 'store':
+                store_person(database)
+            elif cmd == 'lookup':
+                lookup_person(database)
+            elif cmd == '?':
+                print_help()
+            elif cmd == 'quit':
+                return
+    finally:
+        database.close()
+
+if __name__ == '__main__':main()</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大模型AlpacaFarm分析 · OmegaXYZ</title>
+  <meta name="description" content="一、摘要 本研究工作介绍了一个名为AlpacaFarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2024/12/18/alpacafarm/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-12-18</div>
+        <h1>大模型AlpacaFarm分析</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+<img class="alignnone wp-image-8002" src="https://cdn.omegaxyz.com/2024/12/alpacafarm_title.png" alt="" width="550" height="493" />
+<h2><strong>一、摘要</strong></h2>
+本研究工作介绍了一个名为AlpacaFarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人类反馈上训练和评估了十一种模型，证明了在AlpacaFarm中训练的模型的排名与在人类数据上训练的模型的排名相匹配。研究结果表明，使用奖励模型的方法可以显著提高监督微调的性能，且PPO实现在胜率上比Davinci003提高了10%。
+
+<img class="alignnone wp-image-8003" src="https://cdn.omegaxyz.com/2024/12/alpacafarm.png" alt="" width="572" height="383" />
+
+<h2><strong>二、问题与挑战</strong></h2>
+<strong>解决的问题</strong>
+
+大语言模型对齐人类偏好微调的工作流复杂，需要大量的人工反馈来提升模型SFT后的能力。因此，需要一种低成本，可信赖且能够替代现有基于人类反馈的模型训练（RLHF）流程。同时需要完备的评估验证方法来验证其有效性。
+
+<strong>面临的挑战</strong>
+<ul>
+ 	<li>偏好数据标注成本高昂</li>
+ 	<li>缺乏可信的模型自动化评估手段</li>
+ 	<li>缺乏参考（reference method）方法的实现</li>
+</ul>
+
+<h2><strong>三、创新与不足</strong></h2>
+<strong>创新点</strong>
+<ul>
+ 	<li>使用API LLMs模拟人类反馈标注，大幅降低偏好数据标注成本</li>
+ 	<li>提出了一种自动化评估手段，并通过真实的人类交互指令进行了验证</li>
+ 	<li>提供了多种参考模型（相对于API LLMs）的实现，如PPO、best-of-n、专家迭代等</li>
+</ul>
+<strong>有益效果</strong>
+<ul>
+ 	<li>在模拟环境中考察反馈偏好数据对模型性能的影响，能够快速迭代模型开发</li>
+ 	<li>低资源、低花费场景下，通过类人反馈数据提升模型性能</li>
+ 	<li>通过模拟反馈训练的模型在真实世界中的性能得到了验证</li>
+</ul>
+<strong>局限性</strong>
+<ul>
+ 	<li>模拟反馈显然无法完全捕捉人类反馈的<strong>多样性、异质性</strong>等特征</li>
+ 	<li>自动评估方法需要不断更新以适应新的指令和反馈类型</li>
+ 	<li>需要更多的研究来验证模拟器在不同领域和任务中的<strong>普适性</strong>，例如：
+<ul>
+ 	<li>通用数据和垂直领域数据的差别</li>
+ 	<li>模型参数量对性能的影响</li>
+ 	<li>成对偏好数据偏好角度对性能的影响</li>
+ 	<li>API LLM种类的多样性（文章中只采用了decoder-only的模型作为API）</li>
+ 	<li>评价角度的公平性</li>
+</ul>
+</li>
+</ul>
+
+<h2><strong>四、垂域任务上的思考与应用</strong></h2>
+<strong>基于专家反馈增强大模型在垂域任务上效果的路径有哪些？</strong>
+<ol>
+ 	<li><strong> 强化学习中的人类反馈（</strong><strong>RLHF, Reinforcement Learning from Human Feedback</strong><strong>）：</strong>利用人类反馈来指导强化学习的奖励函数。通过对模型输出的评价，赋予正面或负面的奖励来引导模型行为[1]。</li>
+</ol>
+<strong>优势：</strong>有助于模型更好地理解人类的偏好和要求，从而生成更符合任务需求的输出。
+
+<strong>技术挑战：</strong>
+<ul>
+ 	<li><strong>奖励函数设计：</strong>设计一个合理的奖励函数是非常困难的，因为它需要准确反映人类偏好，同时又不能过于复杂以至于难以优化。</li>
+ 	<li><strong>反馈质量和一致性：</strong>不同的评审者可能会对同一个输出给出不同的评价，导致反馈信号不一致（这种在AlpacaFarm中表现为噪声，这种不一致性是否会促进或阻碍模型性能尚未得到充分验证）。</li>
+ 	<li><strong>计算和资源开销：</strong>RLHF需要大量计算资源进行模型训练，并且需要频繁进行人类评审，成本较高。</li>
+ 	<li><strong>泛化性与多样性的平衡：</strong>论文[1]中，RLHF比SFT对新输入的泛化能力更强，特别是在训练和测试之间的分布偏移变大的情况下。然而，与SFT相比，RLHF在各种测量中显著降低了输出的多样性，因此LLM微调需要考虑泛化能力和输出多样性之间的权衡。</li>
+</ul>
+<strong>研究方向：</strong>
+<ul>
+ 	<li>开发更智能和灵活的奖励函数设计方法，包括自适应奖励机制和基于多目标优化的奖励函数[2,3,14]，以保证其评价的多样性与泛化性能。</li>
+ 	<li>引入一致性调整和质量控制机制，探索人类反馈的一致性和可靠性对训练的影响[4,5]。</li>
+ 	<li>探索在有限计算资源下有效进行RLHF训练的方法（例如本文）[6,7]。</li>
+</ul>
+&nbsp;
+<ol start="2">
+ 	<li><strong> 人类在回路中（</strong><strong>HITL, Human in the Loop</strong><strong>）：</strong>在模型训练和评估过程中引入人类干预，迭代地使用人类反馈来纠正和优化模型输出。具体来说，人类可以参与数据标注、实时校正错误输出以及提供进一步的解释和指导[8]。</li>
+</ol>
+<strong>优势：</strong>提高模型在特定领域的准确性和可靠性，人类专家的实时输入有助于快速纠正模型的错误。
+
+<strong>实现方式：</strong>创建一个交互式系统，允许人类专家在模型生成响应时提供即时反馈和修改，并将这些反馈用作模型的训练数据。
+
+<strong>技术挑战：</strong>
+<ul>
+ 	<li><strong>响应时间和效率：</strong>人类干预会增加系统的响应时间，在实时应用中，可能会导致延迟和效率降低。</li>
+ 	<li><strong>可扩展性：</strong>随着模型规模和数据量的增加，人工参与的规模也需要相应增加，可能难以持续扩展。</li>
+ 	<li><strong>人类专家的依赖：</strong>对高质量人类专家的依赖可能会成为瓶颈，特别是在高度专业化的垂直领域中，找到合适的专家进行持续反馈可能不容易。</li>
+</ul>
+<strong>研究方向：</strong>
+<ul>
+ 	<li>人机交互方向，开发半自动化辅助工具，降低人类专家在回路中的干预时间和工作量[9,10]。</li>
+ 	<li>除此以外，针对专家依赖同RLHF。</li>
+</ul>
+&nbsp;
+<ol start="3">
+ 	<li><strong> 主动学习（</strong><strong>Active Learning</strong><strong>）：</strong>模型会主动选择那些它最不确定或难以预测的样本，并请求人类专家对这些样本进行标注。这样可以最大化地利用人类反馈，提高训练数据的质量和模型的性能[11]。</li>
+</ol>
+<strong>优势：</strong>高效利用人类标注资源，通过聚焦在最难或最模糊的样本上，可以显著提高模型的性能。
+
+<strong>实现方式：</strong>利用不确定性采样等策略，让模型选出最需要人类反馈的样本，并将这些样本优先提交给人类专家进行标注。
+
+<strong>技术挑战：</strong>
+<ul>
+ 	<li><strong>选择策略的复杂性：</strong>选择哪些样本需要人类反馈是一个复杂的问题，特别是当样本空间非常大时。选择策略需要平衡不确定性和代表性，以确保选择的样本能最大化地提高模型性能。</li>
+ 	<li><strong>反馈的及时性：</strong>主动学习需要人类迅速地标注选择的样本，如果反馈不及时，可能会延迟模型的更新和提升。</li>
+ 	<li><strong>样本的不平衡性：</strong>在某些情况下，主动学习可能会导致数据集中的某些类别过于稀疏，从而影响模型在这些类别上的表现。</li>
+</ul>
+<strong>研究方向：</strong>
+<ul>
+ 	<li>研究样本平衡技术，确保在主动学习过程中数据集的多样性分布均衡[12]。</li>
+ 	<li>主动学习与Human-in-the-loop结合，提高其反馈的时效性[11]。</li>
+ 	<li>探索在稀疏类别或OOD（out-of-distribution）场景数据增强策略以支持主动学习[13]。</li>
+</ul>
+
+<h2><strong>五、参考文献</strong></h2>
+[1] Kirk, Robert, et al. "Understanding the effects of rlhf on llm generalisation and diversity." <em>arXiv preprint arXiv:2310.06452</em> (2023).
+
+[2] Wang, Binghai, et al. "Secrets of rlhf in large language models part ii: Reward modeling." <em>arXiv preprint arXiv:2401.06080</em> (2024).
+
+[3] Yuan, Weizhe, et al. "Self-rewarding language models." arXiv preprint arXiv:2401.10020 (2024).
+
+[4] Li, Aaron J., Satyapriya Krishna, and Himabindu Lakkaraju. "More RLHF, More Trust? On The Impact of Human Preference Alignment On Language Model Trustworthiness." <em>arXiv preprint arXiv:2404.18870</em> (2024).
+
+[5] Wang, Shiqi, et al. "Offline RLHF Methods Need More Accurate Supervision Signals." <em>arXiv preprint arXiv:2408.09385</em> (2024).
+
+[6] Wang, Peiyi, et al. "Large language models are not fair evaluators." <em>arXiv preprint arXiv:2305.17926</em> (2023).
+
+[7] Sun, Zhiqing, et al. "Salmon: Self-alignment with principle-following reward models." <em>arXiv preprint arXiv:2310.05910</em> (2023).
+
+[8] Mosqueira-Rey, Eduardo, et al. "Human-in-the-loop machine learning: a state of the art." Artificial Intelligence Review 56.4 (2023): 3005-3054.
+
+[9] Wang, Xinbing, et al. "AceMap: Knowledge Discovery through Academic Graph." <em>arXiv preprint arXiv:2403.02576</em> (2024).
+
+[10] Amirizaniani, Maryam, et al. "Developing a framework for auditing large language models using human-in-the-loop." <em>arXiv preprint arXiv:2402.09346</em> (2024).
+
+[11] Kholodna, Nataliia, et al. "LLMs in the loop: leveraging large language model annotations for active learning in low-resource languages." <em>Joint European Conference on Machine Learning and Knowledge Discovery in Databases</em>. Cham: Springer Nature Switzerland, 2024.
+
+[12] Bayer, Markus, and Christian Reuter. "ActiveLLM: Large Language Model-based Active Learning for Textual Few-Shot Scenarios." arXiv preprint arXiv:2405.10808 (2024).
+
+[13] Gebreegziabher, Simret Araya, et al. "Leveraging Variation Theory in Counterfactual Data Augmentation for Optimized Active Learning." arXiv preprint arXiv:2408.03819 (2024).
+
+[14] Bansal, Hritik, John Dang, and Aditya Grover. "Peering through preferences: Unraveling feedback acquisition for aligning large language models." arXiv preprint arXiv:2308.15812 (2023).</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

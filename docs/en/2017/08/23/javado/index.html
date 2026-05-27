@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAVA classic interview questions (from the Internet) · OmegaXYZ</title>
+  <meta name="description" content="Object-Oriented Programming (OOP) Java is a concurrent, class-based and object-oriented computer programming language. Listed below are the advantages of object-oriented software development: Code development is modular, making it easier to maintain and modify. Code reuse. Enhance code reliability and flexibility. Increase code understandability. Object-oriented programming has many important features, such as encapsulation, inheritance, polymorphism and abstraction. In the following chapters we will analyze these features one by one. Encapsulation Encapsulation provides an object with hidden internal...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/08/23/javado/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-23</div>
+        <h1>JAVA classic interview questions (from the Internet)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><strong>Object-oriented programming (OOP)</strong>Java is a concurrent, class-based and object-oriented computer programming language. Listed below are the advantages of object-oriented software development:
+
+Code development is modular, making it easier to maintain and modify.
+Code reuse.
+Enhance code reliability and flexibility.
+Increase code understandability.
+Object-oriented programming has many important features, such as encapsulation, inheritance, polymorphism and abstraction. In the following chapters we will analyze these features one by one.<strong>encapsulation</strong>Encapsulation provides objects with the ability to hide internal characteristics and behavior. An object provides methods that can be accessed by other objects to change its internal data. In Java, there are three modifiers: public, private and protected. Each modifier gives different access rights to other objects located in the same package or in different packages.
+
+Listed below are some of the benefits of using encapsulation:
+
+Protect the internal state of an object by hiding its properties.
+Improves code usability and maintainability because the behavior of objects can be individually changed or extended.
+Disallowing unwanted interactions between objects improves modularity.
+Refer to this document for more details and examples on encapsulation.<strong>Polymorphism</strong>Polymorphism is the ability of a programming language to present the same interface to different underlying data types. Operations on a polymorphic type can be applied to values ​​of other types.<strong>inherit</strong>Inheritance provides objects with the ability to obtain fields and methods from a base class. Inheritance provides reuse of code and the ability to add new features to existing classes without modifying them.<strong>abstract</strong>Abstraction is the step of separating ideas from concrete instances, thus creating classes based on their functionality rather than implementation details. Java supports the creation of abstract classes that only expose interfaces but do not contain method implementations. The main purpose of this abstraction technique is to separate the behavior of the class from the implementation details.<strong>The difference between abstraction and encapsulation</strong>Abstraction and encapsulation are complementary concepts. On the one hand, abstraction focuses on the behavior of objects. Encapsulation, on the other hand, focuses on the details of an object's behavior. Encapsulation is generally achieved by hiding the internal state information of the object. Therefore, encapsulation can be regarded as a strategy used to provide abstraction.<strong>Common Java questions</strong>1. What is Java Virtual Machine? Why is Java called a “platform unrelated programming language”?
+
+Java Virtual Machine is a virtual machine process that can implement Java bytes. The Java source document has been compiled into bytes that can be executed by the Java Virtual Machine.
+
+Java was designed to allow applications to operate on any platform, without the need for programmers to rewrite or recompile each platform separately. The Java Virtual Machine made this possible because it knew the command length and other characteristics of the bottom hardware platform.
+
+2. What is the difference between JDK and JRE?
+
+Java Operating Time Environment (JRE) is the Java Virtual Machine that will implement the Java process. It also contains browser plugins needed to execute applets. Java Development Toolkit (JDK) is a complete Java software development package that includes JRE, compilers and other tools (e.g. JavaDoc, Java Debugger) that allows developers to develop, compile and implement Java applications.
+
+What does the word “static” mean? Does Java cover a pilvate or static method?
+
+The “static” keyword indicates that either a member variable or a member approach can be accessed without an example variable of the category to which it belongs.
+
+The Static method in Java cannot be covered because it is based on the dynamic binding of running time, whereas the Static method is static binding at compilation. The status approach is not relevant to any of the examples of the categories, so it is not conceptually applicable.
+
+Can non-static variables be accessed in the context of the situation?
+
+The static variable is classified in Java and has the same value in all cases. When the class is loaded on the Java Virtual Machine, the status variable is initialized. If your code attempts to access non-static variables without examples, the compiler will report errors because these variables have not been created and are not associated with any examples.
+
+5. What are the types of data supported by Java? What's self-dismantling?
+
+The eight basic data types supported by Java language are:
+
+Byte
+I don't know.
+Int
+Long
+♪ Float ♪
+Double.
+Boolean
+Char.
+
+Autoboxes are a conversion of Java compilers between the basic data type and the corresponding object packaging type. For example, conversion of int to Integer, dooble to dooble, etc. On the contrary, it's self-dismantling.
+
+6. What does the method coverage in Java and reloading mean?
+
+The method reloading in Java occurs when two or more methods within the same category have the same method name but different parameters. In contrast, the method of coverage is to say that the subcategory redefines the parent category. The method must be covered by the same method name, list of parameters and type of return. Coverage may not limit access to the methods it covers.
+
+7. In Java, what is the construction function? What is the reloading of construction functions? What's a copy construction function?
+
+When a new object is created, the construction function is called. Each class has a construction function. The Java compiler creates a default construction function for a class where the programmer does not provide the class with a construction function.
+
+The construction function and method of reloading in Java are similar. You can create multiple tectonic functions for a class. Each construction function must have its own list of only parameters.
+
+Java does not support a reproduction construction function like that in C++, the difference being that Java does not create the default reproduction construction function if you do not write the construction function yourself.
+
+Does Java support more inheritance?
+
+No, Java does not support multiple successions. Each category can inherit only one, but multiple interfaces can be achieved.
+
+What are the differences between interfaces and abstract categories?
+
+Java provides and supports the creation of abstract categories and interfaces. Their realization has common elements, different from:
+
+All methods in the interface are implicit in abstraction. The abstract category, on the other hand, can contain both abstract and non-abstract methods.
+
+Classes can achieve many interfaces, but only one abstract category.
+
+If a class is to achieve an interface, it must achieve all methods of interface declaration. However, the category could not achieve all methods of abstract type declarations, and in that case, of course, the category must also be declared abstract.
+
+The abstract category can achieve interfaces without providing interface methods.
+
+The variable declared in the Java interface is default. The abstract class can contain non-final variables.
+
+The membership function in the Java interface is by default public. An abstract category of member functions can be Private, programmed or public.
+
+The interface is absolutely abstract and cannot be exemplified. The abstract category could also not be exemplified, but it could be called if it included the main method.
+
+The difference between abstract categories and interfaces in JDK8 may also be referred to
+
+What is the transmission of value and reference?
+
+The object is passed by value, meaning that a copy of the object is passed. Therefore, even if a copy of the object is changed, it does not affect the value of the source object.
+
+The fact that objects are referred to means that they are not actually objects, but are references to objects. Therefore, external changes in reference objects are reflected in all objects.
+
+Java Line
+
+What is the difference between process and thread?
+
+The process is an implemented application, and the thread is an execution sequence within the process. A process can have multiple threads. Threads are also called lightweight processes.
+
+There are several different ways to create a thread? Which one do you like? Why?
+
+There are three ways to create a thread:
+
+Succession to the Thread class
+
+Runnable interface
+
+Application can create a thread pool using the Execuator framework
+
+Achieving the Runnable interface is more popular, as it does not require succession to the Thread category. Where other objects have been inherited in the application design, this requires multiple inheritance (which Java does not support) and only interfaces. At the same time, it is highly efficient and easy to achieve and use.
+
+13. The broad explanation of the availability of the lower line.
+
+In the course of the execution, the thread can be in the following states:
+
+Runnable: The threads are ready to run, not necessarily to begin.
+
+Running (Running): The process is implementing the thread code.
+
+Waiting: Threads are blocked and waiting for external processing to be completed.
+
+Sleeping: threads are forced to sleep.
+
+I/O Blocked on I/O: Waiting for I/O operation to be completed.
+
+Synchronization: Waiting for lock.
+
+Death: Line is complete.
+
+14. What are the differences between synchronous methods and synchronous code blocks?
+
+In Java, each object has a lock. Threads can use synchronized keywords to access the lock on the object. The synchronized keyword can be applied at the method level (coarse particle size lock) or at the code block level (particle size lock).
+
+15. Within the Monitor, how do we synchronize the threads? What level of synchronization should the program do?
+
+Monitors and locks in Java virtual machines are used together. The monitor monitors a piece of the synchronized code block to ensure that there is only one thread at a time. Each monitor is linked to an object reference. Threads are not allowed to execute sync codes until the lock is retrieved.
+
+What's a deadlock?
+
+Both processes have been locked in the ground as they await the completion of each other ' s implementation in order to continue. The result is that both processes are trapped in endless waits.
+
+17. How to ensure that N-range access to N-sources does not lead to death locks?
+
+When using multiple threads, a very simple way to avoid a dead lock is to specify the order in which the locks will be retrieved and to force the threads to obtain the locks in the order specified. Thus, if all the threads were locked and released in the same order, there would be no death lock.
+
+Java Pool Class
+
+18. What are the basic interfaces for the Java cluster framework?
+
+The assembly class interface specifies a group of objects called elements. Each specific category of realization of the cluster type interface can choose to save and sort elements in its own way. Some group classes allow repeat keys, and some do not.
+
+The Java cluster category provides a well-designed set of interfaces and classes that support the operation of a group of objects. The most basic interfaces in the Java cluster are:
+
+Collaction: represents a group of objects, each of which is its sub-elements.
+
+Set: Colletion that does not contain repeat elements.
+
+List: Orderd collection and can contain repeat elements.
+
+Map: Keys can be mapped to objects of value (value) and cannot be repeated.
+
+19. Why is the assembly class not achieving a Clineable and Serializable interface?
+
+The semantics and meanings of cloning or serialization are relevant to concrete realization. It was therefore up to the grouping category to specify how to be cloned or sequenced.
+
+What's an interator?
+
+The ITterator interface provides a number of ways to invert the assembly elements. Each group class contains examples of an iterative device that can be returned.
+
+
+
+The iterative approach. Iterator can remove the elements of the bottom collection during the iterative process.
+
+What is the difference between Iterator and Listerator?
+
+Their differences are listed below:
+
+Itterator can be used to gather through Set and List, but it can only be used by Lister.
+
+Itterator can only go forward, and Listeteror can go forward or backwards.
+
+Listfirsterator achieves the Iterator interface and contains other functions, such as adding elements, replacing elements, obtaining an index of the former and the latter elements, etc.
+
+What is the difference between fast-fast and safety-safe?
+
+Itterator ' s security failure is based on the copying of the bottom assembly and is therefore not affected by modifications on the source pool. All the assembly classes under the java.util package were quick to fail, while all the classes under the java.util.concurent package were safe to fail. A fast-failed anecdote will be thrown out.
+
+Concurrent ModificationException is abnormal, and a failed security iterative will never throw out such an anomaly.
+
+23. What is the rationale for HashMap in Java?
+
+HashMap in Java stores elements in the form of key pairs (key-value). HashMap needs a Hash function which uses the HashCode() and equals() method to add and retrieve elements from the collection. When you call the put() method, HashMap calculates the Hash value of key, and then stores the key value against the appropriate index in the pool. If the key already exists, the value will be updated.
+
+Some of the important characteristics of HashMap are its capacity (capability), load factor (load factor) and amplification limit (threshold extension).
+
+24. Where does the importance of the HashCode() and equals() approaches lie?
+
+H of Java</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

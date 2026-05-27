@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepScience：学术趋势预测与分析 · OmegaXYZ</title>
+  <meta name="description" content="导言 在此 Github仓库 中，我们选择 COVID-19 和 深度学习 领域来预测科学的发展趋势。 我们使用 AceMap 中的论文和字段信息，值得注意的是，我们还收集了来自整个学术界的论文，包括19个学科（数学、历史、心理学、经济学、社会学、艺术、地理学、商业、物理学、政治学、哲学、生物学、计算机科学、材料科学、环境科学、医学、化学...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2022/03/30/deepscience-学术趋势预测与分析/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2022-03-30</div>
+        <h1>DeepScience：学术趋势预测与分析</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><h2><strong>导言</strong></h2>
+在此<a href="https://github.com/xyjigsaw/DeepScience" target="_blank" rel="noopener">Github仓库</a>中，我们选择<strong>COVID-19</strong>和<strong>深度学习</strong>领域来预测科学的发展趋势。
+我们使用<a href="https://www.acemap.info/" target="_blank" rel="noopener">AceMap</a>中的论文和字段信息，值得注意的是，我们还收集了来自整个学术界的论文，包括19个学科（数学、历史、心理学、经济学、社会学、艺术、地理学、商业、物理学、政治学、哲学、生物学、计算机科学、材料科学、环境科学、医学、化学、工程和地质学）和292个子领域（子学科）。
+
+为了预测学术趋势，我们构建了一个基于论文引文的领域图。具体来说，我们抓取的论文都有领域标签。每篇论文可能属于几个领域。我们使用引用关系来链接这些字段。例如，论文P1属于领域F1和F2，论文P2属于领域F2和F3，同样，P1引用P2。然后，我们添加边（F1，F2），（F1，F3），（F2，F2）和（F2，F3），每个边的权重是领域中引用的总数。节点的id可以在Acemap上找到，例如业务的id是2024422753，然后，您可以通过访问https://www.acemap.info/field/2024422753来查看该领域。
+<h2><strong>统计数据</strong></h2>
+我们产生的动态字段图逐日从2020年1月1日到2021年3月31日（456天）COVID-19。深度学习的时间范围是2017年10月1日至2021年3月31日。最后，构造了动态领域图，并将其称为COVID-19（深度学习）学术图。
+您可以从<a href="https://drive.google.com/drive/folders/11GArAGnx655sOrDBPm5BwKH-eDsUJvQX?usp=sharing">Google Drive</a>下载这两个数据集。
+<div class="table-container">
+<table style="height: 142px;" width="392">
+<thead>
+<tr>
+<th></th>
+<th>COVID-19</th>
+<th>Deep Learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fields</td>
+<td>18,369</td>
+<td>40,930</td>
+</tr>
+<tr>
+<td>Relations</td>
+<td>198,137</td>
+<td>669,426</td>
+</tr>
+<tr>
+<td>Relations (weight &gt; 1)</td>
+<td>54,106</td>
+<td>186,255</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+</div>
+<h2><strong>分析简介</strong></h2>
+<h4><strong>Motif趋势</strong></h4>
+<img class="alignnone wp-image-7550" src="https://cdn.omegaxyz.com/2022/03/motifs.png" alt="" width="593" height="266" />
+
+两个领域的跨主题模式在上升，深度学习的交叉话题数量远远大于COVID-19。在疫情后期，交叉趋势放缓并达到趋同。从2018年底到2019年，深度学习领域出现了爆炸性增长。虽然近几月深度学习论文发表速度有所放缓，但与COVID-19相比，仍有很大的发展前景。
+<h4><strong>网络特征</strong></h4>
+我们还计算了场图的几个网络特征。更多细节可以在我们的论文中找到。
+
+<img class="alignnone wp-image-7549" src="https://cdn.omegaxyz.com/2022/03/metrics.png" alt="" width="660" height="310" />
+
+<img class="alignnone wp-image-7552" src="https://cdn.omegaxyz.com/2022/03/clustering_coefficient.png" alt="" width="670" height="253" />
+
+<img class="alignnone wp-image-7553" src="https://cdn.omegaxyz.com/2022/03/degree_assortativity.png" alt="" width="670" height="248" />
+<h4><strong>热门话题</strong></h4>
+我们使用<a href="https://github.com/yanghaoxie/GCN-GAN-for-Weighted-Dynamic-Networks" target="_blank" rel="noopener">GCN-GAN</a>和<a href="https://github.com/yanghaoxie/GCN-GAN-for-Weighted-Dynamic-Networks" target="_blank" rel="noopener">EvolveGCN</a>预测未来交叉学科的发展趋势。
+
+<img class="alignnone size-full wp-image-7548" src="https://cdn.omegaxyz.com/2022/03/gcn-gan.png" alt="" width="544" height="352" />
+
+&nbsp;
+
+在COVID-19方面，我们发现：
+<ul>
+ 	<li>计算机辅助医疗深化内科诊断改革</li>
+ 	<li>外科手术更注重风险评估</li>
+ 	<li>在线医疗诊断进一步确保了用户隐私</li>
+ 	<li>内分泌手术的交叉点继续增加</li>
+ 	<li>医疗废物管理将更多地考虑环境保护</li>
+ 	<li>机器学习辅助的疫情人口学分析</li>
+</ul>
+<h4><strong>传递熵</strong></h4>
+传递熵是一种非参数统计量，用于测量两个随机过程之间的定向（时间不对称）信息传递量。我们使用转移熵从PageRank的角度挖掘不同领域之间的潜在影响。更多细节可以在我们的论文中找到。
+
+<img class="alignnone wp-image-7551" src="https://cdn.omegaxyz.com/2022/03/transfer_entropy_cs.png" alt="" width="670" height="260" />
+
+&nbsp;
+
+如果您使用此存储库，请引用。
+<pre ><code class="language-default">@software{Yi_DeepScience_2022,
+author = {Yi, Xu and Zhe, Li and Yihan, Zhang},
+month = {3},
+title = {DeepScience},
+version = {0.1.0},
+year = {2022}
+}</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

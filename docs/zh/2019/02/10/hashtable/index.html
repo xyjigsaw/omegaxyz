@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哈希表（散列表）的应用 · OmegaXYZ</title>
+  <meta name="description" content="散列表（Hash table，也叫哈希表） ，是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录， 以加快查找的速度 。这个映射函数叫做 散列函数 ，存放记录的数组叫做散列表。给定表M，存在函数f(key)，对任意给定的关键字值key，代入函数后若能得到包含该关键字的记录在...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/10/hashtable/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-10</div>
+        <h1>哈希表（散列表）的应用</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content"><strong>散列表（Hash table，也叫哈希表）</strong>，是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，<span style="color: #ff0000;">以加快查找的速度</span>。这个映射函数叫做<span style="color: #ff0000;">散列函数</span>，存放记录的数组叫做散列表。给定表M，存在函数f(key)，对任意给定的关键字值key，代入函数后若能得到包含该关键字的记录在表中的地址，则称表M为哈希(Hash）表，函数f(key)为哈希(Hash) 函数。
+
+<hr />
+
+<h2><strong>冲突解决</strong></h2>
+“处理冲突”的含义是：为产生冲突的关键字寻找下一个哈希地址。通常有两类方法处理冲突：开放定址(Open Addressing)法和拉链(Chaining)法。前者是将所有结点均存放在散列表T[0..m-1]中；后者通常是将互为同义词的结点链成一个单链表，而将此链表的头指针放在散列表T[0..m-1]中。
+<h3><strong><span class="section">1 开放地址法 </span></strong></h3>
+这个方法的<span class="section">基本思想</span>是：当发生地址冲突时，按照某种方法继续探测哈希表中的其他存储单元，直到找到空位置为止。这个过程可用下式描述：
+H i ( key ) = ( H ( key )+ d i ) mod m ( i = 1,2,…… ， k ( k ≤ m – 1))
+其中： H ( key ) 为关键字 key 的直接哈希地址， m 为哈希表的长度， di 为每次再探测时的地址增量。
+采用这种方法时，首先计算出元素的直接哈希地址 H ( key ) ，如果该存储单元已被其他元素占用，则继续查看地址为 H ( key ) + d 2 的存储单元，如此重复直至找到某个存储单元为空时，将关键字为 key 的数据元素存放到该单元。
+增量 d 可以有不同的取法，并根据其取法有不同的称呼：
+（ 1 ） d i ＝ 1 ， 2 ， 3 ， …… 线性探测再散列；
+（ 2 ） d i ＝ 1^2 ，－ 1^2 ， 2^2 ，－ 2^2 ， k^2， -k^2…… 二次探测再散列；
+（ 3 ） d i ＝ 伪随机序列 伪随机再散列；
+
+<span class="section">例1</span>设有哈希函数 H ( key ) = key mod 7 ，哈希表的地址空间为 0 ～ 6 ，对关键字序列（ 32 ， 13 ， 49 ， 55 ， 22 ， 38 ， 21 ）按线性探测再散列和二次探测再散列的方法分别构造哈希表。
+
+<strong>①线性探查法(Linear Probing)
+该方法的基本思想是：</strong>
+将散列表T[0..m-1]看成是一个循环向量，若初始探查的地址为d(即h(key)=d)，则最长的探查序列为：
+d，d+l，d+2，…，m-1，0，1，…，d-1
+即:探查时从地址d开始，首先探查T[d]，然后依次探查T[d+1]，…，直到T[m-1]，此后又循环到T[0]，T[1]，…，直到探查到T[d-1]为止。
+
+<strong>探查过程终止于三种情况：</strong>
+(1)若当前探查的单元为空，则表示查找失败（若是插入则将key写入其中）；
+(2)若当前探查的单元中含有key，则查找成功，但对于插入意味着失败；
+(3)若探查到T[d-1]时仍未发现空单元也未找到key，则无论是查找还是插入均意味着失败(此时表满)。
+
+<strong>聚集或堆积现象</strong>
+用线性探查法解决冲突时，当表中i,i+1，…，i+k的位置上已有结点时，一个散列地址为i，i+1，…，i+k+1的结点都将插入在位置i+k+1上。把这种散列地址不同的结点争夺同一个后继散列地址的现象称为聚集或堆积(Clustering)。这将造成不是同义词的结点也处在同一个探查序列之中，从而增加了探查序列的长度，即增加了查找时间。若散列函数不好或装填因子过大，都会使堆积现象加剧。
+
+<strong> ②二次探查法(Quadratic Probing)</strong>
+二次探查法的探查序列是：
+h<sub>i</sub>=(h(key)+i*i)％m 0≤i≤m-1 //即d<sub>i</sub>=i<sup>2</sup>
+即探查序列为d=h(key)，d+1<sup>2</sup>，d+2<sup>2</sup>，…，等。
+该方法的缺陷是不易探查到整个散列空间。
+
+<strong>③双重散列法(Double Hashing)</strong>
+该方法是开放定址法中最好的方法之一，它的探查序列是：
+h<sub>i</sub>=(h(key)+i*h1(key))％m 0≤i≤m-1 //即d<sub>i</sub>=i*h1(key)
+即探查序列为：
+d=h(key)，(d+h1(key))％m，(d+2h1(key))％m，…，等。
+该方法使用了两个散列函数h(key)和h1(key)，故也称为双散列函数探查法。
+注意：
+定义h1(key)的方法较多，但无论采用什么方法定义，都必须使h1(key)的值和m互素，才能使发生冲突的同义词地址均匀地分布在整个表中，否则可能造成同义词地址的循环计算。
+【例】 若m为素数，则h1(key)取1到m-1之间的任何数均与m互素，因此，我们可以简单地将它定义为：
+h1(key)=key％(m-2)+1
+【例】对例9.1，我们可取h(key)=key％13，而h1(key)=key％11+1。
+【例】若m是2的方幂，则h1(key)可取1到m-1之间的任何奇数。
+<h3><strong>2、拉链法</strong></h3>
+<strong>①拉链法解决冲突的方法</strong>
+拉链法解决冲突的做法是：将所有关键字为同义词的结点链接在同一个单链表中。若选定的散列表长度为m，则可将散列表定义为一个由m个头指针组成的指针数组T[0..m-1]。凡是散列地址为i的结点，均插入到以T[i]为头指针的单链表中。T中各分量的初值均应为空指针。在拉链法中，装填因子α可以大于1，但一般均取α≤1。
+
+<img class="alignnone size-full wp-image-5493" src="https://cdn.omegaxyz.com/2019/02/hashtable.jpg" alt="" width="314" height="294" />
+
+<strong>②拉链法的优点</strong>
+与开放定址法相比，拉链法有如下几个优点：
+(1)拉链法处理冲突简单，且无堆积现象，即非同义词决不会发生冲突，因此平均查找长度较短；
+(2)由于拉链法中各链表上的结点空间是动态申请的，故它更适合于造表前无法确定表长的情况；
+(3)开放定址法为减少冲突，要求装填因子α较小，故当结点规模较大时会浪费很多空间。而拉链法中可取α≥1，且结点较大时，拉链法中增加的指针域可忽略不计，因此节省空间；
+(4)在用拉链法构造的散列表中，删除结点的操作易于实现。只要简单地删去链表上相应的结点即可。而对开放地址法构造的散列表，删除结点不能简单地将被删结点的空间置为空，否则将截断在它之后填人散列表的同义词结点的查找路径。这是因为各种开放地址法中，空地址单元(即开放地址)都是查找失败的条件。因此在用开放地址法处理冲突的散列表上执行删除操作，只能在被删结点上做删除标记，而不能真正删除结点。
+
+<strong>③拉链法的缺点</strong>
+拉链法的缺点是：指针需要额外的空间，故当结点规模较小时，开放定址法较为节省空间，而若将节省的指针空间用来扩大散列表的规模，可使装填因子变小，这又减少了开放定址法中的冲突，从而提高平均查找速度。
+<h3><strong>3、建立一个公共溢出区</strong></h3>
+假设哈希函数的值域为[0,m-1],则设向量HashTable[0..m-1]为基本表，另外设立存储空间向量OverTable[0..v]用以存储发生冲突的记录。经过以上方法，基本可以解决掉hash算法冲突的问题。
+
+以上摘自：<a href="https://www.cnblogs.com/foreverking/articles/2339735.html">https://www.cnblogs.com/foreverking/articles/2339735.html</a>
+
+<hr />
+
+<h2><strong>应用（PAT 甲 1078）</strong></h2>
+<div class="card-title"><strong>1078 Hashing （25 分）</strong></div>
+<div class="problemListItem_2867x">
+<div class="problem_2tXnk">
+<div class="ques-view">
+
+The task of this problem is simple: insert a sequence of distinct positive integers into a hash table, and output the positions of the input numbers. The hash function is defined to be <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">H</span><span class="mopen">(</span><span class="mord mathit">k</span><span class="mord mathit">e</span><span class="mord mathit">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit">k</span><span class="mord mathit">e</span><span class="mord mathit">y</span><span class="mord mathrm">%</span><span class="mord mathit">T</span><span class="mord mathit">S</span><span class="mord mathit">i</span><span class="mord mathit">z</span><span class="mord mathit">e</span></span></span></span> where <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">T</span><span class="mord mathit">S</span><span class="mord mathit">i</span><span class="mord mathit">z</span><span class="mord mathit">e</span></span></span></span> is the maximum size of the hash table. <span style="color: #ff0000;"><strong>Quadratic probing (with positive increments only)</strong> </span>is used to solve the collisions.
+
+Note that the table size is better to be prime. If the maximum size given by the user is not prime, you must re-define the table size to be the smallest prime number which is larger than the size given by the user.
+<h3 id="input-specification-"><strong>Input Specification:</strong></h3>
+Each input file contains one test case. For each case, the first line contains two positive numbers: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">M</span><span class="mord mathit">S</span><span class="mord mathit">i</span><span class="mord mathit">z</span><span class="mord mathit">e</span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span class="fontsize-ensurer reset-size5 size5">​</span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord mathrm mtight">4</span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5">​</span>​</span></span></span></span></span></span></span>) and <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span>(<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mrel">≤</span><span class="mord mathit">M</span><span class="mord mathit">S</span><span class="mord mathit">i</span><span class="mord mathit">z</span><span class="mord mathit">e</span></span></span></span>) which are the user-defined table size and the number of input numbers, respectively. Then <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base textstyle uncramped"><span class="mord mathit">N</span></span></span></span> distinct positive integers are given in the next line. All the numbers in a line are separated by a space.
+<h3 id="output-specification-"><strong>Output Specification:</strong></h3>
+For each test case, print the corresponding positions (index starts from 0) of the input numbers in one line. All the numbers in a line are separated by a space, and there must be no extra space at the end of the line. In case it is impossible to insert the number, print "-" instead.
+<h3 id="sample-input-"><strong>Sample Input:</strong></h3>
+<pre><code class="lang-in">4 4
+10 6 4 15
+</code></code></pre>
+<h3 id="sample-output-"><strong>Sample Output:</strong></h3>
+<pre class=""><code class="lang-out">0 1 4 -</code></code></pre>
+</div>
+</div>
+</div>
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+using namespace std;
+ 
+int m,n;
+vector&lt;int&gt; arr,flag;
+bool isprime(int n){
+	if(n&lt;=1)
+		return false;
+	for(int i=2;i*i&lt;=n;i++)
+		if(n % i == 0)
+			return false;
+	return true;
+}
+ 
+void insert(int num){
+	for(int j=0;j&lt;n;j++){
+		int key = (num+j*j)%m;
+		if(flag[key] == 0){
+			flag[key] = 1;
+			printf("%d",key);
+			return ;
+		}
+	}
+	printf("-");
+}
+ 
+int main(){
+	cin&gt;&gt;m&gt;&gt;n;
+	while(!isprime(m))m++;
+	
+	arr.resize(n,0);
+	for(int i=0;i&lt;n;i++)
+		cin&gt;&gt;arr[i];
+	
+	flag.resize(m,0);
+	for(int i=0;i&lt;n;i++){
+		insert(arr[i]);
+		if(i != n-1)
+			printf(" ");
+	}
+	return 0;
+} 
+</code></pre>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-8527">
+          <strong><a href="http://adoncn.com/30992/" rel="nofollow">免费SSR节点</a></strong>
+          <time>2019-02-17 08:22:15</time>
+          <div>得从头来过.......</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

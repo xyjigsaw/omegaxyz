@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python机器学习房价预测 (斯坦福大学机器学习课程) · OmegaXYZ</title>
+  <meta name="description" content="问题来自慕课斯坦福机器学习课程 问题 ·输入数据只有一维：房子的面积 ·目标的数据只有一维：房子的价格 根据已知房子的面积和价格进行机器学习和模型预测 数据见文章末尾 数据需要标准化X=(X-aver(sum(Xi)))/std(Xi) 步骤①数据获取与处理 横轴是标准化之后的面积，纵轴是房子的价格 步骤②选择与训练模型 模型损失函数是平...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/14/python_machinelearning_houseprices/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-14</div>
+        <h1>Python机器学习房价预测 (斯坦福大学机器学习课程)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+
+问题来自慕课斯坦福机器学习课程
+<h1>问题</h1>
+·输入数据只有一维：房子的面积
+·目标的数据只有一维：房子的价格
+根据已知房子的面积和价格进行机器学习和模型预测
+数据见文章末尾
+数据需要标准化X=(X-aver(sum(Xi)))/std(Xi)
+<h1>步骤①数据获取与处理</h1>
+<pre ><code class="language-python"># 导入需要用到的库
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 定义存储输入数据（x）和目标数据（y）的数组
+x, y = [], []
+# 遍历数据集，变量sample对应的正是一个个样本
+for sample in open("C:\\Users\\dell\\Desktop\\house_prices.txt", 'r'):
+    _x, _y = sample.split(",")
+    # 将字符串数据转化为浮点数
+    x.append(float(_x))
+    y.append(float(_y))
+# 读取完数据后，将他们转化为Numpy数组以方便进一步的处理
+x, y = np.array(x), np.array(y)
+# 标准化
+x = (x - x.mean()) / x.std()
+# 将原始数据集以散点的形式画出
+plt.figure()
+plt.scatter(x, y, c="g", s=6)
+plt.show()</code></pre>
+<img class="alignnone wp-image-2194 size-full" src="https://cdn.omegaxyz.com/2017/10/machinelearning_houseprices1.png" alt="" width="642" height="553" />
+
+横轴是标准化之后的面积，纵轴是房子的价格
+<h1>步骤②选择与训练模型</h1>
+模型损失函数是平方损失函数也就是所谓的欧式距离，这里的目的是要将损失函数最小化
+利用<strong>Numpy</strong>训练和优化
+
+<strong>模型的数学表达式为：</strong>
+f(x|p;n)=p0x^n+p1x^(n-1)+...+pn-1x+pn
+L(p;n)=0.5∑[f(x|p;n)-y]^2
+<pre ><code class="language-python"># (-2,4)这个区间上取100个点作为画图的基础
+x0 = np.linspace(-2, 4, 100)
+# 利用Numpy的函数定义训练并返回多项式回归模型的次数
+# deg参数代表着模型参数中的n，即模型中多项式的次数
+# 返回的模型能够根据输入的x（默认是x0）,返回预测的y
+def get_model(deg):
+    return lambda input_x=x0: np.polyval(np.polyfit(x, y ,deg), input_x)</code></pre>
+<h1>步骤③评估与显示</h1>
+多项式拟合，采用n=1,4,10进行评估
+不需要进行交叉验证因为数据太少了
+<pre ><code class="language-python"># 根据参数n、输入的x,y返回相对应的损失
+def get_cost(deg, input_x,input_y):
+    return 0.5 * ((get_model(deg)(input_x) - input_y) ** 2).sum()
+# 定义测试函数集并根据它进行各种实验
+test_set = (1, 4, 10)
+for d in test_set:
+    # 输出损失
+    print(get_cost(d, x, y))
+# 画出相应的图像
+plt.scatter(x, y, c="g", s=20)
+for d in test_set:
+    plt.plot(x0, get_model(d)(), label="degree = {}".format(d))
+# 将横轴和纵轴的范围分别限制在(-2,4)和(10^5,10^6)
+plt.xlim(-2, 4)
+plt.ylim(1e5, 1e6)
+# 调用legend方法使曲线对应的label正确显示
+plt.legend()
+plt.show()</code></pre>
+<img class="alignnone wp-image-2195 size-full" src="https://cdn.omegaxyz.com/2017/10/machinelearning_houseprices2.png" alt="" width="642" height="595" />
+
+当n=4和10时出现过拟合现象，因此n=1是预测较好的模型
+<h1>完整代码</h1>
+<pre ><code class="language-python"># 导入需要用到的库
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 定义存储输入数据（x）和目标数据（y）的数组
+x, y = [], []
+# 遍历数据集，变量sample对应的正是一个个样本
+for sample in open("C:\\Users\\dell\\Desktop\\house_prices.txt", 'r'):
+    _x, _y = sample.split(",")
+    # 将字符串数据转化为浮点数
+    x.append(float(_x))
+    y.append(float(_y))
+# 读取完数据后，将他们转化为Numpy数组以方便进一步的处理
+x, y = np.array(x), np.array(y)
+# 标准化
+x = (x - x.mean()) / x.std()
+# 将原始数据集以散点的形式画出
+plt.figure()
+plt.scatter(x, y, c="g", s=6)
+plt.show()
+# (-2,4)这个区间上取100个点作为画图的基础
+x0 = np.linspace(-2, 4, 100)
+# 利用Numpy的函数定义训练并返回多项式回归模型的次数
+# deg参数代表着模型参数中的n，即模型中多项式的次数
+# 返回的模型能够根据输入的x（默认是x0）,返回预测的y
+def get_model(deg):
+    return lambda input_x=x0: np.polyval(np.polyfit(x, y ,deg), input_x)
+# 根据参数n、输入的x,y返回相对应的损失
+def get_cost(deg, input_x,input_y):
+    return 0.5 * ((get_model(deg)(input_x) - input_y) ** 2).sum()
+# 定义测试函数集并根据它进行各种实验
+test_set = (1, 4, 10)
+for d in test_set:
+    # 输出损失
+    print(get_cost(d, x, y))
+# 画出相应的图像
+plt.scatter(x, y, c="g", s=20)
+for d in test_set:
+    plt.plot(x0, get_model(d)(), label="degree = {}".format(d))
+# 将横轴和纵轴的范围分别限制在(-2,4)和(10^5,10^6)
+plt.xlim(-2, 4)
+plt.ylim(1e5, 1e6)
+# 调用legend方法使曲线对应的label正确显示
+plt.legend()
+plt.show()
+</code></pre>
+<h1>参考文献</h1>
+Python与机器学习实战 何宇健
+<h1>数据集</h1>
+在桌面创建txt文件，注意代码中的路径
+
+house_prices.txt
+
+2104,399900
+1600,329900
+2400,369000
+1416,232000
+3000,539900
+1985,299900
+1534,314900
+1427,198999
+1380,212000
+1494,242500
+1940,239999
+2000,347000
+1890,329999
+4478,699900
+1268,259900
+2300,449900
+1320,299900
+1236,199900
+2609,499998
+3031,599000
+1767,252900
+1888,255000
+1604,242900
+1962,259900
+3890,573900
+1100,249900
+1458,464500
+2526,469000
+2200,475000
+2637,299900
+1839,349900
+1000,169900
+2040,314900
+3137,579900
+1811,285900
+1437,249900
+1239,229900
+2132,345000
+4215,549000
+2162,287000
+1664,368500
+2238,329900
+2567,314000
+1200,299000
+852,179900
+1852,299900
+1203,239500
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (6)</h2>
+        <div class="comment" id="comment-3686">
+          <strong>小苏</strong>
+          <time>2018-05-25 23:38:26</time>
+          <div>十分感谢作者的贡献。今晚学到了东西。对于您为社区做的奉献，小弟满怀感激之情。愿您生活愉快</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3690">
+          <strong>xyjisaw</strong>
+          <time>2018-05-28 00:06:46</time>
+          <div>不客气</div>
+        </div>
+        
+        <div class="comment" id="comment-17200">
+          <strong>Anonymous</strong>
+          <time>2019-07-11 20:22:07</time>
+          <div>x.append(float(_x)),这个语句老是报错，不知道是什么原因<br>Traceback (most recent call last):<br>  File &quot;&quot;, line 3, in <br>    x.append(float(_x))<br>AttributeError: &#x27;numpy.ndarray&#x27; object has no attribute &#x27;append&#x27;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17201">
+          <strong>xyjisaw</strong>
+          <time>2019-07-11 21:45:41</time>
+          <div>numpy版本可能不一样吧。</div>
+        </div>
+        
+        <div class="comment" id="comment-17316">
+          <strong><a href="http://感谢博主的干货" rel="nofollow">Peter</a></strong>
+          <time>2019-08-09 13:44:32</time>
+          <div>博主  您这里很多的干货，正在努力学习中，尤其是算法这块！一个小的建议，您的网站的文本编辑可以考虑下markdown格式？目前看的时候略微有点乱，仅仅是个人建议</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17319">
+          <strong>xyjisaw</strong>
+          <time>2019-08-09 17:17:52</time>
+          <div>好的O(∩_∩)O谢谢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

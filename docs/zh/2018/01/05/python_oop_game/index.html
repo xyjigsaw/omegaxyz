@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python面向对象设计一个游戏类 · OmegaXYZ</title>
+  <meta name="description" content="设计一个父类，表示游戏角色：派生出多个子类用于表示不同职业的角色，为每一个类设置必要的属性和方法，并实例化对象进行测试。 ①父类：Player 所有角色有普通杀与普通防御功能，Hp代表血量，Bubble代表技能冷却时间，Angry代表力量，Defend指代普通防御。 ②子类：Tank（坦克）、Assassin（刺客）、Archmage（法...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/05/python_oop_game/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-05</div>
+        <h1>Python面向对象设计一个游戏类</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">设计一个父类，表示游戏角色：派生出多个子类用于表示不同职业的角色，为每一个类设置必要的属性和方法，并实例化对象进行测试。
+
+<strong>①父类：Player</strong>
+
+所有角色有普通杀与普通防御功能，Hp代表血量，Bubble代表技能冷却时间，Angry代表力量，Defend指代普通防御。
+
+<strong>②子类：Tank（坦克）、Assassin（刺客）、Archmage（法师）</strong>
+
+坦克特殊技能能够迅速恢复失掉的血量，适用于做肉盾。
+
+刺客身手矫健，能够出其不意攻其不备。
+
+法师拥有魔法，在一定范围内随机改变自身的属性。
+
+<strong>③双方的攻击与操作是通过多线程（Threading）来实现的，即两者攻击与防御可以在同一时间出现。</strong>
+
+<strong>④本代码实例化了坦克和刺客两个对象。</strong>
+
+代码：
+<pre ><code class="language-python">import random
+import threading
+import time
+
+
+class Player(threading.Thread):
+    def __init__(self, Name, Angry, Hp, Rank, Bubble, Defend):
+        threading.Thread.__init__(self)
+        self.__Name = Name
+        self.Angry = Angry
+        self.Hp = Hp
+        self.Rank = Rank
+        self.Bubble = Bubble
+        self.Defend = Defend
+
+    def getRank(self):
+        return self.Rank
+
+    def setRank(self, Rank):
+        self.Rank = Rank
+
+    def getHp(self):
+        return self.Hp
+
+    def setHp(self, Hp):
+        self.Hp = Hp
+
+    def normal_kill(self):
+        time.sleep(0.5)
+        return -(self.Angry * self.Rank)
+
+    def random_defend(self):
+        temp = random.randint(-10, self.Defend)  # Defend越大则防御能力越大
+        if temp &gt; 0:
+            return True
+
+    def outputinfo(self):
+        print('名称：', self.__Name, 'Hp：', self.Hp, '等级：', self.Rank, '技能冷却：', self.Bubble)
+
+
+class Tank(Player):
+    def __init__(self, Name, Angry, Hp, Rank, Bubble, Defend, recovery):
+        threading.Thread.__init__(self)
+        Player.__init__(self, Name, Angry, Hp, Rank, Bubble, Defend)
+        self.__recovery = recovery
+
+    def random_defend(self):
+        temp = random.randint(-10, self.Defend + self.__recovery)
+        if temp &gt; 0:
+            return True
+
+    def regenerate(self):
+        if self.Bubble &gt; 0:
+            time.sleep(0.5)
+            if self.Hp &lt; 100:
+                self.Hp += 30
+                if self.Hp &gt; 100:
+                    self.Hp = 100
+            self.Bubble -= 10
+        else:
+            time.sleep(2)
+            self.Hp += 5
+
+
+class Assassin(Player):
+    def __init__(self, Name, Angry, Hp, Rank, Bubble, Defend, Raid):
+        Player.__init__(self, Name, Angry, Hp, Rank, Bubble, Defend)
+        self.__Raid = Raid
+
+    def Surprise_Attack(self):
+        time.sleep(0.5)
+        temp = 0 - self.Angry * self.Rank
+        if self.Bubble &gt; 0:
+            temp2 = random.randint(-10, 20)
+            if temp2 &gt; 0:
+                temp -= self.__Raid
+                self.Bubble -= 10
+        return temp
+
+
+class Archmage(Player):
+    def __init__(self, Name, Angry, Hp, Rank, Bubble, Defend, Magic):
+        threading.Thread.__init__(self)
+        Player.__init__(self, Name, Angry, Hp, Rank, Bubble, Defend)
+        self.__Magic = Magic
+
+    def magicHp(self):
+        if self.Bubble &gt; 0:
+            temp = random.randint(50, 100)
+            if temp &gt; self.__Hp:
+                self.__Hp = temp + self.__Magic
+            self.Bubble -= 10
+
+    def magic_kill(self):
+        temp = 0
+        if self.Bubble &gt; 0:
+            temp2 = random.randint(-10, 20)
+            if temp2 &gt; 0:
+             temp -= self.__Magic
+             self.Bubble -= 10
+        return temp
+
+
+def run_tank(tank, assassin):
+    while tank.getHp() &gt; 0 and assassin.getHp() &gt;= 0:
+        assassin.setHp(assassin.getHp() + tank.normal_kill())
+        tank.outputinfo()
+        time.sleep(0.2)
+        tank.regenerate()
+    if tank1.getHp() &gt; 0:
+        print("程咬金赢了")
+    else:
+        print("荆轲赢了")
+
+
+def run_assassin(tank, assassin):
+    while assassin.getHp() &gt; 0 and tank.getHp() &gt;= 0:
+        if tank.random_defend() is True:
+            tank.setHp(tank.getHp() + assassin.normal_kill())
+        else:
+            assassin.Surprise_Attack()
+        assassin.outputinfo()
+        time.sleep(0.2)
+
+
+
+if __name__ == '__main__':
+    print("-------------- 一刀999！--------------\n")
+    time.sleep(1)
+    print("所有角色有普通杀与普通防御功能，Hp代表血量，Bubble代表技能冷却时间\n")
+    time.sleep(1)
+    print("有坦克、刺客、法师三个角色\n")
+    time.sleep(1)
+    print("坦克 Tank\n")
+    print("坦克特殊技能能够迅速恢复失掉的血量，适用于做肉盾\n")
+    time.sleep(1)
+    print("刺客 Assassin\n")
+    print("刺客身手矫健，能够出其不意攻其不备\n")
+    time.sleep(1)
+    print("法师 Archmage\n")
+    print("法师拥有魔法，随机改变自身的属性\n")
+    time.sleep(1)
+    print("游戏开始----------------------------------------------------！")
+    time.sleep(1)
+    # Name, Angry, Hp, Rank, Bubble, Defend, Magic):
+    tank1 = Tank("程咬金", 5, 100, 1, 100, 20, 5)
+    assassin1 = Assassin("荆轲", 5, 100, 1, 100, 20, 10)
+    # run_tank(tank1, assassin1)
+    # run_assassin(tank1, assassin1)
+
+    threads = []
+    t1 = threading.Thread(target=run_tank, args=(tank1, assassin1))
+    threads.append(t1)
+    t2 = threading.Thread(target=run_assassin, args=(tank1, assassin1))
+    threads.append(t2)
+    for t in threads:
+        # t.setDaemon(True)
+        t.start()
+</code></pre>
+<img class="alignnone wp-image-2650 size-full" src="https://cdn.omegaxyz.com/2018/01/python_game1.png" alt="" width="625" height="793" />
+
+（等级制度有待完善）</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

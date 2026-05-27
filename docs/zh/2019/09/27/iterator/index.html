@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>迭代器模式C++实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 提供一种方法顺序访问一个聚合对象中各个元素，而又不暴露该对象的内部表示。 动机 一个聚合对象，如列表（List）应提供一种方法来让别人可以访问它的元素，而又不需要暴露它的内部结构。 针对不同的需要，可能要以不同方式遍历这个列表。 迭代器模式可以解决这些问题。这一模式的关键思想是将对列表的访问和遍历从列表对象中分离出来并放入一个迭代器...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/09/27/iterator/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-09-27</div>
+        <h1>迭代器模式C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<ul>
+ 	<li>提供一种方法顺序访问一个聚合对象中各个元素，而又不暴露该对象的内部表示。</li>
+</ul>
+<h2><strong>动机</strong></h2>
+<ul>
+ 	<li>一个聚合对象，如列表（List）应提供一种方法来让别人可以访问它的元素，而又不需要暴露它的内部结构。</li>
+ 	<li>针对不同的需要，可能要以不同方式遍历这个列表。</li>
+ 	<li>迭代器模式可以解决这些问题。这一模式的关键思想是将对列表的访问和遍历从列表对象中分离出来并放入一个迭代器（iterator）对象中。迭代器类定义了一个访问该列表元素的接口。</li>
+ 	<li>例如，一个列表类（List）可能需要一个列表迭代器类，它们之间的关系如下图：</li>
+</ul>
+<img class="wp-image-5975 aligncenter" src="https://cdn.omegaxyz.com/2019/09/iterator1.png" alt="" width="550" height="221" />
+<ul>
+ 	<li>注意迭代器和列表是耦合在一起的，客户对象必须知道遍历是一个列表而不是其他聚合结构。</li>
+ 	<li>最好能有一种方法使得不需要改变客户代码即可改变聚合类。可以通过将迭代器概念推广到多态迭代来达到这个目标。</li>
+</ul>
+<img class="wp-image-5976 aligncenter" src="https://cdn.omegaxyz.com/2019/09/iterator2.png" alt="" width="610" height="296" />
+
+&nbsp;
+<h2><strong>适用性</strong></h2>
+<ul>
+ 	<li>访问一个聚合对象的内部而无需暴露它的内部表示。</li>
+ 	<li>支持对聚合对象的多种遍历。</li>
+ 	<li>为遍历不同的聚合结构提供一个统一的接口。<strong> </strong></li>
+</ul>
+<h2><strong>结构</strong></h2>
+<img class="wp-image-5977 aligncenter" src="https://cdn.omegaxyz.com/2019/09/iterator3.png" alt="" width="596" height="403" />
+<h2><strong>参与者</strong></h2>
+<ul>
+ 	<li>Iterator
+<ul>
+ 	<li>迭代器定义访问和遍历元素的接口</li>
+</ul>
+</li>
+ 	<li>ConcreteIterator
+<ul>
+ 	<li>具体迭代器实现迭代器接口</li>
+ 	<li>对该聚合遍历时跟踪当前位置</li>
+</ul>
+</li>
+ 	<li>Aggregate
+<ul>
+ 	<li>聚合定义创建相应迭代器对象的接口</li>
+</ul>
+</li>
+ 	<li>ConcreteAggregate
+<ul>
+ 	<li>具体聚合实现创建相应迭代器的接口，该操作返回ConcreteIterator的一个适当的实例</li>
+</ul>
+</li>
+</ul>
+<strong> </strong>
+<h2><strong>协作</strong></h2>
+<ul>
+ 	<li>ConcreteIterator跟踪聚合中的当前对象，并能够计算出待遍历的后继对象。</li>
+</ul>
+<h2><strong>效果</strong></h2>
+<ul>
+ 	<li>它支持以不同方式遍历一个集合</li>
+ 	<li>迭代器简化了聚合的接口</li>
+ 	<li>在同一个聚合上可以有多个遍历</li>
+</ul>
+<h2><strong>实例</strong></h2>
+实现一个链表类（自己定义数据结构，不要使用语言自带的数据结构），链表内部每个节点存放一个int变量和一个double变量。利用迭代器模式，实现一个外部迭代器，可以从头到尾和从尾到头两种方式遍历这个链表，打印各个节点中的数据。
+<h3><strong>实验UML图</strong></h3>
+<img class="alignnone size-full wp-image-5978" src="https://cdn.omegaxyz.com/2019/09/iterator4.png" alt="" width="964" height="564" />
+<h3><strong>代码</strong></h3>
+<pre ><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+class Node{
+private:
+    int val1;
+    double val2;
+    Node *next;
+    Node *pre;
+public:
+    Node(){
+        next = NULL;
+        pre = NULL;
+    };
+    Node(int x1, double x2){
+        next = NULL;
+        pre = NULL;
+        val1 = x1;
+        val2 = x2;
+    }
+    void SetNext(Node *n){
+        next = n;
+    };
+    Node *GetNext(){
+        return next;
+    }
+    void SetPre(Node *n){
+        pre = n;
+    }
+    Node *GetPre(){
+        return pre;
+    }
+    int getVal1(){
+        return val1;
+    }
+    double getVal2(){
+        return val2;
+    }
+};
+
+template&lt;class Node&gt;
+class Iterator{
+public:
+    Iterator() {};
+    virtual ~Iterator() {};
+    virtual Node* first() = 0;
+    virtual Node* last() = 0;
+    virtual Node* next() = 0;
+    virtual Node* pre() = 0;
+    virtual Node* nowPos() = 0;
+    virtual int len() = 0;
+    virtual void SetDirect(bool s) = 0;
+};
+
+template&lt;class Node&gt;
+class Aggregate{
+public:
+    Aggregate() {};
+    virtual ~Aggregate() {};
+    virtual Iterator&lt;Node&gt;* createIterator() = 0;
+    virtual Node* GetFirst() = 0;
+    virtual Node* GetLast() = 0;
+    virtual int GetSum() = 0;
+    virtual void Insert(int a, double b) = 0;
+    virtual void Init() = 0;
+}; 
+
+template&lt;class Node&gt;
+class ConcreteIterator : public Iterator&lt;Node&gt;{
+public:
+    ConcreteIterator(Aggregate&lt;Node&gt; *a) :aggr(a){
+        cur = aggr-&gt;GetFirst()-&gt;GetNext();
+    };
+    ~ConcreteIterator() {};
+    Node* first(){
+        Node * p = new Node();
+        p = aggr-&gt;GetFirst()-&gt;GetNext();
+        return p;
+    }
+
+    Node* last(){
+        Node * p = new Node();
+        p = aggr-&gt;GetLast();
+        return p;
+    }
+
+    Node* pre(){
+        Node * p = cur-&gt;GetPre();
+        cur = cur-&gt;GetPre();
+        return p;
+    }
+
+    Node* nowPos(){
+        return cur;
+    }
+
+    Node* next(){
+        Node * p =  cur-&gt;GetNext();
+        cur = cur-&gt;GetNext();
+        return p;
+    }
+
+    void SetDirect(bool s){
+        if(s){
+            cur = aggr-&gt;GetFirst()-&gt;GetNext();
+        }else{
+            cur = aggr-&gt;GetLast();
+        }
+    }
+
+    int len(){
+        return aggr-&gt;GetSum();
+    }
+
+private:
+    Aggregate&lt;Node&gt; *aggr;
+    Node* cur;
+};
+
+template&lt;class Node&gt;
+class LinkList : public Aggregate&lt;Node&gt;{
+private:
+    Node* first;
+    Node* last;
+    int sum;
+public:
+    Iterator&lt;Node&gt;* createIterator(){
+        return new ConcreteIterator&lt;Node&gt;(this);
+    }
+    LinkList(){
+        first = NULL;
+        last = NULL;
+        sum = 0;
+    }
+    Node* GetFirst(){
+        return first;
+    }
+    Node* GetLast(){
+        return last;
+    }
+    int GetSum(){
+        return sum;
+    }
+    void Init(){
+        first = new Node();
+    }
+    void Insert(int a, double b){
+        Node *p = first;
+        Node *s = new Node(a, b);
+        for (int i = 0; i &lt; sum; i++){
+            p = p-&gt;GetNext();
+        }
+        s-&gt;SetNext(NULL);
+        s-&gt;SetPre(p);
+        p-&gt;SetNext(s);
+        last = s;
+        sum++;
+    }
+    ~LinkList(){}
+};
+
+int main(){
+    Aggregate&lt;Node&gt; * aggr = new LinkList&lt;Node&gt;();
+    aggr-&gt;Init();
+    aggr-&gt;Insert(1, 2.1);
+    aggr-&gt;Insert(2, 4.2);
+    aggr-&gt;Insert(3, 6.3);
+    aggr-&gt;Insert(4, 8.4);
+    aggr-&gt;Insert(8, 16.5);
+    
+    
+
+    Iterator&lt;Node&gt; * it = aggr-&gt;createIterator();
+    
+    cout&lt;&lt;"正序"&lt;&lt;endl;
+    it-&gt;SetDirect(true);
+    while(it-&gt;nowPos()!= NULL){
+        cout&lt;&lt;it-&gt;nowPos()-&gt;getVal1()&lt;&lt;"  "&lt;&lt;it-&gt;nowPos()-&gt;getVal2()&lt;&lt;endl;
+        it-&gt;next();
+    }
+    cout&lt;&lt;"倒序"&lt;&lt;endl;
+    it-&gt;SetDirect(false);
+    do{
+        cout&lt;&lt;it-&gt;nowPos()-&gt;getVal1()&lt;&lt;"  "&lt;&lt;it-&gt;nowPos()-&gt;getVal2()&lt;&lt;endl;
+        it-&gt;pre();
+    }while(it-&gt;nowPos()!= it-&gt;first()-&gt;GetPre());
+    return 0;
+}</code></pre>
+<h3><strong>实验结果</strong></h3>
+<img class="alignnone wp-image-5979" src="https://cdn.omegaxyz.com/2019/09/iterator5.png" alt="" width="408" height="223" />
+<h3><strong>总结</strong></h3>
+①由于本次实验的迭代器是链表，并且需要从头到尾或从尾到头遍历，因此这个链表实质上是一个<strong>双向链表</strong>。
+
+②需要用迭代器进行遍历，而不是用链表本身的结构进行更新，因此迭代器需要封装，前一个，后一个，当前节点，头结点，尾节点位置即可。
+
+③由于是链表，因此在创建链表和插入时需要给节点<strong>动态分配</strong>空间，否则无法正常操作。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

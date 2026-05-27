@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>16-bit pseudo-instruction assembler to view memory · OmegaXYZ</title>
+  <meta name="description" content="[Experimental content] Use 16-bit instructions to write a complete program to implement the following data definition statements and related instructions. Check the definition of memory data under debug, and track the value of each register in a single step. Question: ORG 0 ARRAY LABEL BYTE DA1 DW 2, 9, 14, 3, 315H, -6 DA2 DB 7, ‘ABCDEDFG’ LEN = $-DA2 ORG 100H DA3 DW DA...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/11/26/as_ram_16/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-26</div>
+        <h1>16-bit pseudo-instruction assembler to view memory</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">【Experimental content】
+
+Use 16-bit instructions to write a complete program, implement the following data definition statements and related instructions, check the definition of memory data under debug, and track the value of each register in a single step.
+
+Topic:
+
+ORG 0
+
+ARRAY LABEL BYTE
+
+DA1 DW 2, 9, 14, 3, 315H, -6
+
+DA2 DB 7, ‘ABCDEDFG’
+
+LEN = $-DA2
+
+ORG 100H
+
+DA3 DW DA4
+
+DA4 DB 4 DUP(2 DUP(1,2,3),4)
+
+…………
+
+MOV AL, ARRAY+2 (AL) = ( )H
+
+ADD AL, DA2+1 (AL) = ( )H
+
+MOV AX，DA2-DA1 （AX）=（ ）H
+
+MOV BL, LEN (BL) = ( )H
+
+MOV AX, DA3 （AX）=（ ）H
+
+MOV BX, TYPE DA4 (BX) = ( )H
+
+MOV BX, OFFSET DA4 (BX) = ( ) H
+
+MOV CX, SIZE DA4 (CX) = ( ) H
+
+MOV DX, LENGTH DA4 (DX)=( )H
+
+MOV BX, WORD PTR DA4 (BX) = ( ) H
+
+MOV BL, LEN AND 0FH (BL) = ( )H
+
+MOV BL, LEN GT 5 （BL）=（ ）H
+
+MOV AX, LEN MOD 5 （AX）=（ ）H
+
+ 
+
+ 
+
+ 
+
+ 
+
+Filled in answer:
+
+MOV AL, ARRAY+2 (AL) = (09) H
+
+ADD AL, DA2+1 (AL) = (41) H
+
+MOV AX, DA2-DA1 (AX) = (000c) H
+
+MOV BL, LEN (BL) = (09) H
+
+MOV AX, DA3 (AX) = (0102) H
+
+MOV BX, TYPE DA4 (BX) = (0001) H
+
+MOV BX, OFFSET DA4 (BX) = (0102) H
+
+MOV CX, SIZE DA4 (CX) = (0004) H
+
+MOV DX, LENGTH DA4 (DX)=(0004)H
+
+MOV BX, WORD PTR DA4 (BX) = (0201) H
+
+MOV BL, LEN AND 0FH (BL) = (09)H
+
+MOV BL, LEN GT 5 (BL) = (ff)H
+
+MOV AX, LEN MOD 5 (AX)=(0004)H<strong>Specific code:</strong>
+<pre><code class="language-asm">DATA SEGMENT
+	ORG 0
+	ARRAY LABEL BYTE
+	DA1 DW 2,9,14,3,315H,-6
+	DA2 DB 7,'ABCDEDFG'
+	LEN = $-DA2
+	ORG 100H
+	DA3 DW DA4
+	DA4 DB 4 DUP(2 DUP(1,2,3),4);1 2 3 1 2 3 4   *4times
+DATA ENDS
+CODE SEGMENT
+ASSUME CS:CODE,DS:DATA
+START:
+MOV AX,DATA
+MOV DX,AX
+
+MOV AL,ARRAY+2;MOV AL,[0002]
+ADD AL,DA2+1;MOV AL,[000D]
+MOV AX,DA2-DA1;MOV AX,000C;DA1的长度
+MOV BL,LEN;MOV BL,09；DA2的长度
+MOV AX,DA3;MOV AX,[0100]
+MOV BX,TYPE DA4;MOV BX,0001
+MOV BX,OFFSET DA4;MOV BX,0102
+MOV CX,SIZE DA4;MOV CX,0004
+MOV DX,LENGTH DA4;MOV DX,0004
+MOV BX,WORD PTR DA4;MOV BX,[0102]
+MOV BL,LEN AND 0FH;MOV BL,09
+MOV BL,LEN GT 5;MOV BL,FF
+MOV AX,LEN MOD 5;MOV AX,0004
+MOV AH,4CH
+INT 21H
+CODE ENDS
+END START
+</code></pre>The last step of memory:<img alt="" class="alignnone wp-image-2507 size-full" height="434" src="https://cdn.omegaxyz.com/2017/11/assembly66.png" width="642"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

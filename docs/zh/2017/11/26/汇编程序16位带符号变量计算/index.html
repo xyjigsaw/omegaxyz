@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇编程序16位带符号变量计算 · OmegaXYZ</title>
+  <meta name="description" content="用16位指令编写完整的程序，并上机测试，计算W=（x+y）*z,其中所有变量均为16位带符号变量。 注意伪指令的使用。 用16位指令编制程序，处理32位的加减乘除算术四则运算题。 本文计算（3*X+Y-Z）/5的值请看 https://omegaxyz.com/2017/05/05/assemblyexperiment4_2/">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/26/汇编程序16位带符号变量计算/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-26</div>
+        <h1>汇编程序16位带符号变量计算</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">用16位指令编写完整的程序，并上机测试，计算W=（x+y）*z,其中所有变量均为16位带符号变量。
+
+注意伪指令的使用。
+<pre ><code class="language-asm">data segment
+x db 7
+y db -3
+z db 2
+w db ?
+data ends;定义数据段，其中X,Y,Z为一个字节，V为16位结果字节
+
+code segment
+	assume cs:code,ds:data
+	
+start:
+mov ax,data
+mov ds,ax
+mov dx,0
+mov al,x
+adc al,y
+mov bl,z
+imul bl
+lea bx,w
+mov [bx],ax
+
+add al,30h
+
+mov dl,al
+mov ah,02h
+int 21h
+	 
+mov ah,4ch
+int 21h
+code ends
+end start
+</code></pre>
+用16位指令编制程序，处理32位的加减乘除算术四则运算题。
+
+本文计算（3*X+Y-Z）/5的值请看
+
+<a href="https://omegaxyz.com/2017/05/05/assemblyexperiment4_2/">https://omegaxyz.com/2017/05/05/assemblyexperiment4_2/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

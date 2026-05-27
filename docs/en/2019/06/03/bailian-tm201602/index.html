@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bailian-2016 graduate students are recommended to be exempted from computer-based exams (to be continued) · OmegaXYZ</title>
+  <meta name="description" content="As a programming novice, I will first brush up on the first few questions. I will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform AC on 3 questions (don’t laugh at me, boss). Since some questions have been closed, it is impossible to see whether it is AC (the following code may not pass all test cases). If there are any errors, please point them out, O(∩_∩)O Thank you. A: Rock Paper Scissors Global question number 4973 Number of submissions 222 Number of attempts 100 Number of passes 95 Total time limit: 1000ms Memory limit: 65...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/06/03/bailian-tm201602/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-03</div>
+        <h1>Bailian-2016 graduate students are recommended to be exempted from computer-based exams (to be continued)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a><a class="pill" href="../../../../tag/graduate/index.html">研究生</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>As a programming novice, I will first brush up on the first few questions. I will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform AC on 3 questions (don’t laugh at me, boss). Since some topics have been closed,<strong><span style="color: #ff0000;">Unable to see whether AC (the following code may not pass all test cases)</span></strong>, if there are any errors, please point them out, O(∩_∩)OThank you.<img alt="" class="alignnone wp-image-5858" height="421" src="https://cdn.omegaxyz.com/2019/06/bailian-tm2016.png" width="876"/>
+<h2><strong>A:rock paper scissors</strong></h2>
+<span style="color: #ff0000;"><strong>Global question number 4973, number of submissions: 222, number of attempts: 100, number of passes: 95</strong></span>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Rock, paper, scissors is a common guessing game. Rock beats scissors, scissors beats paper, and paper beats rock. If two people throw the same punch, there will be no winner.
+
+One day, Little A and Little B were playing rock, paper, scissors. It is known that their punches follow a cyclical pattern, such as: "Rock-Paper-Rock-Scissors-Rock-Paper-Rock-Scissors...", which is a cycle of "Rock-Paper-Rock-Scissors". Excuse me, after Little A and Little B competed for N rounds, who won more rounds?</dd>
+<dt>enter</dt>
+<dd>The input contains three lines.
+The first line contains three integers: N, NA, NB, which respectively represent the cycle length of Little A's punch and the cycle length of Little B's punch after N rounds. 0 &lt; N,NA,NB &lt; 100.
+The second line contains NA integers, indicating the rules of Little A's punches.
+The third line contains NB integers, indicating the rules of Little B's punches.
+Among them, 0 means "rock", 2 means "scissors", and 5 means "paper". Separate two adjacent integers with a single space.</dd>
+<dt>output</dt>
+<dd>Output a line. If Little A wins more rounds, output A; if Little B wins more rounds, output B; if the two are tied, output draw.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>10 3 4
+0 2 5
+0 5 0 2</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre>A</pre>
+</dd>
+<dt>hint</dt>
+<dd>For test data, the guessing process is:
+A: 0 2 5 0 2 5 0 2 5 0
+B：0 5 0 2 0 5 0 2 0 5
+A won 4 rounds, B won 2 rounds, and both sides tied for 4 rounds, so A won more rounds.</dd>
+</dl>C++ code<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+int judge(int x, int y){
+    if(x == y)return 0;
+    if((x == 0 &amp;&amp; y == 2) || (x == 2 &amp;&amp; y == 5)|| (x == 5 &amp;&amp; y == 0))return 1;
+    if((x == 2 &amp;&amp; y == 0) || (x == 5 &amp;&amp; y == 2)|| (x == 0 &amp;&amp; y == 5))return -1;
+    return -1;
+}
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    int a, b;
+    cin&gt;&gt;a&gt;&gt;b;
+    int awin = 0, bwin = 0;
+    vector&lt;int&gt; apool(a);
+    vector&lt;int&gt; bpool(b);
+    for(int i = 0; i &lt; a; i++)cin&gt;&gt;apool[i];
+    for(int i = 0; i &lt; b; i++)cin&gt;&gt;bpool[i];
+    for(int i = 0; i &lt; n; i++){
+        if(judge(apool[i % a], bpool[i % b]) == 1)awin++;
+        else if(judge(apool[i % a], bpool[i % b]) == -1)bwin++;
+    }
+    if(awin == bwin)printf("draw\n");
+    else{
+        printf("%s\n", awin &gt; bwin ? "A" : "B");
+    }
+    return 0;
+}</code></pre>
+<hr/>
+<div id="pageTitle">
+<h2><strong>B: String equality</strong></h2>
+</div>
+<div id="topMenu">
+<span style="color: #ff0000;"><strong>Global question number 1745, number of submissions 246, number of attempts 97, number of passes 90</strong></span>
+</div>
+<div class="problem-page col-9">
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Determine whether two strings consisting of uppercase and lowercase letters and spaces are equal after ignoring case and ignoring spaces.</dd>
+<dt>enter</dt>
+<dd>Two lines, each containing a string.</dd>
+<dt>output</dt>
+<dd>If the two strings are equal, output YES, otherwise output NO.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>a A bb BB ccc CCC
+Aa BBbb CCCccc
+</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">YES</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int main(){
+    string a, tempa = "";
+    string b, tempb = "";
+    getline(cin, a);
+    getline(cin, b);
+    for(int i = 0; i &lt; a.length(); i++){
+        if(a[i] == ' ')continue;
+        else tempa += toupper(a[i]);
+    }
+    for(int i = 0; i &lt; b.length(); i++){
+        if(b[i] == ' ')continue;
+        else tempb += toupper(b[i]);
+    }
+    printf("%s\n", tempa == tempb ? "YES" : "NO");
+    return 0;
+}
+</code></pre>
+<hr/>
+<h2><strong>C: Image rotation</strong></h2>
+<span style="color: #ff0000;"><strong>Global question number 8065, number of submissions: 174, number of attempts: 98, number of passes: 94</strong></span>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Input a black and white image with n rows and m columns, rotate it 90 degrees clockwise and output it.</dd>
+<dt>enter</dt>
+<dd>The first line contains two integers n and m, indicating the number of rows and columns of pixels in the image. 1 &lt;= n &lt;= 100, 1 &lt;= m &lt;= 100.
+The next n lines, each line contains m integers, represent the grayscale of each pixel in the image. Two adjacent integers are separated by a single space, and each element is between 0 and 255.</dd>
+<dt>output</dt>
+<dd>M lines, each line containing n integers, are images rotated 90 degrees clockwise. Separate two adjacent integers with a single space.</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">7 4 1
+8 5 2
+9 6 3</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+
+int a[101][101];
+int b[101][101];
+
+int main(){
+    int m, n;
+    cin&gt;&gt;m&gt;&gt;n;
+    for(int i = 0; i &lt; m; i++){
+        for(int j = 0; j &lt; n; j++){
+            cin&gt;&gt;a[i][j];
+            b[j][n - i - 1] = a[i][j];
+        }
+    }
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; m; j++){
+            printf("%d%s", b[i][j], j == m - 1 ? "\n" : " ");
+        }
+    }
+    return 0;
+}
+</code></pre>
+<hr/>
+<h2><strong>D:Chessboard problem</strong></h2>
+<span style="color: #ff0000;"><strong>Global question number 323, number of submissions 131, number of attempts 52, number of passes 26</strong></span>
+<div class="problem-page col-9">
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>Placing chess pieces on a chessboard of a given shape (the shape may be irregular) makes no difference between the chess pieces. It is required that any two chess pieces cannot be placed in the same row or column on the chessboard. Please program to solve all feasible placement plans C for k chess pieces on a chessboard with a given shape and size.</dd>
+<dt>enter</dt>
+<dd>The input contains multiple sets of test data.
+The first line of each set of data is two positive integers, n k, separated by a space, indicating that the chessboard will be described in an n*n matrix and the number of chess pieces placed. n &lt;= 8 , k &lt;= n
+When -1 -1 indicates the end of input.
+The subsequent n lines describe the shape of the chessboard: each line has n characters, where # represents the chessboard area and . represents the blank area (the data is guaranteed not to have redundant blank rows or columns).</dd>
+<dt>output</dt>
+<dd>For each set of data, a line of output is given, outputting the number of arranged options C (data guarantee C&lt;2^31).</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>2 1
+#.
+.#
+4 4
+...#
+..#.
+.#..
+#...
+-1 -1
+</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">2
+1
+</pre>
+</dd>
+</dl>
+</div>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+using namespace std;
+
+bool visit[10]; //用来标记每一列是否有棋子
+char matrix[10][10];
+
+int n, k, ans;
+
+void DFS(int x, int cnum){
+    if(cnum &gt;= k){ //如果棋子已经用完，记录方案数加1
+        ans++;
+        return;
+    }
+    for(int i = x; i &lt; n; i++){ //从x行开始进行，因此下面只需要对列进行递归
+        for(int j = 0; j &lt; n; j++){
+            if(!visit[j] &amp;&amp; matrix[i][j] == '#'){ //如果这一列没有被访问，且在棋盘上
+                visit[j] = true;
+                DFS(i + 1, cnum + 1); //搜索下一列
+                visit[j] = false;
+            }
+        }
+    }
+}
+
+int main(){
+    while(cin&gt;&gt;n&gt;&gt;k){
+        if(n == -1 &amp;&amp; k == -1)break;
+        ans = 0;
+        fill(visit, visit + n, false);
+        fill(matrix[0], matrix[0] + n * n, 0);
+        for(int i = 0; i &lt; n; i++){
+            scanf("%s", matrix[i]);
+        }
+        DFS(0, 0);
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+}
+</code></pre>
+ 
+
+<hr/>
+<h2><strong>G:Tangled in Cables</strong></h2>
+<span style="color: #ff0000;"><strong>Global question number 1077 Number of submissions 126 Number of attempts 56 Number of passes 41</strong></span>
+<dl class="problem-params">
+<dt>Total time limit:</dt>
+<dd>1000ms</dd>
+<dt>Memory limit:</dt>
+<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+<dt>describe</dt>
+<dd>You are the owner of SmallCableCo and have purchased the franchise rights for a small town. Unfortunately, you lack enough funds to start your business properly and are relying on parts you have found in an old warehouse you bought. Among your finds is a single spool of cable and a lot of connectors. You want to figure out whether you have enough cable to connect every house in town. You have a map of town with the distances for all the paths you may use to run your cable between the houses. You want to calculate the shortest length of cable you must have to connect all of the houses together.</dd>
+<dt>enter</dt>
+<dd>Only one town will be given in an input.
+<ul>
+<li>The first line gives the length of cable on the spool as a real number.</li>
+<li>The second line contains the number of houses, N</li>
+<li>The next N lines give the name of each house's owner. Each name consists of up to 20 characters {a–z,A–Z,0–9} and contains no whitespace or punctuation.</li>
+<li>Next line: M, number of paths between houses</li>
+<li>next M lines in the form</li>
+</ul>
+&lt; house name A &gt; &lt; house name B &gt; &lt; distance &gt;
+Where the two house names match two different names in the list above and the distance is a positive real number. There will not be two paths between the same pair of houses.</dd>
+<dt>output</dt>
+<dd>The output will consist of a single line. If there is not enough cable to connect all of the houses in the town, output
+Not enough cable
+If there is enough cable, then output
+Need &lt; X &gt; miles of cable
+Print X to the nearest tenth of a mile (0.1).</dd>
+<dt>Sample input</dt>
+<dd>
+<pre>100.0
+4
+Jones
+Smiths
+Howards
+Wangs
+5
+Jones Smiths 2.0
+Jones Howards 4.2
+Jones Wangs 6.7
+Howards Wangs 4.0
+Smiths Wangs 10.0</pre>
+</dd>
+<dt>Sample output</dt>
+<dd>
+<pre class="">Need 10.2 miles of cable</pre>
+</dd>
+</dl>C++ implementation<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+double cableLen = 0;
+int n, m;
+int father[501];
+
+struct node{
+    string src;
+    string dst;
+    double val;
+};
+
+int findFather(int x){
+    while(x != father[x])x = father[x];
+    return x;
+}
+
+bool unionSet(int x, int y){
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        father[fy] = fx;
+        return true;
+    }
+    return false;
+}
+
+bool cmp(node a, node b){return a.val &lt; b.val;}
+
+int main(){
+    double anslen = 0;
+    int k = 0, i = 0;
+    scanf("%lf%d", &amp;cableLen, &amp;n);
+    unordered_map&lt;string, int&gt; name;
+    for(int i = 0; i &lt; n; i++){
+        string str;
+        cin&gt;&gt;str;
+        father[i] = i;
+        name[str] = i;
+    }
+    scanf("%d", &amp;m);
+    vector&lt;node&gt; pool(m);
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;pool[i].src&gt;&gt;pool[i].dst&gt;&gt;pool[i].val;
+    }
+    sort(pool.begin(), pool.end(), cmp);
+    while(k &lt; n - 1){
+        if(unionSet(name[pool[i].src], name[pool[i].dst])){
+            anslen += pool[i].val;
+            k++;
+        }
+        i++;
+    }
+    if(anslen &lt;= cableLen)
+        printf("Need %.1f miles of cable\n", anslen);
+    else printf("%s\n", "Not enough cable");
+    return 0;
+}
+</code></pre>
+<hr/>
+
+ 
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>元胞自动机概述与MATLAB实现 · OmegaXYZ</title>
+  <meta name="description" content="什么是元胞自动机？ 元胞自动机(cellular automata，CA) 是一种时间、空间、状态都离散，空间相互作用和时间因果关系为局部的网格动力学模型，具有模拟复杂系统时空演化过程的能力。它能构建随时间推移发生状态转移的系统，细胞存在于一维或多维网格中，每个细胞都有一个或多个状态，每个细胞都有邻居（即邻近的细胞）。 元胞自动机分类 平...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/04/cellular_automata/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-04</div>
+        <h1>元胞自动机概述与MATLAB实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/%E5%85%83%E8%83%9E%E8%87%AA%E5%8A%A8%E6%9C%BA/index.html">元胞自动机</a><a class="pill" href="../../../../tag/cg/index.html">计算机图形学</a></div>
+        <div class="article-content"><h2><strong>什么是元胞自动机？</strong></h2>
+元胞自动机(cellular automata，CA) 是一种时间、空间、状态都离散，空间相互作用和时间因果关系为局部的网格动力学模型，具有模拟复杂系统时空演化过程的能力。它能构建随时间推移发生状态转移的系统，细胞存在于一维或多维网格中，每个细胞都有一个或多个状态，每个细胞都有邻居（即邻近的细胞）。
+<h2><strong>元胞自动机分类</strong></h2>
+<strong>平稳型：</strong>自任何初始状态开始，经过一定时间运行后，元胞空间趋于一个空间平稳的构形，这里空间平稳即指每一个元胞处于固定状态。不随时间变化而变化。
+<strong>周期型</strong>：经过一定时间运行后，元胞空间趋于一系列简单的固定结构（Stable Patterns）或周期结构（Perlodical Patterns)。由于这些结构可看作是一种滤波器（Filter），故可应用到图像处理的研究中。
+<strong>混沌型：</strong>自任何初始状态开始，经过一定时间运行后，元胞自动机表现出混沌的非周期行为，所生成的结构的统计特征不再变止，通常表现为分形分维特征。
+<strong>复杂型：</strong>出现复杂的局部结构，或者说是局部的混沌，其中有些会不断地传播。
+
+<img class="alignnone size-full wp-image-4191" src="https://cdn.omegaxyz.com/2018/05/复杂型元胞自动机.gif" alt="" width="454" height="185" />
+<h2>奇偶规则</h2>
+奇偶规则是定义在二维网格上的一种元胞自动机。每个网格的状态用0各1表示。
+
+（1）     对应于每一个元胞位置（i,j）计算出其八个最近领居在t时刻的状态值St的总和M(i,j)。
+
+（2）     根据M(i,j)取值的奇偶性来决定下一时刻t+1该点的状态St+1(i,j)。当M(i,j)为偶数时，St+1(i,j)等于0；当M(i,j)为奇数时，St+1(i,j)等于1。八个点和为偶数，则变为0，为奇数则变为 1
+<h2>平稳型元胞自动机实现</h2>
+<pre ><code class="language-matlab">% 规则，先把中间点置为1，每一时间步对每一点，如果周围
+% 八个点和为偶数，则变为0，为奇数则变为 1
+
+
+Map = [1 1 1; 0 0 0];
+colormap(Map);
+% 设置网格大小
+S = 121;
+L = zeros(S);
+% 把中间一个数设置为 1 作为元胞种子
+M = (S+1)/2;
+L(M, M) = 1;
+Temp = L;
+imagesc(L);
+
+% 计算层数
+Layer = (S-1)/2 + 1;
+
+for t=2:Layer
+    for x=M-t+1:M+t-1
+       if x==M-t+1 || x==M+t-1
+           
+          for y=M-t+1:M+t-1
+            SUM = 0;
+            for m=-1:1
+               for n=-1:1
+                  if x+m&gt;0 &amp;&amp; x+m&lt;=S &amp;&amp; y+n&gt;0 &amp;&amp; y+n&lt;=S
+                     SUM = SUM + L(x+m, y+n); 
+                  end
+               end
+            end
+            SUM = SUM - L(x, y);
+            Temp(x, y) = mod(SUM, 2);
+          end
+          
+       else
+            y = M-t+1;
+            SUM = 0;
+            for m=-1:1
+               for n=-1:1
+                  if x+m&gt;0 &amp;&amp; x+m&lt;=S &amp;&amp; y+n&gt;0 &amp;&amp; y+n&lt;=S
+                     SUM = SUM + L(x+m, y+n); 
+                  end
+               end
+            end
+            SUM = SUM - L(x, y);
+            Temp(x, y) = mod(SUM, 2);
+            
+            y = M+t-1;
+            SUM = 0;
+            for m=-1:1
+               for n=-1:1
+                  if x+m&gt;0 &amp;&amp; x+m&lt;=S &amp;&amp; y+n&gt;0 &amp;&amp; y+n&lt;=S
+                     SUM = SUM + L(x+m, y+n); 
+                  end
+               end
+            end
+            SUM = SUM - L(x, y);
+            Temp(x, y) = mod(SUM, 2);
+       end
+    end
+    L = Temp;
+    imagesc(L);
+    pause(0.1);
+end</code></pre>
+<h2>效果图</h2>
+<img class="alignnone size-full wp-image-4192" src="https://cdn.omegaxyz.com/2018/05/元胞自动机.gif" alt="" width="510" height="406" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

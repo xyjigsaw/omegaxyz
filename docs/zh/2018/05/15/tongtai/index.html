@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>同态加密 · OmegaXYZ</title>
+  <meta name="description" content="什么是同态 同态是离散数学中的一个概念，期中考试最后一题是同态加密，这激发了我的兴趣，是时候研究一下了。 下面是离散数学中同态的定义： 设(M,*)和(S,·)是两个群，σ:M→S，∀a,b∈M，有σ(a*b)=σ(a)·σ(b)，则称σ为M到S的同态或群映射。 同态加密 如果我们有一个加密函数 f , 把明文A变成密文A’, 把明文B变...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/15/tongtai/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-15</div>
+        <h1>同态加密</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a><a class="pill" href="../../../../tag/discrete-mathematics/index.html">离散数学</a></div>
+        <div class="article-content"><h2>什么是同态</h2>
+同态是离散数学中的一个概念，期中考试最后一题是同态加密，这激发了我的兴趣，是时候研究一下了。
+
+下面是离散数学中同态的定义：
+<div class="lemma-summary">
+<div class="para" data-pid="1">设(M,*)和(S,·)是两个群，σ:M→S，∀a,b∈M，有σ(a*b)=σ(a)·σ(b)，则称σ为M到S的同态或群映射。</div>
+</div>
+<div class="basic-info J-basic-info cmn-clearfix" data-pid="card"></div>
+<h2 id="同态加密">同态加密</h2>
+如果我们有一个加密函数 f , 把明文A变成密文A’, 把明文B变成密文B’，也就是说 f(A) = A’ ， f(B) = B’ 。另外我们还有一个解密函数 <span id="MathJax-Element-263-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-1" class="math"><span id="MathJax-Span-2" class="mrow"><span id="MathJax-Span-3" class="msubsup"><span id="MathJax-Span-4" class="mi">f</span><span id="MathJax-Span-5" class="texatom"><span id="MathJax-Span-6" class="mrow"><span id="MathJax-Span-7" class="mo">−</span><span id="MathJax-Span-8" class="mn">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span> 能够将 f 加密后的密文解密成加密前的明文。
+
+对于一般的加密函数，如果我们将A’和B’相加，得到C’。我们用<span id="MathJax-Element-264-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-9" class="math"><span id="MathJax-Span-10" class="mrow"><span id="MathJax-Span-11" class="msubsup"><span id="MathJax-Span-12" class="mi">f</span><span id="MathJax-Span-13" class="texatom"><span id="MathJax-Span-14" class="mrow"><span id="MathJax-Span-15" class="mo">−</span><span id="MathJax-Span-16" class="mn">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span> 对C’进行解密得到的结果一般是毫无意义的乱码。
+
+但是，如果 f 是个可以进行同态加密的加密函数， 我们对C’使用 <span id="MathJax-Element-265-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;/math&gt;"><span id="MathJax-Span-17" class="math"><span id="MathJax-Span-18" class="mrow"><span id="MathJax-Span-19" class="msubsup"><span id="MathJax-Span-20" class="mi">f</span><span id="MathJax-Span-21" class="texatom"><span id="MathJax-Span-22" class="mrow"><span id="MathJax-Span-23" class="mo">−</span><span id="MathJax-Span-24" class="mn">1</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation">f−1</span></span> 进行解密得到结果C， 这时候的C = A + B。这样，<strong>数据处理权与数据所有权可以分离，这样企业可以防止自身数据泄露的同时，利用云服务的算力。</strong>
+<h2 id="同态分类">同态分类</h2>
+a) 如果满足 <span id="MathJax-Element-344-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-25" class="math"><span id="MathJax-Span-26" class="mrow"><span id="MathJax-Span-27" class="mi">f</span><span id="MathJax-Span-28" class="mo">(</span><span id="MathJax-Span-29" class="mi">A</span><span id="MathJax-Span-30" class="mo">)</span><span id="MathJax-Span-31" class="mo">+</span><span id="MathJax-Span-32" class="mi">f</span><span id="MathJax-Span-33" class="mo">(</span><span id="MathJax-Span-34" class="mi">B</span><span id="MathJax-Span-35" class="mo">)</span><span id="MathJax-Span-36" class="mo">=</span><span id="MathJax-Span-37" class="mi">f</span><span id="MathJax-Span-38" class="mo">(</span><span id="MathJax-Span-39" class="mi">A</span><span id="MathJax-Span-40" class="mo">+</span><span id="MathJax-Span-41" class="mi">B</span><span id="MathJax-Span-42" class="mo">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">f(A)+f(B)=f(A+B)</span></span> ， 我们将这种加密函数叫做加法同态
+b) 如果满足 <span id="MathJax-Element-345-Frame" class="MathJax" style="box-sizing: border-box; outline: 0px; display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 16px; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; word-break: break-all; position: relative;" tabindex="0" role="presentation" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;"><span id="MathJax-Span-43" class="math"><span id="MathJax-Span-44" class="mrow"><span id="MathJax-Span-45" class="mi">f</span><span id="MathJax-Span-46" class="mo">(</span><span id="MathJax-Span-47" class="mi">A</span><span id="MathJax-Span-48" class="mo">)</span><span id="MathJax-Span-49" class="mo">×</span><span id="MathJax-Span-50" class="mi">f</span><span id="MathJax-Span-51" class="mo">(</span><span id="MathJax-Span-52" class="mi">B</span><span id="MathJax-Span-53" class="mo">)</span><span id="MathJax-Span-54" class="mo">=</span><span id="MathJax-Span-55" class="mi">f</span><span id="MathJax-Span-56" class="mo">(</span><span id="MathJax-Span-57" class="mi">A</span><span id="MathJax-Span-58" class="mo">×</span><span id="MathJax-Span-59" class="mi">B</span><span id="MathJax-Span-60" class="mo">)</span></span></span><span class="MJX_Assistive_MathML" role="presentation">f(A)×f(B)=f(A×B)</span></span> ，我们将这种加密函数叫做乘法同态。
+
+如果一个加密函数f只满足<strong>加法同态</strong>，就只能进行<strong>加减法运算</strong>；
+
+如果一个加密函数f只满足<strong>乘法同态</strong>，就只能进行<strong>乘除法运算</strong>;
+
+如果一个加密函数同时满足<strong>加法同态和乘法同态</strong>，称为<strong>全同态加密</strong>。<strong>那么这个使用这个加密函数完成各种加密后的运算(加减乘除、多项式求值、指数、对数、三角函数)。</strong>
+
+第一个满足加法和乘法同态的同态加密方法直到2009年才由Craig Gentry提出。
+<h2 id="同态加密算法">同态加密算法</h2>
+<ol>
+ 	<li>RSA 算法对于乘法操作是同态的。</li>
+ 	<li>Paillier 算法则是对加法同态的。</li>
+ 	<li>Gentry算法则是全同态的。</li>
+</ol>
+参考资料：<a href="https://blog.csdn.net/jason_cuijiahui/article/details/79121702">https://blog.csdn.net/jason_cuijiahui/article/details/79121702</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

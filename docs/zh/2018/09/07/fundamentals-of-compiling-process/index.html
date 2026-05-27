@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译的过程 · OmegaXYZ</title>
+  <meta name="description" content="编译的过程 编译程序的工作过程一般可以分为6个阶段： 1. 词法分析 2. 语法分析 3. 语义分析 4.中间代码生成 5. 优化 6. 目标代码生成 词法分析 词法分析的任务是：输入源程序，对构成源程序的字符串进行扫描和分解，识别出一个个单词（定义符、标识符、运算符、界符、常数）。 在词法分析阶段的工作中所依循的是语言的语法规则（或称构...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/07/fundamentals-of-compiling-process/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-07</div>
+        <h1>编译的过程</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><h2><strong>编译的过程</strong></h2>
+编译程序的工作过程一般可以分为6个阶段：
+
+1. 词法分析
+
+2. 语法分析
+
+3. 语义分析
+
+4.中间代码生成
+
+5. 优化
+
+6. 目标代码生成
+<h2><strong>词法分析</strong></h2>
+词法分析的任务是：输入源程序，对构成源程序的字符串进行扫描和分解，识别出一个个单词（定义符、标识符、运算符、界符、常数）。
+
+在词法分析阶段的工作中所依循的是语言的语法规则（或称构词规则）。
+
+描述语法规则的有效工具是正规式和有限自动机。
+<h2><strong>语法分析</strong></h2>
+语法分析的任务是：在词法分析的基础上，根据语言的语法规则，把单词符号串分解成各类语法单元（语法范畴）（短语、子句、句子、程序段、程序），并确定整个输入串是否构成语法上正确的程序。
+
+语法分析所依循的是语言的语法规则。
+
+语法规则通常用上下文无关文法描述。
+
+词法分析是一种线性分析，而语法分析是一种层次结构分析。
+<h2><strong>语义分析和中间代码的产生</strong></h2>
+这一阶段的任务是：对语法分析所识别出的各类语法范畴，分析其含义，并进行初步翻译（产生中间代码）。这一阶段通常包含两个方面的工作。
+
+1. 对每种语法范畴进行静态语义的检查，例如，变量是否定义、类型是否正确等等。
+
+2. 如果语义正确则进行中间代码的翻译。
+
+这一阶段所依循的是语言的语义规则，通常使用属性文法描述语义规则。
+<h2><strong>优化</strong></h2>
+对于代码（主要是中间代码）进行加工变换，以期能够产生更为高效（省时间和空间）的目标代码 。
+
+优化的主要方面有：公共子表达式的提取、循环优化、删除无用代码等等。
+
+优化所依循的是程序的等价变换规则。
+<h2><strong>目标代码生成</strong></h2>
+这一阶段的任务是：把中间代码（经过优化处理之后的）变换成特定机器上的低级语言代码（绝对指令、可重定位指令、汇编指令）。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

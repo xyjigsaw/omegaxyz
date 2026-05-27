@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特征离散化概述 · OmegaXYZ</title>
+  <meta name="description" content="定义 连续特征离散化是采取各种方法将连续的区间划分为小的区间，并将这连续的小区间与离散值关联起来。连续特征离散化的本质是：决定选择多少个分割点和确定分割点的位置。 背景 连续数据经常采用离散化处理之后再放入模型。离散化可以理解为提取特征的过程，比如在LR模型，由于是广义线性模型表达能力有限，因此通过特征离散化来了提高非线性学习能力 步骤...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/18/feature-discretisation/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-18</div>
+        <h1>特征离散化概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>定义</strong></h2>
+连续特征离散化是采取各种方法将连续的区间划分为小的区间，并将这连续的小区间与离散值关联起来。连续特征离散化的本质是：决定选择多少个分割点和确定分割点的位置。
+<h2 id="背景">背景</h2>
+连续数据经常采用离散化处理之后再放入模型。离散化可以理解为提取特征的过程，比如在LR模型，由于是广义线性模型表达能力有限，因此通过特征离散化来了提高非线性学习能力
+<h2><strong>步骤</strong></h2>
+<ul>
+ 	<li>1.对连续特征值按照某种指定的规则进行排序</li>
+ 	<li>2.初步确定连续属性的划分断点</li>
+ 	<li>3.按照某种给定的判断标准继续分割断点或合并断点</li>
+ 	<li>4.如果第三步得到判断标准的终止条件，则终止整个连续特征离散化的过程，否则继续 按第三步执行</li>
+</ul>
+<h2 id="主要方法">主要方法</h2>
+<h3 id="等距离散">等距离散</h3>
+取值范围均匀划成n等份，每份的间距相等
+<h3 id="等频离散">等频离散</h3>
+均匀分为n等份，每份内包含的观察点数相同
+<h3 id="优化离散">优化离散</h3>
+大致有两类方法：
+1. 卡方检验方法：（统计样本的实际观测值与理论推断值之间的偏离程度，卡方值越大，越不符合；卡方值越小，偏差越小，越趋于符合）
+- 分裂方法：找到一个分裂点看，左右2个区间，在目标值上分布是否有- 显著差异，有显著差异就分裂，否则就忽略。这个点可以每次找差异最大的点
+- 合并方法：先划分如果很小单元区间，按顺序合并在目标值上分布不显著的相邻区间，直到收敛
+2. 信息增益方法：
+- 分裂方法：找到一个分裂点看，左右2个区间，看分裂前后信息增益变化阈值，如果差值超过阈值（正值，分列前-分裂后信息熵），则分裂。每次找差值最大的点做分裂点，直到收敛
+- 合并方法：先划分 如果很小单元区间，按顺序合并信息增益小于阈值的相邻区间，直到收敛
+<h2><strong>优点</strong></h2>
+<ul>
+ 	<li>1. 易于模型的快速迭代</li>
+ 	<li>2.稀疏向量内积乘法运算速度快，计算结果方便存储，容易扩展</li>
+ 	<li>3.离散化后的<b>特征</b>对异常数据有很强的鲁棒性</li>
+ 	<li>4 提升了逻辑回归模型的表达能力，加大拟合</li>
+ 	<li>5.模型更稳定</li>
+ 	<li>6.简化逻辑回归模型，降低其过拟合风险 没有任何离散化算法可以适用于任何环境下，在实际应用时需要根据数据集的特点和学 习环境等选择合适<b>的离散化</b>方法， 而关联规则分析中<b>的离散化</b>既需要考虑各<b>特征</b>间的内在联 系，又需要考虑在没有类信息的情况下对数据集进行有效<b>的离散化</b>。</li>
+</ul>
+<h2><strong>参考</strong></h2>
+<a href="https://wenku.baidu.com/view/a6cffadd5122aaea998fcc22bcd126fff7055dd1.html">https://wenku.baidu.com/view/a6cffadd5122aaea998fcc22bcd126fff7055dd1.html</a>
+
+<a href="https://blog.csdn.net/evillist/article/details/77962435">https://blog.csdn.net/evillist/article/details/77962435</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

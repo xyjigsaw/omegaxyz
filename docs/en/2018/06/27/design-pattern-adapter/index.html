@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Pattern - Adapter Pattern · OmegaXYZ</title>
+  <meta name="description" content="Pattern Motivation The use of power adapter-like design and coding techniques in software development is known as the adapter pattern. Normally, clients can access the services provided by the target class through its interface. Sometimes, an existing class can meet the functional needs of the client class, but the interface it provides is not necessarily what the client class expects. This may be due to reasons such as the inconsistency between the method names in the existing class and the method names defined in the target class. In this case, the existing interface needs to be converted into the interface expected by the client class...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/27/design-pattern-adapter/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-27</div>
+        <h1>Design Pattern - Adapter Pattern</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>pattern motivation</strong></h2>
+<ul>
+<li>Employing power adapter-like design and coding techniques in software development is known as the adapter pattern.</li>
+<li>Normally, clients can access the services provided by the target class through its interface. Sometimes, an existing class can meet the functional needs of the client class, but the interface it provides is not necessarily what the client class expects. This may be due to reasons such as the inconsistency between the method names in the existing class and the method names defined in the target class.</li>
+<li>In this case, the existing interface needs to be converted into the interface expected by the client class, thus ensuring the reuse of the existing class. Without such a conversion, the client class cannot utilize the functions provided by the existing classes. The adapter pattern can complete such a conversion. (As shown below)</li>
+</ul>
+<img alt="" class="size-full wp-image-4648 aligncenter" height="253" src="https://cdn.omegaxyz.com/2018/06/adapter2.png" width="522"/>
+<img alt="" class="alignnone size-full wp-image-4649 aligncenter" height="278" src="https://cdn.omegaxyz.com/2018/06/adapter3.png" width="507"/>
+<ul>
+<li>In the adapter pattern, you can define a wrapper class to wrap objects with incompatible interfaces. This wrapper class refers to the adapter (Adapter), and the object it wraps is the adapter (Adaptee), that is, the adapted class.</li>
+<li>The adapter provides the interface required by the client class. The implementation of the adapter is to convert the request of the client class into a call to the corresponding interface of the adapter. That is to say: when the client class calls the adapter method, the adapter class method will be called inside the adapter class, and this process is transparent to the client class, and the client class does not directly access the adapter class.</li>
+<li>Adapters enable classes that cannot interact because of incompatible interfaces to work together. This is the pattern motivation behind the adapter pattern.</li>
+</ul>
+ 
+<h2><strong>Schema definition</strong></h2>Adapter Pattern: Converts an interface into another interface that the client wants. The Adapter Pattern enables classes with incompatible interfaces to work together. Its alias is Wrapper. The adapter pattern can be used as either a class structural pattern or an object structural pattern.<img alt="" class="alignnone wp-image-4647" height="663" src="https://cdn.omegaxyz.com/2018/06/adapter1.jpg" width="432"/>
+<ul>
+<li>The names of abstract classes and their abstract (virtual) methods are shown in italics</li>
+<li>Methodology<i>request</i>defined as class<b><i>Abstract Target</i></b>An abstract method in a (concrete) class<b>Adapter</b>Implement it in to send a specificRequest message to the class<b>Adaptee </b>an object of</li>
+</ul>
+<ul>
+<li>kind<b>Adapter</b>is an abstract class<b><i>Abstract Target </i></b>A real subclass of , the hollow arrow indicates the inheritance relationship</li>
+</ul>
+<h2><strong>Mode advantages and disadvantages</strong></h2>
+<strong>The advantages of the adapter pattern are as follows:</strong>
+<ul>
+<li>Decouple the target class and the adapter class and reuse the existing adapter class by introducing an adapter class without modifying the original code.</li>
+<li>It increases the transparency and reusability of the class. The specific implementation is encapsulated in the adapter class, which is transparent to the client class and improves the reusability of the adapter.</li>
+<li>The flexibility and scalability are very good. By using the configuration file, the adapter can be easily replaced, and new adapter classes can be added without modifying the original code, which is fully consistent with the "opening and closing principle".</li>
+</ul>
+<strong>The class adapter pattern also has the following advantages:</strong>Since the adapter class is a subclass of the adapter class, some adapter methods can be replaced in the adapter class to make the adapter more flexible.<strong>The disadvantages of the class adapter pattern are as follows:</strong>For languages ​​such as Java and C# that do not support multiple inheritance, only one adapter class can be adapted at a time, and the target abstract class can only be an abstract class, not a concrete class. Its use has certain limitations. An adapter class and its subclasses cannot be adapted to the target interface.<strong>The object adapter pattern also has the following advantages:</strong>An object adapter can adapt multiple different adapters to the same target. In other words, the same adapter can adapt both the adapter class and its subclasses to the target interface.<strong>The disadvantages of the object adapter pattern are as follows:</strong>Compared with the class adapter pattern, it is not easy to replace the methods of the adapter class. If you must replace one or more methods of the adapter class, you have to first make a subclass of the adapter class, replace the methods of the adapter class, and then use the subclass of the adapter class as a real adapter for adaptation. The implementation process is more complicated.<h2><strong>Mode applicable environment</strong></h2>
+<strong>Adapter pattern can be used in the following situations:</strong>The system needs to use existing classes, and the interfaces of these classes do not meet the needs of the system.
+
+You want to create a class that can be reused to work with some classes that are not very related to each other, including some classes that may be introduced in the future.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

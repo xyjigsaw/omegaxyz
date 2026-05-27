@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动态规划-最大的正方形面积 · OmegaXYZ</title>
+  <meta name="description" content="题目表述 Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area. For example, given the following matrix: 1 0 1 0 0...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/09/14/dp-maximal-square/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-09-14</div>
+        <h1>动态规划-最大的正方形面积</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a></div>
+        <div class="article-content"><h2><strong>题目表述</strong></h2>
+Given a 2D binary matrix filled with 0’s and 1’s, find the largest square containing only 1’s and return its area.
+
+For example, given the following matrix:
+
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+
+Return 4.
+<h2><strong>思路</strong></h2>
+使用动态规划来求解，算法时间复杂度O(n^2)。
+
+dp[i][j] ： 以(i, j)为右下角的面积最大的正方形的边长。
+
+初始条件：最上面一行，最左边一列，可以直接得到dp值。
+
+更新公式：<strong>matrix[i][j] == '0' - &gt; dp[i][j] = 0</strong>
+
+<strong>　　　　    matrix[i][j] == '1' - &gt; dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1], dp[i][j - 1]) + 1</strong>
+
+&nbsp;
+<h2><strong>代码</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+const int _MAX = 10;
+
+using namespace std;
+
+char matrix[_MAX][_MAX];
+int dp[_MAX][_MAX];
+
+int min3(int a, int b, int c){
+    a = a &lt; b ? a : b;
+    return a &lt; c ? a : c;
+}
+
+int main(){
+    int n, m;
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; m; j++){
+            cin&gt;&gt;matrix[i][j];
+        }
+    }
+
+    
+    int res = 0;
+    for(int i = 0; i &lt; n; i++){
+        for(int j = 0; j &lt; m; j++){
+            if(matrix[i][j] == 1)dp[i][j] = 1;
+            else dp[i][j] = 0;
+        }
+    }
+
+    for(int i = 1; i &lt; n; i++){
+        for(int j = 1; j &lt; m; j++){
+            if(matrix[i][j] == '1'){
+                dp[i][j] = min3(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1;
+                res = res &gt; dp[i][j] ? res : dp[i][j];
+            }
+        }
+    }
+    cout&lt;&lt;res * res&lt;&lt;endl;
+    return 0;
+}
+
+/* 
+4 5
+1 0 1 0 0 
+1 0 1 1 1 
+1 1 1 1 1 
+1 0 0 1 0 
+ */</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

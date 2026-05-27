@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PSO算法特征选择MATLAB实现（单目标） · OmegaXYZ</title>
+  <meta name="description" content="PSO进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。 简单PSO MATLAB代码及概述请见： https://omegaxyz.com/2018/01/17/matlab_pso/ 下面是PSO进...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/21/psofs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-21</div>
+        <h1>PSO算法特征选择MATLAB实现（单目标）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="article-content">PSO进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。
+
+简单PSO MATLAB代码及概述请见：<a href="https://omegaxyz.com/2018/01/17/matlab_pso/">https://omegaxyz.com/2018/01/17/matlab_pso/</a>
+
+<strong>下面是PSO进行特征选择的代码（注意：整体代码是单目标只优化错误率，注意训练使用的是林志仁SVM，数据集是Parkinson，可以到UCI上下载，训练的结果是错误率）</strong>
+
+数据集分割为训练集和测试集：
+<pre ><code class="language-matlab">function divide_datasets
+load Parkinson.mat;
+dataMat=Parkinson_f;
+len=size(dataMat,1);
+%归一化
+maxV = max(dataMat);
+minV = min(dataMat);
+range = maxV-minV;
+newdataMat = (dataMat-repmat(minV,[len,1]))./(repmat(range,[len,1]));
+
+Indices   =  crossvalind('Kfold', length(Parkinson_label), 10);
+site = find(Indices==1|Indices==2|Indices==3);
+train_F = newdataMat(site,:);
+train_L = Parkinson_label(site);
+site2 = find(Indices~=1&amp;Indices~=2&amp;Indices~=3);
+test_F = newdataMat(site2,:);
+test_L =Parkinson_label(site2);
+save train_F train_F;
+save train_L train_L;
+save test_F test_F;
+save test_L test_L;
+end
+
+</code></pre>
+&nbsp;
+
+主函数PSOFS：
+<pre ><code class="language-matlab">clear;
+clc;
+format long;
+%------给定初始化条件----------------------------------------------
+c1=2;             %学习因子1
+c2=2;             %学习因子2
+w=0.7;            %惯性权重
+MaxDT=100;       %最大迭代次数
+D=22;             %搜索空间维数（未知数个数）
+M=30;             %初始化群体个体数目
+bound=1;
+%eps=10^(-6);      %设置精度(在已知最小值时候用)
+global answer      %最后所有粒子的结果（包括特征与精确度）
+answer=cell(M,3);
+global choice     %选出的特征个数
+choice=0.8;
+
+%------初始化种群的个体(可以在这里限定位置和速度的范围)------------
+
+x=randn(M,D); %随机初始化位置
+v=randn(M,D); %随机初始化速度
+x(x&gt;bound)=bound;
+x(x&lt;-bound)=-bound;
+%------先计算各个粒子的适应度，并初始化p(i)和gbest--------------------
+divide_datasets();
+for i=1:M
+    p(i)=fitness(x(i,:),i);
+    y(i,:)=x(i,:);
+end
+gbest=x(1,:);             %gbest为全局最优
+
+for i=2:M
+    if(fitness(x(i,:),i)&lt;fitness(gbest,i))
+        gbest=x(i,:);
+    end
+end
+
+%------进入主要循环，按照公式依次迭代，直到满足精度要求------------
+for t=1:MaxDT
+    for i=1:M
+        v(i,:)=w*v(i,:)+c1*rand*(y(i,:)-x(i,:))+c2*rand*(gbest-x(i,:));
+        x(i,:)=x(i,:)+v(i,:);
+        if fitness(x(i,:),D)&lt;p(i)
+            p(i)=fitness(x(i,:),i);
+            y(i,:)=x(i,:);
+        end
+        if p(i)&lt;fitness(gbest,i)
+            gbest=y(i,:);
+        end
+    end
+end
+
+%------显示计算结果
+disp('*************************************************************')
+Solution=gbest';
+Result=fitness(gbest,i);
+disp('*************************************************************')
+</code></pre>
+特征选择评价函数（利用林志仁的SVM进行训练）：
+<pre ><code class="language-matlab">function error = fitness(x,i)
+global answer
+global choice
+load train_F.mat;
+load train_L.mat;
+load test_F.mat;
+load test_L.mat;
+
+inmodel = x&gt;choice;%%%%%设定恰当的阈值选择特征
+answer(i,1)={sum(inmodel(1,:))};
+model = libsvmtrain(train_L,train_F(:,inmodel), '-s 0 -t 2 -c 1.2 -g 2.8');
+[predict_label, ~, ~] = libsvmpredict(test_L,test_F(:,inmodel),model,'-q'); 
+error=0;
+for j=1:length(test_L)
+    if(predict_label(j,1) ~= test_L(j,1))
+        error = error+1;
+    end
+end
+error = error/length(test_L);
+answer(i,2)={error};
+answer(i,3)={inmodel};
+end</code></pre>
+结果（选出的特征数和错误率）：
+
+<img class="alignnone size-full wp-image-2941" src="https://cdn.omegaxyz.com/2018/01/PSOFS2.jpg" alt="" width="159" height="23" />
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (32)</h2>
+        <div class="comment" id="comment-3840">
+          <strong>杨明雪</strong>
+          <time>2018-09-04 21:59:24</time>
+          <div>您好，我在uci上一直没找到数据集，您方便发我一份让我测试吗？如果方便，请发我邮箱：2429235999@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3841">
+          <strong>xyjisaw</strong>
+          <time>2018-09-05 11:24:20</time>
+          <div>可以，晚上发给你</div>
+        </div>
+        
+        <div class="comment" id="comment-16905">
+          <strong>止语</strong>
+          <time>2019-05-06 20:13:59</time>
+          <div>你好，请问您这里定义的Parkinson_f、Parkinson_label是parkinson数据集中195*23个特征值与1*23个特征标签吗?(我做了上述猜测的处理，将Parkinson_label定义为1*23的数值矩阵，【1，2，...,23】,但在测试里与您的结果不太一样)如果方便的话，求同学您的数据集一份用来做相同的测试，我的邮箱是yaoxin903695971@vip.qq.com.</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16913">
+          <strong>xyjisaw</strong>
+          <time>2019-05-07 22:04:05</time>
+          <div>没问题</div>
+        </div>
+        
+        <div class="comment" id="comment-16961">
+          <strong>网迷</strong>
+          <time>2019-05-13 15:16:22</time>
+          <div>您好，对于您的数据集，我在UCI上找到了的是.data格式的，不明白你是怎么处理的，能方便发我一份数据集吗？感谢。我的邮箱是985197256@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-16966">
+          <strong>Anonymous</strong>
+          <time>2019-05-15 09:50:47</time>
+          <div>您好，这个应用有相应的论文吗？如果方便，您能吧数据集也发我一份吗？（1013757040@qq.com）非常谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16967">
+          <strong>xyjisaw</strong>
+          <time>2019-05-15 14:16:09</time>
+          <div>http://download.csdn.net/download/xyisv/10973313</div>
+        </div>
+        
+        <div class="comment" id="comment-17365">
+          <strong>Anonymous</strong>
+          <time>2019-08-23 11:41:38</time>
+          <div>未定义函数或变量 &#x27;Parkinson_f&#x27;。<br><br>出错 divide_datasets (line 5)<br>dataMat = Parkinson_f;<br><br>大神，这个该怎么解决呢？</div>
+        </div>
+        
+        <div class="comment" id="comment-17366">
+          <strong>Anonymous</strong>
+          <time>2019-08-23 11:48:26</time>
+          <div>程序：<br>function divide_datasets()<br>load Parkinson.mat<br>dataMat = Parkinson_f;<br>len=size(dataMat,1);<br>运行后的结果：<br>未定义函数或变量 &#x27;Parkinson_f&#x27;。<br><br>出错 divide_datasets (line 5)<br>dataMat = Parkinson_f;<br><br>出错 NSGA2_FS (line 14)<br>divide_datasets();<br><br>您好，这个怎么解决呢？麻烦您啦</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17368">
+          <strong>xyjisaw</strong>
+          <time>2019-08-23 22:15:33</time>
+          <div>我有一个制作数据集的文章，你可以仔细参考一下，Parkinson_f是数据集的特征。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17397">
+          <strong>Anonymous</strong>
+          <time>2019-08-28 10:35:07</time>
+          <div>好的  谢谢您</div>
+        </div>
+        
+        <div class="comment" id="comment-17731">
+          <strong>江川</strong>
+          <time>2019-09-18 20:12:21</time>
+          <div>您好，您这里有这篇的python代码吗，另外数据我从UCI上转化出现了问题，您能发我一份吗，邮箱是1159668795@qq.com,非常感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17733">
+          <strong>xyjisaw</strong>
+          <time>2019-09-18 21:11:03</time>
+          <div>数据集出问题了？</div>
+        </div>
+        
+        <div class="comment" id="comment-18849">
+          <strong>倾城雨落</strong>
+          <time>2020-04-26 17:40:40</time>
+          <div>您好，您方便把完整的代码和数据集发给我吗？如果方便的话，请发我邮箱：23621210184@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18852">
+          <strong>xyjisaw</strong>
+          <time>2020-04-26 21:02:13</time>
+          <div>代码即本文代码存到文件即可。数据集：https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18853">
+          <strong>倾城雨落</strong>
+          <time>2020-04-26 21:04:24</time>
+          <div>非常感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18858">
+          <strong>倾城雨落</strong>
+          <time>2020-04-28 21:01:47</time>
+          <div>您好，我下载数据集总是失败，它显示网页丢失，请问这是什么原因啊？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18859">
+          <strong>xyjisaw</strong>
+          <time>2020-04-28 21:49:55</time>
+          <div>github可能要翻墙，数据集发给你了请查收。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18860">
+          <strong>倾城雨落</strong>
+          <time>2020-04-28 21:51:06</time>
+          <div>好的，收到，感谢您的答复</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18861">
+          <strong>城南姑娘</strong>
+          <time>2020-04-29 10:00:25</time>
+          <div>请问您方便发我一份数据集吗，感谢。1243289896@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-18947">
+          <strong>泡泡</strong>
+          <time>2020-05-14 23:01:02</time>
+          <div>您好，出现这个问题是什么原因。<br>索引超出矩阵维度。<br><br>出错 pso&amp;gt;fitness (line 104)<br>model = libsvmtrain(train_L,train_F(:,inmodel), &#x27;-s 0 -t 2 -c 1.2 -g 2.8&#x27;);<br><br>出错 pso (line 32)<br>    p(i)=fitness(x(i,:),i);</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18949">
+          <strong>xyjisaw</strong>
+          <time>2020-05-15 08:16:40</time>
+          <div>x或者p的大小小于i。你查看一下变量p和x还有i</div>
+        </div>
+        
+        <div class="comment" id="comment-19074">
+          <strong>小梦</strong>
+          <time>2020-06-21 16:17:19</time>
+          <div>您好，我在Github上没有找到数据集，网页进不去，您方便发给我一份我来做测试用吗？谢谢~我的邮箱335172839@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-19292">
+          <strong>吕庚辰</strong>
+          <time>2020-08-10 23:26:35</time>
+          <div>你写的真好，我从评论里看到链接去下载了出来格式不对，您方便的话能否把训练集发我一份用于测试，谢谢您！<br>邮箱：2511300269@QQ.com</div>
+        </div>
+        
+        <div class="comment" id="comment-19432">
+          <strong>吕</strong>
+          <time>2020-09-01 23:26:10</time>
+          <div>你好 这是wrapper方法吗   <br>用阈值过滤的啊<br>难道不是filter方法？<br>望回复</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19434">
+          <strong>xyjisaw</strong>
+          <time>2020-09-02 07:56:12</time>
+          <div>这是wrapper方法，阈值不是过滤，阈值是将实数编码变成01编码选特征用的，也可以一开始就是用随机生成的01值作为编码。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19484">
+          <strong>吕</strong>
+          <time>2020-09-24 16:23:24</time>
+          <div>请教您一下，训练集这里我懂了，这个适应度函数函数这里是用的LVF吗   我看它不是计算的特征子集慢慢加或慢慢减呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19485">
+          <strong>xyjisaw</strong>
+          <time>2020-09-24 23:04:16</time>
+          <div>这里有两个目标，一个是特征数，另一个是错误率</div>
+        </div>
+        
+        <div class="comment" id="comment-19575">
+          <strong>零点零一</strong>
+          <time>2020-11-03 10:32:45</time>
+          <div>您好，请问您有这个的Python实现的代码吗，可以麻烦发一份吗，2284298343@qq.com，非常感谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-23864">
+          <strong>dcl312</strong>
+          <time>2021-09-21 20:36:53</time>
+          <div>您好，运行后显示未定义函数或变量 &#x27;Parkinson_f&#x27;。看到您在之前的回复是制作数据集的结果，但我试了一下还是报错，能否麻烦发一份制作数据集的MATLAB代码，我好好学习一下，谢谢啦，邮箱：263331772@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-23981">
+          <strong>Zhaoqiang Huang</strong>
+          <time>2021-09-26 16:07:32</time>
+          <div>Parkinson.mat数据集有吗？请发一份给我，谢谢。175476299@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-24020">
+          <strong>xyjisaw</strong>
+          <time>2021-09-29 11:09:40</time>
+          <div>数据集发布在我的github上的datasets仓库</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

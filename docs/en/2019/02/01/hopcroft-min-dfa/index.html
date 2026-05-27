@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python implementation of Hopcroft algorithm DFA minimization · OmegaXYZ</title>
+  <meta name="description" content="DFA Minimization Principle The so-called automaton simplification problem is to construct another deterministic finite automaton DFA M&#x27; for any deterministic finite automaton DFA M, such that L (M) = L (M&#x27;), and the number of states of M&#x27; is not more than the number of states of M, and it can be said with certainty that an M&#x27; with the smallest number of states can be found. Let&#x27;s first introduce some related basic concepts. Suppose S i is a state of the automaton M. The set of all symbol strings that can be derived from S i...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/02/01/hopcroft-min-dfa/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-01</div>
+        <h1>Python implementation of Hopcroft algorithm DFA minimization</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>DFA</strong><strong>Minimization principle</strong></h2>The so-called automaton simplification problem is to construct another deterministic finite automaton DFA M' for any deterministic finite automaton DFA M, such that L (M) = L (M'), and the number of states of M' is not more than the number of states of M, and it can be said with certainty that an M' with the smallest number of states can be found.
+
+Let's first introduce some related basic concepts.<strong> </strong>Let S<sub>i</sub>is a state of the automaton M, starting from S<sub>i</sub>The set of all symbol strings that can be derived is denoted L (S<sub>i</sub>）。
+
+<strong> </strong>There are two states S<sub>i</sub>and S<sub>j</sub>, if there is L(S<sub>i</sub>）＝L（S<sub>j</sub>), then it is called S<sub>i</sub>and S<sub>j</sub>It is an equivalent state.
+
+In the automaton shown in the figure above, L(B)=L(C)={1}, all state B and state C are equivalent states.
+
+For another example, the set of symbol strings derived from the final state must contain the empty string ε, but the set of symbol strings derived from the non-terminal state cannot contain the empty string ε, so the final state and the non-terminal state are not equivalent.
+
+For the concept of equivalence, we can also define it from another perspective.
+
+Given a DFA M, if it starts from a certain state P and takes the string w as the input, the DFA M will end in the final state, and if it starts from another state Q and takes the string w as the input, the DFA M will end in the non-terminal state. The string w is said to distinguish the state P from the state Q.
+
+Two states that are indistinguishable are called equivalent states.
+
+Let S<sub>i</sub>is a state of the automaton M, if it is impossible to reach the state S from the starting state<sub>i</sub>, then it is called S<sub>i</sub>into useless state.
+
+Let S<sub>i</sub>Is a state of the automaton M. If it turns to itself for any input symbol a and cannot reach the terminal state, it is called S<sub>i</sub>For the state of death.
+
+The key to simplifying DFA is to divide its state set into some mutually disjoint subsets, so that the states between any two disjoint subsets are distinguishable, and any two states in the same subset are equivalent. In this way, one state can be used as a representative and other equivalent states can be deleted, and then irrelevant states can be deleted, thereby obtaining a DFA with the smallest number of states.
+
+The following is a detailed introduction to the simplification algorithm of DFA:<ul>
+<li>First, divide the state of DFA M into the terminal state set K<sub>1</sub>and the non-terminal state set K<sub>2</sub>。</li>
+</ul>
+K＝K<sub>1</sub>∪K<sub>2</sub>From the above definition, K<sub>1</sub>and K<sub>2</sub>are not equivalent.<ul>
+<li>Each state set is further divided according to the following method each time until no new divisions are generated.</li>
+</ul>Assume that the i-th division has divided the state set into k groups, that is:
+
+K＝K<sub>1</sub><sup>(i)</sup>∪K<sub>2</sub><sup>(i)</sup>∪…∪K<sub>k</sub><sup>(i)</sup>For the state set K<sub>j</sub><sup>(i)</sup>Each state in (j=1,2,…,k) is checked one by one, and there are two states K<sub>j</sub>’、 K<sub>j</sub>’’∈K<sub>j</sub><sup>(i)</sup>, and for the input symbol a, there is:
+
+F(K<sub>j</sub>'，a）＝K<sub>m</sub>
+
+F（K<sub>j</sub>''，a）＝K<sub>n</sub>If K<sub>m</sub>and K<sub>n</sub>belong to the same state set, then K<sub>j</sub>’ and K<sub>j</sub>'' into the same set, otherwise K<sub>j</sub>’ and K<sub>j</sub>'' is divided into two sets.<ul>
+<li>Repeat step (2) until each set can no longer be divided. At this time, the states in each state set are equivalent.</li>
+<li>Merging equivalent states means taking any one state from the set of equivalent states as a representative and deleting all other equivalent states.</li>
+<li>If there are irrelevant states, delete them.</li>
+</ul>According to the above method, the finite automaton is simplified, and the simplified automaton is the automaton with the least state of the original automaton.<h2><strong>Hopcroft</strong><strong>Algorithm principle</strong></h2>
+<strong>Algorithmic abstraction:</strong>
+<ul>
+<li>1: Q/θ ← {F, Q − F}</li>
+<li>2: while (∃U, V ∈ Q/θ, a ∈ Σ) s.t. Equation 1 holds do</li>
+<li>3: Q/θ ← (Q/θ − {U}) ∪ {U ∩ δ^-1(V, a), U − U ∩ δ^-1(V, a)}</li>
+<li>4: end while</li>
+</ul>
+<strong>Algorithm refinement:</strong>
+<ul>
+<li>1:W ← {F, Q − F} # Some versions are just W ← {F }</li>
+<li>2: P ← {F, Q − F}</li>
+<li>3: while W is not empty do</li>
+<li>4:     select and remove S from W</li>
+<li>5:     for all a ∈ Σ do</li>
+<li>6:         la ← δ^-1(S, a)</li>
+<li>7:         for all R in P such that R ∩ la ≠ ∅ and R ∉ la do</li>
+<li>8:             partition R into R1 and R2: R1 ← R ∩ la and R2 ← R − R1</li>
+<li>9:             replace R in P with R1 and R2</li>
+<li>10:           if R ∈ W then</li>
+<li>11:               replace R in W with R1 and R2</li>
+<li>12:           else</li>
+<li>13:                 if |R1| ≤ |R2| then</li>
+<li>14:                     add R1 to W</li>
+<li>15:                 else</li>
+<li>16:                     add R2 to W</li>
+<li>17:                 end if</li>
+<li>18:             end if</li>
+<li>19:         end for</li>
+<li>20:    end for</li>
+<li>21: end while</li>
+</ul>
+<h2><strong>flow chart</strong></h2>
+<img alt="" class="alignnone wp-image-5461" height="556" src="https://cdn.omegaxyz.com/2019/02/minDFA2.png" width="604"/>
+<h2><strong>Python code</strong></h2>
+<pre><code class="language-python">from graphviz import Digraph
+import random
+from copy import deepcopy
+
+
+class Part:
+    def __init__(self, src, edge, dst):
+        self.src = src
+        self.edge = edge
+        self.dst = dst
+
+
+def move(DFA, src, edge):
+    for i in range(len(DFA)):
+        if DFA[i].src[0] == src and DFA[i].edge == edge:
+            return DFA[i].dst[0]
+    return ''
+
+
+def get_source_set(target_set, char, DFA):
+    global allstatus
+    allstatusSet = set(allstatus)
+    source_set = set()
+    for state in allstatusSet:
+        try:
+            if move(DFA, state, char) in target_set:
+                source_set.update(state)
+        except KeyError:
+            pass
+    return source_set
+
+
+def hopcroft_algorithm(DFA):
+    global sigma
+    global endSet
+    global allstatus
+    cins = set(sigma)
+    termination_states = set(endSet)
+    total_states = set(allstatus)
+    not_termination_states = total_states - termination_states
+
+    P = [termination_states, not_termination_states]
+    W = [termination_states, not_termination_states]
+
+    while W:
+
+        A = random.choice(W)
+        W.remove(A)
+
+        for char in cins:
+            X = get_source_set(A, char,DFA)
+            P_temp = []
+
+            for Y in P:
+                S = X &amp; Y
+                S1 = Y - X
+
+                if len(S) and len(S1):
+                    P_temp.append(S)
+                    P_temp.append(S1)
+
+                    if Y in W:
+                        W.remove(Y)
+                        W.append(S)
+                        W.append(S1)
+                    else:
+                        if len(S) &lt;= len(S1):
+                            W.append(S)
+                        else:
+                            W.append(S1)
+                else:
+                    P_temp.append(Y)
+            P = deepcopy(P_temp)
+    return P
+
+
+def indexMinList(minList, a):
+    for i in range(len(minList)):
+        if a in minList[i]:
+            return i
+    return ''
+
+DFA = []
+DFA2 = []
+DFADic = {}
+sigma = ['a', 'b']
+# dot = Digraph(comment='The Test Table')
+dot = Digraph("DFA")
+num = int(input('input:'))
+for i in range(num):
+    x = input()
+    y = input()
+    z = input()
+    temp = []
+    temp.append(x)
+    temp.append(y)
+    DFA2.append(temp)
+    DFADic[tuple(temp)] = y
+    temp = Part(x, y, z)
+    DFA.append(temp)
+    if i == 1:
+        dot.node(name=x, color='blue')
+        dot.edge(x, z, y)
+    else:
+        dot.node(name=x, color='black')
+        dot.edge(x, z, y)
+
+for i in range(len(DFA)):
+    print(DFA[i].src, DFA[i].edge, DFA[i].dst)
+
+endSet = []
+endNum = int(input('input end num:'))
+for i in range(endNum):
+    temp = input()
+    endSet.append(temp)
+
+startSet = []
+allSet = []
+
+for i in range(len(DFA)):
+    if DFA[i].src[0] not in endSet:
+        startSet.append(DFA[i].src[0])
+    if DFA[i].dst[0] not in endSet:
+        startSet.append(DFA[i].src[0])
+
+allstatus = startSet
+allstatus.extend(endSet)
+dot.render('DFA.gv', view=True)
+minList = hopcroft_algorithm(DFA)
+minDFA = []
+print(minList)
+
+
+for i in range(len(minList)):
+    dstList = [0, 0] # 用来存储每种状态经过a和b变换后的结果
+    for j in range(len(minList[i])):
+            listi = list(minList[i])
+            if dstList[0] == 0 and move(DFA, listi[j], sigma[0]) != '' and indexMinList(minList, move(DFA, listi[j], sigma[0])) != '':
+                print(indexMinList(minList, move(DFA, listi[j], sigma[0])))
+                dstList[0] = min(minList[indexMinList(minList, move(DFA, listi[j], sigma[0]))])
+                # 使用Min函数的原因是为了重新给每种状态命名，选去每个状态中的最小的即可
+
+            if dstList[1] == 0 and move(DFA,listi[j], sigma[1]) != ''and indexMinList(minList, move(DFA, listi[j], sigma[1])) != '':
+                dstList[1] = min(minList[indexMinList(minList, move(DFA, listi[j], sigma[1]))])
+    if dstList[0] != 0:
+        temp = Part(min(minList[i]),'a',dstList[0])
+        minDFA.append(temp)
+    if dstList[1] != 0:
+        temp2 = Part(min(minList[i]), 'b', dstList[1])
+        minDFA.append(temp2)
+
+
+dot2 = Digraph('测试图片')
+
+for i in range(len(minDFA)):
+    print(minDFA[i].src, minDFA[i].edge,minDFA[i].dst)
+    if i == 1:
+        dot2.node(name = minDFA[i].src, color='red')
+        dot2.edge(minDFA[i].src, minDFA[i].dst, minDFA[i].edge)
+    else:
+        dot2.node(name=minDFA[i].src, color='black')
+        dot2.edge(minDFA[i].src, minDFA[i].dst, minDFA[i].edge)
+
+dot2.render('minDFA.gv', view=True)</code></pre>
+<h2><strong>test</strong></h2>
+<strong>Test data:</strong>Representation of starting node, edge, and ending node
+
+There are 14 edges and 7 nodes in total<img alt="" class="alignnone wp-image-5462" height="326" src="https://cdn.omegaxyz.com/2019/02/minDFA3.png" width="138"/>
+<strong>Graphic display:</strong>
+<img alt="" class="alignnone wp-image-5463" height="538" src="https://cdn.omegaxyz.com/2019/02/minDFA4.png" width="213"/>The initial subset is [{C,D,E,F},{S,A,B}]<strong>Results after the experiment:</strong>
+<img alt="" class="alignnone wp-image-5464" height="25" src="https://cdn.omegaxyz.com/2019/02/minDFA5.png" width="320"/>
+<strong>The most simplified DFA is:</strong>C is the ending node and S is the starting node.<img alt="" class="alignnone wp-image-5465" height="543" src="https://cdn.omegaxyz.com/2019/02/minDFA6.png" width="238"/>
+<h2><strong>Difficulties and solutions</strong></h2>
+<ul>
+<li>In the process of DFA minimization, it is limited to remove useless states and then use the subset partitioning algorithm to process. According to the data, I found a fast DFA minimization algorithm called Hopcroft algorithm. Through this algorithm, DFA of alphabets of different sizes can be processed.</li>
+<li>After performing the subset splitting algorithm, equivalent nodes should be merged and renamed using graphviz output. At this step, when merging and renaming nodes, it is necessary to pay attention to the in-degree and out-degree of all duplicate nodes. Only in this way can the edges of the new minimized DFA be avoided.</li>
+</ul></div>
+        <section class="comments"><h2>Comments (11)</h2>
+        <div class="comment" id="comment-18684">
+          <strong>ysj</strong>
+          <time>2020-03-20 16:46:40</time>
+          <div>想请教一下，dot.render()运行的时候总是报错：UnicodeDecodeError: &#x27;utf-8&#x27; codec can&#x27;t decode byte 0xb2 in position 6: invalid start byte。修改了编码方式也不行。想请教一下您有没有遇到这个问题。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18686">
+          <strong>xyjisaw</strong>
+          <time>2020-03-20 16:49:49</time>
+          <div>你把所有的汉字改成英文，注释也去掉</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18687">
+          <strong>ysj</strong>
+          <time>2020-03-20 16:59:48</time>
+          <div>您好，修改过了，还是不行...</div>
+        </div>
+        
+        <div class="comment" id="comment-18961">
+          <strong>limy</strong>
+          <time>2020-05-20 15:06:09</time>
+          <div>请问X&amp;amp;Y和X-Y是什么意思啊？，为什么说我的S和S1没有定义呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18962">
+          <strong>limy</strong>
+          <time>2020-05-20 15:09:58</time>
+          <div>我傻了，大家不要理我</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18963">
+          <strong>xyjisaw</strong>
+          <time>2020-05-20 15:14:53</time>
+          <div>牛！</div>
+        </div>
+        
+        <div class="comment" id="comment-18964">
+          <strong>limy</strong>
+          <time>2020-05-20 20:42:57</time>
+          <div>您好，这个代码我发现好像只可以划分一次分组。<br>有的NFA划分一次就是最小DFA，有的NFA需要划分好几次才可以，代码里划分分组的函数（129行）没有循环判断。<br>例：<br>测试数据为：<br>0 a 1<br>0 b 2<br>1 a 3<br>1 b 0<br>2 a 5<br>2 b 2<br>3 a 3<br>3 b 6<br>4 a 1<br>4 b 2<br>5 b 6<br>6 a 5<br>endNum：6<br>分别为0 1 2 3 4 5<br>这个例子答案就是错误的。结果有6个状态，而正确的minDFA应该是三个状态。<br><br>不知道我说的对不对，您兴趣可以测试一下。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18965">
+          <strong>xyjisaw</strong>
+          <time>2020-05-20 21:16:25</time>
+          <div>了解，第33行的函数应该没有问题，时间久远，如果您有新的想法欢迎指正。</div>
+        </div>
+        
+        <div class="comment" id="comment-19993">
+          <strong>吴</strong>
+          <time>2021-01-13 14:31:15</time>
+          <div>你好，你能解释一下程序的输入都是什么意思啊  我看了很久还是不明白。 主要是输入的end num 是什么呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19994">
+          <strong>吴</strong>
+          <time>2021-01-13 14:38:48</time>
+          <div>我傻了， 知道了   但是出现了dot.render的错误。。。。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19995">
+          <strong>xyjisaw</strong>
+          <time>2021-01-13 15:04:44</time>
+          <div>这个是画图，你可以把画图相关的去掉</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

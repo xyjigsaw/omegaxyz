@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于训练集动态代理模型的PSO特征选择算法 · OmegaXYZ</title>
+  <meta name="description" content="问题 ①基于演化计算的Wrapper特征选择算法在计算量上耗费很大。 ②基于PSO演化计算的特征选择算法在演化效率上有显著提高，但是评价过程的时间依旧很长。 贡献 作者提出了一种应用聚类到训练集上的动态代理模型，有助于获取数据集上的特征来使选出的特征更好。 DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/10/ts_surrogate_pso_fs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-10</div>
+        <h1>基于训练集动态代理模型的PSO特征选择算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><b>问题</b></h2>
+①基于演化计算的Wrapper特征选择算法在计算量上耗费很大。
+②基于PSO演化计算的特征选择算法在演化效率上有显著提高，但是评价过程的时间依旧很长。
+<h2><b>贡献</b></h2>
+作者提出了一种应用聚类到训练集上的动态代理模型，有助于获取数据集上的特征来使选出的特征更好。
+<h2><strong>DROP3算法</strong></h2>
+目的：保留类边界上的实例，去除类内部的实例，构造代理训练集
+主要思想：利用KNN算法及排序来去除噪音实例
+<h3><b>算法步骤</b></h3>
+①先去除训练集上所有KNN算法错误分类的特征
+
+②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序
+
+③去除上述距离较远的实例
+
+④去除不影响其它实例预测结果的实例
+<h3><strong>示例</strong></h3>
+<img class="alignnone size-full wp-image-4237" src="https://cdn.omegaxyz.com/2018/05/drop31.jpg" sizes="(max-width: 886px) 100vw, 886px" srcset="https://cdn.omegaxyz.com/2018/05/drop31.jpg 886w, https://cdn.omegaxyz.com/2018/05/drop31-300x88.jpg 300w, https://cdn.omegaxyz.com/2018/05/drop31-768x225.jpg 768w" alt="" width="886" height="259" /> <img class="alignnone size-full wp-image-4238" src="https://cdn.omegaxyz.com/2018/05/drop32.jpg" sizes="(max-width: 649px) 100vw, 649px" srcset="https://cdn.omegaxyz.com/2018/05/drop32.jpg 649w, https://cdn.omegaxyz.com/2018/05/drop32-300x119.jpg 300w" alt="" width="649" height="257" />
+<h2><b>Agglomerative Clustering</b></h2>
+<b>目的：</b>解决DROP3算法的问题来构造代理模型（摒弃了KNN算法）
+
+<img class="alignnone size-full wp-image-4239" src="https://cdn.omegaxyz.com/2018/05/AGG.png" sizes="(max-width: 482px) 100vw, 482px" srcset="https://cdn.omegaxyz.com/2018/05/AGG.png 482w, https://cdn.omegaxyz.com/2018/05/AGG-300x213.png 300w" alt="" width="482" height="343" />
+
+<b>自底向上聚类</b>
+
+首先每个实例自成一类，两个最近的合并为一类，选出每个类的中心实例，加入代理训练集模型。（类的个数等于代理训练集实例大小，用户设置）
+<h2><strong>动态代理模型</strong></h2>
+<b>Real fitness: </b>在原始训练集上的适应度值
+
+<b>Surrogate fitness:</b>在代理模型上的适应度值
+<h3><b>目的</b></h3>
+由于特征子集每次迭代时都会变，为了保持上述两个值的一致性，要适时地动态调整。
+<h3><strong>主要步骤</strong></h3>
+① 利用AGG算法生成多个代理模型
+
+②利用原始训练集计算适应度值，寻找最优适应度值f0的个体<b>X</b>。
+
+③在代理池中计算<b>X</b>的适应度值，得到{f1,f2,...,fm}计算差距最小的|fi-f0|，选择此代理。
+
+④演化开始，每<b>IS</b>次代利用选出的代理模型进行粒子评价与更新，在原始训练集上评价最好的gbest如果gbest没有提升，选择差距|fi-f0|最小的代理。
+
+⑤<b>IS</b>迭代后用原始训练集进行所有粒子评价与更新。
+<h3><strong>伪代码</strong></h3>
+<img class="alignnone size-full wp-image-4249" src="https://cdn.omegaxyz.com/2018/05/spsofs2.png" alt="" width="479" height="496" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

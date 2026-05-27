@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB中SVM（支持向量机）的用法 · OmegaXYZ</title>
+  <meta name="description" content="LIBSVM是台湾大学林智仁(Lin Chih-Jen)教授等开发设计的一个简单、易于使用和快速有效的SVM模式识别与回归的软件包，他不但提供了编译好的可在Windows系列系统的执行文件，还提供了源代码，方便改进、修改以及在其它操作系统上应用；该软件对SVM所涉及的参数调节相对比较少，提供了很多的默认参数，利用这些默认参数可以解决很多问...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/23/matlab_svm/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-23</div>
+        <h1>MATLAB中SVM（支持向量机）的用法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="article-content">LIBSVM是台湾大学林智仁(Lin Chih-Jen)教授等开发设计的一个简单、易于使用和快速有效的SVM模式识别与回归的软件包，他不但提供了编译好的可在Windows系列系统的执行文件，还提供了源代码，方便改进、修改以及在其它操作系统上应用；该软件对SVM所涉及的参数调节相对比较少，提供了很多的默认参数，利用这些默认参数可以解决很多问题；并提供了交互检验(Cross Validation)的功能。该软件可以解决C-SVM、ν-SVM、ε-SVR和ν-SVR等问题，包括基于一对一算法的多类模式识别问题。
+
+注意不是matlab自带的svm实现函数，自带的svm实现函数仅支持分类问题，不支持回归问题；而libsvm不仅支持分类问题，亦支持回归问题，参数可调节，功能更强大。
+
+libsvm的配置很简单，只需要下载高级版本的matlab和libsvm，VC或VS编译实现很简单的，这里就不细讲了。
+
+两个步骤：训练建模——&gt;模型预测
+
+分类  model = svmtrain(trainlabel, traindata, '-s 0 -t 2 -c 1.2 -g 2.8');
+
+回归  model = svmtrain(trainlabel, traindata, '-s 3 -t 2 -c 2.2 -g 2.8 -p 0.01');
+
+<strong>参数说明：</strong>
+
+<strong>-s svm类型：SVM设置类型(默认0)</strong>
+0 -- C-SVC
+1 --v-SVC
+2 – 一类SVM
+3 -- e -SVR
+4 -- v-SVR
+
+<strong>-t 核函数类型：核函数设置类型(默认2)</strong>
+0 – 线性：u'v
+1 – 多项式：(r*u'v + coef0)^degree
+2 – RBF函数：exp(-r|u-v|^2)
+3 –sigmoid：tanh(r*u'v + coef0)
+
+<strong>-g r(gama)：核函数中的gamma函数设置(针对多项式/rbf/sigmoid核函数)</strong>
+
+<strong>-c cost：设置C-SVC，e -SVR和v-SVR的参数(损失函数)(默认1)，惩罚系数</strong>
+
+<strong>-n nu：设置v-SVC，一类SVM和v- SVR的参数(默认0.5)</strong>
+
+<strong>-p p：设置e -SVR 中损失函数p的值(默认0.1)
+</strong>
+
+<strong>-d degree：核函数中的degree设置(针对多项式核函数)(默认3)
+</strong>
+
+<strong>-wi weight：设置第几类的参数C为weight*C(C-SVC中的C)(默认1)</strong>
+
+<strong>-v n: n-fold交互检验模式，n为fold的个数，必须大于等于2</strong>
+
+<strong>libsvm使用误区----------------------</strong>
+
+(1) 直接将训练集合和测试集合简单归一化到[0,1]区间，可能导致实验结果很差。
+
+(2) 如果样本的特征数非常多，那么就不必使用RBF核将样本映射到高维空间。
+<ul>
+ 	<li>a) 在特征数非常多的情况下，使用线性核，结果已经非常好，并且只需要选择参数C即可。</li>
+ 	<li>b) 虽然说RBF核的结果至少比线性核好，前提下搜索整个的空间。</li>
+</ul>
+(3) 样本数&lt;&lt;特征数的情况：推荐使用线性核，可以达到与RBF同样的性能。
+
+(4) 样本数和特征数都非常多：推荐使用liblinear，更少的时间和内存，可比的准确率。
+
+(5) 样本数&gt;&gt;特征数：如果想使用线性模型，可以使用liblinear，并且使用-s 2参数
+
+&nbsp;
+
+详解：
+<h3>1. 训练</h3>
+<div>格式：</div>
+<strong>model = libsvmtrain(training_label_vector, training_instance_matrix [, 'libsvm_options']);</strong>
+
+这个函数有三个参数，其中
+<ul>
+ 	<li>-training_label_vector:训练样本的类标，如果有m个样本，就是m x 1的矩阵（类型必须为double）。这里可以是二分类和多分类，类标是（-1,1）、（1,2,3）或者其他任意用来表示不同的类别的数字，要转成double类型。</li>
+ 	<li>-training_instance_matrix:训练样本的特征，如果有m个样本，每个样本特征是n维，则为m x n的矩阵（类型必须为double）。</li>
+ 	<li>-libsvm_options:训练的参数，在第3点详细介绍。</li>
+</ul>
+libsvmtrain函数返回训练好的SVM分类器模型model是一个结构体，包含以下成员：
+<ul>
+ 	<li>-Parameters: 一个5 x 1的矩阵，从上到下依次表示：
+-s SVM类型（默认0）；
+-t 核函数类型（默认2）
+-d 核函数中的degree设置(针对多项式核函数)(默认3)；
+-g 核函数中的r(gamma）函数设置(针对多项式/rbf/sigmoid核函数) (默认类别数目的倒数)；
+-r 核函数中的coef0设置(针对多项式/sigmoid核函数)((默认0)</li>
+ 	<li>-nr_class: 表示数据集中有多少类别，比如二分类时这个值即为2。</li>
+ 	<li>-totalSV: 表示支持向量的总数。</li>
+ 	<li>-rho: 决策函数wx+b中的常数项的相反数（-b）。</li>
+ 	<li>-Label: 表示数据集中类别的标签，比如二分类常见的1和-1。</li>
+ 	<li>-ProbA: 使用-b参数时用于概率估计的数值，否则为空。</li>
+ 	<li>-ProbB: 使用-b参数时用于概率估计的数值，否则为空。</li>
+ 	<li>-nSV: 表示每类样本的支持向量的数目，和Label的类别标签对应。如Label=[1; -1],nSV=[63; 67]，则标签为1的样本有63个支持向量，标签为-1的有67个。</li>
+ 	<li>-sv_coef: 表示每个支持向量在决策函数中的系数。</li>
+ 	<li>-SVs: 表示所有的支持向量，如果特征是n维的，支持向量一共有m个，则为m x n的稀疏矩阵。</li>
+</ul>
+另外，如果在训练中使用了-v参数进行交叉验证时，返回的不是一个模型，而是交叉验证的分类的正确率或者回归的均方根误差。
+<div>
+
+当构建完成model后，还要为上述参数选择合适的值，方法主要有Gridsearch,其他的感觉不常用，Gridsearch说白了就是穷举。
+
+&nbsp;
+
+<strong>网格参数寻优函数(分类问题):SVMcgForClass</strong>
+
+[bestCVaccuracy,bestc,bestg]=SVMcgForClass(train_label,train,cmin,cmax,gmin,gmax,v,cstep,gstep,accstep)
+
+输入：
+<ul>
+ 	<li>train_label:训练集的标签，格式要求与svmtrain相同。</li>
+ 	<li>train:训练集，格式要求与svmtrain相同。</li>
+ 	<li>cmin,cmax:惩罚参数c的变化范围，即在[2^cmin,2^cmax]范围内寻找最佳的参数c，默认值为cmin=-8，cmax=8，即默认惩罚参数c的范围是[2^(-8),2^8]。</li>
+ 	<li>gmin,gmax:RBF核参数g的变化范围，即在[2^gmin,2^gmax]范围内寻找最佳的RBF核参数g，默认值为gmin=-8，gmax=8，即默认RBF核参数g的范围是[2^(-8),2^8]。</li>
+ 	<li>v:进行Cross Validation过程中的参数，即对训练集进行v-fold Cross Validation，默认为3，即默认进行3折CV过程。</li>
+ 	<li>cstep,gstep:进行参数寻优是c和g的步进大小，即c的取值为2^cmin,2^(cmin+cstep),…,2^cmax,，g的取值为2^gmin,2^(gmin+gstep),…,2^gmax，默认取值为cstep=1,gstep=1。</li>
+ 	<li>accstep:最后参数选择结果图中准确率离散化显示的步进间隔大小（[0,100]之间的一个数），默认为4.5。</li>
+</ul>
+输出：
+<ul>
+ 	<li>bestCVaccuracy:最终CV意义下的最佳分类准确率。</li>
+ 	<li>bestc:最佳的参数c。</li>
+ 	<li>bestg:最佳的参数g。</li>
+</ul>
+&nbsp;
+
+<strong>网格参数寻优函数(回归问题):SVMcgForRegress</strong>
+
+[bestCVmse,bestc,bestg]=SVMcgForRegress(train_label,train,cmin,cmax,gmin,gmax,v,cstep,gstep,msestep)
+
+其输入输出与SVMcgForClass类似，这里不再赘述。
+
+<strong>SVM 怎样能得到好的结果</strong>
+
+1.   对数据做归一化（simple scaling）
+
+2.   应用 RBF kernel
+
+3.   用cross-validation和grid-search 得到最优的c和g
+
+4.   用得到的最优c和g训练训练数据
+
+5.   测试
+
+&nbsp;
+
+<strong>关于svm的C以及核函数参数设置----------------------</strong>
+
+C一般可以选择为：10^t , t=- 4..4就是0.0001 到10000
+
+选择的越大，表示对错误例惩罚程度越大，可能会导致模型过拟合
+
+&nbsp;
+
+在LIBSVM中-t用来指定核函数类型（默认值是2）。
+
+0）线性核函数
+
+（无其他参数）
+
+1）多项式核函数
+
+（重点是阶数的选择，即d，一般选择1-11：1 3 5 7 9 11，也可以选择2,4，6…）
+
+2）RBF核函数
+
+（径向基RBF内核，exp{-|xi-xj|^2/均方差}，其中均方差反映了数据波动的大小。
+
+参数通常可选择下面几个数的倒数：0.1 0.2 0.4 0.6 0.8 1.6 3.2 6.4 12.8，默认的是类别数的倒数，即1/k，2分类的话就是0.5）
+
+3）sigmoid核函数 又叫做S形内核
+
+两个参数g以及r：g一般可选1 2 3 4，r选0.2 0.4 0.60.8 1
+
+4）自定义核函数
+
+&nbsp;
+
+与核函数相对应的libsvm参数：
+
+1）对于线性核函数，没有专门需要设置的参数
+
+2）对于多项式核函数，有三个参数。-d用来设置多项式核函数的最高此项次数，也就是公式中的d，默认值是3。-g用来设置核函数中的gamma参数设置，也就是公式中的第一个r(gamma)，默认值是1/k（k是类别数）。-r用来设置核函数中的coef0，也就是公式中的第二个r，默认值是0。
+
+3）对于RBF核函数，有一个参数。-g用来设置核函数中的gamma参数设置，也就是公式中的第一个r(gamma)，默认值是1/k（k是类别数）。
+
+4）对于sigmoid核函数，有两个参数。-g用来设置核函数中的gamma参数设置，也就是公式中的第一个r(gamma)，默认值是1/k（k是类别数）。-r用来设置核函数中的coef0，也就是公式中的第二个r，默认值是0。
+
+</div>
+<h3>2. 预测</h3>
+<div>格式：</div>
+<strong>[predicted_label, accuracy, decision_values/prob_estimates]
+= libsvmpredict(testing_label_vector, testing_instance_matrix, model [, 'libsvm_options']);</strong>
+
+这个函数包括四个参数，其中
+<ul>
+ 	<li>-testing_label_vector:测试样本的类标，如果有m个样本，就是m x 1的矩阵（类型必须为double）。如果类标未知，可以初始化为任意m x 1的double数组。</li>
+ 	<li>-testing_instance_matrix:测试样本的特征，如果有m个样本，每个样本特征是n维，则为m x n的矩阵（类型必须为double）。</li>
+ 	<li>-model:使用libsvmtrain返回的模型</li>
+ 	<li>-libsvm_options:预测的参数，与训练的参数形式一样。</li>
+</ul>
+<h3></h3>
+libsvmpredict函数有三个返回值，不需要的值在Matlab可以用 ~ 进行代替。
+<ul>
+ 	<li>-predicted_label：第一个返回值，表示样本的预测类标号。</li>
+ 	<li>-accuracy：第二个返回值，一个3 x 1的数组，表示分类的正确率、回归的均方根误差、回归的平方相关系数。</li>
+ 	<li>-decision_values/prob_estimates：第三个返回值，一个矩阵包含决策的值或者概率估计。对于n个预测样本、k类的问题，如果指定“-b 1”参数，则n x k的矩阵，每一行表示这个样本分别属于每一个类别的概率；如果没有指定“-b 1”参数，则为n x k*(k-1)/2的矩阵，每一行表示k(k-1)/2个二分类SVM的预测结果。</li>
+</ul>
+<h3>3. 训练的参数</h3>
+LIBSVM训练时可以选择的参数很多，包括：
+<ul>
+ 	<li>-s svm类型：SVM设置类型（默认0)
+0 — C-SVC； 1 –v-SVC； 2 – 一类SVM； 3 — e-SVR； 4 — v-SVR</li>
+ 	<li>-t 核函数类型：核函数设置类型（默认2）
+0 – 线性核函数：u’v
+1 – 多项式核函数：（r*u’v + coef0)^degree
+2 – RBF(径向基)核函数：exp(-r|u-v|^2）
+3 – sigmoid核函数：tanh(r*u’v + coef0)</li>
+ 	<li>-d degree：核函数中的degree设置（针对多项式核函数）（默认3）</li>
+ 	<li>-g r(gamma）：核函数中的gamma函数设置（针对多项式/rbf/sigmoid核函数）（默认1/k，k为总类别数)</li>
+ 	<li>-r coef0：核函数中的coef0设置（针对多项式/sigmoid核函数）（（默认0)</li>
+ 	<li>-c cost：设置C-SVC，e -SVR和v-SVR的参数（损失函数）（默认1）</li>
+ 	<li>-n nu：设置v-SVC，一类SVM和v- SVR的参数（默认0.5）</li>
+ 	<li>-p p：设置e -SVR 中损失函数p的值（默认0.1）</li>
+ 	<li>-m cachesize：设置cache内存大小，以MB为单位（默认40）</li>
+ 	<li>-e eps：设置允许的终止判据（默认0.001）</li>
+ 	<li>-h shrinking：是否使用启发式，0或1（默认1）</li>
+ 	<li>-wi weight：设置第几类的参数C为weight*C (C-SVC中的C) （默认1）</li>
+ 	<li>-v n: n-fold交互检验模式，n为fold的个数，必须大于等于2</li>
+</ul>
+以上这些参数设置可以按照SVM的类型和核函数所支持的参数进行任意组合，如果设置的参数在函数或SVM类型中没有也不会产生影响，程序不会接受该参数；如果应有的参数设置不正确，参数将采用默认值。
+<h3><strong>4. 读取或保存</strong></h3>
+libsvmread函数可以读取以LIBSVM格式存储的数据文件。
+
+<strong>[label_vector, instance_matrix] = libsvmread(‘data.txt’);</strong>
+
+这个函数输入的是文件的名字，输出为样本的类标和对应的特征。
+
+libsvmwrite函数可以把Matlab的矩阵存储称为LIBSVM格式的文件。
+
+<strong>libsvmwrite(‘data.txt’, label_vector, instance_matrix]</strong>
+
+这个函数有三个输入，分别为保存的文件名、样本的类标和对应的特征（必须为double类型的稀疏矩阵）。
+
+&nbsp;
+
+以上内容摘抄自CSDN：
+
+<a href="http://blog.csdn.net/sherry_gp/article/details/51823380">http://blog.csdn.net/sherry_gp/article/details/51823380</a>
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

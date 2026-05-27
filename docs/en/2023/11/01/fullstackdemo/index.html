@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All-house development and rapid deployment Demo · OmegaXYZ</title>
+  <meta name="description" content="The frame we&#x27;re using is the back-to-back framework FastAPI+Vue. 1. Distinction of responsibilities: the front end is responsible for presentation and interaction, the back end is responsible for data processing and business logic, and individual development is independent and does not affect each other. 2. Improved development efficiency: The project &#x27; s development cycle can be significantly reduced by parallel development at the back and back ends. 3. Improved maintenance: due to the separation of the front-end, if changes to UI or back-end logic are required, only the corresponding part will be modified and will not affect...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2023/11/01/fullstackdemo/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2023-11-01</div>
+        <h1>All-house development and rapid deployment Demo</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/vue/index.html">Vue</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Frame</strong></h2>We're using a back-to-back separation frame, FastAPI+Vue.
+
+<img alt="" class="alignnone wp-image-7813" height="284" src="https://cdn.omegaxyz.com/2023/11/fullstack.png" width="546"/>
+<strong>Strengths</strong>
+
+1.<b>Clear lines of responsibility</b>The front end is responsible for presentation and interaction, and the back end is responsible for data processing and business logic, each developing independently and without interaction.
+
+2.<b>Increased development efficiency</b>: It can be developed in parallel at the back and back end, significantly reducing the development cycle of the project.
+
+3.<b>Improving maintenanceability</b>: Due to the segregation of the back and back ends, if changes to UI or the back end logic are required, only the corresponding part will be required and will not affect the system as a whole.
+
+I'm sorry.<b>Technical inflexibility</b>: The front and back ends can select the appropriate technology stacks for development to meet the individual needs of the project.
+
+5.<b>Easy to expand.</b>: Communication back and forth through API allows for easy system expansion, such as the addition of a mobile end, a small program, etc.
+
+6.<b>Adaptation to micro-service structures</b>• In the micro-service architecture, back-to-back segregation can better manage and maintain services.
+<h2><strong>Frontend</strong></h2>1. Download installation npm (front-end mandatory software management tool)
+
+`npm ' (Node Package Manager) is a package management tool based on Node.js, mainly for JavaScript programming language. It is the largest software registration centre in the world and contains over 800,000 code packages with approximately 3 billion downloads per week.
+
+2. Creation of a vue project
+<pre><code class="language-default">npm install -g vue-cli
+    
+vue init webpack projec_name
+    
+npm install axios -S
+npm i element-ui -S</code></pre>
+<ul>
+<li>vue-cli: vue scaffolding tool</li>
+<li>axios: Access backend api tool</li>
+<li>_Other Organiser</li>
+</ul>When needed to be noted, under this item, as already created, it is possible<strong>Direct</strong>Type the following command and download the required package:
+<pre><code class="language-default">npm install</code></pre>3. Add to the Main.js document
+<pre><code class="language-js">import "element-ui/lib/theme-chalk/index.css";
+import axios from "axios";
+    
+Vue.use(ElementUI);</code></pre>4. Write an interface to the back end in the vue file
+
+This part is mainly written in section js. Example code:
+
+The data section is all the variables required for the current page, and the methods section is all the functional methods. If you need to call the variables in the function, you need to specify this.
+<pre><code class="language-js">&lt;script&gt;
+import axios from "axios";
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      tableData: [],
+    }
+  },
+
+  methods: {
+    fetch_paper() {
+      const limit=8
+      const param = `num=${limit}`;
+      // 在这里调接口
+      axios
+        .get(`http://127.0.0.1:8000/paper?${param}`)
+        .then((res) =&gt; {
+          this.tableData = res.data.data;
+          this.time = res.data.time;
+          console.log(this.tableData, this.time);
+        })
+        .catch(() =&gt; {
+          this.$notify({title: "Error", message: "Please try again!", type: "error",});
+        });
+
+    },
+  }
+}
+&lt;/script&gt;</code></pre>5. Adjusting front-end styles
+
+For rapid development, we use<a href="https://element.eleme.io/" rel="noopener" target="_blank">elementUI</a>You don't need to spend too much time on this part of the world, just looking for templates.
+
+6. Operation in the test environment
+<pre><code class="language-default">npm run dev</code></pre>Further information can be found:
+
+https://megaxyz.com-2020/11/30/vue-manual/
+
+<hr/>
+<h2><strong>Backend</strong></h2>1. Installation of Python packages
+
+Use fastapi as a quick backend deployment, use pymysql if access to the database is required, and aiomysql is recommended to be used to operate the database in aiomysql.
+<pre><code class="language-default">pip install fastapi
+pip install uvicorn
+pip install pymysql</code></pre>2. Example codes:
+<pre><code class="language-python">import uvicorn
+from fastapi import FastAPI, Query, Form, APIRouter, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+import time
+
+app = FastAPI(
+    title="demo",
+    docs_url='/api/v1/docs',
+    redoc_url='/api/v1/redoc',
+    openapi_url='/api/v1/openapi.json'
+)
+
+router = APIRouter()
+
+@router.get('/paper')
+async def fetch_paper(
+    num: int = Query(..., description='returned paper num', example='10')
+):
+    start = time.time()
+    print(num)
+    return {'time': time.time() - start, 'data': num}
+
+@router.post('/add_paper')
+async def add_paper(
+        name: str = Form(..., description='paper name', example='Attention is all you need'),
+        info: str = Form(..., description='paper info', example='NIPS 2017')
+):
+    start = time.time()
+    print(name, info)
+    return {'time': time.time() - start}
+
+@router.put('/update_paper')
+async def update_paper(
+        p_id: str = Form(..., description='paper id', example='1234'),
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+@router.delete('/delete_paper')
+async def delete_paper(
+        p_id: str = Query(..., description='paper is', example='1234')
+):
+    start = time.time()
+    print(p_id)
+    return {'time': time.time() - start}
+
+app.include_router(router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+if __name__ == '__main__':
+    uvicorn.run(app=app, host="127.0.0.1", port=8000, workers=1)</code></pre>3. Commencement of proceedings
+<pre><code class="language-default">python apiCore.py</code></pre>Or...
+<pre><code class="language-default">uvicorn apiCore:app --reload --port 9918 --host 0.0.0.0</code></pre>4. Interface debugging
+
+You can debug with a front-end interface attached to fastapi.
+
+Access http://127.0.0.1:80000/api/v1/docs debug
+
+Further references:<a href="https://omegaxyz.com/2020/08/18/restful-fastapi/" rel="noopener" target="_blank">https://omegaxyz.com/2020/08/18/restful-fastapi/</a>
+<hr/>
+<h2><strong>Database</strong></h2>1. Download and install MySQL database and database management tool and recommend the use of navicat
+
+Import data in MySQL
+
+Here you can use the example data paper_db.sql (with a small amount of paper information) to import this library directly with navicat (under the database you create)
+
+3. Backend linked database and operated in the database (example here to extract data from the database)
+<pre><code class="language-python">import pymysql
+
+# 连接配置信息
+config = {
+    'host': 'localhost',
+    'port': 3306,  # MySQL默认端口
+    'user': 'root',  # mysql默认用户名
+    'password': '12345678',
+    'db': 'paper_db',  # 数据库
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor,
+}
+
+def db_get_paper(num=10):
+		# am_paper为paper_db中的一个表
+    try:
+        con = pymysql.connect(**config)
+        sql = "SELECT * FROM am_paper limit %d" % num
+        with con.cursor() as cursor:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            con.close()
+        return result
+    except Exception as e:
+        print(e)
+        return []</code></pre>
+ 
+
+<strong>The above code and Demo can<a href="https://github.com/xyjigsaw/FullStackDemo" rel="noopener" target="_blank">Github-FullStackDemo</a>Found</strong>More content access [omegaxyz.com] (https://omegaxyz.com)
+All website codes are authorized by Apache 2.0.
+Website articles are authorized by the Knowledge Sharing Licence Agreement BY-NC-SA 4.0
+□ 2023 • OmegaXYZ - All rights</div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-36686">
+          <strong><a href="https://www.ccbbp.com" rel="nofollow">ccbbp</a></strong>
+          <time>2023-11-17 16:53:51</time>
+          <div>本站的排版很好看，博主用的工具吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36935">
+          <strong>xyjisaw</strong>
+          <time>2023-11-29 00:50:35</time>
+          <div>对，用的WordPress</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

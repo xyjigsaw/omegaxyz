@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设计模式-策略模式 · OmegaXYZ</title>
+  <meta name="description" content="简介 策略模式是指有一定行动内容的相对稳定的策略名称。策略模式在古代中又称“计策”，简称“计”，如《汉书·高帝纪上》：“汉王从其计”。这里的“计”指的就是计谋、策略。策略模式具有相对稳定的形式，如“避实就虚”、“出奇制胜”等。一定的策略模式，既可应用于战略决策，也可应用于战术决策；既可实施于大系统的全局性行动，也可实施于大系统的局部性行动...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/22/design-pattern-strategy/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-22</div>
+        <h1>设计模式-策略模式</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+策略模式是指有一定行动内容的相对稳定的策略名称。策略模式在古代中又称“计策”，简称“计”，如《汉书·高帝纪上》：“汉王从其计”。这里的“计”指的就是计谋、策略。策略模式具有相对稳定的形式，如“避实就虚”、“出奇制胜”等。一定的策略模式，既可应用于战略决策，也可应用于战术决策；既可实施于大系统的全局性行动，也可实施于大系统的局部性行动。
+<h2><strong>组成</strong></h2>
+<ul>
+ 	<li class="para">抽象策略角色： 策略类，通常由一个接口或者抽象类实现。</li>
+ 	<li class="para">具体策略角色：包装了相关的算法和行为。</li>
+ 	<li class="para">环境角色：持有一个策略类的引用，最终给客户端调用。</li>
+</ul>
+<h2><strong>概念</strong></h2>
+<div class="para">（原文：The Strategy Pattern defines a family of algorithms,encapsulates each one,and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.）</div>
+<div></div>
+<div class="para"><strong>Context(应用场景)</strong></div>
+<div></div>
+<div class="para">1、需要使用ConcreteStrategy提供的算法。</div>
+<div class="para">2、 内部维护一个Strategy的实例。</div>
+<div class="para">3、 负责动态设置运行时Strategy具体的实现算法。</div>
+<div class="para">4、负责跟Strategy之间的交互和数据传递。</div>
+<div></div>
+<div class="para"><strong>Strategy(抽象策略类)</strong></div>
+<div></div>
+<div class="para">1、 定义了一个公共接口，各种不同的算法以不同的方式实现这个接口，Context使用这个接口调用不同的算法，一般使用接口或抽象类实现。</div>
+<div class="para">ConcreteStrategy(具体策略类)：</div>
+<div class="para">2、 实现了Strategy定义的接口，提供具体的算法实现。</div>
+<div>
+<h2 class="title-text"><strong>优缺点</strong></h2>
+<h3 class="para"><strong>优点</strong></h3>
+<div class="para">1、 策略模式提供了管理相关的算法族的办法。策略类的等级结构定义了一个算法或行为族。恰当使用继承可以把公共的代码转移到父类里面，从而避免重复的代码。</div>
+<div class="para">2、 策略模式提供了可以替换继承关系的办法。继承可以处理多种算法或行为。如果不是用策略模式，那么使用算法或行为的环境类就可能会有一些子类，每一个子类提供一个不同的算法或行为。但是，这样一来算法或行为的使用者就和算法或行为本身混在一起。决定使用哪一种算法或采取哪一种行为的逻辑就和算法或行为的逻辑混合在一起，从而不可能再独立演化。继承使得动态改变算法或行为变得不可能。</div>
+<div class="para">3、 使用策略模式可以避免使用多重条件转移语句。多重转移语句不易维护，它把采取哪一种算法或采取哪一种行为的逻辑与算法或行为的逻辑混合在一起，统统列在一个多重转移语句里面，比使用继承的办法还要原始和落后。</div>
+<h3 class="para"><strong>缺点</strong></h3>
+<div class="para">1、客户端必须知道所有的策略类，并自行决定使用哪一个策略类。这就意味着客户端必须理解这些算法的区别，以便适时选择恰当的算法类。换言之，策略模式只适用于客户端知道所有的算法或行为的情况。</div>
+<div class="para">2、 策略模式造成很多的策略类，每个具体策略类都会产生一个新类。有时候可以通过把依赖于环境的状态保存到客户端里面，而将策略类设计成可共享的，这样策略类实例可以被不同客户端使用。换言之，可以使用享元模式来减少对象的数量。</div>
+</div>
+<h2><strong>UML类图</strong></h2>
+<div>
+<div><img class="alignnone size-full wp-image-4612" src="https://cdn.omegaxyz.com/2018/06/strategy1.png" alt="" width="795" height="249" /></div>
+<h2><strong>实例</strong></h2>
+某软件公司欲开发一款飞机模拟系统，该系统主要模拟不同种类飞机的飞行特征与起飞特征，需要模拟的飞机种类及其特征如表1所示：
+
+<strong>表 1 飞机种类及特征一览表</strong>
+<table>
+<tbody>
+<tr>
+<td width="200">飞机种类</td>
+<td width="200">起飞特征</td>
+<td width="200">飞行特征</td>
+</tr>
+<tr>
+<td width="200">直升机(Helicopter)</td>
+<td width="200">垂直起飞(VerticalTakeOff)</td>
+<td width="200">亚音速飞行(SubSonicFly)</td>
+</tr>
+<tr>
+<td width="200">客机(AirPlane)</td>
+<td width="200">长距离起飞(LongDistanceTakeOff)</td>
+<td width="200">亚音速飞行(SubSonicFly)</td>
+</tr>
+<tr>
+<td width="200">歼击机(Fighter)</td>
+<td width="200">长距离起飞(LongDistanceTakeOff)</td>
+<td width="200">超音速飞行(SuperSonicFly)</td>
+</tr>
+<tr>
+<td width="200">鹞式战斗机(Harrier)</td>
+<td width="200">垂直起飞(VerticalTakeOff)</td>
+<td width="200">超音速飞行(SuperSonicFly)</td>
+</tr>
+</tbody>
+</table>
+<img class="alignnone size-full wp-image-4613" src="https://cdn.omegaxyz.com/2018/06/strategy2.png" alt="" width="712" height="291" />
+
+<strong>参考文献:百度百科</strong>
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

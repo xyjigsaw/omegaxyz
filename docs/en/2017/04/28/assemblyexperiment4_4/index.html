@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly experiment 4-4 (AL byte content reverse sorting) · OmegaXYZ</title>
+  <meta name="description" content="Please comment if there are any errors or issues, thank you! ! Note that it is binary. We mainly examine assembly shift RCL and RCR instructions. SHL(Shift Left): Logical shift left. SHR(Shift Right): Logical shift right. SAL(Shift Arithmetic Left): Arithmetic shift left. SAR(Shift Arithmetic Right): Arithmetic shift right. Among them, SHL and SAL...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/28/assemblyexperiment4_4/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-28</div>
+        <h1>Assembly experiment 4-4 (AL byte content reverse sorting)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a></div>
+        <div class="article-content">Please comment if there are any errors or issues, thank you! !
+
+Note that it is binary, mainly examining the assembly shift RCL and RCR instructions.
+
+SHL(Shift Left): Logical shift left
+
+SHR(Shift Right): Logical shift right
+
+SAL(Shift Arithmetic Left): Arithmetic shift left
+
+SAR (Shift Arithmetic Right): arithmetic right shift
+
+The SHL and SAL are the same, but the SHR and SAR are different.
+
+SHL, SAL: Shift each bit left, fill the low bit with 0, carry the high bit to CF
+
+SHR : Shift each bit to the right, carry the low bit to CF, and fill the high bit with 0
+
+SAR : Shift each bit to the right, carry the low bit to CF, keep the high bit unchanged
+
+Their results affect OF, SF, ZF, PF, CF
+
+Their command formats are the same:
+
+SHL r/m, i8
+
+SHL r/m, CL
+
+ 
+
+The value of AL used in this article is: 10110001<pre><code class="language-asm">code segment
+assume cx:code
+start:
+mov al,10110001b
+mov cx,8
+xuyi:
+  rcl al,1
+  rcr ah,1
+loop xuyi
+mov al,ah
+mov ah,4ch
+int 21h
+code ends
+end start
+</code></pre>
+<img alt="" class="alignnone wp-image-620" height="448" src="https://cdn.omegaxyz.com/2017/04/assembly1-1-300x195.png" width="689"/>Note that the initial value of AL is 10110001, which is B1<img alt="" class="alignnone wp-image-621" height="457" src="https://cdn.omegaxyz.com/2017/04/assembly2-1-300x199.png" width="689"/>At the end, the value of AL is reversed to 10001101, which is 8D</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-18248">
+          <strong>Anonymous</strong>
+          <time>2019-11-22 10:49:27</time>
+          <div>masm 出现错误</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

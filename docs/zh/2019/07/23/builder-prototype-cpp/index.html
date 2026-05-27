@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生成器模式与原型模式C++实现 · OmegaXYZ</title>
+  <meta name="description" content="生成器模式 生成器模式可以将一个产品的内部表象与产品的生成过程分割开来，从而可以使一个建造过程生成具有不同的内部表象的产品对象。 Builder模式的结构： 建造者（Builder）角色： 给出一个抽象接口，以规范产品对象的各个组成成分的建造。一般而言，此接口独立于应用程序的商业逻辑。模式中直接创建产品对象的是具体建造者（Concrete...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/07/23/builder-prototype-cpp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-07-23</div>
+        <h1>生成器模式与原型模式C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>生成器模式</strong></h2>
+生成器模式可以将一个产品的内部表象与产品的生成过程分割开来，从而可以使一个建造过程生成具有不同的内部表象的产品对象。
+
+<strong>Builder模式的结构：</strong>
+
+<img class="alignnone  wp-image-5912" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-1.png" alt="" width="489" height="205" />
+
+<strong>建造者（Builder）角色：</strong>给出一个抽象接口，以规范产品对象的各个组成成分的建造。一般而言，此接口独立于应用程序的商业逻辑。模式中直接创建产品对象的是具体建造者（ConcreteBuilder）角色。具体建造者类必须实现这个接口所要求的方法：一个是建造方法，另一个是结果返还方法。
+
+<strong>具体建造者（Concrete Builder）角色：</strong>担任这个角色的是于应用程序紧密相关的类，它们在应用程序调用下创建产品实例。这个角色主要完成的任务包括：实现Builder角色提供的接口，一步一步完成创建产品实例的过程。
+
+在建造过程完成后，提供产品的实例。
+
+<strong>指导者（Director）角色：</strong>担任这个角色的类调用具体建造者角色以创建产品对象。导演者并没有产品类的具体知识，真正拥有产品类的具体知识的是具体建造者对象。
+
+产品（Product）角色：产品便是建造中的复杂对象。
+
+<hr />
+
+<h2><strong>原型模式</strong></h2>
+在原型模式中，所发动创建的对象通过请求原型对象来拷贝原型对象自己来实现创建过程，当然所发动创建的对象需要知道原型对象的类型。这里也就是说所发动创建的对象只需要知道原型对象的类型就可以获得更多的原型实例对象，至于这些原型对象时如何创建的根本不需要关心。
+
+<img class="alignnone  wp-image-5913" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-2.png" alt="" width="454" height="233" />
+
+浅拷贝：使用一个已知实例对新创建实例的成员变量逐个赋值，这个方式被称为浅拷贝。
+
+深拷贝：当一个类的拷贝构造方法，不仅要复制对象的所有非引用成员变量值，还要为引用类型的成员变量创建新的实例，并且初始化为形式参数实例值。
+
+<hr />
+
+<h2><strong>实例</strong></h2>
+使用生成器模式模拟实现IBM电脑的生产，其中IBM电脑的主要结构用如下表示：
+
+<strong>class IBM{</strong>
+
+<strong>  string monitor=”IBM</strong><strong>的显示器</strong><strong>”;</strong>
+
+<strong>  string keyboard=”IBM</strong><strong>的键盘</strong><strong>”;</strong>
+
+<strong>  string mouse=”IBM</strong><strong>的鼠标</strong><strong>”;</strong>
+
+<strong>  Motherboard* MB;</strong>
+
+<strong>  void display();</strong>
+
+<strong>}</strong>
+
+<strong>其中</strong><strong>MB</strong><strong>是一个主板类，其主要结构如下：</strong>
+
+<strong>class Motherboard{</strong>
+
+<strong>string CPU;</strong>
+
+<strong>string RAM;</strong>
+
+<strong>}</strong>
+
+即主板包含CPU和RAM。display是一个打印各个组件的函数，主要用于检查是否生产正确。
+
+建造顺序为先生产主板，再依次生产显示器、键盘和鼠标。
+
+使用生成器模式生产出第一台IBM电脑后，利用原型模式，将该电脑再复制两台。
+<h3><strong>UML</strong></h3>
+<img class="alignnone  wp-image-5914" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-3.png" alt="" width="555" height="304" />
+<h3><strong>代码</strong></h3>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+
+class Motherboard{
+public:
+    string CPU;
+    string RAM;
+    Motherboard* Clone(){
+        return new Motherboard(*this);
+    }
+};
+
+class IBM{
+public:
+    IBM(){
+        MB = new Motherboard();
+    }
+    string monitor;
+    string keyboard;
+    string mouse;
+    Motherboard* MB;
+    void display(){
+        cout&lt;&lt;"-------------------------"&lt;&lt;endl;
+        cout&lt;&lt;"IBM电脑配置："&lt;&lt;endl;
+        cout&lt;&lt;"主板："&lt;&lt;MB-&gt;CPU&lt;&lt;" "&lt;&lt;MB-&gt;RAM&lt;&lt;endl;
+        cout&lt;&lt;"显示器："&lt;&lt;monitor&lt;&lt;endl;
+        cout&lt;&lt;"键盘："&lt;&lt;keyboard&lt;&lt;endl;
+        cout&lt;&lt;"鼠标："&lt;&lt;mouse&lt;&lt;endl;
+        cout&lt;&lt;"-------------------------"&lt;&lt;endl&lt;&lt;endl;
+    }
+
+    void SetMotherboard(string CPU, string RAM){
+        this-&gt;MB-&gt;CPU = CPU;
+        this-&gt;MB-&gt;RAM = RAM;
+    }
+
+    void SetMonitor(string monitor){
+        this-&gt;monitor = monitor;
+    }
+
+    void SetKeyboard(string keyboard){
+        this-&gt;keyboard = keyboard;
+    }
+
+    void SetMouse(string mouse){
+        this-&gt;mouse = mouse;
+    }
+
+    IBM* Clone(){
+        IBM* obj = new IBM();
+        obj-&gt;MB = MB-&gt;Clone();
+        obj-&gt;monitor = monitor;
+        obj-&gt;keyboard = keyboard;
+        obj-&gt;mouse = mouse;
+        return obj;
+    }
+private:
+    /*IBM(Motherboard* mo){
+        this-&gt;MB = mo-&gt;Clone();
+    }*/
+};
+
+class Builder{
+public:
+    virtual void BuildMotherboard() = 0;
+    virtual void BuildMonitor() = 0;
+    virtual void BuildKeyboard() = 0;
+    virtual void BuildMouse() = 0;
+    virtual IBM* GetResult(){
+        return NULL;
+    }
+};
+
+class IBMBuilder: public Builder{
+public:
+    IBMBuilder(){
+        _IBM = new IBM();
+    }
+    void BuildMotherboard(){
+        _IBM-&gt;MB-&gt;CPU = "IBM的CPU";
+        _IBM-&gt;MB-&gt;RAM = "IBM的RAM";
+        cout&lt;&lt;"安装"&lt;&lt;"IBM的主板"&lt;&lt;endl;
+    }
+    void BuildMonitor(){
+        _IBM-&gt;monitor = "IBM的显示器";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;monitor&lt;&lt;endl;
+    }
+    void BuildKeyboard(){
+        _IBM-&gt;keyboard = "IBM的键盘";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;keyboard&lt;&lt;endl;
+    }
+    void BuildMouse(){
+        _IBM-&gt;mouse = "IBM的鼠标";
+        cout&lt;&lt;"安装"&lt;&lt;_IBM-&gt;mouse&lt;&lt;endl&lt;&lt;endl;
+    }
+    IBM* GetResult(){
+        return _IBM;
+    }
+private:
+    IBM* _IBM;
+};
+
+class IBMDirector{
+public:
+    void Construct(Builder* builder){
+        builder-&gt;BuildMotherboard();
+        builder-&gt;BuildMonitor();
+        builder-&gt;BuildKeyboard();
+        builder-&gt;BuildMouse();
+    }
+};
+
+
+int main(){
+    cout&lt;&lt;endl&lt;&lt;endl;
+    IBMDirector* director = new IBMDirector();
+    Builder* b1 = new IBMBuilder();
+    director-&gt;Construct(b1);
+    IBM* ibm1 = b1-&gt;GetResult();
+    
+    
+    //实验下面两个为克隆部分，为了验证是深拷贝，对clone出来的结果进行更改
+    IBM* ibm_clone1 = ibm1-&gt;Clone();
+    ibm_clone1-&gt;SetMotherboard("ibm_clone1 CPU", "ibm_clone1 RAM");
+    ibm_clone1-&gt;SetMonitor("ibm_clone1 显示器");
+    ibm_clone1-&gt;SetKeyboard("ibm_clone1 键盘");
+    ibm_clone1-&gt;SetMouse("ibm_clone1 鼠标");
+
+    IBM* ibm_clone2 = ibm1-&gt;Clone();
+    ibm_clone2-&gt;SetMotherboard("ibm_clone2 CPU", "ibm_clone2 RAM");
+    ibm_clone2-&gt;SetMonitor("ibm_clone2 显示器");
+    ibm_clone2-&gt;SetKeyboard("ibm_clone2 键盘");
+    ibm_clone2-&gt;SetMouse("ibm_clone2 鼠标");
+
+    ibm1-&gt;display();
+    ibm_clone1-&gt;display();
+    ibm_clone2-&gt;display();
+    return 0;
+}
+</code></pre>
+<strong>实验客户端中最后两个为克隆部分，为了验证是深拷贝，对clone出来的结果进行更改，最终验证结果正确。</strong>
+<h3><strong>结果</strong></h3>
+<img class="alignnone  wp-image-5915" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-4.png" alt="" width="519" height="319" />
+<h3><strong>总结</strong></h3>
+①在new一个IBM对象时，要注意，在类代码中一定要初始化一个Motherboard（如下图所示）
+
+<img class="alignnone  wp-image-5916" src="https://cdn.omegaxyz.com/2019/07/builder-prototype-5.png" alt="" width="249" height="162" />
+
+否则下面的语句在调用MB（motherboard的一个对象）时，会出现没有分配空间的情况，导致Segmentation fault: 11错误。
+
+②在原型模式中，要有Clone函数，注意内嵌的Motherboard要一起克隆过来，否则会导致客户端不同的指针指向同一个对象，即深拷贝浅拷贝的区别。
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>python怎样安装whl文件 · OmegaXYZ</title>
+  <meta name="description" content="python第三方组件有很多都是whl文件，遇到这样的whl文件应该怎样安装呢，今天来介绍一下whl文件怎样安装。 先推荐一个非正式第三方whl文件包的网站： https://www.lfd.uci.edu/~gohlke/pythonlibs/ 下面以安装 wordcloud 为例介绍怎么安装whl文件 ①先检查自己的python版本，...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/14/python_whl/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-14</div>
+        <h1>python怎样安装whl文件</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">python第三方组件有很多都是whl文件，遇到这样的whl文件应该怎样安装呢，今天来介绍一下whl文件怎样安装。
+
+先推荐一个非正式第三方whl文件包的网站：
+
+<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a>
+
+下面以安装<strong>wordcloud</strong>为例介绍怎么安装whl文件
+
+①先检查自己的python版本，我使用的python版本是3.6.1 32位，然后选择对应的包下载。
+
+<img class="alignnone wp-image-2797 size-full" src="https://cdn.omegaxyz.com/2018/01/whl1.png" alt="" width="588" height="320" />
+
+②下载完成以后打开cmd，用pip安装wheel  执行命令
+
+<strong>pip install wheel</strong>
+
+如果提示pip“不是内部命令”，先安装pip
+
+③安装wheel以后在再去安装whl文件，先切换到桌面（我下载的文件在桌面），找到要安装的文件，
+
+执行命令
+
+<strong>cd Desktop</strong>
+
+④执行命令
+
+<strong>pip install wordcloud-1.3.3-cp36-cp36m-win32.whl</strong>
+
+进行安装
+
+⑤见到这个就万事大吉了。
+
+<img class="alignnone size-full wp-image-2798" src="https://cdn.omegaxyz.com/2018/01/whl2.png" alt="" width="920" height="305" />
+
+此时编写时直接import wordcloud即可！
+
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

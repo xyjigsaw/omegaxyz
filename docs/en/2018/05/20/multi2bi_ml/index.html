@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Converting machine learning multi-classification problems to two-classification problems · OmegaXYZ</title>
+  <meta name="description" content="What is a multi-classification problem? Simply put, under supervised learning, there are multiple labels for sample instances, and many of our problems are binary classifications (correct, wrong or 0,1 problems). Many algorithms assume that samples are binary classification in principle derivation, such as SVM, Adaboost, etc. The entire derivation process and conclusions are relatively binary classification, and multi-classification is not considered at all. If you want to directly apply SVM to multi-classification, it is impossible, unless you consider multi-classification from a principle...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/20/multi2bi_ml/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-20</div>
+        <h1>Converting machine learning multi-classification problems to two-classification problems</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="article-content"><h3><strong>What is a multi-classification problem?</strong></h3>Simply put, under supervised learning, there are multiple labels for sample instances, and many of our problems are binary classifications (correct, wrong or 0,1 problems).
+
+Many algorithms assume that the samples are binary classification in the principle derivation, such as SVM, Adaboost, etc. The entire derivation process and the conclusion are relatively binary classification, and multi-classification is not considered at all. If you want to directly apply SVM to multi-classification, it is impossible, unless you consider the multi-classification situation from the principle, and then get a general formula, and finally implement it with a program. The usual situation is to convert multi-classification into a two-classification problem.<img alt="" class="alignnone size-full wp-image-4175" height="249" src="https://cdn.omegaxyz.com/2018/04/perceptron1.png" width="330"/>
+<hr/>
+<h3><strong>Multi-classification problems are transformed into two-classification problems</strong></h3>It's very simple. A simple idea is to prioritize and adopt a voting mechanism. There are two ways of transformation, because the classification problem ultimately requires training to produce a classifier, which relies on training samples. The previous two-classification problem actually produces one classifier, while the multi-classification problem produces not only one classifier, but multiple classifiers based on the training set.<strong>The first way is to treat a certain category in the training sample set as one category, and all other categories as another category.</strong>Like the five categories above, I regard the middle category as the first category, and re-assign the class label to 1, and consider the four surrounding categories as the second category, and re-assign the class label dimension -1. Well, is the problem now a two-classification problem? Yes. Those two categories are easy to handle and can be processed by any of the previous algorithms. Okay, this is a classifier built by treating the middle one as a class. In the same way, can we also classify any category around us as a category of its own, and call the others collectively a category? Of course, by analogy, how many classifiers have we built in total? Just like the above 5 categories, we have established 5 classifiers. Now, how do we divide the samples in the test set into which category? Note that the test set assumes that the class label is not known. Then a test sample comes, and I input it into the five classifiers established above in order to see which class it belongs to in the end. Then which class it belongs to. For example, suppose a test sample originally belongs to the middle (assuming it is category 5), then first enter the fifth category and form a category of its own. At this time, it is found that it belongs to the fifth category. Record 5, and then enter the upper left corner (assuming it is category 1) to form a category of its own. Then it is found that this sample does not belong to category 1, but belongs to a category that combines categories 2, 3, 4, and 5. So who among 2, 3, 4, and 5 does it belong to? It's all possible, so I'll remember them all. Now I'll remember 2, 3, 4, and 5. Okay, now that we have the upper corner, we can now remember the sample and enter 1, 3, 4, 5. And so on. Finally, we will go through these five classifiers and remember a lot of labels from 1 to 5, and then count their numbers. For example, here we count category 1 and find that it appears 3 times, 2, 3, and 4 all appear 3 times, and 5 appears 5 times. Then we have reason to think that this sample belongs to the fifth category. So now think about it, have we solved the multi-category problem?<hr/>
+<strong>The second classification method has similar ideas and is also transformed into a two-classification problem, but the implementation is different. Earlier, we picked one category to form its own category, and the rest formed its own category. Here, we also selected one category to form its own category. However, the rest did not form its own category, but selected one category to form its own category. In other words, we selected two categories from the training samples to generate a classifier.</strong>Like the above 5 categories, I first select the training samples of categories 1 and 2, train a classifier belonging to category 1, 2, then select 1, 3 to train a classifier, then 1, 4, then 1, 5, then 2, 3, and so on (note that 2,1 is the same as 1,2, so it is omitted), then how many classifiers need to be built for such 5 categories of samples? Let's say n*(n-1)/2. Here is 5*4/2=10 classifiers. You can see that there are 5 more classifiers than the above 5 classifiers. And the larger n is, the more there are. After setting up the classifier, the remaining questions also adopt the voting mechanism. Take a sample and bring it to 1 and 2 to create the discovery that it belongs to 1. Add the accumulator belonging to category 1 and add it to 1 and 3 to create the discovery that it also belongs to 1. Add it again, and so on. Finally, let’s see which of the five categories has the largest accumulator and which category it belongs to. So a question arises, will there be a situation like the above, where the values ​​of two or more accumulators are the same? The answer is yes, but in this case, the probability of the same occurrence is much smaller than the probability of the above situation.<h3><strong>References</strong></h3>
+<a href="https://blog.csdn.net/mysteryhaohao/article/details/51244238">https://blog.csdn.net/mysteryhaohao/article/details/51244238</a>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

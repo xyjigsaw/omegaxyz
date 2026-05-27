@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Algorithmic complexity and NP problems · OmegaXYZ</title>
+  <meta name="description" content="Introduction In the American TV series &quot;Basic Deduction&quot; S2E2, two mathematicians who studied NP problems were murdered. The murderers were colleagues because the victims were about to prove the &quot;P=NP problem&quot;. Assuming that humans prove that P=NP is true, then there will be an algorithm that can quickly calculate the password of an account. What was imagined in &quot;Basic Deduction&quot; may come true, and all encryption systems will lose their effectiveness - it should be said that all systems that turn passwords into digital information will lose their effectiveness. A lot of familiar...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/04/22/np/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-22</div>
+        <h1>Algorithmic complexity and NP problems</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/others/index.html">其它</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>introduction</strong></h2>In the American TV series "Basic Deduction" S2E2, two mathematicians who studied NP problems were murdered. The murderers were colleagues because the victims were about to prove the "P=NP problem". Assuming that humans prove that P=NP is true, then there will be an algorithm that can quickly calculate the password of an account. What was imagined in "Basic Deduction" may come true, and all encryption systems will lose their effectiveness - it should be said that all systems that turn passwords into digital information will lose their effectiveness.<ul>
+<li>For a large number of familiar games, such as Minesweeper, Tetris, Super Mario, etc., people will write efficient AI for them, making computers play games at a level that no one can match.</li>
+<li>Many difficult problems in operations research, such as integer programming and the traveling salesman problem, will be efficiently solved, and research in this direction will reach unprecedented heights.</li>
+<li>The protein folding problem is also an NPC problem, and the new algorithm is undoubtedly a boon to the biological and medical communities.</li>
+</ul>
+<hr/>
+<h2><strong>Algorithmic complexity</strong></h2>A time complexity of<strong><em>O(p(n))</em></strong>algorithm, where<strong><em>p(n)</em></strong>It is a polynomial function and becomes a polynomial algorithm. On the other hand, a time complexity algorithm that is not bounded by a polynomial function is called an exponential algorithm.<hr/>
+<h2><strong>Definition of NP problem</strong></h2>
+<h3><strong>P type questions</strong></h3>All decision problems that can be solved in polynomial time constitute type P problems.<h3><strong>Decision problem (as opposed to optimization problem)</strong></h3>The research topic of determining whether there is a feasible algorithm that can solve a certain type of problem. Simply put, there are only two answers to the question (yes or no).<img alt="" class="alignnone size-full wp-image-5714" height="313" src="https://cdn.omegaxyz.com/2019/04/NP3.jpg" width="500"/>
+<h3><strong>NP type problem (Non-deterministic Polynomial)</strong></h3>All decision problems that are solvable in nondeterministic polynomial time constitute NP-type problems. Non-deterministic algorithm: Non-deterministic algorithm breaks the problem into two stages: guessing and verification. The guessing phase of the algorithm is non-deterministic, and the verification phase of the algorithm is deterministic, which verifies the correctness of the solution given in the guessing phase. polynomial time, then A is said to be a polynomial-time non-deterministic algorithm. Some calculation problems are deterministic, such as addition, subtraction, multiplication and division. As long as you follow the formulas and follow the steps step by step, you can get the results. However, some problems cannot be calculated directly step by step. For example, the problem of finding large prime numbers. Is there a formula that can deduce the next prime number? The answer to this kind of question cannot be calculated directly, and the result can only be obtained through indirect "guessing". This is also a non-deterministic problem. There is usually an algorithm for these questions. It cannot directly tell you what the answer is, but it can tell you whether a certain possible result is the correct answer or wrong. This algorithm that can tell you whether the answer to your "guess" is correct or not, if it can be calculated in polynomial time, is called a polynomial non-deterministic problem.<h3><strong>NPC issues</strong></h3>The complexity of some problems in NP is related to the complexity of the entire class. If a polynomial-time algorithm exists for any of these problems, then all NP problems are polynomial-time solvable. These problems are called NP-complete problems (NPC problems).<img alt="" class="alignnone size-full wp-image-5713" height="291" src="https://cdn.omegaxyz.com/2019/04/NP2.png" width="507"/>
+<hr/>
+<h2><strong>SAT questions</strong></h2>Boolean satisfiability problem (SATISFIABILITY or SAT), which is the first proven NP problem (that is, a problem in which the correct answer can be verified in polynomial time)
+
+Definition: It is to determine whether a logical proposition formula given in the form of conjunctive normal form has a truth value assignment, making the formula true.<hr/>
+<h2><strong>Algorithm for approximately solving NPC problems</strong></h2>
+<h3><strong>nearest neighbor method</strong></h3>Nearest neighbor method: The salesman starts from a certain town, always chooses to go to the nearest town that has not been visited, and finally returns to the original starting point. This method is simple and may be the intuitive approach for most people, but the short-sightedness of the nearest neighbor method makes it perform very poorly, and usually the later stages of the journey will be very painful.<h3><strong>insertion method</strong></h3>The insertion method first generates a sub-route connecting some points, and then adds other points to the route one by one according to a certain rule. For example, the nearest insertion method first constructs a sub-route for the peripheral points, and then evaluates from the remaining points which point will increase the total length of the route the smallest after adding it, and then adds this point to the route. Another example is the farthest insertion method, which selects the point farthest from the sub-route from the remaining points, which is a bit bitter at first and then sweet.<h3><strong>simulated annealing algorithm</strong></h3>
+<img alt="" class="alignnone wp-image-3007" height="303" src="https://cdn.omegaxyz.com/2018/01/ml3.jpg" width="309"/>The simulated annealing algorithm (Simulated Annealing) is derived from the principle of solid annealing. The solid is heated to a sufficiently high level and then slowly cooled. When heated, the particles inside the solid become disordered as the temperature rises, and the internal energy increases. When slowly cooled, the particles gradually become orderly, reaching an equilibrium state at each temperature, and finally reaching the ground state at normal temperature, where the internal energy is minimized. According to the Metropolis criterion, the probability that a particle will reach equilibrium at temperature T is e-ΔE/(kT), where E is the internal energy at temperature T, ΔE is its change amount, and k is Boltzmann’s constant. Use solid annealing to simulate the combinatorial optimization problem, simulate the internal energy E as the objective function value f, and the temperature T evolve into the control parameter t, that is, the simulated annealing algorithm for solving the combinatorial optimization problem is obtained: starting from the initial solution i and the initial value of the control parameter t, repeat the iteration of "generate a new solution → calculate the objective function difference → accept or discard" for the current solution, and gradually attenuate the t value. The current solution when the algorithm terminates is the approximate optimal solution obtained.<h3><strong>genetic algorithm</strong></h3>Genetic algorithm is a type of search algorithm constructed artificially by simulating the mechanism of biological genetics and natural selection. To a certain extent, genetic algorithm is a mathematical simulation of the biological evolution process. The survival process of biological populations generally follows Darwinian evolution principles. Individuals in the population are selected or eliminated by nature based on their ability to adapt to the environment. The results of the evolutionary process are reflected in the structure of the individual. Its chromosome contains several genes. The corresponding connection between phenotype and genotype reflects the logical relationship between the external characteristics and the internal mechanism of the individual. Adapt to the natural environment through crossover and mutation between individuals. Biological chromosomes are expressed mathematically or computerically as a string of numbers, still called chromosomes, sometimes also called individuals; adaptability is measured by a numerical value corresponding to a chromosome; chromosome selection or elimination is based on whether the problem faced is to seek the maximum or minimum.<h3><strong>neural network algorithm</strong></h3>
+<img alt="" class="alignnone size-full wp-image-4463" height="277" src="https://cdn.omegaxyz.com/2018/06/CNN2.jpg" width="474"/>According to a simplified statistic, the human brain is composed of tens of billions of nerves—each nerve is connected to thousands of other nerves on average. Through this type of connection, nerves can send and receive different amounts of energy. A very important function of nerves is that they do not respond to the energy received immediately, but accumulate them. When this accumulated sum reaches a certain critical threshold, they send their own part of the energy to other nerves. The brain learns by regulating the number and strength of these connections. Although this is a simplified description of biological behavior. But it can equally well be seen as a model of a neural network.<hr/>
+<h2><strong>References</strong></h2>
+<ol>
+<li>https://baike.baidu.com/item/NP%E5%AE%8C%E5%85%A8%E9%97%AE%E9%A2%98/4934286?fr=aladdin</li>
+<li>https://blog.csdn.net/hawo11/article/details/74908233</li>
+<li>https://en.wikipedia.org/wiki/List_of_NP-complete_problems</li>
+</ol></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

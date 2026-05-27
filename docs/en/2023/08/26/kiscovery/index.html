@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academic ideaa automatically discovers and generates · OmegaXYZ</title>
+  <meta name="description" content="Researchers are usually able to come up with new ideas only after an in-depth knowledge of a large body of literature. This process has been compounded by the fact that the number of academic publications has increased exponentially. In this study, we have designed a conceptually based framework for intellectual inspiration, which has been integrated into a research-aided system, DeepReport. From our point of view, the convergence of two concepts that appear simultaneously in an academic paper can be considered as a new idea.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2023/08/26/kiscovery/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2023-08-26</div>
+        <h1>Academic ideaa automatically discovers and generates</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/ideas/index.html">ideas</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><h2><strong>Summary</strong></h2>Researchers are usually able to come up with new ideas only after an in-depth knowledge of a large body of literature. This process has been compounded by the fact that the number of academic publications has increased exponentially. In this study, we have designed a conceptually based framework for intellectual inspiration, which has been integrated into a research-aided system, DeepReport. From our point of view, two of them appear simultaneously in an academic paper.<strong>Concept</strong>It can be seen as a kind of integration.<strong>New Thoughts (idea)</strong>Important ways to emerge. We're based on 20 disciplines or thematic concepts.<strong>（co-occurrence）</strong>, Construct<strong>Evolving Concept Co-occurrence Graph</strong>I don't know. We then designed a time-link prediction method based on the masked language model to explore potential linkages between different concepts. We also use pre-trained language models, based on what we call<strong>A total of five-dollar groups are now cited.</strong>New data structure, generating a description of an idea. We use machine measurements and manual assessments to assess our proposed systems. Research has shown that our system holds great promise to help researchers accelerate the process of discovering new ideas.
+<h2><strong>Background</strong></h2>We did this at the end of about 21 years, when we took into account existing academics:
+
+1. The scientific work of the open-box (out-of-box) and interdisciplinary (interdisciplinary) bodies can receive greater attention from scientific donors, industry and the general public. And research in cross-cutting areas is becoming increasingly important, but research in these cross-cutting areas is often monopolized by large enterprises and Governments.
+2. For most researchers, it will take a great deal of time to come up with new ideas. The number of academic publications has increased exponentially and it is difficult for independent researchers to read these papers thoroughly.
+3. Researchers tend to focus on their professional but narrow areas, limiting their academic horizons.
+
+In this work, therefore, our aim is to reveal the deep links between different academic concepts while stimulating researchers ' exploration of potential academic ideas.
+
+Our two main objectives are Zen.<strong>Idea Exploration</strong>♪ And the king ♪<strong>Idea in language (idea verbalization)</strong>Come out.
+<h2>Idea Exploration</h2>There is such a modern writer for the exploration of the ideaa.<a href="https://en.wikipedia.org/wiki/Maria_Popova" rel="noopener" target="_blank">Maria Popova</a>She said this:
+<blockquote><span style="color: #333333;"><em>In order for us to truly create and contribute to the world, we have to be able to connect countless dots, to cross-pollinate ideas from a wealth of disciplines, to combine and recombine these pieces and build new castles.</em></span></blockquote>In general, it means emphasizing the importance of building new things by connecting different areas of knowledge, cross-learning ideas and regrouping them.
+
+We all know, for example, the Biomedicine Engineering Institute, which applies engineering principles to medical and biological solutions. Similarly, the National Council for Natural Science had established a cross-cutting department the previous year, demonstrating the importance of interdisciplinary cooperation.
+
+More specifically, in the area of artificial intelligence, I have listed six concepts whose connections can produce many concepts, such as GNN and Transformer, which can be combined into Graph Transformer.
+
+<img alt="" class="alignnone wp-image-7774" height="326" src="https://cdn.omegaxyz.com/2023/08/kiscovery_idea_exploration.png" width="383"/>
+<strong>(It should be emphasized that there are many factors in the real world that generate new ideas. We have simply offered a possible approach as a preliminary exploration. I'm not sure.</strong>This approach has become an important direction for the ideaa exploration. At this point, the discovery of the ideaa could be simplified to find possible new conceptual links in the future. This is a question of timing link prediction.
+
+Evolving Concept Co-occurrence Graph, which is a time-sequence that stores the concept's co-crurrence at every point in time. This co-relationship is well understood, and if two concepts, A and B, appear in a paper, then we can think of a co-relationship.
+
+<img alt="" class="alignnone wp-image-7772" height="242" src="https://cdn.omegaxyz.com/2023/08/kiscovery_evolving_graph.png" width="708"/>The above figure shows an example of a conceptual convergence map, which, over time, has gradually developed linkages between different concepts.
+
+It should be noted that the Convergence of Concepts is a strictly evolutionary network, whose number in our modelling will only increase and not decrease. However, in real societies, new concepts, i.e. new nodes, may often emerge, and it is difficult to deal with this situation in the traditional time-series link prediction method, which requires taking into account the semantic information of the node, which requires the use of language models.
+
+Since the generation model was not so hot at that time, we used traditional language models based on mask modelling, which converted the structure of the map to a lateral-language description sequence using time series + text tips. Here's an example: LSTM and stock predictions have a margin in the past, and we've built this sequence.<em>LSTM is related to stock prediction</em>I don't know. This is a positive sample sequence, where existing is a time-series label, representing the existence of one side of the border in the past and other circumstances: either the current edge is just emerging or the future edge is expressed as unknown. For negative sample sequences, we need to build a relationship that doesn't exist, so we're using unrelaid.
+
+<img alt="" class="alignnone wp-image-7775" height="280" src="https://cdn.omegaxyz.com/2023/08/kiscovery_link_prediction.png" width="713"/>In addition, there is a need to control the sampling ratio of positive and negative samples, because the maps are thin and if each of the two concepts is sampled, they lead to a significant increase in negative samples, so we only take the most difficult samples, such as the k-jumping neighbour of a central node, and if it is not linked to the centre node for some time to come, then the samples are negative. In this way, we train Bert to judge whether related or unlaled, thus achieving the training of the Linked Prediction Model, which is used to discover new knowledge conceptual links in the future.
+
+We collected 240 basic and common queries from 19 disciplines and a special theme (COVID-19) and retrieved the most relevant papers from 2000 to 2021 using the text search engine Elasticsearch. We then use the information extraction tool (including AutoPhrase) to identify the concept. Only the concept of high quality that appears in our database will be retained. Finally, we have built 240 current and evolving concepts, each containing 22 snapshots (2000-2021).
+
+<img alt="" class="alignnone wp-image-7771" height="410" src="https://cdn.omegaxyz.com/2023/08/kiscovery_data1.png" width="687"/>
+<h2>Idea Verbalization (expression)</h2>In addition to this, another objective is to express the concept in language and language, so we have proposed a new data structure called the Co-occurrence Centre Quintuple. This is a new data structure used to describe the convergence between concepts. It consists of five elements:<em>p</em>It's a target paper. It contains two concepts.<em>c_u</em>and<em>c_v</em>That's what it means. Both concepts were mentioned in the paper. In addition, papers<em>p</em>Thesis was quoted.<em>p_i</em>and papers<em>p_j</em>Thesis.<em>p_i</em>It's a concept.<em>c_u</em>Thesis.<em>p_j</em>It contains concepts.<em>c_v</em>I don't know. Here's an example of a paper.<em>p</em>Reference is made to the application of comparative learning in the text digest, and the papers it quotes<em>p_i</em>Introduction of text summaries, papers cited<em>p_j</em>Comparative learning is presented.
+
+<img alt="" class="alignnone wp-image-7777" height="372" src="https://cdn.omegaxyz.com/2023/08/kiscovery_quintuple.png" width="408"/>We built a large, now quoted five-dimensional data set. Specifically, we first selected a collection of high-citation papers and identified different concepts from the summaries of those papers, and then used the Acemap citation to obtain the eligible five-dimensional data sets.
+
+Based on such a five-dimensional set of references, we can train in a large-language model to provide SFT to the larger model, i.e. with monitored and trained data, to guide the larger model in generating new knowledge. ♪ We'll divide ♪<em>p</em>Other than this is the input. The target is the output.<em>p</em>I don't know. In this way, high-quality papers are used to predict possible future conceptual impact points and to generate text containing new knowledge.
+
+At present, our latest edition of the data collection collects more than 5.340 million five-mix data from 19 disciplines (see table below), more than 50 times the data used at the beginning of the paper.
+<table>
+<thead>
+<tr>
+<th>Discipline</th>
+<th>Quintuple</th>
+<th>Concept</th>
+<th>Concept Pair</th>
+<th>Total <em>p</em></th>
+<th>Total <em>p_i</em> &amp; <em>p_j</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Art</td>
+<td>7,510</td>
+<td>2,671</td>
+<td>5,845</td>
+<td>2,770</td>
+<td>7,060</td>
+</tr>
+<tr>
+<td>History</td>
+<td>5,287</td>
+<td>2,198</td>
+<td>4,654</td>
+<td>2,348</td>
+<td>5,764</td>
+</tr>
+<tr>
+<td>Philosophy</td>
+<td>45,752</td>
+<td>4,773</td>
+<td>25,935</td>
+<td>16,896</td>
+<td>29,942</td>
+</tr>
+<tr>
+<td>Sociology</td>
+<td>16,017</td>
+<td>4,054</td>
+<td>12,796</td>
+<td>7,066</td>
+<td>16,416</td>
+</tr>
+<tr>
+<td>Political Science</td>
+<td>67,975</td>
+<td>6,105</td>
+<td>42,411</td>
+<td>26,198</td>
+<td>53,933</td>
+</tr>
+<tr>
+<td>Business</td>
+<td>205,297</td>
+<td>9,608</td>
+<td>99,329</td>
+<td>62,332</td>
+<td>112,736</td>
+</tr>
+<tr>
+<td>Geography</td>
+<td>191,958</td>
+<td>12,029</td>
+<td>118,563</td>
+<td>42,317</td>
+<td>112,909</td>
+</tr>
+<tr>
+<td>Engineering</td>
+<td>506,635</td>
+<td>16,992</td>
+<td>249,935</td>
+<td>137,164</td>
+<td>273,894</td>
+</tr>
+<tr>
+<td>Geology</td>
+<td>365,183</td>
+<td>13,795</td>
+<td>190,002</td>
+<td>98,991</td>
+<td>222,358</td>
+</tr>
+<tr>
+<td>Medicine</td>
+<td>168,697</td>
+<td>13,014</td>
+<td>114,104</td>
+<td>42,535</td>
+<td>138,973</td>
+</tr>
+<tr>
+<td>Economics</td>
+<td>227,530</td>
+<td>9,461</td>
+<td>113,527</td>
+<td>68,607</td>
+<td>131,387</td>
+</tr>
+<tr>
+<td>Physics</td>
+<td>267,532</td>
+<td>10,831</td>
+<td>133,079</td>
+<td>84,824</td>
+<td>176,741</td>
+</tr>
+<tr>
+<td>Biology</td>
+<td>224,722</td>
+<td>15,119</td>
+<td>145,088</td>
+<td>59,210</td>
+<td>189,281</td>
+</tr>
+<tr>
+<td>Mathematics</td>
+<td>312,670</td>
+<td>17,751</td>
+<td>190,734</td>
+<td>95,951</td>
+<td>218,697</td>
+</tr>
+<tr>
+<td>Psychology</td>
+<td>476,342</td>
+<td>9,512</td>
+<td>194,038</td>
+<td>115,725</td>
+<td>212,180</td>
+</tr>
+<tr>
+<td>Computer Science</td>
+<td>531,654</td>
+<td>16,591</td>
+<td>244,567</td>
+<td>151,809</td>
+<td>238,091</td>
+</tr>
+<tr>
+<td>Environmental Science</td>
+<td>583,466</td>
+<td>11,002</td>
+<td>226,671</td>
+<td>94,474</td>
+<td>201,330</td>
+</tr>
+<tr>
+<td>Materials Science</td>
+<td>573,032</td>
+<td>17,098</td>
+<td>249,251</td>
+<td>145,068</td>
+<td>313,657</td>
+</tr>
+<tr>
+<td>Chemistry</td>
+<td>565,307</td>
+<td>13,858</td>
+<td>231,062</td>
+<td>108,637</td>
+<td>286,593</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>5,342,566</td>
+<td>206,462</td>
+<td>2,591,591</td>
+<td>1,362,922</td>
+<td>2,941,942</td>
+</tr>
+</tbody>
+</table>
+<h2>Evaluation</h2>We use machine measurements and manual assessments to assess the systems we propose. We use the traditional confusion matrix to assess the performance of the model on the evolving concept of convergence.
+
+We have split the projections into two parts, one for all nodes in 2021 and the other for the new side only. As can be seen, all these models were able to identify most of the parties that existed in 2021, but GCN-GAN and EvolveGCN did not perform well when they discovered the new ones in 2021. We believe that this is because most of the maps are thin, which leads to the overcompatibility of other models. In our knowledge of the scenes, it is in finding new sides that the most important.
+
+<img alt="" class="alignnone wp-image-7776" height="143" src="https://cdn.omegaxyz.com/2023/08/kiscovery_lp_results.png" width="750"/>We use the Turing test plus case analysis to validate the results of the generation model.
+
+We have recruited more specialists and non-specialists in the fields of computer science, geosciences (geology and geography) and medicine to conduct the Turin tests. Experts include professors, lecturers, post-doctoral researchers and graduate students (at least two professors per subject). Participants were asked to read the output generated by the machine and the text written manually, and to select the real manual text from a group of Ns. Each participant is instructed prior to testing. We also allow participants to use Internet search technical terms during testing. For each discipline, there are two different options, one with two options and the other with three options. The Turing test results are as follows:
+
+<img alt="" class="alignnone wp-image-7778" height="352" src="https://cdn.omegaxyz.com/2023/08/kiscovery_turing.png" width="405"/>Our case studies deal with computer science, economics and political science. In the first case, we found a new conceptual convergence, namely, “knowledge mapping” and “comparison learning”, and produced a narrative based on a five-fold set of ideas that is now quoted. In the second case, we found that intellectual property rights were closely related to income distribution and produced a narrative based on the five-dollar group currently cited. In the last case, we found a gender pay gap in developing countries, particularly during the economic crisis, and we produced a narrative based on the five-tier group currently cited. These case studies show that our systems can predict and express the convergence of new concepts well and produce results consistent with human instincts and values.
+
+<img alt="" class="alignnone wp-image-7770" height="348" src="https://cdn.omegaxyz.com/2023/08/kiscovery_case.png" width="629"/>
+<h2>DeepReport</h2>Based on the above technology and objectives, we have developed the DeepReport Knowledge Discovery Research Auxiliary System, accessible.<a href="https://idea.acemap.cn/#/" rel="noopener" target="_blank">idea.acemap.cn</a>Come and try.
+
+This is our first version of Pipeline, which consists mainly of three modules:
+<ul>
+<li>Data retrieval and graphic construction module</li>
+<li>Time series link prediction module</li>
+<li>Idea Generation Module</li>
+</ul>
+<img alt="" class="alignnone wp-image-7773" height="308" src="https://cdn.omegaxyz.com/2023/08/kiscovery_framework.png" width="776"/>It first receives queries from users and retrieves the most relevant papers from the database and constructs in real time a common map of evolutionary concepts. At the same time, the system maintains two dictionaries that are used to store mapping relationships between papers and concepts. And then, based on Bert's time model,<em>c_u</em>and<em>c_v</em>This could be seen as a new idea. Finally, these interrelated concepts, and the sentences that correspond to them in the papers in the dictionary, are entered into our pre-trained model to express an idea. Of course, there's room for optimization in our models, and we're now going to replace Bert's link predictions with those of a large, generating model.
+
+In mid-2023, the DeepReport system was significantly updated, including data and model improvements. In terms of data, we have introduced a new version of the five-mix data set (V20206), which has improved the quality and larger data sets.
+
+In addition, we have trained a new state-of-the-art model in a specialized field. The integration of the model with OpenAI is aimed at improving the quality of our online services. The integration of our own large-scale models and OpenAI resources enables our systems to provide excellent performance and better meet user needs.
+
+The introduction of improved five-dimensional data sets, together with the deployment of new field models and the use of an openAI interface, marked significant progress in our DeepReport system. These updates enable us to provide more accurate and reliable results, thereby enhancing the overall user experience. We remain committed to further refining our system to ensure that it continues to meet the changing needs of users.
+<h2>Summary</h2>In conclusion, the paper proposes a conceptually based framework for intellectual inspiration, which has been integrated into a research assistant system. We have built an evolving conceptual convergence map and are exploring potential linkages between different concepts using a time-link prediction methodology based on masked language models. In order to express the newly discovered links, we have produced a narrative based on a five-dollar set of references using pre-trained language models. Our system has been evaluated through automatic measurements and manual assessments. We believe that this system can help researchers to discover new ideas more quickly and play an important role in academic research. In the future, we will continue to improve our systems, including the expansion of data sets, the refinement of the conceptual extraction tool and the optimization of time-link forecasting methods, which will ultimately require that we use a large-language model to train multiple knowledge discovery missions to accomplish both of these objectives.
+<h2><strong>References</strong></h2>The work was published in ACL 2023
+<pre><code class="language-default">@inproceedings{xu-etal-2023-exploring,
+    title = "Exploring and Verbalizing Academic Ideas by Concept Co-occurrence",
+    author = "Xu, Yi  and
+      Sheng, Shuqian  and
+      Xue, Bo  and
+      Fu, Luoyi  and
+      Wang, Xinbing  and
+      Zhou, Chenghu",
+    booktitle = "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2023",
+    address = "Toronto, Canada",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.acl-long.727",
+    doi = "10.18653/v1/2023.acl-long.727",
+    pages = "13001--13027",
+}</code></pre>
+ 
+
+<strong>Address:</strong><a href="https://aclanthology.org/2023.acl-long.727/" rel="noopener" target="_blank">https://aclanthology.org/2023.acl-long.727/</a>
+<strong>Address of data set:</strong><a href="https://github.com/xyjigsaw/Kiscovery" rel="noopener" target="_blank">https://github.com/xyjigsaw/Kiscovery</a>More content access [omegaxyz.com] (https://omegaxyz.com)
+All website codes are authorized by Apache 2.0.
+Website articles are authorized by the Knowledge Sharing Licence Agreement BY-NC-SA 4.0
+□ 2023 • OmegaXYZ - All rights
+
+</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

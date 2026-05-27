@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>面向对象设计原则之开闭原则 · OmegaXYZ</title>
+  <meta name="description" content="开闭原则的定义 Software entities like classes,modules and functions should be open for extension but closed for modifications. 一个软件实体如类，模块和函数应该对扩展开放，对修改关闭。 从软件工程的角度来看，它将具有可复用性好和...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/06/14/面向对象设计原则之开闭原则/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-14</div>
+        <h1>面向对象设计原则之开闭原则</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>开闭原则的定义</strong></h2>Software entities like classes,modules and functions should be open for extension but closed for modifications.
+
+一个软件实体如类，模块和函数应该对扩展开放，对修改关闭。
+
+从软件工程的角度来看，它将具有可复用性好和可维护性好两大特点。开闭原则是面向对象设计中“<strong><span style="color: #ff0000">可复用设计</span></strong>”的基石，是面向对象设计中最重要的原则之一。
+
+<strong>Bertrand Meyer于 1988提出的这一条原则连他自己也没有想到，竟然影响了软件设计30年的发展，奠定了现代面向对象程序设计的基本面貌。</strong>
+<h2><strong>什么是开闭原则</strong></h2>开闭原则明确的告诉我们：软件实现应该对扩展开放，对修改关闭，其含义是说一个软件实体应该通过扩展来实现变化，而不是通过修改已有的代码来实现变化的。
+<h2><strong>为什么使用开闭原则</strong></h2>第一：开闭原则非常有名，只要是面向对象编程，在开发时都会强调开闭原则
+
+第二：开闭原则是最基础的设计原则，其它的五个设计原则都是开闭原则的具体形态，也就是说其它的五个设计原则是指导设计的工具和方法，而开闭原则才是其精神领袖。依照Java语言的称谓，开闭原则是抽象类，而其它的五个原则是具体的实现类。
+
+第三：开闭原则可以提高复用性
+在面向对象的设计中，所有的逻辑都是从原子逻辑组合而来，而不是在一个类中独立实现一套业务逻辑。只有这样的代码才可以复用，逻辑粒度越小，被复用的可能性越大。为什么要复用呢？复用可以减少代码的重复，避免相同的逻辑分散在多个角落，减少维护人员的工作量以及系统变化时产生bug的机会。怎么才能提高复用率呢？设计者需要缩小逻辑粒度，直到一个逻辑不可以分为止。
+
+第四：开闭原则可以提高维护性
+一款软件量产后，维护人员的工作不仅仅对数据进行维护，还可能要对程序进行扩展，维护人员最乐意的事是扩展一个类，而不是修改一个类。让维护人员读懂原有代码，再进行修改，是一件非常痛苦的事情，不要让他在原有的代码海洋中游荡后再修改，那是对维护人员的折磨和摧残。
+
+第五：面向对象开发的要求
+万物皆对象，我们要把所有的事物抽象成对象，然后针对对象进行操作，但是万物皆发展变化，有变化就要有策略去应对，怎么快速应对呢？这就需要在设计之初考虑到尽可能多变化的因素，然后留下接口，等待“可能”转变为“现实”。
+<h2><strong>如何使用开闭原则</strong></h2>
+<h3><strong>①抽象约束</strong></h3>抽象是对一组事物的通用描述，没有具体的实现，也就表示它可以有非常多的可能性，可以跟随需求的变化而变化。因此，通过接口或抽象类可以约束一组可能变化的行为，并且能够实现对扩展开放，其包含三层含义：
+
+通过接口或抽象类约束扩散，对扩展进行边界限定，不允许出现在接口或抽象类中不存在的public方法。
+
+参数类型，引用对象尽量使用接口或抽象类，而不是实现类，这主要是实现里氏替换原则的一个要求
+
+抽象层尽量保持稳定，一旦确定就不要修改
+<h3><strong>②元数据(metadata)控件模块行为</strong></h3>编程是一个很苦很累的活，那怎么才能减轻压力呢？答案是尽量使用元数据来控制程序的行为，减少重复开发。什么是元数据？用来描述环境和数据的数据，通俗的说就是配置参数，参数可以从文件中获得，也可以从数据库中获得。
+<h3><strong>③制定项目章程</strong></h3>在一个团队中，建立项目章程是非常重要的，因为章程是所有开发人员都必须遵守的约定，对项目来说，约定优于配置。这比通过接口或抽象类进行约束效率更高，而扩展性一点也没有减少。
+<h3><strong>④封装变化</strong></h3>对变化封装包含两层含义：
+(1)将相同的变化封装到一个接口或抽象类中
+(2)将不同的变化封装到不同的接口或抽象类中，不应该有两个不同的变化出现在同一个接口或抽象类中。
+封装变化，也就是受保护的变化，找出预计有变化或不稳定的点，我们为这些变化点创建稳定的接口。
+<h2><strong>开闭原则实例</strong></h2><strong>原始类图：</strong>
+
+<img src="https://cdn.omegaxyz.com/2018/06/OCP2.jpg" class="alignnone wp-image-4584 size-full" height="425" alt="" width="551">
+
+项目投产生，书籍正常销售，但是我们经常因为各种原因，要打折来销售书籍，这是一个变化，我们要如何应对这样一个需求变化呢？
+
+我们有下面三种方法可以解决此问题：
+
+<strong>修改接口</strong>
+在IBook接口中，增加一个方法getOffPrice(),专门用于进行打折处理，所有的实现类实现此方法。但是这样的一个修改方式，实现类NovelBook要修改，同时IBook接口应该是稳定且可靠，不应该经常发生改变，否则接口作为契约的作用就失去了。因此，此方案否定。
+
+<strong>修改实现类</strong>
+修改NovelBook类的方法，直接在getPrice()方法中实现打折处理。此方法是有问题的，例如我们如果getPrice()方法中只需要读取书籍的打折前的价格呢？这不是有问题吗？当然我们也可以再增加getOffPrice()方法，这也是可以实现其需求，但是这就有二个读取价格的方法，因此，该方案也不是一个最优方案。
+
+<strong><span style="color: #ff0000">通过扩展实现变化</span></strong>
+我们可以增加一个子类OffNovelBook,覆写getPrice方法。此方法修改少，对现有的代码没有影响，风险少，是个好办法。
+
+下面是修改后的类图：
+
+<img src="https://cdn.omegaxyz.com/2018/06/OCP1.jpg" class="alignnone size-full wp-image-4583" height="451" alt="" width="514">
+
+<strong>参考资料：</strong><a href="https://blog.csdn.net/hfreeman2008/article/details/52344022">https://blog.csdn.net/hfreeman2008/article/details/52344022</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

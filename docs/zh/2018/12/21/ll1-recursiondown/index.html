@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>递归下降实现LL(1)文法分析C语言与Python实现 · OmegaXYZ</title>
+  <meta name="description" content="对文法G的句子进行确定的自顶向下语法分析的充分必要条件是，G的任意两个具有相同左部的产生式A—&gt;α|β 满足下列条件： （1）如果α、β均不能推导出ε，则 FIRST(α) ∩ FIRST(β) = ∅。 （2）α 和 β 至多有一个能推导出 ε。 （3）如果 β *═&gt; ε，则 FIRST(α) ∩ FOLLOW(A) = ∅。 将满足...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/21/ll1-recursiondown/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-21</div>
+        <h1>递归下降实现LL(1)文法分析C语言与Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><div class="lemma-summary">
+<div class="para">对文法G的句子进行确定的自顶向下语法分析的充分必要条件是，G的任意两个具有相同左部的产生式A—&gt;α|β 满足下列条件：</div>
+<div class="para">（1）如果α、β均不能推导出ε，则 FIRST(α) ∩ FIRST(β) = ∅。</div>
+<div class="para">（2）α 和 β 至多有一个能推导出 ε。</div>
+<div class="para">（3）如果 β *═&gt; ε，则 FIRST(α) ∩ FOLLOW(A) = ∅。</div>
+<div class="para">将满足上述条件的文法称为LL(1)文法。</div>
+</div>
+<div class="configModuleBanner"></div>
+<div><strong>例子：</strong></div>
+<div><strong>E-&gt;TE’</strong></div>
+<div><strong>E’-&gt;+TE’ | ε</strong></div>
+<div><strong>T-&gt;FT’</strong></div>
+<div><strong>T’-&gt;*F T’| ε</strong></div>
+<div><strong>F-&gt;(E) | i</strong></div>
+<strong>C语言代码：</strong>
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+
+#include&lt;string&gt;
+char str[10];
+int index=0;
+void E();			//E-&gt;TX;
+void X();			//X-&gt;+TX | e
+void T();			//T-&gt;FY
+void Y();			//Y-&gt;*FY | e
+void F();			//F-&gt;(E) | i
+int main()
+{
+	int len;
+	int m;
+	printf("请输入要测试的次数：");
+	scanf("%d",&amp;m);
+	while(m--)
+	{
+		printf("请输入算数表达式：");
+		scanf("%s",str);
+		len=strlen(str);
+		str[len]='#';
+		str[len+1]='\0';
+		E();
+		printf("正确语句！\n");
+		strcpy(str,"");
+		index=0;
+	}
+	return 0;
+}
+void E()
+{
+    T();
+    X();
+}
+void X()
+{
+	if(str[index]=='+')
+	{
+	    index++;
+		T();
+		X();
+	} 
+}
+void T()
+{
+	F();
+	Y();
+}
+void Y()
+{
+	if(str[index]=='*')
+	{
+        index++;
+		F();
+		Y();
+	}
+}
+void F()
+{
+	if(str[index]=='i')
+	{
+		index++;
+	}
+	else if (str[index]=='(')
+	{	 
+		index++;
+		E();
+		if(str[index]==')')
+		{
+			index++; 
+		}else{
+			printf("\n分析失败!\n");
+			exit (0);
+		}
+	} 
+	else{
+		printf("分析失败!\n"); 
+		exit(0);
+	}
+ }</code></pre>
+<strong>Python代码：</strong>
+<pre ><code class="language-python">'''
+E-&gt;TM
+M-&gt;+TM|~
+T-&gt;FN
+N-&gt;*FN|~
+F-&gt;i|(E)
+'''
+
+
+import time
+index = 0
+
+
+def ParseE():
+    ParseT()
+    ParseM()
+
+
+def ParseM():
+    global index
+    if strx[index] == '+':
+        index += 1
+        ParseT()
+        ParseM()
+
+
+def ParseT():
+    ParseF()
+    ParseN()
+
+
+def ParseN():
+    global index
+    if strx[index] == '*':
+        index += 1
+        ParseF()
+        ParseN()
+
+
+def ParseF():
+    global index
+    if strx[index] == 'i':
+        index += 1
+    elif strx[index] == '(':
+        index += 1
+        ParseE()
+        if strx[index] == ')':
+            index += 1
+        else:
+            print('NO,输入不合法')
+    else:
+        print('NO,输入不合法')
+
+
+strx_ = input('输入表达式')
+#strx_ = 'i+i*i'
+a = time.clock()
+strx_ += '#'
+x = 1
+while x:
+    index = 0
+    strx = strx_
+    strx += '#'
+    ParseE()
+    x -= 1
+
+b = time.clock()
+print(b-a)
+</code></pre>
+<img class="alignnone size-full wp-image-5245" src="https://cdn.omegaxyz.com/2018/12/ll1.png" alt="" width="810" height="164" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

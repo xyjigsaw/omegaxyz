@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python counts the number of characters in a string · OmegaXYZ</title>
+  <meta name="description" content="Count the number of characters in a string (without using modules). Question content: Define the function countchar() to count the number of all letters appearing in a string in alphabetical order (uppercase characters are allowed, and counting is not case-sensitive). In the form: def countchar( str ): ... ... return a list if __name__ == &quot;__main__&quot; : str =...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/11/python_countchar/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-11</div>
+        <h1>Python counts the number of characters in a string</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div class="j-title f-cb title questionDes">
+<div class="qaDescription f-richEditorText f-fl edueditor_styleclass_0 edueditor_styleclass_2">Count the number of characters in a string (without using modules).</div>
+</div>
+<div class="j-detail f-richEditorText detail f-fs0 edueditor_styleclass_1 edueditor_styleclass_3">
+<strong>Question content:</strong>
+<strong>Define the function countchar() to count the number of all letters appearing in a string in alphabetical order (uppercase characters are allowed,</strong><strong>And counting is not case sensitive</strong><strong>). Shape like:</strong>
+<div class="syntaxhighlighter python">
+<ol>
+<li class="line number1 index0 alt2"><span class="python keyword">def</span> <span class="python plain">countchar(</span><span class="python functions">str</span><span class="python plain">):</span></li>
+<li class="line number2 index1 alt1"><span class="python spaces">      </span><span class="python plain">... ...</span></li>
+<li class="line number3 index2 alt2"><span class="python spaces">     </span><span class="python keyword">return</span> <span class="python plain">a </span><span class="python functions">list</span></li>
+<li class="line number4 index3 alt1"><span class="python keyword">if</span> <span class="python plain">__name__ </span><span class="python keyword">=</span><span class="python keyword">=</span> <span class="python string">"__main__"</span><span class="python plain">:</span></li>
+<li class="line number5 index4 alt2"><span class="python spaces">     </span><span class="python functions">str</span> <span class="python keyword">=</span> <span class="python functions">input</span><span class="python plain">()</span></li>
+<li class="line number6 index5 alt1"><span class="python spaces">     </span><span class="python plain">... ...</span></li>
+<li class="line number7 index6 alt2"><span class="python spaces">     </span><span class="python functions">print</span><span class="python plain">(countchar(</span><span class="python functions">str</span><span class="python plain">))</span></li>
+</ol>
+</div>
+<strong>Input format:</strong>
+<strong>string</strong>
+<strong>Output format:</strong>list<strong>Input example:</strong>
+<strong>Hello, World!</strong>
+<strong>Output sample:</strong>
+<strong>[0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 3, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0]</strong>
+</div>
+<div class="j-limit f-fc6 limit f-fs0"><span class="itm">Time limit: 500ms</span>Memory limit: 32000kb</div>
+<div></div>
+<div>Code:</div>
+<div>
+<pre><code class="language-python">def countchar(string):
+    num = [0]*26
+    string = string.lower()
+    for i in range(len(string)):
+       if string[i].isalpha():
+            temp = ord(string[i]) - ord('a')
+            num[temp] += 1
+    return num
+
+
+if __name__ == "__main__":
+     string = input()
+     print(countchar(string))</code></pre>
+ 
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

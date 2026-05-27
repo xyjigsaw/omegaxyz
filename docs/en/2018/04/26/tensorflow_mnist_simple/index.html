@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started with TensorFlow Handwriting Recognition · OmegaXYZ</title>
+  <meta name="description" content="Original address: MNIST For ML Beginners Translation: linbojin python3 source code: OmegaXYZ.com When we start to learn programming, the first thing is often to learn to print &quot;Hello World&quot;. Just like Hello World is an introduction to programming, and MNIST is an introduction to machine learning. MNIST is an entry-level computer vision dataset that contains various images of handwritten digits...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/26/tensorflow_mnist_simple/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-26</div>
+        <h1>Getting Started with TensorFlow Handwriting Recognition</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<strong>Original address</strong>：<a href="http://tensorflow.org/tutorials/mnist/beginners/index.md" rel="noopener" target="_blank">MNIST For ML Beginners</a>translate:<a href="https://github.com/linbojin" rel="noopener" target="_blank">linbojin</a>python3 source code: OmegaXYZ.com
+
+When we start learning programming, the first thing we often do is learn to print "Hello World". Just like Hello World is an introduction to programming, and MNIST is an introduction to machine learning.
+
+MNIST is an entry-level computer vision dataset that contains various images of handwritten digits:<div><img class="" height="121" src="http://www.tensorfly.cn/tfdoc/images/MNIST.png" width="484"/></div>It also contains the label corresponding to each image, telling us what number it is. For example, the labels of the four pictures above are 5, 0, 4, and 1 respectively.
+
+In this tutorial, we will train a machine learning model to predict numbers in images. Our goal is not to design a world-class complex model - although we will give you the source code to implement a first-class prediction model later - but to introduce how to use TensorFlow. So, we will start with a very simple mathematical model here, which is called Softmax Regression.
+
+The implementation code corresponding to this tutorial is very short, and the really interesting content is only contained in three lines of code. However, it is very important to understand the design ideas contained in these codes: TensorFlow workflow and basic concepts of machine learning. Therefore, this tutorial will introduce the implementation principles of these codes in great detail.<h2 id="mnist数据集-"><strong>MNIST dataset</strong></h2>The official website of the MNIST data set is<a href="http://yann.lecun.com/exdb/mnist/" rel="noopener" target="_blank">Yann LeCun's website</a>. Here, we provide a Python source code for automatically downloading and installing this dataset. you can download<a href="https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/examples/tutorials/mnist/input_data.py" rel="noopener" target="_blank">this code</a>, and then use the following code to import it into your project, or you can directly copy and paste it into your code file.<pre><code class="language-python">import input_data
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)</code></pre>The downloaded data set is divided into two parts: the 60,000-row training data set (<code>mnist.train</code>) and a test data set of 10,000 rows (<code>mnist.test</code>). Such segmentation is very important. When designing a machine learning model, there must be a separate test data set that is not used for training but to evaluate the performance of the model, making it easier to generalize the designed model to other data sets (generalization).
+
+As mentioned before, each MNIST data unit consists of two parts: an image containing handwritten digits and a corresponding label. Let's set these images to "xs" and these labels to "ys". Both the training data set and the test data set contain xs and ys. For example, the picture of the training data set is<code>mnist.train.images</code>, the label of the training data set is<code>mnist.train.labels</code>.
+
+Each image contains 28 pixels x 28 pixels. We can represent this image as an array of numbers:<div><img class="" height="315" src="http://www.tensorfly.cn/tfdoc/images/MNIST-Matrix.png" width="799"/></div>We expand this array into a vector with length 28x28 = 784. It doesn't matter how the array is expanded (the order between the numbers), as long as each image is expanded in the same way. From this perspective, the pictures in the MNIST data set are points in the 784-dimensional vector space, and have comparative<a href="http://colah.github.io/posts/2014-10-Visualizing-MNIST/" rel="noopener" target="_blank">complex structure</a>(Reminder: Visualization of this type of data is computationally intensive).
+
+Flattening an image's numeric array loses information about the image's two-dimensional structure. This is obviously not ideal, and the best computer vision methods mine and exploit this structural information, which we will introduce in subsequent tutorials. But in this tutorial we ignore these structures, and the simple mathematical model introduced, softmax regression, does not make use of this structural information.
+
+Therefore, in the MNIST training data set,<code>mnist.train.images</code>is a shape of<code>[60000, 784]</code>Tensor, the first dimension number is used to index the image, and the second dimension number is used to index the pixels in each image. Each element in this tensor represents the intensity value of a certain pixel in a certain picture, and the value is between 0 and 1.<div><img class="" height="419" src="http://www.tensorfly.cn/tfdoc/images/mnist-train-xs.png" width="926"/></div>The labels of the corresponding MNIST dataset are numbers between 0 and 9 that describe the number represented in a given image. For the purposes of this tutorial, we make the label data "one-hot vectors". A one-hot vector has numbers in all dimensions except a certain one which is 1. So in this tutorial, the number n will be represented as a 10-dimensional vector with numbers 1 only in the nth dimension (starting from 0). For example, label 0 would be represented as ([1,0,0,0,0,0,0,0,0,0,0]). therefore,<code>mnist.train.labels</code>is a<code>[60000, 10]</code>numeric matrix.<div><img class="" height="327" src="http://www.tensorfly.cn/tfdoc/images/mnist-train-ys.png" width="945"/></div>Now, we are ready to start building our model!<h2 id="softmax回归介绍-"><strong>Softmax regression introduction</strong></h2>We know that each picture in MNIST represents a number, from 0 to 9. We want to get the probability that a given picture represents each number. For example, our model might infer that a picture containing a 9 has an 80% chance of representing the number 9 but a 5% chance that it is an 8 (because both 8 and 9 have small circles in their upper halves), and then give it a smaller probability of representing some other number.
+
+This is a classic case of using softmax regression model. Softmax models can be used to assign probabilities to different objects. Even later, when we train more sophisticated models, the last step still requires softmax to assign probabilities.
+
+Softmax regression is divided into two steps: the first step
+
+To get evidence that a given image belongs to a specific numeric class, we perform a weighted sum of the image pixel values. If the pixel has strong evidence that the image does not belong to this class, then the corresponding weight is negative. On the contrary, if the pixel has strong evidence to support that the image belongs to this class, then the weight is positive.
+
+The image below shows a model learning the weight of each pixel in an image for a specific numeric class. Red represents negative weights and blue represents positive weights.<div><img alt="" class="alignnone wp-image-4135" height="393" src="https://cdn.omegaxyz.com/2018/04/softmax-weights.png" width="783"/></div>We also need to add an additional bias (bias), because the input often has some irrelevant interference. So for a given input image<strong>x</strong>it represents numbers<strong>i</strong>The evidence can be expressed as<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist1.png"/>in<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist2.png"/>represents the weight,<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist3.png"/>represent numbers<strong>i</strong>The offset of the class,<strong>j</strong>Represents a given picture<strong>x</strong>The pixel index of is used for pixel summation. Then use the softmax function to convert these evidences into probabilities<strong>y</strong>：
+
+<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist4.png"/>The softmax here can be regarded as an activation function or a link function, which converts the output of the linear function we defined into the format we want, which is the probability distribution of 10 number classes. Therefore, given a picture, its degree of fit for each number can be converted into a probability value by the softmax function. The softmax function can be defined as:<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist5.png"/>Expanding the subexpression on the right side of the equation, we can get:<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist6.png"/>But more often the softmax model function is defined in the former form: evaluating the input values ​​as power exponents, and then regularizing these result values. This power operation means that greater evidence corresponds to greater multiplier weights in the hypothesis. Conversely, having less evidence means having smaller multipliers in the hypothesized model. It is assumed that the weights in the model cannot be 0 or negative. Softmax then regularizes these weight values ​​so that their sum equals 1, thereby constructing an efficient probability distribution. (For more information about the Softmax function, you can refer to this in Michael Nieslen's book<a href="http://neuralnetworksanddeeplearning.com/chap3.html#softmax" rel="noopener" target="_blank">part</a>, which has an interactive visual explanation of softmax. )
+
+The softmax regression model can be explained by the following figure. For the input<code>xs</code>Weighted summation, plus an offset respectively, and finally input into the softmax function:<div><img alt="" class="alignnone wp-image-4136" height="331" src="https://cdn.omegaxyz.com/2018/04/softmax-regression-scalargraph.png" width="828"/></div>If we write this as an equation, we get:<div><img class="" height="192" src="http://www.tensorfly.cn/tfdoc/images/softmax-regression-scalarequation.png" width="842"/></div>We can also express this calculation process using vectors: using matrix multiplication and vector addition. This helps improve computational efficiency. (Also a more effective way to think)<div><img class="" height="206" src="http://www.tensorfly.cn/tfdoc/images/softmax-regression-vectorequation.png" width="842"/></div>Going a step further, it can be written in a more compact way:<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist7.png"/>
+<h2 id="实现回归模型-"><strong>Implement regression model</strong></h2>In order to implement efficient numerical calculations in python, we usually use function libraries, such as NumPy, to implement complex operations such as matrix multiplication in other external languages. Unfortunately, switching back to Python from external computation is still a significant overhead for every operation. If you use the GPU for external calculations, the overhead will be even greater. Using distributed computing will also consume more resources to transmit data.
+
+TensorFlow also completes complex calculations outside of python, but in order to avoid the overhead mentioned above, it has been further improved. Tensorflow does not run a single complex calculation separately, but allows us to first use a graph to describe a series of interactive calculation operations, and then run them all together outside of Python. (Similar operation methods can be seen in many machine learning libraries.)
+
+Before using TensorFlow, first import it:<pre><code class="language-python">import tensorflow as tf</code></pre>We describe these interactive operating units by operating symbolic variables. We can create one in the following way:<pre><code class="language-python">x = tf.placeholder("float", [None, 784])</code></pre>
+<code class="lang-python">
+</code><code>x</code>Not a specific value, but a placeholder<code>placeholder</code>, we enter this value when TensorFlow runs the calculation. We hope to be able to input any number of MNIST images and flatten each image into a 784-dimensional vector. We use a 2-dimensional floating point tensor to represent these graphs. The shape of this tensor is<code>[None，784 ]</code>. (Here’s<code>None</code>Represents that the first dimension of this tensor can be of any length. )
+
+Our model also needs weights and biases, and of course we can treat them as additional inputs (using placeholders), but TensorFlow has a better way to represent them:<code>Variable</code>. one<code>Variable</code>Represents a modifiable tensor that exists in TensorFlow's graph used to describe interactive operations. They can be used to calculate input values, and can also be modified during calculations. For various machine learning applications, there are generally model parameters that can be used<code>Variable</code>express.<code class="lang-python">
+</code>
+<pre><code class="language-python">W = tf.Variable(tf.zeros([784,10]))
+b = tf.Variable(tf.zeros([10]))</code></pre>we give<code>tf.Variable</code>Different initial values ​​to create different<code>Variable</code>: Here, we initialize both tensors with all zeros<code>W</code>and<code>b</code>. Because we have to learn<code>W</code>and<code>b</code>values, their initial values ​​can be set arbitrarily.
+
+Notice,<code>W</code>The dimensions of are [784, 10], because we want to multiply it by the 784-dimensional image vector to get a 10-dimensional evidence value vector, each bit corresponding to a different number class.<code>b</code>The shape of is [10], so we can add it directly to the output.
+
+Now, we can implement our model. All it takes is one line of code!<code class="lang-python">
+</code>
+<pre><code class="language-python">y = tf.nn.softmax(tf.matmul(x,W) + b)</code></pre>First, we use<code>tf.matmul(​​X，W)</code>express<code>x</code>multiply by<code>W</code>, corresponding to the previous equation<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist8.png"/>,here<code>x</code>is a 2D tensor with multiple inputs. Then add<code>b</code>, enter the sum into<code>tf.nn.softmax</code>inside the function.
+
+So far, we've used a few short lines of code to set variables, and then just one line of code to define our model. TensorFlow not only makes softmax regression model calculations particularly simple, it also uses this very flexible way to describe various other numerical calculations, from machine learning models to physics simulation models. Once defined, our model can be run on different devices: computer CPU, GPU, or even a mobile phone!<h2 id="训练模型-"><strong>Training model</strong></h2>In order to train our model, we first need to define a metric to evaluate whether this model is good. In fact, in machine learning, we usually define an indicator to indicate that a model is bad. This indicator is called cost or loss, and then try to minimize this indicator. However, both ways are the same.
+
+A very common and very beautiful cost function is "cross-entropy". Cross entropy originated from the information compression coding technology in information theory, but it later evolved into an important technical means in other fields from game theory to machine learning. It is defined as follows:<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist10.png"/>
+<strong>y</strong>is the probability distribution we predict,<strong>y'</strong>is the actual distribution (our input one-hot vector). A rough understanding is that cross-entropy is a measure of how inefficiently our predictions describe the truth. A more detailed explanation of cross-entropy is beyond the scope of this tutorial, but it’s worth taking a look at<a href="http://colah.github.io/posts/2015-09-Visual-Information/" rel="noopener" target="_blank">understand it</a>.
+
+To calculate cross-entropy, we first need to add a new placeholder for the correct value:<code class="lang-python">
+</code>
+<pre><code class="language-python">y_ = tf.placeholder("float", [None,10])</code></pre>Then we can use<img alt="" src="http://www.tensorfly.cn/tfdoc/images/mnist9.png"/>Calculate cross entropy:<pre><code class="lang-python">cross_entropy = -tf.reduce_sum(y_*tf.log(y))
+</code></pre>First, use<code>tf.log</code>calculate<code>y</code>The logarithm of each element of . Next, we put<code>y_</code>Each element of and<code>tf.log(y_)</code>The corresponding elements of are multiplied. Finally, use<code>tf.reduce_sum</code>Computes the sum of all elements of a tensor. (Note that the cross-entropy here is not just a measure of a single pair of predictions and true values, but the sum of the cross-entropy of all 100 images. The prediction performance for 100 data points can better describe the performance of our model than the performance of a single data point.
+
+Now that we know what we need our model to do, training it with TensorFlow is very easy. Because TensorFlow has a graph describing each of your computational units, it can automatically use<a href="http://colah.github.io/posts/2015-08-Backprop/" rel="noopener" target="_blank">backpropagation algorithm</a>to effectively determine how your variables affect the cost value you want to minimize. TensorFlow will then use the optimization algorithm you choose to continuously modify the variables to reduce costs.<code class="lang-python">
+</code>
+<pre><code class="language-python">train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)</code></pre>Here, we ask TensorFlow to minimize cross-entropy using the gradient descent algorithm with a learning rate of 0.01. The gradient descent algorithm is a simple learning process. TensorFlow only needs to move each variable little by little in the direction that continuously reduces the cost. Of course TensorFlow also provides<a href="http://www.tensorfly.cn/tfdoc/api_docs/python/train.html#optimizers">Many other optimization algorithms</a>: Other algorithms can be used by simply adjusting one line of code.
+
+What TensorFlow actually does here is that it adds a series of new computing operation units to the graph describing your calculation in the background to implement the backpropagation algorithm and gradient descent algorithm. Then, all it returns to you is a single operation, and when that operation is run, it trains your model using a gradient descent algorithm, fine-tuning your variables and constantly reducing the cost.
+
+Now, we have our model set up. Before running the calculation, we need to add an action to initialize the variable we created:<code class="lang-python">
+</code>
+<pre><code class="language-python">init = tf.initialize_all_variables()</code></pre>Now we can do it in a<code>Session</code>Start our model inside and initialize variables:<code class="lang-python">
+</code>
+<pre><code class="language-python">sess = tf.Session()
+sess.run(init)</code></pre>Then start training the model. Here we let the model loop train 1000 times!<code class="lang-python">
+</code>
+<pre><code class="language-python">for i in range(1000):
+  batch_xs, batch_ys = mnist.train.next_batch(100)
+  sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})</code></pre>At each step of the loop, we grab a random batch of 100 data points from the training data, and then we run with these data points as arguments, replacing the previous placeholders.<code>train_step</code>.
+
+Training using a small portion of random data is called stochastic training - more specifically stochastic gradient descent training in this case. Ideally, we would like to use all our data for each training step, as this will give us better training results, but obviously this requires a lot of computational overhead. Therefore, we can use different data subsets for each training, which can not only reduce computational overhead, but also maximize the learning of the overall characteristics of the data set.<h2 id="评估我们的模型-"><strong>Evaluate our model</strong></h2>So how does our model perform?
+
+First let's find out those labels that are predicted correctly.<code>tf.argmax</code>It is a very useful function that can give the index value of the maximum value of the data of a tensor object in a certain dimension. Since the label vector is composed of 0,1, the index position where the maximum value 1 is located is the category label, for example<code>tf.argmax(y,1)</code>What is returned is the label value predicted by the model for any input x, and<code>tf.argmax(y_,1)</code>To represent the correct label, we can use<code>tf.equal</code>To check whether our predictions match the real labels (the index position also indicates a match).<code class="lang-python">
+</code>
+<pre><code class="language-python">correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))</code></pre>This line of code will give us a set of boolean values. To determine the proportion of correct predictions, we can convert the boolean to a float and take the average. For example,<code>[True, False, True, True]</code>will become<code>[1,0,1,1]</code>, after taking the average, we get<code>0.75</code>.<code class="lang-python">
+</code>
+<pre><code class="language-python">accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))</code></pre>Finally, we calculate the accuracy of the learned model on the test data set.<code class="lang-python">
+</code>
+<pre><code class="language-python">print sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels})</code></pre>This final result value should be approximately 91%.
+
+Is this a good result? Well, not so good. In fact, this result is very poor. This is because we only used a very simple model. However, with some small improvements, we can get 97% accuracy. The best models can even achieve over 99.7% accuracy! (For more information, check out this article on the various models<a href="http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html" rel="noopener" target="_blank">Performance comparison list</a>. )
+
+More important than the results are the design ideas we learned from this model. However, if you're still a little disappointed with the results here, you can check out<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html">next tutorial</a>, where you can learn how to build more complex models with FensorFlow for better performance!<strong>Python3 source code:</strong>
+<pre><code class="language-python"># 下载数据集
+from tensorflow.examples.tutorials.mnist import input_data
+
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)  # 使用one-hot编码
+print(mnist.train.images.shape, mnist.train.labels.shape)
+print(mnist.test.images.shape, mnist.test.labels.shape)
+print(mnist.validation.images.shape, mnist.validation.labels.shape)
+
+import tensorflow as tf
+
+sess = tf.InteractiveSession()
+# 第一步，定义算法公式
+x = tf.placeholder(tf.float32, [None, 784])  # 构建占位符，None表示样本的数量可以是任意的
+W = tf.Variable(tf.zeros([784, 10]))  # 构建一个变量，代表权重矩阵，初始化为0
+b = tf.Variable(tf.zeros([10]))  # 构建一个变量，代表偏置，初始化为0
+y = tf.nn.softmax(tf.matmul(x, W) + b)  # 构建了一个softmax的模型：y = softmax(Wx + b)，y指样本标签的预测值
+
+# 第二步，定义损失函数，选定优化器，并指定优化器优化损失函数
+y_ = tf.placeholder(tf.float32, [None, 10])
+# 交叉熵损失函数
+cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+# 使用梯度下降法最小化cross_entropy损失函数
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+
+# 第三步，迭代地对数据进行训练
+tf.global_variables_initializer().run()
+for i in range(1000):  # 迭代次数1000
+    batch_xs, batch_ys = mnist.train.next_batch(100)  # 使用minibatch，一个batch大小为100
+    train_step.run({x: batch_xs, y_: batch_ys})
+
+# 第四步，在测试集或验证集上对准确率进行评测
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))  # tf.argmax()返回的是某一维度上其数据最大所在的索引值，在这里即代表预测值和真值
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))  # 用平均值来统计测试准确率
+print(accuracy.eval({x: mnist.test.images, y_: mnist.test.labels}))  # 打印测试信息</code></pre>Original address:<a href="http://tensorflow.org/tutorials/mnist/beginners/index.md" rel="noopener" target="_blank">MNIST For ML Beginners</a>translate:<a href="https://github.com/linbojin" rel="noopener" target="_blank">linbojin</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

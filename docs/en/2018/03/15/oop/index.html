@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encapsulation, inheritance, polymorphism and abstraction · OmegaXYZ</title>
+  <meta name="description" content="We know that encapsulation can hide implementation details and make code modular; inheritance can extend existing code modules (classes); their purpose is: code reuse. Polymorphism is to achieve another purpose-interface reuse! The function of polymorphism is to ensure the correct call when using a certain attribute of an instance of any class in the &quot;family tree&quot; when the class inherits and derives. Encapsulation: Encapsulation is the first step in realizing object-oriented programming. Encapsulation is to collect data or functions in units (I...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/15/oop/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-15</div>
+        <h1>Encapsulation, inheritance, polymorphism and abstraction</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/programming/index.html">编程语言概述</a></div>
+        <div class="article-content">We know that encapsulation can hide implementation details and make code modular; inheritance can extend existing code modules (classes); their purpose is: code reuse. Polymorphism is to achieve another purpose-interface reuse! The function of polymorphism is to ensure the correct call when using a certain attribute of an instance of any class in the "family tree" when the class inherits and derives.<h1><strong>Package:</strong></h1>Encapsulation is the first step in realizing object-oriented programming. Encapsulation is to collect data or functions into units (we call them classes). Encapsulated objects are often called abstract data types.<strong>The meaning of encapsulation:</strong>The meaning of encapsulation is to protect or prevent code (data) from being inadvertently destroyed by us. In object-oriented programming data is considered a central element and is closely integrated with the functions that use it, thus protecting it from accidental modification by other functions.
+
+1. Protect data members from direct access or modification by programs outside the class. They can only be accessed through the provided public interface ==&gt; data encapsulation.
+
+2. The details of the method are hidden from users. As long as the interface remains unchanged, modification of the content will not affect external callers ==&gt; method encapsulation.
+
+3. When an object contains complete attributes and corresponding methods, it is called encapsulation.
+
+4. The properties of the object cannot be directly accessed from outside the object, but can only be accessed through the method corresponding to the property.
+
+5. The method of the object can receive messages from outside the object.
+
+Access modifiers for class members:<p align="left">That is, the access control characters of class methods and member variables. If a class is not visible as a whole object, it does not mean that all its fields and methods are also invisible to other parts of the program. Their access modifiers need to be judged.</p>
+<p align="left">The permissions are as follows:</p>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top" width="114">
+<p align="left">access modifier</p>
+</td>
+<td valign="top" width="114">
+<p align="left">same class</p>
+</td>
+<td valign="top" width="114">
+<p align="left">Same package</p>
+</td>
+<td valign="top" width="114">
+<p align="left">Different packages, subclasses</p>
+</td>
+<td valign="top" width="114">
+<p align="left">Different packages, not subclasses</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">private</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">protected</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">public</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="114">
+<p align="left">default</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left">√</p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+<td valign="top" width="114">
+<p align="left"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h1><strong>inherit:</strong></h1>Inheritance mainly implements code reuse and saves development time.
+
+Inheritance is a method that allows an object of one type to obtain the properties of an object of another type. It supports the concept of hierarchical classification. Inheritance refers to the ability to use all the functionality of an existing class and extend it without having to rewrite the original class. The new class created through inheritance is called a "subclass" or "derived class", and the inherited class is called a "base class", "parent class" or "super class". The process of inheritance is the process from general to special. To achieve inheritance, you can achieve it through "Inheritance" and "Composition". There are two types of ways to implement the concept of inheritance: implementation inheritance and interface inheritance. Implementation inheritance refers to the ability to directly use the properties and methods of a base class without additional coding; interface inheritance refers to the ability to use only the names of properties and methods, but subclasses must provide implementations;<h1><strong>Polymorphism:</strong></h1>1. “One interface, multiple methods”
+
+The same operation applied to different objects can have different interpretations and produce different execution results.
+
+Three conditions for polymorphism:
+
+a. The existence of inheritance (inheritance is the basis of polymorphism, there would be no polymorphism without inheritance).
+b. The subclass overrides the method of the parent class (calling the method overridden by the subclass under polymorphism).
+c. The parent class reference variable points to the subclass object (type conversion from subclass to parent class).
+
+Overloading and overriding are the two main ways to implement polymorphism.
+
+2. Implement polymorphism: interface polymorphism. Inheritance polymorphism. Polymorphism via abstract classes.<h1><strong>abstract:</strong></h1>It represents an abstract concept derived from the analysis and design of a problem domain. It is an abstraction of a series of specific concepts that look different but are essentially the same. Abstraction is modified with the abstract keyword in Java. When using abstract to modify a class, this class cannot be instantiated. It can be seen from this that abstract classes exist for inheritance. If you define an abstract class without inheriting it, then you have created this abstract class in vain, because you cannot use it to do anything. Use abstract When modifying a method, this method is an abstract method. Abstract methods must exist in abstract classes. Abstract methods have no method body. For a parent class, if one of its methods is implemented in the parent class, it does not make any sense. Different implementations must be carried out according to the actual needs of the subclass. Then this method can be declared as an abstract method. The modifier of the abstract method must be public or protected. If it should be private, it cannot be inherited by the subclass, and the subclass cannot implement the method. By default, it defaults to public.
+
+ 
+
+References:<a href="http://blog.csdn.net/c_w_d/article/details/52982191">http://blog.csdn.net/c_w_d/article/details/52982191</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

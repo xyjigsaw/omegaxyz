@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A brief description of the differences between Python 2.7.x and 3.x versions · OmegaXYZ</title>
+  <meta name="description" content="Most Python libraries support both Python 2.7.x and 3.x versions. Next, I searched some differences between different versions of Python from the Internet. ①__future__ module Python 3.x introduces some keywords and features that are incompatible with Python 2. In Python 2, these new contents can be imported through the built-in __future__ module. If you want to write in Python 2 environment...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/08/30/pythonissue/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-08-30</div>
+        <h1>A brief description of the differences between Python 2.7.x and 3.x versions</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<nav class="inline-toc side-box" data-toc=""></nav>Most Python libraries support both Python 2.7.x and 3.x versions.
+
+Next, I searched some differences between different versions of Python from the Internet.<h1>①__future__ module</h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">Python 3.x introduced some keywords and features that are incompatible with Python 2. In Python 2, these new things can be imported through the built-in __future__ module. If you want code written in a Python 2 environment to also run in Python 3.x, it is recommended to use the __future__ module. For example, if you want to have the integer division behavior of Python 3.x in Python 2, you can import the corresponding module with the following statement.<pre><code class="language-python">from __future__ import division
+</code></pre>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">(source:<a href="https://docs.python.org/2/library/__future__.html#module-__future__">https://docs.python.org/2/library/<strong>future</strong>.html</a>)
+<h1>②print function</h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">Although the print syntax is a small change in Python 3 and should be well known by now, it's still worth mentioning: the print statement in Python 2 was replaced by the print() function in Python 3, which means that in Python 3 the object to be output must be enclosed in parentheses.
+
+Using extra parentheses is also possible in Python 2. But conversely, when you want to call the print function in Python 2 without parentheses in Python 3, a SyntaxError will be triggered.<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<strong>Python 2</strong>
+<pre><code class="language-python">print 'Python', python_version()
+print 'Hello, World!'
+print('Hello, World!')
+print "text", ; print 'print more text on the same line'
+#结果---------------
+Python 2.7.6
+Hello, World!
+Hello, World!
+text print more text on the same line
+ 
+</code></pre>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<strong>Python 3</strong>
+<pre><code class="language-python">print('Python', python_version())
+print('Hello, World!')
+  
+print("some text,", end="") 
+print(' print more text on the same line')
+
+#结果-------------
+Python 3.4.1
+Hello, World!
+some text, print more text on the same line
+</code></pre>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<strong>Notice:</strong>In Python, it is normal to output "Hello World" with or without parentheses. But if you print multiple objects at the same time in parentheses, a tuple will be created. This is because in Python 2, print is a statement, not a function call.<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<h1 id="division"><span style="line-height: 36px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; font-style: normal; font-weight: bold;">③Integer division</span></h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">Since people often overlook the changes in integer division in Python 3 (a Syntax Error will not be triggered if written incorrectly), you need to pay special attention to this change when porting code or executing Python 3 code in Python 2.
+
+Therefore, I will still try to use float(3)/2 or 3/2.0 instead of 3/2 in the Python 3 script to avoid errors that the code may cause in the Python 2 environment (or conversely, use from __future__ import division in the Python 2 script to use Python 3 division).<h1>④xrange</h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">In Python 2.x, xrange() is often used to create an iterable object, usually in a "for loop" or "list/set/dictionary comprehension".
+
+This behavior is very similar to generators (like "lazy evaluation"), but here the xrange-iterable is endless, meaning that it is possible to iterate infinitely over this xrange.
+
+Due to the "lazy seeking" feature of xrange, range() is usually faster than xrange() if it only needs to be iterated once (such as in a for loop). However, it is not recommended to use range() over multiple iterations, because range() will regenerate a list in memory each time.
+
+In Python 3, range() is implemented in the same way as the xrange() function, so there is no dedicated xrange() (using xrange() in Python 3 will trigger a NameError).<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<h1 id="for"><span style="line-height: 36px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; font-style: normal; font-weight: bold;">⑤For loop variables and global namespace leaks</span></h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">The good news is: in Python 3.x, variables in for loops no longer leak into the global namespace!
+
+This is a change made in Python 3.x, described as follows in "What's New In Python 3.0":
+
+"List comprehensions no longer support the syntax [... for var in item1, item2, ...], use [... for var in (item1, item2, ...)] instead. Also note that list comprehensions have different semantics: List comprehensions are now closer to the syntactic sugar of generator expressions in the list() constructor. In particular, note that loop control variables no longer leak into the space around the loop."<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<h1 id="input"><span style="line-height: 36px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; font-style: normal; font-weight: bold;">⑥Parse user input through input()</span></h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">Fortunately, Python 3 improved the input() function so that it will always store user input as a str object. In Python 2, in order to avoid some dangerous behaviors that occur when reading non-string types, raw_input() has to be used instead of input().<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">
+<h1 id="iterable"><span style="line-height: 36px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; font-style: normal; font-weight: bold;">⑦Return iterable objects instead of lists</span></h1>
+<div id="head">
+<div id="contents">
+<div class="main clearfix">
+<div class="w690 fl">
+<div class="article-content border">
+<div id="content">As you can see in the xrange section, some functions and methods return iterable objects in Python instead of lists in Python 2.
+
+Since these objects are usually traversed only once, this approach saves a lot of memory. However, iterating through these objects multiple times through a generator is inefficient.
+
+At this point we really need a list object, and we can simply convert the iterable object into a list through the list() function.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-111">
+          <strong>咳咳</strong>
+          <time>2017-09-06 20:07:18</time>
+          <div>不全</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QQ聊天记录多角度分析Python实现 · OmegaXYZ</title>
+  <meta name="description" content="简介 有时候我们想看看自己跟另一个人的时长、频率、时间等或者是聊天过程中谁更在乎谁多一点，谁是话痨，聊天性格怎么样，这时就需要一个聊天记录分析的程序。 下面的Python代码能够统计聊天记录中的时间、消息次数、文本长度、词频等信息。 当然有一些小bug，这将在将来的更新中得到修复。 使用到的Python模块 ①jieba：结巴分词，用来处...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/07/02/qqmessage-raw/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-02</div>
+        <h1>QQ聊天记录多角度分析Python实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>简介</strong></h2>
+有时候我们想看看自己跟另一个人的时长、频率、时间等或者是聊天过程中谁更在乎谁多一点，谁是话痨，聊天性格怎么样，这时就需要一个聊天记录分析的程序。
+
+下面的Python代码能够统计聊天记录中的时间、消息次数、文本长度、词频等信息。
+
+当然有一些小bug，这将在将来的更新中得到修复。
+<h2><strong>使用到的Python模块</strong></h2>
+<ul>
+ 	<li>①jieba：结巴分词，用来处理聊天记录中的文本，尤其是中文文本。</li>
+ 	<li>②matplotlib.pyplot：用来画折线图、条形图等。</li>
+ 	<li>③matplotlib.*.PdfPages：用来将数据及结果生成PDF文件。</li>
+ 	<li>④xlwt：将词频信息写到xls中。</li>
+</ul>
+<h2><strong>注意点</strong></h2>
+<ul>
+ 	<li>①QQ中的聊天记录文件的昵称是每一阶段的昵称（时间不同昵称可能不同）。</li>
+ 	<li>②聊天文件中的字符一定要使用utf-8编码。</li>
+ 	<li>③利用matplotlib画图时中文字体一定要导入到当前文件夹下（Windows系统C盘下面有字体）</li>
+</ul>
+<h2><strong>QQ聊天记录的导出</strong></h2>
+<strong>环境：</strong>截止到2018年7月最新的QQ
+
+①选择消息管理器
+
+<img class="alignnone size-full wp-image-4676" src="https://cdn.omegaxyz.com/2018/07/qqmessage1.png" alt="" width="652" height="693" />
+
+②导出消息记录
+
+<img class="alignnone size-full wp-image-4677" src="https://cdn.omegaxyz.com/2018/07/qqmessage2.png" alt="" width="360" height="266" />
+
+③保存为txt文件
+
+<img class="alignnone size-full wp-image-4678" src="https://cdn.omegaxyz.com/2018/07/qqmessage3.png" alt="" width="606" height="437" />
+
+注意导出后放到代码目录下即可
+<h2><strong>代码主要步骤</strong></h2>
+<ul>
+ 	<li>①变量初始化</li>
+ 	<li>②读取QQ聊天记录txt文件</li>
+ 	<li>③利用结巴模块对聊天记录进行分析</li>
+ 	<li>④利用matplotlib画图并导出成PDF文件</li>
+</ul>
+<h2><strong>核心代码</strong></h2>
+<strong>代码有bug</strong>：
+<ul>
+ 	<li>①非utf-8编码问题导致数据无法加载（使用过颜表情的记录会出现，这里需要手动清除）</li>
+ 	<li>②词频统计中文与英文混乱（小bug，不影响使用）</li>
+</ul>
+因此只给出核心代码，修复后所有代码将在未来上传至github
+
+<span style="color: #ff0000;"><strong>获取最新信息请持续关注或在首页订阅omegaxyz.com</strong></span>
+<pre ><code class="language-python">import jieba
+import re
+import jieba.analyse
+import xlwt
+from matplotlib import font_manager
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+
+myfont = font_manager.FontProperties(fname='simhei.ttf')
+mpl.rcParams['axes.unicode_minus'] = False
+
+f = open("qk.txt", "r")  # 以追加的方式
+
+message = f.readlines()
+name1 = 'PuzzleX'#我的昵称
+name1_message = []
+name2 = '输入另一个人的昵称'
+name2_message = []
+name1_word_count = 0
+name2_word_count = 0
+name1_time = []
+name2_time = []
+wbk = xlwt.Workbook(encoding='ascii')
+sheet = wbk.add_sheet("message")  # Excel单元格名字
+word_lst = []
+key_list = []
+pat = re.compile(r'(\d{4}-\d{1,2}-\d{1,2})')
+pdf = PdfPages(name1 + '与' + 'DEMO' + '聊天记录分析' + '.pdf')
+for line in message:  # 1.txt是需要分词统计的文档
+        try:
+            item = line.strip('\n\r').split('\t')  # 制表格切分
+            tags = jieba.analyse.extract_tags(item[0])  # jieba分词
+            if pat.match(str(item[0])) and name1 in str(item[0]):
+                name1_time.append(item)
+            elif pat.match(str(item[0])) and name2 in str(item[0]):
+                name2_time.append(item)
+            if (len(tags) == 7 or 6) and name1 in tags:
+                pass
+            elif (len(tags) == 7 or 6) and name2 in tags:
+                pass
+            else:
+                # print(tags)
+                for t in tags:
+                    word_lst.append(t)
+        except:
+            pass
+
+#  print(word_lst)
+word_dict = {}
+with open("wordCount.txt", 'w') as wf2:  # 打开文件
+
+    for item in word_lst:
+        if item not in word_dict:  # 统计数量
+            word_dict[item] = 1
+        else:
+            word_dict[item] += 1
+
+    orderList = list(word_dict.values())
+    orderList.sort(reverse=True)
+    for i in range(len(orderList)):
+        for key in word_dict:
+            if word_dict[key] == orderList[i]:
+                wf2.write(key + ' ' + str(word_dict[key]) + '\n')  # 写入txt文档
+                key_list.append(key)
+                word_dict[key] = 0
+
+for i in range(len(key_list)):
+    sheet.write(i, 1, label=orderList[i])
+    sheet.write(i, 0, label=key_list[i])
+wbk.save('message.xls')  # 保存为 wordCount.xls文件
+
+for i in range(len(message)):
+    if name1 in message[i]:
+        name1_message.append(message[i+1])
+        name1_word_count += len(message[i+1])
+    if name2 in message[i]:
+        name2_message.append(message[i+1])
+        name2_word_count += len(message[i + 1])
+
+name1_count = len(name1_message)
+name2_count = len(name2_message)
+name1_time_do = {'0':0, '1':0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, '11': 0,
+                 '12': 0, '13': 0, '14': 0, '15': 0,'16': 0, '17': 0, '18': 0, '19': 0, '20': 0, '21': 0, '22': 0, '23': 0, }
+name2_time_do = {'0':0, '1':0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0, '11': 0,
+                 '12': 0, '13': 0, '14': 0, '15': 0, '16': 0, '17': 0, '18': 0, '19': 0, '20': 0, '21': 0, '22': 0, '23': 0, }
+
+for item in name1_time:
+    try:
+        name1_time_do[str(item[0])[11:13]] += 1
+    except KeyError:
+        name1_time_do[str(item[0])[11:12]] += 1
+for item in name2_time:
+    try:
+        name2_time_do[str(item[0])[11:13]] += 1
+    except KeyError:
+        name2_time_do[str(item[0])[11:12]] += 1
+
+time_range = name1_time[0][0][:11] + '到' + name1_time[-1][0][:11]
+
+plt.figure()
+plt.axis('off')
+t = name1 + '与' + 'DEMO' + '的聊天记录分析' + '\nomegaxyz.com\n\n' + name1 + '的消息发送次数为： ' + str(name1_count) + '\n' + 'DEMO' + \
+    '的消息发送次数为： ' + str(name2_count) + '\n' + name1 + '的消息发送消息字数为： ' + str(name1_word_count) + '\n' + 'DEMO' + \
+    '的消息发送消息字数为： ' + str(name2_word_count) + '\n\n' + time_range + '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+plt.text(0, 0, t, ha='left', wrap=True, fontproperties=myfont)
+pdf.savefig()
+plt.close()
+
+word_T1 = ' 聊天词频分析\n'
+for i in range(25):
+    word_T1 += key_list[i]
+    word_T1 += '：'
+    word_T1 += str(orderList[i]) + '\n'
+plt.figure()
+plt.axis('off')
+plt.text(0, 0, word_T1, ha='left', wrap=True, fontproperties=myfont)
+pdf.savefig()
+plt.close()
+
+word_T2 = ''
+for i in range(25):
+    word_T2 += key_list[i+25]
+    word_T2 += '：'
+    word_T2 += str(orderList[i+25]) + '\n'
+plt.figure()
+plt.axis('off')
+plt.text(0, 0, word_T2, ha='left', wrap=True, fontproperties=myfont)
+pdf.savefig()
+plt.close()
+
+
+# print(orderList[0:10])
+# print(key_list[0:10])
+rects = plt.bar(range(len(orderList[0:11])), orderList[0:11], color='rgby')
+# X轴标题
+index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+plt.ylim(ymax=orderList[0]*1.1, ymin=0)
+plt.xticks(index, key_list[0:11], fontproperties=myfont)
+plt.ylabel("次数", fontproperties=myfont)  # X轴标签
+plt.title('聊天最多的词（包括表情和图片）', fontproperties=myfont)
+
+for rect in rects:
+    height = rect.get_height()
+    plt.text(rect.get_x() + rect.get_width() / 2, height, str(height), ha='center', va='bottom')
+plt.savefig('Top10 words.jpg')
+pdf.savefig()
+# plt.show()
+plt.close()
+
+plt.axis([0, 23, 0, 600])
+plt.ion()
+# print(list(name1_time_do))
+plt.plot(list(name1_time_do), list(name1_time_do.values()), color='red', label='User1')
+plt.plot(list(name2_time_do), list(name2_time_do.values()), color='blue', label='User2')
+plt.xlabel('时间（24小时制）', fontproperties=myfont)
+plt.ylabel('频率', fontproperties=myfont)
+plt.title('聊天时间分布', fontproperties=myfont)
+plt.savefig('time frequency.jpg')
+pdf.savefig()
+# plt.show()
+plt.close()
+
+pdf.close()
+</code></pre>
+<h2><strong>未来的工作</strong></h2>
+<ul>
+ 	<li>①修复bug</li>
+ 	<li>②GUI界面</li>
+ 	<li>③利用机器学习算法推测聊天用户性格</li>
+</ul>
+<h2><strong>测试</strong></h2>
+①主要信息
+
+<img class="alignnone size-full wp-image-4680" src="https://cdn.omegaxyz.com/2018/07/qqmessage5.jpg" alt="" width="339" height="211" />
+
+②词频
+
+<img class="alignnone  wp-image-4681" src="https://cdn.omegaxyz.com/2018/07/qqmessage6.jpg" alt="" width="462" height="463" />
+
+<img class="alignnone  wp-image-4682" src="https://cdn.omegaxyz.com/2018/07/qqmessage7.png" alt="" width="607" height="447" />
+
+③聊天时间分布
+
+<img class="alignnone size-full wp-image-4683" src="https://cdn.omegaxyz.com/2018/07/qqmessage8.png" alt="" width="629" height="482" />
+
+④导出的PDF文件
+
+<img class="alignnone size-full wp-image-4684" src="https://cdn.omegaxyz.com/2018/07/qqmessage9.png" alt="" width="575" height="23" />
+<p style="text-align: center;"><strong><span style="color: #ff0000;">网站所有原创代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license"> Apache 2.0 </a>授权 </span></strong>
+<strong><span style="color: #ff0000;">网站文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"> BY-NC-SA4.0 </a>授权</span></strong></p>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-3730">
+          <strong>cyh</strong>
+          <time>2018-07-02 21:32:37</time>
+          <div>巨厉害</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3731">
+          <strong>xyjisaw</strong>
+          <time>2018-07-02 22:27:10</time>
+          <div>Thanks♪(･ω･)ﾉ</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16901">
+          <strong>路文龙</strong>
+          <time>2019-05-06 11:35:38</time>
+          <div>你好怎么联系您</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16902">
+          <strong>xyjisaw</strong>
+          <time>2019-05-06 11:40:13</time>
+          <div>页面下方微信二维码</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

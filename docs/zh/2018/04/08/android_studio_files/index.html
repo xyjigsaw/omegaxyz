@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关于Android Studio工程目录结构分析 · OmegaXYZ</title>
+  <meta name="description" content="Android Studio自动生成第一个Hello World文件后项目中有很多目录。 同样地其它工程文件也会想hello world程序包含这些目录。下面以Hello Android为原型介绍目录结构。 一开始是Android文件框架，将目录框架改为Project便于分析（深蓝色上面一行显示的project） 不需要过度关心的文件及目...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/08/android_studio_files/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-08</div>
+        <h1>关于Android Studio工程目录结构分析</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../tag/android/index.html">Android</a></div>
+        <div class="article-content">Android Studio自动生成第一个Hello World文件后项目中有很多目录。
+同样地其它工程文件也会想hello world程序包含这些目录。下面以Hello Android为原型介绍目录结构。
+<strong>一开始是Android文件框架，将目录框架改为Project便于分析（深蓝色上面一行显示的project）</strong>
+
+<img class="alignnone size-full wp-image-3968" src="https://cdn.omegaxyz.com/2018/04/android-files.jpg" alt="" width="498" height="843" />
+
+不需要过度关心的文件及目录① .gradle ②.idea ③build 等。
+
+<strong>需要注意的目录有 app 这个目录中保存了你的App的代码及资源。</strong>
+
+app目录要注意的文件及目录有
+
+①libs：如果你的项目中使用到了第三方jar包，需要把这些jar包放在此目录下，放在这个目录下的jar包都会被自动添加到构建路径中去。
+②src中的res目录中包含了所有图片、布局、字符串等资源。
+③drawable放图片，布局放在layout下，字符串放在values下。
+注意layout可以进行可视化布局，布局代码自动生成，比手写代码方便多了。
+下图是layout中的activity_example.xml文件
+<img class="alignnone size-full wp-image-3969" src="https://cdn.omegaxyz.com/2018/04/android-layout.jpg" alt="" width="907" height="557" />
+④AndroidManifest.xml是Android应用的入口文件，它描述了package中暴露的组件（activities, services, 等等），他们各自的实现类，各种能被处理的数据和启动位置。 除了能声明程序中的Activities, ContentProviders, Services, 和Intent Receivers,还能指定permissions和instrumentation（安全控制和测试）。
+⑤mipmap开头的文件夹都是用来放应用图标的，之所以这么多是为了兼容多种设备。
+⑥JAVA目录里面包含程序的源代码。
+
+参考资料：郭霖. 第一行代码[M]. 人民邮电出版社, 2014.
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

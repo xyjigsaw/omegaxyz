@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Large model Alpaca Farmm analysis · OmegaXYZ</title>
+  <meta name="description" content="This study presents a simulation framework called Alpaca Farm, which aims to reduce the cost of learning methods from human feedback. The author designed large language model tips that simulate human feedback, significantly reducing the cost of data collection and achieving a high degree of consistency with human evaluation. In addition, they proposed an automated assessment methodology, which was validated through directives in human interactions in practice. The study also contributed to the realization of a number of reference methods to be learned from feedback and in real people...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2024/12/18/alpacafarm/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-12-18</div>
+        <h1>Large model Alpaca Farmm analysis</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<img alt="" class="alignnone wp-image-8002" height="493" src="https://cdn.omegaxyz.com/2024/12/alpacafarm_title.png" width="550"/>
+<h2><strong>Summary</strong></h2>The study presents a simulation framework called Alpaca Farm, which aims to reduce the cost of learning methods from human feedback. The author designed large language model tips that simulate human feedback, significantly reducing the cost of data collection and achieving a high degree of consistency with human evaluation. In addition, they proposed an automated assessment methodology, which was validated through directives in human interactions in practice. The study also contributed to the realization of a number of reference methods for learning from reciprocal feedback and trained and evaluated 11 models for real human feedback, demonstrating that the ranking of models trained in Alpaca Farm matched that of models trained in human data. Research has shown that the use of incentive models can significantly improve the performance of supervisory fine-tuning and that the PPO achieved a 10 per cent increase in success over Davinci003.
+
+<img alt="" class="alignnone wp-image-8003" height="383" src="https://cdn.omegaxyz.com/2024/12/alpacafarm.png" width="572"/>
+<h2><strong>II. ISSUES AND CHALLENGES</strong></h2>
+<strong>Issues addressed</strong>Large-language models are complex work streams that fine-tune human preferences and require a great deal of manual feedback to enhance the capabilities behind models SFT. Therefore, there is a need for a low cost, trustworthy and able to replace existing model training (RLHF) processes based on human feedback. There is also a need for well-developed assessment and validation methods to validate their effectiveness.
+
+<strong>Challenges</strong>
+<ul>
+<li>Prefer data labelling high cost</li>
+<li>Lack of a credible model automated assessment tool</li>
+<li>Lack of reference method approach</li>
+</ul>
+<h2><strong>Innovations and shortcomings</strong></h2>
+<strong>Innovation point</strong>
+<ul>
+<li>Use API LLMs to simulate human feedback labels and significantly reduce the cost of preference data labelling</li>
+<li>An automated assessment tool was proposed and validated through a genuine human interaction directive</li>
+<li>A variety of reference models (relative to API LLMs) were provided, such as PPO, best-of-n, expert iterative, etc.</li>
+</ul>
+<strong>Useful effects</strong>
+<ul>
+<li>Examine the impact of feedback preferences on model performance in a simulated environment, enabling rapid iterative model development</li>
+<li>The performance of the model is enhanced through feedback from the category of people at low resource, low cost scenarios</li>
+<li>The sex in the real world can be validated through simulation feedback training models.</li>
+</ul>
+<strong>Limitations</strong>
+<ul>
+<li>It's obvious that simulated feedback cannot capture human feedback completely.<strong>Diversity, heterogeneity</strong>Other features</li>
+<li>Automatic assessment methods need to be continuously updated to accommodate new directives and types of feedback</li>
+<li>More research is needed to verify that simulators are in different fields and tasks.<strong>Generality</strong>For example:
+<ul>
+<li>Differences between general data and vertical area data</li>
+<li>Impact of model parameters on performance</li>
+<li>Impact of preferences on performance</li>
+<li>Diversity of API LLM types (only decoder-only models are used in the article as API)</li>
+<li>Equity of the evaluation perspective</li>
+</ul>
+</li>
+</ul>
+<h2><strong>IV. Reflections on and application of the mission in the periphery</strong></h2>
+<strong>What are the pathways for enhancing the performance of large models on missions in the periphery based on expert feedback?</strong>
+<ol>
+<li><strong>Enhanced human feedback in learning (</strong><strong>RLHF, Reinforcement Learning from Human Feedback</strong><strong>）：</strong>Human feedback is used to guide the incentive function of enhanced learning. Model behaviour is guided by positive or negative incentives through the evaluation of model outputs [1].</li>
+</ol>
+<strong>Strengths:</strong>It contributes to a better understanding of human preferences and requirements, thereby generating outputs that are more responsive to mission needs.
+
+<strong>Technical challenges:</strong>
+<ul>
+<li><strong>Incentive function design:</strong>Designing a reasonable incentive function is difficult because it requires an accurate reflection of human preferences, while not being too complex to optimize.</li>
+<li><strong>Quality and consistency of feedback:</strong>Different reviewers may give different evaluations of the same output, resulting in inconsistent feedback signals (which are expressed as noise in Alpacafarm and whether this inconsistency will promote or impede model performance that has not been sufficiently validated).</li>
+<li><strong>Calculation and resource costs:</strong>RLHF requires considerable computing resources for model training and frequent human evaluation at higher cost.</li>
+<li><strong>The balance between universality and diversity:</strong>In the paper [1], RLHF has a stronger generalization of new inputs than SFT, especially when the distribution between training and testing has become larger. However, RLHF has significantly reduced output diversity in various measurements compared to SFT, so LLM fine-tuning needs to take into account the trade-off between generalized capacity and output diversity.</li>
+</ul>
+<strong>Research directions:</strong>
+<ul>
+<li>Develop more intelligent and flexible incentive function design methods, including self-adaptation incentive mechanisms and incentive functions based on multi-purpose optimization [2,3,14] to ensure the diversity and generalization of their evaluation.</li>
+<li>Introduce consistency adjustments and quality control mechanisms to explore the impact of consistency and reliability of human feedback on training [4,5].</li>
+<li>Explore effective RLHF training under limited computing resources (e.g. in this paper) [6,7].</li>
+</ul>
+ 
+<ol start="2">
+<li><strong>Humans are on their way back.</strong><strong>HITL, Human in the Loop</strong><strong>）：</strong>Human intervention is introduced in model training and assessment processes, and human feedback is used to correct and optimize model outputs. Specifically, humans can participate in data labelling, correct error outputs in real time and provide further explanations and guidance [8].</li>
+</ol>
+<strong>Strengths:</strong>To improve the accuracy and reliability of models in specific areas, real-time input by human experts helps to quickly correct the errors of models.
+
+<strong>Means of implementation:</strong>Create an interactive system that allows human experts to provide instant feedback and modifications to the model when generating responses and to use these feedback as training data for the model.
+
+<strong>Technical challenges:</strong>
+<ul>
+<li><strong>Response time and efficiency:</strong>Human intervention increases the system ' s response time and may lead to delays and reduced efficiency in real-time applications.</li>
+<li><strong>Extension:</strong>As the size of the model and the volume of data increase, the scale of manual participation needs to increase accordingly and may not be sustainable.</li>
+<li><strong>Dependence of human experts:</strong>Reliance on high-quality human experts may become a bottleneck, especially in highly specialized vertical areas, where it may be difficult to find suitable experts for sustained feedback.</li>
+</ul>
+<strong>Research directions:</strong>
+<ul>
+<li>Humans interact to develop semi-automated assistive tools to reduce the intervention time and workload of human experts in the loop [9,10].</li>
+<li>In addition, reliance on RLHF for experts.</li>
+</ul>
+ 
+<ol start="3">
+<li><strong>Active learning (</strong><strong>Active Learning</strong><strong>）：</strong>The model takes the initiative to select the samples that it is most uncertain or unpredictable and requests human experts to mark them. This will maximize human feedback and improve the quality of training data and model performance [11].</li>
+</ol>
+<strong>Strengths:</strong>The efficient use of human resources and the focus on the most difficult or ambiguous samples can significantly improve the performance of models.
+
+<strong>Means of implementation:</strong>Using strategies such as uncertainty sampling, the model selects the samples most in need of human feedback and prioritizes them to human experts for labelling.
+
+<strong>Technical challenges:</strong>
+<ul>
+<li><strong>Complicated selection strategy:</strong>Selecting which samples require human feedback is a complex issue, especially when sample space is very large. The choice of strategy requires balancing uncertainty and representation to ensure that the selected sample maximizes model performance.</li>
+<li><strong>Timeliness of feedback:</strong>Active learning requires humans to quickly mark selected samples and, if feedback is not timely, may delay the updating and upgrading of models.</li>
+<li><strong>Imbalance in samples:</strong>In some cases, active learning may lead to data concentration in certain categories being too thin, thus affecting the performance of models in these categories.</li>
+</ul>
+<strong>Research directions:</strong>
+<ul>
+<li>Study sample balancing techniques to ensure a balanced distribution of data sets during active learning [12].</li>
+<li>Active learning is combined with Human-in-the-loop to improve the timeliness of its feedback [11].</li>
+<li>Explore data enhancement strategies for remote categories or OOD (out-of-distribution) scenarios to support active learning [13].</li>
+</ul>
+<h2><strong>References</strong></h2>
+[1] Kirk, Robert, et al. "Understanding the effects of rlhf on llm generalisation and diversity." <em>arXiv preprint arXiv:2310.06452</em> (2023).
+
+[2] Wang, Binghai, et al. "Secrets of rlhf in large language models part ii: Reward modeling." <em>arXiv preprint arXiv:2401.06080</em> (2024).
+
+[3] Yuan, Weizhe, et al. "Self-rewarding language models." arXiv preprint arXiv:2401.10020 (2024).
+
+[4] Li, Aaron J., Satyapriya Krishna, and Himabindu Lakkaraju. "More RLHF, More Trust? On The Impact of Human Preference Alignment On Language Model Trustworthiness." <em>arXiv preprint arXiv:2404.18870</em> (2024).
+
+[5] Wang, Shiqi, et al. "Offline RLHF Methods Need More Accurate Supervision Signals." <em>arXiv preprint arXiv:2408.09385</em> (2024).
+
+[6] Wang, Peiyi, et al. "Large language models are not fair evaluators." <em>arXiv preprint arXiv:2305.17926</em> (2023).
+
+[7] Sun, Zhiqing, et al. "Salmon: Self-alignment with principle-following reward models." <em>arXiv preprint arXiv:2310.05910</em> (2023).
+
+[8] Mosqueira-Rey, Eduardo, et al. "Human-in-the-loop machine learning: a state of the art." Artificial Intelligence Review 56.4 (2023): 3005-3054.
+
+[9] Wang, Xinbing, et al. "AceMap: Knowledge Discovery through Academic Graph." <em>arXiv preprint arXiv:2403.02576</em> (2024).
+
+[10] Amirizaniani, Maryam, et al. "Developing a framework for auditing large language models using human-in-the-loop." <em>arXiv preprint arXiv:2402.09346</em> (2024).
+
+[11] Kholodna, Nataliia, et al. "LLMs in the loop: leveraging large language model annotations for active learning in low-resource languages." <em>Joint European Conference on Machine Learning and Knowledge Discovery in Databases</em>. Cham: Springer Nature Switzerland, 2024.
+
+[12] Bayer, Markus, and Christian Reuter. "ActiveLLM: Large Language Model-based Active Learning for Textual Few-Shot Scenarios." arXiv preprint arXiv:2405.10808 (2024).
+
+[13] Gebreegziabher, Simret Araya, et al. "Leveraging Variation Theory in Counterfactual Data Augmentation for Optimized Active Learning." arXiv preprint arXiv:2408.03819 (2024).
+
+[14] Bansal, Hritik, John Dang, and Aditya Grover. "Peering through preferences: Unraveling feedback acquisition for aligning large language models." arXiv preprint arXiv:2308.15812 (2023).</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

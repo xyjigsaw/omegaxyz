@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variable Neighborhood Search (VNS) · OmegaXYZ</title>
+  <meta name="description" content="Let’s talk about local search first: Local search is a heuristic algorithm for solving optimization problems. For some optimization problems that are very complex to calculate, such as various NP-complete problems, the time required to find the optimal solution increases exponentially with the size of the problem. Therefore, various heuristic algorithms were born to find sub-optimal solutions. This is an approximate algorithm (Approximate algorithms) that trades time for accuracy. Local search is one of these methods. Variable neighborhood search algorithm...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/11/27/vns/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-27</div>
+        <h1>Variable Neighborhood Search (VNS)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content">Let’s talk about local search first:
+
+Local search is a heuristic algorithm for solving optimization problems. For some optimization problems that are very complex to calculate, such as various NP-complete problems, the time required to find the optimal solution increases exponentially with the size of the problem. Therefore, various heuristic algorithms were born to find sub-optimal solutions. This is an approximate algorithm (Approximate algorithms) that trades time for accuracy. Local search is one of these methods.<strong>The main idea of ​​the variable neighborhood search algorithm is:</strong>Systematic search using multiple different neighborhoods. First use the smallest neighborhood search, and when the solution cannot be improved, switch to a slightly larger neighborhood. If the solution can continue to be improved, return to the smallest neighborhood, otherwise continue to switch to a larger neighborhood.
+
+The characteristic of variable neighborhood search is to use neighborhood structures composed of different actions to conduct alternate searches, achieving a good balance between centralization and dispersion. Its thinking can be summarized as "change leads to generalization".<strong>The process is described as follows:</strong>
+<img alt="" class="alignnone wp-image-2514 size-full" height="370" src="https://cdn.omegaxyz.com/2017/11/VNS1.png" width="1036"/>Each time the neighborhood is transformed, the searched landscape is switched. The effect is as follows:<img alt="" class="alignnone wp-image-2515 size-full" height="493" src="https://cdn.omegaxyz.com/2017/11/VNS2.png" width="1041"/>Two versions of pseudocode are provided below:
+
+Pseudo code:<img alt="" class="alignnone wp-image-2517 size-full" height="514" src="https://cdn.omegaxyz.com/2017/11/VNS4.png" width="696"/>
+<img alt="" class="alignnone wp-image-2516 size-full" height="364" src="https://cdn.omegaxyz.com/2017/11/VNS3.png" width="478"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

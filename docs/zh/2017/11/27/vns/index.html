@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>变邻域搜索算法（Variable Neighborhood Search,VNS） · OmegaXYZ</title>
+  <meta name="description" content="先说一下局部搜索： 局部搜索是解决最优化问题的一种启发式算法。对于某些计算起来非常复杂的最优化问题，比如各种NP完全问题，要找到最优解需要的时间随问题规模呈指数增长，因此诞生了各种启发式算法来退而求其次寻找次优解，是一种近似算法（Approximate algorithms），以时间换精度的思想。局部搜索就是其中的一种方法。 变邻域搜索算...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/11/27/vns/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-27</div>
+        <h1>变邻域搜索算法（Variable Neighborhood Search,VNS）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="article-content">先说一下局部搜索：
+
+局部搜索是解决最优化问题的一种启发式算法。对于某些计算起来非常复杂的最优化问题，比如各种NP完全问题，要找到最优解需要的时间随问题规模呈指数增长，因此诞生了各种启发式算法来退而求其次寻找次优解，是一种近似算法（Approximate algorithms），以时间换精度的思想。局部搜索就是其中的一种方法。
+
+<strong>变邻域搜索算法的主要思想是：</strong>采用多个不同的邻域进行系统搜索。首先采用最小的邻域搜索，当无法改进解时，则切换到稍大一点的邻域。如果能继续改进解，则退回到最小的邻域，否则继续切换到更大的邻域。
+
+变邻域搜索的特点是利用不同的动作构成的邻域结构进行交替搜索，在集中性和疏散性之间达到很好的平衡。其思想可以概括为“变则通”。
+
+<strong>过程描述如下：</strong>
+
+<img class="alignnone wp-image-2514 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS1.png" alt="" width="1036" height="370" />
+
+每变换一次邻域，相对于切换了搜索的地形（landscape）。效果如下：
+
+<img class="alignnone wp-image-2515 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS2.png" alt="" width="1041" height="493" />
+
+下面提供两个版本的伪代码：
+
+伪代码：
+
+<img class="alignnone wp-image-2517 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS4.png" alt="" width="696" height="514" />
+
+<img class="alignnone wp-image-2516 size-full" src="https://cdn.omegaxyz.com/2017/11/VNS3.png" alt="" width="478" height="364" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

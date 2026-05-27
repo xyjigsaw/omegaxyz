@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python多线程（threading模块） · OmegaXYZ</title>
+  <meta name="description" content="CPU越来越快我们不能满足Python同一时间只做一件事，需要三心二意，多任务处理（mutiltasking）这就需要使用多线程，让程序在同一时间做很多事。 下面简单介绍threading模块。 Thread 是threading模块中最重要的类之一，可以使用它来创建线程。有两种方式来创建线程：一种是通过继承Thread类，重写它的run...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/19/python_threading/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-19</div>
+        <h1>Python多线程（threading模块）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a></div>
+        <div class="article-content">CPU越来越快我们不能满足Python同一时间只做一件事，需要三心二意，多任务处理（mutiltasking）这就需要使用多线程，让程序在同一时间做很多事。
+
+下面简单介绍threading模块。
+
+Thread 是threading模块中最重要的类之一，可以使用它来创建线程。有两种方式来创建线程：一种是通过继承Thread类，重写它的run方法；另一种是创建一个threading.Thread对象，在它的初始化函数（__init__）中将可调用对象作为参数传入。
+
+下面的代码是创建threading.Thread对象，对于初学使用者已经够了。
+<pre ><code class="language-python">import threading
+from time import ctime, sleep
+
+
+def event1(func):
+    for i in range(2):
+        print("时间：%s 我正在学习 %s。" % (ctime(), func))
+        sleep(2)
+
+
+def event2(func):
+    for i in range(2):
+        print("时间：%s 我正在听%s。" % (ctime(), func))
+        sleep(3)
+
+
+threads = []
+t1 = threading.Thread(target=event1,args=('Python',))
+threads.append(t1)
+t2 = threading.Thread(target=event2,args=('Shape of you',))
+threads.append(t2)
+
+if __name__ == '__main__':
+    for t in threads:
+        t.setDaemon(True)
+        t.start()
+    print("all over %s" % ctime())
+</code></pre>
+<img class="alignnone  wp-image-2223" src="https://cdn.omegaxyz.com/2017/10/threading1-300x47.png" alt="" width="447" height="70" />
+
+看结果时间相同。
+
+&nbsp;
+
+threading.Thread类的初始化函数原型：
+
+def __init__(self, group=None, target=None, name=None, args=(), kwargs={})
+<ul>
+ 	<li>　　参数group是预留的，用于将来扩展；</li>
+ 	<li>　　参数target是一个可调用对象（也称为活动[activity]），在线程启动后执行；</li>
+ 	<li>　　参数name是线程的名字。默认值为“Thread-N“，N是一个数字。</li>
+ 	<li>　　参数args和kwargs分别表示调用target时的参数列表和关键字参数。</li>
+</ul>
+&nbsp;
+
+Thread类还定义了以下常用方法与属性：
+
+<strong>Thread.getName()</strong>
+
+<strong>Thread.setName()</strong>
+
+<strong>Thread.name</strong>
+
+用于获取和设置线程的名称。
+
+<strong>Thread.ident</strong>
+
+获取线程的标识符。线程标识符是一个非零整数，只有在调用了start()方法之后该属性才有效，否则它只返回None。
+
+<strong>Thread.is_alive()</strong>
+
+<strong>Thread.isAlive()</strong>
+
+判断线程是否是激活的（alive）。从调用start()方法启动线程，到run()方法执行完毕或遇到未处理异常而中断 这段时间内，线程是激活的。
+
+<strong>Thread.join([timeout])</strong>
+
+调用Thread.join将会使主调线程堵塞，直到被调用线程运行结束或超时。参数timeout是一个数值类型，表示超时时间，如果未提供该参数，那么主调线程将一直堵塞到被调线程结束。
+
+<strong>threading.Timer</strong>
+
+threading.Timer是threading.Thread的子类，可以在指定时间间隔后执行某个操作。
+
+<strong>threading.Event</strong>
+
+Event实现与Condition类似的功能，不过比Condition简单一点。它通过维护内部的标识符来实现线程间的同步问题。（threading.Event和.NET中的System.Threading.ManualResetEvent类实现同样的功能。）
+
+<strong>Event.wait([timeout])</strong>
+
+堵塞线程，直到Event对象内部标识位被设为True或超时（如果提供了参数timeout）。
+
+<strong>Event.set()</strong>
+
+将标识位设为Ture
+
+<strong>Event.clear()</strong>
+
+将标识伴设为False。
+
+<strong>Event.isSet()</strong>
+
+判断标识位是否为Ture。
+
+<strong>threading.active_count()</strong>
+<strong>threading.activeCount()</strong>
+
+获取当前活动的(alive)线程的个数。
+
+<strong>threading.current_thread()</strong>
+<strong>threading.currentThread()</strong>
+
+获取当前的线程对象（Thread object）。
+
+<strong>threading.enumerate()</strong>
+
+获取当前所有活动线程的列表。
+
+<strong>threading.settrace(func)</strong>
+
+设置一个跟踪函数，用于在run()执行之前被调用。
+
+<strong>threading.setprofile(func)</strong>
+
+设置一个跟踪函数，用于在run()执行完毕之后调用。
+
+更多内容：<a href="http://python.jobbole.com/81546/">http://python.jobbole.com/81546/</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

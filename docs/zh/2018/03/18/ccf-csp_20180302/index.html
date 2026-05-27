@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CCF CSP认证碰撞的小球 · OmegaXYZ</title>
+  <meta name="description" content="问题描述 数轴上有一条长度为L（L为偶数)的线段，左端点在原点，右端点在坐标L处。有n个不计体积的小球在线段上，开始时所有的小球都处在偶数坐标上，速度方向向右，速度大小为1单位长度每秒。 当小球到达线段的端点（左端点或右端点）的时候，会立即向相反的方向移动，速度大小仍然为原来大小。 当两个小球撞到一起的时候，两个小球会分别向与自己原来移动...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/03/18/ccf-csp_20180302/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-18</div>
+        <h1>CCF CSP认证碰撞的小球</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><div class="pdsec"><strong>问题描述</strong></div>
+<div class="pdcont">　　数轴上有一条长度为L（L为偶数)的线段，左端点在原点，右端点在坐标L处。有n个不计体积的小球在线段上，开始时所有的小球都处在偶数坐标上，速度方向向右，速度大小为1单位长度每秒。
+当小球到达线段的端点（左端点或右端点）的时候，会立即向相反的方向移动，速度大小仍然为原来大小。
+当两个小球撞到一起的时候，两个小球会分别向与自己原来移动的方向相反的方向，以原来的速度大小继续移动。
+现在，告诉你线段的长度L，小球数量n，以及n个小球的初始位置，请你计算t秒之后，各个小球的位置。</div>
+<div class="pdsec"><strong>提示</strong></div>
+<div class="pdcont">　　因为所有小球的初始位置都为偶数，而且线段的长度为偶数，可以证明，不会有三个小球同时相撞，小球到达线段端点以及小球之间的碰撞时刻均为整数。
+同时也可以证明两个小球发生碰撞的位置一定是整数（但不一定是偶数）。</div>
+<div class="pdsec"><strong>输入格式</strong></div>
+<div class="pdcont">　　输入的第一行包含三个整数n, L, t，用空格分隔，分别表示小球的个数、线段长度和你需要计算t秒之后小球的位置。
+第二行包含n个整数a1, a2, …, an，用空格分隔，表示初始时刻n个小球的位置。</div>
+<div class="pdsec"><strong>输出格式</strong></div>
+<div class="pdcont">　　输出一行包含n个整数，用空格分隔，第i个整数代表初始时刻位于ai的小球，在t秒之后的位置。</div>
+<div class="pdsec"><strong>样例输入</strong></div>
+<div class="pddata">3 10 5
+4 6 8</div>
+<div class="pdsec"><strong>样例输出</strong></div>
+<div class="pddata">7 9 9</div>
+<div class="pdsec"><strong>样例说明</strong></div>
+<div class="pdcont">　　<img class="alignnone size-full wp-image-3771" src="https://cdn.omegaxyz.com/2018/03/CCFCSP20183.jpg" alt="" width="734" height="789" /></div>
+<div>
+<div class="pdsec"><strong>样例输入</strong></div>
+<div class="pddata">10 22 30
+14 12 16 6 10 2 8 20 18 4</div>
+<div class="pdsec"><strong>样例输出</strong></div>
+<div class="pddata">6 6 8 2 4 0 4 12 10 2</div>
+<div class="pdsec"><strong>数据规模和约定</strong></div>
+<div class="pdcont">　　对于所有评测用例，1 ≤ n ≤ 100，1 ≤ t ≤ 100，2 ≤ L ≤ 1000，0 &lt; ai &lt; L。L为偶数。
+保证所有小球的初始位置互不相同且均为偶数。</div>
+</div>
+<div><strong>代码：</strong></div>
+<div>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+class Ball{
+public:
+    int position;
+    bool lorr = true;
+};
+
+int main()
+{
+    int L;
+    int n;
+    int time;
+    cin&gt;&gt;n&gt;&gt;L&gt;&gt;time;
+    vector&lt;Ball&gt; vec;
+    for(int i=0;i&lt;n;i++){
+        Ball temp;
+        int temp_p;
+        cin&gt;&gt;temp_p;
+        temp.position=temp_p;
+        vec.push_back(temp);
+    }
+    for(int i=0;i&lt;time;i++){
+        for(int j =0; j&lt;vec.size();j++){
+            if(vec[j].position == L){
+                vec[j].lorr = false;
+            }else if(vec[j].position == 0){
+                vec[j].lorr = true;
+            }
+            for(int k=0;k&lt;vec.size();k++){
+                if(vec[j].position == vec[k].position){
+                    if(vec[j].lorr==false){
+                        vec[j].lorr = true;
+                        vec[k].lorr = false;
+                    } else{
+                        vec[j].lorr = false;
+                        vec[k].lorr = true;
+                    }
+                    break;
+                }
+            }
+        }
+        for(int j=0;j&lt;vec.size();j++){
+            if(vec[j].lorr==true){
+                vec[j].position++;
+            }
+            else{
+                vec[j].position--;
+            }
+        }
+    }
+    for(int i =0;i&lt;vec.size();i++){
+        cout&lt;&lt;vec[i].position&lt;&lt;" ";
+    }
+    return 0;
+}
+</code></pre>
+</div>
+<div></div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

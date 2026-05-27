@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ant colony algorithm shortest path planning with multiple exits and questions and answers · OmegaXYZ</title>
+  <meta name="description" content="Recently, many people have asked me how to set up multiple exits for the ant colony algorithm shortest path planning. It turns out that the 2019 US competition question D &quot;Saving the Louvre&quot; needs to be used. I have not seen the questions in the US competition, so here are some immature codes. Introduction to Ant Colony Algorithm: Ant Colony Algorithm was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they exchange foraging information by secreting a biological hormone called pheromone, so that they can quickly find...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/01/28/aco_routes2/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-28</div>
+        <h1>Ant colony algorithm shortest path planning with multiple exits and questions and answers</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/aco/index.html">ACO算法</a></div>
+        <div class="article-content">Recently, many people have asked me how to set up multiple exits for the ant colony algorithm shortest path planning. It turns out that the 2019 US competition question D "Saving the Louvre" needs to be used. I have not seen the questions in the US competition, so here are some immature codes.<strong>Introduction to ant colony algorithm:</strong>The ant colony algorithm was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback.<strong>Single export situation:</strong>https://omegaxyz.com/2018/01/27/aco_routes/
+
+Here are the answers to the questions you have asked:<img alt="" class="alignnone wp-image-5440" height="557" src="https://cdn.omegaxyz.com/2019/01/aco-questions.png" width="717"/>
+<h2><strong>Question 1: How to modify the destination (minPL(i)=min(PLKPLK); error occurs)</strong></h2>For export, you only need to modify E, and nothing else needs to be modified. E is one-dimensional, and the following program will automatically parse it into horizontal and vertical coordinates (that is, Ex and Ey do not need to be modified)
+
+For example, E = MM*MM indicates that it is the last grid, MM*MM-j means that the grid in the lower right corner is translated j units to the left, and MM*MM-i*MM means that the grid in the lower right corner is translated upward i units.
+
+You can try the following outlets:<p class="p1">MM*MM, MM*MM-19*MM-5, MM*MM-7*MM, MM*MM-15*MM, MM*MM-17</p>
+<h2><strong>Question 2: How to deal with non-square matrices</strong></h2>First, MM needs to be modified as the side length. The following export horizontal and vertical coordinates Ex and Ey need to be re-analyzed, the related drawing parts need to be modified, and the pheromone matrix Tau needs to be modified.<h2><strong>Problem 3: G2D function cannot run</strong></h2>This may be a matlab version problem. For convenience, I placed the G2D function directly at the bottom of the code. If it cannot run, it is recommended to create a new file for the G2D function and delete G2D in the main function.
+
+G2D.m<pre><code class="language-matlab">function D=G2D(G) 
+    l=size(G,1); 
+    D=zeros(l*l,l*l); 
+    for i=1:l 
+        for j=1:l 
+            if G(i,j)==0 
+                for m=1:l 
+                    for n=1:l 
+                        if G(m,n)==0 
+                            im=abs(i-m);jn=abs(j-n); 
+                            if im+jn==1||(im==1&amp;&amp;jn==1) 
+                                D((i-1)*l+j,(m-1)*l+n)=(im+jn)^0.5; 
+                            end
+                        end 
+                    end 
+                end 
+            end 
+        end 
+    end
+end</code></pre>
+<h2><strong>Question 4: For the case of multiple exits</strong></h2>The code for this problem needs to be refactored, or a simple method can be used to create multiple threads with one outlet for each thread and finally draw the picture together.
+
+Set up an archive matrix to store all target points<pre><code class="language-matlab">Earchive = [MM*MM, MM*MM-19*MM-5, MM*MM-7*MM, MM*MM-15*MM, MM*MM-17];</code></pre>Make a big loop, re-run the ant colony algorithm each time, and finally draw the picture on a graph (use the matlab hold on statement)<span style="color: #ff0000;"><strong>Disclaimer: The procedures given above have nothing to do with the specific ideas of Question D of the 2019 American Modeling Competition.</strong></span></div>
+        <section class="comments"><h2>Comments (41)</h2>
+        <div class="comment" id="comment-12712">
+          <strong>Anonymous</strong>
+          <time>2019-03-21 11:11:02</time>
+          <div>请问多出口参考程序如何添加</div>
+        </div>
+        
+        <div class="comment" id="comment-15801">
+          <strong>Anonymous</strong>
+          <time>2019-04-10 09:38:27</time>
+          <div>楼主联系方式有吗，我的邮箱335693739@qq.com，有问题指教您，谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-15837">
+          <strong>xyjisaw</strong>
+          <time>2019-04-10 16:33:10</time>
+          <div>本网站页脚有联系方式哦。</div>
+        </div>
+        
+        <div class="comment" id="comment-16942">
+          <strong>双儿沐风雨</strong>
+          <time>2019-05-10 21:34:48</time>
+          <div>想请问下，这个路径每次执行后可能都不同，我想把这个变为可控的，就是多次执行结果给出的路径都一样，该怎么办呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16944">
+          <strong>xyjisaw</strong>
+          <time>2019-05-10 22:05:20</time>
+          <div>这是演化计算的方法呀，都是随机策略，结果一般不会相同，除非你把迭代次数调大一点，这样可能会收敛到一个较好的值。</div>
+        </div>
+        
+        <div class="comment" id="comment-16969">
+          <strong>苗小小</strong>
+          <time>2019-05-15 21:12:22</time>
+          <div>你好，请问G2D函数的作用是什么，我没看明白，希望作者能给予帮助，谢谢了</div>
+        </div>
+        
+        <div class="comment" id="comment-17013">
+          <strong>Anonymous</strong>
+          <time>2019-05-23 11:37:52</time>
+          <div>请问循环多出口加上hold on之后仍无法显示在同一张图上怎么解决，能把这篇文章的第一张图的源码发一下吗？谢谢了</div>
+        </div>
+        
+        <div class="comment" id="comment-17014">
+          <strong>Anonymous</strong>
+          <time>2019-05-23 11:38:14</time>
+          <div>请问循环多出口加上hold on之后仍无法显示在同一张图上怎么解决，能把这篇文章的第一张图的源码发一下吗？谢谢了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17016">
+          <strong>xyjisaw</strong>
+          <time>2019-05-23 12:21:37</time>
+          <div>不好意思，代码找不到了，可以先把每次的不同路径保存下来，最后再处理图像。</div>
+        </div>
+        
+        <div class="comment" id="comment-17047">
+          <strong>Anonymous</strong>
+          <time>2019-05-29 20:30:09</time>
+          <div>请问</div>
+        </div>
+        
+        <div class="comment" id="comment-17086">
+          <strong>Anonymous</strong>
+          <time>2019-06-12 09:51:41</time>
+          <div>出现minPL(i)=min(PLKPLK);错误</div>
+        </div>
+        
+        <div class="comment" id="comment-17090">
+          <strong>Anonymous</strong>
+          <time>2019-06-12 21:39:16</time>
+          <div>请问17*19的矩阵怎么改能做一个对比吗？尤其是信息素那块</div>
+        </div>
+        
+        <div class="comment" id="comment-18227">
+          <strong><a href="http://东北大学研一新生~~~" rel="nofollow">陈西西</a></strong>
+          <time>2019-11-19 23:58:21</time>
+          <div>你好，我是今年刚读研的研一新生~我们老师没有具体给定方向~就说数学好的学机器学习，数学好的学大数据，想要继续读博的选演化计算~我想以后继续读博，可是演化计算我之前一点都没接触过~~能请教一下该如何入门么~~~哈哈哈啊哈~~~另外就是楼主的博客简直就是一个宝藏~！！！！赞~</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18235">
+          <strong>xyjisaw</strong>
+          <time>2019-11-20 21:26:56</time>
+          <div>你好，演化计算其实前景并不是特别好，因为它的可解释下比较差，到处都是trick。</div>
+        </div>
+        
+        <div class="comment" id="comment-18329">
+          <strong>Anonymous</strong>
+          <time>2019-12-05 17:24:45</time>
+          <div>请问如何设置多机器人不同起止点的路径规划</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18330">
+          <strong>xyjisaw</strong>
+          <time>2019-12-05 18:46:26</time>
+          <div>这个文章里面都说了哦，举一反三看看。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18334">
+          <strong>Anonymous</strong>
+          <time>2019-12-06 14:18:21</time>
+          <div>请问多个机器人一起移动也是按照问题四的解决思路来吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18336">
+          <strong>xyjisaw</strong>
+          <time>2019-12-07 09:11:31</time>
+          <div>对，是这样的。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18357">
+          <strong>Anonymous</strong>
+          <time>2019-12-12 12:16:11</time>
+          <div>请问如果机器人间产生碰撞如何调整路径呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18358">
+          <strong>xyjisaw</strong>
+          <time>2019-12-12 13:55:44</time>
+          <div>这个还没研究哈，麻烦您帮忙看看怎么解决。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18396">
+          <strong>Anonymous</strong>
+          <time>2019-12-24 13:55:22</time>
+          <div>第四个问题代码能不能详细些，小白表示看不懂啊，最好多谢代码</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18406">
+          <strong>xyjisaw</strong>
+          <time>2019-12-27 11:31:47</time>
+          <div>抱歉哈，这个已经很久没有看了。</div>
+        </div>
+        
+        <div class="comment" id="comment-18766">
+          <strong>Mozzie</strong>
+          <time>2020-04-06 12:54:41</time>
+          <div>您好，有一个小问题，更改S的值只能改变路径起点的横坐标，那么纵坐标值如何改变呢?</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18767">
+          <strong>xyjisaw</strong>
+          <time>2020-04-06 18:18:01</time>
+          <div>你可以考虑把矩阵按行拉成一条向量，起点+一定的距离就更改了起始位置</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18770">
+          <strong>Mozzie</strong>
+          <time>2020-04-07 14:47:15</time>
+          <div>十分感谢 问题已解决</div>
+        </div>
+        
+        <div class="comment" id="comment-18837">
+          <strong>小白</strong>
+          <time>2020-04-25 13:33:03</time>
+          <div>请问如何设置机器人的起止点？就是想将起点设置在左下角，怎么操作呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18838">
+          <strong>小白</strong>
+          <time>2020-04-25 13:34:55</time>
+          <div>您好，请问具体怎么改呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18839">
+          <strong>小白</strong>
+          <time>2020-04-25 13:36:06</time>
+          <div>您好，我是小白，请问您是怎么解决的呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18840">
+          <strong>xyjisaw</strong>
+          <time>2020-04-25 14:14:33</time>
+          <div>矩阵相对于原点的绝对位置，比如3*4的矩阵，可以先看成1*12的矩阵。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18841">
+          <strong>Mozzie</strong>
+          <time>2020-04-25 14:18:45</time>
+          <div>根据程序，该地图矩阵为MM行MM列的方阵<br>那么：<br>如果起点为第i行第j列，S=(i-1)*MM+j<br>如果终点为第m行第n列，E=MM*m*n，也可写成E=MM*[MM-(MM-m)]*[MM-(MM-n)]</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19316">
+          <strong>江</strong>
+          <time>2020-08-17 16:11:01</time>
+          <div>请问你是怎么解决的？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19358">
+          <strong>Mozzie</strong>
+          <time>2020-08-23 11:20:37</time>
+          <div>根据程序，该地图矩阵为MM行MM列的方阵<br>那么：<br>如果起点为第i行第j列，S=(i-1)*MM+j<br>如果终点为第m行第n列，E=MM*m*n，也可写成E=MM*[MM-(MM-m)]*[MM-(MM-n)]</div>
+        </div>
+        
+        <div class="comment" id="comment-19394">
+          <strong>张立</strong>
+          <time>2020-08-27 16:28:27</time>
+          <div>请问解决有障碍旅行商问题，就是形成一个路径回路，在您的基础上怎么改进呢</div>
+        </div>
+        
+        <div class="comment" id="comment-19525">
+          <strong>胡漫</strong>
+          <time>2020-10-06 19:59:34</time>
+          <div>这个可以改成50*50的地图吗、</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19526">
+          <strong>xyjisaw</strong>
+          <time>2020-10-06 21:13:20</time>
+          <div>可以啊</div>
+        </div>
+        
+        <div class="comment" id="comment-19565">
+          <strong>Klaus</strong>
+          <time>2020-10-28 16:34:24</time>
+          <div>请问楼主：<br>在修改了矩阵G以后出现的<br>在赋值 A(:) = B 中，A 和 B 中的元素数目必须相同。<br><br>出错 teat_ant_main (line 136)<br>     minPL(i)=min(PLKPLK);<br>问题应该如何解决</div>
+        </div>
+        
+        <div class="comment" id="comment-20037">
+          <strong>菜狗</strong>
+          <time>2021-01-20 16:09:32</time>
+          <div>请问，如果改为m*n的矩阵，这么设置进出口</div>
+        </div>
+        
+        <div class="comment" id="comment-21891">
+          <strong>席冬磊</strong>
+          <time>2021-04-09 11:19:44</time>
+          <div>如果设置多个目标协同进行呀</div>
+        </div>
+        
+        <div class="comment" id="comment-25620">
+          <strong>123</strong>
+          <time>2022-04-03 08:56:37</time>
+          <div>你好，您的代码中第113-117行里的DW(j)=0这一句是否有错误？是否1应该改成DW(DW1(j))<br>=0?<br>for j=1:length(DW1) <br>    if TABUkm(DW1(j))==0 <br>       DW(j)=0; <br>    end <br>  end</div>
+        </div>
+        
+        <div class="comment" id="comment-30552">
+          <strong>李健</strong>
+          <time>2022-12-05 23:18:39</time>
+          <div>还是不太清楚怎么改为非方阵，大佬可以说的详细点吗？或者有没有非方阵的源码？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-30855">
+          <strong>xwdz</strong>
+          <time>2022-12-18 15:58:25</time>
+          <div>请问具体如何操作啊？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-objective PSO algorithm based on non-dominated sorting · OmegaXYZ</title>
+  <meta name="description" content="This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2. Let’s talk about NSPSO in detail below. CMDPSO algorithm https://omegaxyz.com/2018/10/15/cmdpso/ Non-dominated sorting from NSGA2...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/09/01/nspso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-01</div>
+        <h1>Multi-objective PSO algorithm based on non-dominated sorting</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2. Let’s talk about NSPSO in detail below.<h2><strong>CMDPSO algorithm</strong></h2>
+https://omegaxyz.com/2018/10/15/cmdpso/
+<h2><strong>non-dominated sorting</strong></h2>
+<strong>From non-dominated sorting in NSGA2</strong>There are two quantities that need to be saved:
+
+(1).Dominate the number np. This quantity can be found in the feasible solution space<strong>All individuals that dominate individual p</strong>quantity.
+
+(2). Set SP of dominated individuals. This quantity is the sum of all possible solutions in the space<strong>dominated by individual p</strong>A collection of individuals.
+
+The following is the pseudo code of fast_nondominated_sort<h2><strong>individual crowding distance</strong></h2>Selective sorting is required in the same layer of Fk, sorting according to the individual crowding distance. The individual crowding distance is the distance between individuals i+1 and i-1 adjacent to i on Fk. Its calculation steps are:
+① Initialize the distance between individuals in the same layer, let L[i]d=0 (representing the crowding distance of any individual i).
+②Arrange the individuals in the same layer in ascending order according to the m-th objective function value.
+③ Give selective advantages to individuals on the edge of sorting.
+④For the individuals in the middle of the ranking, find the crowding distance:<img alt="" class="alignnone size-medium wp-image-354" height="25" sizes="(max-width: 300px) 100vw, 300px" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" srcset="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png 300w, https://cdn.omegaxyz.com/2017/04/NSGA2-1.png 626w" width="300"/>(Where: L[i+1]m is the m-th objective function value fmax of the i+1-th individual, and fmin are the maximum and minimum values of the m-th objective function in the set respectively.)
+⑤ For different objective functions, repeat steps ② to ④ to obtain the crowding distance L[i]d of individual i. By limited selection of individuals with larger crowding distances, the calculation results can be evenly distributed in the target space and the diversity of the group can be maintained.<h2><strong>pseudocode</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4975" height="934" src="https://cdn.omegaxyz.com/2018/09/NSPSO2.jpg" width="411"/>
+<h2><strong>Specific process</strong></h2>
+<ul>
+<li>① Divide the data set into test set and training set</li>
+<li>②Initialize PSO algorithm</li>
+<li>③Iteration starts</li>
+<li>④ Calculate two target values ​​(the number of features and the error rate in the paper)</li>
+<li>⑤Nondominated sorting</li>
+<li>⑥Crowding distance measurement and sorting</li>
+<li>⑥ For each particle, select a particle from the first frontier as gbest and update the current particle</li>
+<li>⑦Adjust particle swarm</li>
+<li>⑧Return at the end of iteration</li>
+</ul>
+ </div>
+        <section class="comments"><h2>Comments (5)</h2>
+        <div class="comment" id="comment-18581">
+          <strong>lanlan</strong>
+          <time>2020-02-18 22:24:31</time>
+          <div>请问计算拥挤距离的第二步，对同层的个体按照第m个目标函数值升序排列。这里的m<br>是指的什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18582">
+          <strong>xyjisaw</strong>
+          <time>2020-02-19 09:02:46</time>
+          <div>多目标的目标数量</div>
+        </div>
+        
+        <div class="comment" id="comment-18584">
+          <strong>lanlan</strong>
+          <time>2020-02-19 16:45:28</time>
+          <div>首先感谢你的回复！我还有不明白的就是，m是多目标的目标数量，假设m=2，这里的排序是要对两个目标函数值都进行排序吗？排序的规则是什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18585">
+          <strong>lanlan</strong>
+          <time>2020-02-19 16:45:57</time>
+          <div>首先感谢你的回复！我还有不明白的就是，m是多目标的目标数量，假设m=2，这里的排序是要对两个目标函数值都进行排序吗？排序的规则是什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18587">
+          <strong>xyjisaw</strong>
+          <time>2020-02-19 16:54:15</time>
+          <div>具体的请参考NSGA2的论文中拥挤距离排序。</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

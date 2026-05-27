@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python刷访问量GUI程序 · OmegaXYZ</title>
+  <meta name="description" content="声明1：刷博客是你的权利，没有人会禁止你。但是，我们通过博客记录技术之路上的点滴，本人写博客的目的是纯粹作为网络日记留给自己用的。如果我们仅仅是为了访问量来写博客，那就侮辱了博客本身存在的意义。 声明2：www.omegaxyz.com增加了恶意机器人检查代码与反爬虫插件，实测无法刷本博客的访问量。 功能： ①增加了刷访问量的快慢调节，可...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/12/boomer/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-12</div>
+        <h1>Python刷访问量GUI程序</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content"><span style="color: #ff0000;"><strong>声明1：刷博客是你的权利，没有人会禁止你。但是，我们通过博客记录技术之路上的点滴，本人写博客的目的是纯粹作为网络日记留给自己用的。如果我们仅仅是为了访问量来写博客，那就侮辱了博客本身存在的意义。</strong></span>
+
+<span style="color: #ff0000;"><strong>声明2：www.omegaxyz.com增加了恶意机器人检查代码与反爬虫插件，实测无法刷本博客的访问量。</strong></span>
+
+功能：
+
+①增加了刷访问量的快慢调节，可以实时调节以欺骗服务器。
+②每刷一个访问量时启用的是不同的代理。内置代理池，用户能够增加和删除代理。增加代理时利用正则表达式判断是不是正确的IP地址。
+③自动输入刷的数量，并对出现的异常反馈给用户。
+④进度条显示，能够实时反馈给用户进度。
+
+内部使用多线程控制
+
+代码：
+<pre ><code class="language-python">import wx
+import time
+from urllib import request
+from random import randint
+from threading import *
+from wx.lib.pubsub import pub
+import re
+
+ID_START = wx.NewId()
+ID_STOP = wx.NewId()
+EVT_RESULT_ID = wx.NewId()
+
+
+url = ""
+n = 0
+flag = 0
+time_x = 0
+proxy = [{'https': '110.88.10.198'}, {'https': '182.88.117.118'}, {'https': '180.158.109.60'},
+            {'https': '110.88.10.198'}, {'https': '122.235.184.109'}, {'https': '221.3.39.207'},
+            {'https': '122.72.18.34'}, {'https': '61.155.164.111'}, {'https': '221.222.31.229'}]
+
+
+def EVT_RESULT(win, func):
+    win.Connect(-1, -1, EVT_RESULT_ID, func)
+
+
+class WorkerThread(Thread):
+    """Worker Thread Class."""
+    def __init__(self, notify_window):
+        """Init Worker Thread Class."""
+        Thread.__init__(self)
+        self._notify_window = notify_window
+        self._want_abort = 0
+        self.start()
+
+    def run(self):
+        global url
+        global n
+        global flag
+        global time_x
+        global proxy
+        try:
+            for _ in range(n):
+                proxy_support = request.ProxyHandler(proxy[randint(0, len(proxy) - 1)])
+                opener = request.build_opener(proxy_support)
+                opener.addheaders = [('User-Agent',
+                                      'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36')]
+                request.install_opener(opener)
+                time.sleep(time_x)
+                response = request.urlopen(url)
+                # print((_ + 1) / n * 100)
+                wx.CallAfter(pub.sendMessage, "update", msg=str((_ + 1) / n * 100))
+        except:
+            # print("ERROR")
+            return
+
+    def abort(self):
+        """abort worker thread."""
+        self._want_abort = 1
+
+
+class InfoPanel(wx.Frame):
+    def __init__(self, parent, id):
+        wx.Frame.__init__(self, parent, id, "Boomer",  pos=(0, 0), size=(660, 500))
+        panel = wx.Panel(self, -1)
+        self.text = wx.TextCtrl(panel, wx.ID_ANY, pos=(90, 5), size=(550, 25))
+        self.num = wx.TextCtrl(panel, wx.ID_ANY, pos=(90, 47), size=(100, 25))
+        self.pro_xy = wx.TextCtrl(panel, wx.ID_ANY, pos=(90, 220), size=(200, 150), style=wx.TE_MULTILINE)
+        self.pro_xy_add = wx.TextCtrl(panel, wx.ID_ANY, pos=(400, 270), size=(200, 50))
+        # 创建普通文本实例，并设置其属性－前/背景色
+        wx.StaticText(panel, -1, 'URL:', pos=(35, 8))
+        wx.StaticText(panel, -1, 'Quantity:', pos=(27, 50))
+        wx.StaticText(panel, -1, 'Progress:', pos=(27, 100))
+        wx.StaticText(panel, -1, 'Faster', pos=(225, 50))
+        wx.StaticText(panel, -1, 'Slower', pos=(470, 50))
+        wx.StaticText(panel, -1, '-----------------------------------------------------Advanced Function'
+                                 '------------------------------------------------------', pos=(0, 200))
+        button = wx.Button(panel, wx.ID_ANY, pos=(100, 145), size=(200, 50), label='Run Now')
+        button.Bind(wx.EVT_BUTTON, self.running)
+        button = wx.Button(panel, wx.ID_ANY, pos=(400, 145), size=(200, 50), label='Clear and Stop')
+        button.Bind(wx.EVT_BUTTON, self.clear_all)
+        button = wx.Button(panel, wx.ID_ANY, pos=(400, 380), size=(200, 50), label='Proxy Adding')
+        button.Bind(wx.EVT_BUTTON, self.proxy_add)
+        button = wx.Button(panel, wx.ID_ANY, pos=(90, 380), size=(200, 50), label='All Proxy')
+        button.Bind(wx.EVT_BUTTON, self.output)
+        button = wx.Button(panel, wx.ID_ANY, pos=(400, 330), size=(200, 50), label='Clear Proxy')
+        button.Bind(wx.EVT_BUTTON, self.clear_proxy)
+        self.slider = wx.Slider(panel, wx.ID_ANY, 0, 0, 250, pos=(260, 47), size=(200, 30))
+        self.slider.Bind(wx.EVT_SCROLL, self.transparent)
+        self.SetTransparent(240)
+        self.bar = wx.Gauge(panel, wx.ID_ANY, pos=(90, 95), size=(550, 30))
+        wx.StaticText(panel, -1, '  Proxy Used:', pos=(5, 320))
+        wx.StaticText(panel, -1, '  Proxy Adding Down:', pos=(420, 230))
+        wx.StaticText(panel, -1, '  HTTPS ONLY!!!', pos=(420, 250))
+        wx.StaticText(panel, -1, '  OmegaXYZ.com', pos=(20, 440))
+        pub.subscribe(self.run_set_value, "update")
+        self.output(self)
+
+    def clear_proxy(self, event):
+        self.pro_xy.Clear()
+        global proxy
+        proxy = []
+
+    def proxy_add(self, event):
+        reip = re.compile(r'(?&lt;![\.\d])(?:\d{1,3}\.){3}\d{1,3}(?![\.\d])')
+        if reip.match(self.pro_xy_add.GetValue()):
+            temp = {}
+            temp['https'] = self.pro_xy_add.GetValue()
+            proxy.append(temp)
+            self.output(self)
+        else:
+            dlg = wx.MessageDialog(self,
+                                   'ERROR proxy错误', 'ERROR!', wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+        self.pro_xy_add.Clear()
+
+    def output(self, event):
+        self.pro_xy.Clear()
+        for _ in range(len(proxy)):
+            self.pro_xy.AppendText(str(proxy[_])+'\n')
+
+    def transparent(self, event):
+        global time_x
+        time_x = self.slider.GetValue()/300
+
+    def clear_all(self, event):
+        self.text.Clear()
+        self.num.Clear()
+        self.bar.SetValue(0)
+        self.worker.abort()
+
+    def running(self, msg):
+        global url
+        global n
+        global flag
+        url = self.text.GetValue()
+        if url == "":
+            dlg = wx.MessageDialog(self,
+                                   'ERROR 请填写URL', 'ERROR!', wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+        elif "http" not in url:
+            dlg = wx.MessageDialog(self,
+                                    'ERROR URL错误', 'ERROR!', wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+        else:
+            try:
+                n = int(self.num.GetValue())
+                self.worker = WorkerThread(self)
+
+            except ValueError:
+                dlg = wx.MessageDialog(self,
+                                       'ERROR 数量输入错误', 'ERROR！', wx.OK | wx.ICON_INFORMATION)
+                dlg.ShowModal()
+                dlg.Destroy()
+
+    def run_set_value(self, msg):
+        self.bar.SetValue(float(msg))
+        if self.bar.GetValue() &gt; 99.0:
+            dlg = wx.MessageDialog(self,
+                                   'URL:' + url + '\n成功刷了' + str(n) + '个访客', 'Mission Accomplished',
+                                   wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+
+class MainApp(wx.App):
+    def OnInit(self):
+        self.frame1 = InfoPanel(None, -1)
+        self.frame1.Center()
+        self.frame1.Show(True)
+        self.SetTopWindow(self.frame1)
+        return True
+
+if __name__ == '__main__':
+    app = MainApp(0)
+    app.MainLoop()
+</code></pre>
+效果图在顶部：
+
+<img class="alignnone size-full wp-image-3444" src="https://cdn.omegaxyz.com/2018/02/boomer2.jpg" alt="" width="521" height="179" />
+
+程序下载地址：<a href="http://download.csdn.net/download/xyisv/10250534">http://download.csdn.net/download/xyisv/10250534</a>
+<div class="footer-bar"><aside id="custom_html-7" class="widget_text widget inner-padding widget_custom_html">
+<div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>代码采用<a style="color: #ff0000;" href="http://www.apache.org/licenses/LICENSE-2.0" rel="license">Apache 2.0</a>授权 </strong></span>
+<span style="color: #ff0000;"><strong>文章采用知识共享许可协议<a style="color: #ff0000;" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license">BY-NC-SA4.0</a>授权</strong></span></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a style="color: #ff0000;" href="https://omegaxyz.com/" target="_blank" rel="noopener">OmegaXYZ</a>-版权所有 转载请注明出处</strong></span></div>
+<div></div>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-3998">
+          <strong>雨</strong>
+          <time>2018-12-06 17:16:20</time>
+          <div>能把这个GUI程序发我一份吗，1498534528@qq.com,3q</div>
+        </div>
+        
+        <div class="comment" id="comment-17711">
+          <strong>www</strong>
+          <time>2019-09-15 10:11:58</time>
+          <div>能把这个GUI程序发我一份吗，wcy929295@outlook.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

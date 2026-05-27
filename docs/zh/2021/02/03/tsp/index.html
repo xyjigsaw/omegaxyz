@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>速读-张量流处理器（TSP） · OmegaXYZ</title>
+  <meta name="description" content="Paper: Abts, Dennis, et al. &quot;Think fast: a tensor streaming processor (TSP) for accelerating deep learning workloads.&quot; 2020 ACM/IEEE 47th Annual International Symposium o...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2021/02/03/tsp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2021-02-03</div>
+        <h1>速读-张量流处理器（TSP）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/english/index.html">English</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><blockquote><strong>Paper: </strong>Abts, Dennis, et al. "Think fast: a tensor streaming processor (TSP) for accelerating deep learning workloads." 2020 ACM/IEEE 47th Annual International Symposium on Computer Architecture (ISCA). IEEE, 2020.</blockquote>
+<h2><strong>简介</strong></h2>
+本文介绍了一种名为张量流处理器(TSP)的新型处理器体系结构，它利用了机器学习工作负载中大量数据的并行性，以及生产者-消费者流编程模型在性能和能效方面的优势。从我的角度来看，我认为设计的体系结构是巧妙的，因为它考虑了工作负载和功率包络的权衡。严格来说，实验部分还有改进的空间。此外，应该指出的是，与其他论文不同的是它的章节的组织。在本文中，它采用工程和经验结构来描述整个故事。
+
+这项工作由著名的新兴人工智能公司Groq, Inc .负责。他们提出的TSP在市场上也获得了显著的影响和利润。因此，为了更加公平和理性，这次批判的方式与以往有所区别。在接下来的部分中，我将独立地从清晰性、新颖性、技术正确性和再现性等方面详细分析论文，而不是含糊不清、笼统的优缺点。
+
+毫无疑问，这篇文章有很多创新之处。其优点之一是，与传统的多核不同，传统的多核中每个瓦都是功能单元的异构集合，但在全局上都是同构的。更具体地说，就功能切片而言。TSP将核心的均匀二维网格重新组织成功能切片的微架构。也就是说，每个贴图都实现了一个特定的功能，并在2D片上网格的y维中垂直堆叠成一个“切片”，这个切片分解了核心的基本元素。因此，特定于其片上角色的指令序列可以独立地控制每个功能片。例如，内存片支持读和写，但不支持添加或Mul，这仅在向量和矩阵执行模块片中存在。此外，拟议的TSP利用了平行车道和平行溪流的优势。TSP的编程模型是生产者-消费者模型，其中每个功能片充当一个或多个流的消费者和生产者。在这个工作中(SECTION.I.B)，流是通过一个芯片范围的流寄存器文件在硬件中实现的。它们在架构上是可见的，并且在片之间传输操作数和结果。一种常见的软件模式涉及从一个或多个内存片读取操作数数据，然后由下游的算术片使用和操作这些内存片。更多细节可以在原文中找到。综上所述，与基于CPU、GPU和FPGA的复杂传统架构相比，所提出的TSP也简化了架构的认证部署，使客户能够轻松、快速地实现可扩展、高效的系统。
+
+<hr />
+
+<h2><strong>Summary</strong></h2>
+This work introduces a novel processor architecture called Tensor Streaming Processor (TSP) which utilizes the property of abundant data parallelism in machine learning workloads and the advantages of the producer-consumer stream programming model in terms of performance and power efficiency. From my point of view, I think that the designed architecture is sophisticated due to its consideration in the trade-offs for workloads and power envelope. Strictly speaking, there is room for improvement in the experimental part. Moreover, it should be noted that what is different from other papers is its section organization. In this paper, it adopts an engineering and empirical structure to describe the whole story.
+
+The work is conducted by a famous and emerging artificial intelligence company called Groq, Inc<a href="#_ftn1" name="_ftnref1">[1]</a>. Their proposed TSP has gained a significant influence and profit in the market as well. Hence, For more fairness and rationality, the way of this critique is slightly distinguishable from the previous. In the following parts, I will analyze the paper in detail at the aspects of clarity, novelty, technical correctness with reproducibility, etc. independently rather than ambiguous and general strengths or weaknesses.
+<h2><strong>Clarity</strong></h2>
+The paper is clear enough but could benefit from some revision. As I mentioned above, its section organization is different from other papers.
+
+Specifically, the work starts with the introduction for functional-sliced tile microarchitecture and the stream programming abstraction built upon it in SECTION.I. Then, the authors describe their ﬁrst implementation of the TSP in 14nm ASIC technology, memory system, and functional units, programming model, instruction set architecture (ISA), and design tradeoffs for efﬁcient operation at batch-size of 1 in SECTION.II traditionally. Afterward, the contents in SECTION.III are about the instruction set where the paper shows the instruction control unit, memory, vector processor, matrix execution module, and switch execution module. Definitely, this part should belong to the methodology. I take it for granted that authors have considered the complexity of architecture design. This is why the authors separate these methods empirically which lacks compactness to a certain degree.
+
+The confusing thing is coming, the title of SECTION.IV is ResNet50 [1]. ResNet50 is a popular image classiﬁcation model published in CVPR in 2016. All experimental results including operating regimes, matrix operations, and on-chip network in SECTION.V are based on it. The authors spent a lot of space to introduce ResNetT50 as an example in terms of resource bottlenecks and quantization with TSP. At the end of the experiment parts, SECTION.V provides initial proof-points and performance results of mapping the ResNet50 v2 image classiﬁcation model to their underlying tensor streaming processor. Additionally, the technical correctness and reproducibility in these sections will be discussed later in the critique.
+
+Thus, I think the methodology and experimental parts can be re-organized furtherly. For example, SECTION.III (INSTRUCTION SET) can be merged with SECTION.II (ARCHITECTURE OVERVIEW) which leads to a new section introducing the detailed architecture design with several subsections. Similarly, SECTION.IV (ResNet50) and SECTION.V (DISCUSSION) can also be merged since their contents are all related to the experiments of ResNet50. Of course, these are just my humble opinions and circumstances alter cases.
+<h2><strong>Novelty</strong></h2>
+There is no doubt that this article has many innovations. One of the strengths is that in contrast to conventional multicore, where each tile is a heterogeneous collection of functional units but globally homogeneous, the proposed architecture inverts that and it has local functional homogeneity but chip-wide (global) heterogeneity.
+
+To be more specific, in terms of functional slicing in SECTION.I.A and SECTION.II.B, the TSP re-organizes the homogeneous two-dimensional mesh of cores into the functionally sliced microarchitecture. That is to say, each tile implements a specific function and is stacked vertically into a “slice” in the Y-dimension of the 2D on-chip mesh which disaggregates the basic elements of a core. Thus, a sequence of instructions specific to its on-chip role can control each functional slice independently. For instance, the memory slices support Read and Write but not Add or Mul, which are only in vector and matrix execution module slices.
+
+Besides, the proposed TSP exploits the advantages of parallel lanes and streams. The TSP’s programming model is a producer-consumer model where each functional slice acts as a consumer and a producer of one or more streams. In this work (SECTION.I.B), streams are implemented in hardware by a chip-wide streaming register file. They are architecturally visible and transport operands and results between slices. A common software pattern involves reading operand data from one or more memory slices that are then subsequently consumed and operated on by a downstream arithmetic slice. More details can be found in the original paper.
+
+In summary, compared with the complex traditional architecture based on CPU, GPU, and FPGA, the proposed TSP also simplifies the certification deployment of the architecture, enabling customers to implement scalable, efficient systems easily and quickly.
+
+What’s more, from my knowledge scope and some statements in paper [3], a pattern begins to emerge, as most specialized processors rely on a series of sub-processing elements which each contribute to increasing throughput of a larger processor.
+
+Meanwhile, there are plenty of methods to achieve multiply-and-accumulate operations parallelism, one of the most renowned techniques is the systolic array [2] and is utilized by the proposed TSP. It is not a new concept. Systolic architectures were first proposed back in the late 1970s [2] and have become widely popularized since powering the hardware DeepMind [4] used for the AlphaGo system to defeat Lee Sedol, the world champion of the board game Go in 2015.
+<h2><strong>Technical Correctness &amp; Reproducibility</strong></h2>
+In this part, the experimental parts will be analyzed in detail. As I have mentioned above, the paper implements ResNet50 only. It can be seen in SECTION.IV, the authors define an objective first, which aims at maximizing functional slice utilization and minimizing latency. That is to say, the TSP is supposed to take advantage of streaming operands into the vector and matrix execution modules as much as possible. Then, a detailed resource bottlenecks analysis is given to construct a feasible optimization model. It is worth mentioning that the paper provides readers with quantization and the results of model accuracy in SECTION.D.
+
+The results in this paper are encouraging at first glance and the authors claim a fairly staggering performance increase. However, the primary test case is just ResNet50 which cannot convince readers and users. As far as I’m concerned, the work should demonstrate and compare more applications with deep learning models. Only in this way can we truly accept the model proposed by the paper technically.
+
+From the discussion part in SECTION.V, I find that their initial implementation of ResNet50 was a proof-point and reference model for compiler validation, performing an inference query of the ResNet50 model in &lt; 43μs, yielding a throughput of 20.4K images per second with each image sample being a separate query. In another word, the batch size in this case is 1. Though the work does specifically call this a "Streaming Processor" in the whole story, I'm not sure that using anything besides a batch size of 1 for inference is entirely fair, but perhaps I'm misunderstanding what they mean by streaming.
+
+Furtherly, it is challenging to directly compare a GPU vs an ASIC style chip like this though. I would like to see more detailed performance comparisons vs something like Google's TPU [5] since GPUs are throughput optimized.
+<h2><strong>Conclusions</strong></h2>
+In fact, Groq's TSP architecture is driven by the widely-applied artificial intelligence, which can achieve computational flexibility and large-scale parallelism without the synchronization overhead of traditional GPU and CPU architecture. This provides an innovative example for the industry undoubtedly. Besides, the proposed TSP can support both traditional machine learning models and new machine learning models. It is also currently running on customer sites for x86 and non-x86 systems. At the same time, because the TSP is designed for applications in related fields such as computer vision and artificial intelligence, it frees up more silicon space dedicated to dynamic instruction execution. Last but not least, in terms of latency and inference performance, the proposed TSP is much faster than any other architecture on most tasks.
+
+Academically, this paper is not satisfactory to some extent due to its unusual paper organization and experimental lack though, it is still an excellent work with significant progress in the industry of AI-based architecture. Therefore, I think, the shortcomings in the paper are trivial.
+<h2><strong>References</strong></h2>
+[1] He, Kaiming, et al. "Deep residual learning for image recognition." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
+
+[2] H. Kung and C. E. Leiserson, “Systolic Arrays (for VLSI),” in Proceedings of Sparse Matrix, vol. 1. Society for industrial and applied mathematics, 1979, pp. 256–282.
+
+[3] Azghadi, Mostafa Rahimi, et al. "Hardware implementation of deep network accelerators towards healthcare and biomedical applications." arXiv preprint arXiv:2007.05657 (2020).
+
+[4] Gibney, Elizabeth. "Google AI algorithm masters ancient game of Go." Nature News 529.7587 (2016): 445.
+
+[5] Jouppi, Norman P., et al. "In-datacenter performance analysis of a tensor processing unit." Proceedings of the 44th Annual International Symposium on Computer Architecture. 2017.
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-22134">
+          <strong>f4g</strong>
+          <time>2021-06-01 10:32:55</time>
+          <div>快递单号、空包代发、快递单号出售www.dydanhw.com</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

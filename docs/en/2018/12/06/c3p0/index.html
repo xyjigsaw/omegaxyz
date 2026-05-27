@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Database c3p0 configuration SQL Server and MySQL · OmegaXYZ</title>
+  <meta name="description" content="C3P0 is an open source JDBC connection pool that implements data source and JNDI binding, and supports the JDBC3 specification and JDBC2 standard extensions. Open source projects currently using it include Hibernate, Spring, etc. SQL Server configuration: Note that 1433 is the port number, xxx is the database name, and the corresponding user name and password need to be corrected. MySQL configuration: Note that 3306 is the port number, xxx is the database name, and the corresponding user name...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/12/06/c3p0/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-06</div>
+        <h1>Database c3p0 configuration SQL Server and MySQL</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content">C3P0 is an open source JDBC connection pool that implements data source and JNDI binding, and supports the JDBC3 specification and JDBC2 standard extensions. Open source projects currently using it include Hibernate, Spring, etc.<strong>SQL Server configuration:</strong>Note that 1433 is the port number, xxx is the database name, and the corresponding username and password need to be corrected.<pre><code class="language-default">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;c3p0-config&gt;
+    &lt;default-config&gt;
+        &lt;!-- 数据库驱动，用户名，密码等基本配置 --&gt;
+        &lt;property name="jdbcUrl"&gt;jdbc:sqlserver://localhost:1433;databaseName=xxx&lt;/property&gt;
+        &lt;property name="driverClass"&gt;com.microsoft.sqlserver.jdbc.SQLServerDriver&lt;/property&gt;
+        &lt;property name="user"&gt;me&lt;/property&gt;
+        &lt;property name="password"&gt;123456&lt;/property&gt;
+
+        &lt;!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;
+        &lt;property name="acquireIncrement"&gt;3&lt;/property&gt;
+        &lt;!-- 初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;
+        &lt;property name="initialPoolSize"&gt;10&lt;/property&gt;
+        &lt;!-- 连接池中保留的最小连接数。--&gt;
+        &lt;property name="minPoolSize"&gt;2&lt;/property&gt;
+        &lt;!-- 连接池中保留的最大连接数。--&gt;
+        &lt;property name="maxPoolSize"&gt;10&lt;/property&gt;
+    &lt;/default-config&gt;
+&lt;/c3p0-config&gt;</code></pre>
+<strong>MySQL configuration:</strong>Note that 3306 is the port number, xxx is the database name, and the corresponding user name and password need to be corrected.<pre><code class="language-default">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;c3p0-config&gt;
+&lt;default-config&gt;
+    &lt;property name="driverClass"&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+    &lt;property name="jdbcUrl"&gt;jdbc:mysql://localhost:3306/xxx?useSSL=true&lt;/property&gt;
+    &lt;property name="user"&gt;root&lt;/property&gt;
+    &lt;property name="password"&gt;123456&lt;/property&gt;
+    &lt;property name="initialPoolSize"&gt;5&lt;/property&gt;
+    &lt;property name="minPoolSize"&gt;2&lt;/property&gt;
+    &lt;property name="acquireIncrement"&gt;3&lt;/property&gt;
+    &lt;property name="maxPoolSize"&gt;10&lt;/property&gt;
+&lt;/default-config&gt;
+
+&lt;/c3p0-config&gt;
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

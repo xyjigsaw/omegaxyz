@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speed ​​Reading-A3 Neural Network Processor Based on Attention Mechanism · OmegaXYZ</title>
+  <meta name="description" content="Paper: Ham, Tae Jun, et al. &quot;A^ 3: Accelerating Attention Mechanisms in Neural Networks with Approximation.&quot; 2020 IEEE International Symposium on High Performance Computer A...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/10/16/a3-hpca2020/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-10-16</div>
+        <h1>Speed ​​Reading-A3 Neural Network Processor Based on Attention Mechanism</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/english/index.html">English</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><blockquote><strong>paper:</strong>Ham, Tae Jun, et al. "A^ 3: Accelerating Attention Mechanisms in Neural Networks with Approximation." 2020 IEEE International Symposium on High Performance Computer Architecture (HPCA). IEEE, 2020.</blockquote>
+<em><strong>HPCA, CCF-A architecture summit.</strong></em>With the growth of neural network computing requirements, the academic community has proposed many hardware accelerators for neural networks. Such existing neural network accelerators typically focus on popular neural network types such as convolutional neural networks (CNN) and recurrent neural networks (RNN). However, attention mechanism (Attention Mechanism), an emerging neural network primitive that enables neural networks to retrieve the most relevant information from a knowledge base, external memory, or past states, has not attracted much attention. Attention mechanisms have been widely adopted by many advanced neural networks for computer vision, natural language processing, and machine translation, and account for a large portion of the total execution time.
+
+The authors designed a dedicated hardware accelerator called A3 that aims to exploit the attention mechanism in neural networks that approximates potential energy. In particular, A3's work identifies the importance of emerging neural network primitives and accelerates them through software-hardware co-design, resulting in orders of magnitude higher energy efficiency improvements than conventional hardware. In addition, A3 also designed a dedicated hardware pipeline for the approximate attention mechanism, and also launched TSMC’s 40nm test chip. Experimental results show that the accelerator can achieve significant performance and energy efficiency improvements compared to traditional hardware.
+
+In Section II-A and Section II-B, the paper shows that the attention mechanism is a widely used strategy in most advanced neural networks (such as Word2Vec, Glove, and FastText) for identifying and retrieving input-related data, i.e., discriminative content-based similarity search. Most networks are in the fields of natural language processing, computer vision, and recommender systems. The calculation process of dot product, softmax normalization and weight sum in the attention mechanism is analyzed in detail.<strong>Thereafter, this paper concludes that most calculations performed in matrix-vector multiplication have little impact on the final output, since most score values ​​can be approximated and optimized to be close to zero after softmax normalization. Therefore, the A3 accelerator is just around the corner.</strong>The article introduces two different versions of A3: Base-A3 (Part III) and Approx-A3 (Parts IV and V). For the former, each module's hardware design maps directly to its computation. The latter proposes an approximate mechanism, so the latter is more worthy of discussion.
+
+In particular, the idea of ​​how to engineer approximate attention has two key steps.<strong>One is to identify candidates relevant to the query in an attention mechanism through limited computation. Another is to avoid counting rows that may be irrelevant.</strong>There is a key intuition: if we can somehow identify some of the largest and smallest component multiplication results, we can compute an estimated attention score with very little computation.
+
+For Approx-A3, the authors designed a new set of hardware accelerator modules for candidate selection and post-scoring approximation. It uses the naive idea that addition is better than multiplication. For example, given a matrix of size n x d, Approx-A3 first sorts each column of the matrix stored in SRAM. The purpose of the two pointers of size 1 by d is then to get the max and min elements of the sorted column m times to update the estimated attention, in place of the element-wise multiplication of the query vector and the sorting matrix. Therefore, this algorithm only performs 2 x m multiplications, which is much smaller than n x d. Briefly, the algorithm updates two estimated attention scores each iteration: the maximum and minimum component multiplied results. Finally, rows with positive estimated attention scores after m iterations will become candidates for approximate attention.<strong>Operation diagram:</strong>
+<img alt="" class="alignnone wp-image-6937" height="158" src="https://cdn.omegaxyz.com/2020/10/acceleratorA3-2-scaled.jpg" width="719"/>
+<strong>Accelerator structure:</strong>
+<img alt="" class="alignnone wp-image-6936" height="343" src="https://cdn.omegaxyz.com/2020/10/acceleratorA3-3-scaled.jpg" width="738"/>This article demonstrates some experiments to evaluate the A3 accelerator. The selection VI is divided into four parts: A (workload), B (accuracy evaluation), C (performance results), and D (area, power, energy, and test chip).
+
+As can be seen from the performance results, approximation can further improve throughput (2.6-7.0x) and latency (1.6-8.0x). Therefore, more energy can be saved in terms of area and energy efficiency (&gt;10,000 times more efficient than CPU). It turned out that the previous design of Approx-A3 was very effective. This is useful if this technique is applied to mobile terminals while ignoring die size. Furthermore, it should be noted that most energy is spent on output computation and candidate selection, which is easy to understand since element-wise multiplications are replaced by approximations. However, we all know that the approximation scheme affects the accuracy of the end-to-end model. According to VI-B, the results show that the conservative approximation scheme loses about 1-1.6% of the accuracy metric, while the aggressive approximation scheme loses about 8-9% of the accuracy metric. Furthermore, the number of first items selected suggests that the radical approximation may miss some items with higher attention scores.</div>
+        <section class="comments"><h2>Comments (3)</h2>
+        <div class="comment" id="comment-19577">
+          <strong><a href="http://www.xunyangnet.com" rel="nofollow">惠州注册公司</a></strong>
+          <time>2020-11-03 15:16:56</time>
+          <div>又发现一个好站,收藏了~以后会经常光顾的 (｡•ˇ‸ˇ•｡)</div>
+        </div>
+        
+        <div class="comment" id="comment-19623">
+          <strong>星座占卜</strong>
+          <time>2020-11-17 09:09:01</time>
+          <div>文章写的很好啊，赞(ㆆᴗㆆ)，每日打卡~~</div>
+        </div>
+        
+        <div class="comment" id="comment-19636">
+          <strong>erotik izle</strong>
+          <time>2020-11-19 01:45:49</time>
+          <div>Pretty nice post. I just stumbled upon your weblog and wanted to say that I have really enjoyed surfing around your blog posts. Sherye Bronny Hermione</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

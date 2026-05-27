@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python uses the stuttering module to count word frequency in &quot;Water Margin&quot; · OmegaXYZ</title>
+  <meta name="description" content="Chinese word segmentation is a basic task in Chinese text processing. Stuttering word segmentation is used to perform Chinese word segmentation. There are three basic implementation principles: Implement efficient word graph scanning based on the Trie tree structure to generate a directed acyclic graph (DAG) composed of all possible word-forming situations of Chinese characters in the sentence. Dynamic programming is used to find the maximum probability path and find the maximum segmentation combination based on word frequency. For unregistered words, an HMM model based on the word-forming ability of Chinese characters is used, and the Viterbi algorithm is used...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/06/python_jieba_shuihu/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-06</div>
+        <h1>Python uses the stuttering module to count word frequency in &quot;Water Margin&quot;</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">Chinese word segmentation is a basic task in Chinese text processing. Stuttering word segmentation is used to perform Chinese word segmentation. Its basic implementation principles have three points:<ol>
+<li>based on<strong>Trie tree</strong>The structure implements efficient word graph scanning and generates a directed acyclic graph (DAG) composed of all possible word formations of Chinese characters in the sentence.</li>
+<li>Adopted<strong>dynamic programming</strong>Find the maximum probability path and find the maximum segmentation combination based on word frequency</li>
+<li>For unregistered words, a method based on the ability of Chinese characters to form words is used.<strong>HMM model</strong>, using the Viterbi algorithm</li>
+</ol>The following statistics are made using the word frequency of the stuttering word segmentation team Water Margin.
+
+Code:<pre><code class="language-python">#!/usr/bin/python    
+# -*- coding:utf-8 -*-    
+
+import sys
+
+import jieba
+import jieba.analyse
+import xlwt  # 写入Excel表的库
+
+if __name__ == "__main__":
+
+    wbk = xlwt.Workbook(encoding='ascii')
+    sheet = wbk.add_sheet("wordCount")  # Excel单元格名字
+    word_lst = []
+    key_list = []
+    for line in open('C:\\Users\\dell\\desktop\\1.txt'):  # 1.txt是需要分词统计的文档
+        try:
+            item = line.strip('\n\r').split('\t')  # 制表格切分
+            # print(item)
+            tags = jieba.analyse.extract_tags(item[0])  # jieba分词
+            for t in tags:
+                word_lst.append(t)
+        except:
+            pass
+
+    word_dict = {}
+    with open("wordCount.txt", 'w') as wf2:  # 打开文件
+
+        for item in word_lst:
+            if item not in word_dict:  # 统计数量
+                word_dict[item] = 1
+            else:
+                word_dict[item] += 1
+
+        orderList = list(word_dict.values())
+        orderList.sort(reverse=True)
+        # print orderList  
+        for i in range(len(orderList)):
+            for key in word_dict:
+                if word_dict[key] == orderList[i]:
+                    wf2.write(key + ' ' + str(word_dict[key]) + '\n')  # 写入txt文档
+                    key_list.append(key)
+                    word_dict[key] = 0
+
+    for i in range(len(key_list)):
+        sheet.write(i, 1, label=orderList[i])
+        sheet.write(i, 0, label=key_list[i])
+    wbk.save('wordCount.xls')  # 保存为 wordCount.xls文件</code></pre>result:<img alt="" class="alignnone wp-image-2670 size-full" height="722" src="https://cdn.omegaxyz.com/2018/01/shuihuzhuan.png" width="405"/>If the data is wrong, it means that the Water Margin txt file has been modified. Don't blame me.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

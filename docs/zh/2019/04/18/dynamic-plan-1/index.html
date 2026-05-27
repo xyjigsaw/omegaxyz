@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动态规划选讲1 · OmegaXYZ</title>
+  <meta name="description" content="简介 动态规划(dynamic programming) 是运筹学的一个分支，是求解决策过程(decision process)最优化的数学方法。20世纪50年代初美国数学家R.E.Bellman等人在研究多阶段决策过程(multistep decision process)的优化问题时，提出了著名的最优化原理(principle of...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/04/18/dynamic-plan-1/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-04-18</div>
+        <h1>动态规划选讲1</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/leetcode/index.html">LeetCode</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+<strong>动态规划(dynamic programming)</strong>是运筹学的一个分支，是求解决策过程(decision process)最优化的数学方法。20世纪50年代初美国数学家R.E.Bellman等人在研究多阶段决策过程(multistep decision process)的优化问题时，提出了著名的最优化原理(principle of optimality)，把多阶段过程转化为一系列单阶段问题，利用各阶段之间的关系，逐个求解，创立了解决这类过程优化问题的新方法——动态规划。
+
+<hr />
+
+<h2><strong>LeetCode 5</strong> 最长回文子串</h2>
+给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。
+
+<strong>示例 1：</strong>
+<pre class="">输入: "babad"
+输出: "bab"
+注意: "aba" 也是一个有效答案。
+</code></pre>
+<strong>示例 2：</strong>
+<pre class="">输入: "cbbd"
+输出: "bb"</code></pre>
+<strong>分析：</strong>
+
+设置dp[s,size()][s.size()]大小的dp布尔类型的数组，其中dp[i][j]代表字符串s从i到j是一个回文，递推存在以下几种情况：
+<ul>
+ 	<li>显然从自己到自己单个字符是 dp[i][i] = true</li>
+ 	<li>当i******j中间的*部分是回文时如果s[i]==s[j]则i到j也是回文，如果中间的不是回文，则i到j也不是回文，及dp[i][j] = dp[i+1][j-1]</li>
+ 	<li>如果s[i] == s[i - 1]则dp[i][i-1] = dp[i-1][i] = true</li>
+</ul>
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">class Solution {
+public:
+    string longestPalindrome(string s){
+        if (s.size() &lt; 2) return s;
+        int dp[10000][10000] = {0};
+        int start = 0, len = 1; //start表示开始下标，len表示字串长度
+        for(int i = s.size() - 1; i &gt;= 0; --i){
+            dp[i][i] = 1;
+            if(i &gt;= 1 &amp;&amp; s[i] == s[i - 1])dp[i][i-1] = dp[i-1][i] = 1;
+            for(int j = i + 1; j &lt; s.size(); ++j){
+                if(s[i] == s[j]){
+                    dp[i][j] = dp[i+1][j-1];
+                    if(dp[i][j] &amp;&amp; j - i + 1 &gt; len){// 记录位置
+                        start = i;
+                        len = j - i + 1;
+                    }
+                }
+            }
+        }
+        return s.substr(start, len);
+    }
+};</code></pre>
+
+<hr />
+
+<h2><strong>LeetCode 152 乘积</strong><strong>最大</strong><strong>子序列</strong></h2>
+<div class="content__2ebE">
+<div>
+
+给定一个整数数组 <code>nums</code> ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。
+
+<strong>示例 1:</strong>
+<pre class="">输入: [2,3,-2,4]
+输出: <code>6</code> 解释: 子数组 [2,3] 有最大乘积 6。</code></pre>
+<strong>示例 2:</strong>
+<pre class="">输入: [-2,0,-1]
+输出: 0
+解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。</code></pre>
+</div>
+</div>
+<div class="header__2ao3"><strong>分析：</strong></div>
+<div>这个不同于LIS，因为是连续的，所以只需要判断相邻的即可。</div>
+<div>另外乘积由于负负得正，因此需要保存两个值，当前最大值，当前最小值即可</div>
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">class Solution {
+public:
+    int maxProduct(vector&lt;int&gt;&amp; nums) {
+        vector&lt;int&gt; posi(nums.size(), 0);
+        vector&lt;int&gt; negt(nums.size(), 0);
+        posi[0] = nums[0];
+        negt[0] = nums[0];
+        int ans = nums[0];
+        for(int i = 1; i &lt; nums.size(); i++){
+            posi[i] = max(nums[i], max(nums[i] * posi[i-1], nums[i] * negt[i-1]));
+            negt[i] = min(nums[i], min(nums[i] * posi[i-1], nums[i] * negt[i-1]));
+            ans = max(posi[i], ans);
+        }
+        return ans;
+    }
+};</code></pre>
+
+<hr />
+
+<h2><strong>LeetCode 279 完全平方数</strong></h2>
+给定正整数 <em>n</em>，找到若干个完全平方数（比如 <code>1, 4, 9, 16, ...</code>）使得它们的和等于<em> n</em>。你需要让组成和的完全平方数的个数最少。
+
+<strong>示例 1:</strong>
+<pre class="">输入: <em>n</em> = <code>12</code> 输出: 3 解释: <code>12 = 4 + 4 + 4.</code></code></pre>
+<strong>示例 2:</strong>
+<pre class="">输入: <em>n</em> = <code>13</code> 输出: 2 解释: <code>13 = 4 + 9.</code></code></pre>
+<strong>分析：</strong>
+
+此题即最少硬币问题：硬币对应于完全平方数。因此我们先计算好小于n的完全平方数，接下来通过动态规划数组dp[n]来计算，其中dp[i]代表正整数i最少组成个数。当当前完全平方数x小于整数i时，我们判断dp[i-x]+1与dp[i]的大小，如果dp[i-x]较小，则替换掉。另外dp[0]=0。
+
+<strong>C++代码：</strong>
+<pre ><code class="language-c++">class Solution {
+public:
+    int numSquares(int n) {
+        vector&lt;int&gt; pool;
+        for(int i = 1; i*i &lt;= n; i++){
+            pool.push_back(i*i);
+        }
+
+        int dp[10000] = {0};
+        dp[0] = 0;
+        for(int i = 1; i &lt;= n; i++){
+            dp[i] = i;
+            for(int j = 0; j &lt; pool.size(); j++){
+                if(pool[j] &lt;= i){
+                    dp[i] = dp[i] &lt; dp[i - pool[j]] + 1 ? dp[i] : dp[i - pool[j]] + 1;
+                }
+            }
+        }
+        return dp[n];
+    }
+};</code></pre>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

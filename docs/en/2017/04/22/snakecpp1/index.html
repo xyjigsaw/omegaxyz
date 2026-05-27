@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C Language Game 3: Snake · OmegaXYZ</title>
+  <meta name="description" content="Simple program of 200 lines. The source code comes from CSDN: Shawn Hou (1) To use this function, you should first include the header file stdlib.h at the beginning #include&lt;stdlib.h&gt; (C++ recommends using #include&lt;cstdlib&gt;, the same below) (2) In the standard C library, the function rand() can generate a random number between 0 and RAND_MAX, where RAND_MAX is defined in stdlib.h...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/22/snakecpp1/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-22</div>
+        <h1>C Language Game 3: Snake</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/cgame/index.html">C语言游戏</a></div>
+        <div class="article-content">Simple program 200 lines
+
+Source code from CSDN: Shawn Hou
+
+(1) To use this function, you should first include the header file stdlib.h at the beginning
+
+#include&lt;stdlib.h&gt; (C++ recommends using #include&lt;cstdlib&gt;, the same below)
+
+(2) In the standard C library, the function rand() can generate a random number between 0 and RAND_MAX, where RAND_MAX is an integer defined in stdlib.h and is related to the system.
+
+(3) The rand() function has no input parameters and is directly referenced through the expression rand(); for example, you can use the following statement to print two random numbers:
+
+printf("Random numbers are: %i %i\n",rand(),rand());
+
+(4) Because the rand() function generates integers in a specified order, the same two values will be printed every time the above statement is executed. Therefore, the randomness in C language is not truly random, and is sometimes called pseudo-random number.
+
+(5) In order to enable the program to generate a new sequence of random values ​​every time it is executed, we usually provide a new random seed to the random number generator. The function srand() (from stdlib.h) can seed a random number generator. As long as the seeds are different, the rand() function will generate different random number sequences. srand() is called the initializer of the random number generator.
+
+Modified parts and bugs:
+
+1. Bugs in the speed value reverse show function and operation
+
+2. Source code comments
+
+3. Add the highest record variable<pre><code class="language-c++">#include &lt;windows.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;conio.h&gt;
+#include &lt;time.h&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdio&gt;
+#include &lt;iostream&gt;
+#define  N 25
+using namespace std;
+int gameover;//游戏失败的值
+int x1, y1; // 随机生成食物的坐标
+int x,y;
+int record=0;  //当前用户最高纪录
+long start;
+
+//下面定义贪吃蛇的坐标类
+class snake_position
+{
+public:
+    int x,y;
+    snake_position(){};
+    void initialize(int &amp;);//坐标初始化
+};
+snake_position position[(N-2)*(N-2)+1]; //定义贪吃蛇坐标类数组，有(N-2)*(N-2)个坐标
+void snake_position::initialize(int &amp;j)
+{
+        x = 1;
+        y = j;
+}
+//下面定义贪吃蛇的棋盘图
+class snake_map
+{
+private:
+    char s[N][N];//定义贪吃蛇棋盘，包括墙壁。
+    int grade, length;
+    int gamespeed; //前进时间间隔
+    char direction; // 初始情况下，向右运动
+    int head,tail;//头和尾
+    int score;//分数
+    bool gameauto;
+public:
+    snake_map(int h=4,int t=1,int l=4,char d=77,int s=0):length(l),direction(d),head(h),tail(t),score(s){}
+    void initialize();   //初始化函数
+    void show_game();
+    int updata_game();
+    void setpoint();
+    void getgrade();
+    void display();
+};
+//定义初始化函数，将贪吃蛇的棋盘图进行初始化
+void snake_map::initialize()
+{
+    int i,j;
+    for(i=1;i&lt;=3;i++)
+        s[1][i] = '*';
+    s[1][4] = '#';
+    for(i=1;i&lt;=N-2;i++)
+        for(j=1;j&lt;=N-2;j++)
+            s[i][j]=' '; // 初始化贪吃蛇棋盘中间空白部分
+    for(i=0;i&lt;=N-1;i++)
+        s[0][i] = s[N-1][i] = '+'; //初始化贪吃蛇棋盘上下墙壁
+    for(i=1;i&lt;=N-2;i++)
+        s[i][0] = s[i][N-1] = '+'; //初始化贪吃蛇棋盘左右墙壁
+}
+//============================================
+//输出贪吃蛇棋盘信息
+void snake_map::show_game()
+{
+    system("cls"); // 清屏
+    int i,j;
+    cout &lt;&lt; endl;
+    for(i=0;i&lt;N;i++)
+    {
+        cout &lt;&lt; '\t';
+        for(j=0;j&lt;N;j++)
+            cout&lt;&lt;s[i][j]&lt;&lt;' '; // 输出贪吃蛇棋盘
+        if(i==2) cout &lt;&lt; "\t等级：" &lt;&lt; grade;
+        if(i==6) cout &lt;&lt; "\t得分：" &lt;&lt; score &lt;&lt; "分" ;
+        if(i==10) cout&lt;&lt;"\t最高纪录："&lt;&lt;record&lt;&lt;"分" ;
+        if(i==14) cout &lt;&lt; "\t暂停：按一下空格键" ;
+        if(i==18) cout &lt;&lt; "\t继续：按两下空格键" ;
+        if(i==20) cout&lt;&lt;"\t提示：按住方向键可以加速,分数计算公式为个数*等级" ;
+        if(i==24) cout&lt;&lt;"\t非空格键结束游戏" ;
+        cout&lt;&lt;endl;
+    }
+}
+//输入选择等级
+void snake_map::getgrade()
+{
+    cin&gt;&gt;grade;
+    while( grade&gt;7 || grade&lt;1 )
+    {
+        cout &lt;&lt; "请输入数字1-7选择等级" &lt;&lt; endl;
+        cin &gt;&gt; grade;
+    }
+    switch(grade)
+    {
+        case 1: gamespeed = 1000;gameauto = 0;break;
+        case 2: gamespeed = 800;gameauto = 0;break;
+        case 3: gamespeed = 600;gameauto = 0;break;
+        case 4: gamespeed = 400;gameauto = 0;break;
+        case 5: gamespeed = 200;gameauto = 0;break;
+        case 6: gamespeed = 100;gameauto = 0;break;
+        case 7: grade = 1;gamespeed = 1000;gameauto = 1;break;
+    }
+}
+//输出等级，得分情况以及称号
+void snake_map::display()
+{
+    cout &lt;&lt; "\n\t\t\t\t等级：" &lt;&lt; grade;
+    cout &lt;&lt; "\n\n\n\t\t\t\t得分：" &lt;&lt; score &lt;&lt; "分" ;
+    cout &lt;&lt; "\n\n\n\t\t\t\t最高纪录："&lt;&lt;record&lt;&lt;"分" ;
+    cout &lt;&lt; "\n\n\n\t\t\t\twww.omegaxyz.com";
+}
+//随机产生米
+void snake_map::setpoint()
+{
+    srand(time(0));
+    do
+    {
+        x1 = rand() % (N-2) + 1;
+        y1 = rand() % (N-2) + 1;
+    }while(s[x1][y1]!=' ');
+    s[x1][y1]='*';
+}
+char key;
+int snake_map::updata_game()
+{
+    gameover = 1;
+    key = direction;
+    start = clock();
+    while((gameover=(clock()-start&lt;=gamespeed))&amp;&amp;!kbhit());
+    //如果有键按下或时间超过自动前进时间间隔则终止循环
+        if(gameover)
+        {
+            getch();
+            key = getch();
+        }
+        if(key == ' ')
+        {
+            while(getch()!=' '){};
+//这里实现的是按空格键暂停，按空格键继续的功能，但不知为何原因，
+//需要按两下空格才能继续。这是个bug。
+        }
+        else
+            direction = key;
+        switch(direction)
+        {
+            case 72: x= position[head].x-1; y= position[head].y;break; // 向上
+            case 80: x= position[head].x+1; y= position[head].y;break; // 向下
+            case 75: x= position[head].x; y= position[head].y-1;break; // 向左
+            case 77: x= position[head].x; y= position[head].y+1; // 向右
+        }
+        if(!(direction==72||direction==80||direction==75 ||direction==77))   
+ // 按键非方向键
+            gameover = 0;
+        else if(x==0 || x==N-1 ||y==0 || y==N-1)   // 碰到墙壁
+            gameover = 0;
+        else if(s[x][y]!=' '&amp;&amp;!(x==x1&amp;&amp;y==y1))    // 蛇头碰到蛇身
+            gameover = 0;
+        else if(x==x1 &amp;&amp; y==y1)
+        { // 吃米，长度加1
+            length ++;
+            if(length&gt;=8 &amp;&amp; gameauto)
+            {
+                length -= 8;
+                grade ++;
+                if(gamespeed&gt;=200)
+                    gamespeed -= 200; // 改变贪吃蛇前进速度
+                else
+                    gamespeed = 100;
+            }
+            s[x][y]= '#';  //更新蛇头
+            s[position[head].x][position[head].y] = '*'; //吃米后将原先蛇头变为蛇身
+            head = (head+1) % ( (N-2)*(N-2) );   //取蛇头坐标
+            position[head].x = x;
+            position[head].y = y;
+            show_game();
+            gameover = 1;
+            score += grade*1;  //加分
+            if(snake_map::score&gt;record)
+                record=score;
+            setpoint();   //产生米
+        }
+        else
+        { // 不吃米
+            s[position[tail].x][position[tail].y]=' ';//将蛇尾置空
+            tail= (tail+1) % ( (N-2) * (N-2) );//更新蛇尾坐标
+            s[position[head].x][position[head].y]='*';  //将蛇头更为蛇身
+            head= (head+1) % ( (N-2) * (N-2) );
+            position[head].x = x;
+            position[head].y = y;
+            s[position[head].x][position[head].y]='#'; //更新蛇头
+            gameover = 1;
+        }
+    return gameover;
+}
+//====================================
+//主函数部分
+//====================================
+int main()
+{
+    char ctn = 'y';
+    int nodead;
+    cout&lt;&lt;"\t\t -----------------------------------------------------";
+    cout&lt;&lt;"\n\t\t\t\t 贪吃蛇"&lt;&lt;endl;
+    cout&lt;&lt;"\n\n\n\n\t\t\t\t 感谢Shawn Hou提供源代码"&lt;&lt;endl;
+    cout&lt;&lt;"\n\t\t\t\t xyjigsaw修改"&lt;&lt;endl;
+    cout&lt;&lt;"\n\t\t\t\t 修改内容：\n\t\t\t\t 1.速度bug\n\t\t\t\t 
+2.随机生成选择的固定性\n\t\t\t\t 3.源代码注释\n\t\t\t\t 4.新增最高纪录变量"&lt;&lt;endl;
+    cout&lt;&lt;"\n\t\t\t\t 空格暂停问题未优化，请大家指正"&lt;&lt;endl;
+    cout&lt;&lt;"\n\n\t\t\t\t 按任意键开始-----&gt;&gt;"&lt;&lt;endl;
+    cout&lt;&lt;"\n\n\n\n\t\t\t\t www.omegaxyz.com";
+    cout&lt;&lt;"\n\t\t -----------------------------------------------------"&lt;&lt;endl;
+    getch();
+    while( ctn=='y' )
+    {
+        system("cls");
+        snake_map snake;
+        snake.initialize();
+        cout &lt;&lt; "\n\n请选择游戏等级：" &lt;&lt; endl;
+        cout &lt;&lt; "\n\n\n\t\t\t1.辣鸡：速度 100 \n\n\t\t\t2.菜鸟：速度 200 \n\n\t\t\t
+3.入门：速度 400 ";
+        cout &lt;&lt; "\n\n\t\t\t4.中等：速度 600 \n\n\t\t\t5.较快：速度 800 \n\n\t\t\t
+6.飞：速度 1000 \n\n\t\t\t7.随机" &lt;&lt; endl;
+        snake.getgrade();//获取等级
+        for(int i=1;i&lt;=4;i++)
+        {
+            position[i].initialize(i);//初始化坐标
+        }
+        snake.setpoint();  // 产生第一个食物
+        do
+        {
+            snake.show_game();
+            nodead = snake.updata_game();
+        }while(nodead);
+        system("cls"); //清屏
+        cout&lt;&lt;"\t\t\t -----------------------------------------";
+        cout &lt;&lt; "\n\n\n\t\t\t\tGameover！\n\n"&lt;&lt;endl;
+        snake.display();//输出等级/得分情况
+        cout &lt;&lt; "\n\n\n\t\t\t    是否继续？输入 y 继续，n 退出"&lt;&lt;endl;
+        cout&lt;&lt;"\t\t\t -----------------------------------------"&lt;&lt;endl;
+        cin &gt;&gt; ctn;
+    }
+    return 0;
+}</code></pre>
+<img alt="" class="alignnone wp-image-435" height="316" src="https://cdn.omegaxyz.com/2017/04/snake1-300x176.png" width="539"/>
+<img alt="" class="alignnone wp-image-436" height="452" src="https://cdn.omegaxyz.com/2017/04/snake2-300x251.png" width="540"/>
+<img alt="" class="alignnone wp-image-437" height="301" src="https://cdn.omegaxyz.com/2017/04/snake3-300x167.png" width="541"/>
+<img alt="" class="alignnone wp-image-438" height="504" src="https://cdn.omegaxyz.com/2017/04/snake4-300x279.png" width="542"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

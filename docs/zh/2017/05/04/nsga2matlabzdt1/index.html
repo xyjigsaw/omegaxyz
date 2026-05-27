@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1） · OmegaXYZ</title>
+  <meta name="description" content="为了能随时了解Matlab主要操作及思想。 故本文贴上NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）。 感谢郭伟学长提供的代码。 代码所有权归郭伟学长。 在看Matlab实现之前，请先看一下NSGA-II算法概述 https://omegaxyz.com/2017/04/14/nsga-iiintro/ NSGA-Ⅱ就是在第一代非...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/05/04/nsga2matlabzdt1/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-05-04</div>
+        <h1>NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">为了能随时了解Matlab主要操作及思想。
+
+故本文贴上NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）。
+
+感谢郭伟学长提供的代码。
+
+代码所有权归郭伟学长。
+
+在看Matlab实现之前，请先看一下NSGA-II算法概述
+
+https://omegaxyz.com/2017/04/14/nsga-iiintro/
+
+NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对如上所述的三个方面：
+①提出了快速非支配排序算法，一方面降低了计算的复杂度，另一方面它将父代种群跟子代种群进行合并，使得下一代的种群从双倍的空间中进行选取，从而保留了最为优秀的所有个体；
+②引进精英策略，保证某些优良的种群个体在进化过程中不会被丢弃，从而提高了优化结果的精度；
+③采用拥挤度和拥挤度比较算子，不但克服了NSGA中需要人为指定共享参数的缺陷，而且将其作为种群中个体间的比较标准，使得准Pareto域中的个体能均匀地扩展到整个Pareto域，保证了种群的多样性。
+
+Matlab实现：
+<pre ><code class="language-matlab">function NSGAII()
+clc;format compact;tic;hold on
+    
+%---初始化/参数设定
+    generations=100;                                %迭代次数
+    popnum=100;                                     %种群大小(须为偶数)
+    poplength=30;                                   %个体长度
+    minvalue=repmat(zeros(1,poplength),popnum,1);   %个体最小值
+    maxvalue=repmat(ones(1,poplength),popnum,1);    %个体最大值    
+    population=rand(popnum,poplength).*(maxvalue-minvalue)+minvalue;    %产生新的初始种群
+    
+%---开始迭代进化
+    for gene=1:generations                      %开始迭代
+        
+%-------交叉 
+        newpopulation=zeros(popnum,poplength);  %子代种群
+        for i=1:popnum/2                        %交叉产生子代
+            k=randperm(popnum);                 %从种群中随机选出两个父母,不采用二进制联赛方法
+            beta=(-1).^round(rand(1,poplength)).*abs(randn(1,poplength))*1.481; %采用正态分布交叉产生两个子代
+            newpopulation(i*2-1,:)=(population(k(1),:)+population(k(2),:))/2+beta.*(population(k(1),:)-population(k(2),:))./2;    %产生第一个子代           
+            newpopulation(i*2,:)=(population(k(1),:)+population(k(2),:))/2-beta.*(population(k(1),:)-population(k(2),:))./2;      %产生第二个子代
+        end
+        
+%-------变异        
+        k=rand(size(newpopulation));    %随机选定要变异的基因位
+        miu=rand(size(newpopulation));  %采用多项式变异
+        temp=k&lt;1/poplength &amp; miu&lt;0.5;   %要变异的基因位
+        newpopulation(temp)=newpopulation(temp)+(maxvalue(temp)-minvalue(temp)).*((2.*miu(temp)+(1-2.*miu(temp)).*(1-(newpopulation(temp)-minvalue(temp))./(maxvalue(temp)-minvalue(temp))).^21).^(1/21)-1);        %变异情况一
+        newpopulation(temp)=newpopulation(temp)+(maxvalue(temp)-minvalue(temp)).*(1-(2.*(1-miu(temp))+2.*(miu(temp)-0.5).*(1-(maxvalue(temp)-newpopulation(temp))./(maxvalue(temp)-minvalue(temp))).^21).^(1/21));  %变异情况二
+        
+%-------越界处理/种群合并        
+        newpopulation(newpopulation&gt;maxvalue)=maxvalue(newpopulation&gt;maxvalue); %子代越上界处理
+        newpopulation(newpopulation&lt;minvalue)=minvalue(newpopulation&lt;minvalue); %子代越下界处理
+        newpopulation=[population;newpopulation];                               %合并父子种群
+        
+%-------计算目标函数值        
+        functionvalue=zeros(size(newpopulation,1),2);           %合并后种群的各目标函数值,这里的问题是ZDT1
+        functionvalue(:,1)=newpopulation(:,1);                  %计算第一维目标函数值
+        g=1+9*sum(newpopulation(:,2:poplength),2)./(poplength-1);
+        functionvalue(:,2)=g.*(1-(newpopulation(:,1)./g).^0.5); %计算第二维目标函数值
+        
+%-------非支配排序        
+        fnum=0;                                             %当前分配的前沿面编号
+        cz=false(1,size(functionvalue,1));                  %记录个体是否已被分配编号
+        frontvalue=zeros(size(cz));                         %每个个体的前沿面编号
+        [functionvalue_sorted,newsite]=sortrows(functionvalue);    %对种群按第一维目标值大小进行排序
+        while ~all(cz)                                      %开始迭代判断每个个体的前沿面,采用改进的deductive sort
+            fnum=fnum+1;
+            d=cz;
+            for i=1:size(functionvalue,1)
+                if ~d(i)
+                    for j=i+1:size(functionvalue,1)
+                        if ~d(j)
+                            k=1;                            
+                            for m=2:size(functionvalue,2)
+                                if functionvalue_sorted(i,m)&gt;functionvalue_sorted(j,m)
+                                    k=0;
+                                    break
+                                end
+                            end
+                            if k
+                                d(j)=true;
+                            end
+                        end
+                    end
+                    frontvalue(newsite(i))=fnum;
+                    cz(i)=true;
+                end
+            end
+        end
+        
+%-------计算拥挤距离/选出下一代个体        
+        fnum=0;                                                                 %当前前沿面
+        while numel(frontvalue,frontvalue&lt;=fnum+1)&lt;=popnum                      %判断前多少个面的个体能完全放入下一代种群
+            fnum=fnum+1;
+        end        
+        newnum=numel(frontvalue,frontvalue&lt;=fnum);                              %前fnum个面的个体数
+        population(1:newnum,:)=newpopulation(frontvalue&lt;=fnum,:);               %将前fnum个面的个体复制入下一代                       
+        popu=find(frontvalue==fnum+1);                                          %popu记录第fnum+1个面上的个体编号
+        distancevalue=zeros(size(popu));                                        %popu各个体的拥挤距离
+        fmax=max(functionvalue(popu,:),[],1);                                   %popu每维上的最大值
+        fmin=min(functionvalue(popu,:),[],1);                                   %popu每维上的最小值
+        for i=1:size(functionvalue,2)                                           %分目标计算每个目标上popu各个体的拥挤距离
+            [~,newsite]=sortrows(functionvalue(popu,i));
+            distancevalue(newsite(1))=inf;
+            distancevalue(newsite(end))=inf;
+            for j=2:length(popu)-1
+                distancevalue(newsite(j))=distancevalue(newsite(j))+(functionvalue(popu(newsite(j+1)),i)-functionvalue(popu(newsite(j-1)),i))/(fmax(i)-fmin(i));
+            end
+        end                                      
+        popu=-sortrows(-[distancevalue;popu]')';                                %按拥挤距离降序排序第fnum+1个面上的个体
+        population(newnum+1:popnum,:)=newpopulation(popu(2,1:popnum-newnum),:);	%将第fnum+1个面上拥挤距离较大的前popnum-newnum个个体复制入下一代        
+    end
+
+%---程序输出    
+    fprintf('已完成,耗时%4s秒\n',num2str(toc));          %程序最终耗时
+    output=sortrows(functionvalue(frontvalue==1,:));    %最终结果:种群中非支配解的函数值
+    plot(output(:,1),output(:,2),'*b');                 %作图
+    axis([0,1,0,1]);xlabel('F_1');ylabel('F_2');title('ZDT1')
+end
+</code></pre>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (28)</h2>
+        <div class="comment" id="comment-3805">
+          <strong>Anonymous</strong>
+          <time>2018-07-25 18:58:10</time>
+          <div>您好，有问题想请教，目标函数不会处理呀，我的目标函数比较复杂，涉及到的优化参量也比较多，我能加下您的QQ吗，想要学习下。我的qq562808145</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3807">
+          <strong>xyjisaw</strong>
+          <time>2018-07-25 21:48:09</time>
+          <div>这样啊，我也只会个框架而已，我觉得目标函数可以和nsga2分开来独立出来，不一定会你的，你加我QQ吧：644327005</div>
+        </div>
+        
+        <div class="comment" id="comment-17023">
+          <strong>Anonymous</strong>
+          <time>2019-05-24 16:19:13</time>
+          <div>您好，我想把测试函数改成ZDT4，但是遇到了一些问题，请问计算目标函数值的地方我改的 g=1+10.*(poplength-1)+sum((newpopulation(:,2:poplength),2).^2-10.*cos(4.*pi.*(newpopulation(:,2:poplength),2)));哪里不太对_(:з」∠)_</div>
+        </div>
+        
+        <div class="comment" id="comment-17305">
+          <strong>Anonymous</strong>
+          <time>2019-08-06 16:53:55</time>
+          <div>您好，请问我用matlab中的dace工具得到的优化函数是个结构体，这种情况该怎么处理，谢谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17309">
+          <strong>xyjisaw</strong>
+          <time>2019-08-07 11:49:57</time>
+          <div>请问在代码的哪一行呢？</div>
+        </div>
+        
+        <div class="comment" id="comment-18628">
+          <strong>Lzr</strong>
+          <time>2020-03-05 22:04:39</time>
+          <div>我想问下你的这个代码为什么没有交叉变异概率呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18629">
+          <strong>xyjisaw</strong>
+          <time>2020-03-06 09:02:04</time>
+          <div>有的<br>&lt;code&gt;temp=k&lt;1/poplength &amp; miu&lt;0.5;   %要变异的基因位&lt;/code&gt;</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18630">
+          <strong>Lzr</strong>
+          <time>2020-03-06 09:05:00</time>
+          <div>这个我知道，但是那个交叉概率呢？正态分布交叉和多项式变异，您那边有数学公式吗？感谢🙏</div>
+        </div>
+        
+        <div class="comment" id="comment-19187">
+          <strong>匿名</strong>
+          <time>2020-07-17 11:18:01</time>
+          <div>楼主你好，感谢你的分享。我在学习过程中不太明白交叉系数beta 1.481是什么意思是，以及产生第一、第二个子代的交叉公式 newpopulation(i*2-1,:) 的依据，不知能否解答？十分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19190">
+          <strong>xyjisaw</strong>
+          <time>2020-07-17 17:48:13</time>
+          <div>第一个系数是实验中选择的最好的结果，交叉方式有很多，可以调研一下遗传算法的交叉。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19191">
+          <strong>匿名</strong>
+          <time>2020-07-17 17:56:37</time>
+          <div>嗯嗯，谢谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19330">
+          <strong>张丹丹</strong>
+          <time>2020-08-19 11:09:19</time>
+          <div>你好，我想咨询一下关于有约束的多目标优化函数您这边解决了吗 可以看一下程序吗</div>
+        </div>
+        
+        <div class="comment" id="comment-19406">
+          <strong>志杰</strong>
+          <time>2020-08-29 20:22:09</time>
+          <div>想问一下博主，不知道你有没有NSGA-3的像这样子的代码，有的话可以给我发一份吗，感谢感谢！<br>我的邮箱是2215421217@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19416">
+          <strong>xyjisaw</strong>
+          <time>2020-08-30 11:01:06</time>
+          <div>可以使用PlatEMO</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19473">
+          <strong>李</strong>
+          <time>2020-09-16 16:37:19</time>
+          <div>同需要解决类似的问题，可以交流一下吗</div>
+        </div>
+        
+        <div class="comment" id="comment-19874">
+          <strong>继未言</strong>
+          <time>2020-12-25 20:49:48</time>
+          <div>博主您好，目标函数要写在哪里呢？就是我自己根据实际例子编写的目标函数，比如列车速度最小、耗能最小这钟？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19875">
+          <strong>继未言</strong>
+          <time>2020-12-25 20:50:45</time>
+          <div>我也需要解决这类问题，可以一起交流嘛？</div>
+        </div>
+        
+        <div class="comment" id="comment-21349">
+          <strong>唐安聪</strong>
+          <time>2021-03-08 15:28:24</time>
+          <div>博主，我用ZDT3测试并不能得到间段的结果，这是为什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21813">
+          <strong>mechigo</strong>
+          <time>2021-04-02 10:03:58</time>
+          <div>请问你懂了吗？我也想问一下如何加上自己的目标函数</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21814">
+          <strong>mechigo</strong>
+          <time>2021-04-02 10:05:27</time>
+          <div>请问你懂了吗？我想请问一下应该在代码哪个位置加上自己的目标函数？</div>
+        </div>
+        
+        <div class="comment" id="comment-24431">
+          <strong>陈</strong>
+          <time>2021-10-12 09:33:02</time>
+          <div>请问问题解决了吗，QQ978438391</div>
+        </div>
+        
+        <div class="comment reply" id="comment-24432">
+          <strong>chen</strong>
+          <time>2021-10-12 09:35:26</time>
+          <div>请问问题解决了吗，QQ978438391</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26862">
+          <strong>刘浩宇</strong>
+          <time>2022-06-14 18:53:23</time>
+          <div>我也是</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26863">
+          <strong>刘浩宇</strong>
+          <time>2022-06-14 19:08:10</time>
+          <div>哪里找这个平台</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26867">
+          <strong>xyjisaw</strong>
+          <time>2022-06-14 19:44:11</time>
+          <div>https://github.com/BIMK/PlatEMO</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36120">
+          <strong>Miraitowa</strong>
+          <time>2023-10-22 14:22:52</time>
+          <div>我也需要解决这类问题，请问您解决了嘛？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-36121">
+          <strong>Miraitowa</strong>
+          <time>2023-10-22 14:31:06</time>
+          <div>同问，请问您解决了嘛？</div>
+        </div>
+        
+        <div class="comment" id="comment-37396">
+          <strong>Shane</strong>
+          <time>2024-01-13 17:04:55</time>
+          <div>这个有约束条件的话，怎么加呢？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

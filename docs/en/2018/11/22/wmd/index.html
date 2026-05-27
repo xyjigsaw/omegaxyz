@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An introduction to sentence similarity analysis based on WMD (Word Movement Distance) · OmegaXYZ</title>
+  <meta name="description" content="word2vec word2vec is a fully connected neural network with only one hidden layer. It trains all words in the corpus and generates corresponding word vectors (Word Embedding). The size of WI is VxN, V is the size of the word dictionary, each input is a word, and N is the set hidden layer size. The word2vec model uses a neural network language model (Neural Network Language Mode...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/11/22/wmd/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-22</div>
+        <h1>An introduction to sentence similarity analysis based on WMD (Word Movement Distance)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><h2><strong>word2vec</strong></h2>word2vec is a fully connected neural network with only one hidden layer. It trains all words in the corpus and generates corresponding word vectors (Word Embedding).<em>WI</em>The size is<em>VxN, V</em>is the size of the word dictionary, each input is a word, and N is the set hidden layer size. The word2vec model uses a neural network language model (Neural Network Language Model)<img alt="" class="alignnone size-full wp-image-5123" height="446" src="https://cdn.omegaxyz.com/2018/11/word2vec.png" width="800"/>Detailed explanation of word2vec
+
+https://omegaxyz.com/2018/11/13/word2vec/<h2><strong>Bag of Words model</strong></h2>The Bag-of-words model is a simplified expression model under natural language processing and information retrieval (IR). Under this model, text such as sentences or documents can be represented by a bag containing these words, regardless of grammar and word order. Recently, the bag-of-words model has also been applied in the field of computer vision. The bag-of-words model is widely used in document classification, and the frequency of word occurrences can be used as features for training classifiers. The origin of the word "bag of words" can be traced back to Zelig Harris's 1954 article in Distributional Structure.<strong>Continuous Bag of Words Model (CBOW)</strong>
+<ol>
+<li>Remove the nonlinear hidden layer in the forward feedback neural network and directly connect the embedding layer of the middle layer to the softmax layer of the output layer;</li>
+<li>Ignore the sequence information of the context: all input word vectors are summarized into the same embedding layer;</li>
+<li>Put future words into context</li>
+</ol>
+<strong>Example: Suning.com/is/one of/domestic/famous/B2C/e-commerce/</strong><img alt="" class="alignnone size-full wp-image-5130" height="598" src="https://cdn.omegaxyz.com/2018/11/BOW.png" width="1126"/><strong>Word Mover’s Distance</strong>
+<img alt="" class="alignnone wp-image-5134" height="422" src="https://cdn.omegaxyz.com/2018/11/wmd1.png" width="640"/>
+<strong>Example:</strong>
+<strong>Document 1: Obama speaks</strong> to the <strong>media</strong> in <strong>Illinois</strong>
+<strong>Document 2:</strong>The <strong>President</strong> <strong>greets</strong> the <strong>press</strong> in <strong>Chicago</strong>First remove Stop-words and keep bold verbs and nouns<img alt="" class="alignnone size-full wp-image-5131" height="325" src="https://cdn.omegaxyz.com/2018/11/wmd2.png" width="662"/>There needs to be a constraint that forcibly assigns each word in document 1 to all words in document 2 with different weights.<h2><strong>Optimization of WMD</strong></h2>Now calculate the WMD distance between two documents. It is very time-consuming to calculate the distance using k-NN. If the document currently to be checked is followed by<strong>Central query document</strong>The WMD lower bound is large enough to determine that it is not in the k-NN list of the query document, so just throw it away without spending time finding the WMD distance of the current document.<strong>Word Centroid Distance (WCD, defined at the last equal sign, X in the formula is a word vector, and X is a matrix composed of word vectors):</strong>
+<img alt="" class="alignnone wp-image-5132" height="357" src="https://cdn.omegaxyz.com/2018/11/wmd3.png" width="554"/>Note that the above formula only needs to be calculated using absolute value inequality and WMD constraints. The derived formula only requires matrix operations, which greatly reduces calculation consumption.<strong>RWMD（Relaxed word moving distance ）</strong>First remove a constraint, calculate the corresponding WMD, and finally take the maximum value.
+
+The solutions to these two relaxed optimization problems correspond to the nearest neighbor problem in the row space and column space of the word vector matrix, and are also easy to calculate. Finally, RWMD is defined as the maximum value of the two objective values ​​of these two relaxed optimization problems.<h2><strong>References</strong></h2>Kusner M, Sun Y, Kolkin N, et al. From word embeddings to document distances[C]//International Conference on Machine Learning. 2015: 957-966.
+
+Note: The PPT of this article is the final assignment of the 2018 machine learning course.</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-3983">
+          <strong><a href="http://happywheels4.com" rel="nofollow">happy wheels</a></strong>
+          <time>2018-12-01 18:19:58</time>
+          <div>The calculations you share are useful.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

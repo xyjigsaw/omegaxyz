@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>双DFS图遍历The die is cast C++实现 · OmegaXYZ</title>
+  <meta name="description" content="来源：poj 1481:The Die Is Cast 网址： http://bailian.openjudge.cn/practice/1481/ 总时间限制: 1000ms 内存限制: 65536kB 描述 InterGames is a high-tech startup company that specializes in de...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/05/26/dfs-the-die-is-cast-c/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-26</div>
+        <h1>双DFS图遍历The die is cast C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/poj/index.html">poj</a></div>
+        <div class="article-content"><h2><strong>来源：poj  1481:The Die Is Cast</strong></h2>
+网址： <a href="http://bailian.openjudge.cn/practice/1481/">http://bailian.openjudge.cn/practice/1481/</a>
+
+总时间限制: 1000ms 内存限制: 65536kB
+<h2><strong>描述</strong></h2>
+InterGames is a high-tech startup company that specializes in developing technology that allows users to play games over the Internet. A market analysis has alerted them to the fact that games of chance are pretty popular among their potential customers. Be it Monopoly, ludo or backgammon, most of these games involve throwing dice at some stage of the game.
+Of course, it would be unreasonable if players were allowed to throw their dice and then enter the result into the computer, since cheating would be way to easy. So, instead, InterGames has decided to supply their users with a camera that takes a picture of the thrown dice, analyzes the picture and then transmits the outcome of the throw automatically.
+
+For this they desperately need a program that, given an image containing several dice, determines the numbers of dots on the dice.
+
+We make the following assumptions about the input images. The images contain only three different pixel values: for the background, the dice and the dots on the dice. We consider two pixels connected if they share an edge - meeting at a corner is not enough. In the figure, pixels A and B are connected, but B and C are not.
+
+<img class="size-full wp-image-5810 aligncenter" src="https://cdn.omegaxyz.com/2019/05/the-die-is-cast.gif" alt="" width="176" height="175" />
+
+A set S of pixels is connected if for every pair (a,b) of pixels in S, there is a sequence a1, a2, ..., ak in S such that a = a1 and b = ak , and ai and ai+1 are connected for 1 &lt;= i &lt; k.
+
+We consider all maximally connected sets consisting solely of non-background pixels to be dice. `Maximally connected' means that you cannot add any other non-background pixels to the set without making it dis-connected. Likewise we consider every maximal connected set of dot pixels to form a dot.
+<h2><strong>输入</strong></h2>
+The input consists of pictures of several dice throws. Each picture description starts with a line containing two numbers w and h, the width and height of the picture, respectively. These values satisfy 5 &lt;= w, h &lt;= 50.
+
+The following h lines contain w characters each. The characters can be: "." for a background pixel, "*" for a pixel of a die, and "X" for a pixel of a die's dot.
+
+Dice may have different sizes and not be entirely square due to optical distortion. The picture will contain at least one die, and the numbers of dots per die is between 1 and 6, inclusive.
+
+The input is terminated by a picture starting with w = h = 0, which should not be processed.
+<h2><strong>输出</strong></h2>
+For each throw of dice, first output its number. Then output the number of dots on the dice in the picture, sorted in increasing order.
+
+Print a blank line after each test case.
+<h2><strong>样例输入</strong></h2>
+<pre ><code class="language-default">30 15
+..............................
+..............................
+...............*..............
+...*****......****............
+...*X***.....**X***...........
+...*****....***X**............
+...***X*.....****.............
+...*****.......*..............
+..............................
+........***........******.....
+.......**X****.....*X**X*.....
+......*******......******.....
+.....****X**.......*X**X*.....
+........***........******.....
+..............................
+0 0
+</code></pre>
+<h2><strong>样例输出</strong></h2>
+<pre ><code class="language-default">Throw 1
+1 2 2 4</code></pre>
+<h2><strong>分析</strong></h2>
+所给的图形中’.‘是背景，‘*’是骰子的骰子的边界，X是骰子的点数，如果多个X相邻（上，下，左，右）记作一点；求出所有骰子的点数，按升序输出；
+
+需要用两个DFS分别来探测，DFSX用目的是将相邻的X换成*，也就是说相邻的X只能算作1个🎲，DFSstar目的是在茫茫点中找到一个X，并将已经走过的*变成点。
+<h2><strong>C++代码</strong></h2>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+int sum;
+int m, n;
+char v[55][55];
+int go[][2] = {0, 1, 0, -1, 1, 0, -1, 0};
+
+void DFSX(int x, int y){
+    //目的是将相邻的X换成*
+    v[x][y] = '*';
+    for(int i = 0; i &lt; 4; i++){
+        int nx = x + go[i][0];
+        int ny = y + go[i][1];
+        if(nx &lt; 0 || nx &gt; m - 1 || ny &lt; 0 || ny &gt; n - 1)continue;
+        if(v[nx][ny] == 'X')DFSX(nx, ny);
+    }
+}
+
+void DFSstar(int x, int y){
+    v[x][y] = '.';
+    for(int i = 0; i &lt; 4; i++){
+        int nx = x + go[i][0];
+        int ny = y + go[i][1];
+        if(nx &lt; 0 || nx &gt; m - 1 || ny &lt; 0 || ny &gt; n - 1)continue;
+        if(v[nx][ny] == 'X'){
+            DFSX(nx, ny);
+            sum++; //相邻的X换成*号后就只有1个了
+        }
+        if(v[nx][ny] == '*')DFSstar(nx, ny); //如果是*就继续搜索，直到将所有点都搜完
+    }
+}
+
+int main(){
+    int t = 1;
+    
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(m == 0 || n == 0)break;
+        vector&lt;int&gt; ans;
+        for(int i = 0; i &lt; m; i++){
+            scanf("%s", v[i]);
+        }
+        for(int i = 0; i &lt; m; i++){
+            for(int j = 0; j &lt; n; j++){
+                if(v[i][j] == '*'){
+                    sum = 0;
+                    DFSstar(i, j);
+                    ans.push_back(sum);
+                }
+            }
+        }
+        sort(ans.begin(), ans.end());
+        cout&lt;&lt;"Throw "&lt;&lt;t&lt;&lt;endl;
+        t++;
+        for(int i = 0; i &lt; ans.size(); i++){
+            printf("%d%s", ans[i], i == ans.size() - 1 ? "\n\n" : " ");
+        }
+    }
+    return 0;
+}</code></pre>
+<h2><strong>其他DFS例题</strong></h2>
+https://omegaxyz.com/2019/05/19/dfs-example-graph-cpp/
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

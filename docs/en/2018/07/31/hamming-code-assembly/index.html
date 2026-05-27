@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hamming code assembly language implementation · OmegaXYZ</title>
+  <meta name="description" content="Author: Xu Yi, Qiu Kang Introduction to Hamming code The performance of Hamming code is to detect one bit error. It is developed based on the idea of ​​parity check code. It adds r check bits to K bits of data to form a new codeword of K+r bits, and distributes each binary bit of the data to several different parity check groups. In this way, when one of the bits changes, it will cause parity errors in several related groups. Through different combinations of these error groups, it is possible to indicate which bit has an error, so that error correction can be performed. use...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/31/hamming-code-assembly/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-31</div>
+        <h1>Hamming code assembly language implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/assembly/index.html">汇编语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/assembly/index.html">汇编语言</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><strong>Author: Xu Yi, Qiu Kang</strong>
+<h2><strong>Introduction to Hamming Code</strong></h2>
+<p style="text-align: left;">The performance of Hamming code is to detect one bit error, which is developed based on the idea of ​​parity check code. It adds r check bits to K bits of data to form a new codeword of K+r bits, and distributes each binary bit of the data to several different parity check groups. In this way, when one of the bits changes, it will cause parity errors in several related groups. Through different combinations of these error groups, it is possible to indicate which bit has an error, so that error correction can be performed.
+To use Hamming code for verification, you first need to determine the number of digits in the check code. In this experiment, Hamming code only requires one bit of error detection and correction. At this time, r check bits can represent 2 to the power of r different states. In order to achieve one-bit error detection and correction, one state needs to be used to indicate that the information is correct, and k+r states are used to indicate that each of the K-bit data bits and r-bit check bits is incorrect, with a total of k+r+1 states. Therefore, it is required:</p>
+<p style="text-align: center;"><strong>2 to the power of r&gt;=k+r+1</strong></p>
+<p style="text-align: left;">In this experiment, assume that the data bits are D, with a total of 4 bits, marked as D4...D1; the check bit is P, with a total of 3 bits, marked as P3...P1; the Hamming code obtained by encoding is H, with a total of 7 bits, marked as H7...H1, and the bit number 1 represents the lowest bit.
+The encoding rules of Hamming code are:
+(1) Each check bit Pi is assigned to the i-1 power of bit number 2 in the Hamming code H. Data bits are placed on the vacant bits in H, and the data bits are arranged and allocated bit by bit in order from low to high.
+(2) Each bit code Hi of Hamming code (including data bits and check bits) is checked by multiple check bits. The relationship is that the bit number of each bit being checked is equal to the sum of the bit numbers of the check bits that verify the bit. The purpose of this arrangement is to hope that the result of the check can correctly reflect the bit number of the error bit.</p>
+<h2 style="text-align: left;"><strong>Implementation details</strong></h2>
+<p style="text-align: left;">① Take out each bit bit by bit: Move the bit to be taken out to the lowest bit through the shift instruction, and take it out and save it to other registers through the AND Ri,01H instruction.
+② On the currently taken out bit, determine which check bit the current bit is calculated and XOR operation with the check bit register. For example: the fourth bit of data bit D4 is currently fetched, and P1=D1⊕D2⊕D4, P2=D1⊕D3⊕D4, P3=D2⊕D3⊕D4, the fourth bit needs to be calculated in P1, P2, and P3. At this time, the D4 bit is XORed with the three registers that hold P1, P2, and P3 to realize the bit-fetching operation.
+③ Change the value of the three check digits into an eight-digit binary number and output the result.</p>
+<strong>The picture below is the schematic diagram of my 7-bit Hamming code, where Pi</strong><strong>Refers to the check digit, Hi</strong><strong>refers to data bits</strong>
+
+H7         H6         H5          H4         H3         H2          H1
+<table style="height: 38px;" width="1329">
+<tbody>
+<tr>
+<td width="81">D4</td>
+<td width="81">D3</td>
+<td width="81">D2</td>
+<td width="81">P3</td>
+<td width="81">D1</td>
+<td width="81">P2</td>
+<td width="81">P1</td>
+</tr>
+</tbody>
+</table>
+<h2><strong>assembly code</strong></h2>
+<pre><code class="language-asm">DATAS SEGMENT
+	ARRAY DB 16 DUP(?)
+DATAS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    
+    MOV AX,0
+    MOV BX,0
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+1],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+2],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+3],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+4],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+5],AL
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0'
+    MOV ARRAY[BX+6],AL
+    
+    MOV DX,0
+    MOV AX,0
+    MOV DL,ARRAY[BX+3]
+    ROL DL,1
+    MOV AL,ARRAY[BX+5]
+    ADD DL,AL
+    ROL DL,1
+    MOV AL,ARRAY[BX+6]
+	ADD DL,AL
+	MOV ARRAY[BX+7],DL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+4]
+	XOR AL,ARRAY[BX+2]
+	XOR AL,ARRAY[BX]
+	MOV ARRAY[BX+8],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+4]
+	XOR AL,ARRAY[BX+1]
+	XOR AL,ARRAY[BX]
+	MOV ARRAY[BX+9],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX]
+	XOR AL,ARRAY[BX+1]
+	XOR AL,ARRAY[BX+2]
+	MOV ARRAY[BX+10],AL
+	
+	MOV AX,0
+	MOV DX,0
+	MOV AL,ARRAY[BX+10]
+	ROL AL,1
+	MOV DL,ARRAY[BX+9]
+	ADD AL,DL
+	ROL AL,1
+	MOV DL,ARRAY[BX+8]
+	ADD AL,DL;算出的结果
+	
+	MOV DL,ARRAY[BX+7]
+	XOR DL,AL
+	ADD DL,'0'
+    MOV AH,2
+    INT 21H
+    
+    
+    
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START
+</code></pre>
+<h2><strong>Experimental results</strong></h2>Hamming code of the first set of data: 00010010
+P1=D1⊕D2⊕D4=1
+P2=D1⊕D3⊕D4=1
+P3=D2⊕D3⊕D4=1<strong>P3P2P1=（111）B=07H</strong>Hamming code of the third set of data: 001001000
+Theoretical value: P1=D1⊕D2⊕D4=1
+P2=D1⊕D3⊕D4=1
+P3=D2⊕D3⊕D4=0<strong>P3P2P1=（011）B=03H</strong>
+<strong>The above code is unoptimized code</strong>
+<strong>This article is part of the hardware training report</strong>
+<strong>Part of the content written by: Qiu Kang</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

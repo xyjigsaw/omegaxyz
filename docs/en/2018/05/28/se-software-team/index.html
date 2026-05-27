@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software Engineering-Organizational Form of Software Team · OmegaXYZ</title>
+  <meta name="description" content="Why form a software team? Most software products cannot be completed by a software professional alone within a limited time. Therefore, the product must be assigned to a group of professionals, forming a team. Before talking about the organizational form of the software team in detail, let’s introduce Brooks’ Law. Brooks&#x27; Law Brooks was the person in charge of the development of OS/360, the operating system of IBM System/360 in the 1960s. He later wrote the book &quot;The Mythical Man-Month&quot; based on his experience at that time. There is such a...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/28/se-software-team/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-28</div>
+        <h1>Software Engineering-Organizational Form of Software Team</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Why form a software team?</strong></h2>Most software products cannot be completed by a software professional alone within a limited time. Therefore, the product must be assigned to a group of professionals, forming a team. Before talking about the organizational form of the software team in detail, let’s introduce Brooks’ Law.<h2><strong>Brooks's Law</strong></h2>Brooks was the person in charge of the development of OS/360, the operating system of IBM System/360 in the 1960s. He later wrote the book "The Mythical Man-Month" based on his experience at that time.<strong>If such a project requires 12 man-months, then 3 people can complete the task in 4 months. Then, set observation points A/B/C/D every month.</strong>But the A result that needed to be completed in one month took two months to complete. This is already two months later than expected. what to do? Managers have the following countermeasures.<ol>
+<li>Although the original estimate was correct, it was just the initial engineering that was wrong. In other words, it is estimated that there are 9 person-months left. Because there are 9 person-months of work, it will take 9/2=4.5 people to complete the work in two months. Add two more people to the three-person team.</li>
+<li>The original estimate was wrong. It required 24 person-months instead of 12 person-months. Because it has already taken 6 person-months, 18 person-months are left. If completed in 2 months, 18/2=9 people will be needed. An additional 6 people were added to the original 3-person team.</li>
+<li>Reschedule tasks. Add enough time to the new plan.</li>
+<li>Adjust work goals. Work less.</li>
+</ol>So, what method should be used? The first two methods, if the work goals and work schedule are not modified, the expectation of completing the goals in the first 4 months will be shattered.
+
+If two more people are added, the training costs for these two people will mean that five people are required to do the work completed by three people, and the work will need to be rearranged. These costs are not added to the estimate, and as a result, the deadline will not be met. If there are 6 additional people, this cost will increase even more.<p style="text-align: center;"><strong><span style="color: #ff0000;">This is Brooks's Law. "Additional personnel are arriving<span class="deco">Delayed projects will further affect the progress of the project</span>」</span></strong></p>As Brooks writes, failure to complete work on schedule results in lower work goals.
+
+This is a law in software product development discovered 50 years ago that is still true today. However, almost all developers do not understand Brooks' Law, and even if they know it, they do not practice it.<h2><strong>Software team organization</strong></h2>
+<h3><strong>democracy group</strong></h3>Advantages: High-quality code due to active bug hunting, especially useful for solving difficult problems.
+
+Disadvantages: Experienced people’s aversion to novice evaluations cannot be imposed from outside.<h3><strong>traditional master programmer group</strong></h3>
+<img alt="" class="alignnone wp-image-4388" height="389" src="https://cdn.omegaxyz.com/2018/05/ST1.jpg" width="656"/>Disadvantages: Not practical<h3><strong>Modified lead programmer group</strong></h3>Advantages: There are many successful examples
+
+Cons: No comparable success story to The New York Times project<h3><strong>Modern Hierarchical Programming Group</strong></h3>
+<img alt="" class="alignnone wp-image-4389" height="527" src="https://cdn.omegaxyz.com/2018/05/ST2.jpg" width="661"/>Pros: Group manager/group leadership structure avoids the need for a master programmer, is scalable, and supports decentralized decision-making when necessary
+
+Disadvantages: Unless the scope of responsibility between the team manager and team leader is clear, problems may easily arise<strong>Programming groups in a modern form of decentralized decision-making</strong>
+<img alt="" class="alignnone wp-image-4390" height="379" src="https://cdn.omegaxyz.com/2018/05/ST3.jpg" width="656"/>Example: Developing a military communication software<h3><strong>Sync-Stable Group</strong></h3>Pros: Encourages creativity and ensures large numbers of developers working towards a common goal
+
+Disadvantages: There are no examples of this method being applied outside of Microsoft.<h3><strong>agile process team</strong></h3>Pros: Programmers don’t test their own code, nothing is lost if a programmer leaves, less experienced programmers can learn from others, code has group ownership
+
+Disadvantages: There are no more examples to prove its effectiveness<h3><strong>open source group</strong></h3>Pros: A few projects are very successful
+
+Disadvantages: Narrow application scope, needs to be led by outstanding and charismatic people, and requires the participation of top experts</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python packaged into exe file · OmegaXYZ</title>
+  <meta name="description" content="There are two ways to package python: Py2exe and pyinstaller, but py2exe is older. Please check the update date. Well, let’s first look at how python is run. *.py file: For open source projects or source code that is not so important, the source code is provided directly. Users need to install Python by themselves and install various dependent libraries. (This is what various official Python installation packages do) *.pyc file: Some companies or individuals use confidential information...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/07/python打包成exe文件/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-07</div>
+        <h1>Python packaged into exe file</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">There are two ways to package python: Py2exe and pyinstaller, but py2exe is older.
+
+Look at the update date<a href="https://cdn.omegaxyz.com/2017/10/20160706151844352.jpg"><img alt="" class="alignnone size-full wp-image-2153" height="604" src="https://cdn.omegaxyz.com/2017/10/20160706151844352.jpg" width="1014"/></a>Okay, let’s first look at how python runs.
+
+* .py file: For open source projects or where the source code is not that important, the source code is provided directly, and the user needs to install Python and various dependent libraries by themselves. (This is what Python’s official various installation packages do)
+
+* .pyc file: Some companies or individuals do not want the source code to be seen by operators due to confidentiality or various reasons. They can use pyc files to publish. pyc files are binary codes that can be recognized by the Python interpreter, so they are also cross-platform after release. Users need to install the corresponding version of Python and dependent libraries.
+
+* Executable files: Different executable files need to be packaged for different platforms (Windows, Linux, Mac,...).
+
+This article mainly introduces the last method. Both .py and .pyc are relatively simple, and Python itself can handle it. There are many ways to package a Python script into an executable file, as described in this article.
+
+Install PyInstaller
+
+For those users whose network is relatively stable and can use the pip source address smoothly, the following command can be used directly:
+
+pip install pyinstaller
+
+Usually we download the source code package, then enter the package directory and execute the following command (setuptools needs to be installed):
+
+python setup.py install
+
+After installation, check whether the installation is successful:
+
+pyinstaller --version
+
+After the installation is successful, you can use the following command:
+
+* pyinstaller: The main command for packaging executable files. Detailed usage will be introduced below.
+
+*pyi-archive_viewer: View the file list in the executable package.
+
+*pyi-bindepend: View the dynamic libraries (.so or .dll files) that the executable file depends on
+
+*pyi-... : Wait.
+
+Using PyInstaller
+
+Syntax of pyinstaller:
+
+pyinstaller [options] script [script ...] | specfile
+
+The simplest usage is to execute the command in the same directory as myscript.py:
+
+pyinstaller myscript.py
+
+Then you will see that two new directories, build and dist, have been added. The files under dist are executable files that can be published. For the above command, you will find a bunch of files under the dist directory, including various dynamic library files and myscrip executable files. Sometimes this feels troublesome. You need to package everything under dist before publishing. If you lose a dynamic library, it will not be able to run. Fortunately, pyInstaller supports single file mode. You only need to execute:
+
+pyinstaller -F myscript.py
+
+You will find that there is only one executable file under dist. This single file can be published and run under a system similar to the operating system you are using.
+
+Of course, pyinstaller also has various options, including general options, such as the -d option for debugging and understanding the execution process of pyInstaller; there are also some options for different platforms. For specific usage, you can visit the PyInstaller official WIKI.
+
+When executing the pyInstaller command, a .spec file will be generated in the same directory as the script. This file will tell pyinstaller how to process all your scripts and includes command options. Generally we don't need to pay attention to this file. If we need to package data files, or add some Python runtime options to the packaged binary... some advanced packaging options, we need to manually edit the .spec file. You can use:
+
+pyi-makespec options script [script ...]
+
+Create a .spec file. For manually edited .spec files, we can use any of the following commands:
+
+pyinstaller specfile
+
+pyi-build specfile
+
+Introduction to the principles of PyInstaller
+
+PyInstaller actually packages the python parser and your own script into an executable file, which is completely different from compiling it into real machine code. So don't expect that packaging into an executable file will improve operating efficiency. On the contrary, it may reduce operating efficiency. The advantage is that there is no need to install python and the libraries your script depends on on the operator's machine. Under the Linux operating system, it mainly uses the ldd and objdump commands in the binutil tool package.
+
+PyInstaller inputs the script you specify, first analyzes other scripts that the script depends on, then searches, copies, and collects all related scripts, including the Python parser, and then places these files in a directory or packages them into an executable file.
+
+You can directly publish the files in the entire output folder, or the generated executable file. You only need to tell users that your application is self-contained and does not require the installation of other packages or a certain version of Python before it can be run directly.
+
+It should be noted that the executable files packaged by PyInstaller can only be used in the same environment as the packaging machine system. In other words, it is not portable. If it needs to run on a different system, it must be packaged for that platform.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

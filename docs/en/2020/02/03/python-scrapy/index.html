@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting started with Python crawler Scrapy · OmegaXYZ</title>
+  <meta name="description" content="Scrapy components Scrapy is a fast, high-level screen scraping and web scraping framework developed in Python, used to crawl web sites and extract structured data from pages. Engine (Scrapy): used to process the data flow of the entire system and trigger transactions (core of the framework). Scheduler: used to accept requests from the engine, push them into the queue, and return when the engine requests again. It can be imagined as a URL (...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/02/03/python-scrapy/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-03</div>
+        <h1>Getting started with Python crawler Scrapy</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Scrapy composition</strong></h2>
+<em>Scrapy</em>It is a fast, high-level screen scraping and web scraping framework developed in Python, used to crawl web sites and extract structured data from pages.<ul>
+<li>Engine (Scrapy): used to process the data flow of the entire system and trigger transactions (core of the framework).</li>
+<li>Scheduler (Scheduler): used to accept requests from the engine, push them into the queue, and return when the engine requests again. It can be imagined as a priority queue of URLs (the URLs or links of crawled web pages), which determines the next URL to be crawled, and removes duplicate URLs.</li>
+<li>Downloader (Downloader): used to download web page content and return the web page content to the spider (Scrapy downloader is built on twisted, an efficient asynchronous model)</li>
+<li>Spiders: Crawlers are mainly used to extract the information they need from specific web pages, which are so-called entities. Users can also extract links from it and let Scrapy continue to crawl the next page.</li>
+<li>Project pipeline (Pipeline): Responsible for processing entities extracted from web pages by crawlers. The main function is to persist entities, verify the validity of entities, and remove unnecessary information. When the page is parsed by the crawler, it will be sent to the project pipeline and the data will be processed through several specific sequences.</li>
+<li>Downloader Middlewares: A framework located between the Scrapy engine and the downloader. It mainly handles requests and responses between the Scrapy engine and the downloader.</li>
+<li>Spider Middlewares: A framework between the Scrapy engine and the crawler. Its main job is to process the spider's response input and request output.</li>
+<li>Scheduler Middewares: The middleware between the Scrapy engine and the scheduler, sending requests and responses from the Scrapy engine to the scheduler.</li>
+</ul>
+<h2><strong>Scrapy running process</strong></h2>
+<ul>
+<li>The engine takes out a link (URL) from the scheduler for subsequent crawling</li>
+<li>The engine encapsulates the URL into a request and passes it to the downloader</li>
+<li>The downloader downloads the resource and encapsulates it into a response package (Response)</li>
+<li>Crawler parses Response</li>
+<li>After parsing out the entity (Item), it is handed over to the entity pipeline for further processing.</li>
+<li>If the link (URL) is parsed, the URL will be handed over to the scheduler to wait for crawling.</li>
+</ul>
+<h2><strong>ScrapyCreation</strong></h2>After installing the scrapy class library, you can create a scrapy project. Pycharm cannot directly create a scrapy project. It must be created through the command line. Open the Terminal of pycharm and enter the scrapy startproject scrapy_demo command. It should be noted that the environment variables must be configured before the scrapy command can be displayed in cmd.
+
+For Mac, since there are multiple versions of Python for Mac, if you use version 3.6, you cannot run scrapy directly on the command line. You need to create a soft link (note the corresponding version).<pre><code class="language-default">ln -s /Library/Frameworks/Python.framework/Versions/3.6/bin/scrapy /usr/local/bin/scrapy</code></pre>When you see the following information, the creation is successful.<img alt="" class="alignnone wp-image-6387" height="117" src="https://cdn.omegaxyz.com/2020/02/scrapy-mac1.png" width="580"/>At this point you can see that the project automatically created the following files:<img alt="" class="alignnone wp-image-6386" height="151" src="https://cdn.omegaxyz.com/2020/02/scrapy-mac2.png" width="166"/>
+<ul>
+<li>scrapy.cfg: project configuration file</li>
+<li>scrapy_demo/: The python module of this project, the code will be added here later</li>
+<li>items.py: items file in the project, used to define the data we want to capture</li>
+<li>middlewares.py: middlewares file in the project</li>
+<li>pipelines.py: The pipelines file in the project is used to save the data on the item list returned by the spider. It can be written to a file or saved to the database.</li>
+<li>setting.py: crawler configuration file</li>
+<li>spiders/: directory where spider code is placed (written by yourself)</li>
+</ul>
+<h2><strong>scrapy website crawling</strong></h2>Next, we will discuss the IEEE and<a href="https://arxiv.org/list/cs.AI/recent">arXiv</a>The website is crawled, and the middlewares.py and __init__.py files remain default.<strong>① Define the crawled data structure in item.py based on the website content</strong>
+<img alt="" class="alignnone wp-image-6384" height="339" src="https://cdn.omegaxyz.com/2020/02/IEEE-Blockchain.png" width="551"/>
+<pre><code class="language-python"># -*- coding: utf-8 -*-
+
+# Define here the models for your scraped items
+#
+# See documentation in:
+# https://doc.scrapy.org/en/latest/topics/items.html
+
+# 在items.py文件中定义我们要抓取的数据
+
+import scrapy
+
+
+class ScrapyDemoItem(scrapy.Item):
+
+    # define the fields for your item here like:
+    title = scrapy.Field()
+    authors = scrapy.Field()
+    subjects = scrapy.Field()
+    # year = scrapy.Field()
+    # type = scrapy.Field()
+    # publisher = scrapy.Field()</code></pre>
+<strong>②Create your own crawler under the Spiders folder in this directory</strong>arXiv_Spider.py
+
+It should be noted that the difficulty lies in the extraction of HTML elements. How to write the extracted code is not explained in detail here.<pre><code class="language-python">import scrapy
+import re
+from scrapy_demo.items import ScrapyDemoItem
+
+
+class arXivSpider(scrapy.Spider):
+    name = "arXiv_Spider"
+    allowed_domains = ["arxiv.org"]
+    start_urls = ['https://arxiv.org/list/cs.AI/recent']
+
+    def parse(self, response):
+
+        # get num line
+        num = response.xpath('//*[@id="dlpage"]/small[1]/text()[1]').extract()[0]
+        # get max_index
+        max_index = int(re.search(r'\d+', num).group(0))
+        for index in range(1, max_index + 1):
+            item = ScrapyDemoItem()
+            # get title and clean data
+            title = response.xpath('//*[@id="dlpage"]/dl/dd[' + str(index) + ']/div/div[1]/text()').extract()
+            # remove blank char
+            title = [i.strip() for i in title]
+            # remove blank str
+            title = [i for i in title if i is not '']
+            # insert title
+            try:
+                item['title'] = title[0]
+            except IndexError:
+
+                item['title'] = 'error'
+            authors = ''
+            # authors'  father node
+            xpath_fa = '//*[@id="dlpage"]/dl/dd[' + str(index) + ']/div/div[2]//a/text()'
+            author_list = response.xpath(xpath_fa).getall()
+            authors = str.join('', author_list)
+            item['authors'] = authors
+
+            item['subjects'] = response.xpath(
+                'string(//*[@id="dlpage"]/dl/dd[' + str(5) + ']/div/div[5]/span[2])').extract_first()
+
+            yield item
+</code></pre>
+<strong>③Configure settings.py</strong>I will remove some comments and add some comments according to my own needs. Here I have commented a few things:
+
+Set the user agent, you can set several more, anti-crawler:<pre><code class="language-python">USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+</code></pre>pipelines need to be added:<pre><code class="language-python">ITEM_PIPELINES = { 'scrapy_demo.pipelines.ScrapyDemoPipeline': 300, }</code></pre>Complete settings.py:<pre><code class="language-python"># -*- coding: utf-8 -*-
+
+# Scrapy settings for scrapy_demo project
+#
+# For simplicity, this file contains only settings considered important or
+# commonly used. You can find more settings consulting the documentation:
+#
+#     https://doc.scrapy.org/en/latest/topics/settings.html
+#     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
+#     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+
+BOT_NAME = 'scrapy_demo'
+
+SPIDER_MODULES = ['scrapy_demo.spiders']
+NEWSPIDER_MODULE = 'scrapy_demo.spiders'
+
+
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+#USER_AGENT = 'scrapy_demo (+http://www.yourdomain.com)'
+
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+
+
+# Obey robots.txt rules
+ROBOTSTXT_OBEY = True
+
+# Configure maximum concurrent requests performed by Scrapy (default: 16)
+#CONCURRENT_REQUESTS = 32
+
+# Configure a delay for requests for the same website (default: 0)
+# See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
+# See also autothrottle settings and docs
+#DOWNLOAD_DELAY = 3
+# The download delay setting will honor only one of:
+#CONCURRENT_REQUESTS_PER_DOMAIN = 16
+#CONCURRENT_REQUESTS_PER_IP = 16
+
+# Disable cookies (enabled by default)
+#COOKIES_ENABLED = False
+
+# Disable Telnet Console (enabled by default)
+#TELNETCONSOLE_ENABLED = False
+
+# Override the default request headers:
+#DEFAULT_REQUEST_HEADERS = {
+#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+#   'Accept-Language': 'en',
+#}
+
+# Enable or disable spider middlewares
+# See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+#SPIDER_MIDDLEWARES = {
+#    'scrapy_demo.middlewares.ScrapyDemoSpiderMiddleware': 543,
+#}
+
+# Enable or disable downloader middlewares
+# See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
+#DOWNLOADER_MIDDLEWARES = {
+#    'scrapy_demo.middlewares.ScrapyDemoDownloaderMiddleware': 543,
+#}
+
+# Enable or disable extensions
+# See https://doc.scrapy.org/en/latest/topics/extensions.html
+#EXTENSIONS = {
+#    'scrapy.extensions.telnet.TelnetConsole': None,
+#}
+
+# Configure item pipelines
+# See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+    'scrapy_demo.pipelines.ScrapyDemoPipeline': 300,
+}
+
+# Enable and configure the AutoThrottle extension (disabled by default)
+# See https://doc.scrapy.org/en/latest/topics/autothrottle.html
+#AUTOTHROTTLE_ENABLED = True
+# The initial download delay
+#AUTOTHROTTLE_START_DELAY = 5
+# The maximum download delay to be set in case of high latencies
+#AUTOTHROTTLE_MAX_DELAY = 60
+# The average number of requests Scrapy should be sending in parallel to
+# each remote server
+#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+# Enable showing throttling stats for every response received:
+#AUTOTHROTTLE_DEBUG = False
+
+# Enable and configure HTTP caching (disabled by default)
+# See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
+#HTTPCACHE_ENABLED = True
+#HTTPCACHE_EXPIRATION_SECS = 0
+#HTTPCACHE_DIR = 'httpcache'
+#HTTPCACHE_IGNORE_HTTP_CODES = []
+#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'</code></pre>
+<strong>④Run the crawler file in the terminal</strong>
+<pre><code class="language-default">scrapy crawl arXiv_Spider</code></pre>result:<img alt="" class="alignnone size-full wp-image-6383" height="73" src="https://cdn.omegaxyz.com/2020/02/arXiv_Spider_demo.png" width="636"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

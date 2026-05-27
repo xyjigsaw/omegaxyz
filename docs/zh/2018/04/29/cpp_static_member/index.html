@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++静态成员详解 · OmegaXYZ</title>
+  <meta name="description" content="静态成员是解决同一个类的不同对象之间数据和函数共享问题的。 实例属性 ：一个类的所有对象具有相同的属性，属性值可以不同。 类属性 ：描述类的所有对象共同特征，对于任何对象其属性值相同。 静态数据成员 用关键字static声明 该类的所有对象维护该成员的同一个拷贝 必须在类外定义和初始化，用(::)来指明所属的类。 类名::标识符 静态成员...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/29/cpp_static_member/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-29</div>
+        <h1>C++静态成员详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><b>静态成员是解决同一个类的不同对象之间数据和函数共享问题的。</b>
+<ul>
+ 	<li><b>实例属性</b><b>：一个类的所有对象具有相同的属性，属性值可以不同。</b></li>
+ 	<li><b>类属性</b><b>：描述类的所有对象共同特征，对于任何对象其属性值相同。</b></li>
+</ul>
+<b>静态数据成员</b>
+<ul>
+ 	<li>用关键字static声明</li>
+ 	<li>该类的所有对象维护该成员的同一个拷贝</li>
+ 	<li>必须在类外定义和初始化，用(::)来指明所属的类。</li>
+</ul>
+类名::标识符
+
+<b>静态成员函数</b>
+<ul>
+ 	<li>类外代码可以使用类名和作用域操作符来调用静态成员函数。</li>
+ 	<li>也可以直接使用对象名来调用静态成员函数。</li>
+</ul>
+<b>静态成员函数可以直接访问该类的静态数据和函数成员。而访问非静态成员必须通过对象名。</b>
+
+<strong>例子：具有静态成员函数和静态数据成员的Point类</strong>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+
+class Point	//Point类定义
+{
+public:	//外部接口
+	Point(int xx = 0, int yy = 0) { X = xx; Y = yy; countP++; }	//构造函数
+	Point(Point &amp;p);	//复制构造函数
+	~Point(){ countP--; }
+	int GetX() { return X; }
+	int GetY() { return Y; }
+	static void GetC() { cout &lt;&lt; " 对象 id=" &lt;&lt; countP &lt;&lt; endl; }
+	//静态函数成员
+private:	//私有数据成员
+	int X, Y;
+	static int countP;	//静态数据成员引用性说明
+};
+Point::Point(Point &amp;p)//复制构造函数
+{
+	X = p.X;
+	Y = p.Y;
+	countP++;
+}
+
+int Point::countP = 0;	//静态数据成员定义性说明
+//初始化，使用类名限定
+void main()	//主函数实现
+{
+	Point A(4, 5);	//定义对象A
+	cout &lt;&lt; "Point A," &lt;&lt; A.GetX() &lt;&lt; "," &lt;&lt; A.GetY();
+	A.GetC();	//输出对象号，对象名引用
+	Point::GetC();
+	Point B(A);	//定义对象B
+	cout &lt;&lt; "Point B," &lt;&lt; B.GetX() &lt;&lt; "," &lt;&lt; B.GetY();
+	Point::GetC();	//输出对象号，类名引用
+	system("pause");
+}</code></pre>
+<strong>结果：</strong>
+
+Point A,4,5 对象 id=1
+对象 id=1
+Point B,4,5 对象 id=2</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

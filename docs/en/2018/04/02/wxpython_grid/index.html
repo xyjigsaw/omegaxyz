@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wxpython control adaptive window size · OmegaXYZ</title>
+  <meta name="description" content="Problem: If you click on the window operated by wxpython to maximize the window, problems will occur. 1. The window controls are not maximized at the same time. 2. Some controls cannot be found after maximizing. If the window is restored, the disappeared controls cannot be found. The most complex sizer in wxPython. It brings explicit positioning of widgets. Widget items can also span rows or columns. Special tutorial: wxpython Chinese tutorial The constructor of wx.GridBagSizer is...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/02/wxpython_grid/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-02</div>
+        <h1>wxpython control adaptive window size</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">Question:
+
+If you click on the window operated by wxpython to maximize the window, problems will occur. 1. The window controls are not maximized at the same time. 2. Some controls cannot be found after maximizing. If the window is restored, the disappeared controls cannot be found.
+
+The most complex sizer in wxPython.
+It brings explicit positioning of widgets. Widget items can also span rows or columns. Special Tutorial:<a href="http://www.jbxue.com/zt/wxpython/">wxpython Chinese tutorial</a>The constructor of wx.GridBagSizer is very simple.
+wx.GridBagSizer (integer vgap, integer hgap)
+The vertical and horizontal gaps (gaps) define the gap distance between sub-widgets. Add widget items to the grid using the Add() method.
+Add(self, item, tuple pos, tuple span=wx.DefaultSpan, integer flag=0,
+integer border=0, userData=None)
+"item" refers to the widget you want to insert into the grid. "pos" specifies the position of the virtual grid. The "pos" value of the upper left cell is (0, 0). "span" is a span value of the corresponding widget. For example, (3, 2) means that a widget should span 3 rows and 2 columns. The two parameters "flag" and "border" have been discussed earlier in wx.BoxSizer.
+These widget items in the grid can change their size as the window is scaled, or they can remain the same.
+
+If you need the part to be larger or smaller, you can use these two methods.
+AddGrowableRow(integer row)
+AddGrowableCol(integer col)
+
+Code:<pre><code class="language-python">import wx
+
+
+class MyFrame(wx.Frame):
+    def __init__(self,parent, id, title):
+        wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition)
+        sizer = wx.GridBagSizer(9, 9)
+        sizer.Add(wx.Button(self, -1, "按钮1"), (0, 0), wx.DefaultSpan,wx.ALL, 5)
+        sizer.Add(wx.Button(self, -1, "按钮2随着主窗口布局变动"), (1, 1), (1, 7), wx.EXPAND)
+        sizer.Add(wx.Button(self, -1, "按钮3随着主窗口布局变动"), (6, 6), (3, 3), wx.EXPAND)
+        sizer.Add(wx.Button(self, -1, "按钮4"), (3, 0), (1, 1), wx.ALIGN_CENTER)
+        sizer.Add(wx.Button(self, -1, "按钮5"), (4, 0), (1, 1), wx.ALIGN_LEFT)
+        sizer.Add(wx.Button(self, -1, "按钮6"), (5, 0), (1, 1), wx.ALIGN_RIGHT)
+        sizer.AddGrowableRow(6)
+        sizer.AddGrowableCol(6)
+        self.SetSizerAndFit(sizer)
+        self.Centre()
+
+
+class MyApp(wx.App):
+    def OnInit(self):
+        frame = MyFrame(None, -1, 'wxgridbagsizer.py')
+        frame.Show(True)
+        return True
+app = MyApp(0)
+app.MainLoop()
+</code></pre>Effect after change:<img alt="" class="alignnone size-full wp-image-3901" height="482" src="https://cdn.omegaxyz.com/2018/04/wxgrid2.jpg" width="812"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

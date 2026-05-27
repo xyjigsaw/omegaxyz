@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feature selection methods and understanding · OmegaXYZ</title>
+  <meta name="description" content="Reprinted from the author: Edwin Jarvis Chinese version: https://www.cnblogs.com/tonglin0325/p/6214978.html Feature selection (sorting) is very important for data scientists and machine learning practitioners. Good feature selection can improve the performance of the model and help us understand the characteristics and underlying structure of the data, which plays an important role in further improving the model and algorithm. Feature selection...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/01/19/fs_understanding/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-19</div>
+        <h1>Feature selection methods and understanding</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>Reprinted from the author:<a href="http://www.chaoslog.com/author/edwin-jarvis.html" rel="author noopener" target="_blank" title="">Edwin Jarvis</a>Chinese version:<a href="https://www.cnblogs.com/tonglin0325/p/6214978.html">https://www.cnblogs.com/tonglin0325/p/6214978.html</a>Feature selection (ranking) for data scientists,<a class="replace_word" href="http://lib.csdn.net/base/2" rel="noopener" target="_blank" title="机器学习知识库">machine learning</a>Very important for practitioners. Good feature selection can improve the performance of the model and help us understand the characteristics and underlying structure of the data, which is helpful for further improving the model and<a class="replace_word" href="http://lib.csdn.net/base/31" rel="noopener" target="_blank" title="算法与数据结构知识库">algorithm</a>All play an important role.
+
+Feature selection mainly has two functions:<ol>
+<li>Reduce the number of features and dimensionality to make the model more general and reduce overfitting.</li>
+<li>Enhance understanding of features and eigenvalues</li>
+</ol>Once you get the data set, it is often difficult for a feature selection method to accomplish these two purposes at the same time. Under normal circumstances, we often ignore everything and choose the feature selection method that we are most familiar with or the most convenient (often the purpose is dimensionality reduction, while ignoring the purpose of understanding features and data).
+
+In many machine learning-related books, it is difficult to find content about feature selection, because the problems to be solved by feature selection are often regarded as a side effect of machine learning and are generally not discussed separately.
+
+This article will combine<a href="http://scikit-learn.org/stable/modules/feature_selection.html#univariate-feature-selection" rel="noopener" target="_blank" title="">Examples provided by Scikit-learn</a>Introducing several commonly used feature selection methods, their respective advantages, disadvantages and problems.<h1>1Removing features with low variance</h1>This should be the simplest feature selection method: assuming that the eigenvalues ​​of a feature are only 0 and 1, and in all input samples, 95% of the instances have a value of 1, then this feature can be considered to have little effect. If 100% of them are 1, then this feature is meaningless. This method can only be used when the feature values ​​​​are discrete variables. If it is a continuous variable, the continuous variable needs to be discretized before it can be used. In practice, it is generally unlikely that more than 95% of features take a certain value, so this method is simple but not very easy to use. It can be used as preprocessing for feature selection, first removing those features with small value changes, and then selecting appropriate ones from the feature selection methods mentioned next for further feature selection.<h1>2Univariate feature selection Univariate feature selection</h1>Univariate feature selection can test each feature, measure the relationship between the feature and the response variable, and discard bad features based on the score. For regression and classification problems, features can be tested using chi-square tests and other methods.
+
+This method is relatively simple, easy to run, and easy to understand. It usually has a better effect on understanding the data (but it may not be effective for feature optimization and improving generalization ability); this method has many improved versions and variants.<h2>2.1 Pearson Correlation Pearson Correlation</h2>The Pearson correlation coefficient is the simplest method that can help understand the relationship between features and response variables. This method measures the linear correlation between variables. The value range of the result is [-1, 1], -1 indicates a complete negative correlation (when this variable decreases, that one will increase), +1 indicates a complete positive correlation, and 0 indicates no linear correlation.
+
+Pearson Correlation is fast and easy to calculate, and is often executed as soon as the data (after cleaning and feature extraction) is obtained. scipy<a href="http://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.stats.pearsonr.html" rel="noopener" target="_blank" title="">pearsonr</a>The method can calculate the correlation coefficient and p-value at the same time,<div class="highlight">
+<pre><span class="n">import numpy as np
+from scipy<span class="p">.stats import pearsonr
+np.random.seed(<span class="mi">0)
+size <span class="o">= 300
+x = np.random.normal(0, 1, size)
+print <span class="s">"Lower noise", pearsonr(x, x + np.random.normal(0, 1, size))
+print "Higher noise", pearsonr(x, x + np.random.normal(0, 10, size))
+</span></span></span></span></span></pre>
+</div>Lower noise (0.71824836862138386, 7.3240173129992273e-49)
+Higher noise (0.057964292079338148, 0.31700993885324746)
+
+In this example, we compare the differences between variables before and after adding noise. When the noise is relatively small, the correlation is strong and the p-value is low.
+
+Provided by Scikit-learn<a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html" rel="noopener" target="_blank" title="">f_regrssion</a>This method can calculate the p-value of features in batches, which is very convenient. Please refer to sklearn's<a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html" rel="noopener" target="_blank" title="">pipeline</a>An obvious flaw of the Pearson correlation coefficient is that, as a feature ranking mechanism, it is only sensitive to linear relationships. If the relationship is nonlinear, the Pearson correlation may be close to 0 even if the two variables have a one-to-one correspondence.<div class="highlight">
+<pre><span class="n">x <span class="o">= np<span class="p">.random.uniform(-<span class="mi">1, 1, 100000)
+print pearsonr(x, x**2)[0]
+</span></span></span></span></pre>
+</div>-0.00230804707612
+
+For more similar examples refer to<a href="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/506px-Correlation_examples2.svg.png" rel="noopener" target="_blank" title="">sample plots</a>. In addition, if you only judge based on the value of the correlation coefficient, sometimes it will be very misleading, such as<a href="http://en.wikipedia.org/wiki/Anscombe%27s_quartet" rel="noopener" target="_blank" title="">Anscombe’s quartet</a>, it is best to visualize the data to avoid drawing wrong conclusions.<h2>2.2 Mutual information and maximal information coefficient (MIC)</h2>
+<div class="mglassWrapper">
+<a href="http://dataunion.org/wp-content/uploads/2015/04/4dbuAXe.png" rel="noopener" target="_blank" title=""><img alt="" src="http://dataunion.org/wp-content/uploads/2015/04/4dbuAXe.png"/></a>
+</div>The above is the classic mutual information formula. It is not very convenient to directly use mutual information for feature selection: 1. It does not belong to a measurement method, and there is no way to normalize it, so the results on different data cannot be compared; 2. It is not very convenient to calculate continuous variables (X and Y are both sets, and x and y are discrete values). Usually the variables need to be discretized first, and the results of mutual information are very sensitive to the discretization method.
+
+The maximum information coefficient overcomes both problems. It first looks for an optimal discretization method, and then converts the mutual information value into a measurement method, with the value range being [0, 1].<a href="http://minepy.sourceforge.net/" rel="noopener" target="_blank" title="">minepy</a>Provides MIC function.
+
+Looking back at the example of y=x^2, the mutual information value calculated by MIC is 1 (the maximum value).<div class="highlight">
+<pre><span class="n">from minepy import MINE
+m <span class="o">= MINE<span class="p">()
+x = np.random.uniform(-<span class="mi">1, 1, 10000)
+m.compute_score(x, x**2)
+print m.mic()
+</span></span></span></span></pre>
+</div>1.0
+
+The statistical power of MIC suffers<a href="http://statweb.stanford.edu/~tibs/reshef/comment.pdf" rel="noopener" target="_blank" title="">some doubts</a>, when the null hypothesis does not hold, the statistics of MIC will be affected. This problem does not exist in some data sets, but it does exist in some data sets.<h2>2.3 Distance correlation</h2>The distance correlation coefficient was developed to overcome the weaknesses of the Pearson correlation coefficient. In the example of x and x^2, even if the Pearson correlation coefficient is 0, we cannot conclude that the two variables are independent (it may be nonlinear correlation); but if the distance correlation coefficient is 0, then we can say that the two variables are independent.
+
+R's<a href="http://cran.r-project.org/web/packages/energy/index.html" rel="noopener" target="_blank" title="">energy</a>The package provides the implementation of distance correlation coefficient. In addition, this is<a href="https://gist.github.com/josef-pkt/2938402" rel="noopener" target="_blank" title="">Python gist</a>realization.<div class="highlight">
+<pre><span class="cp">#R-code
+<span class="o">&gt; <span class="n">x = runif <span class="p">(<span class="mi">1000, -1, 1)
+&gt; dcor(x, x**2)
+[1] <span class="mf">0.4943864
+</span></span></span></span></span></span></pre>
+</div>Although there are MIC and distance correlation coefficients, when the relationship between variables is close to linear correlation, the Pearson correlation coefficient is still irreplaceable. First, the calculation speed of Pearson correlation coefficient is fast, which is very important when processing large-scale data. Second, the value range of the Pearson correlation coefficient is [-1, 1], while the MIC and distance correlation coefficients are both [0, 1]. This feature enables the Pearson correlation coefficient to represent richer relationships. The symbol represents the positive and negative of the relationship, and the absolute value can represent the intensity. Of course, the premise for the Pearson correlation to be effective is that the changing relationship between the two variables is monotonic.<h2>2.4 Feature ranking based on learning model (Model based ranking)</h2>The idea of ​​this method is to directly use the machine learning algorithm you want to use and build a predictive model for each individual feature and response variable. In fact, the Pearson correlation coefficient is equivalent to the standardized regression coefficient in linear regression. If the relationship between a feature and the response variable is nonlinear, tree-based methods (decision trees, random forests), or extended linear models can be used. Tree-based methods are easier to use because they model nonlinear relationships better and do not require much debugging. But we should pay attention to the problem of over-fitting, so it is best not to make the depth of the tree too large, and then use cross-validation.
+
+exist<a href="https://archive.ics.uci.edu/ml/datasets/Housing" rel="noopener" target="_blank" title="">Boston house price data set</a>Using sklearn on<a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html" rel="noopener" target="_blank" title="">random forest regression</a>Give an example of univariate selection:<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.cross_validation import cross_val_score, ShuffleSplit
+from sklearn.datasets import load_boston
+from sklearn.ensemble import RandomForestRegressor
+
+<span class="cp">#Load boston housing dataset as an example
+boston <span class="o">= load_boston()
+X = boston[<span class="s">"data"]
+Y = boston["target"]
+names = boston["feature_names"]
+
+rf = RandomForestRegressor(n_estimators=<span class="mi">20, max_depth=4)
+scores = []
+<span class="k">for i in range(X.shape[1]):
+     score = cross_val_score(rf, X[:, i:i+1], Y, scoring="r2",
+                              cv=ShuffleSplit(len(X), 3, <span class="mf">.3))
+     scores.append((round(np.mean(score), 3), names[i]))
+print sorted(scores, reverse=True)
+</span></span></span></span></span></span></span></span></pre>
+</div>
+[(0.636, ‘LSTAT’), (0.59, ‘RM’), (0.472, ‘NOX’), (0.369, ‘INDUS’), (0.311, ‘PTRATIO’), (0.24, ‘TAX’), (0.24, ‘CRIM’), (0.185, ‘RAD’), (0.16, ‘ZN’), (0.087, ‘B’), (0.062, ‘DIS’), (0.036, ‘CHAS’), (0.027, ‘AGE’)]
+<h1>3 Linear models and regularization</h1>Univariate feature selection methods independently measure the relationship between each feature and the response variable. Another mainstream feature selection method is a method based on machine learning models. Some machine learning methods have their own mechanism for scoring features, or they can be easily applied to feature selection tasks, such as regression models, SVM, decision trees, random forests, etc. As an aside, this method seems to be called the wrapper type in some places. It probably means that the feature ranking model and the machine learning model are coupled together, and the corresponding non-wrapper type feature selection method is called the filter type.
+
+Next, we will introduce how to use the coefficients of the regression model to select features. The more important the feature is, the larger the corresponding coefficient will be in the model, and the more irrelevant the feature is to the output variable, the corresponding coefficient will be closer to 0. On data with little noise, or data whose amount of data is much larger than the number of features, if the features are relatively independent, even the simplest linear regression model can achieve very good results.<div class="highlight">
+<pre><span class="s-Atom">from sklearn<span class="p">.linear_model import <span class="nv">LinearRegression
+import numpy as np
+
+np.random.<span class="nf">seed(<span class="m">0)
+size <span class="o">= 5000
+
+#A dataset with 3 features
+X = np.random.normal(0, 1, (size, 3))
+#Y = X0 + 2*X1 + noise
+Y = X[:,0] + 2*X[:,1] + np.random.normal(0, 2, size)
+lr = LinearRegression()
+lr.fit(X, Y)
+
+#A helper method for pretty-printing linear models
+def pretty_print_linear(coefs, names = None, sort = False):
+    if names == None:
+        names = [<span class="s2">"X%s" <span class="c1">% x for x in range(len(coefs))]
+    lst = zip(coefs, names)
+    if <span class="nn">sort:
+        lst = sorted(lst,  key = lambda x:-np.abs(x[0]))
+    return " + ".join("%s * %s" % (round(coef, 3), name)
+                                   for coef, name in lst)
+
+print "Linear model:", pretty_print_linear(lr.coef_)
+</span></span></span></span></span></span></span></span></span></pre>
+</div>Linear model: 0.984 * X0 + 1.995 * X1 + -0.041 * X2
+
+In this example, although there is some noise in the data, this feature selection model can still well reflect the underlying structure of the data. Of course, this is also because the problem in the example is very suitable to be solved by a linear model: there is a linear relationship between the features and the response variables, and the features are independent.
+
+In many actual data, there are often multiple interrelated features. At this time, the model will become unstable. Subtle changes in the data may lead to huge changes in the model (changes in the model are essentially coefficients, or parameters, which can be understood as W). This will make the prediction of the model difficult. This phenomenon is also called multicollinearity. For example, suppose we have a data set, and its real model should be Y=X1+X2. When we observe it, we find that Y’=X1+X2+e, and e is noise. If there is a linear relationship between X1 and
+
+In the example below, some noise is added to the same data, and the random forest algorithm is used for feature selection.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.linear_model import LinearRegression
+
+size <span class="o">= <span class="mi">100
+np.random.seed(seed=5)
+
+X_seed = np.random.normal(0, 1, size)
+X1 = X_seed + np.random.normal(0, <span class="mf">.1, size)
+X2 = X_seed + np.random.normal(0, .1, size)
+X3 = X_seed + np.random.normal(0, .1, size)
+
+Y = X1 + X2 + X3 + np.random.normal(0,1, size)
+X = np.array([X1, X2, X3]).T
+
+lr = LinearRegression()
+lr.fit(X,Y)
+print <span class="s">"Linear model:", pretty_print_linear(lr.coef_)
+</span></span></span></span></span></span></pre>
+</div>Linear model: -1.291 * X0 + 1.591 * X1 + 2.747 * X2
+
+The sum of the coefficients is close to 3, which is basically the same as the result of the previous example. It should be said that the learned model is still good for prediction. However, if the importance of features is interpreted from the literal meaning of the coefficients, X3 has a strong positive impact on the output variable, while X1 has a negative impact, and in fact all features have an equal impact on the output variable.
+
+The same methods and routines can be used for similar linear models, such as logistic regression.<h2>3.1 Regularization model</h2>Regularization is to add additional constraints or penalties to the existing model (loss function) to prevent overfitting and improve generalization ability. The loss function changes from the original E(X,Y) to E(X,Y)+alpha||w||, w is a vector composed of model coefficients (also called parameters, coefficients in some places), ||·|| is generally the L1 or L2 norm, and alpha is an adjustable parameter that controls the strength of regularization. When used on linear models, L1 regularization and L2 regularization are also called Lasso and Ridge.<h2>3.2 L1 regularization/Lasso</h2>L1 regularization adds the l1 norm of the coefficient w as a penalty term to the loss function. Since the regular term is non-zero, this forces the coefficients corresponding to those weak features to become 0. Therefore, L1 regularization often makes the learned model very sparse (the coefficient w is often 0). This feature makes L1 regularization a good feature selection method.
+
+Scikit-learn provides Lasso for linear regression and L1 logistic regression for classification.
+
+The following example runs Lasso on Boston house price data, where the parameter alpha is optimized through grid search.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.linear_model import Lasso
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_boston
+
+boston <span class="o">= load_boston()
+scaler = StandardScaler()
+X = scaler.fit_transform(boston[<span class="s">"data"])
+Y = boston["target"]
+names = boston["feature_names"]
+
+lasso = Lasso(alpha=<span class="mf">.3)
+lasso.fit(X, Y)
+
+print "Lasso model: ", pretty_print_linear(lasso.coef_, names, sort = True)
+</span></span></span></span></span></pre>
+</div>Lasso model: -3.707 * LSTAT + 2.992 * RM + -1.757 * PTRATIO + -1.081 * DIS + -0.7 * NOX + 0.631 * B + 0.54 * CHAS + -0.236 * CRIM + 0.081 * ZN + -0.0 * INDUS + -0.0 * AGE + 0.0 * RAD + -0.0*TAX
+
+It can be seen that the coefficients of many features are 0. If you continue to increase the value of alpha, the resulting model will become increasingly sparse, that is, more and more feature coefficients will become 0.
+
+However, L1 regularization, like non-regularized linear models, is also unstable. If there are correlated features in the feature set, subtle changes in the data may lead to large model differences.<h2>3.3 L2 regularization/Ridge regression</h2>L2 regularization adds the L2 norm of the coefficient vector to the loss function. Since the coefficient in the L2 penalty term is quadratic, there are many differences between L2 and L1. The most obvious point is that L2 regularization will average the values ​​of the coefficients. For correlated features, this means that they can obtain closer corresponding coefficients. Taking Y=X1+X2 as an example, assuming that X1 and X2 have a strong correlation, if L1 regularization is used, the penalty will be the same regardless of whether the learned model is Y=X1+X2 or Y=2X1, which is 2alpha. But for L2, the penalty term of the first model is 2alpha, but the penalty term of the second model is 4*alpha. It can be seen that when the sum of the coefficients is a constant, the penalty is the smallest when the coefficients are equal, so L2 has the characteristic that the coefficients will tend to be the same.
+
+It can be seen that L2 regularization is a stable model for feature selection. Unlike L1 regularization, the coefficients will fluctuate due to subtle data changes. Therefore, the values ​​provided by L2 regularization and L1 regularization are different. L2 regularization is more useful for feature understanding: the coefficient corresponding to a feature with strong representation ability is non-zero.
+
+Let's look back at the example of 3 interrelated features, and run them 10 times with random initialization with 10 different seeds to observe the stability of L1 and L2 regularization.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.linear_model import Ridge
+from sklearn.metrics import r2_score
+size <span class="o">= <span class="mi">100
+
+<span class="cp">#We run the method 10 times with different random seeds
+<span class="k">for i in range(10):
+    print <span class="s">"Random seed %s" % i
+    np.random.seed(seed=i)
+    X_seed = np.random.normal(0, 1, size)
+    X1 = X_seed + np.random.normal(0, <span class="mf">.1, size)
+    X2 = X_seed + np.random.normal(0, .1, size)
+    X3 = X_seed + np.random.normal(0, .1, size)
+    Y = X1 + X2 + X3 + np.random.normal(0, 1, size)
+    X = np.array([X1, X2, X3]).T
+
+
+    lr = LinearRegression()
+    lr.fit(X,Y)
+    print "Linear model:", pretty_print_linear(lr.coef_)
+
+    ridge = Ridge(alpha=10)
+    ridge.fit(X,Y)
+    print "Ridge model:", pretty_print_linear(ridge.coef_)
+    print
+</span></span></span></span></span></span></span></span></pre>
+</div>Random seed 0 Linear model: 0.728 * X0 + 2.309 * X1 + -0.082 * X2 Ridge model: 0.938 * X0 + 1.059 * X1 + 0.877 * X2
+
+Random seed 1 Linear model: 1.152 * X0 + 2.366 * X1 + -0.599 * X2 Ridge model: 0.984 * X0 + 1.068 * X1 + 0.759 * X2
+
+Random seed 2 Linear model: 0.697 * X0 + 0.322 * X1 + 2.086 * X2 Ridge model: 0.972 * X0 + 0.943 * X1 + 1.085 * X2
+
+Random seed 3 Linear model: 0.287 * X0 + 1.254 * X1 + 1.491 * X2 Ridge model: 0.919 * X0 + 1.005 * X1 + 1.033 * X2
+
+Random seed 4 Linear model: 0.187 * X0 + 0.772 * X1 + 2.189 * X2 Ridge model: 0.964 * X0 + 0.982 * X1 + 1.098 * X2
+
+Random seed 5 Linear model: -1.291 * X0 + 1.591 * X1 + 2.747 * X2 Ridge model: 0.758 * X0 + 1.011 * X1 + 1.139 * X2
+
+Random seed 6 Linear model: 1.199 * X0 + -0.031 * X1 + 1.915 * X2 Ridge model: 1.016 * X0 + 0.89 * X1 + 1.091 * X2
+
+Random seed 7 Linear model: 1.474 * X0 + 1.762 * X1 + -0.151 * X2 Ridge model: 1.018 * X0 + 1.039 * X1 + 0.901 * X2
+
+Random seed 8 Linear model: 0.084 * X0 + 1.88 * X1 + 1.107 * X2 Ridge model: 0.907 * X0 + 1.071 * X1 + 1.008 * X2
+
+Random seed 9 Linear model: 0.714 * X0 + 0.776 * X1 + 1.364 * X2 Ridge model: 0.896 * X0 + 0.903 * X1 + 0.98 * X2
+
+It can be seen that the models (coefficients) obtained by linear regression on different data are very different, but for the L2 regularization model, the coefficients in the results are very stable, the difference is small, and they are all relatively close to 1, which can reflect the intrinsic structure of the data.<h1>4 Random Forest</h1>Random forest has the advantages of high accuracy, good robustness, and ease of use, making it one of the most popular machine learning algorithms currently. Random forest provides two methods of feature selection: mean decrease impurity and mean decrease accuracy.<h2>4.1 mean decrease impurity mean decrease impurity</h2>Random forest consists of multiple decision trees. Each node in the decision tree is a condition related to a certain feature in order to divide the data set into two according to different response variables. Impurity can be used to determine nodes (optimal conditions). For classification problems, usually<a href="http://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity" rel="noopener" target="_blank" title="">Gini Impurity</a>or<a href="http://en.wikipedia.org/wiki/Information_gain_in_decision_trees" rel="noopener" target="_blank" title="">information gain</a>, for regression problems, usually used<a href="http://en.wikipedia.org/wiki/Variance" rel="noopener" target="_blank" title="">variance</a>Or least squares fitting. When training a decision tree, you can calculate how much each feature reduces the impurity of the tree. For a decision tree forest, you can calculate how much impurity is reduced by each feature on average, and use its average reduced impurity as the value of feature selection.
+
+The following example is the feature importance measurement method based on random forest in sklearn:<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.datasets import load_boston
+from sklearn.ensemble import RandomForestRegressor
+import numpy as np
+<span class="cp">#Load boston housing dataset as an example
+boston <span class="o">= load_boston()
+X = boston[<span class="s">"data"]
+Y = boston["target"]
+names = boston["feature_names"]
+rf = RandomForestRegressor()
+rf.fit(X, Y)
+print "Features sorted by their score:"
+print sorted(zip(map(lambda x: round(x, <span class="mi">4), rf.feature_importances_), names), 
+             reverse=True)
+</span></span></span></span></span></span></pre>
+</div>Features sorted by their score: [(0.5298, ‘LSTAT’), (0.4116, ‘RM’), (0.0252, ‘DIS’), (0.0172, ‘CRIM’), (0.0065, ‘NOX’), (0.0035, ‘PTRATIO’), (0.0021, ‘TAX’), (0.0017, ‘AGE’), (0.0012, ‘B’), (0.0008, ‘INDUS’), (0.0004, ‘RAD’), (0.0001, ‘CHAS’), (0.0, ‘ZN’)]
+
+The feature score here actually uses<a href="http://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#giniimp" rel="noopener" target="_blank" title="">Gini Importance</a>. When using impurity-based methods, remember: 1. This method exists<a href="http://link.springer.com/article/10.1186%2F1471-2105-8-25" rel="noopener" target="_blank" title="">bias</a>, it will be more beneficial for variables with more categories; 2. For multiple related features, any one of them can be used as an indicator (excellent feature), and once a feature is selected, the importance of other features will drop sharply, because the impurity has been reduced by the selected feature, and it is difficult for other features to reduce the impurity. In this way, only the feature selected first is very important, and other related features are often less important. This can lead to misunderstandings when understanding the data, leading to the mistaken belief that the features selected first are important and the remaining features are unimportant, but in fact the effects of these features on the response variable are indeed very close (this is very similar to Lasso).<a href="http://en.wikipedia.org/wiki/Random_subspace_method" rel="noopener" target="_blank" title="">Features randomly selected</a>approach alleviates the problem somewhat, but overall does not completely resolve it. In the example below, X0, X1, and X2 are three interrelated variables. In the absence of noise, the output variable is the sum of the three.<div class="highlight">
+<pre><span class="n">size <span class="o">= <span class="mi">10000
+np<span class="p">.random.seed(seed=10)
+X_seed = np.random.normal(0, 1, size)
+X0 = X_seed + np.random.normal(0, <span class="mf">.1, size)
+X1 = X_seed + np.random.normal(0, .1, size)
+X2 = X_seed + np.random.normal(0, .1, size)
+X = np.array([X0, X1, X2]).T
+Y = X0 + X1 + X2
+
+rf = RandomForestRegressor(n_estimators=20, max_features=2)
+rf.fit(X, Y);
+print <span class="s">"Scores for X0, X1, X2:", map(lambda x:round (x,3),
+                                    rf.feature_importances_)
+</span></span></span></span></span></span></pre>
+</div>Scores for X0, X1, X2: [0.278, 0.66, 0.062]
+
+When calculating feature importance, you can see that the importance of X1 is 10 times higher than the importance of X2, but in fact their real importance is the same. Although the amount of data is already large and there is no noise, and 20 trees are used for random selection, this problem still exists.
+
+One thing to note is that the scoring of associated features is unstable. This is not just unique to random forests. This problem exists in most model-based feature selection methods.<h2>4.2 Mean decrease accuracy</h2>Another commonly used feature selection method is to directly measure the impact of each feature on the model accuracy. The main idea is to disrupt the order of the feature values ​​of each feature and measure the impact of order changes on the accuracy of the model. Obviously, for unimportant variables, shuffling the order will not have a great impact on the accuracy of the model, but for important variables, shuffling the order will reduce the accuracy of the model.
+
+This method is not directly provided in sklearn, but it is easy to implement. Let’s continue to implement it on the Boston housing price data set.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.cross_validation import ShuffleSplit
+from sklearn.metrics import r2_score
+from collections import defaultdict
+
+X <span class="o">= boston[<span class="s">"data"]
+Y = boston["target"]
+
+rf = RandomForestRegressor()
+scores = defaultdict(list)
+
+<span class="cp">#crossvalidate the scores on a number of different random splits of the data
+<span class="k">for train_idx, test_idx in ShuffleSplit(len(X), <span class="mi">100, <span class="mf">.3):
+    X_train, X_test = X[train_idx], X[test_idx]
+    Y_train, Y_test = Y[train_idx], Y[test_idx]
+    r = rf.fit(X_train, Y_train)
+    acc = r2_score(Y_test, rf.predict(X_test))
+    for i in range(X.shape[1]):
+        X_t = X_test.copy()
+        np.random.shuffle(X_t[:, i])
+        shuff_acc = r2_score(Y_test, rf.predict(X_t))
+        scores[names[i]].append((acc-shuff_acc)/acc)
+print "Features sorted by their score:"
+print sorted([(round(np.mean(score), 4), feat) for
+              feat, score in scores.items()], reverse=True)
+</span></span></span></span></span></span></span></span></pre>
+</div>Features sorted by their score: [(0.7276, ‘LSTAT’), (0.5675, ‘RM’), (0.0867, ‘DIS’), (0.0407, ‘NOX’), (0.0351, ‘CRIM’), (0.0233, ‘PTRATIO’), (0.0168, ‘TAX’), (0.0122, ‘AGE’), (0.005, ‘B’), (0.0048, ‘INDUS’), (0.0043, ‘RAD’), (0.0004, ‘ZN’), (0.0001, ‘CHAS’)]
+
+In this example, the two features LSTAT and RM have a great impact on the performance of the model. Disturbing the eigenvalues of these two features reduces the performance of the model by 73% and 57%. Note that although we trained the model on all features and then obtained the importance test of each feature, this does not mean that the performance of the model will definitely drop a lot after we throw away one or some important features, because even after a feature is deleted, its associated features can still play a role, leaving the model performance basically unchanged.<h1>5 Two top-level feature selection algorithms</h1>They are called top-level because they are all based on model-based feature selection methods, such as regression and SVM, which build models on different subsets and then aggregate them to finally determine feature scores.<h2>5.1 Stability selection Stability selection</h2>Stability selection is a newer method based on a combination of subsampling and selection algorithms. The selection algorithm can be regression, SVM or other similar methods. Its main idea is to run the feature selection algorithm on different data subsets and feature subsets, repeat it continuously, and finally summarize the feature selection results. For example, you can count the frequency of a feature being considered an important feature (the number of times it is selected as an important feature divided by the number of times the subset it is in is tested). Ideally, scores for important features would be close to 100%. A slightly weaker feature will have a non-zero score, while the least useful feature will have a score close to 0.
+
+sklearn in<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RandomizedLasso.html" rel="noopener" target="_blank" title="">random lasso</a>and<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RandomizedLogisticRegression.html" rel="noopener" target="_blank" title="">stochastic logistic regression</a>There is an implementation of stability selection in .<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.linear_model import RandomizedLasso
+from sklearn.datasets import load_boston
+boston <span class="o">= load_boston()
+
+<span class="cp">#using the Boston housing data. 
+#Data gets scaled automatically by sklearn's implementation
+X = boston[<span class="s">"data"]
+Y = boston["target"]
+names = boston["feature_names"]
+
+rlasso = RandomizedLasso(alpha=<span class="mf">0.025)
+rlasso.fit(X, Y)
+
+print "Features sorted by their score:"
+print sorted(zip(map(lambda x: round(x, <span class="mi">4), rlasso.scores_), 
+                 names), reverse=True)
+</span></span></span></span></span></span></span></pre>
+</div>Features sorted by their score: [(1.0, ‘RM’), (1.0, ‘PTRATIO’), (1.0, ‘LSTAT’), (0.62, ‘CHAS’), (0.595, ‘B’), (0.39, ‘TAX’), (0.385, ‘CRIM’), (0.25, ‘DIS’), (0.22, ‘NOX’), (0.125, ‘INDUS’), (0.045, ‘ZN’), (0.02, ‘RAD’), (0.015, ‘AGE’)]
+
+In the above example, the highest three feature scores are 1.0, which means that they will always be selected as useful features (of course, the scores will be affected by the regularization parameter alpha, but sklearn's random lasso can automatically select the optimal alpha). The scores of the next few features begin to decline, but the decline is not particularly sharp, which is different from the results of the pure lasso method and random forest. It can be seen that stability selection is helpful for overcoming overfitting and understanding data: in general, good features will not score 0 because they have similar features or related features, which is different from Lasso. For feature selection tasks, stability selection is often one of the best-performing methods on many datasets and environments.<h2>5.2 Recursive feature elimination (RFE)</h2>The main idea of ​​recursive feature elimination is to repeatedly build a model (such as SVM or regression model) and then select the best (or worst) features (can be selected based on coefficients), put the selected features once, and then repeat this process on the remaining features until all features have been traversed. The order in which features are eliminated in this process is the ranking of features. Therefore, this is a greedy algorithm to find the optimal subset of features.
+
+The stability of RFE largely depends on which underlying model is used during iteration. For example, if RFE uses ordinary regression, the regression without regularization is unstable, then RFE is unstable; if Ridge is used, and the regression regularized by Ridge is stable, then RFE is stable.
+
+Sklearn provides<a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html" rel="noopener" target="_blank" title="">RFE</a>package, which can be used for feature elimination, also provides<a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html" rel="noopener" target="_blank" title="">RFECV</a>, the features can be sorted through cross-validation.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.feature_selection import RFE
+from sklearn.linear_model import LinearRegression
+
+boston <span class="o">= load_boston()
+X = boston[<span class="s">"data"]
+Y = boston["target"]
+names = boston["feature_names"]
+
+<span class="cp">#use linear regression as the model
+lr = LinearRegression()
+#rank all features, i.e continue the elimination until the last one
+rfe = RFE(lr, n_features_to_select=<span class="mi">1)
+rfe.fit(X,Y)
+
+print "Features sorted by their rank:"
+print sorted(zip(map(lambda x: round(x, 4), rfe.ranking_), names))
+</span></span></span></span></span></span></pre>
+</div>
+Features sorted by their rank: [(1.0, ‘NOX’), (2.0, ‘RM’), (3.0, ‘CHAS’), (4.0, ‘PTRATIO’), (5.0, ‘DIS’), (6.0, ‘LSTAT’), (7.0, ‘RAD’), (8.0, ‘CRIM’), (9.0, ‘INDUS’), (10.0, ‘ZN’), (11.0, ‘TAX’), (12.0, ‘B’), (13.0, ‘AGE’)]
+<h1>6 A complete example</h1>The following is an experimental comparison of all the methods mentioned in this article. The data set uses Friedman #1 regression data (<a target="_blank" title="">this paper</a>data in). The data was generated using this formula:<div class="mglassWrapper">
+<a href="http://dataunion.org/wp-content/uploads/2015/04/ERGNG8c.png" rel="noopener" target="_blank" title=""><img alt="" src="http://dataunion.org/wp-content/uploads/2015/04/ERGNG8c.png"/></a>
+</div>X1 to X5 are given by<a href="http://en.wikipedia.org/wiki/Univariate_distribution" rel="noopener" target="_blank" title="">Univariate distribution</a>generated, e is<a href="http://en.wikipedia.org/wiki/Standard_normal_deviate" rel="noopener" target="_blank" title="">standard normal variable</a>N(0,1). In addition, the original data set contains 5 noise variables X5,...,X10, which are independent of the response variable. We added 4 additional variables X11,... The data generated in this way can reflect the performance of different feature ranking methods when dealing with related features.
+
+Next, all feature selection methods will be run on the above data, and the scores given by each method will be normalized so that the values ​​fall between 0-1. For RFE, since it gives an order rather than a score, we set the score of the best 5 features as 1, and the scores of other features are evenly distributed between 0-1.<div class="highlight">
+<pre><span class="n">from sklearn<span class="p">.datasets import load_boston
+from sklearn.linear_model import (LinearRegression, Ridge, 
+                                  Lasso, RandomizedLasso)
+from sklearn.feature_selection import RFE, f_regression
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.ensemble import RandomForestRegressor
+import numpy as np
+from minepy import MINE
+
+np.random.seed(<span class="mi">0)
+
+size <span class="o">= 750
+X = np.random.uniform(0, 1, (size, 14))
+
+<span class="cp">#"Friedamn #1” regression problem
+Y = (10 * np.sin(np.pi*X[:,0]*X[:,1]) + 20*(X[:,2] - <span class="mf">.5)**2 +
+     10*X[:,3] + 5*X[:,4] + np.random.normal(0,1))
+#Add 3 additional correlated variables (correlated with X1-X3)
+X[:,10:] = X[:,:4] + np.random.normal(0, .025, (size,4))
+
+names = [<span class="s">"x%s" % i <span class="k">for i in range(1,15)]
+
+ranks = {}
+
+def rank_to_dict(ranks, names, order=1):
+    minmax = MinMaxScaler()
+    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
+    ranks = map(lambda x: round(x, 2), ranks)
+    return dict(zip(names, ranks ))
+
+lr = LinearRegression(normalize=True)
+lr.fit(X, Y)
+ranks["Linear reg"] = rank_to_dict(np.abs(lr.coef_), names)
+
+ridge = Ridge(alpha=7)
+ridge.fit(X, Y)
+ranks["Ridge"] = rank_to_dict(np.abs(ridge.coef_), names)
+
+
+lasso = Lasso(alpha=.05)
+lasso.fit(X, Y)
+ranks["Lasso"] = rank_to_dict(np.abs(lasso.coef_), names)
+
+
+rlasso = RandomizedLasso(alpha=0.04)
+rlasso.fit(X, Y)
+ranks["Stability"] = rank_to_dict(np.abs(rlasso.scores_), names)
+
+#stop the search when 5 features are left (they will get equal scores)
+rfe = RFE(lr, n_features_to_select=5)
+rfe.fit(X,Y)
+ranks["RFE"] = rank_to_dict(map(float, rfe.ranking_), names, order=-1)
+
+rf = RandomForestRegressor()
+rf.fit(X,Y)
+ranks["RF"] = rank_to_dict(rf.feature_importances_, names)
+
+
+f, pval  = f_regression(X, Y, center=True)
+ranks["Corr."] = rank_to_dict(f, names)
+
+mine = MINE()
+mic_scores = []
+for i in range(X.shape[1]):
+    mine.compute_score(X[:,i], Y)
+    m = mine.mic()
+    mic_scores.append(m)
+
+ranks["MIC"] = rank_to_dict(mic_scores, names)
+
+
+r = {}
+for name in names:
+    r[name] = round(np.mean([ranks[method][name] 
+                             for method in ranks.keys()]), 2)
+
+methods = sorted(ranks.keys())
+ranks["Mean"] = r
+methods.append("Mean")
+
+print "\t%s" % "\t".join(methods)
+for name in names:
+    print "%s\t%s" % (name, "\t".join(map(str, 
+                         [ranks[method][name] for method in methods])))
+</span></span></span></span></span></span></span></span></pre>
+</div>
+<div class="mglassWrapper">
+<a href="http://dataunion.org/wp-content/uploads/2015/04/5ybQKSP.png" rel="noopener" target="_blank" title=""><img alt="" src="http://dataunion.org/wp-content/uploads/2015/04/5ybQKSP.png"/></a>
+</div>Some interesting findings can be found from the above results:
+
+There is a linear correlation between features, and each feature is evaluated independently, so the scores of X1,...X4 are very close to the scores of X11,...X14, while the noise features X5,...,X10 have almost no relationship with the response variable as expected. Since variable X3 is quadratic, no relationship can be seen between X3 and the response variable (no relationship can be found by other methods except MIC). This method can measure the linear relationship between features and response variables, but if you want to select high-quality features to improve the generalization ability of the model, this method is not particularly powerful, because all high-quality features will inevitably be selected twice.
+
+Lasso can pick out some high-quality features while making the coefficients of other features tend to 0. It is useful when, for example, the number of features needs to be reduced, but is not very useful for data understanding. (For example, in the result table, the scores of X11, X12, and
+
+MIC treats features equally, which is a bit like the correlation coefficient. In addition, it can find the nonlinear relationship between X3 and the response variable.
+
+The ranking results of random forest based on impurity are very clear. The scores of features after the highest scoring features drop sharply. As you can see from the table, the feature with the third score is 4 times smaller than the feature with the first score. Other feature selection algorithms did not drop as sharply.
+
+Ridge evenly distributes the regression coefficients to each associated variable. As can be seen from the table, the scores of X11,...,X14 and X1,...,X4 are very close.
+
+Stability selection is often a choice that both helps understand the data and singles out good features, as can be seen best in the results table. Like Lasso, it can find those features with better performance (X1, X2, X4,<h1>Summary</h1>
+<ol>
+<li>Univariate feature selection is a very good choice for understanding data, data structure, and characteristics. Although it can be used to rank features to optimize the model, it cannot detect redundancy (for example, if there is a strong correlation between features in a feature subset, it is difficult to consider redundancy when selecting the optimal features).</li>
+<li>Regularized linear models are very powerful tools for feature understanding and feature selection. L1 regularization can generate sparse models and is very useful for selecting feature subsets; compared to L1 regularization, L2 regularization is more stable. Since useful features often correspond to non-zero coefficients, L2 regularization is very suitable for data understanding. Since the relationship between response variables and features is often nonlinear, basis expansion can be used to transform the features into a more appropriate space. On this basis, a simple linear model can be considered.</li>
+<li>Random forest is a very popular feature selection method. It is easy to use and generally does not require tedious steps such as feature engineering and parameter adjustment. Moreover, many toolkits provide average impurity reduction methods. Its two main problems are: 1. Important features may have low scores (associated feature problem), and 2. This method is more beneficial to features with many feature variable categories (bias problem). Still, this approach is well worth trying in your application.</li>
+<li>Feature selection is very useful in many machine learning and data mining scenarios. When using it, figure out what your goals are, and then find which method is suitable for your task. When selecting optimal features to improve model performance, cross-validation methods can be used to verify whether a certain method is better than other methods. When using feature selection methods to understand data, be careful. The stability of the feature selection model is very important. A model with poor stability can easily lead to wrong conclusions. It can help to subsample the data and then run a feature selection algorithm on a subset. If the results are consistent across subsets, then the conclusions drawn on this data set are credible and the results of this feature selection model can be used to understand the data.</li>
+</ol></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

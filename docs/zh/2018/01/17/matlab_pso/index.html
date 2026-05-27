@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB粒子群优化算法实现（PSO） · OmegaXYZ</title>
+  <meta name="description" content="PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 概述请见： https://omegaxyz.com/2017/05/0...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/17/matlab_pso/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-17</div>
+        <h1>MATLAB粒子群优化算法实现（PSO）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">&nbsp;
+
+PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法）
+粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。
+
+概述请见：<a href="https://omegaxyz.com/2017/05/04/introductionofpso/">https://omegaxyz.com/2017/05/04/introductionofpso/</a>
+
+Python代码请见：<a href="https://omegaxyz.com/2018/01/12/python_pso/">https://omegaxyz.com/2018/01/12/python_pso/</a>
+
+MATLAB代码：
+<pre ><code class="language-matlab">%------初始格式化--------------------------------------------------
+clear all;
+clc;
+format long;
+%------给定初始化条件----------------------------------------------
+c1=2;             %学习因子1
+c2=2;             %学习因子2
+w=0.7298;              %惯性权重
+MaxDT=200;            %最大迭代次数
+% D=2;                  %搜索空间维数（未知数个数）
+N=20;                  %初始化群体个体数目
+%eps=10^(-6);           %设置精度(在已知最小值时候用)
+Vmax=1;
+Vmin=-1;
+popmax=5;
+popmin=-5;
+%------初始化种群的个体(可以在这里限定位置和速度的范围)------------
+for i=1:N
+        pop(i,:)=popmin+(popmax-popmin)*rand(1,2);  %随机初始化位置
+
+        V(i,:)=rand(1,2); %随机初始化速度
+        fitness(i)=ackley(pop(i,:));
+
+    end
+%------先计算各个粒子的适应度，并初始化Pi和Pg----------------------
+[fitnessgbest bestindex]=min(fitness);
+gbest=pop(bestindex,:);
+pbest=pop;
+fitnesspbest=fitness;
+
+for i=1:MaxDT
+    for j=1:N
+        V(j,:)=w*V(j,:)+c1*rand*(pbest(j,:)-pop(j,:))+c2*rand*(gbest-pop(j,:));
+        V(j,find(V(j,:)&gt;Vmax))=Vmax;
+        V(j,find(V(j,:)&lt;Vmin))=Vmin;
+        pop(j,:)=pop(j,:)+V(j,:);
+        pop(j,find(pop(j,:)&gt;popmax))=popmax;
+        pop(j,find(pop(j,:)&lt;popmin))=popmin;
+        
+%         if rand&gt;0.8
+%             k=ceil(2*rand);
+%             pop(j,k)=rand;
+%         end        
+        fitness(j)=ackley(pop(j,:));
+  
+    
+       if fitness(j)&lt;fitnesspbest(j)
+            pbest(j,:)=pop(j,:);
+            fitnesspbest(j)=fitness(j);
+       end
+   
+       if fitness(j)&lt;fitnessgbest
+           gbest=pop(j,:);
+           fitnessgbest=fitness(j);  
+       end
+       
+    end
+   yy(i)=fitnessgbest;
+   
+end
+%------最后给出计算结果
+plot(yy)
+title(['适应度曲线 ' '终止次数=' num2str(MaxDT)]);
+xlabel('进化代数');
+ylabel('适应度')
+%------算法结束---DreamSun GL &amp; HF-----------------------------------</code></pre>
+优化的函数为ackley函数：
+<pre ><code class="language-matlab">% ackley.m
+% Ackley's function, from http://www.cs.vu.nl/~gusz/ecbook/slides/16
+% and further shown at: 
+% http://clerc.maurice.free.fr/pso/Semi-continuous_challenge/Semi-continuous_challenge.htm
+%
+% commonly used to test optimization/global minimization problems
+%
+% f(x)= [ 20 + e ...
+%        -20*exp(-0.2*sqrt((1/n)*sum(x.^2,2))) ...
+%        -exp((1/n)*sum(cos(2*pi*x),2))];
+%
+% dimension n = # of columns of input, x1, x2, ..., xn
+% each row is processed independently,
+% you can feed in matrices of timeXdim no prob
+%
+% example: cost = ackley([1,2,3;4,5,6])
+
+function [out]=ackley(in)
+
+% dimension is # of columns of input, x1, x2, ..., xn
+ n=length(in(1,:));
+
+ x=in;
+ e=exp(1);
+
+ out = (20 + e ...
+       -20*exp(-0.2*sqrt((1/n).*sum(x.^2,2))) ...
+       -exp((1/n).*sum(cos(2*pi*x),2)));
+ return</code></pre>
+函数图像：
+
+<img class="alignnone size-full wp-image-2904" src="https://cdn.omegaxyz.com/2018/01/ackley.png" alt="" width="563" height="424" />
+
+其它代码：
+<pre ><code class="language-matlab">clear;
+clc;
+format long;
+%------给定初始化条件----------------------------------------------
+c1=2;             %学习因子1
+c2=2;             %学习因子2
+w=0.7;            %惯性权重
+MaxDT=100;       %最大迭代次数
+D=1;             %搜索空间维数（未知数个数）
+M=30;             %初始化群体个体数目
+eps=10^(-6);      %设置精度(在已知最小值时候用)
+
+%------初始化种群的个体(可以在这里限定位置和速度的范围)------------
+
+x=randn(M,D); %随机初始化位置
+v=randn(M,D); %随机初始化速度
+
+
+%------先计算各个粒子的适应度，并初始化p(i)和gbest--------------------
+for i=1:M
+    p(i)=fitness(x(i,:),D);
+    y(i,:)=x(i,:);
+end
+gbest=x(1,:);             %gbest为全局最优
+
+for i=2:M
+    if(fitness(x(i,:),D)&lt;fitness(gbest,D))
+        gbest=x(i,:);
+    end
+end
+
+%------进入主要循环，按照公式依次迭代，直到满足精度要求------------
+for t=1:MaxDT
+    for i=1:M
+        v(i,:)=w*v(i,:)+c1*rand*(y(i,:)-x(i,:))+c2*rand*(gbest-x(i,:));
+        x(i,:)=x(i,:)+v(i,:);
+        if fitness(x(i,:),D)&lt;p(i)
+            p(i)=fitness(x(i,:),D);
+            y(i,:)=x(i,:);
+        end
+        if p(i)&lt;fitness(gbest,D)
+            gbest=y(i,:);
+        end
+    end
+end
+
+%------显示计算结果
+disp('*************************************************************')
+disp('函数的全局最优位置为：')
+Solution=gbest'
+disp('最后得到的优化极值为：')
+Result=fitness(gbest,D)
+disp('*************************************************************')
+</code></pre>
+&nbsp;</div>
+        <section class="comments"><h2>评论 (10)</h2>
+        <div class="comment" id="comment-18456">
+          <strong>Anonymous</strong>
+          <time>2020-01-14 17:17:07</time>
+          <div>请问博主可以发一下Parkinson数据集吗？616837919@qq.com,谢谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18457">
+          <strong>xyjisaw</strong>
+          <time>2020-01-14 17:22:01</time>
+          <div>已发送</div>
+        </div>
+        
+        <div class="comment" id="comment-18704">
+          <strong>浅笑</strong>
+          <time>2020-03-24 22:23:48</time>
+          <div>请问博主可以发一下Parkinson数据集吗？1269482535@qq.com,谢谢。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18707">
+          <strong>xyjisaw</strong>
+          <time>2020-03-25 09:13:47</time>
+          <div>数据集在这里可以找到 https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment" id="comment-19426">
+          <strong>Valentine</strong>
+          <time>2020-08-31 17:49:44</time>
+          <div>Nice, thanks~~~</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19462">
+          <strong>syl</strong>
+          <time>2020-09-12 17:18:45</time>
+          <div>好奇是什么数据集</div>
+        </div>
+        
+        <div class="comment" id="comment-19679">
+          <strong>john</strong>
+          <time>2020-11-25 09:47:34</time>
+          <div>有其他拓扑结构的代码吗</div>
+        </div>
+        
+        <div class="comment" id="comment-22330">
+          <strong>老铁</strong>
+          <time>2021-06-27 21:10:34</time>
+          <div>可以发一下完整版的数据吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22333">
+          <strong>xyjisaw</strong>
+          <time>2021-06-28 15:41:04</time>
+          <div>github上有</div>
+        </div>
+        
+        <div class="comment" id="comment-22450">
+          <strong>zz</strong>
+          <time>2021-07-19 00:19:42</time>
+          <div>请问博主有矢量匹配法的程序包吗？</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

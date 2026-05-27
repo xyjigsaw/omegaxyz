@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>链表数据结构C实现（带头结点） · OmegaXYZ</title>
+  <meta name="description" content="将链表（ADT LinkList）的数据对象，数据关系及基本操作（函数）用C语言实现，并测试。 手机用户点击代码查看未显示内容 LinkList.h内容 函数具体实现 ① 链表的初始化 ② 链表的输出 ③ 插入一个值到链表中 ④ 删除链表中的一个值 ⑤ 链表的逆置 注释：在此使用的插入法逆置时间效率O（n） ⑥ 两个非递减链表的归并函数...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/14/dslinklist/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-14</div>
+        <h1>链表数据结构C实现（带头结点）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">将链表（ADT LinkList）的数据对象，数据关系及基本操作（函数）用C语言实现，并测试。
+
+<em>手机用户点击代码查看未显示内容</em>
+
+LinkList.h内容
+<pre ><code class="language-c++">typedef int ElemType;
+typedef struct LNode{
+	ElemType data;
+	struct LNode *next;
+}LNode,*LinkList;
+int LinkListInit(LinkList &amp;L);
+int LinkListOutput(LinkList L);
+int LinkListInsert(LinkList &amp;L,int i,ElemType e);
+int LinkListDelete(LinkList &amp;L,int i,ElemType &amp;e);
+void LinkListReverse(LinkList &amp;L);
+void LinkListMerge(LinkList &amp;Lc, LinkList &amp;La, LinkList &amp;Lb);
+void DestroyLinklist(LinkList &amp;L);
+void ClearLinkList(LinkList &amp;L);
+int GetLinkListLength(LinkList L);</code></pre>
+&nbsp;
+
+函数具体实现
+
+① 链表的初始化
+<pre ><code class="language-c++">int LinkListInit(LinkList &amp;L)
+{
+	LinkList tail, p;
+	int n;
+	p = (LNode*)malloc(sizeof(LNode));
+	L = tail = p;
+	L-&gt;next = NULL;
+	printf("输入链表的初始长度:\n");
+	scanf("%d", &amp;n);
+	L-&gt;data = n;
+	printf("请输入%d个值:\n",n);
+	while (n--)
+	{
+		p = (LNode*)malloc(sizeof(LNode));
+		scanf("%d", &amp;p-&gt;data);
+		p-&gt;next = NULL;
+		tail-&gt;next = p;
+		tail = p;
+	}
+	p-&gt;next = NULL;
+	printf("链表创建成功！\n");
+	return OK;
+}</code></pre>
+② 链表的输出
+<pre ><code class="language-c++">int LinkListOutput(LinkList L)
+{
+	LinkList p = L-&gt;next;
+	if (p == NULL)
+		return ERROR;
+	while (p)
+	{
+		printf("%d ", p-&gt;data);
+		p = p-&gt;next;
+	}
+	printf("\n");
+	return OK;
+}
+</code></pre>
+③ 插入一个值到链表中
+<pre ><code class="language-c++">int LinkListInsert(LinkList &amp;L, int i, ElemType e)
+{
+	LinkList p = L;
+	LinkList s;
+	int j = 0;
+	while (p&amp;&amp;j &lt; i - 1)
+	{
+		p = p-&gt;next; ++j;
+	}
+	if (!p || j&gt;i - 1)return ERROR;
+	s = (LinkList)malloc(sizeof(LNode));
+	s-&gt;data = e; s-&gt;next = p-&gt;next; p-&gt;next = s;
+	L-&gt;data++;
+	return OK;
+}
+</code></pre>
+④ 删除链表中的一个值
+<pre ><code class="language-c++">int LinkListDelete(LinkList &amp;L, int i, ElemType &amp;e)
+{
+	LinkList p = L;
+	LinkList q;
+	int j = 0;
+	while (p&amp;&amp;j &lt; i - 1)
+	{
+		p = p-&gt;next; ++j;
+	}
+	if (!(p-&gt;next) || j&gt;i - 1)return ERROR;
+	q = p-&gt;next; p-&gt;next = q-&gt;next; e = q-&gt;data;
+	free(q);
+	L-&gt;data--;
+	return OK;
+}
+</code></pre>
+⑤ 链表的逆置
+<pre ><code class="language-c++">void LinkListReverse(LinkList &amp;L)
+{
+	LinkList p, q, r;
+	q = r = NULL;
+	p=L-&gt;next;
+	while (p-&gt;next)
+	{
+		q = p-&gt;next;
+		p-&gt;next = r;
+		r = p;
+		p = q;
+	}
+	p-&gt;next = r; L-&gt;next-&gt;next = NULL;
+	L-&gt;next = p;
+}
+</code></pre>
+注释：在此使用的插入法逆置时间效率O（n）
+
+⑥ 两个非递减链表的归并函数
+<pre ><code class="language-c++">void LinkListMerge(LinkList &amp;Lc, LinkList &amp;La, LinkList &amp;Lb)
+{
+	LinkList pa, pb, pc;
+	pa = La-&gt;next;
+	pb = Lb-&gt;next;
+	Lc = pc = La;
+	while (pa&amp;&amp;pb)
+	{
+		if (pa-&gt;data &lt;= pb-&gt;data)
+		{
+			pc-&gt;next = (LNode*)malloc(sizeof(LNode));
+			pc-&gt;next = pa; pc = pa; pa = pc-&gt;next;
+		}
+		else
+		{
+			pc-&gt;next = (LNode*)malloc(sizeof(LNode));
+			pc-&gt;next = pb; pc = pb; pb = pb-&gt;next;
+		}
+	}
+	pc = (LNode*)malloc(sizeof(LNode));
+	pc-&gt;next = pa ? pa : pb;
+	free(Lb);
+}//非递减排列合并
+</code></pre>
+⑦ 链表的清除和销毁
+
+清除：
+<pre ><code class="language-c++">void ClearLinkList(LinkList &amp;L){
+	LinkList p, q;
+	p = L-&gt;next;
+	while (p)
+	{
+		q = p-&gt;next;
+		free(p);
+		p = q;
+	}
+	L-&gt;next = NULL;
+}
+</code></pre>
+销毁：
+<pre ><code class="language-c++">void DestroyLinklist(LinkList &amp;L)
+{
+	LinkList p;
+	while (L)
+	{
+		p = L-&gt;next;
+		free(L);
+		L = p;
+	}
+}
+</code></pre>
+注释：注意链表的清除和销毁的区别，将在实验小结中展现。
+
+MAIN函数
+<pre ><code class="language-c++">#include "stdafx.h"
+#include "LinkList.h"
+
+int main()
+{
+	LinkList L, M,N; int p; ElemType e; char flag1,flag2;
+	printf("------------------------------------------\n");
+	printf("创建链表1:\n");
+	LinkListInit(L);
+	printf("------------------------------------------\n");
+	printf("输出当前链表1:\n");
+	LinkListOutput(L);
+	printf("链表的长度为：%d\n", GetLinkListLength(L));
+	printf("------------------------------------------\n");
+	printf("插入一个值到链表1中:\n");
+	printf("输入插入位置：");
+	scanf("%d", &amp;p);
+	printf("输入插入的值：");
+	scanf("%d", &amp;e);
+	LinkListInsert(L, p, e);
+	printf("插入后输出链表1：\n");
+	LinkListOutput(L);
+	printf("链表的长度为：%d\n", GetLinkListLength(L));
+	printf("------------------------------------------\n");
+	printf("删除链表中的一个值:\n");
+	printf("输入删除位置：");
+	scanf("%d", &amp;p);
+	LinkListDelete(L, p, e);
+	printf("删除的值为%d：", e);
+	printf("删除后输出链表1：\n");
+	LinkListOutput(L);
+	printf("链表的长度为：%d\n", GetLinkListLength(L));
+	printf("------------------------------------------\n");
+	printf("是否需要逆置链表（Y/N)?");
+	getchar();
+	flag1 = getchar();
+	if (flag1 == 'Y')
+	{
+		printf("链表逆置:\n");
+		LinkListReverse(L);
+		LinkListOutput(L);
+	}
+	printf("------------------------------------------\n");
+	printf("若当前链表1非递减请创建新非递减链表2并使用递增合并函数(Y/N)?");
+	getchar();
+	scanf("%c", &amp;flag2);
+	if (flag2 == 'Y')
+	{
+		LinkListInit(M);
+		printf("递增合并函数:\n");
+		LinkListMerge(N, L, M);
+		LinkListOutput(N);
+	}
+	printf("------------------------------------------\n");
+	printf("\n链表清除中......\n");
+	ClearLinkList(L);
+	printf("------------------------------------------\n");
+	printf("\n链表销毁中......\n");
+	DestroyLinklist(L); 
+	printf("------------------------------------------\n");
+	system("pause");
+	return 0;
+}
+</code></pre>
+<img class="alignnone size-medium wp-image-381" src="https://cdn.omegaxyz.com/2017/04/LINKLIST-300x294.png" alt="" width="300" height="294" />
+
+小结
+
+1. 注意在定义链表的时候，是否要带头结点，本人的链表实现的是带头结点的优化链表，即在链表初始化的时候给链表增加一个头结点，而不是像书上多使用一个typedef语句，同时，头结点的L-&gt;data元素存的是链表的长度，由此省去了定义Link-length。
+2. 非递减链表的归并函数Merge要注意函数内部有初始化和赋值新链表，每增加一个都要为p-&gt;next申请空间。
+3. 在插入和删除函数中要对链表的length动态更改。
+4. 链表的逆置函数时间复杂度为0（n）,要注意为了使其它函数能够使用，链表的逆置不光简单地调换位置，要注意头结点指向第一个元素，尾元素的下一个位置为NULL。即要增加 p-&gt;next = r; L-&gt;next-&gt;next = NULL;L-&gt;next = p;语句。
+注意当p-&gt;next==NULL时，L-&gt;next仍然指向先前链表的第一个元素，而新链表该元素变为最后一个，因此要加L-&gt;next-&gt;next==NULL。
+5. 关于链表的清除与销毁的区别。链表的清除销毁其它节点保留头结点，销毁全部free掉。
+
+&nbsp;
+
+<em>原创非商业转载请注明出处，商业转载请联系。</em></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

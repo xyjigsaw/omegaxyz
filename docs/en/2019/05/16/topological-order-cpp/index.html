@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Topological sorting example C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Introduction In graph theory, topological sorting is a linear sequence of all vertices of a directed acyclic graph (DAG, Directed Acyclic Graph). And the sequence must satisfy the following two conditions: Each vertex appears only once. If there is a path from vertex A to vertex B, then vertex A appears before vertex B in the sequence. Note: Only Directed Acyclic Graph (DAG) has...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/05/16/topological-order-cpp/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-05-16</div>
+        <h1>Topological sorting example C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/pat/index.html">PAT</a></div>
+        <div class="article-content"><div>
+<h2><strong>Introduction</strong></h2>
+<div>In graph theory, topological sorting is a linear sequence of all vertices of a directed acyclic graph (DAG, Directed Acyclic Graph). And the sequence must meet the following two conditions:</div>
+<ul>
+<li>Each vertex appears exactly once.</li>
+<li>If there is a path from vertex A to vertex B, then vertex A appears before vertex B in the sequence.</li>
+</ul>
+<div>Note: Only directed acyclic graphs (DAGs) have topological sorting. Topological sorting has one or more results.</div>
+</div>
+https://omegaxyz.com/2019/02/24/topological/
+<h2><strong>Example 1</strong>HDU 3342 Legal or Not</h2>
+<strong>Problem Description</strong>
+ACM-DIY is a large QQ group where many excellent acmers get together. It is so harmonious that just like a big family. Every day,many "holy cows" like HH, hh, AC, ZT, lcc, BF, Qinz and so on chat on-line to exchange their ideas. When someone has questions, many warm-hearted cows like Lost will come to help. Then the one being helped will call Lost "master", and Lost will have a nice "prentice". By and by, there are many pairs of "master and prentice". But then problem occurs: there are too many masters and too many prentices, how can we know whether it is legal or not?
+
+We all know a master can have many prentices and a prentice may have a lot of masters too, it's legal. Nevertheless，some cows are not so honest, they hold illegal relationship. Take HH and 3xian for instant, HH is 3xian's master and, at the same time, 3xian is HH's master,which is quite illegal! To avoid this,please help us to judge whether their relationship is legal or not.
+
+Please note that the "master and prentice" relation is transitive. It means that if A is B's master ans B is C's master, then A is C's master.
+<strong>Input</strong>
+The input consists of several test cases. For each case, the first line contains two integers, N (members to be tested) and M (relationships to be tested)(2 &lt;= N, M &lt;= 100). Then M lines follow, each contains a pair of (x, y) which means x is y's master and y is x's prentice. The input is terminated by N = 0.
+TO MAKE IT SIMPLE, we give every one a number (0, 1, 2,..., N-1). We use their numbers instead of their names.
+<strong>Output</strong>
+For each test case, print in one line the judgement of the messy relationship.
+If it is legal, output "YES", otherwise "NO".
+<strong>Sample Input</strong>
+<ul>
+<li>3 2</li>
+<li>0 1</li>
+<li>1 2</li>
+<li>2 2</li>
+<li>0 1</li>
+<li>1 0</li>
+<li>0 0</li>
+</ul>
+<strong>Sample Output</strong>
+<ul>
+<li>YES</li>
+<li>NO</li>
+</ul>
+<strong>C++ code</strong>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;queue&gt;
+using namespace std;
+//topological order
+
+int main(){
+    int n, m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(n == 0 &amp;&amp; m == 0)break;
+        int a, b;
+        int cnt[100]; //统计每个节点的入度
+        vector&lt;int&gt; v[100];
+        for(int i = 0; i &lt; m; i++){
+            cin&gt;&gt;a&gt;&gt;b;
+            v[a].push_back(b); //存入后继
+            cnt[b]++; //入度增加
+        }
+        queue&lt;int&gt; Q; //保存入度为0的节点和队列
+        for(int i = 0; i &lt; n; i++){ //找到入度为0的节点存起来
+            if(cnt[i] == 0)Q.push(i);
+        }
+        int times = 0;
+        while(!Q.empty()){
+            int nowP = Q.front(); //取出第一个入度为0的节点
+            Q.pop();
+            times++;
+            for(int i = 0; i &lt; v[nowP].size(); i++){
+                cnt[v[nowP][i]]--; //当前节点所有后继的入度减1
+                if(cnt[v[nowP][i]] == 0){
+                    Q.push(v[nowP][i]);
+                }
+            }
+        }
+        if(times == n)cout&lt;&lt;"YES"&lt;&lt;endl;
+        else cout&lt;&lt;"NO"&lt;&lt;endl;
+    }
+    return 0;
+}</code></pre>
+<h2><strong>Example 2 PAT 1146 Topological Order (25 points)</strong></h2>
+<div class="problem_2tXnk p-3 mb-3 background-grey-1">
+<div class="ques-view">
+
+This is a problem given in the Graduate Entrance Exam in 2018: Which of the following is NOT a topological order obtained from the given directed graph? Now you are supposed to write a program to test each of the options.
+
+<img alt="" class="alignnone wp-image-5519" height="207" src="https://cdn.omegaxyz.com/2019/02/1146.png" width="456"/>
+<p id="input-specification-"><strong>Input Specification</strong></p>
+Each input file contains one test case. For each case, the first line gives two positive integers N (<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mrel">≤</span></span></span></span> 1,000), the number of vertices in the graph, and M (<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mrel">≤</span></span></span></span> 10,000), the number of directed edges. Then M lines follow, each gives the start and the end vertices of an edge. The vertices are numbered from 1 to N. After the graph, there is another positive integer K (<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base textstyle uncramped"><span class="mrel">≤</span></span></span></span> 100). Then K lines of query follow, each gives a permutation of all the vertices. All the numbers in a line are separated by a space.
+<p id="output-specification-"><strong>Output Specification</strong></p>
+Print in a line all the indices of queries which correspond to "NOT a topological order". The indices start from zero. All the numbers are separated by a space, and there must no extra space at the beginning or the end of the line. It is graranteed that there is at least one answer.
+<p id="sample-input-"><strong>Sample Input</strong></p>
+<pre class=""><code class="lang-in">6 8
+1 2
+1 3
+5 2
+5 4
+2 3
+2 6
+3 4
+6 4
+5
+1 5 2 3 6 4
+5 1 2 6 3 4
+5 1 2 3 6 4
+5 2 1 6 3 4
+1 2 3 4 5 6
+</code></pre>
+<strong>Sample Output</strong>
+<pre><code class="lang-out">3 4
+</code></pre>
+</div>
+</div>
+<div class="problemInfo_jpKfZ">
+<div><strong>C++ code</strong></div>
+<div>
+<pre><code class="language-c++">#include &lt;iostream&gt; 
+#include &lt;vector&gt; 
+using namespace std; 
+int main() {
+    int n, m, a, b, k, flag = 0, in[1010]; 
+    vector&lt;int&gt; v[1010]; 
+    scanf("%d %d", &amp;n, &amp;m); 
+    for (int i = 0; i &lt; m; i++) { 
+        scanf("%d %d", &amp;a, &amp;b); 
+        v[a].push_back(b); 
+        in[b]++; 
+    } 
+    scanf("%d", &amp;k); 
+    for (int i = 0; i &lt; k; i++) { 
+        int judge = 1; 
+        vector&lt;int&gt; tin(in, in+n+1); 
+        for (int j = 0; j &lt; n; j++) { 
+            scanf("%d", &amp;a); 
+            if (tin[a] != 0) 
+                judge = 0; 
+            for (int it : v[a]) tin[it]--; 
+        } 
+        if (judge == 1) continue;
+        printf("%s%d", flag == 1 ? " ": "", i); 
+        flag = 1;
+    } 
+    return 0;
+}</code></pre>
+</div>
+</div>
+ 
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

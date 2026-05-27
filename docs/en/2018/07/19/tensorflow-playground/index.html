@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neural Network (TensorFlow) Playground · OmegaXYZ</title>
+  <meta name="description" content="TensorFlow Playground is a tool that can train simple neural networks through a web browser and visualize the training process. You can simply simulate the process of deep learning. Thicker lines indicate greater weight. Website: http://playground.tensorflow.org/ Parameter introduction Epoch: Number of iterations Learning rate: Learning rate, in order to make the gradient descent method have better performance,...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/07/19/tensorflow-playground/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-07-19</div>
+        <h1>Neural Network (TensorFlow) Playground</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content">TensorFlow Playground is a tool that can train simple neural networks through a web browser and visualize the training process. You can simply simulate the process of deep learning. Thicker lines indicate greater weight.
+
+URL:<a href="http://playground.tensorflow.org/">http://playground.tensorflow.org/</a>
+<h2><strong>Parameter introduction</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4819" height="105" src="https://cdn.omegaxyz.com/2018/07/TensorFlow-playground1.png" width="1418"/>
+<strong>Epoch：</strong>Number of iterations<strong>Learning rate：</strong>Learning rate, in order to make the gradient descent method have better performance, we need to set the value of the learning rate within an appropriate range. A learning rate that is too large will lead to unstable learning, and a value that is too small will lead to extremely long training time. The adaptive learning rate achieves a reasonably high rate while ensuring stable training, which can reduce training time. According to experience, we generally set the learning rate between 0.01 and 0.8<strong>Activation：</strong>Activation function. Common activation functions include Sigmoid, ReLu, Linear, and Tanh. The so-called activation function (Activation Function) is a function that runs on the neurons of an artificial neural network and is responsible for mapping the input of the neuron to the output.<strong>Regularization：</strong>Regularization, one goal of regularization is to reduce the degree of overfitting<strong>Regularization Rate：</strong>regularization rate<strong>Problem Type：</strong>There are classification and regression<h2><strong>data area</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4820" height="524" src="https://cdn.omegaxyz.com/2018/07/TensorFlow-playground2.png" width="219"/>Select the data you want to classify (regress)
+
+Next adjust the ratio of test set to training set (default is enough)<strong>Noise：</strong>Noise and unusual data will increase the difficulty of classification or regression<strong>Batch size：</strong>Batch size, Batch_size should not be selected too small. If it is too small, it will easily fail to converge, or it will require a large epoch to converge. There is no need to select it too large. If it is too large, the video memory will not be able to bear it. Secondly, the parameter correction may become slow due to the reduction in the number of iterations.<h2><strong>Main interface</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4821" height="630" src="https://cdn.omegaxyz.com/2018/07/TensorFlow-playground3.png" width="1244"/>The leftmost side is the input attributes, including X, Y, X^2, Y^2, sin(X), sin(Y), etc.
+
+In the middle is the visualization of the neural network. Each column is a hidden layer. At this time, there are two hidden layers. Click + to increase the number of hidden layers or neurons.
+
+The far right is the output, which is the loss (the smaller the better). Generally speaking, the loss of the training set is smaller than the loss of the test set.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

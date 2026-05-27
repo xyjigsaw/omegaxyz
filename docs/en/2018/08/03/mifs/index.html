@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feature selection algorithm based on mutual information MATLAB implementation · OmegaXYZ</title>
+  <meta name="description" content="In probability theory and information theory, the mutual information (Mutual Information, MI for short) or transfer information (transinformation) of two random variables is a measure of the interdependence between the variables. Unlike the correlation coefficient, mutual information is not limited to real-valued random variables, it is more general and determines how similar the joint distribution p(X,Y) and the product of decomposed marginal distributions p(X)p(Y) are. Mutual information (Mutual Infor...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/08/03/mifs/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-03</div>
+        <h1>Feature selection algorithm based on mutual information MATLAB implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content">In probability theory and information theory, the relationship between two random variables<strong>Mutual Information (MI)</strong>Or transfer information (transinformation) is a measure of interdependence between variables. Unlike the correlation coefficient, mutual information is not limited to real-valued random variables, it is more general and determines how similar the joint distribution p(X,Y) and the product of decomposed marginal distributions p(X)p(Y) are. Mutual information (Mutual Information) measures the correlation (mutual dependence) between two event sets. The most commonly used unit of mutual information is bit.<h2><strong>Definition of mutual information</strong></h2>
+<strong>Formally, the mutual information of two discrete random variables X and Y can be defined as:</strong>where p(x,y) is the joint probability distribution function of X and Y, and p(x) and p(y) are the marginal probability distribution functions of X and Y respectively.<img alt="" class="aligncenter wp-image-4864 size-full" height="68" src="https://cdn.omegaxyz.com/2018/08/MI1.png" width="341"/>In the case of continuous random variables, the summation is replaced by a double definite integral:<img alt="" class="aligncenter wp-image-4865 size-full" height="52" src="https://cdn.omegaxyz.com/2018/08/MI2.png" width="385"/>where p(x,y) is currently the joint probability density function of X and Y, and p(x) and p(y) are the marginal probability density functions of X and Y respectively.
+
+The statistical average value of mutual information I(xi;yj) in the joint probability space P(XY). The average mutual information I(X;Y) overcomes the randomness of the mutual information quantity I(xi;yj) and becomes a certain quantity. If the logarithm is based on 2, the unit of mutual information is bit.
+
+Intuitively, mutual information measures the information shared by X and Y: it measures how much knowing one of the two variables reduces uncertainty about the other. For example, if X and Y are independent of each other, then knowing that X provides no information about Y and vice versa, their mutual information is zero. At the other extreme, if X is a deterministic function of Y, and Y is also a deterministic function of Therefore, the mutual information in this case is the same as the uncertainty contained in Y (or X) alone, called the entropy of Y (or X). Moreover, this mutual information is the same as the entropy of X and the entropy of Y. (A very special case of this is when X and Y are the same random variables.)
+
+Mutual information is the intrinsic dependence between the joint distribution of X and Y relative to the joint distribution if X and Y are assumed to be independent. Mutual information then measures dependence in the following way: I(X; Y) = 0 if and only if X and Y are independent random variables. It's easy to see in one direction: when X and Y are independent, p(x,y) = p(x) p(y), therefore:<img alt="" class="wp-image-4866 aligncenter size-full" height="59" src="https://cdn.omegaxyz.com/2018/08/MI3.png" width="250"/>Furthermore, the mutual information is nonnegative (i.e., I(X;Y) ≥ 0; see below) and symmetric (i.e., I(X;Y) = I(Y;X)).
+
+For more mutual information, please visit:<a href="https://omegaxyz.com/2018/08/02/mi/">https://omegaxyz.com/2018/08/02/mi/</a>
+<h2><strong>Steps of mutual information feature selection algorithm</strong></h2>
+<ul>
+<li>①Divide the data set</li>
+<li>②Use mutual information to sort features</li>
+<li>③Select the first n features for training using SVM</li>
+<li>④Evaluate the feature subset and calculate the error rate on the test set</li>
+</ul>
+<h2><strong>shortcoming</strong></h2>This feature selection method is to maximize the correlation between features and categorical variables, that is, to select the top k variables with the highest correlation with categorical variables. However, in feature selection, the combination of a single good feature cannot increase the performance of the classifier, because the features may be highly correlated, which leads to redundancy of feature variables.<h2><strong>code</strong></h2>
+<strong>Note that the data set used is dlbcl, which has about five thousand dimensions and can be downloaded from UCI. The top 100 features are finally selected for training.</strong>Main function code:<pre><code class="language-matlab">clear all
+close all
+clc;
+[X_train,Y_train,X_test,Y_test] = divide_dlbcl();
+Y_train(Y_train==0)=-1;
+Y_test(Y_test==0)=-1;
+% number of features
+numF = size(X_train,2);
+
+
+
+[ ranking , w] = mutInfFS( X_train, Y_train, numF );
+k = 100; % select the Top 2 features
+svmStruct = svmtrain(X_train(:,ranking(1:k)),Y_train,'showplot',true);
+C = svmclassify(svmStruct,X_test(:,ranking(1:k)),'showplot',true);
+err_rate = sum(Y_test~= C)/size(X_test,1); % mis-classification rate
+conMat = confusionmat(Y_test,C); % the confusion matrix
+fprintf('\nAccuracy: %.2f%%, Error-Rate: %.2f \n',100*(1-err_rate),err_rate);</code></pre>
+mutInfFS.m
+<pre><code class="language-matlab">function [ rank , w] = mutInfFS( X,Y,numF )
+rank = [];
+for i = 1:size(X,2)
+    rank = [rank; -muteinf(X(:,i),Y) i];
+end;
+rank = sortrows(rank,1);	
+w = rank(1:numF, 1);
+rank = rank(1:numF, 2);
+
+end
+
+</code></pre>
+muteinf.m
+<pre><code class="language-matlab">function info = muteinf(A, Y)
+n = size(A,1);%实例数量
+Z = [A Y];%所有实例的维度值及标签
+if(n/10 &gt; 20)
+    nbins = 20;
+else
+    nbins = max(floor(n/10),10);%设置区间的个数
+end;
+pA = hist(A, nbins);%min(A)到max(A)划分出nbins个区间出来，求每个区间的概率
+pA = pA ./ n;%除以实例数量
+
+i = find(pA == 0);
+pA(i) = 0.00001;%不能使某一区间的概率为0
+
+od = size(Y,2);%一个维度
+cl = od;
+%下面是求实例不同标签的的概率值，也就是频率
+if(od == 1)
+    pY = [length(find(Y==+1)) length(find(Y==-1))] / n;
+    cl = 2;
+else
+    pY = zeros(1,od);
+    for i=1:od
+        pY(i) = length(find(Y==+1));
+    end;
+    pY = pY / n;
+end;
+p = zeros(cl,nbins);
+rx = abs(max(A) - min(A)) / nbins;%每个区间长度
+for i = 1:cl
+    xl = min(A);%变量的下界
+    for j = 1:nbins
+        if(i == 2) &amp;&amp; (od == 1)
+            interval = (xl &lt;= Z(:,1)) &amp; (Z(:,2) == -1);
+        else
+            interval = (xl &lt;= Z(:,1)) &amp; (Z(:,i+1) == +1);
+        end;
+        if(j &lt; nbins)
+            interval = interval &amp; (Z(:,1) &lt; xl + rx);
+        end;
+        %find(interval)
+        p(i,j) = length(find(interval));
+        
+        if p(i,j) == 0 % hack!
+            p(i,j) = 0.00001;
+        end
+        
+        xl = xl + rx;
+    end;
+end;
+HA = -sum(pA .* log(pA));%计算当前维度的信息熵
+HY = -sum(pY .* log(pY));%计算标签的信息熵
+pA = repmat(pA,cl,1);
+pY = repmat(pY',1,nbins);
+p = p ./ n;
+info = sum(sum(p .* log(p ./ (pA .* pY))));
+info = 2 * info ./ (HA + HY);%计算互信息</code></pre>
+<strong>The effect of the first 100 features:</strong>
+
+Accuracy: 86.36%, Error-Rate: 0.14
+
+<strong>Select the first two features for training (the compression rate is close to 100%, just set K in the above code to 2):</strong>
+<img alt="" class="alignnone size-full wp-image-4879" height="514" src="https://cdn.omegaxyz.com/2018/08/MIFS1.png" width="576"/>Accuracy: 75.00%, Error-Rate: 0.25
+
+Dataset:<a href="https://github.com/xyjigsaw/Dataset">https://github.com/xyjigsaw/Dataset</a>
+
+ 
+<div class="footer-bar"><aside class="widget_text widget inner-padding widget_custom_html" id="custom_html-7">
+<div class="textwidget custom-html-widget" style="text-align: center;"><strong>All original codes on the website use<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license"><span style="color: #005ab5;"> Apache 2.0 </span></a>Authorize</strong>
+<strong>Articles on this website are licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"><span style="color: #005ab5;"> BY-NC-SA4.0 </span></a>Authorize</strong></div>
+</aside></div>
+<div class="copyright-bar" style="text-align: center;"><strong><span class="copyright">© 2018</span> • <a href="https://omegaxyz.com/" rel="noopener noreferrer" target="_blank">OmegaXYZ</a>-<span style="color: #ff0000;">All rights reserved. Please indicate the source for reprinting.</span>-Anhui ICP No. 17007601</strong></div></div>
+        <section class="comments"><h2>Comments (42)</h2>
+        <div class="comment" id="comment-3822">
+          <strong>陈华</strong>
+          <time>2018-08-13 06:49:48</time>
+          <div>dlbcl 数据集没找到，能发一份吗？谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-9164">
+          <strong>ccc</strong>
+          <time>2019-02-20 16:57:05</time>
+          <div>您好，没能在uci上找到dlbcl数据集，能麻烦您提供一下网址吗，非常感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-9209">
+          <strong>xyjisaw</strong>
+          <time>2019-02-20 23:01:50</time>
+          <div>请提供邮箱地址</div>
+        </div>
+        
+        <div class="comment" id="comment-9273">
+          <strong>Xiaolong Chen</strong>
+          <time>2019-02-21 09:53:53</time>
+          <div>您好，方便提供下dlbcl数据集吗</div>
+        </div>
+        
+        <div class="comment" id="comment-9276">
+          <strong><a href="http://邮箱xlchen9278@gmail.com" rel="nofollow">cxl</a></strong>
+          <time>2019-02-21 09:55:39</time>
+          <div>您好，方便提供下dlbcl数据集吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-17133">
+          <strong>空白</strong>
+          <time>2019-06-25 22:02:35</time>
+          <div>为什么divide那个函数用不了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17138">
+          <strong>xyjisaw</strong>
+          <time>2019-06-26 12:47:40</time>
+          <div>这是我自己写的划分数据集的函数，输出是测试集，训练集，测试集标签和训练集标签。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17140">
+          <strong>空白</strong>
+          <time>2019-06-26 16:52:26</time>
+          <div>划分数据集的函数能给我发一下吗</div>
+        </div>
+        
+        <div class="comment" id="comment-17141">
+          <strong>一帆</strong>
+          <time>2019-06-26 17:42:57</time>
+          <div>博主您好 如果想实验自己的数据集 应该怎么改呀 我的数据集是.mat格式。小白一只还请解答~^^</div>
+        </div>
+        
+        <div class="comment" id="comment-17235">
+          <strong>Anonymous</strong>
+          <time>2019-07-19 18:31:51</time>
+          <div>数据集10折划分函数中Indices是单独设的吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17240">
+          <strong>xyjisaw</strong>
+          <time>2019-07-20 09:32:36</time>
+          <div>那个函数自动的不用管它</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17241">
+          <strong>Anonymous</strong>
+          <time>2019-07-20 11:08:52</time>
+          <div>谢谢了 我还有一个问题 就是在muteinf这个函数中，最后两句代码，info = sum(sum(p .* log(p ./ (pA .* pY))));<br>info = 2 * info ./ (HA + HY);%计算互信息，前一个已经计算出来了两个向量的互信息了，最后一句是什么意思啊</div>
+        </div>
+        
+        <div class="comment" id="comment-18014">
+          <strong>江川</strong>
+          <time>2019-10-07 20:36:00</time>
+          <div>博主，您好，您用过互信息来将特征分为几个组吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18015">
+          <strong>江川</strong>
+          <time>2019-10-07 21:47:10</time>
+          <div>另外，能否提供一下dlbcl数据集，网上没找到，还请博主发一下1159668795@qq.com。谢谢了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18023">
+          <strong>xyjisaw</strong>
+          <time>2019-10-08 22:25:04</time>
+          <div>已发</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18025">
+          <strong>xyjisaw</strong>
+          <time>2019-10-08 22:25:33</time>
+          <div>找相关论文</div>
+        </div>
+        
+        <div class="comment" id="comment-18423">
+          <strong>Anonymous</strong>
+          <time>2020-01-03 13:13:57</time>
+          <div>能否提供一下dlbcl数据集，网上没找到，还请博主发一下sghhrzq@163.com。谢谢了</div>
+        </div>
+        
+        <div class="comment" id="comment-18454">
+          <strong>Anonymous</strong>
+          <time>2020-01-14 16:31:35</time>
+          <div>请问可以提供dlbcl数据集吗？谢谢，616837919@qq.com.</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18455">
+          <strong>xyjisaw</strong>
+          <time>2020-01-14 16:39:39</time>
+          <div>已发送</div>
+        </div>
+        
+        <div class="comment" id="comment-18613">
+          <strong>谢谢了</strong>
+          <time>2020-03-02 21:55:47</time>
+          <div>您好，方便提供一下数据集吗？我也没找到。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18614">
+          <strong>谢谢了</strong>
+          <time>2020-03-02 21:56:56</time>
+          <div>1392350692@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18617">
+          <strong>xyjisaw</strong>
+          <time>2020-03-03 09:16:56</time>
+          <div>数据集已上传至：&lt;a href=&quot;https://github.com/xyjigsaw/Dataset&quot; rel=&quot;nofollow ugc&quot;&gt;https://github.com/xyjigsaw/Dataset&lt;/a&gt;</div>
+        </div>
+        
+        <div class="comment" id="comment-18726">
+          <strong>大凡</strong>
+          <time>2020-03-27 09:14:15</time>
+          <div>麻烦可以提供一下dlbcl数据集吗，874176332@qq.com   谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18727">
+          <strong>大凡</strong>
+          <time>2020-03-27 09:15:23</time>
+          <div>网址打不开</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18728">
+          <strong>xyjisaw</strong>
+          <time>2020-03-27 09:22:19</time>
+          <div>多刷新几次就打开了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18729">
+          <strong>xyjisaw</strong>
+          <time>2020-03-27 09:37:12</time>
+          <div>刚刚看到消息，github被劫持了，等待一段时间即可恢复访问。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18730">
+          <strong>大凡</strong>
+          <time>2020-03-27 09:39:00</time>
+          <div>还是不行，换了好几个浏览器也不行</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18731">
+          <strong>大凡</strong>
+          <time>2020-03-27 09:39:33</time>
+          <div>OK</div>
+        </div>
+        
+        <div class="comment" id="comment-19474">
+          <strong>周竑虎</strong>
+          <time>2020-09-18 20:34:49</time>
+          <div>rank = [rank; -muteinf(X(:,i),Y) i];这个地方的-muteinf(X(:,i),Y) i代码是不是有错误啊？？</div>
+        </div>
+        
+        <div class="comment" id="comment-21876">
+          <strong>xynnn</strong>
+          <time>2021-04-06 19:39:14</time>
+          <div>博主还在吗。。。可以给我发一份数据集吗？1160788784@qq.com 万分感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21877">
+          <strong>xynnn</strong>
+          <time>2021-04-06 19:44:54</time>
+          <div>是想要dlbcl的数据集，谢谢博主！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21882">
+          <strong>xyjisaw</strong>
+          <time>2021-04-07 10:30:03</time>
+          <div>在这个里面，https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment" id="comment-22135">
+          <strong>权学烽</strong>
+          <time>2021-06-01 10:49:47</time>
+          <div>我想问下，我的数据是有文本和数字的，这个人是A类人，影响因素有男/女，学历（高中/本科/研究生），民族（汉/藏/。。。），年龄（56），这样的混合数据怎么处理呢，我看你自己用的那个数据集都是数字</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22136">
+          <strong>权学烽</strong>
+          <time>2021-06-01 10:51:13</time>
+          <div>我想看看这些因素是如何影响这个人的类型的，比如有A,B,C,D四类，这些因素不同可以导致这个人的类型不同，然后计算相关性</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22137">
+          <strong>xyjisaw</strong>
+          <time>2021-06-01 13:07:13</time>
+          <div>特征离散化</div>
+        </div>
+        
+        <div class="comment" id="comment-24938">
+          <strong>姜芷七</strong>
+          <time>2021-12-10 10:13:41</time>
+          <div>请问可以提供dlbcl数据集吗？谢谢，1040634393@qq.com.</div>
+        </div>
+        
+        <div class="comment reply" id="comment-24939">
+          <strong>xyjisaw</strong>
+          <time>2021-12-10 10:20:02</time>
+          <div>可以的，数据集已经上传到https://github.com/xyjigsaw/Dataset</div>
+        </div>
+        
+        <div class="comment" id="comment-29654">
+          <strong>yaqi</strong>
+          <time>2022-10-19 10:43:16</time>
+          <div>您好，方便发一下dlbcl的数据集吗？github上面那个打不开，请博主发一份yq13835520722@163.com，非常感谢！！</div>
+        </div>
+        
+        <div class="comment" id="comment-33451">
+          <strong>Zhao Mo</strong>
+          <time>2023-04-11 11:13:28</time>
+          <div>您好，请问最后两张图是如何做出来的？我用的基本方式没出来图</div>
+        </div>
+        
+        <div class="comment reply" id="comment-33458">
+          <strong>xyjisaw</strong>
+          <time>2023-04-11 20:48:57</time>
+          <div>你好，这三个文件同时保存到本地可以生成最后一张图。</div>
+        </div>
+        
+        <div class="comment" id="comment-39420">
+          <strong>GinoZ</strong>
+          <time>2024-04-18 10:49:23</time>
+          <div>请问info是互信息，第二行代码是不是用于将互信息归一化为[0,1]？<br>info = sum(sum(p .* log(p ./ (pA .* pY))));<br>info = 2 * info ./ (HA + HY);%计算互信息</div>
+        </div>
+        
+        <div class="comment reply" id="comment-40713">
+          <strong>xyjisaw</strong>
+          <time>2024-06-27 15:31:08</time>
+          <div>你好，可以这么理解的</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matlab基本语法与指令 · OmegaXYZ</title>
+  <meta name="description" content="1.clear ：清除内存变量和函数，也就是把WorkSpace的变量给清空； 2.clc :清楚当前Matlab命令窗口的内容；相当于清楚屏幕吧，重新开始，简洁一点，注意clc是不清楚变量的。一般在编写m文件的时候，不是函数的话，前面一般都要加上 clear;clc; 目的就是在m文件运行的时候，把内存和屏幕都清空，以免同名称的变量影响...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/06/17/matlabbase/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-06-17</div>
+        <h1>Matlab基本语法与指令</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">1.clear ：清除内存变量和函数，也就是把WorkSpace的变量给清空；
+
+2.clc :清楚当前Matlab命令窗口的内容；相当于清楚屏幕吧，重新开始，简洁一点，注意clc是不清楚变量的。一般在编写m文件的时候，不是函数的话，前面一般都要加上 clear;clc; 目的就是在m文件运行的时候，把内存和屏幕都清空，以免同名称的变量影响以及屏幕容易观察；
+
+3.help :这也是最重要的一个函数吧。在想要知道某个函数的相关说明的时候，可以使用help 函数名来获取，当然也可以打开帮助文档。不过这种方法是比较快的。
+
+4.zeros：创建1个都为0的矩阵；ones:创建1个都为1的矩阵。参数可以是多维的，例如zeros(2,3)...
+
+5.size：可以计算矩阵的大小，同样相关的还有length，size可以计算不同的维上的大小，例如size(A,1)..
+
+6.rand :随机数生成器，可以直接使用生成任意纬度的矩阵，例如rand(2,3)，也是一个经常用的东西；
+
+6.plot:绘制图像的操作，具体格式可以参考帮助。操作应该非常频繁，做科研的时候，经常要看趋势，绘图在matlab是非常常见的一件事情。。。还有一个subplot函数是将一个figure分割为多个块来操作。想想自己在C#中用mschart绘图，也是醉了。。。不过仍然得坚持，这些年来为什么抛弃matlab，所有matlab可以干的事情都拿C#来干，是一个很远的话题，以后有机会再说吧。
+
+7.figure,hold on :在使用plot绘图的时候，默认都是在figure上面，figure可以新建一个空白图像，同时还可以使用hold on在同一个figure上面绘制多条曲线；
+
+<strong>关于矩阵的一些算法</strong>
+①矩阵的初始化
+<pre ><code class="language-matlab">a = 1 : 10 ;%产生1-10的步长默认为1的等差数列；
+b = 0:0.1:1;%产生0-1的步长为0.1的等差数量；
+</code></pre>
+②矩阵的基本操作
+<pre ><code class="language-matlab">data = rand(4,4) %初始化1个4*4的随机矩阵
+
+a = data(:,1) %取data的所有行，第1列
+
+b = data(:,[1,3]) %取所有行，第1，3列
+
+c = data([2,3],[1,2]) %%取第2，3行，以及1，2列
+</code></pre>
+<img class="alignnone  wp-image-1068" src="https://cdn.omegaxyz.com/2017/06/matlabmatrix1-197x300.jpg" alt="" width="378" height="576" />
+
+基本编程语法
+
+<img class="alignnone  wp-image-1069" src="https://cdn.omegaxyz.com/2017/06/matlabbase1-300x208.jpg" alt="" width="597" height="414" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

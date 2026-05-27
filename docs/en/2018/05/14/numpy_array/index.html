@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numpy matrix and array operations (MATLAB to Python) · OmegaXYZ</title>
+  <meta name="description" content="MATLAB and Python are both interpreted languages. How to convert the code from MATLAB to Python? This requires numpy. NumPy is a library about matrix operations. Anyone familiar with Matlab should know that this library allows python to perform matrix operations without having to write loop operations. The operations in numpy are summarized below. Numpy contains two basic data types: arrays and matrices. Array creation:...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/05/14/numpy_array/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-14</div>
+        <h1>Numpy matrix and array operations (MATLAB to Python)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">MATLAB and Python are both interpreted languages. How to convert the code from MATLAB to Python? This requires numpy.<strong>NumPy is a library for matrix operations</strong>Anyone who is familiar with Matlab should know that this library allows Python to perform matrix operations without having to write loop operations.<strong>The operations in numpy are summarized below.</strong>Numpy contains two basic data types: arrays and matrices.<pre><code class="language-python">&gt;&gt;&gt; from numpy import *
+&gt;&gt;&gt; a1=array([1,1,1])    #定义一个数组
+&gt;&gt;&gt; a2=array([2,2,2])
+&gt;&gt;&gt; a1+a2                #对于元素相加
+array([3, 3, 3])
+&gt;&gt;&gt; a1*2                 #乘一个数
+array([2, 2, 2])
+
+##
+&gt;&gt;&gt; a1=array([1,2,3])
+&gt;&gt;&gt; a1
+array([1, 2, 3])
+&gt;&gt;&gt; a1**3              #表示对数组中的每个数做平方
+array([ 1,  8, 27])
+##取值，注意的是它是以0为开始坐标，不matlab不同
+&gt;&gt;&gt; a1[1]
+2
+
+##定义多维数组
+&gt;&gt;&gt; a3=array([[1,2,3],[4,5,6]])
+&gt;&gt;&gt; a3
+array([[1, 2, 3],
+       [4, 5, 6]])
+&gt;&gt;&gt; a3[0]             #取出第一行的数据
+array([1, 2, 3])
+&gt;&gt;&gt; a3[0,0]           #第一行第一个数据
+1
+&gt;&gt;&gt; a3[0][0]          #也可用这种方式
+1
+##数组点乘，相当于matlab点乘操作
+&gt;&gt;&gt; a1=array([1,2,3])
+&gt;&gt;&gt; a2=array([4,5,6])
+&gt;&gt;&gt; a1*a2
+array([ 4, 10, 18])</code></pre>
+<strong>Array creation:</strong>
+<pre><code class="language-python">import numpy as np
+
+a = np.zeros((2,2))  # Create an array of all zeros
+print a              # Prints "[[ 0.  0.]
+                     #          [ 0.  0.]]"
+
+b = np.ones((1,2))   # Create an array of all ones
+print b              # Prints "[[ 1.  1.]]"
+
+c = np.full((2,2), 7) # Create a constant array
+print c               # Prints "[[ 7.  7.]
+                      #          [ 7.  7.]]"
+
+d = np.eye(2)        # Create a 2x2 identity matrix
+print d              # Prints "[[ 1.  0.]
+                     #          [ 0.  1.]]"
+
+e = np.random.random((2,2)) # Create an array filled with random values
+print e                     # Might print "[[ 0.91940167  0.08143941]
+                            #               [ 0.68744134  0.87236687]]"</code></pre>
+<strong>Properties of array objects:</strong>
+<img alt="" class="alignnone size-full wp-image-4282" height="410" src="https://cdn.omegaxyz.com/2018/05/attribute1.jpg" width="608"/>
+<strong>Methods of array objects:</strong>
+<img alt="" class="alignnone size-full wp-image-4283" height="674" src="https://cdn.omegaxyz.com/2018/05/methods.jpg" width="794"/>
+<img alt="" class="alignnone size-full wp-image-4284" height="553" src="https://cdn.omegaxyz.com/2018/05/methods2.jpg" width="879"/></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mac下终端pip与pip3配置（软链接） · OmegaXYZ</title>
+  <meta name="description" content="缘起 今日Mac上的Python环境绝对是个asshole。 1. 系统自带一个Python2.7 2. 我官网下载一个3.6 3. homebrew悄悄下了个3.x 4. anaconda自带了一个3.x 5. 前天更新了一下Xcode命令行工具，竟然给我偷偷下了个3.7，顺带把某一软连接变量写入系统盘，安装的包放到数据盘 MacOS...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/02/05/mac-pip-config/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-02-05</div>
+        <h1>Mac下终端pip与pip3配置（软链接）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/mac/index.html">mac</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>缘起</strong></h2>
+今日Mac上的Python环境绝对是个asshole。
+1. 系统自带一个Python2.7
+2. 我官网下载一个3.6
+3. homebrew悄悄下了个3.x
+4. anaconda自带了一个3.x
+5. 前天更新了一下Xcode命令行工具，竟然给我偷偷下了个3.7，顺带把某一软连接变量写入系统盘，安装的包放到数据盘
+<del><strong>MacOS Catalina文件系统属实拉胯，绝对没有Windows好使。</strong></del>
+
+为了使得终端运行pip命令时能够正确指向所需的Python，需要重新配置软链接。
+
+<hr />
+
+<h2><strong>Mac两个bin目录</strong></h2>
+<h3><strong>相同点</strong></h3>
+/usr/bin和/usr/local/bin都是用来存储终端命令二进制文件或者命令的软链接
+这两个bin目录都是已经包含在环境变量里的目录，程序放在里面或者链接到里面命令就可以在终端里直接执行。
+<h3><strong>不同点</strong></h3>
+Mac的/usr/bin目录是不允许增删文件的，/usr/local/bin增删文件来实现在终端里直接运行，只需要有管理员权限。
+
+<strong>注意搜索目录时最前面的"/"不能缺少</strong>
+
+<hr />
+
+<h2><strong>Mac的终端的用户可配置文件</strong></h2>
+可配置文件根据终端类型分为两种，这些文件都是隐藏的，语法结构相同，可以用来配置环境变量等，需要“Command+Shift+.”才能显示
+<strong>bash终端：</strong>/Users/你的用户名/.bash_profile
+
+<strong>zsh终端：</strong>
+/Users/你的用户名/.zsh_profile
+/Users/你的用户名/.zshrc
+
+<hr />
+
+<h2><strong>查看位置命令</strong></h2>
+<strong>which pip和which pip3: </strong>查看python 的pip 包管理工具的启动路径（软链接的位置），一般都在上述提到的两个bin目录中间
+
+<strong>pip --version和pip3 --version: </strong>用来展示命令的真实地址存储位置
+
+<hr />
+
+<h2><strong>实例</strong></h2>
+下面以pip3为例，在zsh中的针对pip3具体操作，<span style="color: #ff3877;"><strong>同理要将终端中2.7版本的pip改为自己下载的pip版本，直接将下述所有的pip3改为pip</strong></span>
+所有命令需根据自己的Python版本和真实位置而修改
+
+<strong>①首先需要保证/usr/local/bin的环境变量位置在/usr/bin前面，这样才能先读/usr/local/bin的数据，因为前者的数据可以更改</strong>
+
+zsh终端下执行：
+<pre ><code class="language-zsh">echo 'export PATH="/usr/local/bin:$PATH"' &gt;&gt; ~/.zshrc</code></pre>
+注意此步可以先不操作，如果出现了permission denied或者command not find问题说明你碰到了/usr/bin，到时候再执行第一步
+
+<strong>②找到pip3的真实位置</strong>
+
+一般来说，你下载的python 3.x的pip在
+/Library/Frameworks/Python.framework/Versions/3.x/lib/python3.x/site-packages/pip (python 3.x)
+
+<strong>③删除已经存在的冗余数据</strong>
+<pre ><code class="language-zsh">rm -rf /usr/local/bin/pip3</code></pre>
+<strong>④在/usr/local/bin/中重新创建pip3的软链接至上述pip3的真实位置</strong>
+<pre ><code class="language-zsh">ln -s /Library/Frameworks/Python.framework/Versions/3.x/bin/pip /usr/local/bin/pip3</code></pre>
+此时在命令行输入pip3会自动指向你的Python版本的真实位置
+
+<strong>⑤验证</strong>
+<pre ><code class="language-zsh">pip3 --version</code></pre>
+我的终端显示：
+pip 19.0.3 from /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pip (python 3.6)
+<pre ><code class="language-zsh">which pip3</code></pre>
+我的终端显示：
+/usr/local/bin/pip3
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-18562">
+          <strong><a href="https://www.resobang.cn" rel="nofollow">热搜榜</a></strong>
+          <time>2020-02-10 12:06:18</time>
+          <div>文章还不错，支持一下</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

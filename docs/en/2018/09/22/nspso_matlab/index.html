@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB implementation of multi-objective PSO algorithm based on non-dominated sorting · OmegaXYZ</title>
+  <meta name="description" content="This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2. For an introduction to this algorithm, please go to: https://omegaxyz.com/2018/09/01/nspso/ Pseudocode Specific process ① Divide the data set into a test set and a training set ② Initial...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/09/22/nspso_matlab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-22</div>
+        <h1>MATLAB implementation of multi-objective PSO algorithm based on non-dominated sorting</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2.<strong>For an introduction to this algorithm, please go to:</strong>
+
+https://omegaxyz.com/2018/09/01/nspso/
+<h2><strong>pseudocode</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4975" height="934" src="https://cdn.omegaxyz.com/2018/09/NSPSO2.jpg" width="411"/>
+<h2><strong>Specific process</strong></h2>
+<ul>
+<li>① Divide the data set into test set and training set</li>
+<li>②Initialize PSO algorithm</li>
+<li>③Iteration starts</li>
+<li>④ Calculate two target values ​​(the number of features and the error rate in the paper)</li>
+<li>⑤Nondominated sorting</li>
+<li>⑥Crowding distance measurement and sorting</li>
+<li>⑥ For each particle, select a particle from the first frontier as gbest and update the current particle</li>
+<li>⑦Adjust particle swarm</li>
+<li>⑧Return at the end of iteration</li>
+</ul>
+<h2><strong>MATLAB implementation:</strong></h2>
+<strong>NSPSO：</strong>Note that FSKNN is the evaluation function of my problem, including two target values, both of which are stored in pfitness.<pre><code class="language-matlab">function [solution,time,pop,pfitness,site,LeaderAVE] = NSPSO(train_F,train_L)
+tic
+global maxFES
+dim = size(train_F,2);
+FES = 1;
+sizep = 30;
+pop = rand(sizep,dim);
+popv = rand(sizep,dim);
+pfitness = zeros(sizep,2);
+LeaderAVE = zeros(1,2);
+while FES &lt;maxFES
+    Off_P = zeros(sizep,dim);
+    Off_V = zeros(sizep,dim);
+    ofitness = zeros(sizep,2);
+    for i=1:sizep
+        [pfitness(i,1),pfitness(i,2)] = FSKNN(pop(i,:),i,train_F,train_L);
+    end
+    Front = NDSort(pfitness(:,1:2),sizep);
+    [~,rank] = sortrows([Front',-CrowdingDistance(pfitness,Front)']);
+    LeaderSet = rank(1:10);
+    solution = pfitness(LeaderSet,:);
+    LeaderAVE(1) = mean(solution(:,1));
+    LeaderAVE(2) = mean(solution(:,2));
+    for i = 1:sizep
+        good = LeaderSet(randperm(length(LeaderSet),1));
+        r1 = rand(1,dim);
+        r2 = rand(1,dim);
+        Off_V(i,:) = r1.*popv(i,:) +  r2.*(pop(good,:)-pop(i,:));
+        Off_P(i,:) = pop(i,:) + Off_V(i,:);
+    end
+    for i=1:sizep
+    	[ofitness(i,1),ofitness(i,2)] = FSKNN(Off_P(i,:),i,train_F,train_L);
+    end
+    temppop = [pop;Off_P];
+    tempv = [popv;Off_V];
+    tempfiness = [pfitness;ofitness];
+    [FrontNO,MaxFNO] = NDSort(tempfiness(:,1:2),sizep);
+    Next = false(1,length(FrontNO));
+    Next(FrontNO&lt;MaxFNO) = true;  
+    PopObj = tempfiness;
+    fmax   = max(PopObj(FrontNO==1,:),[],1);
+    fmin   = min(PopObj(FrontNO==1,:),[],1);
+    PopObj = (PopObj-repmat(fmin,size(PopObj,1),1))./repmat(fmax-fmin,size(PopObj,1),1);
+    
+    % Select the solutions in the last front
+    Last = find(FrontNO==MaxFNO);
+    del  = Truncation(PopObj(Last,:),length(Last)-sizep+sum(Next));
+    Next(Last(~del)) = true;
+    % Population for next generation
+    pop = temppop(Next,:);
+    popv = tempv(Next,:);
+    pfitness = tempfiness(Next,:);
+    fprintf('GEN: %2d   Error: %.4f  F:%.2f\n',FES,LeaderAVE(1),LeaderAVE(2));
+    FES = FES + 1;
+end
+[FrontNO,~] = NDSort(pfitness(:,1:2),sizep);
+site = find(FrontNO==1);
+solution = pfitness(site,:);
+LeaderAVE(1) = mean(solution(:,1));
+LeaderAVE(2) = mean(solution(:,2));
+toc
+time = toc;
+end</code></pre>
+<strong>NDSort.m is the non-dominated sorting code, please go to</strong>
+
+https://omegaxyz.com/2018/02/11/ndsort/
+
+<strong>Crowding distance code:</strong>
+<pre><code class="language-matlab">function CrowdDis = CrowdingDistance(PopObj,FrontNO)
+% Calculate the crowding distance of each solution front by front
+
+% Copyright 2015-2016 Ye Tian
+
+    [N,M]    = size(PopObj);
+    CrowdDis = zeros(1,N);
+    Fronts   = setdiff(unique(FrontNO),inf);
+    for f = 1 : length(Fronts)
+        Front = find(FrontNO==Fronts(f));
+        Fmax  = max(PopObj(Front,:),[],1);
+        Fmin  = min(PopObj(Front,:),[],1);
+        for i = 1 : M
+            [~,Rank] = sortrows(PopObj(Front,i));
+            CrowdDis(Front(Rank(1)))   = inf;
+            CrowdDis(Front(Rank(end))) = inf;
+            for j = 2 : length(Front)-1
+                CrowdDis(Front(Rank(j))) = CrowdDis(Front(Rank(j)))+(PopObj(Front(Rank(j+1)),i)-PopObj(Front(Rank(j-1)),i))/(Fmax(i)-Fmin(i));
+            end
+        end
+    end
+end</code></pre>
+<strong>Truncation.m code:</strong>
+<pre><code class="language-matlab">function Del = Truncation(PopObj,K)
+% Select part of the solutions by truncation
+
+    N = size(PopObj,1);
+    
+    %% Truncation
+    Distance = pdist2(PopObj,PopObj);
+    Distance(logical(eye(length(Distance)))) = inf;
+    Del = false(1,N);
+    while sum(Del) &lt; K
+        Remain   = find(~Del);
+        Temp     = sort(Distance(Remain,Remain),2);
+        [~,Rank] = sortrows(Temp);
+        Del(Remain(Rank(1))) = true;
+    end
+end</code></pre>
+ </div>
+        <section class="comments"><h2>Comments (47)</h2>
+        <div class="comment" id="comment-3982">
+          <strong>Anonymous</strong>
+          <time>2018-11-30 17:31:52</time>
+          <div>谢谢讲解！</div>
+        </div>
+        
+        <div class="comment" id="comment-16741">
+          <strong>Anonymous</strong>
+          <time>2019-04-18 10:13:46</time>
+          <div>楼主能把数据集与训练集也颇出来吗  希望能够程序能够运行边运行边看理解</div>
+        </div>
+        
+        <div class="comment" id="comment-16742">
+          <strong>Anonymous</strong>
+          <time>2019-04-18 10:22:53</time>
+          <div>为什么这个需要先划分数据集与测试集</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16746">
+          <strong>xyjisaw</strong>
+          <time>2019-04-18 10:57:01</time>
+          <div>划分训练集和测试集，是基本的机器学习模型验证的方法啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-16747">
+          <strong>xyjisaw</strong>
+          <time>2019-04-18 10:58:03</time>
+          <div>这个在我的其他群智能算法里面有划分数据集的算法，你看看关于NSGA2的一些代码，可以自己组装一下</div>
+        </div>
+        
+        <div class="comment" id="comment-17056">
+          <strong>刘红玉</strong>
+          <time>2019-05-31 10:41:43</time>
+          <div>楼主，请问这个有python的代码嘛？？？可不可以发一下python代码</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17057">
+          <strong>xyjisaw</strong>
+          <time>2019-05-31 10:49:17</time>
+          <div>没有</div>
+        </div>
+        
+        <div class="comment" id="comment-17064">
+          <strong>Anonymous</strong>
+          <time>2019-06-04 16:37:48</time>
+          <div>非常感谢楼主的代码，想问下楼主两个目标（最小化特征数和最小化错误率）评价函数是怎么写的。同一篇论文的CMDPSOFS算法楼主能够实现吗，谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-17066">
+          <strong>Nydia</strong>
+          <time>2019-06-04 21:23:14</time>
+          <div>楼主您好，我最近也在做NSPSO算法的一个多目标问题，有几个问题想咨询一下，楼主可以加一下联系方式吗？</div>
+        </div>
+        
+        <div class="comment" id="comment-17067">
+          <strong>nn</strong>
+          <time>2019-06-04 21:26:18</time>
+          <div>楼主请问FES和sizep的大小是怎么确定的？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17068">
+          <strong>xyjisaw</strong>
+          <time>2019-06-04 22:23:59</time>
+          <div>一个特征数直接sum选出的特征，错误率用KNN计算错误率，可以用LOOCV来</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17069">
+          <strong>xyjisaw</strong>
+          <time>2019-06-04 22:24:50</time>
+          <div>另外CMDPSO我有写过的算法，你什么时候要</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17214">
+          <strong>PK</strong>
+          <time>2019-07-15 20:14:04</time>
+          <div>有 CMDPSO的matlab代码嘛</div>
+        </div>
+        
+        <div class="comment" id="comment-17218">
+          <strong>Anonymous</strong>
+          <time>2019-07-16 16:01:05</time>
+          <div>楼主，您好，能否发一下您推荐的这篇文章，我搜了好久都没有搜索到这篇，只看到了其他，我的邮箱是1637678434@qq.com,谢谢您了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-17230">
+          <strong>xyjisaw</strong>
+          <time>2019-07-18 10:36:08</time>
+          <div>有的</div>
+        </div>
+        
+        <div class="comment" id="comment-18746">
+          <strong>zz</strong>
+          <time>2020-03-31 15:08:25</time>
+          <div>你好，请问train_F,train_L分别是代表什么？训练集和测试集吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18748">
+          <strong>zz</strong>
+          <time>2020-03-31 22:46:00</time>
+          <div>抱歉深夜还来请教您问题。我把评价函数换成ZDT1后，GEN到了4时，Truncation函数发生出错，<br>错误使用 pdist2 (line 224)<br>PDIST2 does not accept complex data for built-in distances.<br>请问为什么会这样呢？</div>
+        </div>
+        
+        <div class="comment" id="comment-18749">
+          <strong>zz</strong>
+          <time>2020-03-31 22:46:38</time>
+          <div>抱歉深夜还来请教您问题。我把评价函数换成ZDT1后，GEN到了4时，Truncation函数发生出错，<br>错误使用 pdist2 (line 224)<br>PDIST2 does not accept complex data for built-in distances.<br>请问为什么会这样呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18751">
+          <strong>xyjisaw</strong>
+          <time>2020-04-01 09:07:53</time>
+          <div>开更号遇到了复数，计算距离的时候要用绝对值。</div>
+        </div>
+        
+        <div class="comment" id="comment-19199">
+          <strong>孙研</strong>
+          <time>2020-07-19 20:03:50</time>
+          <div>非常感谢楼主，看到了这篇感到收益匪浅，我想运行一下代码再仔细学习一下，能发一下吗？我的邮箱1442476218@qq.com,保证只做自己学习使用，不做他用，谢谢您了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19201">
+          <strong>xyjisaw</strong>
+          <time>2020-07-19 20:57:28</time>
+          <div>已发送。</div>
+        </div>
+        
+        <div class="comment" id="comment-19230">
+          <strong>熊</strong>
+          <time>2020-07-24 16:48:45</time>
+          <div>楼主您好，请问您也可以帮我发一份用matlab编写的CMDPSO的算法吗？非常感谢，麻烦你了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19231">
+          <strong>熊</strong>
+          <time>2020-07-24 16:50:15</time>
+          <div>邮箱1244683773@qq.com 谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19233">
+          <strong>xyjisaw</strong>
+          <time>2020-07-24 17:24:08</time>
+          <div>已发送</div>
+        </div>
+        
+        <div class="comment" id="comment-19234">
+          <strong>熊</strong>
+          <time>2020-07-24 17:39:53</time>
+          <div>非常感谢您的慷慨帮助，但是冒昧地请问您有“非支配排序的多目标PSO算法”的另一个算法CMDPSO吗？再次打扰，万分抱歉！</div>
+        </div>
+        
+        <div class="comment" id="comment-19238">
+          <strong>安静</strong>
+          <time>2020-07-26 15:46:53</time>
+          <div>楼主您好，请问您也可以给我发一份用matlab编写的CMDPSO的算法吗？非常感谢！我的邮箱是1538313116@qq.com。</div>
+        </div>
+        
+        <div class="comment" id="comment-19248">
+          <strong>志杰</strong>
+          <time>2020-07-29 16:50:36</time>
+          <div>初学者冒昧问一下，在运行时都会出现需要输入更多参数，要输入那些参数呢，求指教。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19249">
+          <strong>xyjisaw</strong>
+          <time>2020-07-29 16:52:18</time>
+          <div>划分好的训练集特征、标签，测试集特征、标签。</div>
+        </div>
+        
+        <div class="comment" id="comment-19366">
+          <strong>吴奂</strong>
+          <time>2020-08-23 22:35:33</time>
+          <div>楼主，可以分享一下CMDPSO算法吗？我的邮箱是648092066@qq.com.谢谢了!</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19371">
+          <strong>xyjisaw</strong>
+          <time>2020-08-24 08:17:13</time>
+          <div>你好，请询问1244683773@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-19442">
+          <strong>余风</strong>
+          <time>2020-09-03 20:05:48</time>
+          <div>博主您好！感谢博主的讲解，请问您可以把NSPSOFS和CMDPSO的代码发一份给我吗？万分感谢1357194677@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-19986">
+          <strong>歪歪歪谷</strong>
+          <time>2021-01-12 16:01:58</time>
+          <div>您好，请问可以发一份代码给我吗谢谢呀<br>邮箱是809272077@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-21321">
+          <strong>ym</strong>
+          <time>2021-03-07 21:51:45</time>
+          <div>博主您好！经常研读您的文章，请问您可以发我一份NSPSOFS和CMDPSO的matlab代码吗？万分感谢！！邮箱是1294416095@qq.com<br>万分感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21911">
+          <strong>Xiaoyu Shen</strong>
+          <time>2021-04-14 09:02:51</time>
+          <div>请问如果数据就是一维时间序列，如何确定特征和标签？</div>
+        </div>
+        
+        <div class="comment" id="comment-21913">
+          <strong>Xiaoyu Shen</strong>
+          <time>2021-04-14 09:41:46</time>
+          <div>请问如果数据就是一维时间序列，如何确定特征和标签？</div>
+        </div>
+        
+        <div class="comment" id="comment-21918">
+          <strong>乐多</strong>
+          <time>2021-04-14 21:36:49</time>
+          <div>感谢博主的讲解，请问您可以把NSPSOFS和CMDPSO的matlab代码发一份给我吗？非常感谢您 2862627790@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22162">
+          <strong>赵欢</strong>
+          <time>2021-06-05 11:21:27</time>
+          <div>朋友，你现在有NSPSOF和CMDPSO的代码了吗，有的话可以请你发一份给我吗，不甚感激！3178234375@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-22172">
+          <strong>邬标华</strong>
+          <time>2021-06-06 22:36:43</time>
+          <div>博主您好，看了您的文章感觉非常棒。想问能否分享一份NSPSO的代码用于参考学习呢？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22173">
+          <strong>邬标华</strong>
+          <time>2021-06-06 22:38:10</time>
+          <div>邮箱：1393238773@QQ.com，不胜感激</div>
+        </div>
+        
+        <div class="comment reply" id="comment-22177">
+          <strong>xyjisaw</strong>
+          <time>2021-06-07 09:09:41</time>
+          <div>我的文章列表中应该有相关代码</div>
+        </div>
+        
+        <div class="comment" id="comment-23926">
+          <strong>zlx</strong>
+          <time>2021-09-24 14:14:37</time>
+          <div>博主您好，请问可以把NSPSOFS和CMDPSO的代码分享一份给我吗？zhanglx01290122@163.com</div>
+        </div>
+        
+        <div class="comment" id="comment-24520">
+          <strong>zhuzhu</strong>
+          <time>2021-10-19 21:44:51</time>
+          <div>有朋友有NSPSO和CMDPSO代码吗？求！1602863883@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-24617">
+          <strong>张</strong>
+          <time>2021-11-07 09:54:34</time>
+          <div>你好博主，请问NSPSOF和CMDPSO的代码可以发我一份吗？感激不尽！243752644@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-25130">
+          <strong><a href="https://blog.csdn.net/weixin_45710947" rel="nofollow">安大刘本鑫</a></strong>
+          <time>2022-01-05 10:03:03</time>
+          <div>学长，请问NSPSOF和CMDPSO的代码可以发我一份吗？感激不尽！3390751402@qq.com</div>
+        </div>
+        
+        <div class="comment" id="comment-27563">
+          <strong>研0小学弟</strong>
+          <time>2022-06-30 12:10:57</time>
+          <div>楼主你好，正在研读薛冰的这篇文章，请问可以发下源码吗感激不尽1261541459@qq.com</div>
+        </div>
+        
+        <div class="comment reply" id="comment-27657">
+          <strong>xyjisaw</strong>
+          <time>2022-07-05 15:59:45</time>
+          <div>你好，由于年代久远，目前这个代码只有当前页面部分了。您可以自学一下MATLAB，写一个main函数就行。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-44511">
+          <strong>xxx</strong>
+          <time>2024-10-14 17:42:17</time>
+          <div>因为时间久远，1244683773@qq.com用户并未保留该代码，谢谢！</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ICLR2021图神经网络与知识图谱相关论文 · OmegaXYZ</title>
+  <meta name="description" content="Theory HOW NEURAL NETWORKS EXTRAPOLATE: FROM FEEDFORWARD TO GRAPH NEURAL NETWORKS 作者研究了通过梯度下降训练的神经网络如何进行推断，即他们在训练分布的支持之外学到了什么。**已知MLP在某些简单任务中无法很好地进行推断，但是图神经网络（有MLP模块的结构化网...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2021/04/19/iclr2021-gnn-kg/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2021-04-19</div>
+        <h1>ICLR2021图神经网络与知识图谱相关论文</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
+        <div class="article-content"><div>
+
+<nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>Theory</strong></h2>
+</div>
+<strong>HOW NEURAL NETWORKS EXTRAPOLATE: FROM FEEDFORWARD TO GRAPH NEURAL NETWORKS</strong>
+
+作者研究了通过梯度下降训练的神经网络如何进行推断，即他们在训练分布的支持之外学到了什么。**已知MLP在某些简单任务中无法很好地进行推断，但是图神经网络（有MLP模块的结构化网络）却可以处理更复杂的任务。通过理论解释，文章确定了MLP和GNN可以进行良好推断的条件。在分析GNN的成功与局限性时，作者提出了一个假设：GNN在将算法任务外推到新数据（例如较大的图或边权重）方面的成功依赖于编码特定于任务的非线性体系结构或功能。
+
+&nbsp;
+
+<strong>Interpreting Graph Neural Networks for NLP With Differentiable Edge Masking</strong>
+
+作者介绍了一种事后分析方法来解释GNN的预测，该方法可以识别不必要的边。给定一个训练有素的GNN模型，文章中将学习一个简单的分类器，该分类器可针对每一层中的每个边预测是否可以被丢弃。
+
+结论：文章表明，<strong>在不降低模型性能的情况下，很大比例的边可以被丢弃，剩余边可以来解释模型预测。</strong>
+
+&nbsp;
+
+<strong>Expressive Power of Invariant and Equi-variant Graph Neural Networks</strong>
+
+在本文中，作者提出了一个理论框架，能够比较不同GNN架构的表达能力。当前的普遍性定理仅适用于难解的GNN类。在这里，作者证明了实用GNN的第一个近似保证，其理论结果被证明用于不变GNN计算图嵌入（<strong>输入图的节点置换不影响输出</strong>）和等变GNN计算节点嵌入（<strong>输入的置换导致输出置换</strong>）。
+
+&nbsp;
+
+<strong>On the Bottleneck of Graph Neural Networks and its Practical Implications</strong>
+
+GNN的瓶颈：<strong>无法在长路径上聚集信息， 此瓶颈导致指数增长的信息被压缩为固定大小的向量。 结果当预测任务依赖于远程信息交互时，无法传播较远节点的信息。</strong> 本文中作者证明了上述现象，并比较了不同GNN模型中此类瓶颈导致的结果。
+
+&nbsp;
+
+<strong>Analyzing the Expressive Power of Graph Neural Networks in a Spectral Perspective</strong>
+
+通过弥合图卷积的频谱和空间设计之间的差距，本文分析了图神经网络在谱域中的表达能力
+
+&nbsp;
+
+<strong>Graph Information Bottleneck for Subgraph Recognition</strong>
+
+图信息瓶颈
+
+&nbsp;
+
+<strong>On Graph Neural Networks versus Graph-Augmented MLPs</strong>
+
+图神经网络与图增强MLP的关系
+
+&nbsp;
+
+<strong>Graph Edit Networks</strong>
+
+作者证明了GNN可以预测图编辑距离
+
+&nbsp;
+<h2><strong>Model</strong></h2>
+<strong>Graph-Based Continual Learning</strong>
+
+当训练来自非平稳分布的增量可用数据时，持续学习模型仍然会导致模型“遗忘”。重复训练遗忘数据（Rehearsal）的方法通过维护和重复以前样本中的小片段来缓解这个问题，这些小内存片段通常作为独立的memory slots数组实现。作者建议用一个可学习的随机图来扩充这种数组，该图捕获其样本之间的成对相似性，并不仅用于学习新任务，而且还可以防止遗忘。
+
+&nbsp;
+
+<strong>Graph Convolution with Low-rank Learnable Local Filters</strong>
+
+GCN等使用图卷积的深度模型提供了处理非欧几里得数据的合适框架，但是这些基于全局图拉普拉斯算子的模型，缺乏表现力来捕获非欧几里得网格上信号表示所需的局部特征。这篇论文介绍了一种具有可学习的低秩局部滤波器的新型图卷积模型，其可证明性比以前的频谱图卷积方法更具表现力。
+
+&nbsp;
+
+<strong>Graph Traversal with Tensor Functionals: A Meta-Algorithm for Scalable Learning</strong>
+
+在图形表示学习的算法中，“消息传递”方法与“节点嵌入”方法的运行方式不同，但是这些方法都利用了图的结构信息，因此，作者希望可以通过随机图的遍历来近似学习它们。文章提出了一个统一的元算法框架，通过Tensor Functionals（GTTF）进行图遍历，可简化各种图算法的实现，并实现对大型图有透明有效的缩放。这个算法具有两个可以输入的function，并且只需更改这两个function即可使其专门用于获得各种GRL模型和目标。
+
+&nbsp;
+
+<strong>How to Find Your Friendly Neighborhood: Graph Attention Design with Self-Supervision</strong>
+
+作者提出了一种面向含有噪声图的自监督图注意力网络（SuperGAT）。SuperGAT在区分错误边的邻居节点时会获得更多的注意。
+
+&nbsp;
+
+<strong>Discrete Graph Structure Learning for Forecasting Multiple Time Series</strong>
+
+作者提出了一种图神经网络方法，当图是未知的时候，该方法可学习图结构以增强对多个多元时间序列的预测。
+
+&nbsp;
+
+<strong>Adaptive Universal Generalized PageRank Graph Neural Network</strong>
+
+基于PageRank的GNN模型来解决over-smoothing问题
+
+&nbsp;
+
+<strong>Boost then Convolve: Gradient Boosting Meets Graph Neural Networks</strong>
+
+结合了GBDT和GNN的优势，可解决带有表格数据的图上的节点级预测问题。
+
+&nbsp;
+
+<strong>Directed Acyclic Graph Neural Networks</strong>
+
+本文提出了DAGNN，这是一种针对有向无环图而设计的图神经网络，它通过利用偏序作为强归纳偏差以及其他合适的体系结构特征，胜过常规GNN。
+
+&nbsp;
+
+<strong>Combining Label Propagation and Simple Models out-performs Graph Neural Networks</strong>
+
+本文表明，对于许多节点分类问题，可以忽略图的结构的浅层模型与两个简单的后处理步骤结合起来，超越SOTA的GNN，这些后处理步骤利用了标签结构：（i）“误差相关性”，它分散训练数据中的残留错误以纠正测试数据中的错误；以及（ii）“预测相关性”，它使对测试数据的预测变得平滑。
+
+&nbsp;
+
+<strong>Simple Spectral Graph Convolution</strong>
+
+一种基于马尔可夫扩散核的简单而有效的图卷积方法，适用于无监督，半监督和有监督的任务
+
+&nbsp;
+<h2><strong>KG</strong></h2>
+<strong>RNNLogic: Learning Logic Rules for Reasoning on Knowledge Graphs</strong>
+
+本文研究如何学习在KG上进行推理的逻辑规则。逻辑规则在预测时具有可解释性，并且能够推广到其他任务，因此对于学习至关重要。现有的方法搜索空间大（例如，neural logic programming），或者reward非常稀疏（例如，基于强化学习的技术）而导致无效的优化。本文提出了一种称为RNNLogic的概率模型。 <strong>RNNLogic将逻辑规则视为潜在变量，并同时使用逻辑规则训练规则生成器和推理预测器。RNNLogic是</strong>基于EM的算法的。在每次迭代中，都会更新推理预测器以探索一些生成的逻辑规则进行推理。然后在E-step中，通过后验推理从所有生成的规则中选择一组高质量规则。然后在M-step中，使用在E-step中选择的规则更新规则生成器。
+
+&nbsp;
+
+<strong>Explainable Subgraph Reasoning for Forecasting on Temporal Knowledge Graphs</strong>
+
+本文提供了一个链接预测框架，该框架利用子图进行推理，并对结构依赖性和时序变化进行建模。作者提出了一种时间关系注意力机制和一种新的反向表示更新方案，<strong>以指导围绕查询的封闭子图进行提</strong>取。子图通过时间相邻点的迭代采样和注意力传播机制来扩展。与以前的时序KG预测方法相比，该的模型在Hits@ 1上获得了多达20%的改进。同时还对53位受访者进行了一项调查，结果表明，该模型所提取的用于链接预测的证据与人类的理解相吻合。
+
+&nbsp;
+
+<strong>Learning to Deceive Knowledge Graph Augmented Models via Targeted Perturbation</strong>
+
+知识图谱提高了各种知识密集型任务（例如问题回答和项目推荐）的性能。此类KG模型还可以“解释”与预测最相关的KG信息。在本文中，作者质疑这些模型是否确实符合我们的预期。文章表明，通过强化学习策略（甚至简单的启发式方法），人们可以生产出受欺骗性干扰的KG，**在保持原始KG的下游性能的同时显着偏离原始KG的语义和结构，从而可以保持原始KG的下游性能。**作者的发现使人们对KG增强模型推理KG信息并给出合理解释的能力产生怀疑。
+
+&nbsp;
+
+<strong>Interpreting Knowledge Graph Relation Representation from Word Embeddings</strong>
+
+许多模型通过利用KG数据的低阶潜在结构，对实体之间的已知关系进行编码并能够推断未知事实来进行表示学习。尽管它们的预测性能一直在稳步提高，但解释此类模型如何捕获语义信息的潜在结构仍然无法解释。基于对词嵌入的最新理论理解，作者将KG关系分为三种类型，并且每种类型都推导了生成它们表示形式的具体要求。
+
+&nbsp;
+<h2><strong>更多</strong></h2>
+<ul>
+ 	<li>Learning Mesh-Based Simulation with Graph Networks</li>
+ 	<li>Retrieval-Augmented Generation for Code Summarization via Hybrid GNN</li>
+ 	<li>CopulaGNN: Towards Integrating Representational and Correlational Roles of Graphs in Graph Neural Network</li>
+ 	<li>Graph Coarsening with Neural Networks</li>
+ 	<li>DialoGraph: Incorporating Interpretable Strategy-Graph Networks into Negotiation Dialogues</li>
+ 	<li>Collective Robustness Certificates: Exploiting Interdependence in Graph Neural Networks</li>
+ 	<li>A PAC-Bayesian Approach to Generalization Bounds for Graph Neural Networks</li>
+ 	<li>Learning Parametrised Graph Shift Operators</li>
+ 	<li>My Body is a Cage: the Role of Morphology in Graph-Based Incompatible Control</li>
+ 	<li>Degree-Quant: Quantization-Aware Training for Graph Neural Networks</li>
+ 	<li>Learning continuous-time PDEs from sparse data with graph neural networks</li>
+ 	<li>Spatio-Temporal Graph Scattering Transform</li>
+ 	<li>Wasserstein Embedding for Graph Learning</li>
+ 	<li>Isometric Transformation Invariant and Equivariant Graph Convolutional Networks</li>
+ 	<li>On Dyadic Fairness: Exploring and Mitigating Bias in Graph Connections</li>
+ 	<li>Accurate Learning of Graph Representations with Graph Multiset Pooling</li>
+ 	<li>Generative Scene Graph Networks</li>
+</ul>
+<strong>注1： ICLR</strong>，全称为<strong>「International Conference on Learning Representations」（国际学习表征会议）</strong>，2013 年才刚刚成立了第一届，但已经被学术研究者们广泛认可，被认为「深度学习的顶级会议」，由图灵奖得主 Yoshua Bengio 和 Yann LeCun 牵头创办。
+
+<strong>注2：部分介绍采用机翻</strong>
+
+&nbsp;
+
+我的博客即将同步至腾讯云+社区，邀请大家一同入驻：https://cloud.tencent.com/developer/support-plan?invite_code=s1j2fh7rrush</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-22164">
+          <strong><a href="https://www.rongtianxia.org" rel="nofollow">容添下</a></strong>
+          <time>2021-06-05 14:12:53</time>
+          <div>麻雀虽小五脏俱全</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

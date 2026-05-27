@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of Differential Evolution · OmegaXYZ</title>
+  <meta name="description" content="Introduction to DE algorithm Differential Evolution (DE) was proposed by Storn et al. in 1995. Like other evolutionary algorithms, DE is a stochastic model that simulates biological evolution. Through repeated iterations, individuals that adapt to the environment are preserved. However, compared with evolutionary algorithms, DE retains the global search strategy based on the population, and uses real number encoding, simple mutation operations based on differences, and one-to-one competition survival strategies to reduce the complexity of genetic operations...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/24/differential_evolution_intro/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-24</div>
+        <h1>Overview of Differential Evolution</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/differential-evolution/index.html">差分进化</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction to DE algorithm</strong></h2>Differential Evolution (DE) was proposed by Storn et al. in 1995. Like other evolutionary algorithms, DE is a stochastic model that simulates biological evolution. Through repeated iterations, individuals that adapt to the environment are preserved. However, compared with evolutionary algorithms, DE retains the global search strategy based on the population, and uses real number encoding, simple mutation operations based on differences, and one-to-one competition survival strategies to reduce the complexity of genetic operations. At the same time, DE's unique memory ability allows it to dynamically track the current search situation to adjust its search strategy. It has strong global convergence capabilities and robustness, and does not require the use of characteristic information of the problem. It is suitable for solving some optimization problems in complex environments that cannot be solved using conventional mathematical programming methods.
+
+• DE Algorithm-Author’s website:<a href="http://www1.icsi.berkeley.edu/~storn/code.html"><u>http://www1.icsi.berkeley.edu/~storn/code.html</u></a>• Wikipedia database :<a href="https://en.wikipedia.org/wiki/Differential_evolution"><u>https://en.wikipedia.org/wiki/Differential_evolution</u></a>The DE algorithm is mainly used to solve global optimization problems of continuous variables. Its main working steps are basically the same as other evolutionary algorithms, including three operations: mutation, crossover, and selection. The basic idea of ​​the algorithm is to start from a randomly generated initial group.<strong>The difference vector of two individuals randomly selected from the population is used as the source of random variation for the third individual,</strong>The difference vector is weighted and then summed with the third individual according to certain rules to generate a mutated individual. This operation is called mutation. Then, the mutant individual is parameter-mixed with a predetermined target individual to generate a test individual. This process is called crossover. If the fitness value of the test individual is better than the fitness value of the target individual, the test individual will replace the target individual in the next generation, otherwise the target individual will still be preserved. This operation is called selection. In the evolution process of each generation, each individual vector is used as a target individual once. Through continuous iterative calculations, the algorithm retains excellent individuals, eliminates inferior individuals, and guides the search process to approach the global optimal solution.<h2><strong>The relationship between DE and GA</strong></h2>Compared with the genetic algorithm, the difference between the differential evolution algorithm and the genetic algorithm is that the initial population is randomly generated, and the fitness value of each individual in the population is used as the selection criterion. The main process also includes three steps: mutation, crossover and selection. The difference is that the genetic algorithm controls the hybridization of the parent generation based on the fitness value. The offspring generated after mutation have a probability value of being selected. In the maximization problem, individuals with a large fitness value have a correspondingly greater probability of being selected. The mutation vector of the differential evolution algorithm is generated by the parent difference vector, and crosses with the parent individual vector to generate a new individual vector, which is directly selected with its parent individual. Obviously, the differential evolution algorithm has a more significant approximation effect than the genetic algorithm.<h2><strong>DE algorithm flow chart</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4128" height="595" src="https://cdn.omegaxyz.com/2018/04/DEFLOW.jpg" width="539"/>
+<h2><strong>Algorithm details</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4129" height="493" src="https://cdn.omegaxyz.com/2018/04/DE.jpg" width="546"/>
+<h2><strong>Algorithm pseudocode</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4130" height="715" src="https://cdn.omegaxyz.com/2018/04/DEA.jpg" width="524"/>
+<h2><strong>References</strong></h2>
+①<a href="https://www.cnblogs.com/tsingke/p/5809453.html">https://www.cnblogs.com/tsingke/p/5809453.html</a>
+
+②<a href="http://www1.icsi.berkeley.edu/~storn/code.html">http://www1.icsi.berkeley.edu/~storn/code.html</a></div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-65398">
+          <strong>MarioCop</strong>
+          <time>2025-12-14 17:14:40</time>
+          <div>&lt;a href=&quot;https://bergkompressor.ru/news/artcles/?1xbet_promokod_pri_registracii_bonus_5.html&quot; rel=&quot;nofollow ugc&quot;&gt;Перейди по ссылке на официальный ресурс &lt;/a&gt;</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

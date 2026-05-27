@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于迭代局部搜索和随机惯性权重的BA算法MATLAB实现（ILSSIWBA） · OmegaXYZ</title>
+  <meta name="description" content="BA算法简介 https://omegaxyz.com/2019/02/12/ba-matlab/ 该论文修改 作者在原有BA算法上进行3个修改 ①跳出局部最优（扰动个体） ②使得算法变得稳定 ③脉搏和响度修改，平衡局部与全局搜索 主要思想 流程图 MATLAB代码 评价函数：">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/02/28/ilssiwba/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-28</div>
+        <h1>基于迭代局部搜索和随机惯性权重的BA算法MATLAB实现（ILSSIWBA）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content"><h2><strong>BA算法简介</strong></h2>
+https://omegaxyz.com/2019/02/12/ba-matlab/
+<h2><strong>该论文修改</strong></h2>
+<div>作者在原有BA算法上进行3个修改</div>
+<div></div>
+<div>①跳出局部最优（扰动个体）</div>
+<div>②使得算法变得稳定</div>
+<div>③脉搏和响度修改，平衡局部与全局搜索</div>
+<h2><strong>主要思想</strong></h2>
+<img class="alignnone  wp-image-5529" src="https://cdn.omegaxyz.com/2019/02/ilssiwba2.png" alt="" width="774" height="443" />
+<h2><strong>流程图</strong></h2>
+<img class="alignnone  wp-image-5530" src="https://cdn.omegaxyz.com/2019/02/ilssiwba3.png" alt="" width="394" height="975" />
+<h2><strong>MATLAB代码</strong></h2>
+<pre ><code class="language-matlab">function [bestMin, bestID] = ILSSIWBA()
+%A new bat algorithm based on iterative local search and stochastic inertia weight
+%omegaxyz.com QQ: 644327005
+clc;
+%% 经典BA参数设置
+t = 1; 
+maxT = 100; %最大迭代次数
+dim = 30; %问题的维度
+sizep = 50; %种群大小
+xmin = -0.5;
+xmax = 0.5; %位置向量的范围
+
+A = 0.6.*ones(sizep,1);    % 响度 (不变或者减小)
+r = zeros(sizep,1);      % 脉冲率 (不变或增加))
+Qmin = 0;         % 最小频率
+Qmax = 1;         % 最大频率
+
+%% 初始化
+Lb = xmin*ones(1,dim);
+Ub = xmax*ones(1,dim);
+pop = Lb+(Ub-Lb).*rand(sizep,dim); %种群初始化
+popv = zeros(sizep,dim);   % 速度
+Q = zeros(sizep,1);   % 频率
+
+pfitness = zeros(dim,1);
+for i = 1:sizep
+    pfitness(i) = evaluate2(pop(i,:)); %评价
+end
+[bestMin, bestID]=min(pfitness);
+bestS = pop(bestID, :);
+bestArchive = zeros(maxT,1);
+
+%% 论文中的新策略参数
+umin = 0.4; %The second modification (SIW method)
+umax = 0.9;
+sigma = 0.2;
+
+R0 = 0.1; %The 3th modification
+Rupper = 0.7;
+A0 = 0.9;
+Alower = 0.6;
+
+
+
+%% 具体迭代过程
+while t &lt;= maxT
+    for i = 1:sizep
+        Q(i)=Qmin+(Qmin-Qmax)*rand();
+        w = umin +(umax-umin)*rand()+sigma*randn(); %The second modification (SIW method)
+        popv(i,:)=w*popv(i,:)+(pop(i,:)-bestS)*Q(i); %The second modification (SIW method)
+        Stemp = pop(i,:)+popv(i,:);
+        % 脉冲率
+         if rand&gt;r(i)
+             Stemp=bestS-1+2*rand(1,dim);
+         end
+         fitTemp = evaluate2(Stemp);
+         if (fitTemp&lt;=pfitness(i))&amp;&amp;(rand()&lt;A(i))
+            pop(i,:) = Stemp;
+            pfitness(i) = fitTemp;
+            A(i) = (A0-Alower)/(1-maxT)*(t-maxT)+Alower; %The 3th modification
+            r(i) = (R0-Rupper)/(1-maxT)*(t-maxT)+Rupper; %The 3th modification
+         end
+         if fitTemp &lt;= bestMin
+            bestID = i;
+            bestMin = fitTemp;
+         	bestS = Stemp;
+         end
+    end
+    
+    interX = bestS.*rand(); %The 1th modification (ILS method)
+    interXfit = evaluate2(interX);
+    if interXfit &lt; bestMin
+        bestMin = interXfit;
+        bestS = interX;
+        pop(bestID,:) = bestS;
+        pfitness(bestID,:) = bestMin;
+    else
+        if exp(bestMin-interXfit) &gt; rand()
+            bestMin = interXfit;
+            bestS = interX;
+            pop(bestID,:) = bestS;
+            pfitness(bestID,:) = bestMin;
+        end
+    end
+    
+    bestArchive(t) = bestMin;
+    fprintf('GEN: %d  min: %.4f\n', t, bestMin);
+    t = t +1;
+end
+
+
+end%.m end
+</code></pre>
+<strong>评价函数：</strong>
+<pre ><code class="language-matlab">function z = evaluate2(u)
+%Weierstrass
+dim= length(u);
+sum_1=0;
+sum_2=0;
+sum_3=0;
+a = 0.5;
+b = 3;
+for i=1:dim
+    for k=0:30
+       sum_1=sum_1+(a^k)*(cos(2*pi*(b^k)*(u(i)+0.5)));
+    end
+    sum_2=sum_2+sum_1;
+    sum_1 = 0;
+end
+for k=0:30
+       sum_3=sum_3+(a^k)*(cos(2*pi*(b^k)*0.5));
+end
+z=sum_2-dim*sum_3;
+end</code></pre>
+&nbsp;
+
+<!--5f39ae17-8c62-4a45-bc43-b32064c9388a:W3siYmxvY2tJZCI6IjIwOTAtMTU0OTg4MTA0NDIzMyIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLlnKgifSx7ImNoYXIiOiLljp8ifSx7ImNoYXIiOiLmnIkifSx7ImNoYXIiOiJCIn0seyJjaGFyIjoiQSJ9LHsiY2hhciI6IueulyJ9LHsiY2hhciI6IuazlSJ9LHsiY2hhciI6IuS4iiJ9LHsiY2hhciI6Iui/myJ9LHsiY2hhciI6IuihjCJ9LHsiY2hhciI6IjMifSx7ImNoYXIiOiLkuKoifSx7ImNoYXIiOiLkv64ifSx7ImNoYXIiOiLmlLkifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fSx7ImJsb2NrSWQiOiI3MjI3LTE1NDk4ODExMTkwODgiLCJibG9ja1R5cGUiOiJwYXJhZ3JhcGgiLCJzdHlsZXMiOnsiYWxpZ24iOiJsZWZ0IiwiaW5kZW50IjowLCJ0ZXh0LWluZGVudCI6MCwibGluZS1oZWlnaHQiOjEuNzUsImJhY2stY29sb3IiOiIiLCJwYWRkaW5nIjoiIn0sInR5cGUiOiJwYXJhZ3JhcGgiLCJyaWNoVGV4dCI6eyJkYXRhIjpbeyJjaGFyIjoi4pGgIn0seyJjaGFyIjoi6LezIn0seyJjaGFyIjoi5Ye6In0seyJjaGFyIjoi5bGAIn0seyJjaGFyIjoi6YOoIn0seyJjaGFyIjoi5pyAIn0seyJjaGFyIjoi5LyYIn0seyJjaGFyIjoi77yIIn0seyJjaGFyIjoi5omwIn0seyJjaGFyIjoi5YqoIn0seyJjaGFyIjoi5LiqIn0seyJjaGFyIjoi5L2TIn0seyJjaGFyIjoi77yJIn1dLCJpc1JpY2hUZXh0Ijp0cnVlLCJrZWVwTGluZUJyZWFrIjp0cnVlfX0seyJibG9ja0lkIjoiMjg5OS0xNTQ5ODgxNDM0NTE3IiwiYmxvY2tUeXBlIjoicGFyYWdyYXBoIiwic3R5bGVzIjp7ImFsaWduIjoibGVmdCIsImluZGVudCI6MCwidGV4dC1pbmRlbnQiOjAsImxpbmUtaGVpZ2h0IjoxLjc1LCJiYWNrLWNvbG9yIjoiIiwicGFkZGluZyI6IiJ9LCJ0eXBlIjoicGFyYWdyYXBoIiwicmljaFRleHQiOnsiZGF0YSI6W3siY2hhciI6IuKRoSJ9LHsiY2hhciI6IuS9vyJ9LHsiY2hhciI6IuW+lyJ9LHsiY2hhciI6IueulyJ9LHsiY2hhciI6IuazlSJ9LHsiY2hhciI6IuWPmCJ9LHsiY2hhciI6IuW+lyJ9LHsiY2hhciI6IueosyJ9LHsiY2hhciI6IuWumiJ9XSwiaXNSaWNoVGV4dCI6dHJ1ZSwia2VlcExpbmVCcmVhayI6dHJ1ZX19LHsiYmxvY2tJZCI6IjgwMzgtMTU0OTg4MTQ2NTIyMCIsImJsb2NrVHlwZSI6InBhcmFncmFwaCIsInN0eWxlcyI6eyJhbGlnbiI6ImxlZnQiLCJpbmRlbnQiOjAsInRleHQtaW5kZW50IjowLCJsaW5lLWhlaWdodCI6MS43NSwiYmFjay1jb2xvciI6IiIsInBhZGRpbmciOiIifSwidHlwZSI6InBhcmFncmFwaCIsInJpY2hUZXh0Ijp7ImRhdGEiOlt7ImNoYXIiOiLikaIifSx7ImNoYXIiOiLohIkifSx7ImNoYXIiOiLmkI8ifSx7ImNoYXIiOiLlkowifSx7ImNoYXIiOiLlk40ifSx7ImNoYXIiOiLluqYifSx7ImNoYXIiOiLkv64ifSx7ImNoYXIiOiLmlLkifSx7ImNoYXIiOiLvvIwifSx7ImNoYXIiOiLlubMifSx7ImNoYXIiOiLooaEifSx7ImNoYXIiOiLlsYAifSx7ImNoYXIiOiLpg6gifSx7ImNoYXIiOiLkuI4ifSx7ImNoYXIiOiLlhagifSx7ImNoYXIiOiLlsYAifSx7ImNoYXIiOiLmkJwifSx7ImNoYXIiOiLntKIifV0sImlzUmljaFRleHQiOnRydWUsImtlZXBMaW5lQnJlYWsiOnRydWV9fV0=--></div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-19405">
+          <strong>张三</strong>
+          <time>2020-08-29 20:07:42</time>
+          <div>这个代码有问题，应该是没有在变异后进行边界处理，导致变量的约束失效了。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19415">
+          <strong>xyjisaw</strong>
+          <time>2020-08-30 11:00:32</time>
+          <div>好的，欢迎提出解决方案</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

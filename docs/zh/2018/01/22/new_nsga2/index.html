@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSGA2算法MATLAB实现（能够自定义优化函数） · OmegaXYZ</title>
+  <meta name="description" content="以前写了一个简单的NSGA2的算法能够用在ZDT1函数上： https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ 那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。 NSGA2的过程为： 1、随机产生一个初始父代Po，在此基础上采用二...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/01/22/new_nsga2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-01-22</div>
+        <h1>NSGA2算法MATLAB实现（能够自定义优化函数）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">以前写了一个简单的NSGA2的算法能够用在ZDT1函数上：<a href="https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/">https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/</a>
+
+那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。
+
+<img class="alignnone wp-image-2952" src="https://cdn.omegaxyz.com/2018/01/NSGA2NEW.jpg" alt="" width="520" height="197" />
+
+NSGA2的过程为：
+
+1、随机产生一个初始父代Po，在此基础上采用二元锦标赛选择、交叉和变异操作产生子代Qo， Po 和Qo群体规模均为N
+
+2、将Pt和Qt并入到Rt中（初始时t=0），对Rt进行快速非支配解排序，构造其所有不同等级的非支配解集F1、F2........
+
+3、按照需要计算Fi中所有个体的拥挤距离，并根据拥挤比较运算符构造Pt+1，直至Pt+1规模为N，图中的Fi为F3
+
+具体解释请见：<a href="https://omegaxyz.com/2017/04/14/nsga-iiintro/">https://omegaxyz.com/2017/04/14/nsga-iiintro/</a>
+
+C++代码请见（测试函数ZDT1）：<a href="https://omegaxyz.com/2017/04/20/nsga2zdt1/">https://omegaxyz.com/2017/04/20/nsga2zdt1/</a>
+
+<strong>下面是完整版的代码：</strong>
+
+①nsga2-optimization.m
+<pre ><code class="language-matlab">function nsga_2_optimization
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%此处可以更改
+%更多机器学习内容请访问omegaxyz.com
+pop = 500; %种群数量
+gen = 500; %迭代次数
+M = 2; %目标数量
+V = 30; %维度
+min_range = zeros(1, V); %下界
+max_range = ones(1,V); %上界
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+chromosome = initialize_variables(pop, M, V, min_range, max_range);
+chromosome = non_domination_sort_mod(chromosome, M, V);
+
+for i = 1 : gen
+    pool = round(pop/2);
+    tour = 2;
+    parent_chromosome = tournament_selection(chromosome, pool, tour);
+    mu = 20;
+    mum = 20;
+    offspring_chromosome = genetic_operator(parent_chromosome,M, V, mu, mum, min_range, max_range);
+    [main_pop,~] = size(chromosome);
+    [offspring_pop,~] = size(offspring_chromosome);
+    clear temp
+    intermediate_chromosome(1:main_pop,:) = chromosome;
+    intermediate_chromosome(main_pop + 1 : main_pop + offspring_pop,1 : M+V) = offspring_chromosome;
+    intermediate_chromosome = non_domination_sort_mod(intermediate_chromosome, M, V);
+    chromosome = replace_chromosome(intermediate_chromosome, M, V, pop);
+    if ~mod(i,100)
+        clc;
+        fprintf('%d generations completed\n',i);
+    end
+end
+
+if M == 2
+    plot(chromosome(:,V + 1),chromosome(:,V + 2),'*');
+    xlabel('f_1'); ylabel('f_2');
+    title('Pareto Optimal Front');
+elseif M == 3
+    plot3(chromosome(:,V + 1),chromosome(:,V + 2),chromosome(:,V + 3),'*');
+    xlabel('f_1'); ylabel('f_2'); zlabel('f_3');
+    title('Pareto Optimal Surface');
+end</code></pre>
+②initialize_variables.m
+<pre ><code class="language-matlab">function f = initialize_variables(N, M, V, min_range, max_range)
+min = min_range;
+max = max_range;
+K = M + V;
+for i = 1 : N
+    for j = 1 : V
+        f(i,j) = min(j) + (max(j) - min(j))*rand(1);
+    end
+    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V);
+end</code></pre>
+③non_domination_sort_mod.m
+<pre ><code class="language-matlab">function f = non_domination_sort_mod(x, M, V)
+[N, ~] = size(x);
+clear m
+front = 1;
+F(front).f = [];
+individual = [];
+
+for i = 1 : N
+    individual(i).n = 0;
+    individual(i).p = [];
+    for j = 1 : N
+        dom_less = 0;
+        dom_equal = 0;
+        dom_more = 0;
+        for k = 1 : M
+            if (x(i,V + k) &lt; x(j,V + k))
+                dom_less = dom_less + 1;
+            elseif (x(i,V + k) == x(j,V + k))
+                dom_equal = dom_equal + 1;
+            else
+                dom_more = dom_more + 1;
+            end
+        end
+        if dom_less == 0 &amp;&amp; dom_equal ~= M
+            individual(i).n = individual(i).n + 1;
+        elseif dom_more == 0 &amp;&amp; dom_equal ~= M
+            individual(i).p = [individual(i).p j];
+        end
+    end   
+    if individual(i).n == 0
+        x(i,M + V + 1) = 1;
+        F(front).f = [F(front).f i];
+    end
+end
+
+while ~isempty(F(front).f)
+   Q = [];
+   for i = 1 : length(F(front).f)
+       if ~isempty(individual(F(front).f(i)).p)
+        	for j = 1 : length(individual(F(front).f(i)).p)
+            	individual(individual(F(front).f(i)).p(j)).n = ...
+                	individual(individual(F(front).f(i)).p(j)).n - 1;
+        	   	if individual(individual(F(front).f(i)).p(j)).n == 0
+               		x(individual(F(front).f(i)).p(j),M + V + 1) = ...
+                        front + 1;
+                    Q = [Q individual(F(front).f(i)).p(j)];
+                end
+            end
+       end
+   end
+   front =  front + 1;
+   F(front).f = Q;
+end
+
+[temp,index_of_fronts] = sort(x(:,M + V + 1));
+for i = 1 : length(index_of_fronts)
+    sorted_based_on_front(i,:) = x(index_of_fronts(i),:);
+end
+current_index = 0;
+
+%% Crowding distance
+
+for front = 1 : (length(F) - 1)
+    distance = 0;
+    y = [];
+    previous_index = current_index + 1;
+    for i = 1 : length(F(front).f)
+        y(i,:) = sorted_based_on_front(current_index + i,:);
+    end
+    current_index = current_index + i;
+    sorted_based_on_objective = [];
+    for i = 1 : M
+        [sorted_based_on_objective, index_of_objectives] = ...
+            sort(y(:,V + i));
+        sorted_based_on_objective = [];
+        for j = 1 : length(index_of_objectives)
+            sorted_based_on_objective(j,:) = y(index_of_objectives(j),:);
+        end
+        f_max = ...
+            sorted_based_on_objective(length(index_of_objectives), V + i);
+        f_min = sorted_based_on_objective(1, V + i);
+        y(index_of_objectives(length(index_of_objectives)),M + V + 1 + i)...
+            = Inf;
+        y(index_of_objectives(1),M + V + 1 + i) = Inf;
+         for j = 2 : length(index_of_objectives) - 1
+            next_obj  = sorted_based_on_objective(j + 1,V + i);
+            previous_obj  = sorted_based_on_objective(j - 1,V + i);
+            if (f_max - f_min == 0)
+                y(index_of_objectives(j),M + V + 1 + i) = Inf;
+            else
+                y(index_of_objectives(j),M + V + 1 + i) = ...
+                     (next_obj - previous_obj)/(f_max - f_min);
+            end
+         end
+    end
+    distance = [];
+    distance(:,1) = zeros(length(F(front).f),1);
+    for i = 1 : M
+        distance(:,1) = distance(:,1) + y(:,M + V + 1 + i);
+    end
+    y(:,M + V + 2) = distance;
+    y = y(:,1 : M + V + 2);
+    z(previous_index:current_index,:) = y;
+end
+f = z();
+</code></pre>
+④tournament_selection.m
+<pre ><code class="language-matlab">function f = tournament_selection(chromosome, pool_size, tour_size)
+[pop, variables] = size(chromosome);
+rank = variables - 1;
+distance = variables;
+for i = 1 : pool_size
+    for j = 1 : tour_size
+        candidate(j) = round(pop*rand(1));
+        if candidate(j) == 0
+            candidate(j) = 1;
+        end
+        if j &gt; 1
+            while ~isempty(find(candidate(1 : j - 1) == candidate(j)))
+                candidate(j) = round(pop*rand(1));
+                if candidate(j) == 0
+                    candidate(j) = 1;
+                end
+            end
+        end
+    end
+    for j = 1 : tour_size
+        c_obj_rank(j) = chromosome(candidate(j),rank);
+        c_obj_distance(j) = chromosome(candidate(j),distance);
+    end
+    min_candidate = ...
+        find(c_obj_rank == min(c_obj_rank));
+    if length(min_candidate) ~= 1
+        max_candidate = ...
+        find(c_obj_distance(min_candidate) == max(c_obj_distance(min_candidate)));
+        if length(max_candidate) ~= 1
+            max_candidate = max_candidate(1);
+        end
+        f(i,:) = chromosome(candidate(min_candidate(max_candidate)),:);
+    else
+        f(i,:) = chromosome(candidate(min_candidate(1)),:);
+    end
+end
+</code></pre>
+⑤genetic_operator.m
+<pre ><code class="language-matlab">function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit)
+[N,m] = size(parent_chromosome);
+
+clear m
+p = 1;
+was_crossover = 0;
+was_mutation = 0;
+
+
+for i = 1 : N
+    % With 90 % probability perform crossover
+    if rand(1) &lt; 0.9
+        % Initialize the children to be null vector.
+        child_1 = [];
+        child_2 = [];
+        % Select the first parent
+        parent_1 = round(N*rand(1));
+        if parent_1 &lt; 1
+            parent_1 = 1;
+        end
+        % Select the second parent
+        parent_2 = round(N*rand(1));
+        if parent_2 &lt; 1
+            parent_2 = 1;
+        end
+        % Make sure both the parents are not the same. 
+        while isequal(parent_chromosome(parent_1,:),parent_chromosome(parent_2,:))
+            parent_2 = round(N*rand(1));
+            if parent_2 &lt; 1
+                parent_2 = 1;
+            end
+        end
+        % Get the chromosome information for each randomnly selected
+        % parents
+        parent_1 = parent_chromosome(parent_1,:);
+        parent_2 = parent_chromosome(parent_2,:);
+        % Perform corssover for each decision variable in the chromosome.
+        for j = 1 : V
+            % SBX (Simulated Binary Crossover).
+            % For more information about SBX refer the enclosed pdf file.
+            % Generate a random number
+            u(j) = rand(1);
+            if u(j) &lt;= 0.5
+                bq(j) = (2*u(j))^(1/(mu+1));
+            else
+                bq(j) = (1/(2*(1 - u(j))))^(1/(mu+1));
+            end
+            % Generate the jth element of first child
+            child_1(j) = ...
+                0.5*(((1 + bq(j))*parent_1(j)) + (1 - bq(j))*parent_2(j));
+            % Generate the jth element of second child
+            child_2(j) = ...
+                0.5*(((1 - bq(j))*parent_1(j)) + (1 + bq(j))*parent_2(j));
+            % Make sure that the generated element is within the specified
+            % decision space else set it to the appropriate extrema.
+            if child_1(j) &gt; u_limit(j)
+                child_1(j) = u_limit(j);
+            elseif child_1(j) &lt; l_limit(j)
+                child_1(j) = l_limit(j);
+            end
+            if child_2(j) &gt; u_limit(j)
+                child_2(j) = u_limit(j);
+            elseif child_2(j) &lt; l_limit(j)
+                child_2(j) = l_limit(j);
+            end
+        end
+        child_1(:,V + 1: M + V) = evaluate_objective(child_1, M, V);
+        child_2(:,V + 1: M + V) = evaluate_objective(child_2, M, V);
+        was_crossover = 1;
+        was_mutation = 0;
+    % With 10 % probability perform mutation. Mutation is based on
+    % polynomial mutation. 
+    else
+        % Select at random the parent.
+        parent_3 = round(N*rand(1));
+        if parent_3 &lt; 1
+            parent_3 = 1;
+        end
+        % Get the chromosome information for the randomnly selected parent.
+        child_3 = parent_chromosome(parent_3,:);
+        % Perform mutation on eact element of the selected parent.
+        for j = 1 : V
+           r(j) = rand(1);
+           if r(j) &lt; 0.5
+               delta(j) = (2*r(j))^(1/(mum+1)) - 1;
+           else
+               delta(j) = 1 - (2*(1 - r(j)))^(1/(mum+1));
+           end
+           % Generate the corresponding child element.
+           child_3(j) = child_3(j) + delta(j);
+           % Make sure that the generated element is within the decision
+           % space.
+           if child_3(j) &gt; u_limit(j)
+               child_3(j) = u_limit(j);
+           elseif child_3(j) &lt; l_limit(j)
+               child_3(j) = l_limit(j);
+           end
+        end
+        child_3(:,V + 1: M + V) = evaluate_objective(child_3, M, V);
+        % Set the mutation flag
+        was_mutation = 1;
+        was_crossover = 0;
+    end
+    if was_crossover
+        child(p,:) = child_1;
+        child(p+1,:) = child_2;
+        was_cossover = 0;
+        p = p + 2;
+    elseif was_mutation
+        child(p,:) = child_3(1,1 : M + V);
+        was_mutation = 0;
+        p = p + 1;
+    end
+end
+f = child;
+</code></pre>
+⑥replace_chromosome.m
+<pre ><code class="language-matlab">function f  = replace_chromosome(intermediate_chromosome, M, V,pop)
+
+
+[N, m] = size(intermediate_chromosome);
+
+% Get the index for the population sort based on the rank
+[temp,index] = sort(intermediate_chromosome(:,M + V + 1));
+
+clear temp m
+
+% Now sort the individuals based on the index
+for i = 1 : N
+    sorted_chromosome(i,:) = intermediate_chromosome(index(i),:);
+end
+
+% Find the maximum rank in the current population
+max_rank = max(intermediate_chromosome(:,M + V + 1));
+
+% Start adding each front based on rank and crowing distance until the
+% whole population is filled.
+previous_index = 0;
+for i = 1 : max_rank
+    % Get the index for current rank i.e the last the last element in the
+    % sorted_chromosome with rank i. 
+    current_index = max(find(sorted_chromosome(:,M + V + 1) == i));
+    % Check to see if the population is filled if all the individuals with
+    % rank i is added to the population. 
+    if current_index &gt; pop
+        % If so then find the number of individuals with in with current
+        % rank i.
+        remaining = pop - previous_index;
+        % Get information about the individuals in the current rank i.
+        temp_pop = ...
+            sorted_chromosome(previous_index + 1 : current_index, :);
+        % Sort the individuals with rank i in the descending order based on
+        % the crowding distance.
+        [temp_sort,temp_sort_index] = ...
+            sort(temp_pop(:, M + V + 2),'descend');
+        % Start filling individuals into the population in descending order
+        % until the population is filled.
+        for j = 1 : remaining
+            f(previous_index + j,:) = temp_pop(temp_sort_index(j),:);
+        end
+        return;
+    elseif current_index &lt; pop
+        % Add all the individuals with rank i into the population.
+        f(previous_index + 1 : current_index, :) = ...
+            sorted_chromosome(previous_index + 1 : current_index, :);
+    else
+        % Add all the individuals with rank i into the population.
+        f(previous_index + 1 : current_index, :) = ...
+            sorted_chromosome(previous_index + 1 : current_index, :);
+        return;
+    end
+    % Get the index for the last added individual.
+    previous_index = current_index;
+end
+</code></pre>
+⑦自定义评价函数（我选用的ZDT1函数）
+<pre ><code class="language-matlab">function f = evaluate_objective(x, M, V)
+f = [];
+f(1) = x(1);
+g = 1;
+sum = 0;
+for i = 2:V
+    sum = sum + x(i);
+end
+g = g + 9*sum / (V-1));
+f(2) = g * (1 - sqrt(x(1) / g));
+end
+</code></pre>
+500个种群运行500代的结果：
+
+<img class="alignnone size-full wp-image-2954" src="https://cdn.omegaxyz.com/2018/01/NSGA2ZDT1.jpg" alt="" width="688" height="627" />
+
+<img class="alignnone size-full wp-image-2951" src="https://cdn.omegaxyz.com/2018/01/NSGA2.jpg" alt="" width="794" height="828" />
+
+代码打包下载：<a href="http://download.csdn.net/download/xyisv/10217700">http://download.csdn.net/download/xyisv/10217700</a>
+
+Github项目地址：<a href="https://github.com/xyjigsaw/NSGA2_MATLAB">https://github.com/xyjigsaw/NSGA2_MATLAB</a></div>
+        <section class="comments"><h2>评论 (46)</h2>
+        <div class="comment" id="comment-3605">
+          <strong>Acezhu</strong>
+          <time>2018-02-26 23:14:04</time>
+          <div>感谢up的代码，受益匪浅！</div>
+        </div>
+        
+        <div class="comment" id="comment-3625">
+          <strong>Anonymous</strong>
+          <time>2018-04-13 10:58:58</time>
+          <div>自定义评价函数无法运行呀？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3626">
+          <strong>xyjisaw</strong>
+          <time>2018-04-13 11:23:02</time>
+          <div>注意x是一个个体，M是目标数，V是维度，请在函数设计时把一个个体传入即可。</div>
+        </div>
+        
+        <div class="comment" id="comment-19057">
+          <strong>rosemary</strong>
+          <time>2020-06-20 20:13:50</time>
+          <div>您好，最近刚接触这个算法，幸运的看到了您的分享，非常感谢，想请教一下可否基于您的代码修改自己的目标函数和约束条件，都应该改哪些行呢？如果我问的太傻请小哥哥见谅啦</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19058">
+          <strong>xyjisaw</strong>
+          <time>2020-06-20 20:35:56</time>
+          <div>目标函数在⑦自定义评价函数（我选用的ZDT1函数），如果要修改约束条件比较复杂，如果是线性约束的话可以考虑在交叉变异生成子代的时候增加约束条件。</div>
+        </div>
+        
+        <div class="comment" id="comment-19081">
+          <strong>S885522</strong>
+          <time>2020-06-22 14:27:58</time>
+          <div>您好，最近刚接触这个算法，可以请教您比较基础的东西吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19088">
+          <strong>xyjisaw</strong>
+          <time>2020-06-22 18:13:48</time>
+          <div>可以的</div>
+        </div>
+        
+        <div class="comment" id="comment-19098">
+          <strong>Bobo</strong>
+          <time>2020-06-27 17:07:32</time>
+          <div>您好，我想问下您这个代码是否可以加入非线性约束呢，如果可以该怎么加</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19099">
+          <strong>xyjisaw</strong>
+          <time>2020-06-27 17:10:10</time>
+          <div>肯定可以加的，但是具体如何操作还要具体问题具体分析。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19101">
+          <strong>Bobo</strong>
+          <time>2020-06-27 17:26:51</time>
+          <div>多谢您的回复，您能否给出一个简单的例子，或者给我一个思路。我实在是不知道怎么加，再次感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19104">
+          <strong>xyjisaw</strong>
+          <time>2020-06-27 17:44:51</time>
+          <div>到百度学术查找带约束的论文，或者到&lt;a href=&quot;http://www.pudn.com/&quot; rel=&quot;nofollow ugc&quot;&gt;http://www.pudn.com/&lt;/a&gt;这个网站看看有没有相关代码。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19105">
+          <strong>Bobo</strong>
+          <time>2020-06-27 17:53:22</time>
+          <div>多谢</div>
+        </div>
+        
+        <div class="comment" id="comment-19246">
+          <strong>志杰</strong>
+          <time>2020-07-29 11:17:14</time>
+          <div>未定义与 &#x27;double&#x27; 类型的输入参数相对应的函数 &#x27;replace_chromosome&#x27;。<br><br>出错 nsga_2_optimization (line 32)<br>    chromosome = replace_chromosome(intermediate_chromosome, M, V, pop);<br><br><br>请问运行①nsga2-optimization.m时会出现上面的报错问题该如何解决（刚开始接触，见笑了）</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19250">
+          <strong>xyjisaw</strong>
+          <time>2020-07-29 17:03:22</time>
+          <div>输入的数据格式不正确，这个代码是实数型编码。</div>
+        </div>
+        
+        <div class="comment" id="comment-19262">
+          <strong>Wzd</strong>
+          <time>2020-08-03 15:56:31</time>
+          <div>快速非支配排序这个方法，效率较低。还可以继续做优化嘛</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19263">
+          <strong>xyjisaw</strong>
+          <time>2020-08-03 16:55:29</time>
+          <div>抱歉，我现在不做EA优化了。可以考虑其他算法。</div>
+        </div>
+        
+        <div class="comment" id="comment-19324">
+          <strong>123</strong>
+          <time>2020-08-18 18:33:54</time>
+          <div>请问如何取帕累托前沿的最优解集合，出图但是没有数据</div>
+        </div>
+        
+        <div class="comment" id="comment-19325">
+          <strong>ass</strong>
+          <time>2020-08-18 18:34:20</time>
+          <div>请问如何取帕累托前沿的最优解集合，出图但是没有数据</div>
+        </div>
+        
+        <div class="comment" id="comment-19494">
+          <strong><a href="https://www.resobang.cn" rel="nofollow">今日新鲜事</a></strong>
+          <time>2020-09-28 01:09:24</time>
+          <div>文章农村支持一下吧</div>
+        </div>
+        
+        <div class="comment" id="comment-19640">
+          <strong>电位</strong>
+          <time>2020-11-19 15:56:09</time>
+          <div>您好，我想问一下怎么改变量的范围，就比如目标函数的x1和x2取值范围不同，我看程序里面只能改min_range和max_range。谢谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19707">
+          <strong>xyjisaw</strong>
+          <time>2020-12-01 13:25:35</time>
+          <div>其实可以为每一个变量设置一个min和max</div>
+        </div>
+        
+        <div class="comment" id="comment-19987">
+          <strong>Dr.Lee</strong>
+          <time>2021-01-12 17:10:17</time>
+          <div>mu = 20;<br>mum = 20;<br>模拟二进制交叉参数mu和多项式变异参数mum为什么设置为20呢？mu不是一般建议取1吗？设置多少有什么影响吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19991">
+          <strong>xyjisaw</strong>
+          <time>2021-01-12 23:32:53</time>
+          <div>可以做个参数敏感性分析</div>
+        </div>
+        
+        <div class="comment" id="comment-20210">
+          <strong>xmj</strong>
+          <time>2021-01-29 11:01:30</time>
+          <div>楼主，为啥我跑出来只有一个点，请教一下。</div>
+        </div>
+        
+        <div class="comment reply" id="comment-20214">
+          <strong>xyjisaw</strong>
+          <time>2021-01-29 19:24:27</time>
+          <div>收敛了，把迭代次数改成1看看结果</div>
+        </div>
+        
+        <div class="comment" id="comment-21840">
+          <strong>张小芸</strong>
+          <time>2021-04-03 09:08:52</time>
+          <div>您好 我是小白 我想问您的代码放这是开源吗  那我如果只是自己写主函数 其它的用您的代码算抄袭吗</div>
+        </div>
+        
+        <div class="comment" id="comment-21900">
+          <strong>Kujo</strong>
+          <time>2021-04-11 13:38:41</time>
+          <div>请问初始化变量里面的N和K都代表了什么</div>
+        </div>
+        
+        <div class="comment" id="comment-21902">
+          <strong>Kujo</strong>
+          <time>2021-04-11 16:12:19</time>
+          <div>请问chromosome这个数据是一个矩阵吗？行数是种群数量，每一列包含了决策变量，目标函数，还有什么？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-21903">
+          <strong>xyjisaw</strong>
+          <time>2021-04-12 00:06:19</time>
+          <div>你的理解没问题，但是我记不清楚了</div>
+        </div>
+        
+        <div class="comment" id="comment-21921">
+          <strong>zmn</strong>
+          <time>2021-04-15 17:08:24</time>
+          <div>请问如何设置约束函数，比如说x1+...+x6的值是一个固定值</div>
+        </div>
+        
+        <div class="comment" id="comment-21931">
+          <strong>klr</strong>
+          <time>2021-04-20 20:00:34</time>
+          <div>这个运行一次时间有点久</div>
+        </div>
+        
+        <div class="comment" id="comment-22142">
+          <strong>贝克宇航</strong>
+          <time>2021-06-03 15:21:19</time>
+          <div>您好 请问下 怎样能显示Pareto前沿对应的决策变量的数值呢？</div>
+        </div>
+        
+        <div class="comment" id="comment-25371">
+          <strong>smc</strong>
+          <time>2022-02-21 14:29:11</time>
+          <div>应该是我能找到可读性最好的代码了，非常容易修改，我是一个0基础的小白，经过几天的学习也能理解了，感谢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25372">
+          <strong>smc</strong>
+          <time>2022-02-21 14:34:58</time>
+          <div>可以去工作区看，save保存到mat文件</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25373">
+          <strong>smc</strong>
+          <time>2022-02-21 14:35:51</time>
+          <div>你好请问你找到好的方式了吗？</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25374">
+          <strong>xyjisaw</strong>
+          <time>2022-02-21 17:30:37</time>
+          <div>感谢您的支持~</div>
+        </div>
+        
+        <div class="comment" id="comment-25432">
+          <strong>Peng Yu</strong>
+          <time>2022-03-05 20:20:14</time>
+          <div>博主您好~ 我在运行您的代码时，repalce_chromosome.m一直提示：<br>&amp;gt;&amp;gt; repalce_chromosome<br>输入参数的数目不足。<br><br>出错 repalce_chromosome (第 5 行)<br>[N, m] = size(intermediate_chromosome);<br> <br>您知道是什么原因么</div>
+        </div>
+        
+        <div class="comment" id="comment-25622">
+          <strong>capture</strong>
+          <time>2022-04-03 15:06:20</time>
+          <div>您好，博主，我想问一下，改完自定义函数后，我运行出来是的图是一条平行于x轴的点点</div>
+        </div>
+        
+        <div class="comment" id="comment-25814">
+          <strong>luyao</strong>
+          <time>2022-04-15 18:52:21</time>
+          <div>您好，我想请教一下如何把目标函数替换成我的近似模型（神经网络）</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25978">
+          <strong>cole</strong>
+          <time>2022-04-27 16:32:13</time>
+          <div>您好，请问您解决这个问题了吗，我也遇到这个问题了</div>
+        </div>
+        
+        <div class="comment reply" id="comment-25979">
+          <strong>cole</strong>
+          <time>2022-04-27 16:32:57</time>
+          <div>您好，请问您解决这个问题了吗，我也遇到这个问题了</div>
+        </div>
+        
+        <div class="comment" id="comment-28040">
+          <strong>何文鹏</strong>
+          <time>2022-07-31 23:38:38</time>
+          <div>up你好，我想请问一下最后一次所有个体的参数如何导出</div>
+        </div>
+        
+        <div class="comment" id="comment-32877">
+          <strong>庆幸</strong>
+          <time>2023-03-12 11:10:10</time>
+          <div>up，想问一下，得到最后pareto的图了，但是如何从图像上得到各维度x的值呢</div>
+        </div>
+        
+        <div class="comment reply" id="comment-32883">
+          <strong>xyjisaw</strong>
+          <time>2023-03-12 13:56:55</time>
+          <div>Xi作为一个变量，应该是有多个维度的，可以从chromosome获得变量X的值</div>
+        </div>
+        
+        <div class="comment" id="comment-42261">
+          <strong>Loc</strong>
+          <time>2024-08-14 14:37:12</time>
+          <div>您好，请问您的问题解决了吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-42262">
+          <strong>Loc</strong>
+          <time>2024-08-14 14:37:56</time>
+          <div>您好，请问您的问题解决了吗</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

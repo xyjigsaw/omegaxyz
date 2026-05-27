@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>胶水语言概述（以Python为例） · OmegaXYZ</title>
+  <meta name="description" content="什么是胶水语言？ 胶水语言（是用来连接软件组件的程序设计语言，通常是指脚本语言。 胶水语言 （glue language）是用来连接软件组件的程序设计语言（通常是脚本语言）。 胶水语言的例子: Shell scripts Python Ruby Lua Tcl Perl PHP 参见: Category:脚本语言 Glue languag...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/03/glue_language/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-03</div>
+        <h1>胶水语言概述（以Python为例）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content"><div class="lemma-summary">
+<h1>什么是胶水语言？</h1>
+<div></div>
+<div class="para">胶水语言（是用来连接软件组件的程序设计语言，通常是指脚本语言。</div>
+</div>
+<div class="para"><b>胶水语言</b>（glue language）是用来连接软件组件的程序设计语言（通常是脚本语言）。</div>
+<div class="para">胶水语言的例子:</div>
+<div class="para">Shell scripts Python Ruby Lua Tcl Perl PHP 参见: Category:脚本语言</div>
+<div class="para">Glue language (uses OS commands, interfaces, DLLs, shared libraries, services, objects, etc.)</div>
+<div class="para">胶水语言：使用输入输出命令，接口，动态链接库，静态链接库，服务，对象等。</div>
+<div></div>
+<h1>在Python的内部机制中有：</h1>
+<div></div>
+<div>1. 标准版本的python是用C来编译的，又称为Cpython，除此之外，还有一些其他的python实现。</div>
+<div>
+
+2.java实现版本。这个解释器完全用java写成，名为Jython。尽管和标准版的有区别，但是很小，而且启动环境也完全相同
+
+Jython的优点：
+
+（1）只要有虚拟机，就可以运行Jython
+
+（2）拥有访问java包与类库的能力
+
+（3）为java开发环境提供了脚本引擎
+
+（4）鼓励Python到java的开发
+
+3..net实现。用C#语言完成，名为IronPython。和jython差不多。
+
+</div>
+<div></div>
+<div>
+<h1>范例：</h1>
+<code># file: say.py</code>
+<pre><code>import sys
+txt = sys.argv[1]
+print "Hello %s!"%(txt)
+</code></code></pre>
+那么我就可以在Linux或Mac的终端上直接输入：
+
+<code>python say.py World</code>
+
+输出结果就会是：
+
+<code>Hello World!</code>
+
+这样就确保了，在终端调用上的直观与可编程性。
+
+这样，我就不用必须在别的python语言里面调用python了，而能够直接在shell上跟其它处理程序直接连接。
+
+接着
+
+<code>file: say2.py</code>
+<pre><code>import sys
+for line in sys.stdin.readlines():
+    print "Hello %s!"%(line.strip())
+</code></code></pre>
+那么我就可以在终端这么干：<code>echo -e 'water\nmaomaol\nkenbing\nlonger\nchuang'|python say3.py</code>
+
+输出就会是：
+<pre><code>Hello water!
+Hello maomaol!
+Hello kenbing!
+Hello longer!
+Hello chuang!
+</code></code></pre>
+再进一步，我可以把前面的内容写成文件，比如写成一个这样的文件：
+
+<code>names.txt</code>
+<pre><code>water
+maomaol
+kenbing
+longer
+chuang
+</code></code></pre>
+就可以直接更便捷地做处理：
+
+<code>cat names.txt | python say2.py</code><span class="Apple-converted-space"> 这样，我就用<code>cat</code>命令把文本打印出来，然后输出到<code>say2.py</code>上去了。</span>
+
+输出一样的结果。
+
+<code>cat names.txt | python say2.py &gt; result.txt</code>
+
+就这样，结果就保存到了<code>result.txt</code>这个文件里了。
+<h1>意义：</h1>
+在终端上我可以随意地组合他和其它程序，作为一个中间处理模块。
+
+而且，他可以如此地简单便捷，一些简单的脚本只需要cat一下马上就能明白是什么意思。
+
+一个表达式一行代码，代码块有一致的标准的缩进，标准的命名方式，简练的语言，支持注释……
+<ul>
+ 	<li>别的程序要访问或调用，很简单，一个命令把指定数据输入到这里就好，然后要怎么拼接怎么拼接；</li>
+ 	<li>周期性地处理也没问题，输出到文件，等待别的程序调用。</li>
+</ul>
+系统脚本上：
+<ul>
+ 	<li>比SHELL多了很多数学及字符串处理能力，还多了很多很好用的迭代方法，还多了很多的原生的数据结构；</li>
+ 	<li>比PERL多了很要命的代码可读性。</li>
+ 	<li>比起ruby和nodejs，他基本所有机器都预装，而且已经经历了时间的考验。虽然，将来的确会有被这俩货代替的可能性。</li>
+ 	<li>比起C/C++，他多了一个终端、甚至像ipython这样的加强版神器终端，可以边调试代码边把没问题的代码写进文件。而且，源码即可执行。</li>
+</ul>
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

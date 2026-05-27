@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparison of process-oriented and object-oriented code examples · OmegaXYZ</title>
+  <meta name="description" content="Procedural-oriented code (code that uses data structures) makes it easy to add new functions without changing existing data structures. Object-oriented code makes it easy to add new classes without changing existing functions. Procedural code makes it difficult to add data structures because all functions must be modified. Object-oriented code makes it difficult to add new functions because all classes must be modified. The nature of these two definitions is that they are diametrically opposed, which illustrates the dichotomy principle between objects and data structures. Procedural code-oriented example: Geo...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/07/pop_oop/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-07</div>
+        <h1>Comparison of process-oriented and object-oriented code examples</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a></div>
+        <div class="article-content"><strong>Procedural code oriented</strong>(Code using data structures) facilitates adding new functions without changing existing data structures.<strong>object-oriented code</strong>It is convenient to add new classes without changing existing functions.
+
+Procedural code makes it difficult to add data structures because all functions must be modified. Object-oriented code makes it difficult to add new functions because all classes must be modified.
+
+The nature of these two definitions is that they are diametrically opposed, which illustrates the dichotomy principle between objects and data structures.<strong>For procedural code examples:</strong>The Geometry class operates on three shape classes. Shape classes are simple data structures without any behavior, all behavior is in the Geometry class.<pre><code class="language-java">class Square{
+    Point topLeft;
+    double side;
+}
+
+class Rectangle{
+    Point topLeft;
+    double height;
+    double width;
+}
+
+class Circle{
+    Point center;
+    double radius;
+}
+
+public class Geometry {
+    public final double PI = 3.14159265359;
+
+    public double area(Object shape) throws NoSuchShapeExcept{
+        if(shape instanceof Square){
+            Square s = (Square)shape;
+            return s.side * s.side;
+        }
+        else if(shape instanceof Rectangle){
+            Rectangle r = (Rectangle)shape;
+            return r.height * r.width;
+        }
+        else if(shape instanceof Circle){
+            Circle c = (Circle)shape;
+            return PI * c.radius * c.radius;
+        }
+        throw new NoSuchShapeExcept();
+    }
+}</code></pre>
+<strong>Object-oriented code example:</strong>The area method is polymorphic. There is no need for a Geometry class, so if a new shape is added, none of the existing functions are affected, whereas when a new function is added all shapes must be modified!<pre><code class="language-java">class Square implements Shape{
+    private Point topLeft;
+    private double side;
+
+    public double area(){
+        return side * side;
+    }
+}
+
+class Rectangle implements Shape{
+    private Point topLeft;
+    private double height;
+    private double width;
+
+    public double area(){
+        return height * width;
+    }
+}
+
+class Circle implements Shape{
+    private Point center;
+    private double radius;
+
+    public final double PI = 3.14159265359;
+
+    public double area(){
+        return PI * radius * radius;
+    }
+}
+</code></pre>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

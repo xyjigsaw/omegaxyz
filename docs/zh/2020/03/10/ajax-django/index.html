@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ajax与jQuery异步加载数据 · OmegaXYZ</title>
+  <meta name="description" content="简介 一次性从服务器数据库中读取数据并传送到前端页面上是不现实的，一方面会加重服务器的压力，另一方面客户的带宽资源也会被占用。Ajax刚好可以解决数据异步加载的问题。Ajax 即“ A synchronous J avascript A nd X ML”（异步 JavaScript 和 XML），是指一种创建交互式、快速动态网页应用的网页...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2020/03/10/ajax-django/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-03-10</div>
+        <h1>Ajax与jQuery异步加载数据</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/web/index.html">web</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/django/index.html">Django</a><a class="pill" href="../../../../tag/ajax/index.html">Ajax</a></div>
+        <div class="article-content"><h2><strong>简介</strong></h2>
+一次性从服务器数据库中读取数据并传送到前端页面上是不现实的，一方面会加重服务器的压力，另一方面客户的带宽资源也会被占用。Ajax刚好可以解决数据异步加载的问题。Ajax 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML），是指一种创建交互式、快速动态网页应用的网页开发技术，无需重新加载整个网页的情况下，能够更新部分网页的技术。
+
+由于用 jQuery 实现 ajax 比较简单，因此接下来的代码引用jQuery库实现Ajax，另外使用Django作为框架。
+
+其中jQuery可以手动下载放到本地文件夹中，也可以引用下面的语句。
+<pre ><code class="language-xhtml">&lt;script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"&gt;&lt;/script&gt;</code></pre>
+
+<hr />
+
+<h2><strong>HTML语句</strong></h2>
+类别为demo的div将展示Ajax数据
+
+<span style="color: #3366ff;"><em>$(document).ready(function(){})</em></span>指页面其他元素加载完成后开始加载Ajax数据，此时，浏览器不会有加载条和转圈的情况出现。当然也可以改为点击某个元素加载例如<em><span style="color: #3366ff;">$('#demo').click(function(){})</span></em>。
+
+<em><span style="color: #3366ff;">$.getJSON('/ajax_server/',function(ret)</span></em>指从Django的view.py中的函数ajax_server读取JSON数据，数据通过<em><span style="color: #3366ff;">$('#demo').append(ret)</span></em>展示到div中。也可以使用<em><span style="color: #3366ff;">document.getElementById("demo").innerHTML = ret;</span></em>来展示数据。
+<pre ><code class="language-default">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;div class = "demo"&gt;&lt;/div&gt;
+ 
+&lt;script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    $(document).ready(function(){
+      $.getJSON('/ajax_server/',function(ret){
+            $('#demo').append(ret)
+      })
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2><strong>view.py(Django)</strong></h2>
+<strong>添加</strong>
+<pre ><code class="language-python">def ajax_server(request):
+    data_dict = {'xxx': 'omegaxyz.com', 'yyy': 'zzz'}
+    return JsonResponse(data_dict)
+</code></pre>
+<h2><strong>urls.py(Django)</strong></h2>
+<strong>添加</strong>
+<pre ><code class="language-python">url(r'^ajax_server/$', 'tools.views.ajax_server', name='ajax_server'),</code></pre>
+
+<hr />
+
+<h2><strong>缺陷</strong></h2>
+对应用Ajax最主要的批评就是，它可能破坏浏览器的后退与加入收藏书签功能。在动态更新页面的情况下，用户无法回到前一个页面状态，这是因为浏览器仅能记下历史记录中的静态页面。一个被完整读入的页面与一个已经被动态修改过的页面之间的可能差别非常微妙；用户通常都希望单击后退按钮，就能够取消他们的前一次操作，但是在Ajax应用程序中，却无法这样做。不过开发者已想出了种种办法来解决这个问题，HTML5之前的方法大多是在用户单击后退按钮访问历史记录时，通过创建或使用一个隐藏的IFRAME来重现页面上的变更。（例如，当用户在Google Maps中单击后退时，它在一个隐藏的IFRAME中进行搜索，然后将搜索结果反映到Ajax元素上，以便将应用程序状态恢复到当时的状态）。
+
+&nbsp;
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-18851">
+          <strong>Jamesvet</strong>
+          <time>2020-04-26 19:25:45</time>
+          <div>Really wanted to point out Now i am pleased I came in your website.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

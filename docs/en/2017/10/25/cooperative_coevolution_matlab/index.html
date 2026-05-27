@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Differential group cooperative co-evolution MATLAB code · OmegaXYZ</title>
+  <meta name="description" content="Cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. Theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. In practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. In this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that their interdependencies are maintained to the maximum...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/10/25/cooperative_coevolution_matlab/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-25</div>
+        <h1>Differential group cooperative co-evolution MATLAB code</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="article-content">Cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. Theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. In practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. In this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that interdependencies between them are kept to a minimum. We show mathematically how such a decomposition strategy arises from the definition of partial separability. Empirical studies show that such near-optimal decompositions can significantly improve the quality of solutions to large-scale global optimization problems. Finally, we show how such an automatic decomposition yields a better approximation of the distribution of diverse subcomponents, leading to a more efficient allocation of the computational budget over diverse subcomponents.<strong>Index terms: cooperative coevolution, large-scale optimization, problem decomposition, indivisibility, numerical optimization</strong>
+
+https://omegaxyz.com/2017/09/29/ccdifferential_grouping/
+
+run.m
+<pre><code class="language-matlab">% Author: Mohammad Nabi Omidvar
+% email address: mn.omidvar AT gmail.com
+%
+% ------------
+% Description:
+% ------------
+% This files is the entry point for running the differential gropuing algorithm.
+
+clear all;
+
+% Specify the functions that you want the differential grouping algorithm to 
+% identify its underlying grouping structure.
+func = [20:-1:1];
+for i=func
+    func_num = i
+
+    t1 = [1 4 7 8 9 12 13 14 17 18 19 20];
+    t2 = [2 5 10 15];
+    t3 = [3 6 11 16];
+
+    if (ismember(func_num, t1))
+        lb = -100;
+        ub = 100;
+    elseif (ismember(func_num, t2))
+        lb = -5;
+        ub = 5;
+    elseif (ismember(func_num, t3))
+        lb = -32;
+        ub = 32;
+    end
+
+    opts.lbound  = lb;
+    opts.ubound  = ub;
+    opts.dim     = 1000;
+    opts.epsilon = 1e-3;
+
+    addpath('cec2010');
+    addpath('cec2010/datafiles');
+    global initial_flag;
+    initial_flag = 0;
+
+    [seps, nonseps, FEs] = dg('benchmark_func', func_num, opts);
+
+    % filename = sprintf('./results/F%02d.mat', func_num);
+    % save (filename, 'seps', 'nonseps', 'FEs', '-v7');
+end
+</code></pre>
+dg.m
+<pre><code class="language-matlab">% Author: Mohammad Nabi Omidvar
+% email : mn.omidvar AT gmail.com
+%
+% ------------
+% Description:
+% ------------
+% dg - This function runs the differential grouping
+%      procedure to identify the non-separable groups
+%      in cec'2010 benchmark problems.o
+%
+% -------
+% Inputs:
+% -------
+%    fun        : the function suite for which the interaction structure 
+%                 is going to be identified in this case benchmark_func 
+%                 of cec'2010.
+%
+%    fun_number : the function number.
+%
+%    options    : this variable contains the options such as problem
+%                 dimensionality, upper and lower bounds and the parameter 
+%                 epsilon used by differential grouping.
+%    input3 - Description
+%
+% --------
+% Outputs:
+% --------
+%    sep      : a vector of all separable variables.
+%    allgroups: a cell array containing all non-separable groups.
+%    FEs      : the total number of fitness evaluations used.
+%
+% --------
+% License:
+% --------
+% This program is to be used under the terms of the GNU General Public License 
+% (http://www.gnu.org/copyleft/gpl.html).
+% Author: Mohammad Nabi Omidvar
+% e-mail: mn.omidvar AT gmail.com
+% Copyright notice: (c) 2013 Mohammad Nabi Omidvar
+
+
+function [seps, allgroups, FEs] = dg(fun, fun_number, options);
+   ub        = options.ubound;
+   lb        = options.lbound;
+   dim       = options.dim;
+   epsilon   = options.epsilon;
+   r         = ub - lb;
+   dims      = [1:1:dim];
+   seps      = [];
+   allgroups = {};
+   FEs       = 0;
+
+   while (length(dims) &gt;= 1)
+       allgroups;
+       n = length(dims)
+       group = [dims(1)];
+       group_ind = [1];
+
+       p1 = lb * ones(1,dim);
+       p2 = p1;
+       p2(dims(1)) = ub;
+
+       delta1 = feval(fun, p1, fun_number) - feval(fun, p2, fun_number);
+
+       FEs = FEs + 2;
+
+       for i=2:n
+           p3 = p1;
+           p4 = p2;
+
+           temp = 0;
+           p3(dims(i)) = temp;
+           p4(dims(i)) = temp;
+
+           delta2 = feval(fun, p3, fun_number) - feval(fun, p4, fun_number);
+
+           FEs = FEs + 2;
+
+           if(abs(delta1-delta2) &gt; epsilon)
+               group = [group ; dims(i)];
+               group_ind = [group_ind ; i];
+           end
+       end
+
+       if(length(group) == 1)
+           seps = [seps ; group];
+       else
+           allgroups = {allgroups{1:end}, group};
+       end
+
+       if(length(dims) &gt; 0)
+           dims(group_ind) = [];
+       end
+   end
+end
+</code></pre>
+analyze.m
+<pre><code class="language-matlab">% Author: Mohammad Nabi Omidvar
+% email address: mn.omidvar AT gmail.com
+%
+% ------------
+% Description:
+% ------------
+% This file is used to analyze the performance of the differential
+% grouping algorithm on CEC'2010 benchmark problems.
+% This program reads the data files generated by differential 
+% grouping and shows how many variables from each formed group
+% are correctly identified and to which permutation group they
+% belong.
+%
+%--------
+% Inputs:
+%--------
+%    funs: a vector containing the functions ids the functions that you 
+%          want to analyze.
+%
+% -----------
+% References:
+% -----------
+% Omidvar, M.N.; Li, X.; Mei, Y.; Yao, X., "Cooperative Co-evolution with
+% Differential Grouping for Large Scale Optimization," Evolutionary Computation,
+% IEEE Transactions on, vol.PP, no.99, pp.1,1, 0
+% http://dx.doi.org/10.1109/TEVC.2013.2281543
+%
+% --------
+% License:
+% --------
+% This program is to be used under the terms of the GNU General Public License 
+% (http://www.gnu.org/copyleft/gpl.html).
+% Author: Mohammad Nabi Omidvar
+% e-mail: mn.omidvar AT gmail.com
+% Copyright notice: (c) 2013 Mohammad Nabi Omidvar
+
+
+function analyze(funcs)
+    more off;
+
+    % Number of non-separable groups for each function in CEC'210 benchmark suite.
+    numNonSep = [0 0 0 1 1 1 1 1 10 10 10 10 10 20 20 20 20 20 20 20];
+     
+    for f=funcs
+        filename = sprintf('./results/F%02d.mat', f);
+        p = 1:1:1000;
+        load(filename);
+    
+        mat = zeros(length(nonseps), 20);
+        drawline('=');
+        fprintf('Function F: %02d\n', f);
+        fprintf('FEs used: %d\n', FEs);
+        fprintf('Number of separables variables: %d\n', length (seps));
+        fprintf('Number of non-separables groups: %d\n', length (nonseps));
+    
+        filename1 = sprintf('./cec2010/datafiles/f%02d_op.mat', f);
+        filename2 = sprintf('./cec2010/datafiles/f%02d_opm.mat', f);
+        flag = false;
+        if(exist(filename1))
+            load(filename1);
+            flag = true;
+        elseif(exist(filename2))
+            load(filename2);
+            flag = true;
+        end
+    
+        printheader();
+    
+        for i=[1:1:length(nonseps)]
+            fprintf('Size of G%02d: %3d  |  ', i, length (nonseps{i}));
+            m = 50;
+            if(flag)
+                for g=[1:1:20]
+                    captured = length(intersect(p((g-1)*m+1:g*m), nonseps{i}));
+                    fprintf(' %4d', captured);
+                    mat(i, g) = captured;
+                end
+            end
+            fprintf('\n');
+        end
+    
+        mat2 = mat;
+        [temp I] = max(mat, [], 1);
+        [sorted II] = sort(temp, 'descend');
+        masks = zeros(size(mat));
+        for k = 1:min(size(mat))
+            mask = zeros(1, length(sorted));
+            mask(II(k)) = 1;
+            masks(I(II(k)), :) = mask;
+            %point = [I(k) II(k)];
+            mat(I(II(k)), :) = mat(I(II(k)), :) .* mask;
+            [temp I] = max(mat, [], 1);
+            [sorted II] = sort(temp, 'descend');
+        end
+        mat = mat2 .* masks;
+        [temp I] = max(mat, [], 1);
+        if(ismember(f, [19 20]))
+            gsizes = cellfun('length', nonseps);
+            fprintf('Number of non-separable variables correctly grouped: %d\n', max(gsizes));
+        else
+            fprintf('Number of non-separable variables correctly grouped: %d\n', sum(temp(1:numNonSep(f))));
+        end
+        drawline('=');
+        pause;
+end
+
+end
+% Helper Functions ----------------------------------------------------------
+function drawline(c)
+    for i=1:121
+        fprintf(1,c);
+    end
+    fprintf('\n')
+end
+
+function printheader()
+    fprintf('Permutation Groups|  ');
+    for i=1:20
+        fprintf(' %4s', sprintf('P%d', i));
+    end 
+    fprintf('\n')
+    drawline('-');
+end
+% End Helper Functions ------------------------------------------------------
+
+</code></pre>
+ </div>
+        <section class="comments"><h2>Comments (8)</h2>
+        <div class="comment" id="comment-3703">
+          <strong>Sky</strong>
+          <time>2018-06-06 19:59:55</time>
+          <div>请问代码中的测试函数文件可否发一份给我？万分感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3706">
+          <strong>xyjisaw</strong>
+          <time>2018-06-06 23:38:46</time>
+          <div>这个代码是作者写的，你在谷歌上搜索应该能找到</div>
+        </div>
+        
+        <div class="comment reply" id="comment-3708">
+          <strong>Anonymous</strong>
+          <time>2018-06-07 14:09:20</time>
+          <div>好的，谢谢</div>
+        </div>
+        
+        <div class="comment" id="comment-20226">
+          <strong>田孟哲</strong>
+          <time>2021-02-02 21:13:38</time>
+          <div>错误使用 feval<br>未定义函数或变量 &#x27;benchmark_fun&#x27;。<br><br>出错 dg (line 102)<br>       delta1 = feval(fun, p1, fun_number) - feval(fun, p2, fun_number);<br><br>出错 run (line 51)<br>    [seps, nonseps, FEs] = dg(&#x27;benchmark_fun&#x27;, func_num, opts);<br>我出现了这个错误，不知道是什么原因，非常感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-20227">
+          <strong>田孟哲</strong>
+          <time>2021-02-03 11:30:01</time>
+          <div>您好，请问那这上面的代码是不是不全，还是写得有些问题，就是上面的run.m的代码是用来运行的，它在调用 [seps, nonseps, FEs] = dg(&#x27;benchmark_func&#x27;, func_num, opts);也就是第51行的代码它的&#x27;benchmark_func&#x27;这一部分只应用了这个函数，却没有具体的内容，不知道是缺一段整个代码还是在dg.mat里面少一个benchmark_func函数，由于本人最近在研究协同进化的特征选择问题，而且正在写毕业论文，马上就交，比较不容易找到这篇论文，所以请教一下这个算法的全部代码在哪个具体的网站的哪个位置能找到，非常感谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-20228">
+          <strong>田孟哲</strong>
+          <time>2021-02-03 11:31:10</time>
+          <div>所以本人比较着急想实现这个代码，然后再去改，非常感谢！</div>
+        </div>
+        
+        <div class="comment reply" id="comment-20233">
+          <strong>田孟哲</strong>
+          <time>2021-02-03 21:19:38</time>
+          <div>对不起，我才看到，收到，非常感谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-21465">
+          <strong>贾欣</strong>
+          <time>2021-03-18 18:24:06</time>
+          <div>请问有完整的程序代码吗，这部分只是分组那部分的代码吧，想看看完整的跑测试函数的代码，或者后半部分的优化代码也可以，感谢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

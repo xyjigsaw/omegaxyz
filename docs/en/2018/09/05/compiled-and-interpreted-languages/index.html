@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compiled, interpreted and scripting languages · OmegaXYZ</title>
+  <meta name="description" content="Compiled languages ​​have a separate compilation process before the program is executed, and there is no need to translate the program into machine language. Interpreted languages ​​translate programs into machine language when running, so the running speed is compared to programming. C/C++, etc. are all compiled languages, while Java, C#, etc. are all interpreted languages. Although a Java program also has a compilation process before running, the program is not compiled into machine language, but into bytecode (which can be understood as an intermediate...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/09/05/compiled-and-interpreted-languages/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-05</div>
+        <h1>Compiled, interpreted and scripting languages</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/programming/index.html">编程语言概述</a></div>
+        <div class="article-content">Compiled languages ​​have a separate compilation process before the program is executed, and there is no need to translate the program into machine language.
+
+Interpreted languages ​​translate programs into machine language when running, so the running speed is compared to programming. C/C++, etc. are all compiled languages, while Java, C#, etc. are all interpreted languages.
+
+Although a Java program also has a compilation process before running, the program is not compiled into machine language, but into bytecode (which can be understood as an intermediate language).
+At run time, the JVM translates the bytecode into machine language.
+
+Scripting languages ​​generally have corresponding script engines to interpret and execute. They generally require an interpreter to run. JAVASCRIPT, ASP, PHP, PERL, and Nuva are all scripting languages. After C/C++ is compiled and linked, an independently executed exe file can be formed.<h2>compiled language</h2>
+<ol>
+<li>One of the biggest advantages of compiled languages ​​is their execution speed. Programs written in C/C++ run 30%-70% faster than the same programs written in Java.</li>
+<li>Compiled programs consume less memory than interpreted programs.</li>
+<li>The downside - compilers are much harder to write than interpreters.</li>
+<li>Compilers don't provide much help when debugging a program - how many times have you encountered a "null pointer exception" in your C code and spent hours trying to figure out where the error was in the code.</li>
+<li>Executable compiled code is much larger than the same interpreted code. For example, a C/C++ .exe file is much larger than a Java .class file with the same functionality.</li>
+<li>Compiled programs are platform-specific and therefore platform-dependent.</li>
+<li>Compiled programs do not allow security to be implemented in the code - for example, a compiled program can access any area of ​​memory and do anything it wants to your PC (most viruses are written using compiled languages)</li>
+<li>Due to loose security and platform dependencies, compiled languages ​​are not suitable for developing Internet or Web-based applications.</li>
+</ol>
+<h2>Interpreted languages ​​(including scripting languages)</h2>
+<ol>
+<li>Interpreted languages ​​provide excellent debugging support. It only takes a few minutes for a Java programmer to locate and fix a "null pointer exception" because the Java runtime environment not only indicates the nature of the exception, but also gives the specific line number and function call sequence where the exception occurred (the famous stack trace information). Such convenience is not provided by compiled languages.</li>
+<li>Another advantage is that interpreters are easier to implement than compilers</li>
+<li>One of the biggest advantages of interpreted languages ​​is their platform independence</li>
+<li>Interpreted languages ​​can also ensure a high degree of security - something that Internet applications urgently need</li>
+<li>The size of the intermediate language code is much smaller than the compiled executable code</li>
+<li>Platform independence, and tight security are the two most important factors that make interpreted languages ​​ideal for Internet and Web applications.</li>
+<li>Interpreted languages ​​have some serious drawbacks. Interpreted applications take up more memory and CPU resources. This is because, in order to run a program written in an interpreted language, the associated interpreter must first be run. Interpreters are complex, intelligent, resource-intensive programs and they take up a lot of CPU cycles and memory.</li>
+<li>Interpreted applications are much slower than compiled programs due to their decode-fetch-execute cycle.</li>
+<li>The interpreter also does a lot of code optimization and runtime security checks; these extra steps take up more resources and further slow down the application.</li>
+</ol>
+<h2><strong>scripting language</strong></h2>Definition: A computer programming language created to shorten the traditional edit-compile-link-run process.
+
+Its characteristics are: the program code is the final execution file, but this process requires the participation of the interpreter, so scripting languages ​​are closely related to interpreted languages. Scripting languages ​​are usually interpreted and programs are text files.
+
+Typical scripting languages ​​include JavaScript, Python, etc.
+
+Corresponding to scripting language is system language. Their differences are:
+
+1. Level of abstraction: This is the most important and obvious difference. Scripting languages ​​provide higher-level abstractions to programmers. This is evident in the fact that in the language itself, there are advanced data structures, such as list and dictionary structures, as well as simple and convenient nesting and operations on such structures. This can create a very successful program.
+
+2. Type definition: System languages ​​are usually strongly typed and static type defined. This means that the types of all variables must be specified in the program and checked at compile time. In contrast, scripting languages ​​are the loosest type definitions, with no type declarations at all, and dynamic type checking at runtime.
+
+3. Execution: The system language is characterized by compilation. Programs are compiled into executable binaries. On the other hand, scripting languages ​​are characterized by interpretation, that is, instructions are executed immediately without an intermediate state of compilation. This means that the scripting language is interactive (you can type commands at the prompt and see the results), which is another huge win. This completely removes the compilation process from the edit-compile-run cycle.
+
+4. Speed: The above three points are typical examples of the compromise between speed and efficiency of scripting languages ​​on the one hand, and ease of use and power of expressions on the other. This makes the execution speed of script languages ​​an order of magnitude slower than system languages. This is the most maligned aspect of scripting languages. The performance penalty is not really a problem because the idea is to use a scripting language to assemble components that are written in a fast systems language like C. So everything that needs to run fast will run fast because it's implemented in a fast language. Scripting languages ​​are only used to tie things together, and these are usually not performance bottlenecks (or if they are, you need to re-examine your design).<strong>The difference between interpreted languages ​​and scripting languages</strong>Scripting language is an interpreted language, that is, interpreted language includes scripting language.
+
+An interpreted language refers to a language that is interpreted and executed, but the executed code is not necessarily in text format.
+
+Script language programs are text files and are interpreted and executed.<strong>References</strong>：<a href="https://blog.csdn.net/Andrew_ym/article/details/79514089">https://blog.csdn.net/Andrew_ym/article/details/79514089</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

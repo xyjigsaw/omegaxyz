@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparative analysis of software engineering life cycle models · OmegaXYZ</title>
+  <meta name="description" content="Just like anything, software also has its own survival process of gestation, birth, growth, maturity and decline, which is generally called the &quot;software life cycle&quot;. The software life cycle is generally divided into six stages, namely planning, requirements analysis, design, coding, testing, operation and maintenance. The relationship between the various stages of software development cannot be sequential and linear, but should be an iterative process with feedback. In software engineering, this complex process is described and represented using software development models. Iterative-incremental life cycle model long...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/03/29/life_cycle_models/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-03-29</div>
+        <h1>Comparative analysis of software engineering life cycle models</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<p class="reader-word-layer reader-word-s1-7">Just like anything, software also has its own survival process of gestation, birth, growth, maturity and decline, which is generally called the "software life cycle". The software life cycle is generally divided into six stages, namely planning, requirements analysis, design, coding, testing, operation and maintenance. The relationship between the various stages of software development cannot be sequential and linear, but should be an iterative process with feedback. In software engineering, this complex process is described and represented using software development models.</p>
+<h1>Iterative-incremental life cycle model</h1>
+<img alt="" class="alignnone size-full wp-image-3868" height="211" src="https://cdn.omegaxyz.com/2018/03/SE2.png" width="402"/>
+<strong>Strengths:</strong>①The model closest to real-world software development, containing a unified process approach
+② Provide multiple opportunities to check the software product, and each iteration includes a test flow
+③The robustness of the underlying structure can be determined at an early stage
+④ Able to mitigate risks earlier
+⑤We always have a working version of the software<strong>Keywords:</strong>Miller's rule, step-by-step refinement<h1>incremental model</h1>For a limited time, a set of versions with limited functionality is constantly being expanded.<strong>Conditions of use:</strong>Limited development time, insufficient developers, and a clear initial model<strong>Task flow:</strong>Linear, parallel (requirements are continuously added to the task flow)<strong>Note</strong>:
+
+①The first increment is the core product, which meets the basic needs of users.
+②Evaluate and formulate incremental plans based on customer use.
+③Each increment is a runnable product.<h1>evolutionary tree model</h1>
+<strong>Strengths:</strong>The closest model to real-world software development, equivalent to the iterative incremental model.<img alt="" class="alignnone size-full wp-image-3867" height="324" src="https://cdn.omegaxyz.com/2018/03/SE1.png" width="642"/>
+<h1>Coding - patching lifecycle model</h1>
+<img alt="" class="alignnone size-full wp-image-3869" height="323" src="https://cdn.omegaxyz.com/2018/03/SE3.png" width="574"/>
+<strong>Strengths:</strong>Suitable for small programs that do not require any maintenance<strong>Disadvantages:</strong>Overall not suitable for important programs<strong>Note:</strong>Maintenance is expensive<h1>Waterfall life cycle model</h1>Systematic sequential development methods<img alt="" class="alignnone size-full wp-image-3870" height="315" src="https://cdn.omegaxyz.com/2018/03/SE4.png" width="502"/>
+<strong>Conditions of use:</strong>① User needs can be clearly understood ② Requirements must be accurately defined and relatively stable<strong>Task flow:</strong>linear task flow<strong>Note:</strong>①Continuous changes in inapplicable items
+②Not applicable to projects with uncertain demand
+③Do not violate the development sequence
+④Document-driven (also a weakness)<strong>Strengths:</strong>Disciplined and enforced approach, document-driven (also a weakness)<strong>Disadvantages:</strong>Products delivered may not meet customer requirements<h1>Rapid prototyping life cycle model</h1>
+<img alt="" class="alignnone size-full wp-image-3871" height="297" src="https://cdn.omegaxyz.com/2018/03/SE5.png" width="551"/>Each iteration produces a more complete version<strong>Conditions of use:</strong>① Users put forward the most basic requirements, and no more specific functional characteristics are defined. ② The operating system is not sure about the efficiency of the algorithm.<strong>Task flow:</strong>iteration/(linear)<strong>Note:</strong>① Developers build prototypes at will ② In order to speed up the construction, use inappropriate OS ③ Speed ​​is the key<strong>Strengths:</strong>Ensure delivered products meet customer requirements<strong>Disadvantages:</strong>Not yet proven invulnerable<h1>Open source life cycle model</h1>
+<img alt="" class="alignnone size-full wp-image-3872" height="316" src="https://cdn.omegaxyz.com/2018/03/SE6.png" width="563"/>
+<strong>Keywords:</strong>①Reporting and correcting shortcomings is corrective maintenance
+②Adding additional functions is complete maintenance
+③ Converting the interface to a new environment for the program is adaptive maintenance<strong>Strengths:</strong>Works reasonably well on a small number of instances (Linux, Apache, gcc)<strong>Disadvantages:</strong>Limited utility, usually doesn't work<h1>Synchronous-stable life cycle model</h1>
+<strong>Keywords:</strong>sync, stabilize, freeze<strong>Strengths:</strong>Meet future user requirements and ensure successful integration of components<strong>Disadvantages:</strong>Not widely used except at Microsoft<h1>agile process</h1>Respond effectively to change + philosophical thinking<strong>key:</strong>① Effective communication ② Emphasis on rapid delivery of final products ③ Integrate customers into the team ④ Flexible adjustment of plans<strong>Features:</strong>①Small team - small but highly autonomous
+②Fast product – a system that can be delivered quickly and successfully
+③ Process spirit - minimize software work products, streamline overall development, and respond better to changes.<strong>Keywords:</strong>①Test-driven development (TDD): Develop test cases for tasks
+②Pair programming
+③Timeboxing: Frequent software delivery
+④Stand-up meeting<strong>Strengths:</strong>Works well when customer needs are vague<strong>Disadvantages:</strong>Seems only suitable for small projects<h1>spiral life cycle model</h1>
+<strong>Strengths:</strong>risk driven<strong>Disadvantages:</strong>Only suitable for large-scale internal software products, developers must be proficient in risk analysis and risk elimination<img alt="" class="alignnone size-full wp-image-3866" height="340" src="https://cdn.omegaxyz.com/2018/03/SE7.jpg" width="488"/>The radial coordinate represents the accumulated cost so far, and the angular coordinate represents the progress of the spiral. Each turn of the spiral corresponds to a stage. Each stage starts with (top left) determining the goals, implementation methods, and constraints of the stage. If the risk is successfully reduced, it will enter the next stage (bottom right)<h1>Summary</h1>
+<img alt="" class="alignnone size-full wp-image-3874" height="521" src="https://cdn.omegaxyz.com/2018/03/SE9.png" width="603"/>
+<img alt="" class="alignnone size-full wp-image-3873" height="304" src="https://cdn.omegaxyz.com/2018/03/SE8.png" width="601"/>
+<h1>References</h1>
+①<a href="https://wenku.baidu.com/view/718cb107aaea998fcc220e70.html">https://wenku.baidu.com/view/718cb107aaea998fcc220e70.html</a>
+
+②<a href="http://www.docin.com/p-1165870498.html">http://www.docin.com/p-1165870498.html</a>
+
+③<a href="http://blog.sina.com.cn/s/blog_75f397940101dgmj.html">http://blog.sina.com.cn/s/blog_75f397940101dgmj.html</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

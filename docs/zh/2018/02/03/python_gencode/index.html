@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python授权码生成器（密码生成器） · OmegaXYZ</title>
+  <meta name="description" content="有时候我们需要为自己的产品设置一些使用权限 ，这就需要随机授权码生成器。当然这是简单的随机生成器，像Adobe这种授权码是需要一定的加密算法生成，然后再验证授权码是否正确，而不是简单的生成。 本文主要介绍wxpython中简单控件的使用和随机字符串的生成，包括： ①文本框 self.text = wx.TextCtrl(panel, wx...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/02/03/python_gencode/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-02-03</div>
+        <h1>Python授权码生成器（密码生成器）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="article-content">有时候我们需要为自己的产品设置一些使用权限 ，这就需要随机授权码生成器。当然这是简单的随机生成器，像Adobe这种授权码是需要一定的加密算法生成，然后再验证授权码是否正确，而不是简单的生成。
+
+本文主要介绍wxpython中简单控件的使用和随机字符串的生成，包括：
+
+<strong>①文本框</strong>
+self.text = wx.TextCtrl(panel, wx.ID_ANY, pos=(0, 50), size=(484, 205), style=wx.TE_MULTILINE)
+<strong>②按钮</strong>
+button = wx.Button(panel, wx.ID_ANY, pos=(100, 255), size=(150, 50), label='生成')
+button.Bind(wx.EVT_BUTTON, self.GenPassword)
+<strong>③静态文字</strong>
+rev = wx.StaticText(panel, -1, "生成的密码长度：", pos=(5, 10))
+rev.SetForegroundColour("black")
+rev.SetBackgroundColour("") # 文字背景颜色，不输入为透明
+<strong>④选择框</strong>
+self.cb1 = wx.CheckBox(panel, label='区分大小写', pos=(380, 10))
+self.cb1.SetValue(1)
+<strong>⑤随机字符串用列表推导式即可</strong>
+
+主要功能：生成指定长度的授权码，区分大小写，查找上一个
+
+代码：
+<pre ><code class="language-python">import random
+import string
+import wx
+
+
+class InfoPanel(wx.Frame):
+    def __init__(self, parent, id):
+        wx.Frame.__init__(self, parent, id, "GenCode",  pos=(0, 0), size=(500, 380))
+        panel = wx.Panel(self, -1)
+        rev = wx.StaticText(panel, -1, "生成的密码长度：", pos=(5, 10))
+        rev.SetForegroundColour("black")
+        rev.SetBackgroundColour("")  # 文字背景颜色，不输入为透明
+        button = wx.Button(panel, wx.ID_ANY, pos=(100, 255), size=(150, 50), label='生成')
+        button.Bind(wx.EVT_BUTTON, self.GenPassword)
+        button2 = wx.Button(panel, wx.ID_ANY, pos=(250, 255), size=(150, 50), label='清空')
+        button2.Bind(wx.EVT_BUTTON, self.Clear)
+        button3 = wx.Button(panel, wx.ID_ANY, pos=(280, 5), size=(80, 30), label='复制到剪切板')
+        button3.Bind(wx.EVT_BUTTON, self.OnCopy)
+        button4 = wx.Button(panel, wx.ID_ANY, pos=(100, 305), size=(300, 30), label='上一个')
+        button4.Bind(wx.EVT_BUTTON, self.previous)
+        self.text = wx.TextCtrl(panel, wx.ID_ANY, pos=(0, 50), size=(484, 205), style=wx.TE_MULTILINE)
+        self.text2 = wx.TextCtrl(panel, wx.ID_ANY, pos=(110, 5), size=(150, 30))
+        self.text2.AppendText(str(8))
+        self.cb1 = wx.CheckBox(panel, label='区分大小写', pos=(380, 10))
+        self.cb1.SetValue(1)
+        self.count = 0
+        self.genPwd = ""
+        self.box = []
+
+    def GenPassword(self, event):
+        try:
+            self.text.Clear()
+            length = int(self.text2.GetValue())
+            numOfNum = random.randint(1, length - 1)
+            numOfLetter = length - numOfNum
+            # 选中numOfNum个数字
+            slcNum = [random.choice(string.digits) for i in range(numOfNum)]
+            # 选中numOfLetter个字母
+            slcLetter = [random.choice(string.ascii_letters) for i in range(numOfLetter)]
+            # 打乱这个组合
+            slcChar = slcNum + slcLetter
+            random.shuffle(slcChar)
+            # 生成密码
+            self.genPwd = ''.join([i for i in slcChar])
+            if self.cb1.GetValue() == 1:
+                self.text.AppendText(self.genPwd)
+                self.box.append(self.genPwd)
+            else:
+                self.text.AppendText(self.genPwd.lower())
+                self.box.append(self.genPwd.lower())
+            self.count += 1
+        except ValueError:
+            self.text.AppendText("输入错误，请输入大于1整数！！！")
+
+    def previous(self, event):
+        self.text.Clear()
+        try:
+            self.text.AppendText(self.box[self.count - 2])
+        except IndexError:
+            self.text.AppendText("无")
+
+    def Clear(self, event):
+        self.text.Clear()
+        self.text2.Clear()
+        self.count = 0
+        self.box = []
+
+
+    def OnCopy(self, event):
+        text_obj = wx.TextDataObject()
+        text_obj.SetText(self.text.GetValue())
+        if wx.TheClipboard.IsOpened() or wx.TheClipboard.Open():
+            wx.TheClipboard.SetData(text_obj)
+            wx.TheClipboard.Close()
+        dlg = wx.MessageDialog(self,
+                               '已经复制到剪切板', '复制到剪切板', wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
+
+
+class MainApp(wx.App):
+    def OnInit(self):
+        self.frame = InfoPanel(None, -1)
+        self.frame.Show(True)
+        self.SetTopWindow(self.frame)
+        return True
+
+
+if __name__ == '__main__':
+    app = MainApp(0)
+    app.MainLoop()
+</code></pre>
+效果图：
+
+<img class="alignnone size-full wp-image-3276" src="https://cdn.omegaxyz.com/2018/02/gencode.jpg" alt="" width="609" height="465" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

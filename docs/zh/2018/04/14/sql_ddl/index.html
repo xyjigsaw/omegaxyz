@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQL数据定义 · OmegaXYZ</title>
+  <meta name="description" content="平台：SQL Server 2008 SQL Server 是Microsoft 公司推出的关系型数据库管理系统。具有使用方便可伸缩性好与相关软件集成程度高等优点，可跨越从运行Microsoft Windows 98 的膝上型电脑到运行Microsoft Windows 2012 的大型多处理器的服务器等多种平台使用。 Microsoft...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/14/sql_ddl/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-14</div>
+        <h1>SQL数据定义</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>平台：SQL Server 2008</h1>
+SQL Server 是Microsoft 公司推出的关系型数据库管理系统。具有使用方便可伸缩性好与相关软件集成程度高等优点，可跨越从运行Microsoft Windows 98 的膝上型电脑到运行Microsoft Windows 2012 的大型多处理器的服务器等多种平台使用。
+
+Microsoft SQL Server 是一个全面的数据库平台，使用集成的商业智能 (BI)工具提供了企业级的数据管理。Microsoft SQL Server 数据库引擎为关系型数据和结构化数据提供了更安全可靠的存储功能，使您可以构建和管理用于业务的高可用和高性能的数据应用程序。
+<h1>基本语句</h1>
+<img class="alignnone size-full wp-image-4029" src="https://cdn.omegaxyz.com/2018/04/DDL.jpg" alt="" width="984" height="269" />
+<h1>SQL创建数据库</h1>
+包括名字、路径、大小、增长率
+<pre ><code class="language-mysql">CREATE DATABASE SPJ061
+ON PRIMARY
+(NAME=SPJ061_data,
+FILENAME='D:\SPJ\SPJ061_data.mdf',
+SIZE=4MB,
+MAXSIZE=30MB,
+FILEGROWTH=10%)
+LOG ON
+(NAME=SPJ061_log,
+FILENAME='D:\SPJ\SPJ061_log.ldf',
+SIZE=5MB,
+MAXSIZE=20MB,
+FILEGROWTH=1MB)
+</code></pre>
+<h1>SQL创建基本表，定义属性、约束条件</h1>
+<pre ><code class="language-mysql">CREATE TABLE S061
+(SNO CHAR(2) PRIMARY KEY,
+SNAME VARCHAR(20),
+STATUS SMALLINT,
+CITY VARCHAR(20),
+)
+
+CREATE TABLE P061
+(PNO CHAR(2) PRIMARY KEY,
+PNAME VARCHAR(20),
+COLOR CHAR(4),
+WEIGHT SMALLINT
+)
+
+CREATE TABLE J061
+(JNO CHAR(2) PRIMARY KEY,
+JNAME VARCHAR(20),
+CITY VARCHAR(20)
+)
+
+CREATE TABLE SPJ061
+(SNO CHAR(2),
+PNO CHAR(2),
+JNO CHAR(2),
+QTY SMALLINT,
+FOREIGN KEY(SNO) REFERENCES S061(SNO),
+FOREIGN KEY(PNO) REFERENCES P061(PNO),
+FOREIGN KEY(JNO) REFERENCES J061 (JNO))
+</code></pre>
+<h1>SQL创建索引</h1>
+例子：在教材表上，按书号降序创建一个唯一性的聚簇索引 IX_Bno
+<pre ><code class="language-mysql">CREATE UNIQUE CLUSTERED INDEX 索引名 ON 表名(属性 DESC);</code></pre>
+<h1>注意点</h1>
+①sql server在定义唯一性时，即创建了索引。
+
+②SQL创建时要注意关键字是否和属性名相同。
+
+③在写SQL语句是最好一个命令用一个窗口执行一次。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于WMD（词移距离）的句子相似度分析简介 · OmegaXYZ</title>
+  <meta name="description" content="word2vec word2vec是只有一个隐层的全连接神经网络,对语料中的所有词汇进行训练并生成相应的词向量（Word Embedding） WI 的大小是 VxN, V 是单词字典的大小, 每次输入是一个单词, N是设定的隐层大小。word2vec的模型通过一种神经网络语言模型（Neural Network Language Mode...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/11/22/wmd/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-11-22</div>
+        <h1>基于WMD（词移距离）的句子相似度分析简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="article-content"><h2><strong>word2vec</strong></h2>
+word2vec是只有一个隐层的全连接神经网络,对语料中的所有词汇进行训练并生成相应的词向量（Word Embedding）<em>WI</em> 的大小是<em>VxN, V</em>是单词字典的大小, 每次输入是一个单词, N是设定的隐层大小。word2vec的模型通过一种神经网络语言模型（Neural Network Language Model）
+
+<img class="alignnone size-full wp-image-5123" src="https://cdn.omegaxyz.com/2018/11/word2vec.png" alt="" width="800" height="446" />
+
+word2vec详解
+
+https://omegaxyz.com/2018/11/13/word2vec/
+<h2><strong>词袋模型（Bag of Words）</strong></h2>
+词袋模型（Bag-of-words model）是个在自然语言处理和信息检索(IR)下被简化的表达模型。此模型下，像是句子或是文件这样的文字可以用一个袋子装着这些词的方式表现，这种表现方式不考虑文法以及词的顺序。最近词袋模型也被应用在计算机视觉领域。词袋模型被广泛应用在文件分类，词出现的频率可以用来当作训练分类器的特征。关于”词袋”这个用字的由来可追溯到泽里格·哈里斯于1954年在Distributional Structure的文章。
+
+<strong>连续词袋模型（CBOW）</strong>
+<ol>
+ 	<li>移除前向反馈神经网络中非线性的hidden layer，直接将中间层的embedding layer与输出层的softmax layer连接；</li>
+ 	<li>忽略上下文环境的序列信息：输入的所有词向量均汇总到同一个embedding layer；</li>
+ 	<li>将future words纳入上下文环境</li>
+</ol>
+<strong>例子：苏宁易购/是/国内/著名/的/B2C/电商/之一</strong><img class="alignnone size-full wp-image-5130" src="https://cdn.omegaxyz.com/2018/11/BOW.png" alt="" width="1126" height="598" /><strong>词移距离（Word Mover’s Distance）</strong>
+
+<img class="alignnone wp-image-5134" src="https://cdn.omegaxyz.com/2018/11/wmd1.png" alt="" width="640" height="422" />
+
+<strong>举例：</strong>
+
+<strong>文档1: Obama speaks</strong> to the <strong>media</strong> in <strong>Illinois</strong>
+
+<strong>文档2: </strong>The <strong>President</strong> <strong>greets</strong> the <strong>press</strong> in <strong>Chicago</strong>
+
+先去除Stop-words，保留加粗的动词、名词
+
+<img class="alignnone size-full wp-image-5131" src="https://cdn.omegaxyz.com/2018/11/wmd2.png" alt="" width="662" height="325" />
+
+需要有一种约束，将文档1中的每个词，以不同的权重强制地分配到文档2的所有词上去。
+<h2><strong>WMD的优化</strong></h2>
+现在计算两个文档之间的 WMD 距离，如果用 k-NN来计算距离就非常耗时。如果当前待检查文档跟<strong>中心query文档</strong>的 WMD 下界已经大到可以确定它不在query 文档的 k-NN 列表里，那就直接扔掉而不用再花时间求当前文档的 WMD 距离了。
+
+<strong>Word Centroid Distance（WCD，定义在最后一个等号处，公式中的X是词向量， X是词向量组成的矩阵）：</strong>
+
+<img class="alignnone wp-image-5132" src="https://cdn.omegaxyz.com/2018/11/wmd3.png" alt="" width="554" height="357" />
+
+注意上述公式只需要用绝对值不等式与WMD约束定义计算即可。推导出的公式只需要进行矩阵运算，极大地减少了计算消耗。
+
+<strong>RWMD（Relaxed word moving distance ）</strong>
+
+先去掉一个约束，计算相应的WMD，最终取最大值。
+
+这两个 relax 过的优化问题的解，恰好对应于词向量矩阵的行空间和列空间上的最近邻问题，也是很好算的。最后定义 RWMD 为这两个 relaxed 优化问题的两个目标值中的最大值。
+<h2><strong>参考资料</strong></h2>
+Kusner M, Sun Y, Kolkin N, et al. From word embeddings to document distances[C]//International Conference on Machine Learning. 2015: 957-966.
+
+注意：本文章PPT为2018年机器学习课程期末作业</div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-3983">
+          <strong><a href="http://happywheels4.com" rel="nofollow">happy wheels</a></strong>
+          <time>2018-12-01 18:19:58</time>
+          <div>The calculations you share are useful.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

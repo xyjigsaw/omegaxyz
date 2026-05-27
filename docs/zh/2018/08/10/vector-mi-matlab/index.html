@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>列向量互信息计算通用MATLAB代码 · OmegaXYZ</title>
+  <meta name="description" content="互信息的定义 正式地，两个离散随机变量 X 和 Y 的互信息可以定义为： 其中 p(x,y) 是 X 和 Y 的联合概率分布函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率分布函数。 在连续随机变量的情形下，求和被替换成了二重定积分： 其中 p(x,y) 当前是 X 和 Y 的联合概率密度函数，而p(x)和p(y)分别是 X 和...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/08/10/vector-mi-matlab/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-08-10</div>
+        <h1>列向量互信息计算通用MATLAB代码</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content"><h2><strong>互信息的定义</strong></h2>
+<strong>正式地，两个离散随机变量 X 和 Y 的互信息可以定义为：</strong>
+
+其中 p(x,y) 是 X 和 Y 的联合概率分布函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率分布函数。
+
+<img class="wp-image-4864 size-full aligncenter" src="https://cdn.omegaxyz.com/2018/08/MI1.png" alt="" width="341" height="68" />
+
+在连续随机变量的情形下，求和被替换成了二重定积分：
+
+<img class="aligncenter wp-image-4865 size-full" src="https://cdn.omegaxyz.com/2018/08/MI2.png" alt="" width="385" height="52" />
+
+其中 p(x,y) 当前是 X 和 Y 的联合概率密度函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率密度函数。
+
+互信息量I(xi;yj)在联合概率空间P(XY)中的统计平均值。 平均互信息I(X;Y)克服了互信息量I(xi;yj)的随机性,成为一个确定的量。如果对数以 2 为基底，互信息的单位是bit。
+
+直观上，互信息度量 X 和 Y 共享的信息：它度量知道这两个变量其中一个，对另一个不确定度减少的程度。例如，如果 X 和 Y 相互独立，则知道 X 不对 Y 提供任何信息，反之亦然，所以它们的互信息为零。在另一个极端，如果 X 是 Y 的一个确定性函数，且 Y 也是 X 的一个确定性函数，那么传递的所有信息被 X 和 Y 共享：知道 X 决定 Y 的值，反之亦然。因此，在此情形互信息与 Y（或 X）单独包含的不确定度相同，称作 Y（或 X）的熵。而且，这个互信息与 X 的熵和 Y 的熵相同。（这种情形的一个非常特殊的情况是当 X 和 Y 为相同随机变量时。）
+
+互信息是 X 和 Y 联合分布相对于假定 X 和 Y 独立情况下的联合分布之间的内在依赖性。于是互信息以下面方式度量依赖性：I(X; Y) = 0 当且仅当 X 和 Y 为独立随机变量。从一个方向很容易看出：当 X 和 Y 独立时，p(x,y) = p(x) p(y)，因此：
+
+<img class="wp-image-4866 aligncenter size-full" src="https://cdn.omegaxyz.com/2018/08/MI3.png" alt="" width="250" height="59" />
+
+此外，互信息是非负的（即 I(X;Y) ≥ 0; 见下文），而且是对称的（即 I(X;Y) = I(Y;X)）。
+<h2><strong>通用MATLAB代码</strong></h2>
+主函数main.m
+<pre ><code class="language-matlab">clc
+u1 = rand(4,1);
+u2 = [2;32;6666;5];
+wind_size = size(u1,1);
+mi = calmi(u1, u2, wind_size);</code></pre>
+calmi.m
+<pre ><code class="language-matlab">%计算两列向量之间的互信息
+%u1：输入计算的向量1
+%u2：输入计算的向量2
+%wind_size：向量的长度
+function mi = calmi(u1, u2, wind_size)
+x = [u1, u2];
+n = wind_size;
+[xrow, xcol] = size(x);
+bin = zeros(xrow,xcol);
+pmf = zeros(n, 2);
+for i = 1:2
+    minx = min(x(:,i));
+    maxx = max(x(:,i));
+    binwidth = (maxx - minx) / n;
+    edges = minx + binwidth*(0:n);
+    histcEdges = [-Inf edges(2:end-1) Inf];
+    [occur,bin(:,i)] = histc(x(:,i),histcEdges,1); %通过直方图方式计算单个向量的直方图分布
+    pmf(:,i) = occur(1:n)./xrow;
+end
+%计算u1和u2的联合概率密度
+jointOccur = accumarray(bin,1,[n,n]);  %（xi，yi）两个数据同时落入n*n等分方格中的数量即为联合概率密度
+jointPmf = jointOccur./xrow;
+Hx = -(pmf(:,1))'*log2(pmf(:,1)+eps);
+Hy = -(pmf(:,2))'*log2(pmf(:,2)+eps);
+Hxy = -(jointPmf(:))'*log2(jointPmf(:)+eps);
+MI = Hx+Hy-Hxy;
+mi = MI/sqrt(Hx*Hy);</code></pre>
+<h2><strong>互信息概述请跳转至</strong></h2>
+https://omegaxyz.com/2018/08/02/mi/
+<h2><strong>互信息特征选择请跳转至</strong></h2>
+https://omegaxyz.com/2018/08/03/mifs/
+
+&nbsp;</div>
+        <section class="comments"><h2>评论 (2)</h2>
+        <div class="comment" id="comment-24488">
+          <strong>奔奔</strong>
+          <time>2021-10-15 10:13:44</time>
+          <div>好用，谢谢！</div>
+        </div>
+        
+        <div class="comment" id="comment-24546">
+          <strong>王杰</strong>
+          <time>2021-10-25 09:04:34</time>
+          <div>MI是求出的互信息，那么mi是什么呢？谢谢</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

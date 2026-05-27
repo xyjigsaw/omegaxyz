@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decoration mode C++ implementation (decorator) · OmegaXYZ</title>
+  <meta name="description" content="Introduction Dynamically add some additional responsibilities to an object. In terms of adding functionality, the decoration mode is more flexible than subclassing. Motivation Sometimes we want to add some functionality to an object rather than to the entire class. Using the inheritance mechanism is an effective way to add functionality, but it is not flexible enough and users cannot control the way and timing of adding functionality to components. A more flexible way is to embed the component into another object and add functionality to it. We call this embedded object a decoration. This decoration...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/08/02/decorator/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-08-02</div>
+        <h1>Decoration mode C++ implementation (decorator)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/software-engineering/index.html">软件工程</a><a class="pill" href="../../../../tag/design-pattern/index.html">设计模式</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>
+<ul>
+<li>Dynamically add some additional responsibilities to an object.</li>
+<li>In terms of adding functionality, the decoration mode is more flexible than subclassing.</li>
+</ul>
+<h2><strong>motivation</strong></h2>
+<ul>
+<li>Sometimes we want to add some functionality to an object rather than to the entire class.</li>
+<li>Using the inheritance mechanism is an effective way to add functionality, but it is not flexible enough and users cannot control the way and timing of adding functionality to components.</li>
+<li>A more flexible way is to embed the component into another object and add functionality to it. We call this embedded object a decoration.</li>
+<li>This decoration is consistent with the interface of the component it is decorated, so it is transparent to clients using the component.</li>
+</ul>
+<h2><strong>applicability</strong></h2>
+<ul>
+<li>Add responsibilities to individual objects dynamically and transparently without affecting other objects.</li>
+<li>Address those responsibilities that can be revoked.</li>
+<li>When the method of generating subclasses cannot be used for expansion.<ul>
+<li>There may be a large number of independent extensions, and a large number of subclasses will be generated to support each combination, causing the number of subclasses to explode.</li>
+<li>The class definition is hidden, or the class definition cannot be used to generate subclasses.</li>
+</ul>
+</li>
+</ul>
+<h2><strong>structure</strong></h2>
+<img alt="" class="alignnone wp-image-5931" height="393" src="https://cdn.omegaxyz.com/2019/08/decorator1.png" width="593"/>
+<h3><strong>Participant in decorator mode</strong></h3>
+<ul>
+<li>Component
+<ul>
+<li>Define an object interface to dynamically add responsibilities to these objects.</li>
+</ul>
+</li>
+<li>ConcreteComponent
+<ul>
+<li>Define an object and add some responsibilities to this object.</li>
+</ul>
+</li>
+<li>Decorator
+<ul>
+<li>Maintain a pointer to the Component object and define an interface consistent with the Component interface.</li>
+</ul>
+</li>
+<li>ConcreteDecorator
+<ul>
+<li>Add responsibilities to components.</li>
+</ul>
+</li>
+</ul>
+<strong> </strong>
+<h3><strong>Decorative mode collaboration</strong></h3>
+<ul>
+<li>The Decorator forwards the request to its Component object and may perform some additional actions before and after forwarding the request.</li>
+</ul>
+<h3><strong>Effect</strong></h3>
+<ul>
+<li>More flexible than static inheritance</li>
+<li>Avoid classes high in the hierarchy that have too many traits</li>
+<li>Decorator is not the same as its Component</li>
+<li>There are many small objects</li>
+</ul>
+<h3><strong>Note</strong></h3>
+<ul>
+<li>If there is only one ConcreteComponent class but no Component class, the Decorator class can be a subclass of ConcreteComponent.</li>
+<li>In the same way, if there is only one ConcreteDecorator class, then there is no need to create a separate Decorator class, but Decorator and ConcreteDecorator can be merged into one class.</li>
+</ul>
+<h2><strong>Example</strong></h2>Given two initial car classes, such as Toyota and Volvo, use trim modes to add new functions to them respectively, where Toyota can navigate and autonomously drive, and Volvo can navigate and voice control.<h3><strong>UML diagram</strong></h3>
+<img alt="" class="alignnone wp-image-5932" height="576" src="https://cdn.omegaxyz.com/2019/08/decorator2.png" width="817"/>
+<h3><strong>Code and functions</strong></h3>
+Component：<strong>Car</strong><strong>kind</strong>
+
+ConcreteComponent：<strong>TOYOTA</strong><strong>、</strong><strong>VOLOVO</strong><strong>kind</strong>
+
+Decorator：<strong>Function</strong><strong>kind</strong>
+
+ConcreteDecorator：<strong>Navigator</strong><strong>、</strong><strong>SelfDrive</strong><strong>、</strong><strong>VoiceControl</strong><strong>kind</strong>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+
+/*
+给定两种初始的汽车类，例如丰田和沃尔沃，
+利用装饰模式分别给它们添加新的功能，
+其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+*/
+
+class Car{//Component
+public:
+    virtual void showInfo() = 0;
+};
+
+class TOYOTA: public Car{
+public:
+    TOYOTA(){}
+    TOYOTA(string name){
+        this-&gt;name = name;
+    }
+    void showInfo(){
+        cout&lt;&lt;name&lt;&lt;endl;
+    }
+private:
+    string name;
+};
+
+class  VOLOVO: public Car{
+public:
+    VOLOVO(){}
+    VOLOVO(string name){
+        this-&gt;name = name;
+    }
+    void showInfo(){
+        cout&lt;&lt;name&lt;&lt;endl;
+    }
+private:
+    string name;
+};
+
+class Function: public Car{//Decorator
+protected:
+    Car* car;
+public:
+    void Decorate(Car* car){
+        this-&gt;car = car;
+    }
+    void showInfo(){
+        if(car != NULL)car-&gt;showInfo();
+    }
+};
+
+//其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+
+class Navigator: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"导航 ";
+        Function::showInfo();
+    }
+};
+
+class SelfDrive: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"自动驾驶 ";
+        Function::showInfo();
+    }
+};
+
+class VoiceControl: public Function{
+public:
+    void showInfo(){
+        cout&lt;&lt;"语音控制 ";
+        Function::showInfo();
+    }
+};
+
+
+//其中丰田可以导航和自动驾驶，沃尔沃可以导航和语音控制。
+int main(){
+    Car* toyota = new TOYOTA("丰田卡罗拉");
+    Navigator* na = new Navigator();
+    SelfDrive* sd = new SelfDrive();
+    na-&gt;Decorate(toyota);
+    sd-&gt;Decorate(na);
+    sd-&gt;showInfo();
+    cout&lt;&lt;endl;
+    
+    Car* volovo = new VOLOVO("沃尔沃S90");
+    Navigator* na2 = new Navigator();
+    VoiceControl* vc = new VoiceControl();
+    na2-&gt;Decorate(volovo);
+    vc-&gt;Decorate(na2);
+    vc-&gt;showInfo();
+
+    return 0;
+}</code></pre>
+<h3><strong>Summary</strong></h3>①In this experiment, the decoration mode was mastered and coded through the example of Car.
+
+② Note that if there is only one ConcreteComponent class but no Component class, then the Decorator class can be a subclass of ConcreteComponent. In this experiment,<strong>There are two specific categories: TOYOTA and VOLOVO</strong>, so a<strong>Component's Car class to define the interface</strong>.
+
+③It can be seen from ② that if there is only one ConcreteDecorator class, then there is no need to create a separate Decorator class, but Decorator and ConcreteDecorator can be merged into one class. In this experiment there are<strong>Navigator、SelfDrive、VoiceControl</strong>Three specific decoration classes.
+
+④ In the client, the last added responsibility is used to package the car object, so the result needs to be displayed by the last decorated instance.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

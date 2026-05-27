@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++运算符重载详解 · OmegaXYZ</title>
+  <meta name="description" content="为什么要对运算符进行重载 C++预定义中的运算符的操作对象只局限于基本的内置数据类型，但是对于我们自定义的类型（类）是没有办法操作的。但是大多时候我们需要对我们定义的类型进行类似的运算，这个时候就需要我们对这么运算符进行重新定义，赋予其新的功能，以满足自身的需求。 C++运算符重载的实质 运算符重载的实质就是函数重载或函数多态。运算符重载...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/10/10/cpp_operator_reload/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-10-10</div>
+        <h1>C++运算符重载详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h1>为什么要对运算符进行重载</h1>
+C++预定义中的运算符的操作对象只局限于基本的内置数据类型，但是对于我们自定义的类型（类）是没有办法操作的。但是大多时候我们需要对我们定义的类型进行类似的运算，这个时候就需要我们对这么运算符进行重新定义，赋予其新的功能，以满足自身的需求。
+<h1>C++运算符重载的实质</h1>
+运算符重载的实质就是函数重载或函数多态。运算符重载是一种形式的C++多态。目的在于让人能够用同名的函数来完成不同的基本操作。要重载运算符，需要使用被称为运算符函数的特殊函数形式，运算符函数形式：operatorp（argument-list）//operator 后面的'p'为要重载的运算符符号。
+<h1>运算符重载的规则</h1>
+（1）为了防止用户对标准类型进行运算符重载，C++规定重载后的运算符的操作对象必须至少有一个是用户定义的类型
+
+这是什么意思呢？
+
+比如说现在有两个数：int number1,int number2，
+
+那么number1+number2 求的是两个数的和，
+
+但是如果你重载以后让着两个数相加为他们的乘积，这肯定是不合乎逻辑的。
+
+可能重载以后会有二义性,导致程序不知道该执行哪一个（是自带的的还是重载后的函数）
+
+（2）使用运算符不能违法运算符原来的句法规则。如不能将% 重载为一个操作数，
+
+例如：
+
+int index；
+
+%index；这种是不被允许的
+
+（3）不能修改运算符原先的优先级。
+
+（4）不能创建一个新的运算符，例如不能定义operator** （···）来表示求幂
+
+（5）不能进行重载的运算符：成员运算符，作用域运算符，条件运算符，sizeof运算符，typeid（一个RTTI运算符），const_cast、dynamic_cast、reinterpret_cast、
+
+static_cast强制类型转换运算符
+
+（6）大多数运算符可以通过成员函数和非成员函数进行重载但是下面这四种运算符只能通过成函数进行重载：
+
+= 赋值运算符，（）函数调用运算符，[ ]下标运算符，-&gt;通过指针访问类成员的运算符。
+
+（7）除了上述的规则，其实我们还应该注意在重载运算符的时候遵守一些明智的规则：例如：不要将+运算符重载为交换两个对象的值。
+
+重载运算符的两种形式：
+
+重载运算符有两种方式，即：
+
+重载为类的成员函数||重载为类的非成员函数。
+
+重载为类的非成员函数的时候:
+
+通常我们都将其声明为友元函数，因为大多数时候重载运算符要访问类的私有数据，（当然也可以设置为非友元非类的成员函数。但是非友元又不是类的成员函数是没有办法直接访问类的私有数据的），如果不声明为类的友元函数，而是通过在此函数中调用类的公有函数来访问私有数据会降低性能。所以一般都会设置为类的友元函数，这样我们就可以在此非成员函数中访问类中的数据了。
+<h1>可以用作重载的运算符</h1>
+算术运算符：+,-,*,/,%,++,--;
+位操作运算符：&amp;,|,~,^,＜＜,＞＞
+逻辑运算符：!,&amp;&amp;,||;
+比较运算符：＜,＞,＞=,＜=,==,!=;
+赋值运算符：=,+=,-=,*=,/=,%=,&amp;=,|=,^=,＜＜=,＞＞=;
+其他运算符：[],(),-＞,,(逗号运算符),new,delete,new[],delete[],-＞*。
+下列运算符不允许重载：
+.,.*,::,?:
+<h1>代码详解</h1>
+（重载了基本运算符和&lt;&lt;运算符，后者是为了输出类成员的值。四则运算符提供两种重载，友元函数重载被注释掉了）
+<pre  title="运算符重载实例"><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+class A
+{
+public:
+    friend ostream&amp; operator&lt;&lt;(ostream&amp; os, const A&amp; app)
+    {
+        os&lt;&lt;app.data;
+        return os;
+    }//次函数用来重载&lt;&lt;运算符使其输出A类的值
+
+    A(int d):data(d){}
+    A operator+(A&amp;);
+    A operator-(A&amp;);
+    A operator*(A&amp;);
+    A operator/(A&amp;);
+    A operator%(A&amp;);
+
+   /* friend A operator+(A&amp;,A&amp;);
+    friend A operator-(A&amp;,A&amp;);
+    friend A operator*(A&amp;,A&amp;);
+    friend A operator/(A&amp;,A&amp;);
+    friend A operator%(A&amp;,A&amp;);*/
+
+private:
+    int data;
+};
+
+
+//作为成员函数形式进行重载
+A A::operator+(A &amp;a)
+{
+    return A(data+a.data);
+}
+
+A A::operator-(A &amp;a)
+{
+    return A(data-a.data);
+}
+
+A A::operator*(A &amp;a)
+{
+    return A(data*a.data);
+}
+
+A A::operator/(A &amp;a)
+{
+    return A(data/a.data);
+}
+
+A A::operator%(A &amp;a)
+{
+    return A(data%a.data);
+}
+
+
+
+/*
+//作为友元函数进行重载
+A operator+(A &amp;a1,A &amp;a2)
+{
+ return A(a1.data+a2.data);
+}
+
+A operator-(A &amp;a1,A &amp;a2)
+{
+ return A(a1.data+a2.data);
+}
+
+A operator*(A &amp;a1,A &amp;a2)
+{
+ return A(a1.data+a2.data);
+}
+
+A operator/(A &amp;a1,A &amp;a2)
+{
+ return A(a1.data+a2.data);
+}
+
+A operator%(A &amp;a1,A &amp;a2)
+{
+ return A(a1.data+a2.data);
+}
+*/
+
+int main()
+{
+    A a1(1),a2(2),a3(3);
+    a1=a2+a3;
+    cout&lt;&lt;a1&lt;&lt;endl;
+    //a1=a2.operator+(a3);
+    //cout&lt;&lt;a1&lt;&lt;endl;
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

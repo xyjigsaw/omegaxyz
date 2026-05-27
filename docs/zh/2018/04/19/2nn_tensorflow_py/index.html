@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorFlow神经网络函数拟合实例（基于Python） · OmegaXYZ</title>
+  <meta name="description" content="本文通过TensorFlow生成双层神经网络，对二次函数进行拟合。 双层神经网络如下图所示。 weights代表神经元的权重，activation_function是激活函数sgn或sigmoid或relu函数 构建神经网络的函数 主要步骤： ①生成测试数据集，利用numpy来生成坐标轴的点，并在点上添加噪音。 ②添加占位符 ③添加隐藏层...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/19/2nn_tensorflow_py/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-19</div>
+        <h1>TensorFlow神经网络函数拟合实例（基于Python）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="article-content">本文通过TensorFlow生成双层神经网络，对二次函数进行拟合。
+双层神经网络如下图所示。
+
+<img class="alignnone wp-image-7469 size-full" src="https://cdn.omegaxyz.com/2018/04/2layer-NN.png" alt="" width="425" height="344" />
+
+weights代表神经元的权重，activation_function是激活函数sgn或sigmoid或relu函数
+
+构建神经网络的函数
+<pre ><code class="language-python">def add_layer(inputs, in_size, out_size, activation_function=None):
+    Weights = tf.Variable(tf.random_normal([in_size, out_size]))
+    biases = tf.Variable(tf.zeros([1, out_size]) + 0.1)
+    Wx_plus_b = tf.matmul(inputs, Weights) + biases
+    if activation_function is None:
+        outputs = Wx_plus_b
+    else:
+        outputs = activation_function(Wx_plus_b)
+    return outputs</code></pre>
+<strong>主要步骤：</strong>
+
+①生成测试数据集，利用numpy来生成坐标轴的点，并在点上添加噪音。
+②添加占位符
+③添加隐藏层与输出层
+④定义loss function，计算误差，并用梯度下降使得误差最小
+⑤训练数据，拟合曲线
+
+<strong>源码：</strong>
+<pre ><code class="language-default">from __future__ import print_function
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+def add_layer(inputs, in_size, out_size, activation_function=None):
+    Weights = tf.Variable(tf.random_normal([in_size, out_size]))
+    biases = tf.Variable(tf.zeros([1, out_size]) + 0.1)
+    Wx_plus_b = tf.matmul(inputs, Weights) + biases
+    if activation_function is None:
+        outputs = Wx_plus_b
+    else:
+        outputs = activation_function(Wx_plus_b)
+    return outputs
+
+# 数据集的生成，利用np来生成-1~2的300个点
+x_data = np.linspace(-1, 2, num=300)[:, np.newaxis]
+# 添加噪音
+noise = np.random.normal(0, 0.05, x_data.shape)
+# 计算Y轴的值
+y_data = np.square(x_data) - 0.5 + noise
+
+# 添加占位符
+xs = tf.placeholder(tf.float32, [None, 1])
+ys = tf.placeholder(tf.float32, [None, 1])
+
+# 添加隐藏层
+l1 = add_layer(xs, 1, 10, activation_function=tf.nn.relu)
+# 添加输出层
+prediction = add_layer(l1, 10, 1, activation_function=None)
+# 由此生成了两层神经网络
+
+# 计算误差，并用梯度下降使得误差最小
+loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction),
+                     reduction_indices=[1]))
+train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
+
+# important step
+init = tf.initialize_all_variables()
+sess = tf.Session()
+sess.run(init)
+
+# 画出原始值
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.scatter(x_data, y_data)
+plt.ion()
+plt.show()
+lines = None
+time.sleep(4)
+# 显示拟合
+for i in range(1000):
+    sess.run(train_step, feed_dict={xs: x_data, ys: y_data})
+    try:
+            ax.lines.remove(lines[0])
+    except Exception:
+        pass
+    prediction_value = sess.run(prediction, feed_dict={xs: x_data})
+    lines = ax.plot(x_data, prediction_value, 'r-', lw=5)
+    plt.pause(0.1)
+writer = tf.train.SummaryWriter("logs/", sess.graph)
+</code></pre>
+<strong>结果：</strong>
+
+<img class="alignnone size-full wp-image-4073" src="https://cdn.omegaxyz.com/2018/04/TensorFlow1.gif" alt="" width="648" height="590" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

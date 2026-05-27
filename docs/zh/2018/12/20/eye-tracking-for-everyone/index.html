@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于移动设备与CNN的眼动追踪技术简介 · OmegaXYZ</title>
+  <meta name="description" content="眼动追踪是一项科学应用技术，用户无需与交互设备物理接触即可发送信息与接收反馈。从原理上看，眼动追踪主要是研究眼球运动信息的获取、建模和模拟，用途颇广。而获取眼球运动信息的设备除了红外设备之外，还可以是图像采集设备，甚至一般电脑或手机上的摄像头，其在软件的支持下也可以实现眼球跟踪。 下面说的这篇论文是MIT2016年在CVPR上发的一篇论文...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/20/eye-tracking-for-everyone/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-20</div>
+        <h1>基于移动设备与CNN的眼动追踪技术简介</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/cnn/index.html">CNN</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="article-content">眼动追踪是一项科学应用技术，用户无需与交互设备物理接触即可发送信息与接收反馈。从原理上看，眼动追踪主要是研究眼球运动信息的获取、建模和模拟，用途颇广。而获取眼球运动信息的设备除了红外设备之外，还可以是图像采集设备，甚至一般电脑或手机上的摄像头，其在软件的支持下也可以实现眼球跟踪。
+
+下面说的这篇论文是MIT2016年在CVPR上发的一篇论文。论文主要是基于移动设备的眼动追踪技术，使用了卷积神经网络来预测视点。
+
+<strong>使用移动设备进行眼动追踪技术能提供许多好处:</strong>
+<ul>
+ 	<li>(1)广泛使用更多的超过三分之一的世界人口估计智能手机在2019年,远远超过台式机或笔记本用户的数量;</li>
+ 	<li>(2)技术升级的采用率高——很大一部分人拥有最新的硬件，可以实时使用计算成本高昂的方法，如卷积神经网络(CNNs);</li>
+ 	<li>(3)移动设备上相机的大量使用导致相机技术的快速发展和部署;</li>
+ 	<li>(4)相机相对于屏幕的固定位置减少了未知参数的数量。</li>
+</ul>
+<img class="alignnone  wp-image-5241" src="https://cdn.omegaxyz.com/2018/12/eyetracking4everyone4-e1545277146442.png" alt="" width="605" height="406" />
+
+作者开发了在移动设备上收集严冬追踪数据的iOS软件，可以记录并上传数据，名字叫GazeCapture，有三个特性：
+<ul>
+ 	<li>（1）可扩展</li>
+ 	<li>（2）可靠的</li>
+ 	<li>（3）产生大的可变性。</li>
+</ul>
+其中，可变性：为了学习强大的眼动追踪模型中，数据的显着变化很重要。这种可变性对于实现高精度无校准眼动追踪至关重要。鉴于我们使用众包（crowdsourcing platform），期望拥有姿势，外观和光照的变化很大。其次，要求参与人员不断移动头部和头与手机之间的距离。最后，要求参与人员每次都要改变移动设备的方向60点。可以使用内置传感器检测此更改在设备上。这改变了相对位置相机和屏幕提供进一步的可变性。
+
+为了关联每个手机设备里的AMT任务（手机此次数据的活动），每个工作人员随后键入了AMT中的唯一代码进入他们的移动应用。点位置都是随机来自13个固定location（loc），并通过固定loc学习calibration的影响。
+
+为了证明数据的可变性，作者使用了X. Zhang, Y. Sugano, M. Fritz, and A. Bulling. Appearance-based gaze estimation in the wild的方法对每一帧来估计头部姿势h和凝视方向g，在GazeCapture MPIIGaze和TabletGaze上绘制h和g的分布作。虽然我们的数据集包含一个类似的总体分布h与现有数据集相比，异常值的比例明显更大。
+
+<img class="alignnone  wp-image-5240" src="https://cdn.omegaxyz.com/2018/12/eyetracking4everyone3.png" alt="" width="565" height="592" />
+
+论文目标是设计一个通过一张图片就能预测视点的鲁棒模型，采用CNN。
+
+输入包括左眼,右眼,脸的原始帧图像检测。输出是距离相机的距离，单位是厘米。
+
+<img class="alignnone  wp-image-5239" src="https://cdn.omegaxyz.com/2018/12/eyetracking4everyone2.png" alt="" width="755" height="345" />
+
+为了估测模型的泛化能力（通过calibration-free），得出一下结论：无约束的眼睛追踪，以及消融研究。
+<ul>
+ 	<li>error：平均欧几里得距离误差；</li>
+ 	<li>dots error：帧平均预测误差；</li>
+</ul>
+<img class="alignnone  wp-image-5238" src="https://cdn.omegaxyz.com/2018/12/eyetracking4everyone1.png" alt="" width="421" height="235" />
+
+论文：Krafka K, Khosla A, Kellnhofer P, et al. Eye Tracking for Everyone[C]// Computer Vision &amp; Pattern Recognition. 2016.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

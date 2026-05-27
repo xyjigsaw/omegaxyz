@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>超前进位加法器延时分析 · OmegaXYZ</title>
+  <meta name="description" content="超前进位加法器(carry look ahead adder)是对普通的全加器进行改良而设计成的并行加法器，主要是针对普通全加器串联时互相进位产生的延迟进行了改良。超前进位加法器是通过增加了一个不是十分复杂的逻辑电路来做到这点的。 具体实现过程请看 百度百科： https://baike.baidu.com/item/%E8%B6%85%...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/01/carry_look_ahead_adder/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-01</div>
+        <h1>超前进位加法器延时分析</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/digital-logic/index.html">数字逻辑</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><div class="lemma-summary">
+<div class="para">        超前进位加法器(carry look ahead adder)是对普通的全加器进行改良而设计成的并行加法器，主要是针对普通全加器串联时互相进位产生的延迟进行了改良。超前进位加法器是通过增加了一个不是十分复杂的逻辑电路来做到这点的。</div>
+<div><img class="alignnone  wp-image-3897" src="https://cdn.omegaxyz.com/2018/03/ALU.png" alt="" width="854" height="479" /></div>
+</div>
+<div class="configModuleBanner"></div>
+<div class="lemmaWgt-lemmaCatalog">
+<div class="lemma-catalog">具体实现过程请看</div>
+<div class="lemma-catalog">百度百科：</div>
+<div class="lemma-catalog"><a href="https://baike.baidu.com/item/%E8%B6%85%E5%89%8D%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E5%99%A8/1586381">https://baike.baidu.com/item/%E8%B6%85%E5%89%8D%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E5%99%A8/1586381</a></div>
+</div>
+<div></div>
+<div>下面通过具体的例题来解释。</div>
+<div>
+
+<b>1.</b><b>设有</b><b>n</b><b>位数据相加，采用串行进位方法，设低位向高位的进位延迟时间为</b><b>t1</b><b>，</b><b>1</b><b>个全加器完成加法的时间为</b><b>t2</b><b>，那么一次加法运算需要的时间为</b><b>————</b><b>。（</b><b>(n-1)t1+t2</b><b>）</b>
+
+<img class="alignnone size-full wp-image-3895" src="https://cdn.omegaxyz.com/2018/03/ALU3.jpg" alt="" width="833" height="662" />
+
+<b>2.</b><b>某计算机字长</b><b>64</b><b>位，加法器每</b><b>4</b><b>位构成</b><b>1</b><b>个小组，每</b><b>4</b><b>个小组构成</b><b>1</b><b>个大组，全加器进位延迟时间为</b><b>20ns</b><b>，求和延迟时间为</b><b>30ns</b><b>，小组内并行进位的延迟时间，大组内和大组间的并行进位的延迟时间均为</b><b>20ns</b><b>，请回答完成一次加法运算的时间：</b>
+
+<b>   </b><b>(1)</b><b>采用串行进位</b>
+
+<b>   </b><b>(2)</b><b>小组内采用并行进位，小组间串行进位</b>
+
+<b>   </b><b>(3)</b><b>采用两级分组，小组内并行进位，大组内也并行进位，大组间串行进位</b>
+
+<b>   </b><b>(4)</b><b>采用两级分组，小组内、大组内和大组间均采用并行进位</b>
+
+<img class="alignnone size-full wp-image-3896" src="https://cdn.omegaxyz.com/2018/03/ALU4.jpg" alt="" width="901" height="355" />
+
+<b>(1)=63</b><b>位串行进位时间</b><b>+</b><b>加法时间</b><b>=63*20+30=1290ns</b>
+
+<b>(2)</b><b>小组内采用并行进位，小组间串行进位</b>
+
+<b>  </b><b>=</b><b>小组串行进位</b><b>+</b><b>加法时间</b><b>=15*20+30=330ns</b>
+
+<b>(3)</b><b>采用两级分组，小组内并行进位，大组内也并行进位，大组间串行进位</b>
+
+<b>  </b><b>=</b><b>小组形成</b><b>P</b><b>·</b><b>G</b><b>时间</b><b>+</b><b>大组间串行进位</b><b>+</b><b>加法时间  </b>
+
+<b>  </b><b>=20+4*20+30=130ns</b>
+
+<b>(4)</b><b>采用两级分组，小组内、大组内和大组间均采用并行进位</b>
+
+<b>  </b><b>= </b><b>产生</b><b>P</b><b>·</b><b>G</b><b>时间</b><b>+</b><b>大组间进位</b><b>+</b><b>第</b><b>4</b><b>大组进位延迟时间</b><b>+</b><b>加法时间</b>
+
+<b>  </b><b>= 20+20+20+30=90ns</b>
+
+&nbsp;
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

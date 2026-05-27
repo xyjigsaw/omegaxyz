@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++头文件解释 · OmegaXYZ</title>
+  <meta name="description" content="作为学习参考，摘自百度文库 传统 C++ #include &lt;assert.h&gt; //设定插入点 #include &lt;ctype.h&gt; //字符处理 #include &lt;errno.h&gt; //定义错误码 #include &lt;float.h&gt; //浮点数处理 #include &lt;fstream.h&gt; //文件输入／输出 #include &lt;...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/22/cppheadexp/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-22</div>
+        <h1>C++头文件解释</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="article-content">作为学习参考，摘自百度文库
+
+<strong>传统 C++</strong>
+#include &lt;assert.h&gt;　　　　//设定插入点
+#include &lt;ctype.h&gt;　　　　 //字符处理
+#include &lt;errno.h&gt;　　　　 //定义错误码
+#include &lt;float.h&gt;　　　　 //浮点数处理
+#include &lt;fstream.h&gt;　　　 //文件输入／输出
+#include &lt;iomanip.h&gt;　　　 //参数化输入／输出
+#include &lt;iostream.h&gt;　　　//数据流输入／输出
+#include &lt;limits.h&gt;　　　　//定义各种数据类型最值常量
+#include &lt;locale.h&gt;　　　　//定义本地化函数
+#include &lt;math.h&gt;　　　　　//定义数学函数
+#include &lt;stdio.h&gt;　　　　 //定义输入／输出函数
+#include &lt;stdlib.h&gt;　　　　//定义杂项函数及内存分配函数
+#include &lt;string.h&gt;　　　　//字符串处理
+#include &lt;strstrea.h&gt;　　　//基于数组的输入／输出
+#include &lt;time.h&gt;　　　　　//定义关于时间的函数
+#include &lt;wchar.h&gt;　　　　 //宽字符处理及输入／输出
+#include &lt;wctype.h&gt;　　　　//宽字符分类
+<strong>标准 C++　<em>（同上的不再注释）</em></strong>
+#include &lt;algorithm&gt;　　　 //STL 通用算法
+#include &lt;bitset&gt;　　　　　//STL 位集容器
+#include &lt;cctype&gt;         //字符处理
+#include &lt;cerrno&gt;          //定义错误码
+#include &lt;clocale&gt;         //定义本地化函数
+#include &lt;cmath&gt;           //定义数学函数
+#include &lt;complex&gt;　　　　 //复数类
+#include &lt;cstdio&gt;            //定义输入／输出函数
+#include &lt;cstdlib&gt;             //定义杂项函数及内存分配函数
+#include &lt;cstring&gt;              //字符串处理
+#include &lt;ctime&gt;            　//定义关于时间的函数
+#include &lt;deque&gt;　　　　　 //STL 双端队列容器
+#include &lt;exception&gt;　　　 //异常处理类
+#include &lt;fstream&gt;          //文件输入／输出
+#include &lt;functional&gt;　　　//STL 定义运算函数（代替运算符）
+#include &lt;limits&gt;          /定义各种数据类型最值常量
+#include &lt;list&gt;　　　　　　//STL 线性列表容器
+#include &lt;map&gt;　　　　　　 //STL 映射容器
+#include &lt;iomanip&gt;          //参数化输入／输出
+#include &lt;ios&gt;　　　　　　 //基本输入／输出支持
+#include &lt;iosfwd&gt;　　　　　//输入／输出系统使用的前置声明
+#include &lt;iostream&gt;        //数据流输入／输出
+#include &lt;istream&gt;　　　　 //基本输入流
+#include &lt;ostream&gt;　　　　 //基本输出流
+#include &lt;queue&gt;　　　　　 //STL 队列容器
+#include &lt;set&gt;　　　　　　 //STL 集合容器
+#include &lt;sstream&gt;　　　　 //基于字符串的流
+#include &lt;stack&gt;　　　　　 //STL 堆栈容器
+#include &lt;stdexcept&gt;　　　 //标准异常类
+#include &lt;streambuf&gt;　　　 //底层输入／输出支持
+#include &lt;string&gt;　　　　　//字符串类
+#include &lt;utility&gt;　　　　 //STL 通用模板类
+#include &lt;vector&gt;　　　　　//STL 动态数组容器
+#include &lt;cwchar&gt;         //宽字符处理及输入／输出
+#include &lt;cwctype&gt;         //宽字符分类
+using namespace std;
+<strong>C99 增加</strong>
+#include &lt;complex.h&gt;　　 //复数处理
+#include &lt;fenv.h&gt;　　　　//浮点环境
+#include &lt;inttypes.h&gt;　　//整数格式转换
+#include &lt;stdbool.h&gt;　　 //布尔环境
+#include &lt;stdint.h&gt;　　　//整型环境
+#include &lt;tgmath.h&gt;　　　//通用类型数学宏
+
+<strong>一、预编译头文件说明</strong>
+
+所谓头文件预编译，就是把一个工程(Project)中使用的一些MFC标准头文件(如Windows.H、Afxwin.H)预先编译，以后该工程编译时，不再编译这部分头文件，仅仅使用预编译的结果。这样可以加快编译速度，节省时间。
+
+预编译头文件通过编译stdafx.cpp生成，以工程名命名，由于预编译的头文件的后缀是“pch”，所以编译结果文件是projectname.pch。
+
+编译器通过一个头文件stdafx.h来使用预编译头文件。stdafx.h这个头文件名是可以在project的编译设置里指定的。编译器认为，所有在指令#include "stdafx.h"前的代码都是预编译的，它跳过#include "stdafx. h"指令，使用projectname.pch编译这条指令之后的所有代码。（在编译的时候，在#include "stdafx. h"前面的语句都不予以编译）
+
+因此，所有的CPP实现文件第一条语句都是：#include "stdafx.h"。
+
+另外，每一个实现文件CPP都包含了如下语句：
+<table>
+<tbody>
+<tr>
+<td width="740">#ifdef _DEBUG
+
+#undef THIS_FILE
+
+static char THIS_FILE[] = __FILE__;
+
+#endif</td>
+</tr>
+</tbody>
+</table>
+这是表示，如果生成调试版本，要指示当前文件的名称。__FILE__是一个宏，在编译器编译过程中给它赋值为当前正在编译的文件名称。
+
+平常找不到文件尾的时候，其解决方案如下：
+
+vc.net默认情况下使用预编译头(/Yu)，不明白的在加入新.h文件后编译时总出现fatal error C1010: 在查找预编译头指令时遇到意外的文件结尾的错误。解决方法是在在include头文件的地方加上#include "stdafx.h",或者打项目属性，找到“C/C++”文件夹，单击“预编译头”属性页。修改“创建/使用预编译头”属性为“不使用预编译头”。
+
+<strong>三、预处理的由来</strong>
+
+在C++的历史发展中，有很多的语言特征（特别是语言的晦涩之处）来自于C语言，预处理就是其中的一个。C++从C语言那里把C语言预处理器继承过来（C语言预处理器，被Bjarne博士简称为Cpp，不知道是不是C Program Preprocessor的简称）。
+
+<strong>四、常见的预处理功能</strong>
+
+预处理器的主要作用就是把通过预处理的内建功能对一个资源进行等价替换，最常见的预处理有：文件包含，条件编译、布局控制和宏替换4种。
+
+文件包含：#include 是一种最为常见的预处理，主要是做为文件的引用组合源程序正文。
+
+条件编译：#if,#ifndef,#ifdef,#endif,#undef等也是比较常见的预处理，主要是进行编译时进行有选择的挑选，注释掉一些指定的代码，以达到版本控制、防止对文件重复包含的功能。
+
+布局控制：#pragma，这也是我们应用预处理的一个重要方面，主要功能是为编译程序提供非常规的控制流信息。
+
+宏替换：#define，这是最常见的用法，它可以定义符号常量、函数功能、重新命名、字符串的拼接等各种功能。
+
+<strong>五、预处理指令</strong>
+
+预处理指令的格式如下：
+
+#directive tokens
+
+#符号应该是这一行的第一个非空字符，一般我们把它放在起始位置。如果指令一行放不下，可以通过“\”进行控制，例如：
+
+#define Error if(error) exit(1)
+
+等价于
+
+#define Error \
+
+if(error) exit(1)
+
+下面我们看一下常见的预处理指令：
+
+#define 宏定义
+
+#undef 未定义宏
+
+#include 文本包含
+
+#ifdef 如果宏被定义就进行编译
+
+#ifndef 如果宏未被定义就进行编译
+
+#endif 结束编译块的控制
+
+#if 表达式非零就对代码进行编译
+
+#else 作为其他预处理的剩余选项进行编译
+
+#elif 这是一种#else和#if的组合选项 //后面有例子的
+
+#line 改变当前的行数和文件名称
+
+#error 输出一个错误信息
+
+#pragma 为编译程序提供非常规的控制流信息
+
+下面我们对这些预处理进行一一的说明，考虑到宏的重要性和繁琐性，我们把它放到最后讲。
+
+<strong>六、文件包含指令</strong>
+
+这种预处理使用方式是最为常见的，平时我们编写程序都会用到，最常见的用法是：
+
+#include &lt;iostream&gt; //标准库头文件
+
+#include &lt;iostream.h&gt; //旧式的标准库头文件
+
+#include "IO.h" //用户自定义的头文件
+
+#include "../file.h" //UNIX下的父目录下的头文件
+
+#include "/usr/local/file.h" //UNIX下的完整路径
+
+#include "..\file.h" //Dos下的父目录下的头文件
+
+#include "\usr\local\file.h" //Dos下的完整路径
+
+&nbsp;
+
+C头文件大全
+
+&nbsp;
+
+分类函数,所在函数库为ctype.h
+
+int isalpha(int ch) 若ch是字母('A'-'Z','a'-'z')返回非0值,否则返回0
+
+int isalnum(int ch) 若ch是字母('A'-'Z','a'-'z')或数字('0'-'9')
+
+返回非0值,否则返回0
+
+int isascii(int ch) 若ch是字符(ASCII码中的0-127)返回非0值,否则返回0
+
+int iscntrl(int ch) 若ch是作废字符(0x7F)或普通控制字符(0x00-0x1F)
+
+返回非0值,否则返回0
+
+int isdigit(int ch) 若ch是数字('0'-'9')返回非0值,否则返回0
+
+int isgraph(int ch) 若ch是可打印字符(不含空格)(0x21-0x7E)返回非0值,否则返回0
+
+int islower(int ch) 若ch是小写字母('a'-'z')返回非0值,否则返回0
+
+int isprint(int ch) 若ch是可打印字符(含空格)(0x20-0x7E)返回非0值,否则返回0
+
+int ispunct(int ch) 若ch是标点字符(0x00-0x1F)返回非0值,否则返回0
+
+int isspace(int ch) 若ch是空格(' '),水平制表符('\t'),回车符('\r'),
+
+走纸换行('\f'),垂直制表符('\v'),换行符('\n')
+
+返回非0值,否则返回0
+
+int isupper(int ch) 若ch是大写字母('A'-'Z')返回非0值,否则返回0
+
+int isxdigit(int ch) 若ch是16进制数('0'-'9','A'-'F','a'-'f')返回非0值,
+
+否则返回0
+
+int tolower(int ch) 若ch是大写字母('A'-'Z')返回相应的小写字母('a'-'z')
+
+int toupper(int ch) 若ch是小写字母('a'-'z')返回相应的大写字母('A'-'Z')
+
+&nbsp;
+
+数学函数,所在函数库为math.h、stdlib.h、string.h、float.h
+
+int      abs(int i)                    返回整型参数i的绝对值
+
+double cabs(struct complex znum)      返回复数znum的绝对值
+
+double fabs(double x)                 返回双精度参数x的绝对值
+
+long    labs(long n)                   返回长整型参数n的绝对值
+
+double   exp(double x)                 返回指数函数ex的值
+
+double frexp(double value,int *eptr)   返回value=x*2n中x的值,n存贮在eptr中
+
+double ldexp(double value,int exp);    返回value*2exp的值
+
+double   log(double x)                 返回logex的值
+
+double log10(double x)                 返回log10x的值
+
+double   pow(double x,double y)        返回xy的值
+
+double pow10(int p)                    返回10p的值
+
+double sqrt(double x)                 返回+√x的值
+
+double acos(double x)                 返回x的反余弦cos-1(x)值,x为弧度
+
+double asin(double x)                 返回x的反正弦sin-1(x)值,x为弧度
+
+double atan(double x)                 返回x的反正切tan-1(x)值,x为弧度
+
+double atan2(double y,double x)        返回y/x的反正切tan-1(x)值,y的x为弧度
+
+double   cos(double x)                 返回x的余弦cos(x)值,x为弧度
+
+double   sin(double x)                 返回x的正弦sin(x)值,x为弧度
+
+double  tan(double x)                 返回x的正切tan(x)值,x为弧度
+
+double cosh(double x)                 返回x的双曲余弦cosh(x)值,x为弧度
+
+double sinh(double x)                 返回x的双曲正弦sinh(x)值,x为弧度
+
+double tanh(double x)                 返回x的双曲正切tanh(x)值,x为弧度
+
+double hypot(double x,double y)        返回直角三角形斜边的长度(z),
+
+x和y为直角边的长度,z2=x2+y2
+
+double ceil(double x)                 返回不小于x的最小整数
+
+double floor(double x)                 返回不大于x的最大整数
+
+void   srand(unsigned seed)            初始化随机数发生器
+
+int     rand()                         产生一个随机数并返回这个数
+
+double poly(double x,int n,double c[])从参数产生一个多项式
+
+double modf(double value,double *iptr)将双精度数value分解成尾数和阶
+
+double fmod(double x,double y)        返回x/y的余数
+
+double frexp(double value,int *eptr)   将双精度数value分成尾数和阶
+
+double atof(char *nptr)               将字符串nptr转换成浮点数并返回这个浮点数
+
+double atoi(char *nptr)               将字符串nptr转换成整数并返回这个整数
+
+double atol(char *nptr)               将字符串nptr转换成长整数并返回这个整数
+
+char   *ecvt(double value,int ndigit,int *decpt,int *sign)
+
+将浮点数value转换成字符串并返回该字符串
+
+char   *fcvt(double value,int ndigit,int *decpt,int *sign)
+
+将浮点数value转换成字符串并返回该字符串
+
+char   *gcvt(double value,int ndigit,char *buf)
+
+将数value转换成字符串并存于buf中,并返回buf的指针
+
+char *ultoa(unsigned long value,char *string,int radix)
+
+将无符号整型数value转换成字符串并返回该字符串,radix为转换时所用基数
+
+char   *ltoa(long value,char *string,int radix)
+
+将长整型数value转换成字符串并返回该字符串,radix为转换时所用基数
+
+char   *itoa(int value,char *string,int radix)
+
+将整数value转换成字符串存入string,radix为转换时所用基数
+
+double atof(char *nptr) 将字符串nptr转换成双精度数,并返回这个数,错误返回0
+
+int    atoi(char *nptr) 将字符串nptr转换成整型数, 并返回这个数,错误返回0
+
+long   atol(char *nptr) 将字符串nptr转换成长整型数,并返回这个数,错误返回0
+
+double strtod(char *str,char **endptr)将字符串str转换成双精度数,并返回这个数,
+
+long   strtol(char *str,char **endptr,int base)将字符串str转换成长整型数,
+
+并返回这个数,
+
+int          matherr(struct exception *e)
+
+用户修改数学错误返回信息函数(没有必要使用)
+
+double       _matherr(_mexcep why,char *fun,double *arg1p,
+
+double *arg2p,double retval)
+
+用户修改数学错误返回信息函数(没有必要使用)
+
+unsigned int _clear87()   清除浮点状态字并返回原来的浮点状态
+
+void         _fpreset()   重新初使化浮点数学程序包
+
+unsigned int _status87() 返回浮点状态字
+
+&nbsp;
+
+目录函数,所在函数库为dir.h、dos.h
+
+int     chdir(char *path) 使指定的目录path（如:"C:\\WPS"）变成当前的工作目录,成
+
+功返回0
+
+int findfirst(char *pathname,struct ffblk *ffblk,int attrib)查找指定的文件,成功
+
+返回0
+
+pathname为指定的目录名和文件名,如"C:\\WPS\\TXT"
+
+ffblk为指定的保存文件信息的一个结构,定义如下:
+
+┏━━━━━━━━━━━━━━━━━━┓
+
+┃struct ffblk                        ┃
+
+┃{                                   ┃
+
+┃ char ff_reserved[21]; /*DOS保留字*/┃
+
+┃ char ff_attrib;       /*文件属性*/ ┃
+
+┃ int ff_ftime;        /*文件时间*/ ┃
+
+┃ int ff_fdate;        /*文件日期*/ ┃
+
+┃ long ff_fsize;        /*文件长度*/ ┃
+
+┃ char ff_name[13];     /*文件名*/   ┃
+
+┃}                                   ┃
+
+┗━━━━━━━━━━━━━━━━━━┛
+
+attrib为文件属性,由以下字符代表
+
+┏━━━━━━━━━┳━━━━━━━━┓
+
+┃FA_RDONLY 只读文件┃FA_LABEL 卷标号┃
+
+┃FA_HIDDEN 隐藏文件┃FA_DIREC 目录  ┃
+
+┃FA_SYSTEM 系统文件┃FA_ARCH   档案  ┃
+
+┗━━━━━━━━━┻━━━━━━━━┛
+
+例:
+
+struct ffblk ff;
+
+findfirst("*.wps",&amp;ff,FA_RDONLY);
+
+&nbsp;
+
+int   findnext(struct ffblk *ffblk)      取匹配finddirst的文件,成功返回0
+
+void fumerge(char *path,char *drive,char *dir,char *name,char *ext)
+
+此函数通过盘符drive(C:、A:等),路径dir(\TC、\BC\LIB等),
+
+文件名name(TC、WPS等),扩展名ext(.EXE、.COM等)组成一个文件名
+
+存与path中.
+
+int   fnsplit(char *path,char *drive,char *dir,char *name,char *ext)
+
+此函数将文件名path分解成盘符drive(C:、A:等),路径dir(\TC、\BC\LIB等),
+
+文件名name(TC、WPS等),扩展名ext(.EXE、.COM等),并分别存入相应的变量中.
+
+int   getcurdir(int drive,char *direc) 此函数返回指定驱动器的当前工作目录名称
+
+drive 指定的驱动器(0=当前,1=A,2=B,3=C等)
+
+direc 保存指定驱动器当前工作路径的变量      成功返回0
+
+char *getcwd(char *buf,iint n) 此函数取当前工作目录并存入buf中,直到n个字
+
+节长为为止.错误返回NULL
+
+int   getdisk() 取当前正在使用的驱动器,返回一个整数(0=A,1=B,2=C等)
+
+int   setdisk(int drive) 设置要使用的驱动器drive(0=A,1=B,2=C等),
+
+返回可使用驱动器总数
+
+int   mkdir(char *pathname) 建立一个新的目录pathname,成功返回0
+
+int   rmdir(char *pathname) 删除一个目录pathname,成功返回0
+
+char *mktemp(char *template) 构造一个当前目录上没有的文件名并存于template中
+
+char *searchpath(char *pathname) 利用MSDOS找出文件filename所在路径,
+
+,此函数使用DOS的PATH变量,未找到文件返回NULL
+
+&nbsp;
+
+进程函数,所在函数库为stdlib.h、process.h
+
+void abort() 此函数通过调用具有出口代码3的_exit写一个终止信息于stderr，
+
+并异常终止程序。无返回值
+
+int   exec…装入和运行其它程序
+
+int   execl( char *pathname,char *arg0,char *arg1,…,char *argn,NULL)
+
+int   execle( char *pathname,char *arg0,char *arg1,…,
+
+char *argn,NULL,char *envp[])
+
+int   execlp( char *pathname,char *arg0,char *arg1,…,NULL)
+
+int   execlpe(char *pathname,char *arg0,char *arg1,…,NULL,char *envp[])
+
+int   execv( char *pathname,char *argv[])
+
+int   execve( char *pathname,char *argv[],char *envp[])
+
+int   execvp( char *pathname,char *argv[])
+
+int   execvpe(char *pathname,char *argv[],char *envp[])
+
+exec函数族装入并运行程序pathname，并将参数
+
+arg0(arg1,arg2,argv[],envp[])传递给子程序,出错返回-1
+
+在exec函数族中,后缀l、v、p、e添加到exec后，
+
+所指定的函数将具有某种操作能力
+
+有后缀 p时，函数可以利用DOS的PATH变量查找子程序文件。
+
+l时，函数中被传递的参数个数固定。
+
+v时，函数中被传递的参数个数不固定。
+
+e时，函数传递指定参数envp，允许改变子进程的环境，
+
+无后缀e时，子进程使用当前程序的环境。
+
+&nbsp;
+
+void _exit(int status)终止当前程序,但不清理现场
+
+void exit(int status) 终止当前程序,关闭所有文件,写缓冲区的输出(等待输出),
+
+并调用任何寄存器的"出口函数",无返回值
+
+&nbsp;
+
+int   spawn…运行子程序
+
+int   spawnl( int mode,char *pathname,char *arg0,char *arg1,…,
+
+char *argn,NULL)
+
+int   spawnle( int mode,char *pathname,char *arg0,char *arg1,…,
+
+char *argn,NULL,char *envp[])
+
+int   spawnlp( int mode,char *pathname,char *arg0,char *arg1,…,
+
+char *argn,NULL)
+
+int   spawnlpe(int mode,char *pathname,char *arg0,char *arg1,…,
+
+char *argn,NULL,char *envp[])
+
+int   spawnv( int mode,char *pathname,char *argv[])
+
+int   spawnve( int mode,char *pathname,char *argv[],char *envp[])
+
+int   spawnvp( int mode,char *pathname,char *argv[])
+
+int   spawnvpe(int mode,char *pathname,char *argv[],char *envp[])
+
+spawn函数族在mode模式下运行子程序pathname,并将参数
+
+arg0(arg1,arg2,argv[],envp[])传递给子程序.出错返回-1
+
+mode为运行模式
+
+mode为 P_WAIT   表示在子程序运行完后返回本程序
+
+P_NOWAIT 表示在子程序运行时同时运行本程序(不可用)
+
+P_OVERLAY表示在本程序退出后运行子程序
+
+在spawn函数族中,后缀l、v、p、e添加到spawn后，
+
+所指定的函数将具有某种操作能力
+
+有后缀 p时, 函数利用DOS的PATH查找子程序文件
+
+l时, 函数传递的参数个数固定.
+
+v时, 函数传递的参数个数不固定.
+
+e时, 指定参数envp可以传递给子程序,允许改变子程序运行环境.
+
+当无后缀e时,子程序使用本程序的环境.
+
+&nbsp;
+
+int   system(char *command) 将MSDOS命令command传递给DOS执行
+
+&nbsp;
+
+转换子程序,函数库为math.h、stdlib.h、ctype.h、float.h
+
+char   *ecvt(double value,int ndigit,int *decpt,int *sign)
+
+将浮点数value转换成字符串并返回该字符串
+
+char   *fcvt(double value,int ndigit,int *decpt,int *sign)
+
+将浮点数value转换成字符串并返回该字符串
+
+char   *gcvt(double value,int ndigit,char *buf)
+
+将数value转换成字符串并存于buf中,并返回buf的指针
+
+char *ultoa(unsigned long value,char *string,int radix)
+
+将无符号整型数value转换成字符串并返回该字符串,radix为转换时所用基数
+
+char   *ltoa(long value,char *string,int radix)
+
+将长整型数value转换成字符串并返回该字符串,radix为转换时所用基数
+
+char   *itoa(int value,char *string,int radix)
+
+将整数value转换成字符串存入string,radix为转换时所用基数
+
+double atof(char *nptr) 将字符串nptr转换成双精度数,并返回这个数,错误返回0
+
+int    atoi(char *nptr) 将字符串nptr转换成整型数, 并返回这个数,错误返回0
+
+long   atol(char *nptr) 将字符串nptr转换成长整型数,并返回这个数,错误返回0
+
+double strtod(char *str,char **endptr)将字符串str转换成双精度数,并返回这个数,
+
+long   strtol(char *str,char **endptr,int base)将字符串str转换成长整型数,
+
+并返回这个数,
+
+int    toascii(int c)   返回c相应的ASCII
+
+int    tolower(int ch) 若ch是大写字母('A'-'Z')返回相应的小写字母('a'-'z')
+
+int   _tolower(int ch) 返回ch相应的小写字母('a'-'z')
+
+int    toupper(int ch) 若ch是小写字母('a'-'z')返回相应的大写字母('A'-'Z')
+
+int   _toupper(int ch) 返回ch相应的大写字母('A'-'Z')
+
+&nbsp;
+
+诊断函数,所在函数库为assert.h、math.h
+
+void   assert(int test) 一个扩展成if语句那样的宏，如果test测试失败，
+
+就显示一个信息并异常终止程序,无返回值
+
+void   perror(char *string) 本函数将显示最近一次的错误信息，格式如下：
+
+字符串string:错误信息
+
+char   *strerror(char *str) 本函数返回最近一次的错误信息,格式如下:
+
+字符串str:错误信息
+
+int    matherr(struct exception *e)
+
+用户修改数学错误返回信息函数(没有必要使用)
+
+double _matherr(_mexcep why,char *fun,double *arg1p,
+
+double *arg2p,double retval)
+
+用户修改数学错误返回信息函数(没有必要使用)
+
+&nbsp;
+
+输入输出子程序,函数库为io.h、conio.h、stat.h、dos.h、stdio.h、signal.h
+
+int   kbhit()    本函数返回最近所敲的按键
+
+int   fgetchar() 从控制台(键盘)读一个字符，显示在屏幕上
+
+int   getch()    从控制台(键盘)读一个字符，不显示在屏幕上
+
+int   putch()    向控制台(键盘)写一个字符
+
+int   getchar() 从控制台(键盘)读一个字符，显示在屏幕上
+
+int   putchar() 向控制台(键盘)写一个字符
+
+int   getche()   从控制台(键盘)读一个字符，显示在屏幕上
+
+int   ungetch(int c) 把字符c退回给控制台(键盘)
+
+char *cgets(char *string) 从控制台(键盘)读入字符串存于string中
+
+int   scanf(char *format[,argument…])从控制台读入一个字符串,分别对各个参数进行
+
+赋值,使用BIOS进行输出
+
+int   vscanf(char *format,Valist param)从控制台读入一个字符串,分别对各个参数进行
+
+赋值,使用BIOS进行输出,参数从Valist param中取得
+
+int   cscanf(char *format[,argument…])从控制台读入一个字符串,分别对各个参数进行
+
+赋值,直接对控制台作操作,比如显示器在显示时字符时即为直接写频方式显示
+
+int   sscanf(char *string,char *format[,argument,…])通过字符串string,分别对各个
+
+参数进行赋值
+
+int   vsscanf(char *string,char *format,Vlist param)通过字符串string,分别对各个
+
+参数进行赋值,参数从Vlist param中取得
+
+int   puts(char *string) 发关一个字符串string给控制台(显示器),
+
+使用BIOS进行输出
+
+void cputs(char *string) 发送一个字符串string给控制台(显示器),
+
+直接对控制台作操作,比如显示器即为直接写频方式显示
+
+int   printf(char *format[,argument,…]) 发送格式化字符串输出给控制台(显示器)
+
+使用BIOS进行输出
+
+int   vprintf(char *format,Valist param) 发送格式化字符串输出给控制台(显示器)
+
+使用BIOS进行输出,参数从Valist param中取得
+
+int   cprintf(char *format[,argument,…]) 发送格式化字符串输出给控制台(显示器),
+
+直接对控制台作操作,比如显示器即为直接写频方式显示
+
+int   vcprintf(char *format,Valist param)发送格式化字符串输出给控制台(显示器),
+
+直接对控制台作操作,比如显示器即为直接写频方式显示,
+
+参数从Valist param中取得
+
+int   sprintf(char *string,char *format[,argument,…])
+
+将字符串string的内容重新写为格式化后的字符串
+
+int   vsprintf(char *string,char *format,Valist param)
+
+将字符串string的内容重新写为格式化后的字符串,参数从Valist param中取得
+
+int   rename(char *oldname,char *newname)将文件oldname的名称改为newname
+
+int   ioctl(int handle,int cmd[,int *argdx,int argcx])
+
+本函数是用来控制输入/输出设备的，请见下表：
+
+┌———┬————————————————————————————┐
+
+│cmd值 │功能                                                    │
+
+├———┼————————————————————————————┤
+
+│ 0   │取出设备信息                                            │
+
+│ 1   │设置设备信息                                            │
+
+│ 2   │把argcx字节读入由argdx所指的地址                        │
+
+│ 3   │在argdx所指的地址写argcx字节                            │
+
+│ 4   │除把handle当作设备号(0=当前,1=A,等)之外,均和cmd=2时一样 │
+
+│ 5   │除把handle当作设备号(0=当前,1=A,等)之外,均和cmd=3时一样 │
+
+│ 6   │取输入状态                                              │
+
+│ 7   │取输出状态                                              │
+
+│ 8   │测试可换性;只对于DOS 3.x                                │
+
+│ 11 │置分享冲突的重算计数;只对DOS 3.x                        │
+
+└———┴————————————————————————————┘
+
+int   (*ssignal(int sig,int(*action)())()执行软件信号(没必要使用)
+
+int   gsignal(int sig)                   执行软件信号(没必要使用)
+
+&nbsp;
+
+int   _open(char *pathname,int access)为读或写打开一个文件,
+
+按后按access来确定是读文件还是写文件,access值见下表
+
+┌——————┬————————————————————┐
+
+│access值    │意义                                    │
+
+├——————┼————————————————————┤
+
+│O_RDONLY    │读文件                                  │
+
+│O_WRONLY    │写文件                                  │
+
+│O_RDWR      │即读也写                                │
+
+│O_NOINHERIT │若文件没有传递给子程序,则被包含         │
+
+│O_DENYALL   │只允许当前处理必须存取的文件            │
+
+│O_DENYWRITE │只允许从任何其它打开的文件读            │
+
+│O_DENYREAD │只允许从任何其它打开的文件写            │
+
+│O_DENYNONE │允许其它共享打开的文件                  │
+
+└——————┴————————————————————┘
+
+int   open(char *pathname,int access[,int permiss])为读或写打开一个文件,
+
+按后按access来确定是读文件还是写文件,access值见下表
+
+┌————┬————————————————————┐
+
+│access值│意义                                    │
+
+├————┼————————————————————┤
+
+│O_RDONLY│读文件                                  │
+
+│O_WRONLY│写文件                                  │
+
+│O_RDWR │即读也写                                │
+
+│O_NDELAY│没有使用;对UNIX系统兼容                 │
+
+│O_APPEND│即读也写,但每次写总是在文件尾添加       │
+
+│O_CREAT │若文件存在,此标志无用;若不存在,建新文件 │
+
+│O_TRUNC │若文件存在,则长度被截为0,属性不变       │
+
+│O_EXCL │未用;对UNIX系统兼容                     │
+
+│O_BINARY│此标志可显示地给出以二进制方式打开文件  │
+
+│O_TEXT │此标志可用于显示地给出以文本方式打开文件│
+
+└————┴————————————————————┘
+
+permiss为文件属性,可为以下值:
+
+S_IWRITE允许写 S_IREAD允许读 S_IREAD|S_IWRITE允许读、写
+
+int   creat(char *filename,int permiss) 建立一个新文件filename，并设定
+
+读写性。permiss为文件读写性，可以为以下值
+
+S_IWRITE允许写 S_IREAD允许读 S_IREAD|S_IWRITE允许读、写
+
+int _creat(char *filename,int attrib) 建立一个新文件filename，并设定文件
+
+属性。attrib为文件属性，可以为以下值
+
+FA_RDONLY只读 FA_HIDDEN隐藏 FA_SYSTEM系统
+
+int   creatnew(char *filenamt,int attrib) 建立一个新文件filename，并设定文件
+
+属性。attrib为文件属性，可以为以下值
+
+FA_RDONLY只读 FA_HIDDEN隐藏 FA_SYSTEM系统
+
+int   creattemp(char *filenamt,int attrib) 建立一个新文件filename，并设定文件
+
+属性。attrib为文件属性，可以为以下值
+
+FA_RDONLY只读 FA_HIDDEN隐藏 FA_SYSTEM系统
+
+int   read(int handle,void *buf,int nbyte)从文件号为handle的文件中读nbyte个字符
+
+存入buf中
+
+int _read(int handle,void *buf,int nbyte)从文件号为handle的文件中读nbyte个字符
+
+存入buf中,直接调用MSDOS进行操作.
+
+int   write(int handle,void *buf,int nbyte)将buf中的nbyte个字符写入文件号
+
+为handle的文件中
+
+int _write(int handle,void *buf,int nbyte)将buf中的nbyte个字符写入文件号
+
+为handle的文件中
+
+int   dup(int handle) 复制一个文件处理指针handle,返回这个指针
+
+int   dup2(int handle,int newhandle) 复制一个文件处理指针handle到newhandle
+
+int   eof(int *handle)检查文件是否结束,结束返回1,否则返回0
+
+long filelength(int handle) 返回文件长度，handle为文件号
+
+int   setmode(int handle,unsigned mode)本函数用来设定文件号为handle的文件的打
+
+开方式
+
+int   getftime(int handle,struct ftime *ftime) 读取文件号为handle的文件的时间，
+
+并将文件时间存于ftime结构中，成功返回0,ftime结构如下：
+
+┌—————————————————┐
+
+│struct ftime                      │
+
+│{                                 │
+
+│ unsigned ft_tsec:5; /*秒*/       │
+
+│ unsigned ft_min:6; /*分*/       │
+
+│ unsigned ft_hour:5; /*时*/       │
+
+│ unsigned ft_day:5; /*日*/       │
+
+│ unsigned ft_month:4;/*月*/       │
+
+│ unsigned ft_year:1; /*年-1980*/ │
+
+│}                                 │
+
+└—————————————————┘
+
+int   setftime(int handle,struct ftime *ftime) 重写文件号为handle的文件时间,
+
+新时间在结构ftime中.成功返回0.结构ftime如下:
+
+┌—————————————————┐
+
+│struct ftime                      │
+
+│{                                 │
+
+│ unsigned ft_tsec:5; /*秒*/       │
+
+│ unsigned ft_min:6; /*分*/       │
+
+│ unsigned ft_hour:5; /*时*/       │
+
+│ unsigned ft_day:5; /*日*/       │
+
+│ unsigned ft_month:4;/*月*/       │
+
+│ unsigned ft_year:1; /*年-1980*/ │
+
+│}                                 │
+
+└—————————————————┘
+
+long  lseek(int handle,long offset,int fromwhere) 本函数将文件号为handle的文件
+
+的指针移到fromwhere后的第offset个字节处.
+
+SEEK_SET 文件开关   SEEK_CUR 当前位置   SEEK_END 文件尾
+
+long tell(int handle) 本函数返回文件号为handle的文件指针,以字节表示
+
+int   isatty(int handle)本函数用来取设备handle的类型
+
+int   lock(int handle,long offset,long length)   对文件共享作封锁
+
+int   unlock(int handle,long offset,long length) 打开对文件共享的封锁
+
+int   close(int handle) 关闭handle所表示的文件处理,handle是从_creat、creat、
+
+creatnew、creattemp、dup、dup2、_open、open中的一个处调用获得的文件处理
+
+成功返回0否则返回-1,可用于UNIX系统
+
+int _close(int handle) 关闭handle所表示的文件处理,handle是从_creat、creat、
+
+creatnew、creattemp、dup、dup2、_open、open中的一个处调用获得的文件处理
+
+成功返回0否则返回-1,只能用于MSDOS系统
+
+&nbsp;
+
+FILE *fopen(char *filename,char *type) 打开一个文件filename,打开方式为type，
+
+并返回这个文件指针，type可为以下字符串加上后缀
+
+┌——┬————┬———————┬————————┐
+
+│type│读写性  │文本/2进制文件│建新/打开旧文件 │
+
+├——┼————┼———————┼————————┤
+
+│r   │读
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

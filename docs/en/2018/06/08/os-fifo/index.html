@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FIFO algorithm implements page fault scheduling for paging management · OmegaXYZ</title>
+  <meta name="description" content="The basic principle of the FIFO (first in, first out) algorithm is: This algorithm always eliminates the page that enters the memory first, that is, it selects the page that has resided in the memory the longest and eliminates it. Data structure: First define a main memory table memeoryList to store the address space in the main memory for page conversion. Then define a pageList as the page table for replacement. Note that here first determines whether the current position is occupied, and then determines whether the page is at the current position. If you need to interrupt the replacement, proceed...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/06/08/os-fifo/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-06-08</div>
+        <h1>FIFO algorithm implements page fault scheduling for paging management</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content">The basic principle of the FIFO (first in, first out) algorithm is: This algorithm always eliminates the page that enters the memory first, that is, it selects the page that has resided in the memory the longest and eliminates it.<h2><strong>data structure</strong></h2>First define a main memory table<strong>memeoryList</strong>The address space used to store the main memory is used for page conversion.
+
+Define another<strong>pageList</strong>as page table<h2><strong>replace</strong></h2>Note that here we first determine whether the current location is occupied, and then determine whether the page is at the current location. If it is necessary to interrupt the replacement, it is judged that because it is a FIFO algorithm, it is necessary to replace the one that has been stored for the longest time.<strong>The replaced position is updated according to the formula</strong>
+<strong>position = (position+1)%memoryList.size();</strong>
+<h2><strong>flow chart</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4523" height="571" src="https://cdn.omegaxyz.com/2018/06/FIFO1.png" width="666"/>
+<h2><strong>shortcoming</strong></h2>The page fault rate of the FIFO algorithm accounts for 60%, so it is not suitable for use in modern operating systems.<h2><strong>code</strong></h2>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;deque&gt;
+#include&lt;cstdio&gt;
+#define NONE 999
+using namespace std;
+
+struct Lnode{
+	int id;
+};
+
+deque&lt;Lnode&gt; memoryList;
+deque&lt;int&gt; pageList;
+
+void initMemory(int memorySize){
+	for(int i=0;i&lt;memorySize;i++){
+		struct Lnode temp;
+		temp.id = NONE;
+		memoryList.push_back(temp);
+	}
+
+}
+
+float FIFO(){
+	int replace_count=0;
+	int position=0;
+	cout&lt;&lt;"\n页表      替换?         内容\n";
+	for(int i=0;i&lt;pageList.size();i++){
+        cout&lt;&lt;pageList[i]&lt;&lt;"         ";
+		int j=0;
+		for(j=0;j&lt;memoryList.size();j++){
+			if(memoryList[j].id==NONE||memoryList[j].id==pageList[i]){
+				memoryList[j].id=pageList[i];
+				break;
+			}
+		}
+		if(j==memoryList.size()){
+			replace_count++;
+			printf("%d被%d替换掉！  ", memoryList[position],pageList[i]);
+			memoryList[position].id = pageList[i];
+			position = (position+1)%memoryList.size();
+		}else{
+		    printf("              ");
+		}
+		for(j=0;j&lt;memoryList.size();j++){
+            if(memoryList[j].id!=NONE)
+                cout&lt;&lt;memoryList[j].id&lt;&lt;" ";
+            else
+                cout&lt;&lt;" ";
+		}
+		cout&lt;&lt;endl;
+	}
+	return replace_count;
+}
+
+
+int main(){
+	int num = 20;
+	cout&lt;&lt;"输入流："&lt;&lt;endl;
+	int arrayList[20] = {7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1};
+	initMemory(3);
+	for(int i=0;i&lt;num;i++){
+		pageList.push_back(arrayList[i]);
+		cout&lt;&lt;pageList[i]&lt;&lt;" ";
+	}
+	cout&lt;&lt;endl;
+	float replace_count = FIFO();
+
+	cout&lt;&lt;"\n置换率为："&lt;&lt;replace_count&lt;&lt;"/"&lt;&lt;num&lt;&lt;"="&lt;&lt;replace_count/num&lt;&lt;endl;
+}</code></pre>
+<h2><strong>result</strong></h2>
+<img alt="" class="alignnone size-full wp-image-4524" height="494" src="https://cdn.omegaxyz.com/2018/06/FIFO2.png" width="733"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

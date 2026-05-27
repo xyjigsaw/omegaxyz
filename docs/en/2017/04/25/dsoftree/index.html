@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basic operations of data structure tree (main traversal) · OmegaXYZ</title>
+  <meta name="description" content="one. The purpose of the experiment is to implement the basic operations of trees in C language, mainly to examine the pre-order, in-order, post-order and hierarchical traversal of trees. 2. Main content The binary tree used in this article is as shown in the figure: Obviously, preorder: ABCDEGF, midorder: CBEGDFA, postorder: CGEFDBA, level: ABCDEFG. BiTree.h content. Main functions: ① Create a binary tree in preorder. Note that if there are no left and right subtrees, enter a space when creating. Input: ABC_ _DE_G...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/04/25/dsoftree/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-25</div>
+        <h1>Basic operations of data structure tree (main traversal)</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a></div>
+        <div class="article-content">one. Experiment purpose
+Implement the basic operations of trees in C language, mainly examining the pre-order, in-order, post-order and hierarchical traversal of trees.
+
+2. Main content
+
+The binary tree used in this article is as follows:
+obviously<img alt="" class="alignnone size-medium wp-image-465" height="300" src="https://cdn.omegaxyz.com/2017/04/tree-e1493110378334-269x300.png" width="269"/>Preface: ABCDEGF
+Mid-order: CBEGDFA
+Sequence: CGEFDBA
+Level:ABCDEFG
+
+BiTree.h content<pre><code class="language-c++">typedef char TElemType;
+typedef int Status; 
+typedef struct BiTNode{
+	TElemType data;
+	struct BiTNode *lchild,*rchild;
+}BiTNode,*BiTree;
+
+Status PreCreateBiTree(BiTree &amp;T);//先序输入二叉树
+Status PreOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status InOrderTraverse1(BiTree T,Status(*Visit)(TElemType e));
+Status InOrderTraverse2(BiTree T,Status(*Visit)(TElemType e));
+Status PostOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status LevelOrderTraverse(BiTree T,Status(*Visit)(TElemType e));
+Status Visit(TElemType e);
+Status GetDepth(BiTree T);
+Status CountNode(BiTree T,int &amp;d);
+</code></pre>Main functions:
+
+① Create a binary tree in order
+
+Note that if there are no left or right subtrees when creating, you must enter spaces.
+Input: ABC_ _DE_G_ _F_ _ _<pre><code class="language-c++">Status PreCreateBiTree(BiTree &amp;T)
+{
+	char ch;
+    ch=getchar();
+	if(ch==' ')T=NULL;
+	else
+	{
+		if(!(T=(BiTNode *)malloc(sizeof(BiTNode))))exit(OVERFLOW);
+		T-&gt;data=ch;
+		PreCreateBiTree(T-&gt;lchild);
+		PreCreateBiTree(T-&gt;rchild);
+	}
+	return OK;
+}
+</code></pre>② Pre-order traversal (recursive algorithm)<pre><code class="language-c++">Status PreOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){
+		if(Visit(T-&gt;data))
+			if(PreOrderTraverse(T-&gt;lchild,Visit))
+				if(PreOrderTraverse(T-&gt;rchild,Visit))return OK;
+		return ERROR;
+	}else return OK;
+}
+</code></pre>③ In-order traversal (recursive algorithm)<pre><code class="language-c++">Status InOrderTraverse2(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){
+		InOrderTraverse2(T-&gt;lchild,Visit);
+		Visit(T-&gt;data);
+		InOrderTraverse2(T-&gt;rchild,Visit);
+	}
+	return OK;
+}
+</code></pre>④ In-order traversal (non-recursive algorithm)
+Note that the C++STL header file include&lt;stack&gt; needs to be included here.<pre><code class="language-c++">Status InOrderTraverse1(BiTree T,Status(*Visit)(TElemType e))
+{
+	stack&lt;BiTree&gt;S;
+	BiTree p;
+	S.push(T);
+	while(!S.empty()){
+		while(p=S.top())S.push(p-&gt;lchild);
+		p=S.top();
+		S.pop();
+		if(!S.empty()){
+			p=S.top();
+		    S.pop();
+			if(!Visit(p-&gt;data))return ERROR;
+			S.push(p-&gt;rchild);
+        }
+		return OK;
+	}
+}
+</code></pre>⑤ Post-order traversal (recursive algorithm)<pre><code class="language-c++">Status PostOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	if(T){  
+        PostOrderTraverse(T-&gt;lchild,Visit);
+	    PostOrderTraverse(T-&gt;rchild,Visit);
+		Visit(T-&gt;data);
+	    }  
+
+	return OK;
+}
+</code></pre>⑥Level traversal (using QUEUE)
+
+You can include STL&lt;queue&gt; or define an array, just use a circular queue.<pre><code class="language-c++">Status LevelOrderTraverse(BiTree T,Status(*Visit)(TElemType e))
+{
+	BiTree p;     
+	BiTNode *Q[100];     
+	int front,rear;     
+	front=rear=-1;    
+	rear++;     
+	Q[rear]=T;     
+	while(front!=rear){         
+		front=(front+1)%100;         
+		p=Q[front];         
+		Visit(p-&gt;data);         
+		if(p-&gt;lchild!=NULL){             
+			rear=(rear+1)%100;
+			Q[rear]=p-&gt;lchild;
+		}       
+		if(p-&gt;rchild!=NULL){             
+			rear=(rear+1)%100;             
+			Q[rear]=p-&gt;rchild;         
+		}          
+	}    
+	return OK;
+}
+</code></pre>⑦ The Visit function uses output here<pre><code class="language-c++">Status Visit(TElemType e)
+{
+	printf("%c ",e);
+	return OK;
+}
+</code></pre>⑧ Calculate the number of nodes in the tree<pre><code class="language-c++">Status CountNode(BiTree T,int &amp;d)
+{
+	if(T){
+		d++;
+		CountNode(T-&gt;lchild,d);
+		CountNode(T-&gt;rchild,d);
+	}
+	return OK;
+}
+</code></pre>⑨ Calculate the depth of the tree<pre><code class="language-c++">Status GetDepth(BiTree T)
+{
+	int hl,hr;
+	if(T==NULL)return 0;
+	else{
+		hl=GetDepth(T-&gt;lchild);
+		hr=GetDepth(T-&gt;rchild);
+		if(hl&gt;hr)return hl+1;
+		else return hr+1;
+	}
+}
+</code></pre>Main function:<pre><code class="language-c++">int main()
+{
+	printf("16软件工程 徐奕 E21614061\n");
+	printf("Create\n");
+	BiTree T;
+    PreCreateBiTree(T);
+	printf("先序PreTraverse:\n");
+    PreOrderTraverse(T,Visit);
+	printf("\n中序InTraverse:\n");
+	InOrderTraverse2(T,Visit);
+	printf("\n后序PostTraverse:\n");
+	PostOrderTraverse(T,Visit);
+	printf("\nLevelTraverse:\n");
+	LevelOrderTraverse(T,Visit);
+	printf("\n");
+	CountNode(T,d);
+    printf("\n节点数:%d\n",d);
+	printf("树的深度:%d\n",GetDepth(T));
+system("pause");
+	return 0;
+}
+</code></pre>
+<img alt="" class="alignnone wp-image-466" height="223" src="https://cdn.omegaxyz.com/2017/04/tree1-300x137.png" width="488"/>Experiment summary
+1. The traversal function can be written as recursive or non-recursive, and the recursive function is more concise.
+2. Hierarchical traversal requires the use of a queue, which can include C++STL&lt;queue&gt; or define an array and use a circular queue. Note that each time the judgment is made, the head of the queue must be assigned to the temporary variable P, and the left and right subtrees must be inserted from the end of the queue.
+3. When creating a tree in order, please note that if there are no left and right subtrees, you must enter a space.
+Input: ABC_ _DE_G_ _F_ _ _</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

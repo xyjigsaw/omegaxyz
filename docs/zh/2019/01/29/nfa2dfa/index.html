@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编译原理NFA转DFA-Python与C++实现 · OmegaXYZ</title>
+  <meta name="description" content="某个有限自动机，如果每次状态转换的后继状态都是惟一的，则称它是确定有限自动机（DFA）；如果转换后的后继状态并不都是惟一的，则称它是不确定有限自动机（NFA）。 有限自动机的开始工作状态称为初始状态，结束工作的状态称为终止工作状态或接收状态。如果把上一小节中的状态转换图的各个结点看成是某一个状态，初始结点为初始状态，终止结点为终止状态，并...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/29/nfa2dfa/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-29</div>
+        <h1>编译原理NFA转DFA-Python与C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content">某个有限自动机，如果每次状态转换的后继状态都是惟一的，则称它是确定有限自动机（DFA）；如果转换后的后继状态并不都是惟一的，则称它是不确定有限自动机（NFA）。
+
+有限自动机的开始工作状态称为初始状态，结束工作的状态称为终止工作状态或接收状态。如果把上一小节中的状态转换图的各个结点看成是某一个状态，初始结点为初始状态，终止结点为终止状态，并且每一条边表示一个转换关系，这样一个有限自动机的工作状态就可以采用状态转换图来描述了，从而可以把前面的图看成是一个有限自动机。
+
+有限自动机处在初始状态0，当读入符号a后，自动机便从状态0转换到后继状态1中，再读入一个符号b后，自动机便从状态1转换到后继状态2。当自动机读入一个符号串，自动机则从初始状态开始，经过一系列状态转换，最终若能够到达终止状态，则称这一符号串被该自动机所接收或识别，否则不能被该自动机所接收。
+
+<strong>一个确定的有限自动机（DFA）M可以定义为一个五元组，M＝（K，∑，F，S，Z），其中：</strong>
+<ul>
+ 	<li>K是一个有穷非空集，集合中的每个元素称为一个状态；</li>
+ 	<li>∑是一个有穷字母表，∑中的每个元素称为一个输入符号；</li>
+ 	<li>F是一个从K×∑→K的单值转换函数，即F（R，a）＝Q，（R，Q∈K）表示当前状态为R，如果输入字符a，则转到状态Q，状态Q称为状态R的后继状态；</li>
+ 	<li>S∈K，是惟一的初态；</li>
+ 	<li>ZK，是一个终态集。</li>
+</ul>
+由定义可见，确定有限自动机只有惟一的一个初态，但可以有多个终态，每个状态对字母表中的任一输入符号，最多只有一个后继状态。
+
+<strong>  </strong>对于DFA M，若存在一条从某个初态结点到某一个终态结点的通路，则称这条通路上的所有弧的标记符连接形成的字符串可为DFA M所接受。若M的初态结点同时又是终态结点，则称ε可为M所接受（或识别），DFA M所能接受的全部字符串（字）组成的集合记作L（M）。
+
+<strong> 一个不确定有限自动机（NFA）M可以定义为一个五元组，M＝（K，∑，F，S，Z），其中：</strong>
+<ul>
+ 	<li>k是一个有穷非空集，集合中的每个元素称为一个状态；</li>
+ 	<li>∑是一个有穷字母表，∑中的每个元素称为一个输入符号；</li>
+ 	<li>F是一个从K×∑→K的子集的转换函数；</li>
+ 	<li>SK，是一个非空的初态集；</li>
+ 	<li>ZK，是一个终态集。</li>
+</ul>
+由定义可见，不确定有限自动机NFA与确定有限自动机DFA的主要区别是：
+
+（1）NFA的初始状态S为一个状态集，即允许有多个初始状态；
+
+（2）NFA中允许状态在某输出边上有相同的符号，即对同一个输入符号可以有多个后继状态。即DFA中的F是单值函数，而NFA中的F是多值函数。
+
+因此，可以将确定有限自动机DFA看作是不确定有限自动机NFA的特例。和DFA一样，NFA也可以用矩阵和状态转换图来表示。
+
+对于NFA M，若存在一条从某个初态结点到某一个终态结点的通路，则称这条通路上的所有弧的标记（ε除外）连接形成的字符串可为M所接受。NFA M所能接受的全部字符串（字）组成的集合记作L（M）。
+
+由于DFA是NFA的特例，所以能被DFA所接受的符号串必能被NFA所接受。
+
+设M<sub>1</sub>和M<sub>2</sub>是同一个字母集∑上的有限自动机，若L（M<sub>1</sub>）＝L（M<sub>2</sub>），则称有限自动机M<sub>1</sub>和M<sub>2</sub>等价。
+
+由以上定义可知，若两个自动机能够接受相同的语言，则称这两个自动机等价。DFA是NFA的特例，因此对于每一个NFA M<sub>1</sub>总存在一个DFA M<sub>2</sub>，使得L（M<sub>1</sub>）＝L（M<sub>2</sub>）。即一个不确定有限自动机能接受的语言总可以找到一个等价的确定有限自动机来接受该语言。
+
+<strong>NFA</strong><strong>确定化为DFA</strong>
+
+同一个字符串α可以由多条通路产生，而在实际应用中，作为描述控制过程的自动机，通常都是确定有限自动机DFA，因此这就需要将不确定有限自动机转换成等价的确定有限自动机，这个过程称为不确定有限自动机的确定化，即NFA确定化为DFA。
+
+下面介绍一种NFA的确定化算法，这种算法称为子集法：
+<ul>
+ 	<li>若NFA的全部初态为S<sub>1</sub>，S<sub>2</sub>，…，S<sub>n</sub>，则令DFA的初态为：</li>
+</ul>
+S＝[S<sub>1</sub>，S<sub>2</sub>，…，S<sub>n</sub>]，
+
+其中方括号用来表示若干个状态构成的某一状态。
+<ul>
+ 	<li>设DFA的状态集K中有一状态为[S<sub>i</sub>，S<sub>i+1</sub>，…，S<sub>j</sub>]，若对某符号a∈∑，在NFA中有F（{ S<sub>i</sub>，S<sub>i+1</sub>，…，S<sub>j</sub> }，a）={ S<sub>i</sub><sup>’</sup>，S<sub>i+1</sub><sup>’</sup>，…，S<sub>k</sub><sup>’</sup> }</li>
+</ul>
+则令F（{ S<sub>i</sub>，S<sub>i+1</sub>，…，S<sub>j</sub> }，a）={ S<sub>i</sub><sup>’</sup>，S<sub>i+1</sub><sup>’</sup>，…，S<sub>k</sub><sup>’</sup> }为DFA的一个转换函数。若[ S<sub>i</sub><sup>’</sup>，S<sub>i+1</sub><sup>’</sup>，…，S<sub>k</sub><sup>‘</sup> ]不在K中，则将其作为新的状态加入到K中。
+<ul>
+ 	<li>重复第2步，直到K中不再有新的状态加入为止。</li>
+ 	<li>上面得到的所有状态构成DFA的状态集K，转换函数构成DFA的F，DFA的字母表仍然是NFA的字母表∑。</li>
+ 	<li>DFA中凡是含有NFA终态的状态都是DFA的终态。</li>
+</ul>
+对于上述NFA确定化算法——子集法，还可以采用另一种操作性更强的描述方式，下面我们给出其详细描述。首先给出两个相关定义。
+
+<strong> </strong>假设I是NFA M状态集K的一个子集（即I∈K），则定义ε-closure（I）为：
+<ul>
+ 	<li>若Q∈I，则Q∈ε-closure（I）；</li>
+ 	<li>若Q∈I，则从Q出发经过任意条ε弧而能到达的任何状态Q’，则Q’∈ε-closure（I）。</li>
+</ul>
+状态集ε-closure（I）称为状态I的ε闭包。
+
+假设NFA M＝（K，∑，F，S，Z），若I∈K，a∈∑，则定义I<sub>a</sub>＝ε-closure（J），其中J是所有从ε-closure（I）出发，经过一条a弧而到达的状态集。
+
+NFA确定化的实质是以原有状态集上的子集作为DFA上的一个状态，将原状态间的转换为该子集间的转换，从而把不确定有限自动机确定化。经过确定化后，状态数可能增加，而且可能出现一些等价状态，这时就需要简化。
+<h2><strong>C++代码</strong></h2>
+<pre ><code class="language-c++">//
+//  main.cpp
+//  compiling3
+//
+//  Created by 徐奕 on 2018/11/6.
+//  Copyright © 2018 Reacubeth. All rights reserved.
+//
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;set&gt;
+#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+struct Part{
+    string src;
+    string edge;
+    string dst;
+};
+
+void input(vector&lt;Part&gt; &amp;NFA, int num){
+    for(int i=0;i&lt;num;i++){
+        Part temp;
+        //scanf("%s,%s,%s",&amp;temp.src,&amp;temp.edge,&amp;temp.dst);
+        cin&gt;&gt;temp.src&gt;&gt;temp.edge&gt;&gt;temp.dst;
+        NFA.push_back(temp);
+    }
+}
+
+void outputNFA(vector&lt;Part&gt; NFA){
+    for(int i=0;i&lt;NFA.size();i++){
+        cout&lt;&lt;NFA[i].src&lt;&lt;" "&lt;&lt;NFA[i].edge&lt;&lt;" "&lt;&lt;NFA[i].dst&lt;&lt;endl;
+    }
+}
+
+bool check(string str, char x){
+    for(int i=0;i&lt;str.length();i++){
+        if(str[i]==x)
+            return true;
+    }
+    return false;
+}
+
+string closure(string setp, vector&lt;Part&gt; NFA){
+    for(int i=0;i&lt;setp.length();i++){
+        for(int j=0;j&lt;NFA.size();j++){
+            if(setp[i]==NFA[j].src[0]&amp;&amp;NFA[j].edge[0]=='&amp;'){
+                if(!check(setp,NFA[j].dst[0])){
+                    setp+=NFA[j].dst[0];
+                }
+            }
+        }
+    }
+    return setp;
+}
+
+string move(string t, char a, vector&lt;Part&gt; NFA){
+    string temp="";
+    for(int i=0;i&lt;t.length();i++){
+        for(int j=0;j&lt;NFA.size();j++){
+            if(t[i]==NFA[j].src[0]&amp;&amp;NFA[j].edge[0]==a){
+                if(!check(temp,NFA[j].dst[0])){
+                    temp+=NFA[j].dst[0];
+                }
+            }
+        }
+    }
+    return temp;
+}
+
+bool checkINrawDFA(vector&lt;string&gt; rawDFA, string u){
+    for(int i=0;i&lt;rawDFA.size();i++){
+        if(rawDFA[i]==u)
+            return true;
+    }
+    return false;
+}
+
+int checkFlag(vector&lt;bool&gt; t){
+    for(int i=0;i&lt;t.size();i++){
+        if(t[i]==false)return i;
+    }
+    return -1;
+}
+
+int main(int argc, const char * argv[]) {
+    vector&lt;Part&gt; NFA;
+    int num;
+    cout&lt;&lt;"input: ";
+    cin&gt;&gt;num;
+    getchar();
+    input(NFA,num);
+    //outputNFA(NFA);
+    
+    char sigma[2]={'a','b'};//字母表
+    string start = closure("0", NFA);//k起始符的闭包
+    sort(start.begin(), start.end());
+    vector&lt;string&gt; rawDFA;//存入子集
+    rawDFA.push_back(start);
+    vector&lt;bool&gt; rawDFAflag;//存入子集是否完成的标志
+    rawDFAflag.push_back(false);
+    cout&lt;&lt;endl;
+    while(checkFlag(rawDFAflag)!=-1){
+        int m = checkFlag(rawDFAflag);
+        rawDFAflag[m]=true;
+        for(int i=0;i&lt;2;i++){
+            string u = closure(move(rawDFA[m],sigma[i],NFA), NFA);
+            sort(u.begin(), u.end());
+            if(!checkINrawDFA(rawDFA, u)){
+                rawDFA.push_back(u);
+                rawDFAflag.push_back(false);
+            }
+        }
+    }
+    cout&lt;&lt;endl;
+    for(int i=0;i&lt;rawDFA.size();i++){
+        cout&lt;&lt;rawDFA[i]&lt;&lt;"   "&lt;&lt;closure(move(rawDFA[i],'a',NFA),NFA)&lt;&lt;"   "&lt;&lt;closure(move(rawDFA[i],'b',NFA),NFA)&lt;&lt;endl;
+    }
+    return 0;
+}
+/*
+ 0 &amp; 1
+ 1 a 2
+ 1 a 4
+ 1 b 3
+ 2 a 5
+ 4 b 5
+ 3 a 5
+ */
+
+/*
+ 0 &amp; 1
+ 1 a 1
+ 1 b 1
+ 1 &amp; 2
+ 2 a 3
+ 2 b 4
+ 3 a 5
+ 4 b 5
+ 5 &amp; 6
+ 6 a 6
+ 6 b 6
+ 6 &amp; 7
+ */</code></pre>
+<h2><strong>Python代码（利用graphviz画图）</strong></h2>
+<pre ><code class="language-default">from graphviz import Digraph
+
+class Part:
+    def __init__(self, src, edge, dst):
+        self.src = src
+        self.edge = edge
+        self.dst = dst
+
+
+def check(str, x):
+    for i in range(len(str)):
+        if str[i]==x:
+            return True
+    return False
+
+
+def closure(setp, NFA):
+    t = len(setp)
+    i = 0
+    while i &lt; t:
+        for j in range(len(NFA)):
+            if setp[i] == NFA[j].src[0] and NFA[j].edge[0]=='&amp;':
+                if not check(setp, NFA[j].dst[0]):
+                    setp += NFA[j].dst[0]
+                    t += 1
+        i += 1
+    return setp
+
+
+def move(t, a, NFA):
+    temp = ""
+    for i in range(len(t)):
+        for j in range(len(NFA)):
+            if t[i] == NFA[j].src[0] and NFA[j].edge[0]==a:
+                if not check(temp, NFA[j].dst[0]):
+                    temp += NFA[j].dst[0]
+    return temp
+
+
+def checkINrawDFA(rawDFA, u):
+    for i in range(len(rawDFA)):
+        if rawDFA[i] == u:
+            return True
+    return False
+
+
+def checkFlag(t):
+    for i in range(len(t)):
+        if t[i]==False:
+            return i
+    return -1
+
+def checkINdex(rawDFA, u):
+    for i in range(len(rawDFA)):
+        if rawDFA[i] == u:
+            return i
+    return -1
+
+
+NFA = []
+NFA2 = []
+NFADic = {}
+dot = Digraph(comment='The Test Table')
+num = int(input('input:'))
+for i in range(num):
+    x = input()
+    y = input()
+    z = input()
+    temp = []
+    temp.append(int(x))
+    temp.append(int(z))
+
+    NFA2.append(temp)
+    NFADic[tuple(temp)] = y
+    temp = Part(x, y, z)
+    NFA.append(temp)
+    dot.node(x, x)
+    dot.edge(x, z, y)
+
+# dot.render('NFA.gv', view=True)
+for i in range(len(NFA)):
+    print(NFA[i].src, NFA[i].edge, NFA[i].dst)
+
+sigma = ['a', 'b']
+start = closure("0", NFA)
+start = "".join(sorted(start))
+rawDFA = []
+rawDFA.append(start)
+rawDFAflag = []
+rawDFAflag.append(False)
+while checkFlag(rawDFAflag) != -1:
+    m = checkFlag(rawDFAflag)
+    rawDFAflag[m] = True
+    for i in range(len(sigma)):
+        u = closure(move(rawDFA[m], sigma[i], NFA), NFA)
+        u = "".join(sorted(u))
+        if not checkINrawDFA(rawDFA, u):
+            rawDFA.append(u)
+            rawDFAflag.append(False)
+
+DFA = []
+DFA2 = []
+DFADic = {}
+
+for i in range(len(rawDFA)):
+    print(rawDFA[i], closure(move(rawDFA[i], 'a', NFA), NFA), closure(move(rawDFA[i],'b',NFA),NFA))
+    DFA.append(rawDFA[i])
+
+
+dot2 = Digraph(comment='The Test Table')
+for i in range(len(DFA)):
+    temp = []
+    temp.append(i)
+    temp.append(checkINdex(rawDFA, "".join(sorted(closure(move(rawDFA[i], 'a', NFA), NFA)))))
+    DFA2.append(temp)
+    DFADic[tuple(temp)] = 'a'
+    temp = []
+    temp.append(i)
+    temp.append(checkINdex(rawDFA, "".join(sorted(closure(move(rawDFA[i], 'b', NFA), NFA)))))
+    DFA2.append(temp)
+    DFADic[tuple(temp)] = 'b'
+    dot2.node(str(i), str(i))
+    dot2.edge(str(i), str(checkINdex(rawDFA, "".join(sorted(closure(move(rawDFA[i], 'a', NFA), NFA))))),'a')
+    dot2.edge(str(i), str(checkINdex(rawDFA, "".join(sorted(closure(move(rawDFA[i], 'b', NFA), NFA))))),'b')
+
+dot2.render('DFA.gv', view=True)
+
+
+'''
+0
+&amp;
+1
+1
+a
+1
+1
+b
+1
+1
+&amp;
+2
+2
+a
+3
+2
+b
+4
+3
+a
+5
+4
+b
+5
+5
+&amp;
+6
+6
+a
+6
+6
+b
+6
+6
+&amp;
+7
+'''
+
+'''
+0
+a
+1
+0
+b
+2
+1
+b
+2
+2
+a
+1
+1
+a
+3
+2
+b
+3
+3
+a
+3
+3
+b
+3
+'''</code></pre>
+<h2><strong>验证</strong></h2>
+测试数据1：
+
+0 &amp; 1
+1 a 1
+1 b 1
+1 &amp; 2
+2 a 3
+2 b 4
+3 a 5
+4 b 5
+5 &amp; 6
+6 a 6
+6 b 6
+6 &amp; 7
+
+其NFA如下图所示（使用graphviz生成），0是初态，7是终态。
+
+<img class="alignnone size-full wp-image-5449" src="https://cdn.omegaxyz.com/2019/01/nfa2dfa1.png" alt="" width="302" height="847" />
+
+结果1：
+
+子集生成过程的矩阵表示，第一列是子集，第二列是move(t,a)操作，第三列是move(t,b)操作。
+
+<img class="alignnone size-full wp-image-5450" src="https://cdn.omegaxyz.com/2019/01/nfa2dfa3.png" alt="" width="333" height="187" />
+
+转换后的DFA如下图所示（使用graphviz生成，其中3，4，5，6是终态）
+
+<img class="alignnone wp-image-5451" src="https://cdn.omegaxyz.com/2019/01/nfa2dfa4.png" alt="" width="235" height="656" />
+
+测试数据2：
+
+0 a 1
+0 b 2
+1 b 2
+2 a 1
+1 a 3
+2 b 3
+3 a 3
+3 b 3
+
+NFA2：
+
+<img class="alignnone  wp-image-5448" src="https://cdn.omegaxyz.com/2019/01/nfa2dfa.png" alt="" width="235" height="536" />
+
+生成的DFA（和NFA相同上图）
+<h2><strong>难点</strong></h2>
+基本算法是子集法，核心函数是move和closure函数。
+
+遇到的问题:
+<ul>
+ 	<li>如何构造子集的数据结构才能方便而快速地从NFA转化为DFA。解决的方案使用字符串作为子集，比如“abc”则是代表状态a,b和c的集合。</li>
+ 	<li>生成的DFA的编号问题，需要根据Move和closure的结果动态编号</li>
+ 	<li>图形化界面显示，一开始使用的是python中的networkx，最后发现networkx不能画自环路，于是最后换成了graphviz来进行图形界面的展示。</li>
+</ul></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

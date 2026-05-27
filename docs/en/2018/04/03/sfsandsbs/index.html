@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SFS and SBS feature selection algorithms · OmegaXYZ</title>
+  <meta name="description" content="(1) Sequential Forward Selection (SFS, Sequential Forward Selection) algorithm description: The feature subset X starts from the empty set, and each time one feature x is selected to be added to the feature subset X to make the feature function J( To put it simply, each time a feature is selected to add the optimal value of the evaluation function, it is actually a simple greedy algorithm. Algorithm evaluation: The disadvantage is that features can only be added but not removed. For example: Feature A...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/03/sfsandsbs/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-03</div>
+        <h1>SFS and SBS feature selection algorithms</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><p align="left"><strong>(1) Sequential Forward Selection (SFS, Sequential Forward Selection)</strong></p>
+<p align="left">Algorithm description: The feature subset X starts from the empty set, and each time one feature x is selected to be added to the feature subset X to make the feature function J( To put it simply, each time a feature is selected to add the optimal value of the evaluation function, it is actually a simple greedy algorithm.</p>
+<p align="left"><img alt="" class="alignnone size-full wp-image-3908" height="140" src="https://cdn.omegaxyz.com/2018/04/SFS.jpg" width="571"/></p>
+<p align="left"><img alt="" class="alignnone size-full wp-image-3909" height="512" src="https://cdn.omegaxyz.com/2018/04/SFS2.jpg" width="718"/></p>
+<p align="left">Algorithm evaluation: The disadvantage is that features can only be added but not removed. For example: Feature A completely depends on features B and C. It can be considered that if features B and C are added, A will be redundant. Assuming that the sequence forward selection algorithm first adds A to the feature set, and then adds B and C, then the feature subset contains redundant feature A.</p>
+<p align="left">Code:</p>
+<pre><code class="language-matlab">%----4.17编 顺序前进法特征选择 成功!
+clear;
+clc;
+%--------特征导入  请自行修改
+M=512;N=512;
+load coourfeature16_0521_Aerial1 %%%共生矩阵 96.14％
+wfeature{1}=coourfeature(:,1);
+wfeature{2}=coourfeature(:,2);
+wfeature{3}=coourfeature(:,3);
+load  fufeature_0521_SARAerial1_512%%复小波  98.26％
+for i=1:13
+    wfeature{3+i}=wavefeature(:,i);
+end
+load wavefeature_0521_SARAerial1_512%%%非下采样小波  97.58％
+for i=1:7
+    wfeature{16+i}=wavefeature(:,i);
+end
+load wavefeature_0521_Aerial1%%小波 97.65％
+for i=1:7
+    wfeature{23+i}=wavefeature(:,i);
+end
+% load rwt_cofeature96_0423_lsy1
+% for i=1:96
+%     wfeature{30+i}=feature(:,i);
+% end
+%%%%%%%----------归一化
+[m n]=size(wfeature{1});
+for j=1:30%一共30组特征 这里 请自行修改
+    mx=max(wfeature{j});
+    mi=min(wfeature{j});
+    mxx=(mx-mi);
+    mii=ones([m n])*mi;
+    wfeature{j}=(wfeature{j}-mii)./mxx;
+end
+%%---------------SFS  先选4个特征尝试
+chosen=[];%%表示已选的特征
+chosen=[chosen 1];
+Jc=0;%%选出的Ｊ值
+for j=1:5  %选5个特征
+    J=zeros([1 30]);
+  for i=2:30  %一共30组特征 这里 请自行修改
+    [mm nn]=size(chosen);
+    for p=1:nn
+        if i==chosen(p)
+            J(i)=0;
+           break;   
+        else
+          J(i)=J(i)-sum(sum((wfeature{i}-wfeature{chosen(p)}).^2));
+          
+        end       
+    end    
+  end
+  mi=min(J);
+  for i=1:30
+      if J(i)==0
+           J(i)=mi;
+      end
+  end
+  ma=max(J);
+   for i=1:30
+      if J(i)==ma
+          chosen=[chosen i];
+           break;
+      end
+   end
+end
+save Aerial1_6t_chosen chosen
+[mm nn]=size(chosen);
+tezh=[];
+for i=1:nn
+    tezh=[tezh wfeature{chosen(i)}];
+end
+%%%%%%%%聚类
+[IDC,U]=kmeans(tezh,2);
+       cc(IDC==1,1)=0;
+       cc(IDC==2,1)=0.75;
+ 
+g=reshape(cc,M,N); 
+figure,imshow(g);
+
+
+
+
+</code></pre>
+ 
+<p align="left"><strong>(2) Sequential Backward Selection (SBS, Sequential Backward Selection)</strong></p>
+<p align="left">Algorithm description: Starting from the complete set of features O, each time one feature x is eliminated from the feature set O, so that the evaluation function value reaches the optimal value after eliminating the feature x.</p>
+<p align="left">Algorithm evaluation: Sequential backward selection is exactly the opposite of sequence forward selection. Its disadvantage is that features can only be removed but not added.</p>
+<p align="left"><img alt="" class="alignnone size-full wp-image-3907" height="160" src="https://cdn.omegaxyz.com/2018/04/SBS.jpg" width="656"/></p>
+<p align="left">Code:</p>
+<pre><code class="language-matlab">%----4.17编 顺序后退法特征选择 
+clear;
+clc;
+%--------特征导入  请自行修改
+A=imread('lsy1.gif');
+[M N]=size(A);
+load coourfeature_0414_lsy1 %%%共生矩阵 96.14％
+feature{1}=coourfeature(:,1);
+feature{2}=coourfeature(:,2);
+feature{3}=coourfeature(:,3);
+load fuwavefeature_0413_lsy1 %%复小波  98.26％
+for i=1:13
+    feature{3+i}=wavefeature(:,i);
+end
+load wavefeature_0413_feixia_lsy1%%%非下采样小波  97.58％
+for i=1:7
+    feature{16+i}=wavefeature(:,i);
+end
+load wavefeature_0417_lsy1%%小波 97.65％
+for i=1:7
+    feature{23+i}=wavefeature(:,i);
+end
+%%%%%%%----------归一化-归一化
+[m n]=size(feature{1});
+for j=1:30%一共30组特征 这里 请自行修改
+    mx=max(feature{j});
+    mi=min(feature{j});
+    mxx=(mx-mi);
+    mii=ones([m n])*mi;
+    feature{j}=(feature{j}-mii)./mxx;
+end
+%%---------------SBS  
+chosen=[];dele=[];
+for i=1:30
+    chosen=[chosen i];
+end
+
+for j=1:24   %%删10个,留20个
+    J=zeros([1 30]);ii=0;  %J(1)是删1的结果,J(2)是删除2 的结果......
+    for i=1:30  %???dele 是必要的么???????????????????????%一共30组特征 这里 请自行修改
+       
+    [mm nn]=size(chosen);
+      for p=1:nn
+          if sum(i==dele)~=0
+              J(i)=0;
+              break;
+          else
+              for q=1:nn    
+                  if (chosen(q)~=i) &amp; (chosen(p)~=i)             
+                    J(i)=J(i)-sum(sum((feature{chosen(q)}-feature{chosen(p)}).^2));  
+                  end
+              end
+          end
+      end
+    end
+     mi=min(J);
+     for cc=1:30
+         if J(cc)==0
+             J(cc)=mi;
+         end
+     end
+     [ma we]=max(J);
+      dele=[dele we];
+      for dd=1:nn
+          if chosen(dd)==we
+              chosen(dd)=[];
+            
+      end
+  
+end
+% chosen=[2 4 5 6 7 8 9 11 12 13 14 19 20 22 23 26 27 28 29 30];
+[mm nn]=size(chosen);
+tezh=[];
+for i=1:nn
+    tezh=[tezh feature{chosen(i)}];
+end
+%%%%%%%%聚类
+[IDC,U]=kmeans(tezh,2);
+       cc(IDC==1,1)=0;
+       cc(IDC==2,1)=0.75;
+g=reshape(cc,M,N); 
+ figure,imshow(g);
+%%%%%%%%%%%%计算正确率
+ju=ones(M)*0.75;
+for i=1:M
+    for j=1:M/2
+        ju(i,j)=0;
+    end
+end
+ju2=g-ju;
+ prob=prod(size(find(ju2~=0)))/(m*n)
+ 1-prob       
+    
+    
+    
+</code></pre>
+ 
+<p align="left">In addition, both SFS and SBS are greedy algorithms and can easily fall into local optimal values.</p></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

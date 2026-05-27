@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kaggle入门泰坦尼克号乘客生还预测 · OmegaXYZ</title>
+  <meta name="description" content="Kaggle简介 Kaggle是由联合创始人、首席执行官安东尼·高德布卢姆（Anthony Goldbloom）2010年在墨尔本创立的，主要为开发商和数据科学家提供举办机器学习竞赛、托管数据库、编写和分享代码的平台。该平台已经吸引了80万名数据科学家的关注，这些用户资源或许正是吸引谷歌的主要因素。 问题简介 包含带标签的训练集与不带标签...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/03/10/kaggle-titanic/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-03-10</div>
+        <h1>Kaggle入门泰坦尼克号乘客生还预测</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/kaggle/index.html">kaggle</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>Kaggle简介</strong></h2>
+Kaggle是由联合创始人、首席执行官安东尼·高德布卢姆（Anthony Goldbloom）2010年在墨尔本创立的，主要为开发商和数据科学家提供举办机器学习竞赛、托管数据库、编写和分享代码的平台。该平台已经吸引了80万名数据科学家的关注，这些用户资源或许正是吸引谷歌的主要因素。
+
+<hr />
+
+<h2><strong>问题简介</strong></h2>
+<img class="alignnone  wp-image-5602" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic1.png" alt="" width="873" height="240" />
+
+包含带标签的训练集与不带标签的测试集
+
+最终提交带列名的csv文件（格式如 <b>gender_submission.csv</b>）
+
+Overview
+
+The data has been split into two groups:
+<ul>
+ 	<li>training set (train.csv)</li>
+ 	<li>test set (test.csv)</li>
+</ul>
+<b>The training set </b>should be used to build your machine learning models. For the training set, we provide the outcome (also known as the “ground truth”) for each passenger. Your model will be based on “features” like passengers’ gender and class. You can also use feature engineering to create new features.
+
+<b>The test set </b>should be used to see how well your model performs on unseen data. For the test set, we do not provide the ground truth for each passenger. It is your job to predict these outcomes. For each passenger in the test set, use the model you trained to predict whether or not they survived the sinking of the Titanic.
+
+We also include <b>gender_submission.csv</b>, a set of predictions that assume all and only female passengers survive, as an example of what a submission file should look like.
+
+<hr />
+
+<h2><strong>数据集</strong></h2>
+<strong>包含如下的特征</strong>
+<table>
+<tbody>
+<tr>
+<th><b>Variable</b></th>
+<th><b>Definition</b></th>
+<th><b>Key</b></th>
+</tr>
+<tr>
+<td>survival</td>
+<td>Survival</td>
+<td>0 = No, 1 = Yes</td>
+</tr>
+<tr>
+<td>pclass</td>
+<td>Ticket class</td>
+<td>1 = 1st, 2 = 2nd, 3 = 3rd</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>Sex</td>
+<td></td>
+</tr>
+<tr>
+<td>Age</td>
+<td>Age in years</td>
+<td></td>
+</tr>
+<tr>
+<td>sibsp</td>
+<td># of siblings / spouses aboard the Titanic</td>
+<td></td>
+</tr>
+<tr>
+<td>parch</td>
+<td># of parents / children aboard the Titanic</td>
+<td></td>
+</tr>
+<tr>
+<td>ticket</td>
+<td>Ticket number</td>
+<td></td>
+</tr>
+<tr>
+<td>fare</td>
+<td>Passenger fare</td>
+<td></td>
+</tr>
+<tr>
+<td>cabin</td>
+<td>Cabin number</td>
+<td></td>
+</tr>
+<tr>
+<td>embarked</td>
+<td>Port of Embarkation</td>
+<td>C = Cherbourg, Q = Queenstown, S = Southampton</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+<strong>Variable Notes</strong>
+
+<b>pclass</b>: A proxy for socio-economic status (SES)
+1st = Upper
+2nd = Middle
+3rd = Lower
+
+<b>age</b>: Age is fractional if less than 1. If the age is estimated, is it in the form of xx.5
+
+<b>sibsp</b>: The dataset defines family relations in this way...
+Sibling = brother, sister, stepbrother, stepsister
+Spouse = husband, wife (mistresses and fiancés were ignored)
+
+<b>parch</b>: The dataset defines family relations in this way...
+Parent = mother, father
+Child = daughter, son, stepdaughter, stepson
+Some children travelled only with a nanny, therefore parch=0 for them.
+<h3><strong>预览</strong></h3>
+<img class="alignnone size-full wp-image-5603" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic2.png" alt="" width="2206" height="524" />
+
+<hr />
+
+<h2><strong>特征工程</strong></h2>
+我的做法如下：
+
+考虑到我还是擅长MATLAB，下面将从官网上下载的测试集和训练集进行实数画，由于第一次仅仅是入门，我首先将PassengerID这一列特征删除（显然没用），接下来，为了方便，删除了姓名这列（当然为了提高准确率，这一列可以从社会工程学角度进行挖掘分析，在此一切从简），同样地，我删除了Cabin数据严重丢失的这一列，其他Sex这列转换成0和1，Embarked转换成1，2，3。其他无法转换的数据或丢失的数据全部用NaN代替。
+
+最终生成了9个特征的数据集，Survived这一列作为标签Label。
+
+由于9个特征中有较优的特征，也有较劣的特征，我利用改进的PSO特征选择算法选取了较优的特征子集。
+
+<hr />
+
+<h2><strong>分类算法的选择</strong></h2>
+手写了KNN算法，训练时K=1，预测时选择K=5
+
+<hr />
+
+<h2><strong>生成csv文件并提交</strong></h2>
+<strong>matlab代码：</strong>
+<pre ><code class="language-matlab">load('.mat');
+[row,col]=size(labelx);
+filename='resultnew.csv';%.csv可以更改为.txt等
+fid=fopen(filename,'w');
+count=0;
+fprintf(fid,'PassengerID,Survived\n');
+for index=1:row
+    fprintf(fid,'%d,%d\n',ansx(index,1),ansx(index,2));
+end</code></pre>
+<strong>提交结果：</strong>
+
+准确率：0.78947
+
+排名：3103/10000
+
+<img class="alignnone size-full wp-image-5604" src="https://cdn.omegaxyz.com/2019/03/kaggle-titanic3.png" alt="" width="1918" height="316" />
+
+Leaderboard上有多个准确率为1的，估计是对数据集的每个特征进行了分析，并用了高级的分类模型。
+
+<hr />
+
+<h2><strong>入门注意事项</strong></h2>
+<ul>
+ 	<li>注册时要验证用户手机号码，在你的手机号码前加上+860，例如你的手机号为18799999999，那么应该填上 +86018799999999。</li>
+ 	<li>提交数据时一定要注意数据的格式，不能多个空格和少个空格，Leaderboard上最后有好多准确率为0的，大概都是格式不规范。</li>
+</ul>
+&nbsp;
+
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

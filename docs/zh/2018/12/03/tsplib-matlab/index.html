@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TSPLIB数据集简介与MATLAB读取 · OmegaXYZ</title>
+  <meta name="description" content="TSPLIB是一个包含了TSP及其相关问题的问题库。其中的文件都具有.tsp后缀。关于这些文件的使用，有一篇专门的解说论文( https://docs.google.com/file/d/0B4zUGKjaO9uERU1RZDNuRkg3TW8/edit ) 数据格式： NAME : eil51 COMMENT : 51-city pro...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/12/03/tsplib-matlab/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-12-03</div>
+        <h1>TSPLIB数据集简介与MATLAB读取</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">TSPLIB是一个包含了TSP及其相关问题的问题库。其中的文件都具有.tsp后缀。关于这些文件的使用，有一篇专门的解说论文(<a href="https://docs.google.com/file/d/0B4zUGKjaO9uERU1RZDNuRkg3TW8/edit">https://docs.google.com/file/d/0B4zUGKjaO9uERU1RZDNuRkg3TW8/edit</a>)
+
+<strong>数据格式：</strong>
+
+NAME : eil51
+
+COMMENT : 51-city problem (Christofides/Eilon)
+
+TYPE : TSP
+
+DIMENSION : 51
+
+EDGE_WEIGHT_TYPE : EUC_2D
+
+NODE_COORD_SECTION
+
+1 37 52
+
+2 49 49
+
+3 52 64
+
+4 20 26
+
+5 40 30
+
+…
+
+50 56 37
+
+51 30 40
+
+EOF
+
+&nbsp;
+
+NAME就是该文件的名字。
+
+COMMENT是对这个问题的附加说明。
+
+TYPE描述了问题的类型，因为TSPLIB中还包含了一些其他类型的问题，但是这里我们只关注TSP类型。
+
+DIMENSION描述了城市的数量。
+
+EDGE_WEIGHT_TYPE 描述了两个城市间cost的类型，这里是我们最为熟悉的2D欧几里得距离。
+
+NODE_COORD_SECTION描述了各个城市的2D欧几里得坐标。每一行按照城市编号，X坐标，Y坐标的顺序。
+
+但是需要注意的是，EDGE_WEIGHT_TYPE并不是只有EUC_2D一种，而是有13种之多。各种类型有对应的距离计算方法，如曼哈顿距离，地理距离等，这里我就不一一列举了，论文中有详细的叙述。这里我只单独提一下出现最多的一种类型EXPLICIT，这种类型和其他的区别较大，城市间的距离是显式给出的，无需再计算。
+
+<strong>MATLAB读取代码：</strong>
+<pre ><code class="language-matlab">function [n_citys,city_position] = Read(filename)
+fid = fopen(filename,'rt');
+location=[];
+A = [1 2];
+tline = fgetl(fid);
+while ischar(tline)
+    if(strcmp(tline,'NODE_COORD_SECTION'))
+        while ~isempty(A)
+            A=fscanf(fid,'%f',[3,1]);
+            if isempty(A)
+                break;
+            end
+            location=[location;A(2:3)'];
+        end
+    end
+    tline = fgetl(fid); 
+    if strcmp(tline,'EOF')
+        break;
+    end
+end
+[m,n]=size(location);
+n_citys = m;
+city_position=location;
+fclose(fid);
+end</code></pre>
+相关文章：
+
+https://omegaxyz.com/2018/07/10/aco-tsp/?hilite=%27TSP%27
+
+Github数据集仓库地址：<a href="https://github.com/xyjigsaw/Dataset">https://github.com/xyjigsaw/Dataset</a>（在TSPLIB目录下）
+
+tsplib官网：<a href="https://wwwproxy.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/">https://wwwproxy.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/</a>
+
+参考资料：<a href="https://blog.csdn.net/natsu1211/article/details/39216117">https://blog.csdn.net/natsu1211/article/details/39216117</a></div>
+        <section class="comments"><h2>评论 (10)</h2>
+        <div class="comment" id="comment-18578">
+          <strong>卑微小粉丝</strong>
+          <time>2020-02-17 14:24:43</time>
+          <div>楼主您好，哪个TSPLIB的官网打不开了，能问您要一份dsj1000.tsp么</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18579">
+          <strong>xyjisaw</strong>
+          <time>2020-02-17 14:41:00</time>
+          <div>你好，请访问github仓库： https://github.com/xyjigsaw/Dataset <br>数据集在相应的TSPLIB文件夹下</div>
+        </div>
+        
+        <div class="comment" id="comment-18934">
+          <strong>马上有钱</strong>
+          <time>2020-05-13 09:42:26</time>
+          <div>楼主你的参考资料打不开</div>
+        </div>
+        
+        <div class="comment reply" id="comment-18935">
+          <strong>xyjisaw</strong>
+          <time>2020-05-13 10:00:37</time>
+          <div>github可以打开。</div>
+        </div>
+        
+        <div class="comment" id="comment-19036">
+          <strong>gm</strong>
+          <time>2020-06-14 14:59:53</time>
+          <div>请问一下，有非对称数据的matlab读取代码么？.atsp文件的</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19039">
+          <strong>xyjisaw</strong>
+          <time>2020-06-15 10:11:54</time>
+          <div>没有啊</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19148">
+          <strong>哇哈哈</strong>
+          <time>2020-07-03 20:48:40</time>
+          <div>楼主，这个数据集是怎么测得的啊？有啥用，如果我只需要20个城市是不是就不用这个数据集，因为那20个点都是随机生成的</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19149">
+          <strong>xyjisaw</strong>
+          <time>2020-07-03 21:02:17</time>
+          <div>是的，数据集就是现实的地图投影到坐标点上，也可以用随机的。</div>
+        </div>
+        
+        <div class="comment" id="comment-19204">
+          <strong>Liaofan</strong>
+          <time>2020-07-20 10:41:28</time>
+          <div>有vrp问题的数据集吗</div>
+        </div>
+        
+        <div class="comment reply" id="comment-19206">
+          <strong>xyjisaw</strong>
+          <time>2020-07-20 11:05:08</time>
+          <div>抱歉，没有</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

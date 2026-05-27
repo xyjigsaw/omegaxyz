@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>High-dimensional feature selection algorithm based on VNS and Markov blanket grouping · OmegaXYZ</title>
+  <meta name="description" content="Keywords: high-dimensional feature selection, Markov blanket, variable neighborhood search algorithm, feature grouping Journal: Information Science (District 1) ① Markov blanket: Divide a complete set of random variables U into three mutually exclusive parts, the variable In formula (2-16), the set MB is i...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2017/11/29/pgvns/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-11-29</div>
+        <h1>High-dimensional feature selection algorithm based on VNS and Markov blanket grouping</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<strong>Keywords: high-dimensional feature selection, Markov blanket, variable neighborhood search algorithm, feature grouping</strong>
+<strong>Journal: Information Science (Region 1)</strong>
+<img alt="" class="alignnone wp-image-2533 size-full" height="332" src="https://cdn.omegaxyz.com/2017/11/VNSFS1.png" width="1149"/>
+<h1>①Markov blanket:</h1>
+<img alt="" class="alignnone wp-image-2525 size-full" height="136" src="https://cdn.omegaxyz.com/2017/11/Markov-blankets3.png" width="860"/>Divide a complete set U of random variables into three mutually exclusive parts, variable In formula (2-16), the set MB is the set A I am talking about, {U-MB-{X}} is the set B I am talking about, the symbol "⊥" means "independent", and the symbol "|" means under a given xx condition, so it can be read as "when the set MB is given, the variable X is independent of {U-MB-{X}}".
+
+For example, U is the entire society, X is you personally, and MB is the people in your life circle. According to philosophy, everything is connected; however, you do not have any relationship with everyone in the society, but have an indirect relationship with them through your life circle. That is, given your life circle, you have no relationship with the rest of the society (independent).<h1>②Symmetrical Uncertainty</h1>
+<img alt="" class="alignnone size-medium wp-image-2534" height="76" src="https://cdn.omegaxyz.com/2017/11/VNSFS2-300x76.png" width="300"/>For each feature fi, calculate its symmetric uncertainty, where IG(c l fi) represents the information gain between category c and feature Ji, H(c) and H(fi) represent the information entropy (entropy) of category c and feature Fi respectively. Given a threshold value γ, such as SU(fi,c) ≥γ, then fi is a strongly relevant feature for category c and should be retained, otherwise fi should be removed.<h1>③Approximate Markov Blankets</h1>For two features Xi and
+
+And SU(Xi,Xj)≥SU(Xi,c)<b>a feature</b><b>X</b><b>i </b><b>is the main element if and only if no element is</b><b>X</b><b>i </b><b>An approximate Markov blanket.</b>
+<h1>④Predominant group generation algorithm——GPGG</h1>
+<img alt="" class="alignnone wp-image-2535 size-full" height="626" src="https://cdn.omegaxyz.com/2017/11/VNSFS3.png" width="712"/>
+<b>STEP1</b><b>：</b>Redundancy analysis. For each feature Xi, a threshold α is given according to its symmetric uncertainty, such as SU(Xi,y) &gt; α, then and
+
+It is a strongly relevant feature for category y and is put into the set L.<b>STEP2</b><b>：</b>Sort in descending order according to the value of SU.<b>STEP3</b><b>：</b>Use the approximate Markov blanket method (to determine whether a Markov blanket exists for each element) to find the main elements from L and put them into the set g.<h1>⑤Variable Neighborhood Search (VNS)</h1>
+<img alt="" class="alignnone wp-image-2514 size-full" height="370" src="https://cdn.omegaxyz.com/2017/11/VNS1.png" width="1036"/>
+<img alt="" class="alignnone wp-image-2515 size-full" height="493" src="https://cdn.omegaxyz.com/2017/11/VNS2.png" width="1041"/>
+<b>The main idea of ​​the variable neighborhood search algorithm is:</b>Systematic search using multiple different neighborhoods. First use the smallest neighborhood search, and when the solution cannot be improved, switch to a slightly larger neighborhood. If the solution can continue to be improved, return to the smallest neighborhood, otherwise continue to switch to a larger neighborhood.<img alt="" class="alignnone wp-image-2516 size-full" height="364" src="https://cdn.omegaxyz.com/2017/11/VNS3.png" width="478"/>
+<h1>⑥PGVNS algorithm (PredominantGroupbasedVariableNeighborhoodSearch)</h1>
+<img alt="" class="alignnone wp-image-2536 size-full" height="511" src="https://cdn.omegaxyz.com/2017/11/VNSFS4.png" width="695"/>In order to apply the VNS algorithm to high-dimensional data sets, the author proposed a feature selection method based on the VNS principal element group.
+First, the GPGG algorithm is used to generate the principal element group as the initial solution, and then the shaking method is used to select a new solution set. Through this iteration, the best solution set is finally obtained.<strong>original:</strong>García-Torres M, Gómez-Vela F, Melián-Batista B, et al. High-dimensional feature selection via feature grouping: A Variable Neighborhood Search approach[J]. Information Sciences, 2016, 326(C):102-118.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

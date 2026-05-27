@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特征选择Filter方法详解 · OmegaXYZ</title>
+  <meta name="description" content="Filter（筛选法）通过分析特征子集内部的特点来衡量特征的分类能力，与后面的采用何种分类器无关，这类方法通常需要评价特征相关性的评分函数和阈值判别法来选择出得分最高的特征子集。通过文献调研，根据选择特征子集方式的不同，可以继续划分为基于特征排序（Feature Ranking）和基于特征空间搜索(Space Search)两类。 基于特...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/23/fs_filter/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-23</div>
+        <h1>特征选择Filter方法详解</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">Filter（筛选法）通过分析特征子集内部的特点来衡量特征的分类能力，与后面的采用何种分类器无关，这类方法通常需要评价特征相关性的评分函数和阈值判别法来选择出得分最高的特征子集。通过文献调研，根据选择特征子集方式的不同，可以继续划分为基于特征排序（Feature Ranking）和基于特征空间搜索(Space Search)两类。
+
+<strong>基于特征排序的方法，其主要思想是：</strong>
+1) 使用评分函数（Scoring Function）对每个特征进行评分，并将所有特征按照得分的降序排列；
+2) 对每个特征得分进行显著性检验（如 p-value 等）；
+3) 通过预先设置的阈值选择排序前列的具有显著统计学意义的特征；
+4) 验证选择的最优特征子集,通常使用 ROC(Receiver Operating Characteristic)曲线、分类正确率、组相关系数、稳定性等。
+
+<strong>基于特征排序方法的核心就是评分函数</strong>，下图列举了特征选择中出现的基于度量样本群分布之间的差异、基于信息论、基于相关性标准等三类热门评分函数。
+<div><img class="alignnone size-full wp-image-4124" src="https://cdn.omegaxyz.com/2018/04/FS_filter_score.jpg" alt="" width="626" height="702" /></div>
+<div></div>
+<div>基于特征空间搜索法主要是采用一种优化策略从整个特征集合中选出包含最多信息并且达到最小冗余的特征子集。在特定领域，如致病基因的准确发现有一些研究，如基于关联规则(Correlation-based feature selection, CFS)、最大相关最小冗余(Maximum Relevance Minimum Redundancy, MRMR)等，下图给出了上述基于特征空间搜索法的几类主流方法。</div>
+<div><img class="alignnone size-full wp-image-4125" src="https://cdn.omegaxyz.com/2018/04/FS_filter_space.jpg" alt="" width="624" height="512" /></div>
+<div></div>
+<div>基于特征排序的方法多为单变量方法，每次考虑单个特征的影响，选择与类标签最相关的特征，对高维小样本来说具有较好的计算复杂度，但在某些应用领域如基因微阵列数据中，因忽略了特征间的相互关系，直接应用分类精度较为一般；而基于特征空间搜索为多变量的方法，这类算法不但需要考虑特征子集与类标签的相关性，还需要考虑特征子集之间的相关性，通常分类正确率较好，但在高维条件下寻找最优子集过程的计算复杂度较高。</div>
+<div></div>
+<div><strong>参考文献：</strong>王翔, 胡学钢. 高维小样本分类问题中特征选择研究综述[J]. 计算机应用, 2017, 37(9):2433-2438.</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多目标进化算法的一般流程 · OmegaXYZ</title>
+  <meta name="description" content="①随机产生种群P。 ②P用EA（进化算法）得到G。 ③构造P∪G的非支配解集NDset（non dominated set）。 （这里涉及到如何构造非支配解集） ④调整NDset规模并使之满足分布性要求。 （这里涉及到采用何种策略来调整NDset的规模，和如何保持非支配集的多样性和分布性） ⑤如果P&lt;=NDset，循环转到第②步，否则进入...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2017/04/16/theprocedureofmultioa/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2017-04-16</div>
+        <h1>多目标进化算法的一般流程</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a></div>
+        <div class="article-content">①随机产生种群P。
+②P用EA（进化算法）得到G。
+③构造P∪G的非支配解集NDset（non dominated set）。
+
+（这里涉及到如何构造非支配解集）
+④调整NDset规模并使之满足分布性要求。
+
+（这里涉及到采用何种策略来调整NDset的规模，和如何保持非支配集的多样性和分布性）
+⑤如果P&lt;=NDset，循环转到第②步，否则进入⑥。
+⑥满足条件结束。</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

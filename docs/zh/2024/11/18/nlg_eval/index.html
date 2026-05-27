@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NLG文本评估任务或许并不需要真值或参考文本 · OmegaXYZ</title>
+  <meta name="description" content="摘要 面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的BLEU和METEOR，例如近年来基于embedding相似性提出的BERTScore和MoverScore。这类方法，可以称为Ref-free方法。 Re...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2024/11/18/nlg_eval/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2024-11-18</div>
+        <h1>NLG文本评估任务或许并不需要真值或参考文本</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.html">机器学习</a></div>
+        <div class="article-content"><h2><strong>摘要</strong></h2>
+面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的BLEU和METEOR，例如近年来基于embedding相似性提出的BERTScore和MoverScore。这类方法，可以称为Ref-free方法。
+
+Ref-based方法使用广泛，相信大家都早有耳闻并应用实际研究中。然而，近两年大模型飞速发展，让我们不禁要问：<strong>与参考文本的相似度，真的能够反映生成文本的质量吗？</strong>如果修改了评估标准呢？如果这个任务本没有标准答案呢？更重要的是，我们真的有能力为每一个新的任务都创建对应的参考文本吗？
+
+近年来蓬勃兴起的无参考评估方法，即Ref-free方法，或许提供了一种可能的解决思路。这类方法通常基于某个基座语言模型，利用条件生成概率等方式对文本进行评估，并在不少任务上取得了不错的结果。然而，<strong>什么时候我们可以用</strong><strong>Ref-free</strong><strong>的方法，各类方法的优劣如何</strong>，却一直缺乏相应的研究，而这，恰恰是本文的研究中心。
+
+<img class="alignnone wp-image-7989" src="https://cdn.omegaxyz.com/2024/11/isReference_title.png" alt="" width="583" height="197" />
+<h2><strong>结论</strong></h2>
+我们发现，<strong>参考文本在大多数评估场景中并非必要</strong>，应用基于语言模型的Ref-free的方法通常会有更好的效果，尤其是在和基于n-gram的BLEU，METEOR等方法比较之时。较为简单的任务场景中，例如summarization和data-to-text。唯一需要注意的是，Ref-free方法的优势也正是劣势所在，其使用受到模型本身理解能力的影响，需要在应用前进行测试。举个例子，对于开放的对话任务，如果ref-free的基座模型并未接触过相关数据，其表现往往不尽人意。我们还需要指出的是，无论是哪种方案，都无法达到与人类相同的程度，其结果仅作为辅助支撑材料之一。
+
+<strong> </strong>
+<h2><strong>什么是一个好的评估方法？</strong></h2>
+说完结论，回归正题。我们说参考文本不好，Ref-free方法更好，总归要给出一个好的标准。为了方便叙述，以下我们将评估方法称为<strong>metrics</strong><strong>。</strong>这个标准，我们选择了业内沿用至今的黄金标准——人类评分，也就是评估任务的ground truth。如果一个评估方法可以给出与人类相似，甚至一摸一样的打分，那么我们就认为这是一个好的评估方法。
+<h3><strong>相关性</strong></h3>
+既然是评估分数之间的相似性，最简单的指标自然是相关性。显然，metric生成的分数与人类评分相关性越高，代表效果越好。这里我们采用了Spearman Correlation作为相关性的计算方法。
+具体来说，假设我们现在有N个待评估文本，Metrics输出的分数是S1,S2,...,Sn，对应的人类评估分数是h1,h2,...hn，则相关系数的计算如下所示。
+
+<img class="alignnone wp-image-7993" src="https://cdn.omegaxyz.com/2024/11/isReference2.png" alt="" width="424" height="30" />
+<h3><strong>扰动识别Perturbation Detection</strong></h3>
+还有一个很直观的评价指标，好的metric应当敏锐地识别出句子中存在的缺陷。因此我们可以通过人为的方式破坏原本的语句。对比句子原本的评分，如果metric可以给被破坏的文本打出更低的分数，证明它判断出了句子质量的下降。显然这是一个二分类的问题，我们用最简单的准确度accuracy进行评估。
+<h3><strong>KS分数</strong></h3>
+除了扰动识别，我们也可以从分布的角度去考虑metric对文本质量的分辨能力。在实验中，对于每个数据集，我们根据人类的评分将文本划分为高质量组与低质量组。接下来，我们收集模型对两组文本的打分，两组分数各自构成了分布A（高质量组）和分布B（低质量组）。显然这两组分数应当有足够的差异度，才能证明模型分得清两类文本。
+
+我们采用Kolmogorov-Smirnov分数，简称KS分数，进行评价。KS分数可以用于计算两个分布之间的相似性，计算公式如下。这里F代表累计密度函数，KS分数为0代表两组数据的分布一致。KS分数越高，代表metric的表现越好。
+
+<img class="alignnone wp-image-7990" src="https://cdn.omegaxyz.com/2024/11/isReference3.png" alt="" width="272" height="51" />
+<h3><strong>Meta-correlation</strong></h3>
+最后，我们还想知道各个metric的评分稳定性：它们的打分会收到文本质量的影响吗？我们借用了Shen et al.[1]提出的Meta-Correlation。理想状态下，metric打分质量与文本质量应当不存在相关性，即meta-correlation接近于0.若是接近于1（或者-1），则代表它们在遇到质量高（或者低）的文本时能够有更好的表现。
+
+具体来说，假设我们收集了来自K个不同系统的文本，其文本质量可以用分数Q1,Q2,...,Qn表示，而Metrics的表现可以用分数S1,S2,...,Sn表示。这里我们用文本的平均人类得分作为Q，Metrics输出分数与人类得分的相关性作为P。Meta-Correlation分数的计算如下。
+
+<img class="alignnone wp-image-7992" src="https://cdn.omegaxyz.com/2024/11/isReference4.png" alt="" width="350" height="46" />
+<h2><strong>实验</strong></h2>
+<h3><strong>相关性实验</strong></h3>
+我们收集了来自dialogue，data-to-text和summarization三种不同任务的数据集用于实验，包含对coherence，consistency和fluency三种指标（简写为COH，CON和FLU）的评估结果。数据集中的每个样例都包含待评估文本hyp，用于hyp生成的输入文本src，参考文本ref，和人类针对这个指标的评分结果。
+
+<img class="alignnone size-full wp-image-7988" src="https://cdn.omegaxyz.com/2024/11/isReference5.png" alt="" width="726" height="358" />
+
+表中展现了各个metrics生成的分数与人类评分的相关性。结果非常有意思，我们发现Ref-free的表现在大部分任务上远超Ref-based的方法。这促使我们反思，reference在评估中到底扮演了一个什么样的角色。我们从SummEval中抽取出了部分案例，发现同一个hyp根据不同ref计算出的分数差异明显。换言之，Ref-based的评估结果严重依赖于使用的ref。另一方面无论是什么评估criterion，我们都采用了相同的reference，这显然也是不合理的。最后，直觉上，用基于n-gram的匹配评价fluency和coherence等并不符合逻辑，且在开放性生成任务上，较低的匹配分数无法说明文本的质量。
+
+因此，我们非常建议采用新的Ref-free的方式用于评估任务。这类方法基于自然语言模型，能够利用语言模型中包含的语义信息。唯一需要注意的是，Ref-free方法的效果严重依赖于模型本身的生成能力，因此在拓展到不同任务上时，需要进行预测试。同时，评估 fluency这类与src并不相关的指标时，为了降低data-to-text等任务中不常规src输入的影响，可以采用仅需要hyp作为输入的method，例如UniEva对fluency的评估模式。
+<h3><strong>扰乱实验</strong></h3>
+<img class="alignnone wp-image-7986" src="https://cdn.omegaxyz.com/2024/11/isReference67.png" alt="" width="373" height="296" />
+
+上图展现了不同metrics对判断扰乱的准确性。对于coherence，我们采用了重排段落语句的扰乱方式。对于fluency，我们采用了subject-verb disagreement的扰乱方式。从结果可以看到，Ref-free方法对于Perturbation有着很不错的敏感度，但Ref-based就不让人满意了。对于coherence，几个基于n-gram的方法几乎无法识别出perturbation。原因也很清楚，因为我们用于coherence的perturb方法是对句子进行打乱，并不会影响n-gram的匹配，因此BLUE等metric将对perturb前后的文本给出相同的分数。对于fluency评估表现上的差异，一种可能的解释是，Ref-based的方法关注句子的表层特性，而对深层语义信息的利用却不如Ref-free的方法。
+<h3><strong>KS分数</strong></h3>
+<img class="alignnone wp-image-7991" src="https://cdn.omegaxyz.com/2024/11/isReference8.png" alt="" width="664" height="230" />
+
+KS的结果同样是Ref-free优于Ref-based，实际上与Correlation的分析结果是一致的。评分与correlation越相近的metrics，对于质量不同的文本也有着更好的分辨率。
+<h3><strong>稳定性实验</strong></h3>
+<img class="alignnone wp-image-7987" src="https://cdn.omegaxyz.com/2024/11/isReference9.png" alt="" width="656" height="238" />
+
+根据meta-correlation的计算结果，很遗憾，我们发现，这篇文章中包含的evaluation metrics并不具有理想的稳定性。事实上，我们发现，对于Ref-free Metrics和表现较好的Ref-based metrics BERTScore，其评估效果几乎稳定的与文本质量呈现负相关。这说明，Ref-free metrics对于质量较差的文本可以给出负面的评分，但是却无法对高质量文本做出正确的评估。至于Ref-based Metrics，他们则没有一致的表现输出。考虑到原本便很低的相关性，这更像是一种随机的结果。
+
+这也进一步说明，目前为止，evaluation metrics都远没有到达可以替代人类的程度，人类的干预对于准确的评估必不可少。
+
+&nbsp;
+<h2><strong>结论</strong></h2>
+从实验结果来看，我们会发现， reference-based评估结果很多时候并不能反映文本的真实质量，且出人意料的是，reference-free metrics的表现在多种场景下都胜过了传统的reference-based metrics。因此，在多数评估场景中，无论是从成本还是从效果出发，reference-free的方法都是更好的选择。但考虑到它们在应用时的不稳定性，实际用于新任务上进行评估时，提前准备少量样本进行测试是非常重要的。仍然需要注意的是，想要让automatic metrics代替人类评分仍有很长的路要走，无论是何种metrics给出的判断，都只能作为参考的一部分。
+
+<strong>参考文献：</strong>
+<ol>
+ 	<li>Large Language Models are Not Yet Human-Level Evaluators for Abstractive Summarization (Shen et al., Findings 2023)</li>
+</ol>
+<strong>引用：</strong>
+<pre ><code class="language-default">@inproceedings{sheng-etal-2024-reference,
+    title = "Is Reference Necessary in the Evaluation of {NLG} Systems? When and Where?",
+    author = "Sheng, Shuqian  and
+      Xu, Yi  and
+      Fu, Luoyi  and
+      Ding, Jiaxin  and
+      Zhou, Lei  and
+      Wang, Xinbing  and
+      Zhou, Chenghu",
+    editor = "Duh, Kevin  and
+      Gomez, Helena  and
+      Bethard, Steven",
+    booktitle = "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    month = jun,
+    year = "2024",
+    address = "Mexico City, Mexico",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.naacl-long.474",
+    doi = "10.18653/v1/2024.naacl-long.474",
+    pages = "8580--8596",
+}</code></pre>
+<strong>欢迎大家引用我们的工作，转载已授权</strong></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

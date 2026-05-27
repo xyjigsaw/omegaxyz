@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neo4j data import and visualization · OmegaXYZ</title>
+  <meta name="description" content="Introduction Neo4j is a high-performance NoSQL graph database that stores structured data on the network instead of in tables. It is an embedded, disk-based, fully transactional Java persistence engine, but it stores structured data on the network (called a graph from a mathematical perspective) rather than in tables. Neo4j can also be viewed as a high-performance graph engine that has all the features of a mature database. Programmers work within an object-oriented, flexible network architecture...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/01/17/neo4j_introduction/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-01-17</div>
+        <h1>Neo4j data import and visualization</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/neo4j/index.html">Neo4j</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Introduction</strong></h2>Neo4j is a high-performance NoSQL graph database that stores structured data on the network instead of tables. It is an embedded, disk-based, fully transactional Java persistence engine, but it stores structured data on the network (called a graph from a mathematical perspective) rather than in tables. Neo4j can also be viewed as a high-performance graph engine that has all the features of a mature database. Programmers work in an object-oriented, flexible network structure rather than strict, static tables - but they can enjoy all the benefits of a fully transactional, enterprise-class database.<h2><strong>Neo4j property graph data model</strong></h2>Neo4j graph database follows the property graph model to store and manage its data.
+
+Property graph model rules<ul class="list">
+<li>Represent data in nodes, relationships and attributes</li>
+<li>Both nodes and relationships contain attributes</li>
+<li>relationship connection node</li>
+<li>Properties are key-value pairs</li>
+<li>Nodes are represented by circles and relationships are represented by directional keys.</li>
+<li>Relationships have directions: one-way and two-way.</li>
+<li>Each relationship contains a "start node" or "from node" and a "to node" or "end node"</li>
+</ul>In a property graph data model, relationships should be directional. If we try to create a relationship without direction then it will throw an error message.
+
+In Neo4j, relationships should also be directional. If we try to create a relationship without direction, then Neo4j will throw an error message, "Relationship should be directional".
+
+Neo4j graph database stores all its data in nodes and relationships. We don't need any additional RRBMS database or SQL-less database to store Neo4j database data. It stores its data in a native format in the form of graphs.
+
+Neo4j uses the native GPE (Graphics Processing Engine) engine to use its native graph storage format.
+
+The main building blocks of the graph database data model are:<ul class="list">
+<li>node</li>
+<li>relation</li>
+<li>property</li>
+</ul>
+<img alt="" class="alignnone wp-image-6232" height="183" src="https://cdn.omegaxyz.com/2020/01/simple-graph.jpg" width="246"/>
+<h2><strong>use</strong></h2>①Download:<a href="https://neo4j.com/download/">https://neo4j.com/download/</a>② After opening, create a graph database in the main interface and set the name and password.<img alt="" class="alignnone wp-image-6239" height="567" src="https://cdn.omegaxyz.com/2020/01/neo4j1-1024x708.png" width="820"/>③Click Start.<img alt="" class="alignnone wp-image-6240" height="567" src="https://cdn.omegaxyz.com/2020/01/neo4j2.png" width="820"/>④ Now that you have entered the graph management interface, click Open Browser to enter the visual command interface.<img alt="" class="alignnone wp-image-6241" height="568" src="https://cdn.omegaxyz.com/2020/01/neo4j3.png" width="821"/>⑤Enter the corresponding commands in the red box in the figure below to operate the database.
+
+The command language used is: Cypher
+
+Cypher is a declarative graph database query language that can efficiently query and update graph data. Cypher statements can be divided into three categories, including read statements, write statements and general statements:<ul>
+<li>Read statements: MATCH, OPTIONAL MATCH, WHERE, START, AGGREGATION, LOAD CSV</li>
+<li>Write statements: CREATE, MERGE, SET, DELETE, REMOVE, FOREACH, CREATE UNIQUE</li>
+<li>Common statements: RETURN, ORDER BY, LIMIT, SKIP, WITH, UNWIND, UNION, CALL</li>
+</ul>
+<img alt="" class="alignnone wp-image-6242" height="569" src="https://cdn.omegaxyz.com/2020/01/neo4j4.png" width="821"/>⑥Enter the import data statement<strong>Example</strong>There are two columns in the baidubaike_genre.csv file. One column is genre_id, which corresponds to line[0], and the other column is the name, which corresponds to line[1].<img alt="" class="alignnone wp-image-6246" height="139" src="https://cdn.omegaxyz.com/2020/01/Neo4j-genre.png" width="73"/>
+<pre><code class="language-default">LOAD CSV FROM 'file:///mysql_csv/baidubaike_genre.csv' AS line CREATE (:Genre { genre_id:  line[0], genre_name: line[1]  });</code></pre>It should be noted that the imported data root directory is in the hidden file of the personal folder (Linux is different from this)
+
+The path is: C:\Users\your username\.Neo4jDesktop\neo4jDatabases\database-your database id\installation-3.5.14\import folder<img alt="" class="alignnone wp-image-6245" height="404" src="https://cdn.omegaxyz.com/2020/01/neo4j7.png" width="550"/>
+<img alt="" class="alignnone wp-image-6243" height="463" src="https://cdn.omegaxyz.com/2020/01/neo4j5.png" width="820"/>⑦The final visualization result after importing other data (you need to click the label on the left)<img alt="" class="alignnone wp-image-6244" height="464" src="https://cdn.omegaxyz.com/2020/01/neo4j6.png" width="820"/>
+
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

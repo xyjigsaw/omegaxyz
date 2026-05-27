@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>操作系统动态优先级调度算法C语言实现 · OmegaXYZ</title>
+  <meta name="description" content="动态优先级算法 动态优先数是指在进程创建时先确定一个初始优先数， 以后在进程运行中随着进程特性的改变不断修改优先数，这样，由于开始优先数很低而得不到CPU的进程，就能因为等待时间的增长而优先数变为最高而得到CPU运行。 例如：在进程获得一次CPU后就将其优先数减少1，或者进程等待的时间超过某一时限时增加其优先数的值。 在每次运行你所设计的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/05/13/priority_c_os/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-05-13</div>
+        <h1>操作系统动态优先级调度算法C语言实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content"><h2><strong>动态优先级算法</strong></h2>
+动态优先数是指在进程创建时先确定一个初始优先数， 以后在进程运行中随着进程特性的改变不断修改优先数，这样，由于开始优先数很低而得不到CPU的进程，就能因为等待时间的增长而优先数变为最高而得到CPU运行。
+
+例如：在进程获得一次CPU后就将其优先数减少1，或者进程等待的时间超过某一时限时增加其优先数的值。
+
+在每次运行你所设计的处理器调度程序之前，为每个进程任意确定它的“优先数”和“要求运行时间”。为了调度方便，把五个进程按给定的优先数从大到小连成队列。用一单元指出队首进程，用指针指出队列的连接情况。
+
+<strong>流程图：</strong>
+
+<img class="alignnone size-full wp-image-4275" src="https://cdn.omegaxyz.com/2018/05/priority1.png" alt="" width="492" height="743" />
+
+<strong>数据结构：</strong>设计一个链式队列，链式指针代表按照进程优先级将处于就绪状态的进程连接成一个就绪队列。指针指出下一个到达进程的进程控制块首地址。最后一个进程的链指针为NULL。
+
+<strong>排序原理：</strong>
+
+<img class="alignnone size-full wp-image-4276" src="https://cdn.omegaxyz.com/2018/05/linkqueue.png" alt="" width="474" height="314" />
+
+<strong>代码：</strong>
+<pre ><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+typedef struct PCB{
+    int PID;
+    char state;
+    int priority;
+    int runTime;
+    int workTime;
+    struct PCB *next;
+}*process,ptr;
+
+PCB *ready=NULL,*p;
+int num;
+
+void PCBsort(){
+    PCB *first,*second;
+    int flag=0;
+    if((ready==NULL)||((p-&gt;priority)&lt;(ready-&gt;priority))){
+        p-&gt;next=ready;
+        ready = p;
+    }else{
+        first=ready;
+        second=first-&gt;next;
+        while(second!=NULL){
+            if((p-&gt;priority)&lt;(second-&gt;priority)){
+                p-&gt;next=second;
+                first-&gt;next=p;
+                second=NULL;
+                flag=1;
+            }else{
+                first=first-&gt;next;
+                second=second-&gt;next;
+            }
+        }
+        if(flag==0)first-&gt;next=p;
+    }
+}
+
+void inputProcess()
+{
+    int i;
+    printf("输入%d个进程的信息（PID、优先级、运行时间）\n",num);
+    for(i=0;i&lt;num;i++){
+        p=(PCB*)malloc(sizeof(PCB));
+        scanf("%d %d %d",&amp;p-&gt;PID,&amp;p-&gt;priority,&amp;p-&gt;runTime);
+        p-&gt;workTime=0;
+        p-&gt;state='w';
+        p-&gt;next=NULL;
+        PCBsort();
+    }
+}
+
+int space()
+{
+    int k=0;
+    PCB* pr=ready;
+    while(pr!=NULL){
+        k++;
+        pr=pr-&gt;next;
+    }
+    return k;
+}
+
+void showInfo(ptr *pr){
+    printf("\nPID\t状态\t优先级\t运行时间\t剩余时间\n");
+    printf("————————————————————————————\n");
+    printf(" %d\t",pr-&gt;PID);
+    printf(" %c\t",pr-&gt;state);
+    printf("%d\t",pr-&gt;priority);
+    printf("%d\t\t",pr-&gt;runTime);
+    printf("%d\t",pr-&gt;runTime-pr-&gt;workTime);
+    printf("\n");
+}
+
+void priorityRun()
+{
+    int len,h=0;
+    char ch;
+    inputProcess();
+    len=space();
+    while((len!=0)&amp;&amp;(ready!=NULL))
+    {
+        ch=getchar();
+        h++;
+        printf("\n 运行次数:%d \n",h);
+        p=ready;
+        ready=p-&gt;next;
+        p-&gt;next=NULL;
+        p-&gt;state='R';
+        PCB* pr;
+        showInfo(p);
+        pr=ready;
+        while(pr!=NULL){
+            showInfo(pr);
+            pr=pr-&gt;next;
+        }
+        (p-&gt;workTime)++;
+        if(p-&gt;workTime==p-&gt;runTime){
+            printf("\n 进程%d 已结束。\n",p-&gt;PID);
+            free(p);
+        }
+        else{
+            (p-&gt;priority)++;
+            p-&gt;state='w';
+            PCBsort();
+        }
+        printf("\n 按任一键继续 ......");
+    }
+    printf("\n\n 进程已经完成 .\n");
+    ch=getchar();
+}
+
+int main()
+{
+    printf("—————————————————优先级调度算法—————————————————\n");
+    printf("输入进程数目：");
+    scanf("%d",&amp;num);
+    priorityRun();
+}</code></pre>
+<strong>图例：</strong>
+
+<img class="alignnone size-full wp-image-4277" src="https://cdn.omegaxyz.com/2018/05/priority3.png" alt="" width="469" height="289" /></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

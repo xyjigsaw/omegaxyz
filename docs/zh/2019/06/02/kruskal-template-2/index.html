@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>最小生成树Kruskal算法模板题2 C++实现 · OmegaXYZ</title>
+  <meta name="description" content="基本思想： （1）构造一个只含n个顶点，边集为空的子图。若将图中各个顶点看成一棵树的根节点，则它是一个含有n棵树的森林。（2）从网的边集 E 中选取一条权值最小的边，若该条边的两个顶点分属不同的树，则将其加入子图。也就是说，将这两个顶点分别所在的两棵树合成一棵树；反之，若该条边的两个顶点已落在同一棵树上，则不可取，而应该取下一条权值最小的...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/06/02/kruskal-template-2/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-06-02</div>
+        <h1>最小生成树Kruskal算法模板题2 C++实现</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a><a class="pill" href="../../../../tag/poj/index.html">poj</a></div>
+        <div class="article-content"><strong>基本思想：</strong>（1）构造一个只含n个顶点，边集为空的子图。若将图中各个顶点看成一棵树的根节点，则它是一个含有n棵树的森林。（2）从网的边集 E 中选取一条权值最小的边，若该条边的两个顶点分属不同的树，则将其加入子图。也就是说，将这两个顶点分别所在的两棵树合成一棵树；反之，若该条边的两个顶点已落在同一棵树上，则不可取，而应该取下一条权值最小的边再试之（3）依次类推，直至森林中只有一棵树，也即子图中含有 n-1条边为止。
+
+<strong>大白话：</strong>（1）将图中的所有边都去掉。（2）将边按权值从小到大的顺序添加到图中，保证添加的过程中不会形成环（3）重复上一步直到连接所有顶点，此时就生成了最小生成树。这是一种贪心策略。
+
+<strong>难点：</strong>判断某条边&lt;u, v&gt;的加入是否会在已经选定的边集集合中形成环。
+解决办法：使用并查集，分别找出两个顶点u, v所在树的根节点。若根节点相同，说明u, v在同一棵树中，则u, v连接起来会形成环；若根节点不同，则u, v不在一棵树中，连接起来不会形成环，而是将两棵树合并。
+
+<strong>克鲁斯卡尔算法的时间复杂度为O（eloge）(e为网中边的数目)，</strong>因此它相对于普里姆算法而言，适合于求边稀疏的网的最小生成树。克鲁斯卡尔算法从另一途径求网的最小生成树。假设连通网N=（V，{E}），则令最小生成树的初始状态为只有n个顶点而无边的非连通图T=（V，{∮}），图中每个顶点自成一个连通分量。在E中选择代价最小的边，若该边依附的顶点落在T中不同的连通分量上，则将此边加入到T中，否则舍去此边而选择下一条代价最小的边。依次类推，直至T中所有顶点都在同一连通分量上为止。
+<h2><strong>模板题1</strong></h2>
+https://omegaxyz.com/2019/05/31/kruskal-template/
+<h2><strong>百练 Tangled in Cables</strong></h2>
+<dl class="problem-params">
+ 	<dt>总时间限制:</dt>
+ 	<dd>1000ms</dd>
+ 	<dt>内存限制:</dt>
+ 	<dd>65536kB</dd>
+</dl>
+<dl class="problem-content">
+ 	<dt>描述</dt>
+ 	<dd>You are the owner of SmallCableCo and have purchased the franchise rights for a small town. Unfortunately, you lack enough funds to start your business properly and are relying on parts you have found in an old warehouse you bought. Among your finds is a single spool of cable and a lot of connectors. You want to figure out whether you have enough cable to connect every house in town. You have a map of town with the distances for all the paths you may use to run your cable between the houses. You want to calculate the shortest length of cable you must have to connect all of the houses together.</dd>
+ 	<dt>输入</dt>
+ 	<dd>Only one town will be given in an input.
+<ul>
+ 	<li>The first line gives the length of cable on the spool as a real number.</li>
+ 	<li>The second line contains the number of houses, N</li>
+ 	<li>The next N lines give the name of each house's owner. Each name consists of up to 20 characters {a–z,A–Z,0–9} and contains no whitespace or punctuation.</li>
+ 	<li>Next line: M, number of paths between houses</li>
+ 	<li>next M lines in the form</li>
+</ul>
+&lt; house name A &gt; &lt; house name B &gt; &lt; distance &gt;
+Where the two house names match two different names in the list above and the distance is a positive real number. There will not be two paths between the same pair of houses.</dd>
+ 	<dt>输出</dt>
+ 	<dd>The output will consist of a single line. If there is not enough cable to connect all of the houses in the town, output
+Not enough cable
+If there is enough cable, then output
+Need &lt; X &gt; miles of cable
+Print X to the nearest tenth of a mile (0.1).</dd>
+ 	<dt>样例输入</dt>
+ 	<dd>
+<pre>100.0
+4
+Jones
+Smiths
+Howards
+Wangs
+5
+Jones Smiths 2.0
+Jones Howards 4.2
+Jones Wangs 6.7
+Howards Wangs 4.0
+Smiths Wangs 10.0</code></pre>
+</dd>
+ 	<dt>样例输出</dt>
+ 	<dd>
+<pre class="">Need 10.2 miles of cable</code></pre>
+</dd>
+</dl>
+C++实现<span style="color: #ff0000;"><strong>（AC）</strong></span>
+<pre ><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;unordered_map&gt;
+#include&lt;algorithm&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+double cableLen = 0;
+int n, m;
+int father[501];
+
+struct node{
+    string src;
+    string dst;
+    double val;
+};
+
+int findFather(int x){
+    while(x != father[x])x = father[x];
+    return x;
+}
+
+bool unionSet(int x, int y){
+    int fx = findFather(x);
+    int fy = findFather(y);
+    if(fx != fy){
+        father[fy] = fx;
+        return true;
+    }
+    return false;
+}
+
+bool cmp(node a, node b){return a.val &lt; b.val;}
+
+int main(){
+    double anslen = 0;
+    int k = 0, i = 0;
+    scanf("%lf%d", &amp;cableLen, &amp;n);
+    unordered_map&lt;string, int&gt; name;
+    for(int i = 0; i &lt; n; i++){
+        string str;
+        cin&gt;&gt;str;
+        father[i] = i;
+        name[str] = i;
+    }
+    scanf("%d", &amp;m);
+    vector&lt;node&gt; pool(m);
+    for(int i = 0; i &lt; m; i++){
+        cin&gt;&gt;pool[i].src&gt;&gt;pool[i].dst&gt;&gt;pool[i].val;
+    }
+    sort(pool.begin(), pool.end(), cmp);
+    while(k &lt; n - 1){
+        if(unionSet(name[pool[i].src], name[pool[i].dst])){
+            anslen += pool[i].val;
+            k++;
+        }
+        i++;
+    }
+    if(anslen &lt;= cableLen)
+        printf("Need %.1f miles of cable\n", anslen);
+    else printf("%s\n", "Not enough cable");
+    return 0;
+}
+</code></pre>
+&nbsp;</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

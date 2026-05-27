@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SFS与SBS特征选择算法 · OmegaXYZ</title>
+  <meta name="description" content="(1)序列前向选择( SFS , Sequential Forward Selection ) 算法描述：特征子集X从空集开始，每次选择一个特征x加入特征子集X，使得特征函数J( X)最优。简单说就是，每次都选择一个使得评价函数的取值达到最优的特征加入，其实就是一种简单的贪心算法。 算法评价：缺点是只能加入特征而不能去除特征。例如：特征A...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/03/sfsandsbs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-03</div>
+        <h1>SFS与SBS特征选择算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><p align="left"><strong>(1)序列前向选择( SFS , Sequential Forward Selection )</strong></p>
+<p align="left">算法描述：特征子集X从空集开始，每次选择一个特征x加入特征子集X，使得特征函数J( X)最优。简单说就是，每次都选择一个使得评价函数的取值达到最优的特征加入，其实就是一种简单的贪心算法。</p>
+<p align="left"><img class="alignnone size-full wp-image-3908" src="https://cdn.omegaxyz.com/2018/04/SFS.jpg" alt="" width="571" height="140" /></p>
+<p align="left"><img class="alignnone size-full wp-image-3909" src="https://cdn.omegaxyz.com/2018/04/SFS2.jpg" alt="" width="718" height="512" /></p>
+<p align="left">算法评价：缺点是只能加入特征而不能去除特征。例如：特征A完全依赖于特征B与C，可以认为如果加入了特征B与C则A就是多余的。假设序列前向选择算法首先将A加入特征集，然后又将B与C加入，那么特征子集中就包含了多余的特征A。</p>
+<p align="left">代码：</p>
+
+<pre ><code class="language-matlab">%----4.17编 顺序前进法特征选择 成功!
+clear;
+clc;
+%--------特征导入  请自行修改
+M=512;N=512;
+load coourfeature16_0521_Aerial1 %%%共生矩阵 96.14％
+wfeature{1}=coourfeature(:,1);
+wfeature{2}=coourfeature(:,2);
+wfeature{3}=coourfeature(:,3);
+load  fufeature_0521_SARAerial1_512%%复小波  98.26％
+for i=1:13
+    wfeature{3+i}=wavefeature(:,i);
+end
+load wavefeature_0521_SARAerial1_512%%%非下采样小波  97.58％
+for i=1:7
+    wfeature{16+i}=wavefeature(:,i);
+end
+load wavefeature_0521_Aerial1%%小波 97.65％
+for i=1:7
+    wfeature{23+i}=wavefeature(:,i);
+end
+% load rwt_cofeature96_0423_lsy1
+% for i=1:96
+%     wfeature{30+i}=feature(:,i);
+% end
+%%%%%%%----------归一化
+[m n]=size(wfeature{1});
+for j=1:30%一共30组特征 这里 请自行修改
+    mx=max(wfeature{j});
+    mi=min(wfeature{j});
+    mxx=(mx-mi);
+    mii=ones([m n])*mi;
+    wfeature{j}=(wfeature{j}-mii)./mxx;
+end
+%%---------------SFS  先选4个特征尝试
+chosen=[];%%表示已选的特征
+chosen=[chosen 1];
+Jc=0;%%选出的Ｊ值
+for j=1:5  %选5个特征
+    J=zeros([1 30]);
+  for i=2:30  %一共30组特征 这里 请自行修改
+    [mm nn]=size(chosen);
+    for p=1:nn
+        if i==chosen(p)
+            J(i)=0;
+           break;   
+        else
+          J(i)=J(i)-sum(sum((wfeature{i}-wfeature{chosen(p)}).^2));
+          
+        end       
+    end    
+  end
+  mi=min(J);
+  for i=1:30
+      if J(i)==0
+           J(i)=mi;
+      end
+  end
+  ma=max(J);
+   for i=1:30
+      if J(i)==ma
+          chosen=[chosen i];
+           break;
+      end
+   end
+end
+save Aerial1_6t_chosen chosen
+[mm nn]=size(chosen);
+tezh=[];
+for i=1:nn
+    tezh=[tezh wfeature{chosen(i)}];
+end
+%%%%%%%%聚类
+[IDC,U]=kmeans(tezh,2);
+       cc(IDC==1,1)=0;
+       cc(IDC==2,1)=0.75;
+ 
+g=reshape(cc,M,N); 
+figure,imshow(g);
+
+
+
+
+</code></pre>
+&nbsp;
+<p align="left"><strong>(2)序列后向选择( SBS , Sequential Backward Selection )</strong></p>
+<p align="left">算法描述：从特征全集O开始，每次从特征集O中剔除一个特征x，使得剔除特征x后评价函数值达到最优。</p>
+<p align="left">算法评价：序列后向选择与序列前向选择正好相反，它的缺点是特征只能去除不能加入。</p>
+<p align="left"><img class="alignnone size-full wp-image-3907" src="https://cdn.omegaxyz.com/2018/04/SBS.jpg" alt="" width="656" height="160" /></p>
+<p align="left">代码：</p>
+
+<pre ><code class="language-matlab">%----4.17编 顺序后退法特征选择 
+clear;
+clc;
+%--------特征导入  请自行修改
+A=imread('lsy1.gif');
+[M N]=size(A);
+load coourfeature_0414_lsy1 %%%共生矩阵 96.14％
+feature{1}=coourfeature(:,1);
+feature{2}=coourfeature(:,2);
+feature{3}=coourfeature(:,3);
+load fuwavefeature_0413_lsy1 %%复小波  98.26％
+for i=1:13
+    feature{3+i}=wavefeature(:,i);
+end
+load wavefeature_0413_feixia_lsy1%%%非下采样小波  97.58％
+for i=1:7
+    feature{16+i}=wavefeature(:,i);
+end
+load wavefeature_0417_lsy1%%小波 97.65％
+for i=1:7
+    feature{23+i}=wavefeature(:,i);
+end
+%%%%%%%----------归一化-归一化
+[m n]=size(feature{1});
+for j=1:30%一共30组特征 这里 请自行修改
+    mx=max(feature{j});
+    mi=min(feature{j});
+    mxx=(mx-mi);
+    mii=ones([m n])*mi;
+    feature{j}=(feature{j}-mii)./mxx;
+end
+%%---------------SBS  
+chosen=[];dele=[];
+for i=1:30
+    chosen=[chosen i];
+end
+
+for j=1:24   %%删10个,留20个
+    J=zeros([1 30]);ii=0;  %J(1)是删1的结果,J(2)是删除2 的结果......
+    for i=1:30  %???dele 是必要的么???????????????????????%一共30组特征 这里 请自行修改
+       
+    [mm nn]=size(chosen);
+      for p=1:nn
+          if sum(i==dele)~=0
+              J(i)=0;
+              break;
+          else
+              for q=1:nn    
+                  if (chosen(q)~=i) &amp; (chosen(p)~=i)             
+                    J(i)=J(i)-sum(sum((feature{chosen(q)}-feature{chosen(p)}).^2));  
+                  end
+              end
+          end
+      end
+    end
+     mi=min(J);
+     for cc=1:30
+         if J(cc)==0
+             J(cc)=mi;
+         end
+     end
+     [ma we]=max(J);
+      dele=[dele we];
+      for dd=1:nn
+          if chosen(dd)==we
+              chosen(dd)=[];
+            
+      end
+  
+end
+% chosen=[2 4 5 6 7 8 9 11 12 13 14 19 20 22 23 26 27 28 29 30];
+[mm nn]=size(chosen);
+tezh=[];
+for i=1:nn
+    tezh=[tezh feature{chosen(i)}];
+end
+%%%%%%%%聚类
+[IDC,U]=kmeans(tezh,2);
+       cc(IDC==1,1)=0;
+       cc(IDC==2,1)=0.75;
+g=reshape(cc,M,N); 
+ figure,imshow(g);
+%%%%%%%%%%%%计算正确率
+ju=ones(M)*0.75;
+for i=1:M
+    for j=1:M/2
+        ju(i,j)=0;
+    end
+end
+ju2=g-ju;
+ prob=prod(size(find(ju2~=0)))/(m*n)
+ 1-prob       
+    
+    
+    
+</code></pre>
+&nbsp;
+<p align="left">另外，SFS与SBS都属于贪心算法，容易陷入局部最优值。</p></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

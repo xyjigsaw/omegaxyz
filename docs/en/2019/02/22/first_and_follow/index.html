@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compilation principle calculation first set and follow set C++ implementation · OmegaXYZ</title>
+  <meta name="description" content="Suppose the grammar G[S]=(V N , V T , P, S), then the first character set is: FIRST (α) = {a | α a β, a ∈ V T , α , β∈ V * }. If αε, ε∈FIRST(α). It can be seen from the definition that FIRST (α) refers to the set of terminal symbols at the beginning of all symbol strings that can be derived from the symbol string α. Therefore, the FIRST set is also called the first symbol set. Let α=x 1 x...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/02/22/first_and_follow/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-22</div>
+        <h1>Compilation principle calculation first set and follow set C++ implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content">Suppose grammar G[S]=(V<sub>N</sub>，V<sub>T</sub>,P,S), then the first character set is:<strong>FIRST</strong><strong>（α）＝</strong><strong>{a | </strong><strong>α</strong><strong>a</strong><strong>β，</strong><strong>a</strong><strong>∈</strong><strong>V<sub>T</sub></strong><strong>，α</strong><strong>,</strong><strong>β∈</strong><strong>V <sup>*</sup>}</strong><strong>。</strong>If αε, ε∈FIRST(α).
+
+It can be seen from the definition that FIRST (α) refers to the set of terminal symbols at the beginning of all symbol strings that can be derived from the symbol string α. Therefore, the FIRST set is also called the first symbol set.
+
+Let α=x<sub>1</sub>x<sub>2</sub>…x<sub>n</sub>, FIRST (α) can be obtained by the following method:
+
+Let FIRST(α)=Φ, i=1;<ul>
+<li>If x<sub>i</sub>∈V<sub>T</sub>, then x<sub>i</sub>∈FIRST（α）；</li>
+<li>If x<sub>i</sub>∈V<sub>N</sub>；</li>
+</ul>① If εFIRST(x<sub>i</sub>), then FIRST(x<sub>i</sub>)∈FIRST(α);
+
+② If ε∈FIRST (x<sub>i</sub>), then FIRST(x<sub>i</sub>）－{ε}∈FIRST（α）；
+<ul>
+<li>i=i+1, repeat (1), (2) until x<sub>i</sub>∈V<sub>T</sub>, (i=2, 3,...,n) or x<sub>i</sub>∈V<sub>N</sub>And if εFIRST(x<sub>i</sub>) or i&gt;n.</li>
+</ul>When there is an ε production in a grammar, for example, there is A → ε, only by knowing which symbols can legally appear after the nonterminal A can we know whether to choose the A → ε production. The set of these symbols that legally appear after the nonterminal A is called the FOLLOW set. Below we give the definition of the FOLLOW set of the grammar.
+
+Suppose grammar G[S]=(V<sub>N</sub>，V<sub>T</sub>,P,S), then<strong> FOLLOW</strong><strong>（</strong><strong>A</strong><strong>）＝</strong><strong>{a | S… Aa …</strong><strong>，</strong><strong>a</strong><strong>∈</strong><strong>V<sub>T</sub>}</strong><strong>。</strong>If S...A, #∈FOLLOW(A).
+
+It can be seen from the definition that FOLLOW (A) refers to the set of terminal symbols immediately following the non-terminal symbol A in all sentence patterns of grammar G[S].
+
+The FOLLOW set can be obtained as follows:<ul>
+<li>For the start symbol S of grammar G[S], there is #∈FOLLOW(S);</li>
+<li>If there is a rule of the form B→xAy in the grammar G[S], where x, y∈V<sup>*</sup>, then FIRST(y)-{ε}∈FOLLOW(A);</li>
+<li>If there is a rule of the form B→xA in the grammar G[S], or a rule of the form B→xAy and ε∈FIRST(y), where x, y∈V<sup>*</sup>, then FOLLOW(B)∈FOLLOW(A);</li>
+</ul>
+<strong>Find the flow chart of the First collection:</strong>
+<img alt="" class="alignnone wp-image-5510" height="764" src="https://cdn.omegaxyz.com/2019/02/first.png" width="518"/>
+<strong>Find the flow chart of follow collection:</strong>
+<img alt="" class="alignnone wp-image-5511" height="657" src="https://cdn.omegaxyz.com/2019/02/follow.png" width="516"/>
+<h2><strong>code</strong></h2>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;algorithm&gt;
+#include&lt;stdio.h&gt;
+using namespace std;
+#define MAX 50
+int NONE[MAX] = { 0 };
+string strings;       //产生式
+string Vn;           //非终结符
+string Vt;           //终结符
+string first[MAX];  //存放每个终结符的first集
+string First[MAX];  //存放每个非终结符的first集
+string Follow[MAX]; //存放每个非终结符的follow集
+int N;               //产生式个数
+struct STR
+{
+	string left;
+	string right;
+};
+
+void rec(STR *p)                 //识别Vn和Vt
+{
+	int i, j;
+	for (i = 0;i &lt; N;i++)                                              //第i个产生式
+	{
+		for (j = 0;j &lt; (int)p[i].left.length();j++)//左侧
+		{
+			if ((p[i].left[j] &gt;= 'A'&amp;&amp;p[i].left[j] &lt;= 'Z'))                //左侧第j个字母是大写
+			{
+				if (Vn.find(p[i].left[j])&gt;100)                             //Vn里没找到返回很大的值
+					Vn += p[i].left[j];
+			}
+			else
+			{
+				if (Vt.find(p[i].left[j])&gt;100)                           //小写字母放Vt
+					Vt += p[i].left[j];
+			}
+		}
+		for (j = 0;j &lt; (int)p[i].right.length();j++)//右侧
+		{
+			if (!(p[i].right[j] &gt;= 'A'&amp;&amp;p[i].right[j] &lt;= 'Z'))
+			{
+				if (Vt.find(p[i].right[j])&gt;100)
+					Vt += p[i].right[j];
+			}
+			else
+			{
+				if (Vn.find(p[i].right[j]) &gt; 100)
+					Vn += p[i].right[j];
+			}
+		}
+	}
+}
+void getlr(STR *p, int i)                                             //将产生式的左右部分别放入left，right
+{
+	int j;
+	for (j = 0;j&lt;strings.length();j++)
+	{ if (strings[j] == '-'&amp;&amp;strings[j + 1] == '&gt;')
+	{ p[i].left = strings.substr(0, j);
+	  p[i].right = strings.substr(j + 2, strings.length() - j);
+	}
+	}
+}
+
+string Letter_First(STR *p, char ch)
+{
+	int t;
+	if (!(Vt.find(ch)&gt;100))                        //在Vt里，first就是自身
+	{
+		first[Vt.find(ch)] = ch;
+		return first[Vt.find(ch) - 1];
+	}
+	if (!(Vn.find(ch) &gt; 100))                      //在Vn中的第i个
+	{
+		for (int i = 0;i &lt; N;i++)                //第i个产生式
+		{
+			if (p[i].left[0] == ch)             //左侧字符是ch
+			{
+				if (!(Vt.find(p[i].right[0])&gt;100))
+				{
+					if (First[Vn.find(ch)].find(p[i].right[0]) &gt; 100)     //右侧第一个字符是Vt，加入Vni的first集合中
+					{
+						First[Vn.find(ch)] += p[i].right[0];
+					}
+				}
+				if (p[i].right[0] == '#')
+				{
+					if (First[Vn.find(ch)].find('#') &gt; 100)           //右侧第一个字符是空，加入Vni的first集合中
+					{
+						First[Vn.find(ch)] += '#';
+					}
+				}
+				if (!(Vn.find(p[i].right[0]) &gt; 100))                //右侧第一个字母是Vn
+				{
+					if (p[i].right.length() == 1)                      //只有一个字母
+					{
+						string ff;
+						ff = Letter_First(p, p[i].right[0]);                        //把右侧字母的first集合加入到左侧字母中
+						for (int k = 0;k &lt; ff.length();k++)
+						{
+							if (First[Vn.find(ch)].find(ff[k])&gt;100)
+							{
+								First[Vn.find(ch)] += ff[k];
+							}
+						}
+					}
+					else                                               //多个字母都是Vn
+					{
+						for (int j = 0;j &lt; p[i].right.length();j++)
+						{
+
+								string TT;
+								TT = Letter_First(p, p[i].right[j]);
+								if (!(TT.find('#')&gt;100) &amp;&amp; (j + 1) &lt; p[i].right.length())             //右侧非末位字母的first集里有空
+								{
+									for (int t = 0;t &lt; TT.length();t++)
+									{
+										if (TT[t] != '#'&amp;&amp;First[Vn.find(ch)].find(TT[t])&gt;100)       //右侧字母的无空first集加入到Vni的first集
+											First[Vn.find(ch)] += TT[t];
+									}
+									//cout &lt;&lt; p[i].right[j]&lt;&lt;"already ";
+								}
+								else                                                                 //集合里无空或有空但是最后一个，直接加入
+								{
+									for (t = 0;t &lt; TT.length();t++)
+									{
+										if (First[Vn.find(ch)].find(TT[t])&gt;100)
+											First[Vn.find(ch)] += TT[t];
+									}
+									break;
+								}
+						}
+					}
+				}
+			}
+		}
+		return  First[Vn.find(ch)];
+	}
+}
+string Letter_Follow(STR *p, char ch)
+{
+	int t, k;
+	NONE[Vn.find(ch)]++;                  //扫过1遍
+	if (NONE[Vn.find(ch)] == 2)
+	{
+		NONE[Vn.find(ch)] = 0;
+		return Follow[Vn.find(ch)];      //第二次扫到，直接返回
+	}
+	for (int i = 0;i &lt; N;i++)
+	{
+		for (int j = 0;j &lt; p[i].right.length();j++)
+		{
+			if (p[i].right[j] == ch)                       //右侧扫描到A
+			{
+				if (j + 1 == p[i].right.length())                  //A是末尾        S-&gt;aA
+				{
+					string gg;
+					gg = Letter_Follow(p, p[i].left[0]);
+				//	NONE[Vn.find(p[i].left[0])] = 0;              //NONE[S]=0    A-&gt;aA  NONE[A]置0重扫
+					for (int k = 0;k &lt; gg.length();k++)
+					{
+						if (Follow[Vn.find(ch)].find(gg[k])&gt;100)          //S的follow加入到A中
+						{
+							Follow[Vn.find(ch)] += gg[k];
+						}
+					}
+				}
+				else                                                //A不是末尾      S-&gt;AB
+				{
+					string FF;
+					for (int m = j + 1;m &lt; p[i].right.length();m++)
+					{
+						string TT;
+						TT = Letter_First(p, p[i].right[m]);
+						if (!(TT.find('#') &gt; 100) &amp;&amp; (m + 1) &lt; p[i].right.length())              //A后面的Vn的first集有空且不是最后一个
+						{
+							for (t = 0;t &lt; TT.length();t++)
+							{
+								if (FF.find(TT[t])&gt;100 &amp;&amp; TT[t] != '#')                         //去掉空加入
+									FF += TT[t];
+							}
+						}
+						else {                                                                  //first集没有空或者最后一个有空
+							for (t = 0;t &lt; TT.length();t++)
+							{
+								if (FF.find(TT[t])&gt;100)
+									FF += TT[t];
+							}
+							break;                                                             //没空的直接break
+						}
+					}
+					if (FF.find('#') &gt; 100)
+					{
+						for (k = 0;k &lt; FF.length();k++)
+						{
+							if (Follow[Vn.find(ch)].find(FF[k])&gt;100)
+								Follow[Vn.find(ch)] += FF[k];
+
+						}
+					}
+					else {
+						for (k = 0;k &lt; FF.length();k++)
+						{
+							if ((Follow[Vn.find(ch)].find(FF[k])&gt;100) &amp;&amp; FF[k] != '#')
+							{
+								Follow[Vn.find(ch)] += FF[k];
+							}
+						}
+						string dd;
+						dd = Letter_Follow(p, p[i].left[0]);                   //最后一个有空 S的follow加入A的follow
+						//NONE[Vn.find(p[i].left[0])] = 0;
+						for (k = 0;k &lt; dd.length();k++)
+						{
+							if (Follow[Vn.find(ch)].find(dd[k])&gt;100)
+							{
+								Follow[Vn.find(ch)] += dd[k];
+							}
+						}
+					}
+				}
+			}
+		}
+	}  return Follow[Vn.find(ch)];
+}
+int main()
+{
+	int i, j, k;
+	cout &lt;&lt; "请输入产生式总数:";
+	cin &gt;&gt; N;
+	cout &lt;&lt; "\n请输入各产生式（#代表空）:" &lt;&lt; endl;
+	STR *p = new STR[MAX];
+	for (i = 0;i &lt; N;i++)
+	{
+		cin &gt;&gt; strings;
+		getlr(p, i);
+	}
+	rec(p);
+	cout &lt;&lt; endl;
+	cout &lt;&lt; "\n=========================================" &lt;&lt; endl;
+	cout &lt;&lt; "非终结符" &lt;&lt; "\t" &lt;&lt; "FIRST" &lt;&lt; "\t\t" &lt;&lt; "FOLLOW" &lt;&lt; endl;
+	for (i = 0;i &lt; Vn.length();i++)
+	{
+		cout &lt;&lt; "  " &lt;&lt; Vn[i] &lt;&lt; "\t\t{";
+		string pp;
+		pp = Letter_First(p, Vn[i]);
+		for (j = 0;j + 1 &lt; pp.length();j++)
+		{
+			cout &lt;&lt; pp[j] &lt;&lt; ",";
+		}
+		cout &lt;&lt; pp[pp.length() - 1] &lt;&lt; "} ";
+		Follow[0] += '$';                              //开始符加入$
+		cout &lt;&lt; " {";
+		string ppp;
+		ppp = Letter_Follow(p, Vn[i]);
+		for (k = 0;k + 1 &lt; ppp.length();k++)
+		{
+			cout &lt;&lt; ppp[k] &lt;&lt; ",";
+		}
+		cout &lt;&lt; ppp[ppp.length() - 1] &lt;&lt; "}" &lt;&lt; endl;
+	}
+	cout &lt;&lt; "\n=========================================" &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+ 
+<h2><strong>Experiment</strong></h2>
+<strong>Test data:</strong>
+<ul>
+<li>S-&gt;AB</li>
+<li>S-&gt;bC</li>
+<li>A-&gt;~</li>
+<li>A-&gt;b</li>
+<li>B-&gt;~</li>
+<li>B-&gt;aD</li>
+<li>C-&gt;AD</li>
+<li>C-&gt;b</li>
+<li>D-&gt;aS</li>
+<li>D-&gt;c</li>
+</ul>
+<strong>result:</strong>
+<img alt="" class="alignnone wp-image-5509" height="423" src="https://cdn.omegaxyz.com/2019/02/first_follow.png" width="485"/>
+<h2><strong>Problems and Difficulties</strong></h2>
+<ul>
+<li>This experiment uses the first and follow sets that need to calculate non-terminal symbols. During the solution process, if you encounter a situation like FOLLOW (A) = FOLLOW (B), at this time, the FOLLOW set of B has not yet been solved, so you need to use<strong>recursive call</strong>The function of solveFollow.</li>
+<li>Since this is a context-free grammar and not a regular grammar solution set, you need to pay attention to the situation where the length of the right side of the grammar production is greater than or equal to 3. In this case, the right side of the production can be analyzed one by one in the solving program. This will ensure nothing is missed.</li>
+</ul></div>
+        <section class="comments"><h2>Comments (2)</h2>
+        <div class="comment" id="comment-19582">
+          <strong>陈陈陈</strong>
+          <time>2020-11-05 17:28:56</time>
+          <div>棒棒棒！！！！</div>
+        </div>
+        
+        <div class="comment" id="comment-22087">
+          <strong>鲁鲁修</strong>
+          <time>2021-05-23 20:35:40</time>
+          <div>思路非常好。借助了博主的算法，成功实现了自己的语法分析器</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

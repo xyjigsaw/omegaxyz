@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carry lookahead adder delay analysis · OmegaXYZ</title>
+  <meta name="description" content="The carry look ahead adder is a parallel adder designed to improve the ordinary full adder. It is mainly improved to deal with the delay caused by mutual carry when ordinary full adders are connected in series. The carry-lookahead adder does this by adding a logic circuit that is not very complex. For the specific implementation process, please see Baidu Encyclopedia: https://baike.baidu.com/item/%E8%B6%85%...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/04/01/carry_look_ahead_adder/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-01</div>
+        <h1>Carry lookahead adder delay analysis</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/computer-architecture/index.html">组成原理与体系结构</a><a class="pill" href="../../../../tag/digital-logic/index.html">数字逻辑</a><a class="pill" href="../../../../tag/computer-architecture/index.html">组成原理与体系结构</a></div>
+        <div class="article-content"><div class="lemma-summary">
+<div class="para">The carry look ahead adder is a parallel adder designed to improve the ordinary full adder. It is mainly improved to deal with the delay caused by mutual carry when ordinary full adders are connected in series. The carry-lookahead adder does this by adding a logic circuit that is not very complex.</div>
+<div><img alt="" class="alignnone wp-image-3897" height="479" src="https://cdn.omegaxyz.com/2018/03/ALU.png" width="854"/></div>
+</div>
+<div class="configModuleBanner"></div>
+<div class="lemmaWgt-lemmaCatalog">
+<div class="lemma-catalog">Please see the specific implementation process</div>
+<div class="lemma-catalog">Baidu Encyclopedia:</div>
+<div class="lemma-catalog"><a href="https://baike.baidu.com/item/%E8%B6%85%E5%89%8D%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E5%99%A8/1586381">https://baike.baidu.com/item/%E8%B6%85%E5%89%8D%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E5%99%A8/1586381</a></div>
+</div>
+<div></div>
+<div>The following is explained through specific examples.</div>
+<div>
+<b>1.</b><b>Equipped with</b><b>n</b><b>Bit data is added, using the serial carry method. Suppose the carry delay time from low bit to high bit is</b><b>t1</b><b>，</b><b>1</b><b>The time it takes for a full adder to complete the addition is</b><b>t2</b><b>, then the time required for an addition operation is</b><b>————</b><b>。（</b><b>(n-1)t1+t2</b><b>）</b>
+<img alt="" class="alignnone size-full wp-image-3895" height="662" src="https://cdn.omegaxyz.com/2018/03/ALU3.jpg" width="833"/>
+<b>2.</b><b>The word length of a certain computer</b><b>64</b><b>bits, each adder</b><b>4</b><b>Bit composition</b><b>1</b><b>groups, each</b><b>4</b><b>group composition</b><b>1</b><b>A large group, the full adder carry delay time is</b><b>20ns</b><b>, the summation delay time is</b><b>30ns</b><b>, the delay time of parallel carry within a small group, the delay time of parallel carry within a large group and between large groups are both</b><b>20ns</b><b>, please answer the time to complete an addition operation:</b>
+<b>   </b><b>(1)</b><b>Use serial carry</b>
+<b>   </b><b>(2)</b><b>Use parallel carry within a group and serial carry between groups</b>
+<b>   </b><b>(3)</b><b>Adopt two-level grouping, carry in parallel within a small group, carry in parallel within a large group, and carry in series between large groups</b>
+<b>   </b><b>(4)</b><b>Two-level grouping is adopted, and parallel carry is adopted within the group, within the large group, and between large groups.</b>
+<img alt="" class="alignnone size-full wp-image-3896" height="355" src="https://cdn.omegaxyz.com/2018/03/ALU4.jpg" width="901"/>
+<b>(1)=63</b><b>Bit serial carry time</b><b>+</b><b>Addition time</b><b>=63*20+30=1290ns</b>
+<b>(2)</b><b>Use parallel carry within a group and serial carry between groups</b>
+<b>  </b><b>=</b><b>group serial carry</b><b>+</b><b>Addition time</b><b>=15*20+30=330ns</b>
+<b>(3)</b><b>Adopt two-level grouping, carry in parallel within a small group, carry in parallel within a large group, and carry in series between large groups</b>
+<b>  </b><b>=</b><b>group formation</b><b>P</b><b>·</b><b>G</b><b>time</b><b>+</b><b>Serial carry between large groups</b><b>+</b><b>Addition time</b>
+<b>  </b><b>=20+4*20+30=130ns</b>
+<b>(4)</b><b>Two-level grouping is adopted, and parallel carry is adopted within the group, within the large group, and between large groups.</b>
+<b>  </b><b>= </b><b>produce</b><b>P</b><b>·</b><b>G</b><b>time</b><b>+</b><b>Carry between large groups</b><b>+</b><b>No.</b><b>4</b><b>Large group carry delay time</b><b>+</b><b>Addition time</b>
+<b>  </b><b>= 20+20+20+30=90ns</b>
+
+ 
+
+</div></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

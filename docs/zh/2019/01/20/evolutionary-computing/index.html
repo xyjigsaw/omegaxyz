@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>进化（演化）计算概述 · OmegaXYZ</title>
+  <meta name="description" content="演化计算 1.1 进化计算的历史及现状 20世界50年代，当电脑性能还远远落后时，达尔文的进化论就被应用于自动问题的解决 [1] 。在美国，Fogel提出了进化编程的思想 [2] ，也就是后来所谓的遗传算法（GA）。GA算法是受生物进化过程中“优胜劣汰”的自然选择机制和遗传信息的传递规律的影响，通过程序迭代模拟这一过程，把要解决的问题看作...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2019/01/20/evolutionary-computing/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-01-20</div>
+        <h1>进化（演化）计算概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/ai/index.html">人工智能</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>演化计算</strong></h2>
+<h3><strong>1.1 </strong><strong>进化计算的历史及现状</strong></h3>
+20世界50年代，当电脑性能还远远落后时，达尔文的进化论就被应用于自动问题的解决<sup>[1]</sup>。在美国，Fogel提出了进化编程的思想<sup> [2]</sup>，也就是后来所谓的遗传算法（GA）。GA算法是受生物进化过程中“优胜劣汰”的自然选择机制和遗传信息的传递规律的影响，通过程序迭代模拟这一过程，把要解决的问题看作环境，在一些可能的解组成的种群中，通过自然演化寻求最优解<sup>[3]</sup>，这些理论大约独自发展了15年。
+
+在80年代之前，并没有引起人们太大的关注，因为它本身还不够成熟，而且受到了当时计算机容量小、运算速度慢的限制，并没有发展出实际的应用成果。
+
+到了20世纪90年代初，遗传编程（GP）<sup>[4]</sup>也被提出，于是以遗传算法、遗传编程、进化策略与进化规划为代表的进化计算作为一个学科开始正式出现，融合出了新的进化算法，促进了机器学习领域的巨大发展。与此同时，在基于达尔文进化论的思想上，变体的进化算法要层出不穷、方兴未艾，如粒子群算法（PSO）<sup>[5]</sup>、蚁群算法（ACO）<sup>[6]</sup>、人工蜂群算法（ABC）<sup>[7]</sup>等，这些算法都是基于群智能的随机优化算法，在很多领域都广泛的应用。
+<h3><strong>1.2 </strong><strong>传统的进化计算分类</strong></h3>
+传统的进化计算有四种类别，他们分别是遗传算法、遗传编程、进化策略与进化规划<sup>[1]</sup>。在这一部分，我们将着重讨论遗传算法。
+
+遗传算法是从代表问题可能潜在的解集的一个种群开始的，而一个种群则由经过基因编码(一般来说包含实数编码与二进制编码)的一定数目的个体组成。每个个体实际上是染色体带有特征的实体。染色体作为遗传物质的主要载体，即多个基因的集合，其内部表现是某种基因组合，它决定了个体的形状的外部表现。初代种群产生之后，按照适者生存和优胜劣汰的原理，逐代进化产生出越来越好的近似解，在每一代，根据问题域中个体的适应度大小选择个体，并借助于自然遗传学的遗传算子进行组合交叉和变异，产生出代表新的解集的种群。这个过程将导致种群像自然进化一样的后生代种群比前代更加适应于环境，末代种群中的最优个体经过解码，可以作为问题近似最优解。单目标领域有经典的GA算法，多目标领域有基于快速非支配排序与拥挤距离选择的NSGA2算法<sup>[8]</sup>。 算法1给出了基本遗传算法的伪码。
+
+<img class="alignnone  wp-image-5361" src="https://cdn.omegaxyz.com/2019/01/EC3.png" alt="" width="452" height="345" />
+
+进化策略与进化编程作为一种求解参数优化问题的方法，模仿生物进化原理，假设不论基因发生何种变化，产生的结果（性状）总遵循零均值、某一方差的高斯分布。
+
+遗传规划的实是用广义的层次化计算机程序描述问题比较适合求解一类由于各种不确定性因素导致的复杂非线性问题。
+<h3><strong>1.3 </strong><strong>基于群智能的算法（以PSO为代表）</strong></h3>
+由于进化计算具有策略的灵活性和对问题的适应性，科学和工程领域经常用来解决优化问题，相对于经典优化算法，进化计算通常有很大的优势。
+
+其中，基于群智能的PSO算法是由Kennedy和Eberhart提出的，这是一种随机优化算法<sup>[5]</sup>。在粒子群算法中，每个粒子有位置向量和速度向量，位置向量代表着一个候选解，速度向量代表该粒子下一代需要移动的速度与方向。每个向量都是有n个实数值组成，n是当前问题的维度。每个粒子通过适应度函数值来估计其优劣程度，每个粒子搜索到的最优解称为pbest（局部最优解），整个粒子群所有代中搜索的最优解称为gbest（全局最优解）
+
+粒子的位置和速度通过以下公式（1）和（2）进行更新：
+
+<img class="wp-image-5359 aligncenter" src="https://cdn.omegaxyz.com/2019/01/EC1.png" alt="" width="794" height="135" />
+
+其中和是第i个粒子第d个维度在时间t的值，和是在[0,1]之间的加速常数。粒子群算法具有速度快，效率高，适合实数值优化等特点，但是在处理高维数据，尤其是多峰问题时容易陷入局部最优。针对此种情况，有大量的研究与工作来处理这种问题<sup>[10,11,12]</sup>。
+
+粒子群算法的伪码如算法2所示。
+
+<img class="alignnone  wp-image-5360" src="https://cdn.omegaxyz.com/2019/01/EC2.png" alt="" width="438" height="354" />
+<h3><strong>1.4 </strong><strong>进化算法的局限性与改进</strong></h3>
+在当今大数据时代，数据的规模大且维度高。在大规模高维优化问题中，普通的进化算法很容易陷入局部最优，例如高维旅行商问题，当城市的维度大于100时，优化是非常困难的；在特征选择问题中，当特征的维度达到10000维以上时，由于特征的冗余与不相关性，不但容易陷入局部最优，而且计算时间消耗难以想象，想要优化基本不可能。
+
+因此对于大规模数据因此对于进化算法来说需要依赖有效地全局搜索技术与问题求解的分治代理技术<sup>[18]</sup>。
+
+对于陷入局部最优的问题，科研工作者提出了很多的方法，例如由Storn等人在1995提出的差分进化算法<sup>[19]</sup>（Differential Evolution），和其它进化算法一样，DE是一种模拟生物进化的随机模型，通过反复迭代，使得那些适应环境的个体被保存了下来。但相比于进化算法，DE保留了基于种群的全局搜索策略，采用实数编码、基于差分的简单变异操作和一对一的竞争生存策略，降低了遗传操作的复杂性。同时，DE特有的记忆能力使其可以动态跟踪当前的搜索情况，以调整其搜索策略，具有较强的全局收敛能力和鲁棒性，且不需要借助问题的特征信息，适于求解一些利用常规的数学规划方法所无法求解的复杂环境中的优化问题<sup>[20]</sup>。除此以外，当然还有其他的还有很多全局优化的技术提出例如NSGA2算法<sup>[8]</sup>、基于PSO的NSPSO与CMDPSO<sup>[21]</sup>,上述两种PSO算法利用了非支配排序、拥挤距离选择、变异算子来提高PSO算法的全局搜索技术。
+
+对于计算时间消耗巨大的问题，也有很多算法来解决。如利用分治思想的有基于分解的多目标进化算法<sup>[22]</sup>（MOEA/D）, 这是由张青富等人于2007年提出。MOEA/D将一个多目标优化问题转换为多个标量子问题，且每一个子问题由一个均匀分布的权重向量构成，对于每生成一个新解，则基于聚合函数对该子问题附近的解进行替换。
+
+另外，还有许多研究工作者采用合作协同进化算法（Cooperative Coevolution）与基于代理模型的进化算法来提高进化计算的性能。合作协同进化的主要思想是将大规模问题分解为一组组较小的子问题,现有的有CCPSO、MLCC算法<sup>[23,24]</sup>。基于代理模型算法的思想是利用一部分的数据来代理评价另外一部分数据或者利用代理模型达到种群近似评价的效果以减少计算消耗，常见的有CPS，SMEA算法<sup>[25,26]</sup>。
+<h2><strong>参考文献</strong></h2>
+[1] Eiben A E, Schoenauer M. Evolutionary computing[J]. Information Processing Letters, 2002, 82(1): 1-6.
+
+[2] L.J. Fogel, A.J. Owens, M.J. Walsh, Artificial Intelligence through Simulated Evolution, John Wiley, New York, 1966.
+
+[3] Whitley D. A genetic algorithm tutorial[J]. Statistics and computing, 1994, 4(2): 65-85.
+
+[4] Altenberg L. The evolution of evolvability in genetic programming[J]. Advances in genetic programming, 1994, 3: 47-74.
+
+[5] Eberhart R, Kennedy J. A new optimizer using particle swarm theory[C]//Micro Machine and Human Science, 1995. MHS'95., Proceedings of the Sixth International Symposium on. IEEE, 1995: 39-43.
+
+[6] Dorigo M, Birattari M. Ant colony optimization[M]//Encyclopedia of machine learning. Springer, Boston, MA, 2011: 36-39.
+
+[7] Karaboga D, Basturk B. On the performance of artificial bee colony (ABC) algorithm[J]. Applied soft computing, 2008, 8(1): 687-697.
+
+[8] Deb K, Pratap A, Agarwal S, et al. A fast and elitist multiobjective genetic algorithm: NSGA-II[J]. IEEE transactions on evolutionary computation, 2002, 6(2): 182-197.
+
+[9] Mayr E. Behavior Programs and Evolutionary Strategies: Natural selection sometimes favors a genetically" closed" behavior program, sometimes an" open" one[J]. American scientist, 1974, 62(6): 650-659.
+
+[10] Ghamisi P, Benediktsson J A. Feature selection based on hybridization of genetic algorithm and particle swarm optimization[J]. IEEE Geoscience and Remote Sensing Letters, 2015, 12(2): 309-313.
+
+[11] Tran B, Xue B, Zhang M. A New Representation in PSO for Discretization-Based Feature Selection.[J]. IEEE Transactions on Cybernetics, 2017, PP(99):1-14.
+
+[12] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Transactions on Cybernetics, 2013, 43(6):1656-1671.
+
+[13] 赵禹骅, 任伟民, 李可柏. 关于汉密尔顿最短路径的算法[J]. 东方电气评论, 2004, 18(1):42-46.
+
+[14] Hastings W K. Monte Carlo sampling methods using Markov chains and their applications[J]. Biometrika, 1970, 57(1):97-109.
+
+[15] 毛勇, 周晓波, 夏铮,等. 特征选择算法研究综述[J]. 模式识别与人工智能, 2007, 20(2):211-218.
+
+[16] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Transactions on Cybernetics, 2013, 43(6):1656-1671.
+
+[17] Hochbaum D S. Approximation algorithms for NP-hard problems[M]. PWS Publishing Co., 1996.
+
+[18] Ghaddar B , Naoum-Sawaya J . High Dimensional Data Classification and Feature Selection using Support Vector Machines[J]. European Journal of Operational Research, 2017:S0377221717307713.
+
+[19] Das S, Suganthan P N. Differential Evolution: A Survey of the State-of-the-Art[J]. IEEE Transactions on Evolutionary Computation, 2011, 15(1):4-31.
+
+[20] Storn R. Differential evolution design of an IIR-filter[C]// IEEE International Conference on Evolutionary Computation. 1996.
+
+[21] Xue B, Zhang M, Browne W N. Particle swarm optimization for feature selection in classification: a multi-objective approach[J]. IEEE Trans Cybern, 2013, 43(6):1656-1671.
+
+[22] Zhang Q, Li H. MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition[J]. IEEE Transactions on Evolutionary Computation, 2007, 11(6):712-731.
+
+[23] Yang, K. Tang, and X. Yao, “Multilevel cooperative coevolution for large scale optimization,” in Proc. IEEE Congr. Evol. Comput., Jun. 2008, pp. 1663–1670.
+
+[24] N. Omidvar, X. Li, Z. Yang, and X. Yao, “Cooperative coevolution for large scale optimization through more frequent random grouping,” in Proc. IEEE Congr. Evol. Comput., Jul. 2010,1754–1761.
+
+[25] Liu B, Zhang Q, Gielen G. A Surrogate-Model-Assisted Evolutionary Algorithm for Computationally Expensive Design Optimization Problems with Inequality Constraints[M]// Simulation-Driven Modeling and Optimization. 2016.
+
+[26] Zhang J, Zhou A, Tang K, et al. Preselection via classification: A case study on evolutionary multiobjective optimization[J]. Information Sciences, 2018, 465: 388-403.
+
+[27] Chandrashekar G, Sahin F. A survey on feature selection methods[J]. Computers &amp; Electrical Engineering, 2014, 40(1): 16-28.
+
+[28] Zhang X, Zheng X, Cheng R, et al. A competitive mechanism based multi-objective particle swarm optimizer with fast convergence[J]. Information Sciences, 2018, 427: 63-76.
+
+[29] Lee C, Lee G G. Information gain and divergence-based feature selection for machine learning-based text categorization[M]. Pergamon Press, Inc. 2006.
+
+[30] Lichman M. UCI machine learning repository [Online], avail-able: http://archive.ics.uci.edu/ml, November 10, 2015.
+
+[31] Cheng R, Jin Y. A competitive swarm optimizer for large scale optimization[J]. IEEE transactions on cybernetics, 2015, 45(2): 191-204.
+
+[32] Kearns M, Ron D. Algorithmic stability and sanity-check bounds for leave-one-out cross-validation[J]. Neural computation, 1999, 11(6): 1427-1453.
+
+[33] TSPLib [Online],http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/, 2018</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

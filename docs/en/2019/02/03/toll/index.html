@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eliminate left recursion in a grammar · OmegaXYZ</title>
+  <meta name="description" content="Introduction 1. Elimination of direct left recursion Eliminating direct left recursion in productions is relatively easy. For example, assume that the rule for non-terminal P is P → Pα / β where β is a symbol string that does not start with P. Then, we can rewrite the rules of P into the following non-direct left recursive form: P → βP’ P’ → αP’ / ε These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same. Let there be a simple expression grammar G[E]: E...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2019/02/03/toll/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2019-02-03</div>
+        <h1>Eliminate left recursion in a grammar</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="article-content"><h2><strong>Introduction</strong></h2>
+<h4>1. Elimination of direct left recursion</h4>It is relatively easy to eliminate direct left recursion in productions. For example, suppose the rule for nonterminal P is<p style="text-align: center;"><strong>P</strong><strong>→Pα / β</strong></p>Among them, β is a symbol string that does not start with P. Then, we can rewrite the rule of P into the following indirect left-recursive form:<p style="text-align: center;"><strong>P</strong><strong>→βP’</strong></p>
+<p style="text-align: center;"><strong> P’</strong><strong>→αP’ / ε</strong></p>These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same.
+
+Let there be a simple expression grammar G[E]:<p style="text-align: center;"><strong>E</strong><strong>→E+T/ T</strong></p>
+<p style="text-align: center;"><strong>T</strong><strong>→T*F/ F</strong></p>
+<p style="text-align: center;"><strong>F</strong><strong>→（E）/ I</strong></p>After eliminating direct left recursion, we get the following grammar:<p style="text-align: center;"><strong>E</strong><strong>→TE’</strong></p>
+<p style="text-align: center;"><strong>E’ </strong><strong>→+TE’/ ε</strong></p>
+<p style="text-align: center;"><strong>T</strong><strong>→FT’</strong></p>
+<p style="text-align: center;"><strong>T’ </strong><strong>→*FT’/ ε</strong></p>
+<p style="text-align: center;"><strong>F</strong><strong>→（E）/ I</strong></p>Considering the more general case, suppose that the rule for nonterminal P is<strong>P</strong><strong>→Pα<sub>1</sub> / Pα<sub>2</sub> /…/ Pα<sub>n</sub> / β<sub>1 </sub>/ β<sub>2 </sub>/…/β<sub>m</sub></strong>Among them, α<sub>i</sub>(I=1, 2,...,n) are not ε, and each β<sub>j</sub>(j=1, 2,...,m) do not start with P. Rewriting the above rules into the following form can eliminate the direct left recursion of P:<strong>P</strong><strong>→β<sub>1</sub> P’ / β<sub>2</sub> P’ /…/β<sub>m</sub> P’</strong>
+<strong>P’ </strong><strong>→α<sub>1</sub>P’ / α<sub>2</sub> P’ /…/ α<sub>n</sub> P’ /ε</strong>
+<h4>2. Elimination of indirect left recursion</h4>The way to eliminate indirect left recursion is to rewrite the indirect left recursive grammar into a direct left recursive grammar, and then rewrite the grammar using a method to eliminate direct left recursion.
+
+If a grammar does not contain a cycle, that is, a derivation of the form PP, nor a production with ε as the right-hand side, then the following algorithm can be used to eliminate all left recursion of the grammar.
+
+Eliminate left recursive algorithm:<ul>
+<li>Arrange all non-terminal symbols of grammar G in any order, for example, A<sub>1</sub>，A<sub>2</sub>，…，A<sub>n</sub>。</li>
+</ul>for (i＝1;i&lt;=n;i++)
+
+for (j=1; j&lt;=i-1; j++)
+
+{ Let the shape be like A<sub>i</sub>→A<sub>j</sub>The production of γ is rewritten as A<sub>i</sub>→δ<sub>1</sub>γ /δ<sub>2</sub>γ /…/δ<sub>k</sub>γ
+
+Among them A<sub>j</sub>→δ<sub>1</sub> /δ<sub>2</sub> /…/δ<sub>k</sub>is about A<sub>j</sub>All rules;
+
+Eliminate A<sub>i</sub>Direct left recursion in rules;
+
+}<ul>
+<li>Simplify the grammar obtained by (2), that is, remove redundant rules.</li>
+</ul>This algorithm can be used to rewrite the above grammar to eliminate left recursion.
+
+First, let the order of nonterminal symbols be R, Q, S. For R, there is no direct left recursion. Substituting R into the relevant rules in Q, the rules of Q become Q→Sab/ ab/ b.
+
+The substituted Q does not contain direct left recursion. Substituting it into S, the rule of S becomes S→Sabc/abc/bc/c.
+
+At this time, S has direct left recursion. After eliminating the direct left recursion of S, the entire grammar is obtained:<p style="text-align: center;"><strong>S</strong><strong>→abcS’/ bcS'/ cS'</strong></p>
+<p style="text-align: center;"><strong>S’ </strong><strong>→abcS'/ ε</strong></p>
+<p style="text-align: center;"><strong>Q</strong><strong>→Sab/ ab/ b</strong></p>
+<p style="text-align: center;"><strong>R</strong><strong>→Sa/ a</strong></p>It can be seen that starting from the starting symbol S of the grammar, Q and R can never be reached, so the rules about Q and R are redundant. They are deleted and simplified. Finally, the grammar G[S] is obtained:<p style="text-align: center;"><strong>S</strong><strong>→abcS'/ bcS’/ cS'</strong></p>
+<p style="text-align: center;"><strong>S' </strong><strong>→abcS'/ ε</strong></p>Of course, if the non-terminal symbols of the grammar are sorted differently, the final grammar may be different in form, but they are all equivalent. For example, if the order of the above non-terminal symbols is selected as S, Q, R, then the final grammar G[R] obtained is:<p style="text-align: center;"><strong>R</strong><strong>→bcaR'/ caR'/ aR’</strong></p>
+<p style="text-align: center;"><strong>R' </strong><strong>→bcaR'/ ε</strong></p>It is easy to prove that the above two grammars are equivalent.
+
+Indicates whether there is left recursion and the type of left recursion. For direct left recursion, it can be changed to direct right recursion; for indirect left recursion (also called grammatical left recursion), the equivalent grammar after eliminating left recursion with different arrangements of non-terminal symbols should be given according to the algorithm. (There should be n! kinds)<h2><strong>c++ code</strong></h2>Written in C++, there are three modules in total. The first module converts introductory left recursion into direct left recursion, the second module eliminates direct left recursion, and the last module is the main function module.<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;string&gt;
+using namespace std;
+const int MAX_SIZE=10;
+string principle[MAX_SIZE],temp[MAX_SIZE];
+
+int main()
+{
+    int i=0,count=0;
+    void removeDirect(int i, int count2);
+    void removeIndirect(int i,int j);
+    string DFS(string start,string *principle,int count,int temp);
+    cout&lt;&lt;"输入规则的个数："&lt;&lt;endl;
+    cin&gt;&gt;count;
+    cout&lt;&lt;"请输入"&lt;&lt;count&lt;&lt;"个规则："&lt;&lt;endl;
+    for(i=0;i&lt;count;i++)
+        cin&gt;&gt;principle[i];
+    cout&lt;&lt;"原文法为："&lt;&lt;endl;
+    int loc = 0;
+    for(i=0;cout&lt;&lt;principle[i]&lt;&lt;endl,i&lt;3;i++);
+    cout&lt;&lt;endl;
+    int start=0, end=0;
+    int count2=0;
+    for(i=0;i&lt;count;i++)
+    {
+        for(int j=0;j&lt;i;j++)
+        {
+            removeIndirect(i,j);//间接左递归变直接左递归
+        }
+        removeDirect(i, count2);//消除直接左递归
+    }
+    //cout&lt;&lt;"消除后的式子为："&lt;&lt;endl;
+    //for(i=0;cout&lt;&lt;principle[i]&lt;&lt;endl,i&lt;count-1;i++);
+    //for(i=0;cout&lt;&lt;temp[i]&lt;&lt;endl,i&lt;count2-1;i++);
+    cout&lt;&lt;"消除后的式子为："&lt;&lt;endl;
+    string sss=DFS(principle[2],principle,count,0);
+    for(i=0;i&lt;count;i++){
+        if(sss.find(principle[i][0])&lt;100)
+            cout&lt;&lt;principle[i]&lt;&lt;endl;
+    }
+    for(i=0;cout&lt;&lt;temp[i]&lt;&lt;endl,i&lt;count2-1;i++);
+    return 0;
+}
+
+string DFS(string start,string *principle,int count,int temp){
+    string x = "";
+    temp++;
+    for(int i=0;i&lt;start.length();i++){
+        if(start[i]&gt;='A'&amp;&amp;start[i]&lt;='Z'&amp;&amp;temp&lt;count){
+            x+=start[i];
+            for(int j = 0;j&lt;count-1;j++){
+                if(principle[j][0]==start[i]){
+                    x+=DFS(principle[j],principle,count,temp);
+                }
+            }
+        }
+    }
+    return x;
+}
+
+
+void removeDirect(int i, int count2){
+    //消除直接左递归，即将形如A-&gt;Ab|c 的转化为 A-&gt;cA'和A'-&gt;bA'|~
+    string p1="",p2="";
+    size_t flag1=3,flag2=0;
+    char ch=principle[i][0];
+    bool last=false; //判断是否结束
+    while(flag1!=string::npos) //寻找文法中的|符号，如果h找不到则退出
+    {
+        flag2=principle[i].find_first_of("|",flag1+1); //在文法中找到第flag+1个|
+        if(flag2==string::npos)flag2=principle[i].length(); //只有一个|
+        if(principle[i][flag1]==ch)
+        {
+            last=true;
+            p1+=principle[i].substr(flag1+1,flag2-flag1-1)+ch+"\'|";//加上‘
+        }
+        else
+        {
+            p2+=principle[i].substr(flag1,flag2-flag1)+ch+"\'|";//加上’
+        }
+        flag1=principle[i].find_first_not_of("|",flag2+1);
+    }
+    p2[p2.length()-1]='\0';
+    if(last)  //结束时加上空~
+    {
+        temp[count2]=ch+("\'-&gt;"+p1+"~");
+        count2++;
+        principle[i].replace(3,principle[i].length()-3,p2);
+    }
+}
+
+
+void removeIndirect(int i,int j){
+    //间接左递归变直接左递归
+    int start=2;
+    char aj=principle[j][0];
+    //修改产生式
+    bool rgt=false;
+    int count1=0;
+    string tt[MAX_SIZE];
+    size_t s=0,e=0;
+    do
+    {
+        start++;
+        if(principle[i][start]==aj)//如果满足Ai-&gt;Aj*
+        {
+            size_t es=principle[i].find_first_of("|",start+1);
+            if(es==string::npos)
+                es=principle[i].length();
+            string te=principle[i].substr(start+1,es-start-1);
+            if(!rgt)
+            {
+                s=principle[j].find_first_not_of("|",3);
+                while(s!=string::npos)
+                {
+                    e=principle[j].find_first_of("|",s+1);
+                    if(e==string::npos)
+                        e=principle[j].length();
+                    tt[count1]=principle[j].substr(s,e-s);
+                    count1++;
+                    s=principle[j].find_first_not_of("|",e+1);
+                }
+                rgt=true;
+            }
+            int k=0;
+            string ttl="\0";
+            for(;k&lt;count1-1;k++)
+                ttl+=tt[k]+te+"|";
+            ttl+=tt[k]+te;
+            principle[i].replace(start,es-start,ttl);
+        }
+        start = principle[i].find_first_of("|",start+1);
+    }while(start!=string::npos);
+}
+/*
+ S-&gt;Qc|c
+ Q-&gt;Rb|b
+ R-&gt;Sa|a
+ 
+ R-&gt;Sa|a
+ Q-&gt;Rb|b
+ S-&gt;Qc|c
+ 
+ Q-&gt;Rb|b
+ S-&gt;Qc|c
+ R-&gt;Sa|a
+ */
+
+/*
+ A-&gt;aB|Bb
+ B-&gt;Ac|d
+*/
+</code></pre>
+ 
+<h2><strong>test data</strong></h2>Test data 1:<ol>
+<li><strong>A-&gt;aB</strong></li>
+<li><strong>A-&gt;Bb</strong></li>
+<li><strong>B-&gt;Ac</strong></li>
+<li><strong>B-&gt;d</strong></li>
+</ol>Test data 2:<ol>
+<li><strong>S-&gt;Qc|c</strong></li>
+<li><strong>Q-&gt;Rb|b</strong></li>
+<li><strong>R-&gt;Sa|a</strong></li>
+</ol>Test data 3:<ol>
+<li><strong>Q-&gt;Rb|b</strong></li>
+<li><strong>S-&gt;Qc|c</strong></li>
+<li><strong>R-&gt;Sa|a</strong></li>
+</ol>Test data 4:<ol>
+<li><strong>R-&gt;Sa|a</strong></li>
+<li><strong>Q-&gt;Rb|b</strong></li>
+<li><strong>S-&gt;Qc|c</strong></li>
+</ol>
+<h2><strong>result</strong></h2>Test data 1:<img alt="" class="alignnone wp-image-5469" height="324" src="https://cdn.omegaxyz.com/2019/02/toLL1.png" width="663"/>Test data 2:<img alt="" class="alignnone wp-image-5470" height="377" src="https://cdn.omegaxyz.com/2019/02/toLL2.png" width="666"/>Test data 3:<img alt="" class="alignnone wp-image-5471" height="557" src="https://cdn.omegaxyz.com/2019/02/toLL3.png" width="665"/>Test data 4:<img alt="" class="alignnone wp-image-5472" height="471" src="https://cdn.omegaxyz.com/2019/02/toLL4.png" width="663"/>
+<h2><strong>Difficulties encountered and solutions</strong></h2>Since grammars come in various forms, various situations must be taken into consideration when eliminating recursion. Generally speaking, the unified grammar format must be solved first, so grammars with the same left part of non-terminal symbols need to be merged with the | symbol. Next, we need to solve the problem of indirect left recursion, so we convert the indirect left recursion into direct left recursion. Finally direct left recursion will be eliminated. There are two quantities to be judged during the elimination process,<strong>One is the position of |, the other is the position of the non-terminal symbol</strong>, since there are multiple |s in the merged grammar string, and a new converted grammar will be generated, it needs to be processed with a while statement until the form of all grammars no longer changes.
+
+The second problem is that after eliminating the left-recursive grammar, some non-terminal symbols and their productions are useless, so they need to be removed. Use DFS to detect non-terminal symbols starting from the start symbol S, which can eventually solve this problem.</div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-21928">
+          <strong>ingq</strong>
+          <time>2021-04-17 17:23:38</time>
+          <div>P-&amp;gt;Pa|b<br>这个最基础的例子都过不了</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

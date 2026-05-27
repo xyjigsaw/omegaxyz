@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATLAB播放声音（sound函数） · OmegaXYZ</title>
+  <meta name="description" content="算法一泡就是几十分钟，算法跑的时候忙着看手机，希望算法跑完了能够提醒一下，然后就发现了sound()函数。不得不说MATLAB的功能真是齐全，我估计数字音频处理需要这些操作吧。 真的是太秀了！！！ 百度了一番后，发现sound()函数不但可以播放自带的曲调，也能现编，下面是从互联网上整理的代码： 发出简单的声音： 自制声音的播放： 播放w...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/09/14/matlab-sound/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-09-14</div>
+        <h1>MATLAB播放声音（sound函数）</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">算法一泡就是几十分钟，算法跑的时候忙着看手机，希望算法跑完了能够提醒一下，然后就发现了sound()函数。不得不说MATLAB的功能真是齐全，我估计数字音频处理需要这些操作吧。
+
+真的是太秀了！！！
+
+百度了一番后，发现sound()函数不但可以播放自带的曲调，也能现编，下面是从互联网上整理的代码：
+
+<strong>发出简单的声音：</strong>
+<pre ><code class="language-matlab">% 响一声
+sound(sin(2*pi*25*(1:4000)/100));
+
+% 鸟声
+load chirp
+sound(y,Fs)
+
+% 锣声
+load gong
+sound(y,Fs)
+
+% 哈里路亚
+load handel
+sound(y,Fs)
+
+% 笑声
+load laughter
+sound(y,Fs)
+
+% 啪哒声
+load splat
+sound(y,Fs)
+
+% 火车
+load train
+sound(y,Fs)</code></pre>
+<strong>自制声音的播放：</strong>
+<pre ><code class="language-matlab">    clear
+    fs=44100;
+    t=0: 1/fs: 0.5;
+
+    %%%%%backing track%%%%%
+    one=0.5*sin(2*pi*261.63*t);
+    one=one+0.5*sin(2*pi*329.63*t);
+    one=one+0.5*sin(2*pi*466.16*t);
+    four=0.5*sin(2*pi*349.23*t);
+    four=four+0.5*sin(2*pi*440*t);
+    four=four+0.5*sin(2*pi*622.25*t);
+    five=0.5*sin(2*pi*392*t);
+    five=five+0.5*sin(2*pi*493.88*t);
+    five=five+0.5*sin(2*pi*698.46*t);
+    bar1=[one one one one];
+    bar4=[four four four four];
+    bar5=[five five five five];
+    backing=[bar1 bar1 bar1 bar1 bar4 bar4 bar1 bar1    bar5 bar4 bar1 bar1];
+
+    %%%%%pentatonic%%%%%
+    so=sin(2*pi*196*t);
+    la=sin(2*pi*220*t);
+    do=sin(2*pi*261.63*t);
+    re=sin(2*pi*293.66*t);
+    blue=sin(2*pi*311.13*t);
+    blk=sin(2*pi*0*t); %blank 
+
+    %%%%%melody%%%%%
+    melody=[so so la la do do blue blue blue blk re do do do la blue blue la ...
+    la do blue re so la do blk blk re blue do re so la la so la do re blue ...
+    blue blue so so la la re blue do];
+
+    %%%%%%%%%%%%%%%
+    song=[backing;melody];
+    soundsc(song,fs)</code></pre>
+<strong>播放wav文件：</strong>
+<pre ><code class="language-matlab">%1、代码片段1
+[fname,pname]=uigetfile('.wav','选择原始声音文件');
+file=[pname,fname];
+fs = 8000;
+[x,fs] = wavread(file);
+sound(x,fs);
+
+
+%2、代码片段2
+[y,Fs,bits] = wavread('jinyong.wav');   %获取音乐数据
+ao = analogoutput('winsound');%建立硬件对象
+addchannel(ao,[1 2]);    %创建声音输出通道
+set(ao,'SampleRate',Fs)  %设置采样率
+data1 =y(:,1);    %双声道
+data2 =y(:,2);
+putdata(ao,[data1 data2]);   %往声卡堆音乐数据
+start(ao);   %输出音乐数据
+stop(ao)</code></pre>
+<strong>参考资料：</strong>
+
+①<a href="https://blog.csdn.net/weaponsun/article/details/46695255">https://blog.csdn.net/weaponsun/article/details/46695255</a>
+
+②<a href="https://blog.csdn.net/u013421629/article/details/72901677">https://blog.csdn.net/u013421629/article/details/72901677</a></div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

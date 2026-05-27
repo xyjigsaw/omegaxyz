@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Fusion (Entity Alignment) Notes · OmegaXYZ</title>
+  <meta name="description" content="Knowledge fusion includes the following parts: Ontology matching focuses on discovering equivalent or similar classes, attributes, or relationships at the pattern layer, also known as ontology mapping, ontology alignment. Entity alignment focuses on discovering different instances that refer to the same object in the real world, also known as entity resolution, instance matching (instance ma...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/04/06/knowledge-fusion/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-04-06</div>
+        <h1>Knowledge Fusion (Entity Alignment) Notes</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
+<h2><strong>Knowledge fusion includes the following parts</strong></h2>
+<strong>Ontology matching</strong>Focusing on discovering equivalent or similar classes, attributes or relationships at the pattern level, also known as ontology mapping and ontology alignment<strong>entity alignment</strong>Focus on discovering different instances that refer to the same object in the real world, also known as entity resolution (resolution) and instance matching (instance matching)<strong>knowledge fusion</strong>Generally, conflicts in the knowledge graph fusion process are resolved through technologies such as conflict detection and truth value discovery, and then the knowledge is associated and merged to finally form a consistent result.<hr/>
+<h2><strong>Entity alignment</strong></h2>Currently, in terms of knowledge fusion, entity alignment based on embedding representation is a hot research topic. For more embedding-based entity alignment methods, please refer to<a href="https://www.aminer.cn/research_report/5cecc3f41976c5c87c8bee63">Aminer</a>article.
+
+For example:<b>1. MuGNN</b><b>[1]</b>Divided into two steps, ① complete the missing relationship to reconcile structural differences; ② combine the output of different channels through pooling technology.<b>2. RDGCN</b><b>[2]</b>Relational information is processed through attentional interactions between KGs and their dual relational counterparts.<b>3. AliNet</b><b>[3]</b>Since the neighborhood structure of the same entity is often non-isomorphic, neighborhood and pan-neighborhood information are comprehensively considered.<strong>4. OAG:LinKG[5]</strong>Aligning two networks with hundreds of millions of nodes, AMiner and Microsoft Academic, this research comprehensively utilizes LSTM, GNN, hashing and other technologies to efficiently process multiple types of nodes and different types of information, and achieves an applicable level of alignment (overall F1 value 96.81).<hr/>
+<h2><strong>The challenge of knowledge integration</strong></h2>1. Embedding-based deep learning algorithm combined with knowledge reasoning (description logic, constraint rules)
+
+2. Multi-modal knowledge graph fusion
+
+3. Integration and update of large-scale knowledge graphs<hr/>
+<h2><strong>Available tools</strong></h2>
+<ul>
+<li>Open source implementation of cutting-edge algorithms for entity alignment:<a href="https://github.com/nju-websoft/OpenEA/">https://github.com/nju-websoft/OpenEA/</a></li>
+<li>Ontology alignment—Falcon-AO, you need to input owl file:<a href="http://ws.nju.edu.cn/falcon-ao">http://ws.nju.edu.cn/falcon-ao</a></li>
+<li>Entity alignment—Dedupe, Python library, user-labeled minimal data, lightweight and fast training: pip install dedupe or<a href="https://github.com/datamade/dedupe">https://github.com/datamade/dedupe</a></li>
+</ul>
+<hr/>
+<h2><strong>refer to</strong></h2>
+<ul>
+<li>[1] Multi-channel graph neural network for entity alignment. ACL, 2019</li>
+<li>[2] Relation-aware entity alignment for heterogeneous knowledge graphs. IJCAI, 2019</li>
+<li>[3] Knowledge Graph Alignment Network with Gated Multi-hop Neighborhood Aggregation. AAAI, 2020</li>
+<li>[4] <a href="https://github.com/nju-websoft/KnowledgeGraphFusion">NTU knowledge integration PPT</a></li>
+<li>[5] OAG: Toward Linking Large-scale Heterogeneous Entity Graphs. KDD 2019</li>
+</ul>
+ </div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

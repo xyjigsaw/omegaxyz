@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fast KNN code based on leave-one-out method · OmegaXYZ</title>
+  <meta name="description" content="Leave-One-Out Cross Validation (LOOCV) Leave-One-Out Cross Validation. This method is relatively simple and easy to understand. It is to divide a large data set into k small data sets, of which k-1 are used as training sets, and the remaining one is used as a test set. Then the next one is selected as a test set, and the remaining k-1 are used as a training set, and so on. Its main purpose is to prevent overfitting and evaluate the generalization ability of the model. The calculation time is longer. Applicable scenarios...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2020/06/17/rapid-knn/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2020-06-17</div>
+        <h1>Fast KNN code based on leave-one-out method</h1>
+        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content"><h2><strong>Leave-one-out cross-validation (LOOCV)</strong></h2>Leave-One-Out Cross Validation. This method is relatively simple and easy to understand. It is to divide a large data set into k small data sets, of which k-1 are used as training sets, and the remaining one is used as a test set. Then the next one is selected as a test set, and the remaining k-1 are used as a training set, and so on. Its main purpose is to prevent overfitting and evaluate the generalization ability of the model. The calculation time is longer.<strong>Applicable scenarios:</strong>The data set is small. If you divide the training set and the verification set for training as normal, then the data that can be used for training is originally small, and a part of it is divided, so that there is even less data that can be used for training. loocv can make full use of data.<h2><strong>Introduction to KNN algorithm and MATLAB implementation</strong></h2>
+https://omegaxyz.com/2018/03/24/knn_matlab/
+<h2><strong>Fast leave-one-out KNN</strong></h2>Because LOOCV needs to be divided N times to generate N batches of data, N models must be trained in one round of training, which greatly increases the training time. In order to solve this problem, according to the characteristics of the leave-one-out method, we can calculate the distance (or the intermediate value of the distance) between different samples in advance and store it. When using LOOCV, just take it out directly from the index. The following code uses feature selection as a demo to verify the fast KNN leave-one-out method.
+
+Among them, FSKNN1 is ordinary KNN and FSKNN2 is fast KNN.<strong>Main function main.m</strong>
+<pre><code class="language-matlab">clc
+[train_F,train_L,test_F,test_L] = divide_dlbcl();
+dim = size(train_F,2);
+individual = rand(1,dim);
+global choice
+choice = 0.5;
+global knnIndex
+[knnIndex] = preKNN(individual,train_F);
+for i = 1:100
+    [error,fs] = FSKNN1(individual,train_F,train_L);
+    [error2,fs2] = FSKNN2(individual,train_F,train_L);
+end</code></pre>
+<strong>Data set division divide_dlbcl.m</strong>
+<pre><code class="language-matlab">function [train_F,train_L,test_F,test_L] = divide_dlbcl()
+load DLBCL.mat;
+dataMat=ins;
+len=size(dataMat,1);
+%归一化
+maxV = max(dataMat);
+minV = min(dataMat);
+range = maxV-minV;
+newdataMat = (dataMat-repmat(minV,[len,1]))./(repmat(range,[len,1]));
+
+Indices   =  crossvalind('Kfold', length(lab), 10);
+site = find(Indices==1|Indices==2|Indices==3);
+test_F = newdataMat(site,:);
+test_L = lab(site);
+site2 = find(Indices~=1&amp;Indices~=2&amp;Indices~=3);
+train_F = newdataMat(site2,:);
+train_L =lab(site2);
+end</code></pre>
+<strong>Simple KNN</strong>
+
+FSKNN1.m
+<pre><code class="language-matlab">function [error,fs] = FSKNN1(x,train_F,train_L)
+global choice
+inmodel = x&gt;choice;%%%%%设定恰当的阈值选择特征
+
+
+k=1;
+train_f=train_F(:,inmodel);
+train_length = size(train_F,1);
+flag = logical(ones(train_length,1));
+
+
+error=0;
+for j=1:train_length
+    flag(j) = 0;
+    CtrainF = train_f(flag,:);
+    CtrainL = train_L(flag);
+    CtestF = train_f(~flag,:);
+    CtestL = train_L(~flag);
+    classifyresult= KNN1(CtestF,CtrainF,CtrainL,k);
+    if (CtestL~=classifyresult)
+        error=error+1;
+    end
+
+    flag(j) = 1;
+end
+  error=error/train_length;
+  fs = sum(inmodel);
+
+end</code></pre>
+KNN1.m
+<pre><code class="language-matlab">function relustLabel = KNN1(inx,data,labels,k)
+%% 
+%   inx 为 输入测试数据，data为样本数据，labels为样本标签 k值自定1~3
+%%
+
+[datarow , datacol] = size(data);
+diffMat = repmat(inx,[datarow,1]) - data ;
+distanceMat = sqrt(sum(diffMat.^2,2));
+[B , IX] = sort(distanceMat,'ascend');
+len = min(k,length(B));
+relustLabel = mode(labels(IX(1:len)));
+
+end</code></pre>
+<strong>Fast KNN</strong>
+
+preKNN.m
+<pre><code class="language-matlab">function [knnIndex] = preKNN(x,train_F)
+    inmodel = x &gt; 0;
+    train_f=train_F(:,inmodel);
+    train_length = size(train_F,1);
+    flag = logical(ones(train_length,1));
+    knnIndex = cell(train_length,1);
+    for j=1:train_length
+        flag(j) = 0;
+        CtrainF = train_f(flag,:);
+        CtestF = train_f(~flag,:);
+        [datarow , ~] = size(CtrainF);
+        diffMat = repmat(CtestF,[datarow,1]) - CtrainF ;
+        diffMat = diffMat.^2;
+        knnIndex{j,1} = diffMat;
+        flag(j) = 1;
+    end
+end</code></pre>
+FSKNN2.m
+<pre><code class="language-matlab">function [error,fs] = FSKNN2(x,train_F,train_L)
+global choice
+inmodel = x&gt;choice;%%%%%设定恰当的阈值选择特征
+global knnIndex
+k=1;
+train_length = size(train_F,1);
+flag = logical(ones(train_length,1));
+
+
+error=0;
+for j=1:train_length
+    flag(j) = 0;
+    CtrainL = train_L(flag);
+    CtestL = train_L(~flag);
+    classifyresult= KNN2(CtrainL,k,knnIndex{j}(:,inmodel));
+    if(CtestL~=classifyresult)
+        error=error+1;
+    end
+    flag(j) = 1;
+end
+  error=error/train_length;
+  fs = sum(inmodel);
+end</code></pre>
+KNN2.m
+<pre><code class="language-matlab">function relustLabel = KNN2(labels,k,diffMat)
+
+distanceMat = sqrt(sum(diffMat,2));
+[B , IX] = sort(distanceMat,'ascend');
+len = min(k,length(B));
+relustLabel = mode(labels(IX(1:len)));
+
+end</code></pre>Dataset:<a href="https://github.com/xyjigsaw/Dataset">https://github.com/xyjigsaw/Dataset </a>Just download DLBCL.mat.<h2><strong>result</strong></h2>
+<img alt="" class="alignnone wp-image-6731" height="453" src="https://cdn.omegaxyz.com/2020/06/KNNCMP.png" width="594"/>It can be seen that the time of FSKNN2+preKNN is much less than that of FSKNN1.</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

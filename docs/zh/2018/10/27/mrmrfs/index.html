@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>最大相关最小冗余（mRMR）算法 · OmegaXYZ</title>
+  <meta name="description" content="在做特征选择时，可能面临两个问题：特征与类别预测有多大相关性，特征之间有多大冗余度。在特征选择中，“最好的m个特征不一定是m个最好的特征”，从相关度与冗余度来看，最好的m个特征是指与分类最相关的特征，但由于最好的m个特征之间可能存在冗余，因此最相关的m个特征并不一定比其他m个特征产生更好的分类准确率。可以看出，特征选择可以分为两个过程：1...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/10/27/mrmrfs/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-27</div>
+        <h1>最大相关最小冗余（mRMR）算法</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="article-content"><div>在做特征选择时，可能面临两个问题：特征与类别预测有多大相关性，特征之间有多大冗余度。在特征选择中，“最好的m个特征不一定是m个最好的特征”，从相关度与冗余度来看，最好的m个特征是指与分类最相关的特征，但由于最好的m个特征之间可能存在冗余，因此最相关的m个特征并不一定比其他m个特征产生更好的分类准确率。可以看出，特征选择可以分为两个过程：1、怎样度量特征相关性。2、怎样解决特征之间的冗余。</div>
+<h2><strong>互信息</strong></h2>
+<div>互信息可以度量两个变量x，y之间的相关关系。如下图所示：</div>
+<div><img class="alignnone size-full wp-image-5100" src="https://cdn.omegaxyz.com/2018/10/C5ED2170B7B54FA2A1A111E996E87512.png" alt="" width="280" height="54" /></div>
+<div>
+<div>考虑特征x与分类目标c，计算I（x，c），I（x，c）的大小代表了x与c之间的关联度的大小。从所有特征中选出与c之间互信息最大的m个特征，就可以得到与c最相关的m个特征。</div>
+<div></div>
+<h2>最大相关度与最小冗余度</h2>
+<div>设S表示特征{xi}的集合，|S|=m. 为了选出m个最相关特征，使得S满足如下公式：</div>
+</div>
+<div><img class="alignnone size-full wp-image-5097" src="https://cdn.omegaxyz.com/2018/10/5E679D207FB4467599FB4532471E8217.png" alt="" width="266" height="62" /></div>
+<div>
+<div>可见目标是选出m个平均互信息最大的集合S。</div>
+<div></div>
+<div>S很可能包含相关度很大的特征，也就是说特征之间存在冗余。集合S的冗余度如下式所示：</div>
+</div>
+<div><img class="alignnone size-full wp-image-5096" src="https://cdn.omegaxyz.com/2018/10/5E6E213ACF884E5D8A81F74C15AEAC2C.png" alt="" width="275" height="51" /></div>
+<div>
+<div>最终目标是求出拥有最大相关度-最小冗余度的集合S，直接优化下式：</div>
+</div>
+<div><img class="alignnone size-full wp-image-5099" src="https://cdn.omegaxyz.com/2018/10/B15763CA942D45658429E6AEF1591D36.png" alt="" width="203" height="39" /></div>
+<div>
+<div>直观上说D的增大，R的减小都会使得目标函数增大。</div>
+<div></div>
+<div>假设现在S中已有m-1个特征，现在需要从余下的特征中选择第m个特征。</div>
+<div>
+<h2><strong>特征选择过程</strong></h2>
+<div>特征选择的目的是选择出一个具有很好分类效果的精简特征集。为了达到此目的，可以分两步进行：第一步，利用mrmr选出候选特征集；第二步，利用其它方法选出精简特征集。</div>
+</div>
+</div>
+<div></div>
+<div>
+<h2><strong>主要步骤：</strong></h2>
+</div>
+<div>
+<ul>
+ 	<li>将数据进行处理转换的过程（注：为了计算两个特征的联合分布和边缘分布，需要将数据归一化到[0,255]之间，并且将每一维特征使用合理的数据结构进行存储）</li>
+ 	<li>计算特征之间、特征与响应变量之间的分布及互信息</li>
+ 	<li>对特征进行mrmr得分，并进行排序</li>
+</ul>
+</div></div>
+        <section class="comments"><h2>评论 (4)</h2>
+        <div class="comment" id="comment-3964">
+          <strong><a href="https://templerun.co" rel="nofollow">temple run</a></strong>
+          <time>2018-11-22 11:26:01</time>
+          <div>The minimal correlation minimum (MCRR) algorithm is very attractive, Thank you for sharing this great article.</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26739">
+          <strong>f</strong>
+          <time>2022-06-09 22:18:52</time>
+          <div>thank you i am student ,could i ask  you some questions?</div>
+        </div>
+        
+        <div class="comment reply" id="comment-26742">
+          <strong>xyjisaw</strong>
+          <time>2022-06-10 00:16:04</time>
+          <div>Sure.</div>
+        </div>
+        
+        <div class="comment" id="comment-33454">
+          <strong>gao</strong>
+          <time>2023-04-11 19:22:23</time>
+          <div>大佬有没有代码呀</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

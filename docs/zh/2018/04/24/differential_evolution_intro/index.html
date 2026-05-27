@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>差分进化算法 (Differential Evolution)概述 · OmegaXYZ</title>
+  <meta name="description" content="DE算法简介 Differential Evolution（DE）是由Storn等人于1995年提出的，和其它演化算法一样，DE是一种模拟生物进化的随机模型，通过反复迭代，使得那些适应环境的个体被保存了下来。但相比于进化算法，DE保留了基于种群的全局搜索策略，采用实数编码、基于差分的简单变异操作和一对一的竞争生存策略，降低了遗传操作的复杂...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../../en/2018/04/24/differential_evolution_intro/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-04-24</div>
+        <h1>差分进化算法 (Differential Evolution)概述</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/differential-evolution/index.html">差分进化</a></div>
+        <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
+<h2><strong>DE算法简介</strong></h2>
+Differential Evolution（DE）是由Storn等人于1995年提出的，和其它演化算法一样，DE是一种模拟生物进化的随机模型，通过反复迭代，使得那些适应环境的个体被保存了下来。但相比于进化算法，DE保留了基于种群的全局搜索策略，采用实数编码、基于差分的简单变异操作和一对一的竞争生存策略，降低了遗传操作的复杂性。同时，DE特有的记忆能力使其可以动态跟踪当前的搜索情况，以调整其搜索策略，具有较强的全局收敛能力和鲁棒性，且不需要借助问题的特征信息，适于求解一些利用常规的数学规划方法所无法求解的复杂环境中的优化问题。
+
+• DE算法-作者网站: <a href="http://www1.icsi.berkeley.edu/~storn/code.html"><u>http://www1.icsi.berkeley.edu/~storn/code.html</u></a>
+
+• 维基百科资料库  : <a href="https://en.wikipedia.org/wiki/Differential_evolution"><u>https://en.wikipedia.org/wiki/Differential_evolution</u></a>
+
+DE 算法主要用于求解连续变量的全局优化问题，其主要工作步骤与其他进化算法基本一致，主要包括变异(Mutation)、交叉(Crossover)、选择(Selection)三种操作。算法的基本思想是从某一随机产生的初始群体开始，<strong>利用从种群中随机选取的两个个体的差向量作为第三个个体的随机变化源，</strong>将差向量加权后按照一定的规则与第三个个体求和而产生变异个体，该操作称为变异。然后，变异个体与某个预先决定的目标个体进行参数混合，生成试验个体，这一过程称之为交叉。如果试验个体的适应度值优于目标个体的适应度值，则在下一代中试验个体取代目标个体，否则目标个体仍保存下来，该操作称为选择。在每一代的进化过程中，每一个体矢量作为目标个体一次，算法通过不断地迭代计算，保留优良个体，淘汰劣质个体，引导搜索过程向全局最优解逼近。
+<h2><strong>DE与GA的关系</strong></h2>
+差分进化算法相对于遗传算法而言，相同点都是通过随机生成初始种群，以种群中每个个体的适应度值为选择标准，主要过程也都包括变异、交叉和选择三个步骤。不同之处在于遗传算法是根据适应度值来控制父代杂交，变异后产生的子代被选择的概率值，在最大化问题中适应值大的个体被选择的概率相应也会大一些。而差分进化算法变异向量是由父代差分向量生成，并与父代个体向量交叉生成新个体向量，直接与其父代个体进行选择。显然差分进化算法相对遗传算法的逼近效果更加显著。
+<h2><strong>DE算法流程图</strong></h2>
+<img class="alignnone size-full wp-image-4128" src="https://cdn.omegaxyz.com/2018/04/DEFLOW.jpg" alt="" width="539" height="595" />
+<h2><strong>算法细节 </strong></h2>
+<img class="alignnone size-full wp-image-4129" src="https://cdn.omegaxyz.com/2018/04/DE.jpg" alt="" width="546" height="493" />
+<h2><strong>算法伪代码</strong></h2>
+<img class="alignnone size-full wp-image-4130" src="https://cdn.omegaxyz.com/2018/04/DEA.jpg" alt="" width="524" height="715" />
+<h2><strong>参考资料</strong></h2>
+①<a href="https://www.cnblogs.com/tsingke/p/5809453.html">https://www.cnblogs.com/tsingke/p/5809453.html</a>
+
+②<a href="http://www1.icsi.berkeley.edu/~storn/code.html">http://www1.icsi.berkeley.edu/~storn/code.html</a></div>
+        <section class="comments"><h2>评论 (1)</h2>
+        <div class="comment" id="comment-65398">
+          <strong>MarioCop</strong>
+          <time>2025-12-14 17:14:40</time>
+          <div>&lt;a href=&quot;https://bergkompressor.ru/news/artcles/?1xbet_promokod_pri_registracii_bonus_5.html&quot; rel=&quot;nofollow ugc&quot;&gt;Перейди по ссылке на официальный ресурс &lt;/a&gt;</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

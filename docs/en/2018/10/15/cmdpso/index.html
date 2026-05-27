@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-objective PSO algorithm based on crowding distance and mutation dominance · OmegaXYZ</title>
+  <meta name="description" content="This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2. Let’s talk about CMDPSO in detail below. The full name of CMDPSO is Crowding, Mutation, Dominance PSO algorithm. Overview and implementation of NSPSO algorithm https:...">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2018/10/15/cmdpso/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2018-10-15</div>
+        <h1>Multi-objective PSO algorithm based on crowding distance and mutation dominance</h1>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="article-content">This is a paper published by Xue Bing in the first area of ​​cybernetics, which proposes two multi-objective PSO feature selection algorithms, one is NSPSO and the other is CMDPSO. Among them, NSPSO refers to the framework and ideas of NSGA2. Let’s talk about CMDPSO in detail below.
+
+The full name of CMDPSO is Crowding, Mutation, Dominance PSO algorithm.<h2><strong>Overview and implementation of NSPSO algorithm</strong></h2>
+https://omegaxyz.com/2018/09/01/nspso/
+
+ 
+
+https://omegaxyz.com/2018/09/22/nspso_matlab/
+<h2><strong>PSO algorithm</strong></h2>
+https://omegaxyz.com/2018/01/17/matlab_pso/
+<h2><strong>individual crowding distance</strong></h2>Selective sorting is required in the same layer of Fk, sorting according to the individual crowding distance. The individual crowding distance is the distance between individuals i+1 and i-1 adjacent to i on Fk. Its calculation steps are:
+① Initialize the distance between individuals in the same layer, let L[i]d=0 (representing the crowding distance of any individual i).
+②Arrange the individuals in the same layer in ascending order according to the m-th objective function value.
+③ Give selective advantages to individuals on the edge of sorting.
+④For the individuals in the middle of the ranking, find the crowding distance:<img alt="" class="alignnone size-medium wp-image-354" height="25" sizes="(max-width: 300px) 100vw, 300px" src="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png" srcset="https://cdn.omegaxyz.com/2017/04/NSGA2-1-300x25.png 300w, https://cdn.omegaxyz.com/2017/04/NSGA2-1.png 626w" width="300"/>(Where: L[i+1]m is the m-th objective function value fmax of the i+1-th individual, and fmin are the maximum and minimum values of the m-th objective function in the set respectively.)
+⑤ For different objective functions, repeat steps ② to ④ to obtain the crowding distance L[i]d of individual i. By limited selection of individuals with larger crowding distances, the calculation results can be evenly distributed in the target space and the diversity of the group can be maintained.<h2><strong>pseudocode</strong></h2>
+<img alt="" class="alignnone size-full wp-image-5089" height="618" src="https://cdn.omegaxyz.com/2018/10/CMDPSOFS.png" width="395"/>
+<strong>Note that the archive contains a collection of elite particles of each generation.</strong>
+<h2><strong>Specific process</strong></h2>
+<ul>
+<li>①Divide the data set</li>
+<li>②Initialize elite collection and Archive</li>
+<li>③Calculate crowding distance</li>
+<li>④Binary tournament selects elite individuals one by one as gbest guidance update</li>
+<li>⑤Update particles</li>
+<li>⑥Use mutation operator</li>
+<li>⑦Real evaluation of particles</li>
+<li>⑧Add LeaderSet to the archive</li>
+<li>⑨After the iteration is completed, calculate the two target values ​​in the archive</li>
+</ul>
+ </div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-3979">
+          <strong><a href="https://templerun.co" rel="nofollow">temple run</a></strong>
+          <time>2018-11-29 18:29:03</time>
+          <div>I have been waiting for this information for a long time. Thank you very much for the great post.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>
