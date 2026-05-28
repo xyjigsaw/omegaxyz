@@ -17,7 +17,7 @@
     if (!content) return;
     const headings = Array.from(content.querySelectorAll("h2, h3")).slice(0, 24);
     if (!headings.length) {
-      box.remove();
+      (box.closest(".side-box") || box).remove();
       return;
     }
     const list = document.createElement("ol");

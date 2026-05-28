@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Eliminate left recursion in a grammar · OmegaXYZ</title>
   <meta name="description" content="Introduction 1. Elimination of direct left recursion Eliminating direct left recursion in productions is relatively easy. For example, assume that the rule for non-terminal P is P → Pα / β where β is a symbol string that does not start with P. Then, we can rewrite the rules of P into the following non-direct left recursive form: P → βP’ P’ → αP’ / ε These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same. Let there be a simple expression grammar G[E]: E...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2019-02-03</div>
         <h1>Eliminate left recursion in a grammar</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
         <div class="article-content"><h2><strong>Introduction</strong></h2>
 <h4>1. Elimination of direct left recursion</h4>It is relatively easy to eliminate direct left recursion in productions. For example, suppose the rule for nonterminal P is<p style="text-align: center;"><strong>P</strong><strong>→Pα / β</strong></p>Among them, β is a symbol string that does not start with P. Then, we can rewrite the rule of P into the following indirect left-recursive form:<p style="text-align: center;"><strong>P</strong><strong>→βP’</strong></p>
 <p style="text-align: center;"><strong> P’</strong><strong>→αP’ / ε</strong></p>These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same.

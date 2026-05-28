@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Operating system thread (process) synchronization Java instance · OmegaXYZ</title>
   <meta name="description" content="To read this article, please read the Java thread class first: https://omegaxyz.com/2018/04/09/java_threading/ Java provides the Executor interface to execute tasks in the thread pool, and the ExecutorService interface to manage and control tasks. ExecutorService executor = Executors.newCachedThre...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,8 +27,8 @@
       <article class="article">
         <div class="meta">2018-04-10</div>
         <h1>Operating system thread (process) synchronization Java instance</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
-        <div class="article-content">To read this article, please first look at the Java thread class:<a href="https://omegaxyz.com/2018/04/09/java_threading/">https://omegaxyz.com/2018/04/09/java_threading/</a>Java provides the Executor interface to execute tasks in the thread pool, and the ExecutorService interface to manage and control tasks.<strong>ExecutorService executor = Executors.newCachedThreadPool();</strong>The statement will create a new thread for each waiting task, and all tasks can be executed concurrently.
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/java/index.html">Java</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">Java</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="article-content">To read this article, please first look at the Java thread class:<a href="../../09/java_threading/index.html">https://omegaxyz.com/2018/04/09/java_threading/</a>Java provides the Executor interface to execute tasks in the thread pool, and the ExecutorService interface to manage and control tasks.<strong>ExecutorService executor = Executors.newCachedThreadPool();</strong>The statement will create a new thread for each waiting task, and all tasks can be executed concurrently.
 Note that you need to use shutdown() to shut down the executor.
 
 Suppose 100 threads are created and started, each thread adds a penny to an account, and a main class that creates and starts the threads.

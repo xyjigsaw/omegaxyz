@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSGA-II · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">主页</a><a href="../../archive/index.html">文章</a><a href="../../pages/index.html">页面</a><a href="../../categories/index.html">分类</a><a href="../../search/index.html">搜索</a>
+          <a href="../../../en/tag/nsga-ii/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>NSGA-II</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2019-01-27</time>
+      <div>
+        <h2><a href="../../2019/01/27/ea-np/index.html">基于进化计算的NP难题求解的研究综述</a></h2>
+        <p>摘 要 进化算法作为一种随机优化算法在复杂函数优化、组合优化与路径规划等领域具有广泛的应用。本文从进化算法的发展现状、缺陷与改进等方面进行了细致的分析调研。具体介绍了NP问题的定义与研究成果，并研究与讨论了基于传统经典与最新前沿的进化算法解决带约束组合优化的NP难题的方法策略。在标准数据集上的实验结果表明，进化算法在求解NP问题具有一定的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-20</time>
+      <div>
+        <h2><a href="../../2019/01/20/evolutionary-computing/index.html">进化（演化）计算概述</a></h2>
+        <p>演化计算 1.1 进化计算的历史及现状 20世界50年代，当电脑性能还远远落后时，达尔文的进化论就被应用于自动问题的解决 [1] 。在美国，Fogel提出了进化编程的思想 [2] ，也就是后来所谓的遗传算法（GA）。GA算法是受生物进化过程中“优胜劣汰”的自然选择机制和遗传信息的传递规律的影响，通过程序迭代模拟这一过程，把要解决的问题看作...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-21</time>
+      <div>
+        <h2><a href="../../2018/04/21/crossover_mutation/index.html">遗传算法的交叉变异详解</a></h2>
+        <p>交叉 二进制编码交叉 单点交叉 单点交叉又称为简单交叉，它是指在个体编码串中只随机设置一个交叉点，然后在该点相互交换两个配体个体的部分染色体。图1为单点交叉运算的示意图。 两点交叉 两点交叉是指在个体编码串中随机设置了两个交叉点，然后再进行部分基因交换。两点交叉的具体操作过程是:①在相互配对的两个个体编码串中随机设置两个交叉点；②交换两个...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-08</time>
+      <div>
+        <h2><a href="../../2018/02/08/ccnsga2/index.html">随机固定分组合作协同进化NSGA2算法（CCNSGA2）</a></h2>
+        <p>合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 合作协同进化算法请见： https://omegaxyz.com/2017/10/14/cooperative_coevolution/ NSGA2算法是一种多目标遗传算...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-23</time>
+      <div>
+        <h2><a href="../../2018/01/23/nsga2_fs/index.html">NSGA2算法特征选择MATLAB实现（多目标）</a></h2>
+        <p>利用nsga2进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。 需要优化的两个目标为特征数和精度。 nsga2是一个多目标优化算法。 具体的nsga2通用算法请看： https://omegaxyz....</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-22</time>
+      <div>
+        <h2><a href="../../2018/01/22/new_nsga2/index.html">NSGA2算法MATLAB实现（能够自定义优化函数）</a></h2>
+        <p>以前写了一个简单的NSGA2的算法能够用在ZDT1函数上： https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ 那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。 NSGA2的过程为： 1、随机产生一个初始父代Po，在此基础上采用二...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-04</time>
+      <div>
+        <h2><a href="../../2017/05/04/nsga2matlabzdt1/index.html">NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）</a></h2>
+        <p>为了能随时了解Matlab主要操作及思想。 故本文贴上NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）。 感谢郭伟学长提供的代码。 代码所有权归郭伟学长。 在看Matlab实现之前，请先看一下NSGA-II算法概述 https://omegaxyz.com/2017/04/14/nsga-iiintro/ NSGA-Ⅱ就是在第一代非...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-20</time>
+      <div>
+        <h2><a href="../../2017/04/20/nsga2zdt1/index.html">NSGA-Ⅱ算法C++实现（测试函数为ZDT1）</a></h2>
+        <p>在看C++实现之前，请先看一下NSGA-II算法概述 https://omegaxyz.com/2017/04/14/nsga-iiintro/ NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对如上所述的三个方面： ①提出了快速非支配排序算法，一方面降低了计算的复杂度，另一方面它将父代种群跟子代种群进行合并，使...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-19</time>
+      <div>
+        <h2><a href="../../2017/04/19/nsga2fastsort/index.html">NSGA-II快速非支配排序算法理解</a></h2>
+        <p>快速的非支配排序 在NSGA进行非支配排序时，规模为N的种群中的每个个体都要针对M个目标函数和种群中的N-1个个体进行比较，复杂度为O(MN)，因此种群中的N个个体都比较结束的复杂度为O(MN2)，即每进行一次Pareto分级的时间复杂度为O(MN2)。在最坏的情况下，每个Pareto级别都只含有一个个体，那么需要进行N次分级所需要的时间...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-14</time>
+      <div>
+        <h2><a href="../../2017/04/14/nsga-iiintro/index.html">NSGA-II多目标遗传算法概述</a></h2>
+        <p>什么是NSGA-II Non dominated sorting genetic algorithm -II NSGA-Ⅱ是目前最流行的多目标遗传算法之一，它降低了非劣排序遗传算法的复杂性，具有运行速度快，解集的收敛性好的优点，成为其他多目标优化算法性能的基准。 NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

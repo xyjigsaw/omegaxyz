@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>C++中的友元函数的总结 · OmegaXYZ</title>
   <meta name="description" content="友元函数目的 采用类的机制后实现了数据的隐藏与封装，类的数据成员一般定义为私有成员，成员函数一般定义为公有的，依此提供类与外界间的通信接口。但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。除了友元函数外，还有友元类，两者统称为友元。友元的作用是提高了程序的运行效...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-09-27</div>
         <h1>C++中的友元函数的总结</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
         <div class="article-content"><h1>友元函数目的</h1>
 采用类的机制后实现了数据的隐藏与封装，类的数据成员一般定义为私有成员，成员函数一般定义为公有的，依此提供类与外界间的通信接口。但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。除了友元函数外，还有友元类，两者统称为友元。友元的作用是提高了程序的运行效率（即减少了类型检查和安全性检查等都需要时间开销），但它破坏了类的封装性和隐藏性，使得非成员函数可以访问类的私有成员。
 <h1>使用的情况</h1>

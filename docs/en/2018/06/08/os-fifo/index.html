@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FIFO algorithm implements page fault scheduling for paging management · OmegaXYZ</title>
   <meta name="description" content="The basic principle of the FIFO (first in, first out) algorithm is: This algorithm always eliminates the page that enters the memory first, that is, it selects the page that has resided in the memory the longest and eliminates it. Data structure: First define a main memory table memeoryList to store the address space in the main memory for page conversion. Then define a pageList as the page table for replacement. Note that here first determines whether the current position is occupied, and then determines whether the page is at the current position. If you need to interrupt the replacement, proceed...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-06-08</div>
         <h1>FIFO algorithm implements page fault scheduling for paging management</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
         <div class="article-content">The basic principle of the FIFO (first in, first out) algorithm is: This algorithm always eliminates the page that enters the memory first, that is, it selects the page that has resided in the memory the longest and eliminates it.<h2><strong>data structure</strong></h2>First define a main memory table<strong>memeoryList</strong>The address space used to store the main memory is used for page conversion.
 
 Define another<strong>pageList</strong>as page table<h2><strong>replace</strong></h2>Note that here we first determine whether the current location is occupied, and then determine whether the page is at the current location. If it is necessary to interrupt the replacement, it is judged that because it is a FIFO algorithm, it is necessary to replace the one that has been stored for the longest time.<strong>The replaced position is updated according to the formula</strong>

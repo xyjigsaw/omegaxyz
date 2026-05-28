@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feature discretization and selection algorithm based on PSO · OmegaXYZ</title>
   <meta name="description" content="Previously, we introduced the importance of Feature Selection (FS) and discretized data, gave an overview of the importance of PSO in FS and some commonly used methods, introduced the background of FS and discretization, and introduced the entropy-based cutting point and the minimum description length principle (MDLP) used in this article. For details, please click on the link: https://omegaxyz.com/2018/07/23/feature-discret...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,10 +27,10 @@
       <article class="article">
         <div class="meta">2018-07-27</div>
         <h1>Feature discretization and selection algorithm based on PSO</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
         <div class="article-content"><div>Previously, we introduced the importance of Feature Selection (FS) and discretized data, gave an overview of the importance of PSO in FS and some commonly used methods, introduced the background of FS and discretization, and introduced the entropy-based cutting point and the minimum description length principle (MDLP) used in this article. Please click the link for details:</div>
 <div></div>
-<div><a href="https://omegaxyz.com/2018/07/23/feature-discretization-selection/">https://omegaxyz.com/2018/07/23/feature-discretization-selection/</a></div>
+<div><a href="../../23/feature-discretization-selection/index.html">https://omegaxyz.com/2018/07/23/feature-discretization-selection/</a></div>
 <div></div>
 <div>Today we will learn some methods of discretizing feature selection using PSO. Today we will introduce EPSO and PPSO. Both EPSO and PPSO follow the basic steps shown in Figure 1. After initialization, particles are iteratively evaluated and updated until a stopping condition is met. To evaluate particles, the training data is first discretized and features are selected based on evolutionary cut points. The converted data is then put into the learning algorithm to calculate the fitness. Based on this adaptability, pbest and gbest are updated and used to update the particle's position.</div>
 <div><img alt="" class="alignnone size-full wp-image-4831" height="268" src="https://cdn.omegaxyz.com/2018/07/FDFS3.png" width="746"/></div>

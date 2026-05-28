@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>基于LDA的文本主题聚类Python实现 · OmegaXYZ</title>
   <meta name="description" content="LDA简介 LDA（Latent Dirichlet Allocation）是一种 文档主题生成模型 ，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2020-02-24</div>
         <h1>基于LDA的文本主题聚类Python实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
 <h2><strong>LDA简介</strong></h2>
 LDA（Latent Dirichlet Allocation）是一种<span style="color: #f25d52;"><strong>文档主题生成模型</strong></span>，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多项式分布。

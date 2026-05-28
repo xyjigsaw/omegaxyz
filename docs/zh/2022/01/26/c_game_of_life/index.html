@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>元胞自动机生命游戏C语言并行实现 · OmegaXYZ</title>
   <meta name="description" content="简介 细胞自动机（又称元胞自动机），名字虽然很深奥，但是它的行为却是非常美妙的。所有这些怎样实现的呢？我们可以把计算机中的宇宙想象成是一堆方格子构成的封闭空间，尺寸为N的空间就有NN个格子。而每一个格子都可以看成是一个生命体，每个生命都有生和死两种状态，如果该格子生就显示蓝色，死则显示白色。每一个格子旁边都有邻居格子存在，如果我们把33的...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2022-01-26</div>
         <h1>元胞自动机生命游戏C语言并行实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/%E5%85%83%E8%83%9E%E8%87%AA%E5%8A%A8%E6%9C%BA/index.html">元胞自动机</a><a class="pill" href="../../../../tag/mpi%E5%B9%B6%E8%A1%8C/index.html">MPI并行</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/元胞自动机/index.html">元胞自动机</a><a class="pill" href="../../../../tag/mpi并行/index.html">MPI并行</a></div>
         <div class="article-content"><h2><strong>简介</strong></h2>
 细胞自动机（又称元胞自动机），名字虽然很深奥，但是它的行为却是非常美妙的。所有这些怎样实现的呢？我们可以把计算机中的宇宙想象成是一堆方格子构成的封闭空间，尺寸为N的空间就有NN个格子。而每一个格子都可以看成是一个生命体，每个生命都有生和死两种状态，如果该格子生就显示蓝色，死则显示白色。每一个格子旁边都有邻居格子存在，如果我们把33的9个格子构成的正方形看成一个基本单位的话，那么这个正方形中心的格子的邻居就是它旁边的8个格子。
 

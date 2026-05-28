@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>提高C++运行效率的方法 · OmegaXYZ</title>
   <meta name="description" content="一、尽量减少值传递，多用引用来传递参数。 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下： 其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-03-12</div>
         <h1>提高C++运行效率的方法</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
         <div class="article-content"><strong>一、尽量减少值传递，多用引用来传递参数。</strong>
 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下：
 <pre ><code class="language-c++">bool Compare（string s1, string s2)

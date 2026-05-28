@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>最小生成树之Prim贪心算法 · OmegaXYZ</title>
   <meta name="description" content="设图G顶点集合为U，首先任意选择图G中的一点作为起始点a，将该点加入集合V，再从集合U-V中找到另一点b使得点b到V中任意一点的权值最小，此时将b点也加入集合V；以此类推，现在的集合V={a，b}，再从集合U-V中找到另一点c使得点c到V中任意一点的权值最小，此时将c点加入集合V，直至所有顶点全部被加入V，此时就构建出了一颗MST。因为有...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-05-31</div>
         <h1>最小生成树之Prim贪心算法</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/dynamic-planning/index.html">动态规划</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
         <div class="article-content">设图G顶点集合为U，首先任意选择图G中的一点作为起始点a，将该点加入集合V，再从集合U-V中找到另一点b使得点b到V中任意一点的权值最小，此时将b点也加入集合V；以此类推，现在的集合V={a，b}，再从集合U-V中找到另一点c使得点c到V中任意一点的权值最小，此时将c点加入集合V，直至所有顶点全部被加入V，此时就构建出了一颗MST。因为有N个顶点，所以该MST就有N-1条边，每一次向集合V中加入一个点，就意味着找到一条MST的边。
 
 <img class="alignnone  wp-image-852" src="https://cdn.omegaxyz.com/2017/05/prim1-300x262.jpg" alt="" width="365" height="319" />

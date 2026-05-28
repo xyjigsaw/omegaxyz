@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feature selection based on MIC (maximum mutual information coefficient) · OmegaXYZ</title>
   <meta name="description" content="Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient. I have written an introduction to MIC before, which includes the principles of MIC. Link: https://omegaxyz.com/2018/01/18/mic/ For the installation of the MATLAB package used, please see: https://omegaxyz.com/2018/02/2...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,17 +27,17 @@
       <article class="article">
         <div class="meta">2018-02-22</div>
         <h1>Feature selection based on MIC (maximum mutual information coefficient)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
         <div class="article-content">Maximum information coefficient maximal information coefficient (MIC), also known as the maximum mutual information coefficient.
 
-I wrote an introduction to MIC before, which includes the principles of MIC. Link:<a href="https://omegaxyz.com/2018/01/18/mic/">https://omegaxyz.com/2018/01/18/mic/</a>For the installation of MATLAB packages used, please see:<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>Feature selection steps
+I wrote an introduction to MIC before, which includes the principles of MIC. Link:<a href="../../../01/18/mic/index.html">https://omegaxyz.com/2018/01/18/mic/</a>For the installation of MATLAB packages used, please see:<a href="../../21/minepy/index.html">https://omegaxyz.com/2018/02/21/minepy/</a>Feature selection steps
 
 ① Calculate the MIC value between different dimensions (features). The larger the MIC value, the closer the two dimensions are.
 ②Look for dimensions with smaller MIC values ​​than other dimensions, and select these features based on the threshold.
 ③Use SVM training
 ④The training results determine the error rate on the test set
 
-For the installation of minepy, please refer to:<a href="https://omegaxyz.com/2018/02/21/minepy/">https://omegaxyz.com/2018/02/21/minepy/</a>MATLAB code:<pre><code class="language-default">clc
+For the installation of minepy, please refer to:<a href="../../21/minepy/index.html">https://omegaxyz.com/2018/02/21/minepy/</a>MATLAB code:<pre><code class="language-default">clc
 load train_F.mat;
 load train_L.mat;
 load test_F.mat;
@@ -72,7 +73,7 @@ error = error/length(test_L);
 <div class="textwidget custom-html-widget" style="text-align: center;"><span style="color: #ff0000;"><strong>Code adoption<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license" style="color: #ff0000;">Apache 2.0</a>Authorize</strong></span>
 <span style="color: #ff0000;"><strong>The article is licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" style="color: #ff0000;">BY-NC-SA4.0</a>Authorize</strong></span></div>
 </aside></div>
-<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a href="https://omegaxyz.com/" rel="noopener" style="color: #ff0000;" target="_blank">OmegaXYZ</a>-All rights reserved. Please indicate the source for reprinting.</strong></span></div></div>
+<div class="copyright-bar" style="text-align: center;"><span style="color: #ff0000;"><strong> <a href="../../../../index.html" rel="noopener" style="color: #ff0000;" target="_blank">OmegaXYZ</a>-All rights reserved. Please indicate the source for reprinting.</strong></span></div></div>
         
       </article>
       <aside class="sidebar">

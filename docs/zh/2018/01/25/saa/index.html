@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>模拟退火算法（SAA）C语言与MATLAB实现 · OmegaXYZ</title>
   <meta name="description" content="爬山法 在介绍模拟退火算法之前，先介绍一下 爬山法 。爬山法是一种贪心算法。其目标是要找到函数的最大值，若初始化时，初始点的位置在C处，则会寻找到附近的局部最大值A点处，由于A点出是一个局部最大值点，故对于爬山法来讲，该算法无法跳出局部最大值点。若初始点选择在D处，根据爬山法，则会找到全部最大值点B。这一点也说明了这样基于贪婪的爬山法是否...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-01-25</div>
         <h1>模拟退火算法（SAA）C语言与MATLAB实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/greedy-algorithm/index.html">贪心算法</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
 <h1>爬山法</h1>
 在介绍模拟退火算法之前，先介绍一下<strong>爬山法</strong>。爬山法是一种贪心算法。其目标是要找到函数的最大值，若初始化时，初始点的位置在C处，则会寻找到附近的局部最大值A点处，由于A点出是一个局部最大值点，故对于爬山法来讲，该算法无法跳出局部最大值点。若初始点选择在D处，根据爬山法，则会找到全部最大值点B。这一点也说明了这样基于贪婪的爬山法是否能够取得全局最优解与初始值的选取由很大的关系。

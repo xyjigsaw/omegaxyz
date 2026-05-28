@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>生产者消费者问题Java实现 · OmegaXYZ</title>
   <meta name="description" content="生产消费者模型 多线程并发应用程序有一个经典的模型，即生产者/消费者模型。系统中，产生消息的是生产者，处理消息的是消费者，消费者和生产者通过一个缓冲区进行消息传递。生产者产生消息后提交到缓冲区，然后通知消费者可以从中取出消息进行处理。消费者处理完信息后，通知生产者可以继续提供消息。 要实现这个模型，关键在于消费者和生产者这两个线程进行同步...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-17</div>
         <h1>生产者消费者问题Java实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
         <div class="article-content"><h1><strong>生产消费者模型</strong></h1>
 <p align="left">多线程并发应用程序有一个经典的模型，即生产者/消费者模型。系统中，产生消息的是生产者，处理消息的是消费者，消费者和生产者通过一个缓冲区进行消息传递。生产者产生消息后提交到缓冲区，然后通知消费者可以从中取出消息进行处理。消费者处理完信息后，通知生产者可以继续提供消息。</p>
 <p align="left">要实现这个模型，关键在于消费者和生产者这两个线程进行同步。也就是说：只有缓冲区中有消息时，消费者才能够提取消息；只有消息已被处理，生产者才能产生消息提交到缓冲区。</p>

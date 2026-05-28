@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>英文字母信息熵与冗余度计算Python实现 · OmegaXYZ</title>
   <meta name="description" content="26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。 公式: H(信息熵) = -∑ P i log 2 (P i ); P i :为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2 n = X 的话,那么logX = n; 所以可以看出所谓信...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-05-09</div>
         <h1>英文字母信息熵与冗余度计算Python实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
         <div class="article-content">26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。
 
 公式: H(信息熵) = -∑ P<sub>i</sub> log<sub>2</sub>(P<sub>i</sub>); P<sub>i</sub>:为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2<sup>n</sup> = X 的话,那么logX = n; <strong>所以可以看出所谓信息熵就二进制的字符集在去掉冗余度后的二进制编码位数.</strong>冗余度是通过统计每个字符出现概率获得的。

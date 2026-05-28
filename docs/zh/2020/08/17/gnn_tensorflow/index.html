@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>图神经网络（GNN）TensorFlow实现 · OmegaXYZ</title>
   <meta name="description" content="图神经网络的研究与图嵌入或网络嵌入密切相关，图嵌入或网络嵌入是数据挖掘和机器学习界日益关注的另一个课题。图嵌入旨在通过保留图的网络拓扑结构和节点内容信息，将图中顶点表示为低维向量，以便使用简单的机器学习算法（例如，支持向量机分类）进行处理。许多图嵌入算法通常是无监督的算法，它们可以大致可以划分为三个类别，即矩阵分解、随机游走和深度学习方法...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2020-08-17</div>
         <h1>图神经网络（GNN）TensorFlow实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/tensorflow-pytorch/index.html">TensorFlow-Pytorch</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/knowledge-graph/index.html">知识图谱</a><a class="pill" href="../../../../tag/gnn/index.html">GNN</a></div>
         <div class="article-content"><blockquote>图神经网络的研究与图嵌入或网络嵌入密切相关，图嵌入或网络嵌入是数据挖掘和机器学习界日益关注的另一个课题。图嵌入旨在通过保留图的网络拓扑结构和节点内容信息，将图中顶点表示为低维向量，以便使用简单的机器学习算法（例如，支持向量机分类）进行处理。许多图嵌入算法通常是无监督的算法，它们可以大致可以划分为三个类别，即矩阵分解、随机游走和深度学习方法。同时图嵌入的深度学习方法也属于图神经网络，包括基于图自动编码器的算法（如DNGR和SDNE）和无监督训练的图卷积神经网络（如GraphSage）。——<a href="https://zhuanlan.zhihu.com/p/75307407">https://zhuanlan.zhihu.com/p/75307407</a></blockquote>
 下面给出一个图神经网络TensorFlow的实现，代码参考自：<a href="https://github.com/Ivan0131/gnn_demo">https://github.com/Ivan0131/gnn_demo</a>。
 <pre ><code class="language-python">import tensorflow as tf

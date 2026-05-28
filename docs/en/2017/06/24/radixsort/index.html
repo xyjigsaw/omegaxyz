@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Detailed explanation of radix sorting algorithm · OmegaXYZ</title>
   <meta name="description" content="Radix sort is a &quot;distribution sort&quot;, also known as &quot;bucket sort&quot; or bin sort. As the name suggests, it allocates the elements to be sorted into certain &quot;buckets&quot; through part of the key value information to achieve the sorting effect. The radix sort method is a stable sort, and its time complexity is O (nlog(r)m), where r is the radix taken, and m is the heap number...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-06-24</div>
         <h1>Detailed explanation of radix sorting algorithm</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/data-structure/index.html">数据结构</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">数据结构</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/data-structure/index.html">Data Structures</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/data-structure/index.html">Data Structures</a><a class="pill" href="../../../../tag/c/index.html">C</a></div>
         <div class="article-content">Radix sort is a "distribution sort", also known as "bucket sort" or bin sort. As the name suggests, it allocates the elements to be sorted into certain "buckets" through part of the key value information to achieve the sorting effect. The radix sort method is a stable sort, and its time complexity is O (nlog(r)m), where r is the base taken, and m is the number of heaps. At some times, the radix sorting method is more efficient than other stability sorting methods.<strong>Implementation method:</strong>
 <div class="para">The Most Significant Digit first method, referred to as the MSD method: first sort and group by k1, record in the same group, and the key codes k1 are equal, and then sort each group by k2 and divide it into subgroups. After that, continue this sorting and grouping of subsequent key codes until each subgroup is sorted according to the lowest key code kd. Then connect the groups to get an ordered sequence.</div>
 <div class="para">The Least Significant Digit first method, referred to as the LSD method: first sort from kd, then sort kd-1, and repeat in sequence until k1 is sorted and an ordered sequence is obtained.</div>

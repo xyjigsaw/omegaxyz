@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Summary of friend functions in C++ · OmegaXYZ</title>
   <meta name="description" content="The purpose of the friend function is to achieve data hiding and encapsulation by using the class mechanism. The data members of the class are generally defined as private members, and the member functions are generally defined as public, thereby providing a communication interface between the class and the outside world. However, sometimes you need to define some functions that are not part of the class but need to frequently access the data members of the class. In this case, these functions can be defined as friend functions of the function. In addition to friend functions, there are also friend classes, both of which are collectively called friends. The function of friends is to improve the running efficiency of the program...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-09-27</div>
         <h1>Summary of friend functions in C++</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
         <div class="article-content"><h1>Friend function purpose</h1>By using the class mechanism, data hiding and encapsulation are realized. The data members of a class are generally defined as private members, and the member functions are generally defined as public, thereby providing a communication interface between the class and the outside world. However, sometimes you need to define some functions that are not part of the class but need to frequently access the data members of the class. In this case, these functions can be defined as friend functions of the function. In addition to friend functions, there are also friend classes, both of which are collectively called friends. The function of friends is to improve the running efficiency of the program (that is, to reduce the time overhead required for type checking and security checking), but it destroys the encapsulation and hiding properties of the class, allowing non-member functions to access the private members of the class.<h1>usage</h1>In fact, there are probably two situations where friend functions need to be used:
 ①Some situations where operator overloading requires the use of friends.
 ②When two classes want to share data.<h1>Advantages and Disadvantages of Friend Functions</h1>Advantages: Can improve efficiency, simple and clear expression.

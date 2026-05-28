@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>生成对抗网络GAN图像生成实例 · OmegaXYZ</title>
   <meta name="description" content="[latexpage] 本文实现了DCGAN [1]，这是一种生成对抗网络。DCGAN模型将完全连接层替换为全局池层。众所周知，GAN的目的是在鉴别器和发生器之间实现纳什均衡。也就是说，这两种模式都不应该表现得特别好。实验所使用的数据集为CUB200-2011，这是一个鸟类数据集，训练集包含5994个图像，实验设置如下所示：训练次数为20...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2021-07-09</div>
         <h1>生成对抗网络GAN图像生成实例</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../category/computer-vision/index.html">计算机视觉</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/computer-vision/index.html">计算机视觉</a></div>
         <div class="article-content">[latexpage]
 
 本文实现了DCGAN [1]，这是一种生成对抗网络。DCGAN模型将完全连接层替换为全局池层。众所周知，GAN的目的是在鉴别器和发生器之间实现纳什均衡。也就是说，这两种模式都不应该表现得特别好。实验所使用的数据集为CUB200-2011，这是一个鸟类数据集，训练集包含5994个图像，实验设置如下所示：训练次数为200次，学习率为0.0002。此外，我切下原始图像的中心作为模型的输入，模型的大小是128×128像素。

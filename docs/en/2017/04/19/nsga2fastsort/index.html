@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Understanding NSGA-II fast non-dominated sorting algorithm · OmegaXYZ</title>
   <meta name="description" content="Fast non-dominated sorting When NSGA performs non-dominated sorting, each individual in a population of size N must be compared with N-1 individuals in the population for M objective functions, and the complexity is O(MN). Therefore, the complexity of comparing N individuals in the population is O(MN2), that is, the time complexity of each Pareto classification is O(MN2). In the worst case, each Pareto level contains only one individual, so the time required for N grading...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-04-19</div>
         <h1>Understanding NSGA-II fast non-dominated sorting algorithm</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a></div>
         <div class="article-content">Fast non-dominated sorting
 
 When NSGA performs non-dominated sorting, each individual in a population of size N must compare M objective functions with N-1 individuals in the population, and the complexity is O(MN). Therefore, the complexity of comparing all N individuals in the population is O(MN2), that is, the time complexity of each Pareto classification is O(MN2). In the worst case, each Pareto level contains only one individual, so the time complexity required for N classifications will rise to O(MN3). In view of this, a fast non-dominated sorting method is proposed in the paper, and the time complexity of this method is O(MN2).

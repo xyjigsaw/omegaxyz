@@ -14,7 +14,51 @@ python3 scripts/translate_site.py --workers 8
 python3 scripts/build_site.py
 ```
 
-The generated site is written to `docs/`, so GitHub Pages can serve it from the `main` branch `/docs` folder.
+The generated site is written to `docs/`. The current public site is published by copying `docs/` to the `gh-pages` branch.
+
+## GitHub Pages Publishing
+
+The site can be published in either of these ways:
+
+1. Current mode: use the `gh-pages` branch. Build locally, copy `docs/` to `gh-pages`, and push that branch.
+2. GitHub Actions mode: in GitHub, open `Settings -> Pages -> Build and deployment`, set `Source` to `GitHub Actions`, then add a Pages workflow that uploads the `docs/` folder.
+
+Minimal workflow for Actions mode:
+
+```yaml
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+If `Source` is still set to a branch instead of `GitHub Actions`, this workflow will fail at the Pages configuration step.
 
 ## Media Upload
 

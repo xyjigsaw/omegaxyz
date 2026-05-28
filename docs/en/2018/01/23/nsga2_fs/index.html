@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NSGA2 algorithm feature selection MATLAB implementation (multi-objective) · OmegaXYZ</title>
   <meta name="description" content="The main idea of ​​using nsga2 for feature selection is to regard subset selection as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare with other combinations. In this way, subset selection is regarded as an optimization problem. The two goals that need to be optimized are the number of features and accuracy. nsga2 is a multi-objective optimization algorithm. For the specific nsga2 general algorithm, please see: https://omegaxyz....">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,14 +27,14 @@
       <article class="article">
         <div class="meta">2018-01-23</div>
         <h1>NSGA2 algorithm feature selection MATLAB implementation (multi-objective)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
         <div class="article-content">The main idea of ​​using nsga2 for feature selection is to regard subset selection as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare with other combinations. In this way, subset selection is regarded as an optimization problem.
 
 The two goals that need to be optimized are the number of features and accuracy.
 
 nsga2 is a multi-objective optimization algorithm.
 
-For specific nsga2 general algorithm, please see:<a href="https://omegaxyz.com/2018/01/22/new_nsga2/">https://omegaxyz.com/2018/01/22/new_nsga2/</a>The specific feature selection code is modified from the above code by two changes: ① main function ② evaluation function, and adds a function that divides the data into a training set and a test set:<pre><code class="language-matlab">function divide_datasets()
+For specific nsga2 general algorithm, please see:<a href="../../22/new_nsga2/index.html">https://omegaxyz.com/2018/01/22/new_nsga2/</a>The specific feature selection code is modified from the above code by two changes: ① main function ② evaluation function, and adds a function that divides the data into a training set and a test set:<pre><code class="language-matlab">function divide_datasets()
 load Parkinson.mat;
 dataMat=Parkinson_f;
 len=size(dataMat,1);
@@ -130,7 +131,7 @@ f(2) = error;
 answer(i,2)={error};
 answer(i,3)={inmodel};
 end
-</code></pre>Please download the selected data set from UCI.<strong>result:</strong>①pareto noodles<img alt="" class="alignnone size-full wp-image-2963" height="623" src="https://cdn.omegaxyz.com/2018/01/nsga2fs1.jpg" width="702"/>Data of the final particle (number of selected features and accuracy)<img alt="" class="alignnone size-full wp-image-2964" height="709" src="https://cdn.omegaxyz.com/2018/01/nsga2fs2.jpg" width="150"/>PSO single target feature selection please see:<a href="https://omegaxyz.com/2018/01/21/psofs/">https://omegaxyz.com/2018/01/21/psofs/</a></div>
+</code></pre>Please download the selected data set from UCI.<strong>result:</strong>①pareto noodles<img alt="" class="alignnone size-full wp-image-2963" height="623" src="https://cdn.omegaxyz.com/2018/01/nsga2fs1.jpg" width="702"/>Data of the final particle (number of selected features and accuracy)<img alt="" class="alignnone size-full wp-image-2964" height="709" src="https://cdn.omegaxyz.com/2018/01/nsga2fs2.jpg" width="150"/>PSO single target feature selection please see:<a href="../../21/psofs/index.html">https://omegaxyz.com/2018/01/21/psofs/</a></div>
         <section class="comments"><h2>Comments (20)</h2>
         <div class="comment" id="comment-3650">
           <strong>Anonymous</strong>

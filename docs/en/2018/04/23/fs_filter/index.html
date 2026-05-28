@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Detailed explanation of feature selection Filter method · OmegaXYZ</title>
   <meta name="description" content="Filter (filtering method) measures the classification ability of features by analyzing the internal characteristics of feature subsets, regardless of which classifier is used later. This type of method usually requires a scoring function and a threshold discriminant method to evaluate feature correlation to select the feature subset with the highest score. Through literature research, according to the different ways of selecting feature subsets, it can be further divided into two categories: feature ranking (Feature Ranking) and feature space search (Space Search). Based on special...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-23</div>
         <h1>Detailed explanation of feature selection Filter method</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
         <div class="article-content">Filter (filtering method) measures the classification ability of features by analyzing the internal characteristics of feature subsets, regardless of which classifier is used later. This type of method usually requires a scoring function and a threshold discriminant method to evaluate feature correlation to select the feature subset with the highest score. Through literature research, according to the different ways of selecting feature subsets, it can be further divided into two categories: feature ranking (Feature Ranking) and feature space search (Space Search).<strong>The main idea of ​​the method based on feature ranking is:</strong>1) Use the Scoring Function to score each feature and arrange all features in descending order of score;
 2) Perform significance test (such as p-value, etc.) on each feature score;
 3) Select the top ranked features with significant statistical significance through preset thresholds;

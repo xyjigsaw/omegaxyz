@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logistic regression model and variant implementation · OmegaXYZ</title>
+  <meta name="description" content="[latexpage] Logistic regression, also known as logistic regression analysis, is a generalized linear regression analysis model that is commonly used in data mining, automatic disease diagnosis, economic forecasting and other fields. The similarity of logistic-like models is that a variant of logistic loss exists in all these models, as shown in Equation 1. \[ L(\beta)=\sum_{i=1}^{n}\left[-y_{i} X_{i}^...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">OmegaXYZ <span>Xu Yi&#x27;s column</span></a>
+        <div class="nav-links">
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../../zh/2021/08/31/regression/index.html">中文</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2021-08-31</div>
+        <h1>Logistic regression model and variant implementation</h1>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="article-content">[latexpage]
+
+Logistic regression, also known as logistic regression analysis, is a generalized linear regression analysis model that is commonly used in data mining, automatic disease diagnosis, economic forecasting and other fields. The similarity of logistic-like models is that a variant of logistic loss exists in all these models, as shown in Equation 1.<img alt="" class="alignnone wp-image-7114" height="305" src="https://cdn.omegaxyz.com/2021/08/linear_vs_logistic_regression.jpeg" width="688"/>\[
+L(\beta)=\sum_{i=1}^{n}\left[-y_{i} X_{i}^{\top} \beta+\log \left(1+\exp \left(X_{i}^{\top} \beta\right)\right)\right]
+\]
+
+The main difference between these models is the loss.<h2><strong>Loss</strong></h2>
+<img alt="" class="alignnone wp-image-7113" height="270" src="https://cdn.omegaxyz.com/2021/08/logistics.png" width="693"/>
+<h2><strong>Python code</strong></h2>
+<h3><strong>Logistic Regression</strong></h3>
+<pre><code class="language-python"># Name: logistic_regression
+# Author: Reacubeth
+# Time: 2021/5/9 14:36
+# Mail: noverfitting@gmail.com
+# Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import numpy as np
+
+
+class LogisticRegression:
+    def __init__(self, name, batch_size, learning_rate, max_iter, optimizer):
+        super().__init__()
+        self.W = None
+        self.name = name
+        self.batch_size = batch_size
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.optimizer = optimizer.lower()
+
+    def fit(self, feature, label, verbose=False):
+        num, dim = feature.shape
+        self.W = np.random.normal(0, 1, (dim, ))
+
+        for t in range(self.max_iter):
+            if self.optimizer == 'sgd':
+                rand_pos = np.random.choice(num, self.batch_size)
+                loss = self.cal_loss(feature[rand_pos, :], label[rand_pos])
+                grad = self.cal_grad(feature[rand_pos, :], label[rand_pos])
+            else:
+                loss = self.cal_loss(feature, label)
+                grad = self.cal_grad(feature, label)
+            if verbose:
+                print(self.name, '@epoch', t, ' loss: ', loss)
+            self.W = self.W - self.learning_rate * grad
+
+    def predict(self, feature, probability=False):
+        if probability:
+            return 1 / (1 + np.exp(-np.dot(feature, self.W)))
+        else:
+            return (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+
+    def score(self, feature, label):
+        pred_label = (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+        return np.where(pred_label == label)[0].shape[0] / feature.shape[0]
+
+    def cal_loss(self, feature, label):
+        num, dim = feature.shape
+        return (np.sum(np.log(1 + np.exp(np.dot(feature, self.W)))) - np.dot(label, np.dot(feature, self.W))) / num
+
+    def cal_grad(self, feature, label):
+        num, dim = feature.shape
+        return np.dot(feature.T, 1.0 / (1.0 + np.exp(-np.dot(feature, self.W))) - label) / num
+</code></pre>
+<h3><strong>Ridge Logistic Regression</strong></h3>
+<pre><code class="language-python"># Name: ridge_logistic_regression
+# Author: Reacubeth
+# Time: 2021/5/9 19:36
+# Mail: noverfitting@gmail.com
+# Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import numpy as np
+from numpy import linalg
+
+
+class RidgeLogisticRegression:
+    def __init__(self, name, batch_size, learning_rate, max_iter, optimizer, lambda_):
+        super().__init__()
+        self.W = None
+        self.name = name
+        self.batch_size = batch_size
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.optimizer = optimizer.lower()
+        self.lambda_ = lambda_
+
+    def fit(self, feature, label, verbose=False):
+        num, dim = feature.shape
+        self.W = np.random.normal(0, 1, (dim, ))
+
+        for t in range(self.max_iter):
+            if self.optimizer == 'sgd':
+                rand_pos = np.random.choice(num, self.batch_size)
+                loss = self.cal_loss(feature[rand_pos, :], label[rand_pos])
+                grad = self.cal_grad(feature[rand_pos, :], label[rand_pos])
+            else:
+                loss = self.cal_loss(feature, label)
+                grad = self.cal_grad(feature, label)
+            if verbose:
+                print(self.name, '@epoch', t, ' loss: ', loss)
+            self.W = self.W - self.learning_rate * grad
+
+    def predict(self, feature, probability=False):
+        if probability:
+            return 1 / (1 + np.exp(-np.dot(feature, self.W)))
+        else:
+            return (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+
+    def score(self, feature, label):
+        pred_label = (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+        return np.where(pred_label == label)[0].shape[0] / feature.shape[0]
+
+    def cal_loss(self, feature, label):
+        num, dim = feature.shape
+        logistic_loss = np.sum(np.log(1 + np.exp(np.dot(feature, self.W)))) - np.dot(label, np.dot(feature, self.W))
+        # yxw = np.dot(label, np.dot(feature, self.W))
+        # return (np.sum(np.log(1 + np.exp(-yxw))) + self.lambda_ / 2 * linalg.norm(self.W) ** 2) / num
+        return (logistic_loss + self.lambda_ / 2 * linalg.norm(self.W) ** 2) / num
+
+    def cal_grad(self, feature, label):
+        num, dim = feature.shape
+        return (np.dot(feature.T, 1.0 / (1.0 + np.exp(-np.dot(feature, self.W))) - label) + self.lambda_ * self.W) / num
+</code></pre>
+ 
+<h3><strong>Lasso Logistic Regression</strong></h3>
+<pre><code class="language-python"># Name: lasso_logistic_regression
+# Author: Reacubeth
+# Time: 2021/5/9 20:17
+# Mail: noverfitting@gmail.com
+# Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import numpy as np
+from numpy import linalg
+
+
+class LassoLogisticRegression:
+    def __init__(self, name, batch_size, learning_rate, max_iter, optimizer, lambda_):
+        super().__init__()
+        self.W = None
+        self.name = name
+        self.batch_size = batch_size
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.optimizer = optimizer.lower()
+        self.lambda_ = lambda_
+
+    def fit(self, feature, label, verbose=False):
+        num, dim = feature.shape
+        self.W = np.random.normal(0, 1, (dim,))
+
+        for t in range(self.max_iter):
+            if self.optimizer == 'sgd':
+                rand_pos = np.random.choice(num, self.batch_size)
+                loss = self.cal_loss(feature[rand_pos, :], label[rand_pos])
+                grad = self.cal_grad(feature[rand_pos, :], label[rand_pos])
+            else:
+                loss = self.cal_loss(feature, label)
+                grad = self.cal_grad(feature, label)
+            if verbose:
+                print(self.name, '@epoch', t, ' loss: ', loss)
+            self.W = self.W - self.learning_rate * grad
+
+    def predict(self, feature, probability=False):
+        if probability:
+            return 1 / (1 + np.exp(-np.dot(feature, self.W)))
+        else:
+            return (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+
+    def score(self, feature, label):
+        pred_label = (1 / (1 + np.exp(-np.dot(feature, self.W))) &gt; 0.5).astype(int)
+        return np.where(pred_label == label)[0].shape[0] / feature.shape[0]
+
+    def cal_loss(self, feature, label):
+        num, dim = feature.shape
+        return ((np.sum(np.log(1 + np.exp(np.dot(feature, self.W)))) - np.dot(label, np.dot(feature, self.W))) +
+                self.lambda_ * linalg.norm(self.W, ord=1)) / num
+
+    def cal_grad(self, feature, label):
+        num, dim = feature.shape
+        return (np.dot(feature.T, 1.0 / (1.0 + np.exp(-np.dot(feature, self.W))) - label) +
+                self.lambda_ * np.sign(self.W)) / num
+</code></pre>
+ 
+<h3><strong>Kernel Logistic Regression</strong></h3>
+<pre><code class="language-python"># Name: kernel_logistic_regression_lasso
+# Author: Reacubeth
+# Time: 2021/5/9 23:43
+# Mail: noverfitting@gmail.com
+# Site: www.omegaxyz.com
+# *_*coding:utf-8 *_*
+
+import numpy as np
+from numpy import linalg
+
+
+class KernelLogisticRegression:
+    def __init__(self, name, kernel, batch_size, learning_rate, max_iter, optimizer, lambda_, kernel_para):
+        super().__init__()
+        self.W = None
+        self.name = name
+        self.kernel = kernel.lower()
+        self.batch_size = batch_size
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.optimizer = optimizer.lower()
+        self.lambda_ = lambda_
+        self.kernel_para = kernel_para
+
+    def fit(self, feature, label, verbose=False):
+        num, dim = feature.shape
+        self.W = np.random.normal(0, 1, (dim,))
+
+        for t in range(self.max_iter):
+            if self.optimizer == 'sgd':
+                rand_pos = np.random.choice(num, self.batch_size)
+                if self.kernel == 'rbf':
+                    K_feature_rand = self.kernel_rbf(feature[rand_pos, :], feature, self.kernel_para)
+                elif self.kernel == 'poly':
+                    K_feature_rand = self.kernel_poly(feature[rand_pos, :], feature, self.kernel_para)
+                elif self.kernel == 'cosine':
+                    K_feature_rand = self.kernel_cosine(feature[rand_pos, :], feature)
+                else:
+                    raise NotImplementedError
+                loss = self.cal_loss(K_feature_rand, label[rand_pos])
+                grad = self.cal_grad(K_feature_rand, label[rand_pos])
+            else:
+                if self.kernel == 'rbf':
+                    K_feature = self.kernel_rbf(feature, feature, self.kernel_para)
+                elif self.kernel == 'poly':
+                    K_feature = self.kernel_poly(feature, feature, self.kernel_para)
+                elif self.kernel == 'cosine':
+                    K_feature = self.kernel_cosine(feature, feature)
+                else:
+                    raise NotImplementedError
+                loss = self.cal_loss(K_feature, label)
+                grad = self.cal_grad(K_feature, label)
+            if verbose:
+                print(self.name, '@epoch', t, ' loss: ', loss)
+            self.W = self.W - self.learning_rate * grad
+
+    def predict(self, feature, probability=False):
+        if self.kernel == 'rbf':
+            raw_prob = self.kernel_rbf(feature, feature, self.kernel_para)
+        elif self.kernel == 'poly':
+            raw_prob = self.kernel_poly(feature, feature, self.kernel_para)
+        elif self.kernel == 'cosine':
+            raw_prob = self.kernel_cosine(feature, feature)
+        else:
+            raise NotImplementedError
+
+        if probability:
+            return 1 / (1 + np.exp(-np.dot(raw_prob, self.W)))
+        else:
+            return (1 / (1 + np.exp(-np.dot(raw_prob, self.W))) &gt; 0.5).astype(int)
+
+    def score(self, feature, label):
+        if self.kernel == 'rbf':
+            raw_prob = self.kernel_rbf(feature, feature, self.kernel_para)
+        elif self.kernel == 'poly':
+            raw_prob = self.kernel_poly(feature, feature, self.kernel_para)
+        elif self.kernel == 'cosine':
+            raw_prob = self.kernel_cosine(feature, feature)
+        else:
+            raise NotImplementedError
+
+        pred_label = (1 / (1 + np.exp(-np.dot(raw_prob, self.W))) &gt; 0.5).astype(int)
+        return np.where(pred_label == label)[0].shape[0] / feature.shape[0]
+
+    def cal_loss(self, feature, label):
+        num, dim = feature.shape
+        logistic_loss = np.sum(np.log(1 + np.exp(np.dot(feature, self.W)))) - np.dot(label, np.dot(feature, self.W))
+        return logistic_loss / num + self.lambda_ * linalg.norm(self.W, ord=1)
+
+    def cal_grad(self, feature, label):
+        num, dim = feature.shape
+        logistic_grad = np.dot(feature.T, 1.0 / (1.0 + np.exp(-np.dot(feature, self.W))) - label)
+        return logistic_grad / num + self.lambda_ * np.sign(self.W)
+
+    @staticmethod
+    def kernel_rbf(X, Y, sigma):
+        norm_X = (linalg.norm(X, axis=1) ** 2)
+        norm_Y = (linalg.norm(Y, axis=1) ** 2)
+        return np.exp(- (norm_X[:, None] + norm_Y[None, :] - 2 * np.dot(X, Y.T)) / (2 * sigma ** 2))
+
+    @staticmethod
+    def kernel_poly(X, Y, d):
+        return np.dot(X, Y.T) ** d
+
+    @staticmethod
+    def kernel_cosine(X, Y):
+        norm_X = (linalg.norm(X, axis=1) ** 2)
+        norm_Y = (linalg.norm(Y, axis=1) ** 2)
+        return np.dot(X, Y.T) / (norm_X[:, None] * norm_Y[None, :])
+</code></pre>
+ </div>
+        <section class="comments"><h2>Comments (1)</h2>
+        <div class="comment" id="comment-25295">
+          <strong>logi</strong>
+          <time>2022-01-24 19:01:00</time>
+          <div>It is something.</div>
+        </div>
+        </section>
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>Contents</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../../../assets/site.js"></script>
+</body>
+</html>

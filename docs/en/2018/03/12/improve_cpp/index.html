@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Methods to improve C++ operating efficiency · OmegaXYZ</title>
   <meta name="description" content="1. Minimize value transfer and use references to transfer parameters. As for the reason, I believe everyone is very clear. If the parameter is a language-defined type such as int, the performance impact may not be great, but if the parameter is an object of a class, then the efficiency problem is self-evident. For example, a function that determines whether two strings are equal is declared as follows: If the first function (value transfer) is used, the constructor and destructor of string need to be called when passing parameters and returning the function...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-03-12</div>
         <h1>Methods to improve C++ operating efficiency</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/trans/index.html">转载</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/trans/index.html">Reposts</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
         <div class="article-content"><strong>1. Minimize value transfer and use references to transfer parameters.</strong>As for the reason, I believe everyone is very clear. If the parameter is a language-defined type such as int, the performance impact may not be great, but if the parameter is an object of a class, then the efficiency problem is self-evident. For example, a function that determines whether two strings are equal is declared as follows:<pre><code class="language-c++">bool Compare（string s1, string s2)
 bool Compare(string *s1, string *s2)
 bool Compare(string &amp;s1, string &amp;s2)

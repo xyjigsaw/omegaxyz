@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>迁移学习模型DANN实现 · OmegaXYZ</title>
   <meta name="description" content="Individual diﬀerences in EEG signals lead to the poor generalization ability of EEG-based aﬀective models. Transfer learning, as we introduced in the class, can eliminate...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2021-09-05</div>
         <h1>迁移学习模型DANN实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/deep-learning/index.html">深度学习</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a></div>
         <div class="article-content">Individual diﬀerences in EEG signals lead to the poor generalization ability of EEG-based aﬀective models. Transfer learning, as we introduced in the class, can eliminate the subject diﬀerences and achieve appreciable improvement in recognition performance. In this assignment, you are asked to build and evaluate a cross-subject aﬀective model using Domain-Adversarial Neural Networks (DANN) with the SEED dataset.
 
 You are required to apply leave-one-subject-out cross validation to classify diﬀerent emotions with DANN model and compare the results of DANN with a baseline model (you can choose the baseline model on your own). Under Leave-one-subject-out cross validation conﬁguration, for each subject, an aﬀective model should be trained with one subject as target domain, and other subjects as source domain. In the end, there should be ﬁve DANN models for each of the subject, and you should report both the individual recognition accuracy and the mean recognition accuracy.

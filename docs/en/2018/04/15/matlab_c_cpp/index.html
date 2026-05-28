@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATLAB calls C/C++ · OmegaXYZ</title>
   <meta name="description" content="Matlab is a matrix language. If the operation can be implemented using matrices, its operation speed is very fast. But if a large number of loops are involved in the operation, the speed of Matlab will be unbearable. When a for loop must be used and the corresponding matrix operation cannot be found to be equivalent, the time-consuming function can be implemented in C language and compiled into a Mex file. Matlab can then call the function written in C like a built-in function. The Mex file is actually a dynamic link library. Older versions of Matlab can directly...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-15</div>
         <h1>MATLAB calls C/C++</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a></div>
         <div class="article-content">Matlab is a matrix language. If the operation can be implemented using matrices, its operation speed is very fast. But if a large number of loops are involved in the operation, the speed of Matlab will be unbearable. When a for loop must be used and the corresponding matrix operation cannot be found to be equivalent, the time-consuming function can be implemented in C language and compiled into a Mex file. Matlab can then call the function written in C like a built-in function. The Mex file is actually a dynamic link library. Older versions of Matlab can directly call .dll, while new versions need to call .mexw32 or .mexw64 files.
 
 The compilation process requires a C language compiler. Type mex –setup in Matlab to install and configure.<strong>Source code composition of MEX file</strong>:

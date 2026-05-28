@@ -1,0 +1,1617 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">主页</a><a href="../../archive/index.html">文章</a><a href="../../pages/index.html">页面</a><a href="../../categories/index.html">分类</a><a href="../../search/index.html">搜索</a>
+          <a href="../../../en/category/machine-learning/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>机器学习</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2024-12-18</time>
+      <div>
+        <h2><a href="../../2024/12/18/alpacafarm/index.html">大模型AlpacaFarm分析</a></h2>
+        <p>一、摘要 本研究工作介绍了一个名为AlpacaFarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2024-11-18</time>
+      <div>
+        <h2><a href="../../2024/11/18/nlg_eval/index.html">NLG文本评估任务或许并不需要真值或参考文本</a></h2>
+        <p>摘要 面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的BLEU和METEOR，例如近年来基于embedding相似性提出的BERTScore和MoverScore。这类方法，可以称为Ref-free方法。 Re...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2024-01-03</time>
+      <div>
+        <h2><a href="../../2024/01/03/repe/index.html">大模型中的RepE表征工程</a></h2>
+        <p>Highlight 论文地址： https://arxiv.org/abs/2310.01405 表征工程（RepE）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。 属于AI可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activ...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-11-23</time>
+      <div>
+        <h2><a href="../../2023/11/23/llm_optimizer/index.html">大模型也是一种优化器（LLM as Optimizer）</a></h2>
+        <p>论文：Large Language Models as Optimizers arXiv: https://arxiv.org/pdf/2309.03409.pdf Affiliation: Google DeepMind 🚀Highlight DeepMind引入了一种名为“基于提示的优化方法”(Optimization by PROm...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-08-26</time>
+      <div>
+        <h2><a href="../../2023/08/26/kiscovery/index.html">学术idea自动发现与生成</a></h2>
+        <p>摘要 研究人员通常只有在深入了解大量文献后才能提出新的想法。学术出版物的数量呈指数级增长，这一事实加剧了这一过程的困难。在本研究中，我们设计了一个基于概念共现的学术思想启发框架，该框架已集成到一个研究辅助系统DeepReport中。从我们的角度来看，在一篇学术论文中同时出现的两个 概念（concept） 的融合可以被视为一种 新思想（id...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2023-03-29</time>
+      <div>
+        <h2><a href="../../2023/03/29/autoregressive-language-model/index.html">自回归语言模型（language model）Python实现</a></h2>
+        <p>[latexpage] 自回归语言模型 自回归语言模型是一种计算概率的模型，它可以预测一个给定的单词序列中下一个词的概率。它基于一个假设：每个词的出现只与前面的词有关，而与后面的词无关。因此，模型使用前面的单词来预测下一个单词，这也被称为自回归。 在自回归语言模型中，每个单词都被表示为一个向量。模型使用这些向量作为输入，并在每个时间步预测...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2022-12-25</time>
+      <div>
+        <h2><a href="../../2022/12/25/cenet/index.html">基于历史对比学习的时序知识图谱推理</a></h2>
+        <p>时序知识图谱 知识图谱（KGs）作为人类知识的集合，在自然语言处理、推荐系统和信息检索等领域显示展现了很好的前景。传统的KG通常是一个静态知识库，它使用图结构数据拓扑，并以三元组 （s, p, o） 的形式集成事实（也称为事件），其中 s 和 o 分别表示主语（头实体）和宾语（尾实体）实体， p 作为关系类型表示谓词。在现实世界中，由于知...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2022-03-30</time>
+      <div>
+        <h2><a href="../../2022/03/30/deepscience-学术趋势预测与分析/index.html">DeepScience：学术趋势预测与分析</a></h2>
+        <p>导言 在此 Github仓库 中，我们选择 COVID-19 和 深度学习 领域来预测科学的发展趋势。 我们使用 AceMap 中的论文和字段信息，值得注意的是，我们还收集了来自整个学术界的论文，包括19个学科（数学、历史、心理学、经济学、社会学、艺术、地理学、商业、物理学、政治学、哲学、生物学、计算机科学、材料科学、环境科学、医学、化学...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2022-02-02</time>
+      <div>
+        <h2><a href="../../2022/02/02/contrastive_learning_data_augmentation/index.html">对比学习中常见的数据增强策略</a></h2>
+        <p>[latexpage] 对比学习 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{L}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2022-01-13</time>
+      <div>
+        <h2><a href="../../2022/01/13/contrastive_learning_python/index.html">对比学习Python实现</a></h2>
+        <p>[latexpage] 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{L}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^{2N}e...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-09-05</time>
+      <div>
+        <h2><a href="../../2021/09/05/dann/index.html">迁移学习模型DANN实现</a></h2>
+        <p>Individual diﬀerences in EEG signals lead to the poor generalization ability of EEG-based aﬀective models. Transfer learning, as we introduced in the class, can eliminate...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-08-31</time>
+      <div>
+        <h2><a href="../../2021/08/31/regression/index.html">逻辑回归模型及变体实现</a></h2>
+        <p>[latexpage] logistic回归又称logistic回归分析，是一种广义的线性回归分析模型，常用于数据挖掘，疾病自动诊断，经济预测等领域。类logistic模型的相似性在于，所有这些模型中都存在logistic损失的变体，如等式1所示。 \[ L(\beta)=\sum_{i=1}^{n}\left[-y_{i} X_{i}^...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-07-09</time>
+      <div>
+        <h2><a href="../../2021/07/09/dcgan/index.html">生成对抗网络GAN图像生成实例</a></h2>
+        <p>[latexpage] 本文实现了DCGAN [1]，这是一种生成对抗网络。DCGAN模型将完全连接层替换为全局池层。众所周知，GAN的目的是在鉴别器和发生器之间实现纳什均衡。也就是说，这两种模式都不应该表现得特别好。实验所使用的数据集为CUB200-2011，这是一个鸟类数据集，训练集包含5994个图像，实验设置如下所示：训练次数为20...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-06-17</time>
+      <div>
+        <h2><a href="../../2021/06/17/kg_structure_modeling/index.html">知识图谱中的结构信息建模</a></h2>
+        <p>什么是知识图谱 全球最具权威的IT研究与顾问咨询公司高德纳发布了2020年AI领域技术成熟度曲线，其中 知识图谱 的期待值处在AI领域的顶峰，还有5到10年的发展机会达到平稳期，也就是大规模商用。知识图谱这个概念是在2012年谷歌知识图谱的提出而火起来的，追根溯源，知识图谱的前身是语义网络。通俗地说，知识图谱将无序分散的信息，以图的方式整...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-04-19</time>
+      <div>
+        <h2><a href="../../2021/04/19/iclr2021-gnn-kg/index.html">ICLR2021图神经网络与知识图谱相关论文</a></h2>
+        <p>Theory HOW NEURAL NETWORKS EXTRAPOLATE: FROM FEEDFORWARD TO GRAPH NEURAL NETWORKS 作者研究了通过梯度下降训练的神经网络如何进行推断，即他们在训练分布的支持之外学到了什么。**已知MLP在某些简单任务中无法很好地进行推断，但是图神经网络（有MLP模块的结构化网...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-03-31</time>
+      <div>
+        <h2><a href="../../2021/03/31/dnn-guard/index.html">速读-对抗攻击的弹性异构DNN加速器体系结构</a></h2>
+        <p>Paper: Wang, Xingbin, et al. &quot;Dnnguard: An elastic heterogeneous dnn accelerator architecture against adversarial attacks.&quot; Proceedings of the Twenty-Fifth International...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-02-10</time>
+      <div>
+        <h2><a href="../../2021/02/10/kg-github/index.html">知识图谱应用Github仓库（长期更新）</a></h2>
+        <p>知识图谱可视化Demo Github: https://github.com/xyjigsaw/Knowledge-Graph-And-Visualization-Demo 本项目支持2D，3D知识图谱可视化与查询，主要为JavaScript代码。 详细描述 ： https://omegaxyz.com/2020/03/03/knowle...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-02-03</time>
+      <div>
+        <h2><a href="../../2021/02/03/tsp/index.html">速读-张量流处理器（TSP）</a></h2>
+        <p>Paper: Abts, Dennis, et al. &quot;Think fast: a tensor streaming processor (TSP) for accelerating deep learning workloads.&quot; 2020 ACM/IEEE 47th Annual International Symposium o...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2021-01-26</time>
+      <div>
+        <h2><a href="../../2021/01/26/vnge/index.html">冯诺依曼图熵（VNGE）Python实现及近似计算</a></h2>
+        <p>[latexpage] 简介 冯·诺依曼图熵（VNGE）有助于测量图序列中图之间的信息差异和距离。 给定第一个无向图 $G=(V, E, A)$, 其中 $A$ 是对称的邻接矩阵。 度矩阵定义为 $D=diag(d_1,...,d_n)$，则它的拉普拉斯矩阵为 $L=D-A$。其中后者的特征值 $\lambda_i$ 被称为拉普拉斯谱。...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-12-18</time>
+      <div>
+        <h2><a href="../../2020/12/18/mine/index.html">神经网络高维互信息计算Python实现（MINE）</a></h2>
+        <p>论文 Belghazi, Mohamed Ishmael, et al. &quot; Mutual information neural estimation .&quot; International Conference on Machine Learning . 2018. 利用神经网络的梯度下降法可以实现快速高维连续随机变量之间互信息的估计，上述论...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-10-16</time>
+      <div>
+        <h2><a href="../../2020/10/16/a3-hpca2020/index.html">速读-A3基于注意力机制的神经网络处理器</a></h2>
+        <p>论文： Ham, Tae Jun, et al. &quot;A^ 3: Accelerating Attention Mechanisms in Neural Networks with Approximation.&quot; 2020 IEEE International Symposium on High Performance Computer A...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-10-09</time>
+      <div>
+        <h2><a href="../../2020/10/09/embedding-ea/index.html">基于Embedding的实体对齐前瞻</a></h2>
+        <p>摘录论文 ：Sun, Zequn, et al. &quot;A Benchmarking Study of Embedding-based Entity Alignment for Knowledge Graphs.&quot; arXiv preprint arXiv:2003.07743 (2020). 无监督实体对齐 Unsupervised ent...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-09-30</time>
+      <div>
+        <h2><a href="../../2020/09/30/gcc-pre-training/index.html">GCC图神经网络预训练概述</a></h2>
+        <p>Paper GCC: Graph Contrastive Coding for Graph Neural Network Pre-Training Conference : KDD Keywords : Contrastive Learning, Instance Discrimination, Transferability, Pre-...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-08-17</time>
+      <div>
+        <h2><a href="../../2020/08/17/gnn_tensorflow/index.html">图神经网络（GNN）TensorFlow实现</a></h2>
+        <p>图神经网络的研究与图嵌入或网络嵌入密切相关，图嵌入或网络嵌入是数据挖掘和机器学习界日益关注的另一个课题。图嵌入旨在通过保留图的网络拓扑结构和节点内容信息，将图中顶点表示为低维向量，以便使用简单的机器学习算法（例如，支持向量机分类）进行处理。许多图嵌入算法通常是无监督的算法，它们可以大致可以划分为三个类别，即矩阵分解、随机游走和深度学习方法...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-08-04</time>
+      <div>
+        <h2><a href="../../2020/08/04/linux-knowledge-graph/index.html">Linux知识图谱</a></h2>
+        <p>基于Triples和Neo4j的Linux知识图谱，目前包括401个实体和377个关系，未来会添加更多数据。 项目地址 ： https://github.com/xyjigsaw/Linux-Knowledge-Graph 文件夹📂Linux KG 这些文件夹包含存储在csv中的Linux的实体和关系。 原始数据位于LinuxKG.xls...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-07-24</time>
+      <div>
+        <h2><a href="../../2020/07/24/dedupe/index.html">Dedupe去重与实体对齐</a></h2>
+        <p>简介 Dedupe是一个python库，使用机器学习对结构化数据快速执行模糊匹配，重复数据删除和实体对齐。 输入的数据 ：单文件csv表格 执行 ：用户在控制台根据提示标注少量相似数据即可 输出的数据 ：单文件csv表格，同时对相似的记录打上标签 Dedupe操作实例 ： 从名称和地址的电子表格中 删除重复的条目 将 具有客户信息 的列表...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-07-13</time>
+      <div>
+        <h2><a href="../../2020/07/13/domain_data_visualization/index.html">学科领域本体关系数据与可视化</a></h2>
+        <p>学科领域种类 Applied Sciences Arts &amp; Humanities Economic &amp; Social Sciences General Health Sciences Natural Sciences 6个领域，180个子领域 可视化 Echarts jQuery 项目地址 https://github.com/xyji...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-07-12</time>
+      <div>
+        <h2><a href="../../2020/07/12/aminer-academic-social-network/index.html">Aminer学术社交网络数据知识图谱构建（三元组与嵌入）</a></h2>
+        <p>Aminer 科技情报大数据挖掘与服务系统平台 AMiner 是由清华大学计算机科学与技术系教授唐杰率领团队建立的，具有完全自主知识产权的新一代科技情报分析与挖掘平台 。 AMiner平台以科研人员、科技文献、学术活动三大类数据为基础，构建三者之间的关联关系，深入分析挖掘，面向全球科研机构及相关工作人员，提供学者、论文文献等学术信息资源检...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-06-18</time>
+      <div>
+        <h2><a href="../../2020/06/18/fast-profile-extractor/index.html">个人主页信息提取器</a></h2>
+        <p>简介 从研究人员的主页(HTML)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。 可以分成的类别： publication education honor 详细 从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用f...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-06-17</time>
+      <div>
+        <h2><a href="../../2020/06/17/rapid-knn/index.html">基于留一法的快速KNN代码</a></h2>
+        <p>留一法交叉验证（LOOCV） 留一法即Leave-One-Out Cross Validation。这种方法比较简单易懂，就是把一个大的数据集分为k个小数据集，其中k-1个作为训练集，剩下的一个作为测试集，然后选择下一个作为测试集，剩下的k-1个作为训练集，以此类推。其主要目的是为了防止过拟合，评估模型的泛化能力。计算时间较长。 适用场景...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-05-19</time>
+      <div>
+        <h2><a href="../../2020/05/19/kg-survey/index.html">知识图谱综述论文阅读</a></h2>
+        <p>论文摘要 论文为A Survey on Knowledge Graphs: Representation, Acquisition and Applications，发表日期2020年，论文PDF，点击 链接 。 代表实体间结构关系的 知识图谱 已成为认知和人类智能研究的一个日益流行的方向。在这篇论文中，作者对 知识图谱 进行了全面的回顾...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-05-18</time>
+      <div>
+        <h2><a href="../../2020/05/18/bert-bilstm-crf/index.html">BERT-BiLSTM-CRF命名实体识别应用</a></h2>
+        <p>引言 本文将采用BERT+BiLSTM+CRF模型进行命名实体识别（Named Entity Recognition 简称NER），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 BERT（Bidirectional Encoder Representation from Transf...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-29</time>
+      <div>
+        <h2><a href="../../2020/04/29/dark-forest-kg/index.html">黑暗森林：知识图谱的前世今生</a></h2>
+        <p>黑暗森林 宇宙就是一座黑暗森林，每个文明都是带枪的猎人，像幽灵般潜行于林间，轻轻拨开挡路的树枝，竭力不让脚步发出一点儿声音，连呼吸都必须小心翼翼：他必须小心，因为林中到处都有与他一样潜行的猎人，如果他发现了别的生命，能做的只有一件事：开枪消灭之。在这片森林中，他人就是地狱，就是永恒的威胁，任何暴露自己存在的生命都将很快被消灭，这就是宇宙文...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-28</time>
+      <div>
+        <h2><a href="../../2020/04/28/kbqa-demo/index.html">基于知识图谱的问答系统Demo</a></h2>
+        <p>简介 基于知识图谱的问答系统，即KBQA。其中一个简单的实现方法是根据用户输入的自然语言问句，转化为图数据库中的关系查询，最终将数据库中的实体及关系呈现给用户。 下面给出了一个KBQA的Demo。 实现依赖 Python 3.6+ Apache Jena Fuseki SPARQLWrapper refo jiaba 实例数据 此知识图谱...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-12</time>
+      <div>
+        <h2><a href="../../2020/04/12/fruchterman-reingold-python/index.html">FR算法（Fruchterman-Reingold）Python实现</a></h2>
+        <p>简介 FR算法将所有的结点看做是电子，每个结点收到两个力的作用： 1. 其他结点的库伦力（斥力） 2. 边对点的胡克力（引力）。 该算法遵循两个简单的原则： 有边连接的节点应该互相靠近；节点间不能离得太近。FR算法建立在粒子物理理论的基础上，将图中的节点模拟成原子，通过模拟原子间的力场来计算节点间的位置关系。算法通过考虑原子间引力和斥力的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-06</time>
+      <div>
+        <h2><a href="../../2020/04/06/knowledge-fusion/index.html">知识融合（实体对齐）笔记</a></h2>
+        <p>知识融合包括以下几个部分 本体匹配（ontology matching） 侧重发现模式层等价或相似的类、属性或关系，也成为本体映射（mapping）、本体对齐（alignment） 实体对齐（entity alignment） 侧重发现指称真实世界相同对象的不同实例，也称为实体消解（resolution）、实例匹配（instance ma...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-04-03</time>
+      <div>
+        <h2><a href="../../2020/04/03/attribute-relation-embedding/index.html">知识图谱属性与关系区别</a></h2>
+        <p>知识图谱中属性和关系的区别主要是在于其面对的实体不同。 实体关系分为两种，一种是属性property，一种是关系relation。其最大区别在于，属性所在的三元组对应的两个实体，常常是一个topic和一个字符串，如属性Type/Gender，对应的三元组（Justin Bieber, Type, Person），而关系所在的三元组所对应的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-03-29</time>
+      <div>
+        <h2><a href="../../2020/03/29/gat-tensorflow/index.html">图注意力网络(GAT) TensorFlow实现</a></h2>
+        <p>论文 图注意力网络来自 Graph Attention Networks，ICLR 2018. https://arxiv.org/abs/1710.10903 GAT层 输入 N为节点的个数，F为feature的个数，这表示输入为N个节点的每个节点的F个feature 输出 表示对这N个节点的 F&#x27; 个输出，输出位N个节点的每个节点的F...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-03-03</time>
+      <div>
+        <h2><a href="../../2020/03/03/knowledge-graph-demo/index.html">知识图谱可视化Demo</a></h2>
+        <p>Introduction 本项目支持2D，3D知识图谱查询与可视化。知识图谱数据集Import2Neo4j文件夹中。 完整代码及配置说明请移步Github： https://github.com/xyjigsaw/Knowledge-Graph-And-Visualization-Demo Neo4j 数据库名：COVID-19 用户名：...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-24</time>
+      <div>
+        <h2><a href="../../2020/02/24/lda-topic/index.html">基于LDA的文本主题聚类Python实现</a></h2>
+        <p>LDA简介 LDA（Latent Dirichlet Allocation）是一种 文档主题生成模型 ，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-17</time>
+      <div>
+        <h2><a href="../../2020/02/17/data-analysis-interview/index.html">数据分析岗位面试必备</a></h2>
+        <p>业务逻辑 数据分析遵循一定的流程，不仅可以保证数据分析每一个阶段的工作内容有章可循，而且还可以让分析最终的结果更加准确，更加有说服力。一般情况下，数据分析分为以下几个步骤： 业务理解，确定目标、明确分析需求; 数据理解，收集原始数据、描述数据、探索数据、检验数据质量; 数据准备，选择数据、清洗数据、构造数据、整合数据、格式化数据; 建立模...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-16</time>
+      <div>
+        <h2><a href="../../2020/02/16/recommendation-system-abstract/index.html">推荐系统摘要</a></h2>
+        <p>作为一个推荐系统的门外汉，或者说是用户，我觉得推荐系统有以下几个特性。 推荐系统的真实目的并不是做到让用户满意，而是提高销售能力，业务水平和收益。 一个好的推荐系统并不是推荐用户最喜爱/想要的东西，量化评判一个推荐系统的好坏依然是工业界，学术界难点。 相同的推荐算法应用于不同的系统，结果必然不同。 简单易懂的推荐算法往往能获得意想不到的效...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-02-01</time>
+      <div>
+        <h2><a href="../../2020/02/01/graph-layout/index.html">可视化图布局算法简介</a></h2>
+        <p>Fruchterman Reingold (FR) FR算法将所有的结点看做是电子，每个结点收到两个力的作用： 1. 其他结点的库伦力（斥力） \(f_{a}(d)=\frac{d^{2}}{k}\) 2. 边对点的胡克力（引力）。 \(f_{r}(d)=\frac{-k^{2}}{d}\) 该算法遵循两个简单的原则： 有边连接的节点应该...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-27</time>
+      <div>
+        <h2><a href="../../2020/01/27/deeplink/index.html">用户身份链接方法——DeepLink</a></h2>
+        <p>论文：DeepLink: A Deep Learning Approach for User Identity Linkage UIL（User Identity Linkage）：用户身份链接，通过方法发现跨社交平台上同一用户或者实体。即跨社交平台的同对象识别，UIL在用户行为预测、身份识别和隐私保护方面有很大的作用。 摘要 目前为了处...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-21</time>
+      <div>
+        <h2><a href="../../2020/01/21/lle/index.html">LLE（Locally Linear Embedding）算法</a></h2>
+        <p>Core idea LLE is inherently a non-linear dimensionality reduction strategy 即局部线性嵌入算法。该算法是针对非线性信号特征矢量维数的优化方法，这种维数优化并不是仅仅在数量上简单的约简，而是在保持原始数据性质不变的情况下，将高维空间的信号映射到低维空间上，即特征值的二...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-15</time>
+      <div>
+        <h2><a href="../../2020/01/15/kge-application/index.html">知识图谱嵌入的应用场景</a></h2>
+        <p>In-KG应用（在 KG 范围内的应用） 链接预测（Link prediction） 链接预测任务有时也称为实体预测或实体排序，用来预测两个实体之间是否有特定的关系。即已知头实体h和关系r，预测尾实体t；或者尾实体t和关系r，预测头实体h。它的本质是一个KG补全的任务，即将缺失的知识添加到图谱中。同时也可以预测两个给定实体之间的关系，即已...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-13</time>
+      <div>
+        <h2><a href="../../2020/01/13/kge-semantic-matching-models/index.html">融合事实信息的知识图谱嵌入——语义匹配模型</a></h2>
+        <p>知识图谱嵌入 知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-12</time>
+      <div>
+        <h2><a href="../../2020/01/12/kge-translational-distance-models/index.html">融合事实信息的知识图谱嵌入——翻译距离模型</a></h2>
+        <p>知识图谱嵌入 知识图谱（KG）是由实体 (节点) 和关系 (不同类型的边) 组成的多关系图。每条边都表示为形式 (头实体、关系、尾实体) 的三个部分，也称为事实，表示两个实体通过特定的关系连接在一起。虽然在表示结构化数据方面很有效，但是这类三元组的底层符号特性通常使 KGs 很难操作。为了解决这个问题，提出了一种新的研究方向——知识图谱嵌...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2020-01-07</time>
+      <div>
+        <h2><a href="../../2020/01/07/python-networkx/index.html">Python社交网络——NetworkX入门</a></h2>
+        <p>特性 NetworkX是一个Python包，用于创建、操作和研究复杂网络的结构和功能。 用于图、有向图和多重图的数据结构 许多标准图数据算法 网络结构和分析措施 用于生成经典图、随机图和合成网络的生成器 节点可以是“任何东西”(例如，文本、图像、XML记录) 边可以容纳任意数据(例如，权重，时间序列) 无向图 有向图 加权图 某一点到其他...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-08-07</time>
+      <div>
+        <h2><a href="../../2019/08/07/mat2arffortxt/index.html">mat格式数据集转换为arff与txt格式</a></h2>
+        <p>下面的代码给出了将mat格式数据集转换为arff与txt格式的matlab代码。 注意，每个.mat文件中只有一个数据集，其中共有m+1列，最后一列是label。 转为arff: mat2arff.m代码 转为txt: mat2txt.m代码 当然也可用save直接转换，但是会出现每一行开头会空两格的情况。 注意dataName.mat中...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-06-26</time>
+      <div>
+        <h2><a href="../../2019/06/26/divide-dataset/index.html">机器学习数据集制作与划分MATLAB实现</a></h2>
+        <p>.mat数据集制作 若整个数据集是一个.mat文件且最后一列数据时标签，则单独将决策变量和标签划分开，一个为ins，另一个为lab。 相关文章 https://omegaxyz.com/2018/08/24/ml-datasets/ .mat数据集说明 数据集名称GLIOMA GIOMA包含两个矩阵，一个是实例矩阵或者叫决策变量（ins）...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-05-12</time>
+      <div>
+        <h2><a href="../../2019/05/12/sparse-ea/index.html">基于稀疏大规模矩阵的多目标进化算法简介</a></h2>
+        <p>简介 可以看到本文的特色图片是个极度稀疏连接的神经网络，它是由我们即将介绍论文中的算法SparseEA得到的。 此篇论文是BIMK的田野、张兴义等人发表在IEEE Transactions on Evolutionary Computation(SCI 一区)期刊上的，时间2019.4。 论文提出了一种解决大规模稀疏问题的多目标算法，大规...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-04-19</time>
+      <div>
+        <h2><a href="../../2019/04/19/gradient-descent/index.html">梯度下降法</a></h2>
+        <p>简介 梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。反过来，如果我们需...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-04-11</time>
+      <div>
+        <h2><a href="../../2019/04/11/adaboost-python/index.html">AdaBoost简介及Python应用</a></h2>
+        <p>AdaBoost AdaBoost集合了多个多分类器，采用加权多数表决的方法，加大分类误差率小的弱分类器的权重，减小分类误差率大的弱分类器的权重。 AdaBoost的一般流程 （1）收集数据：可以适用任意方法 （2）准备数据：依赖于所使用的弱分类器类型 （3）分析数据：可以使用任意方法 （4）训练算法：AdaBoost的大部分时间都用在训...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-04-07</time>
+      <div>
+        <h2><a href="../../2019/04/07/ranksum/index.html">Wilcoxon秩和检验简介与MATLAB实现</a></h2>
+        <p>Wilcoxon秩和检验(rank-sum test)，有时也叫Mann-Whitney U检验，是另一类非参数检验方法，它们不对数据分布作特殊假设，因而能适用于更复杂的数据分布情况。 适用性 （1）资料的总体分布类型未知； （2）资料的总体分布类型已知，但不符合正态分布； （3）某些变量可能无法精确测量； （4）方差不齐。 具体操作方法...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-31</time>
+      <div>
+        <h2><a href="../../2019/03/31/maximum-likelihood-estimation/index.html">对极大似然估计的理解</a></h2>
+        <p>参数估计（parameter estimation） 统计推断的一种。根据从总体中抽取的随机样本来估计总体分布中未知参数的过程。从估计形式看，区分为点估计与区间估计：从构造估计量的方法讲，有矩法估计、最小二乘估计、似然估计、贝叶斯估计等。 参数估计的目的 利用样本的已知信息，反推样本的具体环境，即反推参数值。 举例来说，一堆离散的样本点，...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-21</time>
+      <div>
+        <h2><a href="../../2019/03/21/dbscan-python/index.html">DBSCAN聚类算法Python实现</a></h2>
+        <p>原理 DBSCAN是一种基于密度的聚类算法，这类密度聚类算法一般假定类别可以通过样本分布的紧密程度决定。同一类别的样本，他们之间的紧密相连的，也就是说，在该类别任意样本周围不远处一定有同类别的样本存在。 通过将紧密相连的样本划为一类，这样就得到了一个聚类类别。通过将所有各组紧密相连的样本划为各个不同的类别，则我们就得到了最终的所有聚类类别...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-10</time>
+      <div>
+        <h2><a href="../../2019/03/10/kaggle-titanic/index.html">Kaggle入门泰坦尼克号乘客生还预测</a></h2>
+        <p>Kaggle简介 Kaggle是由联合创始人、首席执行官安东尼·高德布卢姆（Anthony Goldbloom）2010年在墨尔本创立的，主要为开发商和数据科学家提供举办机器学习竞赛、托管数据库、编写和分享代码的平台。该平台已经吸引了80万名数据科学家的关注，这些用户资源或许正是吸引谷歌的主要因素。 问题简介 包含带标签的训练集与不带标签...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-09</time>
+      <div>
+        <h2><a href="../../2019/03/09/hypervolume/index.html">HyperVolume多目标评价指标概述</a></h2>
+        <p>提出 Hypervolume 指标评价方法最早是由 Zitzler 等提出，它表示由解集中的个体与参考点在目标空间中所围成的超立方体的体积。 评价标准 Hypervolume 指 标 评 价 方 法 是 一 种 与 Pareto 一致(Pareto-compliant)的评价方法，也就是说如果一个解集 S 优于另一个解集 S’，那么解集S...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-01</time>
+      <div>
+        <h2><a href="../../2019/03/01/guide2research/index.html">计算机领域顶级会议、期刊、人物与国家排名2019</a></h2>
+        <p>最近浏览到一个网站： http://www.guide2research.com/ 这是一个根据谷歌学术排名的计算机领域各类会议、学术期刊、人物、国家、组织的排名查询网站。 时间2019年3月 会议 按照Hindex排名。 显然第一名就是大名鼎鼎的CVPR了，第二名为NIPS。 学术期刊 人物（全球排名） 灯塔国还是强啊！ 人物（中国大陆...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-28</time>
+      <div>
+        <h2><a href="../../2019/02/28/ilssiwba/index.html">基于迭代局部搜索和随机惯性权重的BA算法MATLAB实现（ILSSIWBA）</a></h2>
+        <p>BA算法简介 https://omegaxyz.com/2019/02/12/ba-matlab/ 该论文修改 作者在原有BA算法上进行3个修改 ①跳出局部最优（扰动个体） ②使得算法变得稳定 ③脉搏和响度修改，平衡局部与全局搜索 主要思想 流程图 MATLAB代码 评价函数：</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-02-12</time>
+      <div>
+        <h2><a href="../../2019/02/12/ba-matlab/index.html">经典蝙蝠算法MATLAB实现</a></h2>
+        <p>为什么会有这么多基于群智能的算法，蚁群、粒子群、鱼群、烟花、 炮竹、猪群、牛群、马群、羊群、猴群、鸡群。。。算法。？？？？？？ 黑人问号.jpg 蝙蝠算法( BA) 是 Yang 教授于 2010 年基于群体智能提出的启发式搜索算法,是一种搜索全局最优解的有效方法。该算法是一种基于迭代的优化技术,初始化为一组随机解,然后 通过迭代搜寻最优...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-28</time>
+      <div>
+        <h2><a href="../../2019/01/28/aco_routes2/index.html">蚁群算法最短路径规划多出口情况及问题答疑</a></h2>
+        <p>最近好多人问我蚁群算法最短路径规划如何设置多出口情况，原来2019年美赛D题“拯救卢浮宫”需要用到。本人没有看过美赛的题目，下面给出一些不成熟的代码。 蚁群算法简介： 蚁群算法最早是由Marco Dorigo等人在1991年提出，他们在研究新型算法的过程中，发现蚁群在寻找食物时，通过分泌一种称为信息素的生物激素交流觅食信息从而能快速的找到...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-27</time>
+      <div>
+        <h2><a href="../../2019/01/27/ea-np/index.html">基于进化计算的NP难题求解的研究综述</a></h2>
+        <p>摘 要 进化算法作为一种随机优化算法在复杂函数优化、组合优化与路径规划等领域具有广泛的应用。本文从进化算法的发展现状、缺陷与改进等方面进行了细致的分析调研。具体介绍了NP问题的定义与研究成果，并研究与讨论了基于传统经典与最新前沿的进化算法解决带约束组合优化的NP难题的方法策略。在标准数据集上的实验结果表明，进化算法在求解NP问题具有一定的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-22</time>
+      <div>
+        <h2><a href="../../2019/01/22/eight-puzzle-python/index.html">Astar算法解决八数码问题Python实现（GUI）</a></h2>
+        <p>简介 八数码问题：在3*3的方格棋盘上，摆放着1到8这八个数码，有1个方格是空的，其初始状态如图1所示，要求对空格执行空格左移、空格右移、空格上移和空格下移这四个操作使得棋盘从初始状态到目标状态。 状态图搜索： 搜索树：搜索过程中经过的节点和边按原图的连接关系构成一个树型的有向图，称为搜索树。 搜索方式 树式搜索：记录搜索过程中所经过的所...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-21</time>
+      <div>
+        <h2><a href="../../2019/01/21/matlab-tsp-all/index.html">遗传算法解决TSP问题MATLAB实现（详细）</a></h2>
+        <p>问题定义： 巡回旅行商问题 给定一组n个城市和俩俩之间的直达距离，寻找一条闭合的旅程，使得每个城市刚好经过一次且总的旅行距离最短。 TSP问题也称为货郎担问题，是一个古老的问题。最早可以追溯到1759年Euler提出的骑士旅行的问题。1948年，由美国兰德公司推动，TSP成为近代组合优化领域的典型难题。 TSP是一个具有广泛的应用背景和重...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-20</time>
+      <div>
+        <h2><a href="../../2019/01/20/evolutionary-computing/index.html">进化（演化）计算概述</a></h2>
+        <p>演化计算 1.1 进化计算的历史及现状 20世界50年代，当电脑性能还远远落后时，达尔文的进化论就被应用于自动问题的解决 [1] 。在美国，Fogel提出了进化编程的思想 [2] ，也就是后来所谓的遗传算法（GA）。GA算法是受生物进化过程中“优胜劣汰”的自然选择机制和遗传信息的传递规律的影响，通过程序迭代模拟这一过程，把要解决的问题看作...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-18</time>
+      <div>
+        <h2><a href="../../2019/01/18/hci-eye-tracking/index.html">基于眼动跟踪技术的人机交互方法研究</a></h2>
+        <p>从科学研究到商业应用领域，眼动跟踪技术都受到普遍关注。本文主要从眼动跟踪技术的发展过程、应用领域、理论基础、研究方法及发展前景等方面展开了论述。通过调研认为，眼动跟踪技术对计算机硬件软件的实时性和准确性有极高的要求。由于近几年深度学习的发展，眼动跟踪技术在处理复杂问题的能力上得到了大幅度提高，在大规模商业应用具有延展性及实用性。 关键字：...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-14</time>
+      <div>
+        <h2><a href="../../2019/01/14/igd/index.html">反世代距离评价指标IGD</a></h2>
+        <p>反世代距离评价指标(Inverted Generational Distance, IGD) 是一个综合性能评价指标。它主要通过计算每个在真实 Pareto前沿面上的点(个体)到算法获取的个体集合之间的最小距离和，来评价算法的收敛性能和分布性能。值越小，算法的综合性能包括收敛性和分布性能越好。 公式： 其中，P 为均匀分布在真实 Pare...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-01-12</time>
+      <div>
+        <h2><a href="../../2019/01/12/pytorch-introduction/index.html">PyTorch入门</a></h2>
+        <p>PyTorch入门 PyTorch 是一个建立在 Torch 库之上的 Python 包，旨在加速深度学习应用。PyTorch 提供一种类似 NumPy 的抽象方法来表征张量（或多维数组），它可以利用 GPU 来加速训练。 PyTorch 既可以看做加入了GPU 支持的numpy，同时也可以看成一个拥有自动求导功能的强大的深度神经网络，除...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-25</time>
+      <div>
+        <h2><a href="../../2018/12/25/moba-ai/index.html">王者荣耀AI论文：层次宏观策略模型</a></h2>
+        <p>论文与作者 关于第一作者Bin Wu，他此刻是腾讯AI尝试室的高级研究员，也是王者光彩AI算法计划和开拓的技能认真人。 此前，他还照旧腾讯一个量化买卖营业项目标焦点成员，认真呆板进修算法的计划和开拓。这个团队搞的模子，已经获取了70%的净收益，2017年在A股市场的回报率为5%。 果真的资料表现，Bin Wu于2016年12月插手腾讯至今...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-20</time>
+      <div>
+        <h2><a href="../../2018/12/20/eye-tracking-for-everyone/index.html">基于移动设备与CNN的眼动追踪技术简介</a></h2>
+        <p>眼动追踪是一项科学应用技术，用户无需与交互设备物理接触即可发送信息与接收反馈。从原理上看，眼动追踪主要是研究眼球运动信息的获取、建模和模拟，用途颇广。而获取眼球运动信息的设备除了红外设备之外，还可以是图像采集设备，甚至一般电脑或手机上的摄像头，其在软件的支持下也可以实现眼球跟踪。 下面说的这篇论文是MIT2016年在CVPR上发的一篇论文...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-12-09</time>
+      <div>
+        <h2><a href="../../2018/12/09/wmd-matlab/index.html">基于WMD（词移距离）的句子相似度分析MATLAB代码</a></h2>
+        <p>WMD简介 词移距离（Word Mover’s Distance） https://omegaxyz.com/2018/11/22/wmd/ WMD MATLAB代码 注意emd_mex是调用搬土距离的库Earth Mover&#x27;s Distance RWMD（Relaxed word moving distance ） 先去掉一个约束，计...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-27</time>
+      <div>
+        <h2><a href="../../2018/11/27/swmd/index.html">基于有监督的词移距离（SWMD）简介</a></h2>
+        <p>声明：本文章为机器学习期末作业一部分 WMD距离 https://omegaxyz.com/2018/11/22/wmd/ 我们理解了 WMD 距离 , 那么问题来了, 学习这个权重矩阵用来聚类虽好 ( 告诉我们哪些文档比较相近 ), 但是 , 用来 分类 却很差 ! 为什么?因为一些文章虽然近义词很多, 但是表达的不是一个语义和主题。...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-24</time>
+      <div>
+        <h2><a href="../../2018/11/24/cps/index.html">进化计算中基于分类的预处理代理模型</a></h2>
+        <p>问题提出 代理模型的构造较复杂，作者希望构造一个更为简单的廉价（cheap）的代理模型来评估子集的质量。 因此作者提出了一个叫做CPS（classification based preselection）算法。 预选择（ preselection ） 在进化算法中，预选择是一种分类问题。准确地说，是将 子代解 作为外部数据集进行二分类，分...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-22</time>
+      <div>
+        <h2><a href="../../2018/11/22/wmd/index.html">基于WMD（词移距离）的句子相似度分析简介</a></h2>
+        <p>word2vec word2vec是只有一个隐层的全连接神经网络,对语料中的所有词汇进行训练并生成相应的词向量（Word Embedding） WI 的大小是 VxN, V 是单词字典的大小, 每次输入是一个单词, N是设定的隐层大小。word2vec的模型通过一种神经网络语言模型（Neural Network Language Mode...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-11-13</time>
+      <div>
+        <h2><a href="../../2018/11/13/word2vec/index.html">NLP之word2vec简介</a></h2>
+        <p>简介 Word2vec，是为一群用来产生词向量的相关模型。这些模型为浅而双层的神经网络，用来训练以重新建构语言学之词文本。网络以词表现，并且需猜测相邻位置的输入词，在word2vec中词袋模型假设下，词的顺序是不重要的。训练完成之后，word2vec模型可用来映射每个词到一个向量，可用来表示词对词之间的关系，该向量为神经网络之隐藏层。 W...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-10-27</time>
+      <div>
+        <h2><a href="../../2018/10/27/mrmrfs/index.html">最大相关最小冗余（mRMR）算法</a></h2>
+        <p>在做特征选择时，可能面临两个问题：特征与类别预测有多大相关性，特征之间有多大冗余度。在特征选择中，“最好的m个特征不一定是m个最好的特征”，从相关度与冗余度来看，最好的m个特征是指与分类最相关的特征，但由于最好的m个特征之间可能存在冗余，因此最相关的m个特征并不一定比其他m个特征产生更好的分类准确率。可以看出，特征选择可以分为两个过程：1...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-10-15</time>
+      <div>
+        <h2><a href="../../2018/10/15/cmdpso/index.html">基于拥挤距离与变异支配的多目标PSO算法</a></h2>
+        <p>这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说CMDPSO。 CMDPSO全称是Crowding，Mutation，Dominance PSO算法。 NSPSO算法概述与实现 https:...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-22</time>
+      <div>
+        <h2><a href="../../2018/09/22/nspso_matlab/index.html">基于非支配排序的多目标PSO算法MATLAB实现</a></h2>
+        <p>这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。 该算法简介请转到： https://omegaxyz.com/2018/09/01/nspso/ 伪代码 具体流程 ①划分数据集为测试集和训练集 ②初始...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-16</time>
+      <div>
+        <h2><a href="../../2018/09/16/vlpso/index.html">基于变长PSO的高维特征选择算法（VLPSO）概述</a></h2>
+        <p>简介 VLPSO是Binh Tran和Bing Xue等人发在人工智能顶尖杂志上IEEE Transactions on Evolutionary Computation 上的一篇解决高维特征选择的PSO算法。 它能够很好地解决高维特征选择问题，尤其是在计算时间上能够大幅度减少。 问题提出 ①高维特征选择，占内存 ②高维特征选择，耗时 V...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-10</time>
+      <div>
+        <h2><a href="../../2018/09/10/lsgo/index.html">高维（多变量）优化问题的技术与瓶颈</a></h2>
+        <p>现实世界中的优化问题往往具有较高的复杂度和维数，称为LSGO问题，即Large-Scale Global Optimization。 此问题在各个领域的研究工作中都引起了极大的兴趣。许多科学和工程应用程序被表述为LSGO问题，如设计大型电子系统，大量资源的调度问题，大规模交通中的车辆，路由问题网络，生物信息学中的基因识别，逆问题，化学动力...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-03</time>
+      <div>
+        <h2><a href="../../2018/09/03/k-means-find-k/index.html">kmeans聚类选择最优K值python实现</a></h2>
+        <p>Kmeans算法中K值的确定是很重要的。 下面利用python中sklearn模块进行数据聚类的K值选择 数据集自制数据集，格式如下： 维度为3。 ①手肘法 手肘法的核心指标是SSE(sum of the squared errors，误差平方和)， 其中，Ci是第i个簇，p是Ci中的样本点，mi是Ci的质心（Ci中所有样本的均值），SS...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-09-01</time>
+      <div>
+        <h2><a href="../../2018/09/01/nspso/index.html">基于非支配排序的多目标PSO算法</a></h2>
+        <p>这一篇是Xue Bing在一区cybernetics发的论文，里面提出了两个多目标PSO特征选择算法，一个是NSPSO另一个是CMDPSO。其中NSPSO是参考了NSGA2的框架和思想。下面具体说说NSPSO。 CMDPSO算法 https://omegaxyz.com/2018/10/15/cmdpso/ 非支配排序 来自NSGA2中的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-28</time>
+      <div>
+        <h2><a href="../../2018/08/28/python利用sklearn进行kmeans聚类/index.html">Python利用sklearn进行kmeans聚类</a></h2>
+        <p>sklearn是机器学习领域中最知名的python模块之一。sklearn的官网链接 http://scikit-learn.org/stable/index.html# kmeans算法概述： https://omegaxyz.com/2018/01/27/kmeans/?hilite=%27kmeans%27 MATLAB kmean...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-24</time>
+      <div>
+        <h2><a href="../../2018/08/24/ml-datasets/index.html">机器学习数据集的基本概念</a></h2>
+        <p>数据集，又称为资料集、数据集合或资料集合，是一种由数据所组成的集合。Data set（或dataset）是一个数据的集合，通常以表格形式出现。每一列代表一个特定变量。每一行都对应于某一成员的数据集的问题。它列出的价值观为每一个变量，如身高和体重的一个物体或价值的随机数。每个数值被称为数据资料。对应于行数，该数据集的数据可能包括一个或多个成...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-20</time>
+      <div>
+        <h2><a href="../../2018/08/20/opencv-camera-pic/index.html">OpenCV人脸识别-静态图片与动态摄像头</a></h2>
+        <p>简介 环境：Python3+OpenCV3.4 在OpenCV中主要使用了两种特征（即两种方法）进行人脸检测，Haar特征和LBP特征。使用已经训练好的XML格式的分类器进行人脸检测。在OpenCV的安装目录下的sources文件夹里的data文件夹里可以看到下图所示的内容（opencv\sources\data\haarcascades...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-14</time>
+      <div>
+        <h2><a href="../../2018/08/14/cnn2-rgb/index.html">卷积神经网络CNN概述下（RGB图像卷积与单层神经网络）</a></h2>
+        <p>以下内容转载自： https://blog.csdn.net/ice_actor/article/details/78648780 侵删！！！ 黑白图像卷积请参考： https://omegaxyz.com/2018/06/02/cnn1/ 彩色图像的卷积 以上讲述的卷积都是灰度图像的，如果想要在RGB图像上进行卷积，过滤器的大小不在是3...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-10</time>
+      <div>
+        <h2><a href="../../2018/08/10/vector-mi-matlab/index.html">列向量互信息计算通用MATLAB代码</a></h2>
+        <p>互信息的定义 正式地，两个离散随机变量 X 和 Y 的互信息可以定义为： 其中 p(x,y) 是 X 和 Y 的联合概率分布函数，而p(x)和p(y)分别是 X 和 Y 的边缘概率分布函数。 在连续随机变量的情形下，求和被替换成了二重定积分： 其中 p(x,y) 当前是 X 和 Y 的联合概率密度函数，而p(x)和p(y)分别是 X 和...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-08</time>
+      <div>
+        <h2><a href="../../2018/08/08/fdfs-epso/index.html">特征离散化与选择EPSO算法详解</a></h2>
+        <p>EPSO简介 EPSO的主要思想是使用BBPSO直接演化出一个可以在相应的特征值范围[MinF···MaxF]内任何值的切点。每个粒子的位置表示一个候选解，它是一个与问题的维数相对应的n维的实向量。图二给出了一个粒子位置及其相应候选解的例子。在这个例子中，粒子的第一个维度，表示第一个特性(F1)的切割点，需要在范围内有一个值[8.5,25...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-03</time>
+      <div>
+        <h2><a href="../../2018/08/03/mifs/index.html">基于互信息的特征选择算法MATLAB实现</a></h2>
+        <p>在概率论和信息论中，两个随机变量的 互信息（Mutual Information，简称MI） 或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Infor...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-08-02</time>
+      <div>
+        <h2><a href="../../2018/08/02/mi/index.html">互信息公式及概述</a></h2>
+        <p>在概率论和信息论中，两个随机变量的 互信息（Mutual Information，简称MI） 或转移信息（transinformation）是变量间相互依赖性的量度。不同于相关系数，互信息并不局限于实值随机变量，它更加一般且决定着联合分布 p(X,Y) 和分解的边缘分布的乘积 p(X)p(Y) 的相似程度。互信息(Mutual Infor...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-27</time>
+      <div>
+        <h2><a href="../../2018/07/27/pso-fdfs/index.html">基于PSO的特征离散化与选择算法</a></h2>
+        <p>前面我们介绍了特征选择(Feature Selection，FS)与离散化数据的重要性，总览的介绍了PSO在FS中的重要性和一些常用的方法，介绍了FS与离散化的背景，介绍本文所采用的基于熵的切割点和最小描述长度原则(MDLP)。具体请点击链接： https://omegaxyz.com/2018/07/23/feature-discret...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-23</time>
+      <div>
+        <h2><a href="../../2018/07/23/feature-discretization-selection/index.html">特征工程——特征离散化与选择</a></h2>
+        <p>概要 由于许多特征选择问题处理的是离散数据，一种常见的处理方式是在特征选择之前应用离散化。为了提升效率，特征通常单变量地进行离散化。这个方案是基于假设每个特性都独立地影响任务，在存在特性交互的情况下，这一点可能不成立。因此，单变量离散化会降低性能信息显示后的特征选择阶段在离散化过程中，特性交互可能会丢失。 除了特征选择，特征离散化也是处理...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-19</time>
+      <div>
+        <h2><a href="../../2018/07/19/tensorflow-playground/index.html">神经网络（TensorFlow）游乐场</a></h2>
+        <p>TensorFlow游乐场是一个通过网页浏览器就可以训练的简单神经网络并实现了可视化训练过程的工具。可以去简单地模拟深度学习的过程。连线越粗表明权重越大。 网址： http://playground.tensorflow.org/ 参数介绍 Epoch： 迭代次数 Learning rate： 学习率，为了能够使得梯度下降法有较好的性能，...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-18</time>
+      <div>
+        <h2><a href="../../2018/07/18/feature-discretisation/index.html">特征离散化概述</a></h2>
+        <p>定义 连续特征离散化是采取各种方法将连续的区间划分为小的区间，并将这连续的小区间与离散值关联起来。连续特征离散化的本质是：决定选择多少个分割点和确定分割点的位置。 背景 连续数据经常采用离散化处理之后再放入模型。离散化可以理解为提取特征的过程，比如在LR模型，由于是广义线性模型表达能力有限，因此通过特征离散化来了提高非线性学习能力 步骤...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-14</time>
+      <div>
+        <h2><a href="../../2018/07/14/googlenet/index.html">卷积神经网络GoogLeNet概述</a></h2>
+        <p>名称 论文的名称是 Going Deeper with Convolutions，启发自“We need to go deeper.”出处先不说。 而论文提出的CNN算法名称是GoogLeNet，GoogLeNet是谷歌（Google）公司研究出来的深度神经网络结构，为什么不叫GoogleNet，而叫GoogLeNet，据说是为了向LeN...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-13</time>
+      <div>
+        <h2><a href="../../2018/07/13/matlab-ga-tool/index.html">MATLAB遗传算法工具箱简介</a></h2>
+        <p>MATLAB 是美国MathWorks公司出品的商业数学软件，用于算法开发、数据可视化、数据分析以及数值计算的高级技术计算语言和交互式环境，主要包括MATLAB和Simulink两大部分。MATLAB软件是一个功能很强大的工具，其中可以使用GA工具箱进行遗传算法的数据优化，下面给出具体的操作简单的实例。 ①利用GUI打开并使用MATLAB...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-10</time>
+      <div>
+        <h2><a href="../../2018/07/10/aco-tsp/index.html">蚁群算法（ACO）旅行商问题（TSP）路径规划MATLAB实现</a></h2>
+        <p>蚁群算法的由来 蚁群算法(ant colony optimization)最早是由Marco Dorigo等人在1991年提出，他们在研究新型算法的过程中，发现蚁群在寻找食物时，通过分泌一种称为信息素的生物激素交流觅食信息从而能快速的找到目标，据此提出了基于信息正反馈原理的蚁群算法。 蚁群算法的基本思想来源于自然界蚂蚁觅食的最短路径原理，...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-09</time>
+      <div>
+        <h2><a href="../../2018/07/09/improved-simple-pso/index.html">PSO算法的改进策略</a></h2>
+        <p>PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 简介： https://omegaxyz.com/2017/05/04/...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-04</time>
+      <div>
+        <h2><a href="../../2018/07/04/classification-and-regression/index.html">机器学习分类与回归</a></h2>
+        <p>分类 ，即classification：a process in which you put something into the group or class it belongs to，这是指将某物放入其所属的组或类的过程。 回归 ，即regression：the relation between selected values of...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-07-03</time>
+      <div>
+        <h2><a href="../../2018/07/03/bp-matlab/index.html">BP神经网络MATLAB实现</a></h2>
+        <p>BP神经网络 BP(back propagation)神经网络是1986年由Rumelhart和McClelland为首的科学家提出的概念，是一种按照误差逆向传播算法训练的多层前馈神经网络，是目前应用最广泛的神经网络。 BP神经网络的计算过程由正向计算过程和反向计算过程组成。正向传播过程，输入模式从输入层经隐单元层逐层处理，并转向输出层，...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-13</time>
+      <div>
+        <h2><a href="../../2018/06/13/cmoea/index.html">多目标协同进化算法概要</a></h2>
+        <p>转载自： https://ecole.asia/news/2018/06/10/weekly143/ 侵删！ 协同演化一直是人们研究的热点，尤其在处理大规模全局优化问题时（AAEO第27，32期）。协同演化算法往往构建两个或多个共同进化的种群，利用种群之间的竞争或合作关系，对种群进行优化。与传统演化算法相比，协同演化算法充分考虑种群之间以...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-05</time>
+      <div>
+        <h2><a href="../../2018/06/05/ccdifferential_grouping_new/index.html">差分分组的合作协同进化的大规模优化算法详解</a></h2>
+        <p>合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-04</time>
+      <div>
+        <h2><a href="../../2018/06/04/tensorflow-simple-cnn/index.html">TensorFlow简单卷积神经（CNN）网络实现</a></h2>
+        <p>数据集 本次依然使用MNIST数据集来进行卷积神经网络训练。 MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片： 之间用简单神经网络进行手写识别的博文： https://omegaxyz.com/2018/04/26/tensorflow_mnist_simple/ 简单卷积神经网络的流程 第一层卷积操作 需要输入的参数值...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-02</time>
+      <div>
+        <h2><a href="../../2018/06/02/cnn1/index.html">卷积神经网络CNN概述上（黑白图像卷积）</a></h2>
+        <p>1.边界检测 检测图像的物体可以有垂直边缘和水平边缘检测。 如下是一个6*6的灰度图像，构造一个3*3的矩阵，在卷积神经网络中通常称之为filter，对这个6*6的图像进行卷积运算，以左上角的-5计算为例 3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5 其它的以此类推，让过滤器在图像上逐步滑动，对整...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-31</time>
+      <div>
+        <h2><a href="../../2018/05/31/tensorflow-simple-classification/index.html">TensorFlow实现简单神经网络分类问题</a></h2>
+        <p>利用TensorFlow来训练所有的神经网络的训练过程可以分为如下3个步骤： ①定义神经网络的结构和前向传播的输出结果。 ②定义损失函数以及选择反向传播优化算法。 ③生成会话（tf.Session）并且在训练数据上反复运行反向传播优化算法。 下面给出一个简单的二分类问题的神经网络算法（完整的流程） 神经网络具体结构如下图： 训练流程图：...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-27</time>
+      <div>
+        <h2><a href="../../2018/05/27/whatstensor/index.html">Tensor（张量）的简介与运用</a></h2>
+        <p>张量 （Tensor）是一个很重要的概念。在 TensorFlow 中所有的数据都用张量来表示，当然张量可以被简单得理解为多维数组。 其中零阶张量表示标量（scalar），一阶张量表示向量（vector），n阶张量就是n阶数组。但是张量在TensorFlow中的实现并不想Numpy那样是数组的形式， 而只是运算结果的引用，即是一种计算过程...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-25</time>
+      <div>
+        <h2><a href="../../2018/05/25/python_confusion/index.html">混淆矩阵简介与Python实现</a></h2>
+        <p>什么是混淆矩阵 混淆矩阵是机器学习中总结分类模型预测结果的情形分析表，以矩阵形式将数据集中的记录按照真实的类别与分类模型作出的分类判断两个标准进行汇总。这个名字来源于它可以非常容易的表明 多个类别是否有混淆 （也就是一个 class被预测成另一个class ） 如下图： 其中绿色部分是预测正确的，红色是预测错误的。 对于二分类（正误）问题...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-22</time>
+      <div>
+        <h2><a href="../../2018/05/22/nfl/index.html">NFL（没有免费的午餐）定理</a></h2>
+        <p>NLF讲的是在不考虑具体问题的情况下，没有任何一个算法比另一个算法更优，甚至没有胡乱猜测更好。 不存在一个与具体应用无关的，普遍适用的“最优分类器” 学习算法必须要作出一个与问题领域有关的“假设”，分类器必须与问题域相适应。 但是，NFL定理的前提是，所有问题出现的机会相等、或所有问题都是同等重要。但是现实中，我们往往会得到特定的数据，特...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-20</time>
+      <div>
+        <h2><a href="../../2018/05/20/multi2bi_ml/index.html">机器学习多分类问题转二分类问题</a></h2>
+        <p>什么是多分类问题？ 简单地说就是在监督学习下样本实例的标签有多个，而我们很多问题是二分类分体（正确，错误或者是0,1问题）。 很多算法在原理推导上都是假设样本是二分类的，比如SVM、Adaboost等，整个推导过程以至结论都是相对二分类的，根本没有考虑多分类，如果你想直接将SVM直接应用在多分类上是不可能的，除非你在从原理上去考虑多分类的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-19</time>
+      <div>
+        <h2><a href="../../2018/05/19/tcso/index.html">基于三重竞争机制的PSO算法（CSO）</a></h2>
+        <p>TCSO算法来源 论文标题： A modiﬁed competitive swarm optimizer for large scale optimization problems 作者： Prabhujit Mohapatra , Kedar Nath Das, Santanu Roy Department of Mathematics...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-10</time>
+      <div>
+        <h2><a href="../../2018/05/10/ts_surrogate_pso_fs/index.html">基于训练集动态代理模型的PSO特征选择算法</a></h2>
+        <p>问题 ①基于演化计算的Wrapper特征选择算法在计算量上耗费很大。 ②基于PSO演化计算的特征选择算法在演化效率上有显著提高，但是评价过程的时间依旧很长。 贡献 作者提出了一种应用聚类到训练集上的动态代理模型，有助于获取数据集上的特征来使选出的特征更好。 DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-09</time>
+      <div>
+        <h2><a href="../../2018/05/09/information_entropy_alpha/index.html">英文字母信息熵与冗余度计算Python实现</a></h2>
+        <p>26个英文字母在平均出现时的信息熵是4.7BIT,而去掉冗余度后的英文字母的信息熵是4.03BIT。 公式: H(信息熵) = -∑ P i log 2 (P i ); P i :为每个字母在信息中出现的概率; 计算公式并不复杂. 取以2为底的对数的道理也很简单,因为如果: 2 n = X 的话,那么logX = n; 所以可以看出所谓信...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-08</time>
+      <div>
+        <h2><a href="../../2018/05/08/drop3_agg/index.html">基于训练集的代理模型生成算法（DROP3、AGG）</a></h2>
+        <p>DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思想：利用KNN算法及排序来去除噪音实例 算法步骤 ①先去除训练集上所有KNN算法错误分类的特征 ②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序 ③去除上述距离较远的实例 ④去除不影响其它实例预测结果的实例 示例 Agglomerative C...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-07</time>
+      <div>
+        <h2><a href="../../2018/05/07/information_entropy/index.html">信息熵（香农熵）概述</a></h2>
+        <p>简介 1948 年，香农提出了“信息熵”(Shannon entropy/Information entropy) 的概念，才解决了对信息的量化度量问题。一条信息的信息量大小和它的不确定性有直接的关系。比如说，我们要搞清楚一件非常非常不确定的事，或是我们一无所知的事情，就需要了解大量的信息。相反，如果我们对某件事已经有了较多的了解，我们不...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-03</time>
+      <div>
+        <h2><a href="../../2018/05/03/online_feature_selection/index.html">在线特征选择概述</a></h2>
+        <p>在线学习（online learning） 在监督学习的在线方法下，对于多层感知器突触权值的调整是以样例-样例为基础的，用来最小化的代价函数是全体瞬时误差能量。和批量学习一样，在线学习的学习曲线是通过足够大量的随机选取的初始条件上的总体平均来计算的。对于给定的网络结构，在线学习下获得的学习曲线和批量学习下获得的学习曲线有着很大的不同。 给...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-02</time>
+      <div>
+        <h2><a href="../../2018/05/02/batch_and_online_learning/index.html">批量学习与在线学习概述</a></h2>
+        <p>一、批量学习（batch learning） 在监督学习的批量方法中，多层感知器的突出权值的调整在训练样本集合的所有N个例子都出现后进行，这构成了训练的一个回合。换句话说，批量学习的代价函数是由平均误差能量定义的。多层感知器的突触权值的调整是以回合-回合为基础的。相应地，学习曲线的一种实现方式是通过描绘平均误差能量对回合数的图形而得到，对...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-05-01</time>
+      <div>
+        <h2><a href="../../2018/05/01/perceptron/index.html">神经网络感知机概述</a></h2>
+        <p>定义 假设输入空间(特征向量)为X⊆Rn，输出空间为Y={-1, +1}。输入x∈X表示实例的特征向量，对应于输入空间的点；输出y∈Y表示示例的类别。由输入空间到输出空间的函数为 f(x)=sign( w⋅x +b) 称为感知机。其中，参数w叫做权值向量weight，b称为偏置bias。w⋅x表示w和x的点积 ∑i=wixi=w1x1+w...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-27</time>
+      <div>
+        <h2><a href="../../2018/04/27/tensorboard_tensorflow/index.html">TensorBoard显示TensorFlow流程图</a></h2>
+        <p>TensorFlow 涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。 为了更方便 TensorFlow 程序的理解、调试与优化，Google发布了一套叫做 TensorBoard 的可视化工具。你可以用 TensorBoard 来展现你的 TensorFlow 图像，绘制图像生成的定量指标图以及附加数据。 如...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-26</time>
+      <div>
+        <h2><a href="../../2018/04/26/tensorflow_mnist_simple/index.html">TensorFlow手写识别入门</a></h2>
+        <p>原文地址 ： MNIST For ML Beginners 翻译： linbojin python3源码：OmegaXYZ.com 当我们开始学习编程的时候，第一件事往往是学习打印&quot;Hello World&quot;。就好比编程入门有Hello World，机器学习入门有MNIST。 MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-25</time>
+      <div>
+        <h2><a href="../../2018/04/25/de_python/index.html">差分进化算法Python实现</a></h2>
+        <p>DE 算法主要用于求解连续变量的全局优化问题，其主要工作步骤与其他进化算法基本一致，主要包括变异(Mutation)、交叉(Crossover)、选择(Selection)三种操作。算法的基本思想是从某一随机产生的初始群体开始，利用从种群中随机选取的两个个体的差向量作为第三个个体的随机变化源，将差向量加权后按照一定的规则与第三个个体求和而...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-24</time>
+      <div>
+        <h2><a href="../../2018/04/24/differential_evolution_intro/index.html">差分进化算法 (Differential Evolution)概述</a></h2>
+        <p>DE算法简介 Differential Evolution（DE）是由Storn等人于1995年提出的，和其它演化算法一样，DE是一种模拟生物进化的随机模型，通过反复迭代，使得那些适应环境的个体被保存了下来。但相比于进化算法，DE保留了基于种群的全局搜索策略，采用实数编码、基于差分的简单变异操作和一对一的竞争生存策略，降低了遗传操作的复杂...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-23</time>
+      <div>
+        <h2><a href="../../2018/04/23/fs_filter/index.html">特征选择Filter方法详解</a></h2>
+        <p>Filter（筛选法）通过分析特征子集内部的特点来衡量特征的分类能力，与后面的采用何种分类器无关，这类方法通常需要评价特征相关性的评分函数和阈值判别法来选择出得分最高的特征子集。通过文献调研，根据选择特征子集方式的不同，可以继续划分为基于特征排序（Feature Ranking）和基于特征空间搜索(Space Search)两类。 基于特...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-22</time>
+      <div>
+        <h2><a href="../../2018/04/22/one-hot/index.html">One-Hot编码详解与Python实现</a></h2>
+        <p>one-hot的基本思想：将离散型特征的每一种取值都看成一种状态，若你的这一特征中有N个不相同的取值，那么我们就可以将该特征抽象成N种不同的状态，one-hot编码保证了每一个取值只会使得一种状态处于“激活态”，也就是说这N种状态中只有一个状态位值为1，其他状态位都是0。 举个例子，假设我们以浏览器为例，我们想要研究的类别为 浏览器：[&quot;...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-21</time>
+      <div>
+        <h2><a href="../../2018/04/21/crossover_mutation/index.html">遗传算法的交叉变异详解</a></h2>
+        <p>交叉 二进制编码交叉 单点交叉 单点交叉又称为简单交叉，它是指在个体编码串中只随机设置一个交叉点，然后在该点相互交换两个配体个体的部分染色体。图1为单点交叉运算的示意图。 两点交叉 两点交叉是指在个体编码串中随机设置了两个交叉点，然后再进行部分基因交换。两点交叉的具体操作过程是:①在相互配对的两个个体编码串中随机设置两个交叉点；②交换两个...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-20</time>
+      <div>
+        <h2><a href="../../2018/04/20/tensorflow_intro/index.html">TensorFlow基本语句与概念</a></h2>
+        <p>文章转载自极客学院： http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html TensorFlow简介 是 开发的一款神经网络的 外部的结构包，也是一个采用 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-19</time>
+      <div>
+        <h2><a href="../../2018/04/19/2nn_tensorflow_py/index.html">TensorFlow神经网络函数拟合实例（基于Python）</a></h2>
+        <p>本文通过TensorFlow生成双层神经网络，对二次函数进行拟合。 双层神经网络如下图所示。 weights代表神经元的权重，activation_function是激活函数sgn或sigmoid或relu函数 构建神经网络的函数 主要步骤： ①生成测试数据集，利用numpy来生成坐标轴的点，并在点上添加噪音。 ②添加占位符 ③添加隐藏层...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-18</time>
+      <div>
+        <h2><a href="../../2018/04/18/how_to_do_fs_experiment/index.html">机器学习如何做特征选择实验</a></h2>
+        <p>特征选择是一种数据预处理过程，优秀的特征能够提升分类器的性能。 在现实世界中，有很多类包含很多特征，比如生物的DNA，在利用不同算法选出较少的特征子集后，如何评价选出来的特征是至关重要的。 从多数特征选择论文中提取以下几点。 ①不同特征选择算法在不同数据集上的错误率 ②不同特征选择算法在不同数据集上选出解的数目 说明： 很显然，以上两点是...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-16</time>
+      <div>
+        <h2><a href="../../2018/04/16/similarity_measure/index.html">机器学习相似性度量（距离度量）</a></h2>
+        <p>度量相似性 （similarity measure）即 距离度量 ，在生活中我们说差别小则相似，对应到多维样本，每个样本可以对应于高维空间中的一个数据点，若它们的距离相近，我们便可以称它们相似。 距离度量的基本性质 注意最后一个可以理解为三角形两边之和大于第三边。 欧式距离 欧几里得度量（euclidean metric）（也称欧氏距离）...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-13</time>
+      <div>
+        <h2><a href="../../2018/04/13/ann_intro/index.html">神经网络模型详解</a></h2>
+        <p>什么是人工神经网络 人工神经网络基于一组称为人造神经元（在动物脑中的生物神经元的简化版本）的连接单元或节点。人造神经元之间的每个连接（简化版本的突触）可以将信号从一个传送到另一个。接收信号的人工神经元可以处理它，然后发出信号传递与之相连的人造神经元。 在常见的ANN实现中，人造神经元之间的连接处的信号是实数，并且每个人造神经元的输出通过其...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-12</time>
+      <div>
+        <h2><a href="../../2018/04/12/divide_data_cross_validation/index.html">机器学习数据集划分及交叉验证的选择</a></h2>
+        <p>机器学习中数据集划分是很重要的。 样本数（实例数）较大时采取下面的策略： 如果给定的样本充足，进行模型选择的一种简单方法是随机地将数据集切分成三部分，分为训练集（training set）、验证集（validation set）和测试集（testing set）。训练集用来训练模型，验证集用于模型的选择，而测试集用于最终对学习方法评估。在...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-09</time>
+      <div>
+        <h2><a href="../../2018/04/09/deeplandml/index.html">深度学习和经典机器学习对比</a></h2>
+        <p>深度学习已成为大多数AI问题的首选技术，使得经典机器学习相形见绌。但是，尽管深度学习有很好的性能，经典机器学习方法仍有一些优势，而且在一些特定情况下最好使用经典机器学习方法，例如线性回归或决策树，而不是使用一个大型深度网络。本文将对比深度学习和经典机器学习，分别介绍这两种技术的优缺点。 来源： http://towardsdatascie...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-04</time>
+      <div>
+        <h2><a href="../../2018/04/04/af/index.html">人工鱼群算法MATLAB实现</a></h2>
+        <p>人工鱼群算法 在一片水域中，鱼往往能自行或尾随其他鱼找到营养物质多的地方，因而鱼生存数目最多的地方一般就是本水域中营养物质最多的地方，人工鱼群算法就是根据这一特点，通过构造人工鱼来模仿鱼群的觅食、聚群及追尾行为，从而实现寻优。 中文名 人工鱼群算法 典型行为觅食行为 特 点 具有较快的收敛速度 停止条件 均方差小于允许的误差。 算法描述...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-03</time>
+      <div>
+        <h2><a href="../../2018/04/03/sfsandsbs/index.html">SFS与SBS特征选择算法</a></h2>
+        <p>(1)序列前向选择( SFS , Sequential Forward Selection ) 算法描述：特征子集X从空集开始，每次选择一个特征x加入特征子集X，使得特征函数J( X)最优。简单说就是，每次都选择一个使得评价函数的取值达到最优的特征加入，其实就是一种简单的贪心算法。 算法评价：缺点是只能加入特征而不能去除特征。例如：特征A...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-04-02</time>
+      <div>
+        <h2><a href="../../2018/04/02/quantum/index.html">基于量子遗传的函数寻优算法MATLAB实现</a></h2>
+        <p>量子遗传算法就是基于量子计算原理的一种遗传算法。将量子的态矢量表达引入了遗传编码，利用量子逻辑门实现染色体的演化，实现了比常规遗传算法更好的效果。 量子遗传算法建立在量子的态矢量表示的基础之上，将量子比特的几率幅表示应用于染色体的编码，使得一条染色体可以表达多个态的叠加，并利用量子逻辑门实现染色体的更新操作，从而实现了目标的优化求解。 M...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-24</time>
+      <div>
+        <h2><a href="../../2018/03/24/knn_matlab/index.html">KNN算法MATLAB实现</a></h2>
+        <p>一、kNN概念描述 请参考： https://omegaxyz.com/2018/01/08/knn/ kNN算法又称为k最近邻(k-nearest neighbor classification)分类算法。所谓的k最近邻，就是指最接近的k个邻居（数据），即每个样本都可以由它的K个邻居来表达。 kNN算法的核心思想是，在一个含未知样本的空...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-22</time>
+      <div>
+        <h2><a href="../../2018/03/22/machine_learning_glossary/index.html">机器学习术语表</a></h2>
+        <p>本术语表中列出了一般的机器学习术语和 TensorFlow 专用术语的定义。 原文地址： https://developers.google.cn/machine-learning/glossary/?hl=zh-CN A A/B 测试 (A/B testing) 一种统计方法，用于将两种或多种技术进行比较，通常是将当前采用的技术与新技术...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-21</time>
+      <div>
+        <h2><a href="../../2018/03/21/ec_intro/index.html">演化计算基本方法与思想</a></h2>
+        <p>生物系统中，进化被认为是一种成功的自适应方法，具有很好的健壮性。 基本思想： 达尔文进化论是一种稳健的搜索和优化机制。大多数生物体是通过自然选择和有性生殖进行进化。自然选择决定了群体中哪些个体能够生存和繁殖，有性生殖保证了后代基因中的混合和重组。自然选择的原则是适者生存，优胜劣汰。 演化计算正是一类借鉴生物界自然选择和自然遗传机制而发展起...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-20</time>
+      <div>
+        <h2><a href="../../2018/03/20/coevolution/index.html">广义协同进化算法概述</a></h2>
+        <p>协同进化算法是近十几年来在协同进化论基础上提出的一类新的进化算法. 协同进化算法考虑了种群与环境之间,种群与种群之间在进化过程中的协调。 虽然在这方面的研究起步较晚,但由于协同进化算法的优越性,越来越多的学者对此进行了研究,目前协同进化算法已成为自然计算领域一个活跃的研究分支。 协同进化的分类： ①基于种群间竞争机制的协同进化算法： 这类...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-16</time>
+      <div>
+        <h2><a href="../../2018/03/16/see_simple/index.html">自我评价算法（SEE）框架</a></h2>
+        <p>协同进化算法（Cooperative Coevolution）的缺陷： CC在处理具有交互依赖性的子问题时面临着无法正确评价和排序部分解的困难。这个问题的出现可能的原因是将具有交互依赖性的变量分到了不同组，这对基因变异时起到了错误的指导。 解决方法： ①在迭代优化时使用一种对变量交互依赖性不敏感的算法。 ②使用分组策略将具有某一共同特征（...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-13</time>
+      <div>
+        <h2><a href="../../2018/03/13/gaussian_mutation/index.html">高斯变异</a></h2>
+        <p>高斯变异（Gaussian Mutation） 是改进遗传算法对重点搜索区域的局部搜索性能的另外一种变异操作方法。在进行变异时用一个均值μ、方差为σ的正态分布的一个随机数来替换原有基因值。其操作过程与均匀变异类似。 高斯变异算子 所谓高斯变异（Gaussian Mutation）操作是指进行变异操作时，用符合均值为方差为的正态分布的一个随...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-11</time>
+      <div>
+        <h2><a href="../../2018/03/11/hyper-heuristic_algorithm/index.html">超启发式算法</a></h2>
+        <p>什么是启发式算法？ 一个基于直观或经验构造的算法，在可接受的花费(指计算时间、占用空问等)下给出待解决优化问题每一个实例的一个可行解，该可行解与最优解的偏离程度不一定事先可以预计 。 启发式算法是一种技术，这种技术使得在可接受的计算费用内去寻找最好的解，但不一定能保证所得解的可行性和最优性，甚至大多数情况下，无法阐述所得解同最优解的近似程...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-10</time>
+      <div>
+        <h2><a href="../../2018/03/10/convergence_diverdity_variables/index.html">收敛性变量与多样性变量的区别</a></h2>
+        <p>先介绍一下Pareto解 Pareto最优解： 若x*∈C*,且在C中不存在比x更优越的解x，则称x*是多目标最优化模型式的Pareto最优解，又称为有效解。 一般来说，多目标优化问题并不存在一个最优解，所有可能的解都称为非劣解，也称为Pareto解。传统优化技术一般每次能得到Pareo解集中的一个，而用智能算法来求解，可以得到更多的Pa...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-06</time>
+      <div>
+        <h2><a href="../../2018/03/06/cc_details/index.html">合作协同进化详解及伪代码</a></h2>
+        <p>协同进化(Cooperative Coevolution)是一种将大问题分解为子问题并独立解决的进化计算方法.子问题也被称为物种。 子组成部分是作为子群实现的，子群之间的唯一交互作用是对每个子群个体的合作评价。 一般的CC框架是自然激发的，一个特定种群的个体在自己之间交配，然而，在不同的物种之间交配是不可行的。 通过将当前个体其他子种群中...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-03-02</time>
+      <div>
+        <h2><a href="../../2018/03/02/weibo_emotion/index.html">基于词典的社交媒体内容的情感分析（Python实现）</a></h2>
+        <p>之前写了一篇基于NLTK情感预测的文章 https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27NLTK%27b 情感词典是从微博、新闻、论坛等数据来源的上百万篇情感标注数据当中自动构建的情感极性词典。因为标注包括微博数据，该词典囊括了很多网络用语及非正式简称，对非规范文本也有较高的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-22</time>
+      <div>
+        <h2><a href="../../2018/02/22/micfs/index.html">基于MIC（最大互信息系数）的特征选择</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。 之前写了一个MIC的介绍，里面包含了MIC的原理，链接： https://omegaxyz.com/2018/01/18/mic/ 利用到的MATLAB包安装请参见： https://omegaxyz.com/2018/02/2...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-21</time>
+      <div>
+        <h2><a href="../../2018/02/21/minepy/index.html">MIC（最大互信息系数）的计算</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数。 之前写了一个MIC的介绍，里面包含了MIC的原理，链接： https://omegaxyz.com/2018/01/18/mic/ 下面介绍如何使用第三方库计算（python库，可以用在MATLAB和C上） MIC的计算使用的是...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-11</time>
+      <div>
+        <h2><a href="../../2018/02/11/ndsort/index.html">非支配排序算法通用MATLAB代码</a></h2>
+        <p>规模为N的种群中的每个个体都要针对M个目标函数和种群中的N-1个个体进行比较，复杂度为O(MN)，因此种群中的N个个体都比较结束的复杂度为O(MN2)，即每进行一次Pareto分级的时间复杂度为O(MN2)。 该算法需要保存两个量： (1).支配个数np。该量是在可行解空间中可以 支配个体p的所有个体 的数量。 (2).被支配个体集合SP...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-10</time>
+      <div>
+        <h2><a href="../../2018/02/10/decision_tree/index.html">决策树概述</a></h2>
+        <p>摘要 决策树(Decision Tree）是在已知各种情况发生概率的基础上，通过构成决策树来求取净现值的期望值大于等于零的概率，评价项目风险，判断其可行性的决策分析方法，是直观运用概率分析的一种图解法。由于这种决策分支画成图形很像一棵树的枝干，故称决策树。在机器学习中，决策树是一个预测模型，他代表的是对象属性与对象值之间的一种映射关系。E...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-08</time>
+      <div>
+        <h2><a href="../../2018/02/08/ccnsga2/index.html">随机固定分组合作协同进化NSGA2算法（CCNSGA2）</a></h2>
+        <p>合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 合作协同进化算法请见： https://omegaxyz.com/2017/10/14/cooperative_coevolution/ NSGA2算法是一种多目标遗传算...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-02-05</time>
+      <div>
+        <h2><a href="../../2018/02/05/supervised_learning/index.html">监督学习与无监督学习</a></h2>
+        <p>机器学习如果按照训练样本标签的有无可以分为以下两种常用方法。 有 监督学习 (supervised learning)和 无监督学习 (unsupervised learning)。 以机器学习中的分类(classification)来说，输入的训练数据有特征（feature），有标签（label）。在分类过程中，如果所有训练数据都有标签...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-29</time>
+      <div>
+        <h2><a href="../../2018/01/29/ccpso_std/index.html">随机固定分组合作协同进化PSO算法（CCPSO）</a></h2>
+        <p>合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 合作协同进化算法请见： https://omegaxyz.com/2017/10/14/cooperative_coevolution/ PSO算法是粒子群优化算法。此文...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-28</time>
+      <div>
+        <h2><a href="../../2018/01/28/kmeans_matlab/index.html">MATLAB工具箱k-means算法</a></h2>
+        <p>MATLAB包含kmeans算法聚类工具 返回值 Idx N*1的向量,存储的是每个点的聚类标号 Ctrs K*P的矩阵,存储的是K个聚类质心位置 SumD 1*K的和向量,存储的是类间所有点与该类质心点距离之和 D N*K的矩阵，存储的是每个点与所有质心的距离; 参数 1. ‘Distance’(距离测度) ‘sqEuclidean’...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-27</time>
+      <div>
+        <h2><a href="../../2018/01/27/kmeans/index.html">k-means算法概述</a></h2>
+        <p>K-means算法思想 K-MEANS算法是输入聚类个数k，以及包含 n个数据对象的数据库，输出满足方差最小标准k个聚类的一种算法。k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。 聚类相似度是利用各聚类中对象的均值所获得一个“中心...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-27</time>
+      <div>
+        <h2><a href="../../2018/01/27/aco_routes/index.html">蚁群算法（ACO）最短路径规划（MATLAB）</a></h2>
+        <p>蚁群算法最早是由Marco Dorigo等人在1991年提出，他们在研究新型算法的过程中，发现蚁群在寻找食物时，通过分泌一种称为信息素的生物激素交流觅食信息从而能快速的找到目标，据此提出了基于信息正反馈原理的蚁群算法。 蚁群算法根据模拟蚂蚁寻找食物的最短路径行为来设计的仿生算法，因此一般而言，蚁群算法用来解决最短路径问题，并真的在旅行商问...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-26</time>
+      <div>
+        <h2><a href="../../2018/01/26/aco/index.html">蚁群算法（ACO）MATLAB实现</a></h2>
+        <p>（一）蚁群算法的由来 蚁群算法(ant colony optimization)最早是由Marco Dorigo等人在1991年提出，他们在研究新型算法的过程中，发现蚁群在寻找食物时，通过分泌一种称为信息素的生物激素交流觅食信息从而能快速的找到目标，据此提出了基于信息正反馈原理的蚁群算法。 蚁群算法的基本思想来源于自然界蚂蚁觅食的最短路径...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-25</time>
+      <div>
+        <h2><a href="../../2018/01/25/saa/index.html">模拟退火算法（SAA）C语言与MATLAB实现</a></h2>
+        <p>爬山法 在介绍模拟退火算法之前，先介绍一下 爬山法 。爬山法是一种贪心算法。其目标是要找到函数的最大值，若初始化时，初始点的位置在C处，则会寻找到附近的局部最大值A点处，由于A点出是一个局部最大值点，故对于爬山法来讲，该算法无法跳出局部最大值点。若初始点选择在D处，根据爬山法，则会找到全部最大值点B。这一点也说明了这样基于贪婪的爬山法是否...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-23</time>
+      <div>
+        <h2><a href="../../2018/01/23/matlab_svm/index.html">MATLAB中SVM（支持向量机）的用法</a></h2>
+        <p>LIBSVM是台湾大学林智仁(Lin Chih-Jen)教授等开发设计的一个简单、易于使用和快速有效的SVM模式识别与回归的软件包，他不但提供了编译好的可在Windows系列系统的执行文件，还提供了源代码，方便改进、修改以及在其它操作系统上应用；该软件对SVM所涉及的参数调节相对比较少，提供了很多的默认参数，利用这些默认参数可以解决很多问...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-23</time>
+      <div>
+        <h2><a href="../../2018/01/23/nsga2_fs/index.html">NSGA2算法特征选择MATLAB实现（多目标）</a></h2>
+        <p>利用nsga2进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。 需要优化的两个目标为特征数和精度。 nsga2是一个多目标优化算法。 具体的nsga2通用算法请看： https://omegaxyz....</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-22</time>
+      <div>
+        <h2><a href="../../2018/01/22/new_nsga2/index.html">NSGA2算法MATLAB实现（能够自定义优化函数）</a></h2>
+        <p>以前写了一个简单的NSGA2的算法能够用在ZDT1函数上： https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ 那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。 NSGA2的过程为： 1、随机产生一个初始父代Po，在此基础上采用二...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-21</time>
+      <div>
+        <h2><a href="../../2018/01/21/psofs/index.html">PSO算法特征选择MATLAB实现（单目标）</a></h2>
+        <p>PSO进行进行特征选择其主要思想是：将子集的选择看作是一个搜索寻优问题（wrapper方法），生成不同的组合，对组合进行评价，再与其他的组合进行比较。这样就将子集的选择看作是一个是一个优化问题。 简单PSO MATLAB代码及概述请见： https://omegaxyz.com/2018/01/17/matlab_pso/ 下面是PSO进...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-19</time>
+      <div>
+        <h2><a href="../../2018/01/19/fs_understanding/index.html">特征选择方法与理解</a></h2>
+        <p>转载自作者： Edwin Jarvis 中文版本： https://www.cnblogs.com/tonglin0325/p/6214978.html 特征选择(排序)对于数据科学家、 机器学习 从业者来说非常重要。好的特征选择能够提升模型的性能，更能帮助我们理解数据的特点、底层结构，这对进一步改善模型、 算法 都有着重要作用。 特征选...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-18</time>
+      <div>
+        <h2><a href="../../2018/01/18/mic/index.html">最大互信息系数(MIC)详解</a></h2>
+        <p>最大信息系数 maximal information coefficient (MIC)，又称最大互信息系数 目的： Maximal Information Coefficient (MIC) 最大信息系数，属于Maximal Information-based Nonparametric Exploration (MINE) 最大的基于...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-18</time>
+      <div>
+        <h2><a href="../../2018/01/18/reduce_dimensions/index.html">特征选择与特征提取（降维）</a></h2>
+        <p>特征选择和降维 1、相同点和不同点 特征选择和降维有着些许的相似点，这两者达到的效果是一样的，就是试图去减少特征数据集中的属性(或者称为特征)的数目；但是两者所采用的方式方法却不同：降维的方法主要是通过属性间的关系，如组合不同的属性得新的属性，这样就改变了原来的特征空间；而特征选择的方法是从原始特征数据集中选择出子集，是一种包含的关系，没...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-17</time>
+      <div>
+        <h2><a href="../../2018/01/17/matlab_pso/index.html">MATLAB粒子群优化算法实现（PSO）</a></h2>
+        <p>PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 概述请见： https://omegaxyz.com/2017/05/0...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-16</time>
+      <div>
+        <h2><a href="../../2018/01/16/iil_pso/index.html">基于粒子交互学习策略的PSO算法（IIL-PSO）</a></h2>
+        <p>IIL-PSO算法思想（单目标） Interswarm Interactive Learning ①初始化： 将粒子随机分为数量相等的两组，为每组粒子初始化位置， 速度，全局最优粒子、和个体历史最优数组。 ②迭代与学习： 计算每组粒子的成为被学习粒子群的概率。成为被学习粒子群中的粒子更新和普通PSO算法一样， 成为学习粒子群中的粒子，不仅...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-15</time>
+      <div>
+        <h2><a href="../../2018/01/15/machine_learning_co/index.html">机器学习领域权威会议与期刊整理</a></h2>
+        <p>机器学习领域 最重要的国际学术会议是 ①国际机器学习会议(ICML) ②国际神经信息处理系统会议(NIPS) ③国际学习理论会议(COLT) 重要的区域性会议有 ①欧洲机器学习会议(ECML) ②亚洲机器学习会议(ACML) 最重要的国际学术期刊是 ①Journal of Machine Learning Research ②Machin...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-12</time>
+      <div>
+        <h2><a href="../../2018/01/12/machine_learning_guiyihua/index.html">机器学习中一些模型为什么要对数据归一化？</a></h2>
+        <p>归一化是将数据映射到[0,1]区间，即构造从原始数据集到[0,1]的双射函数。 一般做机器学习应用的时候大部分时间是花费在特征处理上，其中很关键的一步就是对特征数据进行归一化，为什么要归一化呢？维基百科给出的解释： ① 归一化后加快了梯度下降求最优解的速度 ② 归一化有可能提高精度 一些分类器需要计算样本之间的距离（如欧氏距离），例如KN...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-12</time>
+      <div>
+        <h2><a href="../../2018/01/12/python_svm/index.html">Python支持向量机（SVM）实例</a></h2>
+        <p>SVM(Support Vector Machine)指的是支持向量机，是常见的一种判别方法。在机器学习领域，是一个有监督的学习模型，通常用来进行模式识别、分类以及回归分析。 Matlab中有林智仁编写的libsvm工具包可以很好地进行进行SVM训练。Python中我们有 sklearn工具包 来进行机器学习算法训练，Scikit-Lea...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-12</time>
+      <div>
+        <h2><a href="../../2018/01/12/python_pso/index.html">Python粒子群优化算法实现（PSO）</a></h2>
+        <p>PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 概述请见： https://omegaxyz.com/2017/05/0...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-09</time>
+      <div>
+        <h2><a href="../../2018/01/09/python_search_engine/index.html">Python英文搜索引擎（模糊搜索）</a></h2>
+        <p>假设在C:\Record下面有若干个.txt文件，均为纯英文文档。以这些文档为内容，实现一个本地搜索引擎，当用户给出某个输入时，列出相关的搜索结果。可以自行决定改搜索引擎的功能强弱，并给出有关的说明文档。（可考虑NLTK） 说明文档： 主要步骤 1： 如何设计一个搜索引擎，最简单的是直接在文档列表中利用最简单的模式匹配算法如KMP算法进行...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-09</time>
+      <div>
+        <h2><a href="../../2018/01/09/cauchy_and_gaussian-based_pso/index.html">基于柯西和高斯分布的单目标PSO</a></h2>
+        <p>目的： 为了解决大规模优化问题，基于柯西和高斯分布抽样的PSO算法能够在 搜索效率和收敛性 方面保持平衡， 由于柯西和高斯分布的选择的概率不同，比单纯的仅用高斯分布更新位置能 更好保持粒子多样性 。 与传统 PSO 的不同点： ①摒弃了传统PSO中的速度更新公式。 ②采用柯西和高斯分布抽样来更新粒子位置。 ③根据个体最优和环形拓扑最优更新...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-01-08</time>
+      <div>
+        <h2><a href="../../2018/01/08/knn/index.html">KNN算法概述</a></h2>
+        <p>一、kNN概念描述 kNN算法又称为k最近邻(k-nearest neighbor classification)分类算法。所谓的k最近邻，就是指最接近的k个邻居（数据），即每个样本都可以由它的K个邻居来表达。 kNN算法的核心思想是，在一个含未知样本的空间，可以根据离这个样本最邻近的k个样本的数据类型来确定样本的数据类型。 该算法涉及3...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-12-26</time>
+      <div>
+        <h2><a href="../../2017/12/26/python_check_word/index.html">Python机器学习与拼写检查器</a></h2>
+        <p>稍有闲暇，找来一篇很早就保存下来的好文--刘未鹏的 《数学之美番外篇：平凡而神奇的贝叶斯方法》 拿来研读。读到一半，发现其中有一篇 Peter Norvig原创 、徐宥翻译的 《怎样写一个拼写检查器》 很有意思。 原理：概率论之朴素贝叶斯 原文链接： http://norvig.com/spell-correct.html 中文链接： h...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-12-15</time>
+      <div>
+        <h2><a href="../../2017/12/15/nltk_emotion/index.html">NLTK在python中对文字所表达的情感预测</a></h2>
+        <p>NLTK是python环境下NLP工具包，包含了丰富的文本处理和文本挖掘API。 自然语言处理是计算机科学领域与人工智能领域中的一个重要方向。自然语言工具箱（NLTK，Natural Language Toolkit） 是一个基于Python语言的类库，它也是当前最为流行的自然语言编程与开发工具。在进行自然语言处理研究和应用时， 恰当利用...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-29</time>
+      <div>
+        <h2><a href="../../2017/11/29/pgvns/index.html">基于VNS及马尔科夫毯分组的高维特征选择算法</a></h2>
+        <p>关键词：高维特征选择，马尔科夫毯，变邻域搜索算法，特征分组 期刊：Information Science （一区） ①马尔科夫毯： 把一个随机变量全集U分成互斥的三部分，变量X以及集合A和B，三个子集没有交集，并集即为全集U；如果说给定集合A时，变量X与集合B没有任何关系，则称集合A为变量X的马尔可夫毯。在式(2-16)中，集合MB即为我...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-27</time>
+      <div>
+        <h2><a href="../../2017/11/27/markov-blanket/index.html">马尔科夫毯（Markov Blankets）</a></h2>
+        <p>提到马尔可夫毯，就会有一堆从名字上看很相近的概念，比如马尔可夫链（Markov Chain, MC）、隐马尔可夫模型（Hidden Markov Model, HMM）、马尔可夫随机场（MarkovRandom Field, MRF）等等。其实，马尔可夫毯与这些概念不同，它是一个局部的概念，而不是一个整体模型级别的概念。以下内容主要参考【...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-27</time>
+      <div>
+        <h2><a href="../../2017/11/27/vns/index.html">变邻域搜索算法（Variable Neighborhood Search,VNS）</a></h2>
+        <p>先说一下局部搜索： 局部搜索是解决最优化问题的一种启发式算法。对于某些计算起来非常复杂的最优化问题，比如各种NP完全问题，要找到最优解需要的时间随问题规模呈指数增长，因此诞生了各种启发式算法来退而求其次寻找次优解，是一种近似算法（Approximate algorithms），以时间换精度的思想。局部搜索就是其中的一种方法。 变邻域搜索算...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-11-22</time>
+      <div>
+        <h2><a href="../../2017/11/22/bayes/index.html">朴素贝叶斯分类器</a></h2>
+        <p>朴素贝叶斯分类是一种十分简单的分类算法，叫它朴素贝叶斯分类是因为这种方法的思想真的很朴素，朴素贝叶斯的思想基础是这样的：对于给出的待分类项，求解在此项出现的条件下各个类别出现的概率，哪个最大，就认为此待分类项属于哪个类别。“朴素”二字对应着“独立性假设”我们会选择条件概率最大的类别，这就是朴素贝叶斯的思想基础。</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-10-25</time>
+      <div>
+        <h2><a href="../../2017/10/25/cooperative_coevolution_matlab/index.html">差分分组合作协同进化MATLAB代码</a></h2>
+        <p>合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-10-17</time>
+      <div>
+        <h2><a href="../../2017/10/17/dg2/index.html">一个更快更准确的差分分组大规模黑盒子优化算法概述</a></h2>
+        <p>DG2有两个主要部分 ①生成原始交互关系结构矩阵 包含了每对变量的|∆(1) − ∆(2)|这个阈值 ②寻找一个合适的阈值ǫ将原始交互关系结构矩阵Λ转变为处理过的矩阵Θ Θij 取 1 如果 Λij &gt; ǫ 需要指出的是不像DG，DG2的阈值是在大量函数值和原始交互关系矩阵的基础上获得信息的。这个由ISM函数生成。 ③将变量分成不可再分的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-10-14</time>
+      <div>
+        <h2><a href="../../2017/10/14/python_machinelearning_houseprices/index.html">Python机器学习房价预测 (斯坦福大学机器学习课程)</a></h2>
+        <p>问题来自慕课斯坦福机器学习课程 问题 ·输入数据只有一维：房子的面积 ·目标的数据只有一维：房子的价格 根据已知房子的面积和价格进行机器学习和模型预测 数据见文章末尾 数据需要标准化X=(X-aver(sum(Xi)))/std(Xi) 步骤①数据获取与处理 横轴是标准化之后的面积，纵轴是房子的价格 步骤②选择与训练模型 模型损失函数是平...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-10-14</time>
+      <div>
+        <h2><a href="../../2017/10/14/cooperative_coevolution/index.html">合作协同进化算法概述（Cooperative Coevolution）</a></h2>
+        <p>合作协同进化（Cooperative Coevolution）是求解大规模优化算法一个有效的方法。将大规模问题分解为一组组较小的子问题。而合作协同进化的关键是分解策略。 分解策略的分类: ①随机分解：随机选择基因的顺序，但是用户要决定组的数量和组的大小。 ②扰动：使用若干方法扰动决策变量尝试对变量进行分组。 ③模型建构：基于个体数量s的概...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-09-29</time>
+      <div>
+        <h2><a href="../../2017/09/29/ccdifferential_grouping/index.html">差分分组的合作协同进化的大规模优化算法概述</a></h2>
+        <p>合作协同进化已经引入协同进化算法，目的是通过分而治之的范式解决日益复杂的优化问题。理论上，协同改 变子成分的想法是十分适合解决大规模优化问题的。然而在实践中，没有关于问题的先验知识， 问题应如何分解是尚不清楚的。在本文中，我们提出一个自动分解策略，称为差分分组，可以揭示决策变量的底层交互结构和形成子成分，以使它们之间的相互依存关系保持到最...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-09-25</time>
+      <div>
+        <h2><a href="../../2017/09/25/feature_section_measures_intro/index.html">特征选择的基本方法概述</a></h2>
+        <p>特征选择主要有三种方法： 1、Filter方法 其主要思想是：对每一维的特征“打分”，即给每一维的特征赋予权重，这样的权重就代表着该维特征的重要性，然后依据权重排序。 主要的方法有： Chi-squared test(卡方检验) information gain(信息增益)，详细可见“简单易学的机器学习算法——决策树之ID3算法” cor...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-09-02</time>
+      <div>
+        <h2><a href="../../2017/09/02/mop/index.html">多目标优化问题详解</a></h2>
+        <p>生活中 ,许多问题都是由相互冲突和影响的多个目标组成。人们会经常遇到使多个目标在给定区域同时尽可能最佳的优化问题 ,也就是多目标优化问题。优化问题存在的优化目标超过一个并需要同时处理 ,就成为多目标优化问题。 多目标优化问题在工程应用等现实生活中非常普遍并且处于非常重要的地位 ,这些实际问题通常非常复杂、困难 ,是主要研究领域之一。自 2...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-08-28</time>
+      <div>
+        <h2><a href="../../2017/08/28/disequilibrium_data_set/index.html">机器学习非平衡数据集概述</a></h2>
+        <p>定义：不平衡数据集：在分类等问题中，正负样本，或者各个类别的样本数目不一致。 研究不平衡类通常认为不平衡意味着少数类只占比10~20%。实际上，一些数据集远比这更不平衡。例如： 1. 每年大约有2%的信用卡账户被欺骗。（大多数欺诈检测领域严重不平衡。） 2. 状态医疗甄别通常在大量不存在此状态的人口中检测极少数有此状态的人（比如美国的HI...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-08-27</time>
+      <div>
+        <h2><a href="../../2017/08/27/rocandauc/index.html">ROC曲线/AUC曲线与混淆矩阵介绍</a></h2>
+        <p>ROC曲线 ROC（Receiver Operating Characteristic）曲线即受试者工作特征曲线 （receiver operating characteristic curve，简称ROC曲线），又称为感受性曲线（sensitivity curve），用来评价一个二值分类器（binary classifier）的优劣。...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-06-24</time>
+      <div>
+        <h2><a href="../../2017/06/24/mocso1/index.html">多目标CSO算法（MOCSO）理解</a></h2>
+        <p>MOCSO（M ulti-Objective Competitive Swarm Optimizer）是PSO（粒子群优化算法）的变体 基于多目标优化的竞争性的粒子群优化算法（MOCSO） 摘要： 在进化计算中，探索有效的多目标优化技术是值得关注的。我们提出了一种基于最近发展的群集智能范例的多目标优化算法。在该算法的基础上，我们提出了一种...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-04</time>
+      <div>
+        <h2><a href="../../2017/05/04/nsga2matlabzdt1/index.html">NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）</a></h2>
+        <p>为了能随时了解Matlab主要操作及思想。 故本文贴上NSGA-Ⅱ算法Matlab实现（测试函数为ZDT1）。 感谢郭伟学长提供的代码。 代码所有权归郭伟学长。 在看Matlab实现之前，请先看一下NSGA-II算法概述 https://omegaxyz.com/2017/04/14/nsga-iiintro/ NSGA-Ⅱ就是在第一代非...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-05-04</time>
+      <div>
+        <h2><a href="../../2017/05/04/introductionofpso/index.html">粒子群优化（PSO）算法概述</a></h2>
+        <p>PSO（PSO——Particle Swarm Optimization）（基于种群的随机优化技术算法） 粒子群算法模仿昆虫、兽群、鸟群和鱼群等的群集行为，这些群体按照一种合作的方式寻找食物，群体中的每个成员通过学习它自身的经验和其他成员的经验来不断改变其搜索模式。 Kennedy和Eberhart提出粒子群算法的主要设计思想与两个方面的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-20</time>
+      <div>
+        <h2><a href="../../2017/04/20/nsga2zdt1/index.html">NSGA-Ⅱ算法C++实现（测试函数为ZDT1）</a></h2>
+        <p>在看C++实现之前，请先看一下NSGA-II算法概述 https://omegaxyz.com/2017/04/14/nsga-iiintro/ NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对如上所述的三个方面： ①提出了快速非支配排序算法，一方面降低了计算的复杂度，另一方面它将父代种群跟子代种群进行合并，使...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-19</time>
+      <div>
+        <h2><a href="../../2017/04/19/nsga2fastsort/index.html">NSGA-II快速非支配排序算法理解</a></h2>
+        <p>快速的非支配排序 在NSGA进行非支配排序时，规模为N的种群中的每个个体都要针对M个目标函数和种群中的N-1个个体进行比较，复杂度为O(MN)，因此种群中的N个个体都比较结束的复杂度为O(MN2)，即每进行一次Pareto分级的时间复杂度为O(MN2)。在最坏的情况下，每个Pareto级别都只含有一个个体，那么需要进行N次分级所需要的时间...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-16</time>
+      <div>
+        <h2><a href="../../2017/04/16/theexpofpareto/index.html">Pareto最优解几点解释</a></h2>
+        <p>1、pareto最优解又称非支配解、非占优解，pareto最优解集又称非劣解、非支配解集、非占优解集 2、下图为最小化的两目标优化问题的最终pareto前沿（pareto front）分布示意图，则f1和f2目标值均为越小越优，实线和虚线组成部分为可行域，实线表示pareto前沿面，也就是所有pareto最优解对应的目标矢量组成的曲面，一...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-16</time>
+      <div>
+        <h2><a href="../../2017/04/16/theprocedureofmultioa/index.html">多目标进化算法的一般流程</a></h2>
+        <p>①随机产生种群P。 ②P用EA（进化算法）得到G。 ③构造P∪G的非支配解集NDset（non dominated set）。 （这里涉及到如何构造非支配解集） ④调整NDset规模并使之满足分布性要求。 （这里涉及到采用何种策略来调整NDset的规模，和如何保持非支配集的多样性和分布性） ⑤如果P&lt;=NDset，循环转到第②步，否则进入...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-14</time>
+      <div>
+        <h2><a href="../../2017/04/14/nsga-iiintro/index.html">NSGA-II多目标遗传算法概述</a></h2>
+        <p>什么是NSGA-II Non dominated sorting genetic algorithm -II NSGA-Ⅱ是目前最流行的多目标遗传算法之一，它降低了非劣排序遗传算法的复杂性，具有运行速度快，解集的收敛性好的优点，成为其他多目标优化算法性能的基准。 NSGA-Ⅱ就是在第一代非支配排序遗传算法的基础上改进而来，其改进主要是针对...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2017-04-13</time>
+      <div>
+        <h2><a href="../../2017/04/13/briefintroductionofpareto/index.html">多目标优化问题概述</a></h2>
+        <p>定义：若干冲突或相互影响条件约束下在给定区域内寻找尽可能的最优解（非劣解）。 关键词：条件约束，折中最优解（解并非唯一是与单目标优化问题的本质区别） 文字描述： D个决策变量参数； N个目标函数； m+n个约束条件。 数学描述： X（小写）为D维决策向量；y为目标向量；N为优化目标总数；gi(x)&lt;=0和hj(x)为条件约束（为已知确定的...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

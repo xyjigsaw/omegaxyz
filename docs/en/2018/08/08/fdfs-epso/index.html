@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Detailed explanation of feature discretization and selection EPSO algorithm · OmegaXYZ</title>
   <meta name="description" content="Introduction to EPSO The main idea of ​​EPSO is to use BBPSO to directly evolve a tangent point that can be any value within the corresponding eigenvalue range [MinF···MaxF]. The position of each particle represents a candidate solution, which is an n-dimensional real vector corresponding to the dimension of the problem. Figure 2 gives an example of a particle position and its corresponding candidate solution. In this example, the first dimension of the particle, representing the cut point of the first characteristic (F1), needs to have a value in the range [8.5,25...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-08-08</div>
         <h1>Detailed explanation of feature discretization and selection EPSO algorithm</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
         <div class="article-content"><h2><strong>Introduction to EPSO</strong></h2>
 <div>The main idea of ​​EPSO is to use BBPSO to directly evolve a tangent point that can be any value within the corresponding eigenvalue range [MinF···MaxF]. The position of each particle represents a candidate solution, which is an n-dimensional real vector corresponding to the dimension of the problem. Figure 2 gives an example of a particle position and its corresponding candidate solution. In this example, the first dimension of the particle, representing the cut point of the first characteristic (F1), needs to have a value in the range [8.5, 25.7]. If the update point of a feature F is outside this range, it will be set to the nearest boundary.</div>
 <div><img alt="" class="alignnone size-full wp-image-4845" height="196" sizes="(max-width: 431px) 100vw, 431px" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png" srcset="https://cdn.omegaxyz.com/2018/07/PSOFDFS3.png 431w, https://cdn.omegaxyz.com/2018/07/PSOFDFS3-300x136.png 300w" width="431"/></div>

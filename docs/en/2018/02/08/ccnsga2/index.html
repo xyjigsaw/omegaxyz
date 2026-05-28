@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Random fixed group cooperative coevolution NSGA2 algorithm (CCNSGA2) · OmegaXYZ</title>
   <meta name="description" content="Cooperative Coevolution is an effective method for solving large-scale optimization algorithms. Break large-scale problems into sets of smaller sub-problems. The key to cooperative coevolution is the decomposition strategy. For the cooperative coevolution algorithm, please see: https://omegaxyz.com/2017/10/14/cooperative_coevolution/ The NSGA2 algorithm is a multi-objective genetic algorithm...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,10 +27,10 @@
       <article class="article">
         <div class="meta">2018-02-08</div>
         <h1>Random fixed group cooperative coevolution NSGA2 algorithm (CCNSGA2)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/coevolution/index.html">协同进化</a></div>
         <div class="article-content">Cooperative Coevolution is an effective method for solving large-scale optimization algorithms. Break large-scale problems into sets of smaller sub-problems. The key to cooperative coevolution is the decomposition strategy.
 
-For cooperative coevolution algorithms, please see:<a href="https://omegaxyz.com/2017/10/14/cooperative_coevolution/">https://omegaxyz.com/2017/10/14/cooperative_coevolution/</a>NSGA2 algorithm is a multi-objective genetic algorithm. This article uses NSGA2 to optimize the cooperative co-evolution of random fixed groups.
+For cooperative coevolution algorithms, please see:<a href="../../../../2017/10/14/cooperative_coevolution/index.html">https://omegaxyz.com/2017/10/14/cooperative_coevolution/</a>NSGA2 algorithm is a multi-objective genetic algorithm. This article uses NSGA2 to optimize the cooperative co-evolution of random fixed groups.
 
 For example, there are 12 decision variables, and we fix and randomly optimize 3 decision variables, then the decision variables are divided into 4 groups.
 
@@ -83,7 +84,7 @@ function group = rnd_divide(dim, subdim)
       index = dim_rand(i:i+subdim-1);
       group = {group{1:end} index};
    end
-end</code></pre>Other algorithm dependent functions are the same as the NSGA2 algorithm of custom optimization functions.<a href="https://omegaxyz.com/2018/01/22/new_nsga2/">https://omegaxyz.com/2018/01/22/new_nsga2/</a></div>
+end</code></pre>Other algorithm dependent functions are the same as the NSGA2 algorithm of custom optimization functions.<a href="../../../01/22/new_nsga2/index.html">https://omegaxyz.com/2018/01/22/new_nsga2/</a></div>
         <section class="comments"><h2>Comments (8)</h2>
         <div class="comment" id="comment-17036">
           <strong>陈一七</strong>

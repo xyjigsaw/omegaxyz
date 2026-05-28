@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>JAVA multi-thread Thread class · OmegaXYZ</title>
   <meta name="description" content="Threads and processes 1 Thread: The execution unit in the process responsible for program execution. The thread itself relies on the program to run. Threads are the sequential control flow in the program and can only use the resources and environment assigned to the program. 2 Process: The executing program. A process contains at least one thread. 3 Single thread: There is only one thread in the program. In fact, the main method is a main thread. 4 Multi-threading: Running multiple tasks in a program. The purpose is to better use CPU resources. For detailed explanation, please see: https...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-09</div>
         <h1>JAVA multi-thread Thread class</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/java/index.html">Java</a><a class="pill" href="../../../../tag/java/index.html">Java</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a></div>
         <div class="article-content"><h2>Threads and processes</h2>1 Thread: The execution unit responsible for program execution in the process
 The thread itself relies on the program to run
 A thread is a sequential flow of control in a program that can only use the resources and environment assigned to the program
@@ -39,7 +40,7 @@ A process contains at least one thread
 4 Multithreading: Run multiple tasks in one program
 The purpose is to make better use of CPU resources
 
-For detailed explanation, please see:<a href="https://omegaxyz.com/2018/03/14/progressandthread/">https://omegaxyz.com/2018/03/14/progressandthread/</a>
+For detailed explanation, please see:<a href="../../../03/14/progressandthread/index.html">https://omegaxyz.com/2018/03/14/progressandthread/</a>
 <h2>Thread implementation</h2>
 <h3>Inherit the Thread class</h3>exist<code>java.lang</code>Defined in the package, the inherited Thread class must be rewritten<code>run()</code>method<pre><code class="language-java">class MyThread extends Thread{
     private static int num = 0;

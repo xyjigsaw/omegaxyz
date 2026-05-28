@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>基于PSO的特征离散化与选择算法 · OmegaXYZ</title>
   <meta name="description" content="前面我们介绍了特征选择(Feature Selection，FS)与离散化数据的重要性，总览的介绍了PSO在FS中的重要性和一些常用的方法，介绍了FS与离散化的背景，介绍本文所采用的基于熵的切割点和最小描述长度原则(MDLP)。具体请点击链接： https://omegaxyz.com/2018/07/23/feature-discret...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -29,7 +30,7 @@
         <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a></div>
         <div class="article-content"><div>前面我们介绍了特征选择(Feature Selection，FS)与离散化数据的重要性，总览的介绍了PSO在FS中的重要性和一些常用的方法，介绍了FS与离散化的背景，介绍本文所采用的基于熵的切割点和最小描述长度原则(MDLP)。具体请点击链接：</div>
 <div></div>
-<div><a href="https://omegaxyz.com/2018/07/23/feature-discretization-selection/">https://omegaxyz.com/2018/07/23/feature-discretization-selection/</a></div>
+<div><a href="../../23/feature-discretization-selection/index.html">https://omegaxyz.com/2018/07/23/feature-discretization-selection/</a></div>
 <div></div>
 <div>今天我们来学习利用PSO来进行离散化特征选择的一些方法。今天我们会介绍EPSO与PPSO。EPSO和PPSO都遵循图一所示的基本步骤。初始化后，对粒子进行迭代评估和更新，直到满足停止条件为止。为了对粒子进行评价，首先对训练数据进行离散化，并根据进化的切点选择特征。然后将转换后的数据放入学习算法中，计算出适应度。基于这种适应性，pbest和gbest被更新并用于更新粒子的位置。</div>
 <div><img class="alignnone size-full wp-image-4831" src="https://cdn.omegaxyz.com/2018/07/FDFS3.png" alt="" width="746" height="268" /></div>

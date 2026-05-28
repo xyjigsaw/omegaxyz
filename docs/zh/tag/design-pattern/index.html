@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设计模式 · OmegaXYZ</title>
+  <meta name="description" content="OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../index.html">OmegaXYZ <span>徐奕的专栏</span></a>
+        <div class="nav-links">
+          <a href="../../index.html">主页</a><a href="../../archive/index.html">文章</a><a href="../../pages/index.html">页面</a><a href="../../categories/index.html">分类</a><a href="../../search/index.html">搜索</a>
+          <a href="../../../en/tag/design-pattern/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  <main class="wrap band"><div class="section-head"><h1>设计模式</h1></div><div class="archive-list">
+    <article class="archive-item">
+      <time>2020-01-14</time>
+      <div>
+        <h2><a href="../../2020/01/14/design-pattern-interpreter/index.html">解释器模式C++实现</a></h2>
+        <p>简介 给定⼀个语⾔，定义它的⽂法的⼀种表示，并定义 ⼀个解释器，这个解释器使⽤该表示来解释语⾔中的句⼦。 解释器模式的动机 搜索匹配⼀个模式的字符串是⼀个常见问题。 正则表达式是描述字符串模式的⼀种标准语⾔。 使⽤⼀种通⽤的搜索算法来解释执⾏⼀个正则表达式，该正则表达式定义了待匹配字符串的集合。 解释器模式描述了如何为简单的语⾔定义⼀个⽂...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-09-27</time>
+      <div>
+        <h2><a href="../../2019/09/27/iterator/index.html">迭代器模式C++实现</a></h2>
+        <p>简介 提供一种方法顺序访问一个聚合对象中各个元素，而又不暴露该对象的内部表示。 动机 一个聚合对象，如列表（List）应提供一种方法来让别人可以访问它的元素，而又不需要暴露它的内部结构。 针对不同的需要，可能要以不同方式遍历这个列表。 迭代器模式可以解决这些问题。这一模式的关键思想是将对列表的访问和遍历从列表对象中分离出来并放入一个迭代器...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-09-14</time>
+      <div>
+        <h2><a href="../../2019/09/14/component-and-chain/index.html">组合模式与职责链模式编程实现</a></h2>
+        <p>组合模式 简介 将对象组合成树形结构以表示“部分-整体”的层次结构。 组合模式使得用户对单个对象和组合对象的使用具有一致性。 动机 总部、分部和办事处是成树状结构，也就是有组织结构的，不可以简单的平行管理。 希望总公司的组织结构，比如人力资源部、财务部的管理功能可以复用于分公司。这其实是整体与部分可以被一致对待的问题。 适用性 想表示对象...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-08-04</time>
+      <div>
+        <h2><a href="../../2019/08/04/flyweight/index.html">享元模式C++实现（flyweight）</a></h2>
+        <p>简介 动机 假设成立一个外包公司，主要给一些私营业主建网站。 商家客户都类似，要求也就是信息发布、产品展示、博客留言、论坛等功能。 各个客户要求差别不大，但客户数量多。 内部状态和外部状态 在享元对象内部并且不会随环境改变而改变的共享部分，可以成为是享元对象的内部状态。 随环境改变而改变的、不可以共享的状态就是外部状态。 享元模式可以避免...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-08-02</time>
+      <div>
+        <h2><a href="../../2019/08/02/decorator/index.html">装饰模式C++实现（decorator）</a></h2>
+        <p>简介 动态地给一个对象添加一些额外的职责。 就增加功能来说，装饰模式比生成子类更为灵活。 动机 有时我们希望给某个对象而不是整个类添加一些功能。 使用继承机制是添加功能的一种有效途径，但不够灵活，用户不能控制对组件添加功能的方式和时机。 一种较为灵活的方式是将组件嵌入另一个对象中，由这个对象添加功能，我们称这个嵌入的对象为装饰。 这个装饰...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-07-30</time>
+      <div>
+        <h2><a href="../../2019/07/30/adapter/index.html">适配器模式C++实现</a></h2>
+        <p>简介 适配器模式： 将一个类的接口转换成客户希望的另一个接口。适配器模式让那些接口不兼容的类可以一起工作 适配器模式的别名为包装器(Wrapper)模式，它既可以作为类结构型模式，也可以作为对象结构型模式。在适配器模式定义中所提及的接口是指广义的接口，它可以表示一个方法或者方法的集合。 结构： 客户端使用的Target类需要使用一个已经存...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-07-23</time>
+      <div>
+        <h2><a href="../../2019/07/23/builder-prototype-cpp/index.html">生成器模式与原型模式C++实现</a></h2>
+        <p>生成器模式 生成器模式可以将一个产品的内部表象与产品的生成过程分割开来，从而可以使一个建造过程生成具有不同的内部表象的产品对象。 Builder模式的结构： 建造者（Builder）角色： 给出一个抽象接口，以规范产品对象的各个组成成分的建造。一般而言，此接口独立于应用程序的商业逻辑。模式中直接创建产品对象的是具体建造者（Concrete...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-07-20</time>
+      <div>
+        <h2><a href="../../2019/07/20/abstract-factory-and-singleton-cpp/index.html">抽象工厂模式与单件模式C++混合实现</a></h2>
+        <p>抽象工厂 当每个抽象产品都有多于一个的具体子类的时候，工厂角色怎么知道实例化哪一个子类呢？比如每个抽象产品角色都有两个具体产品。抽象工厂模式提供两个具体工厂角色，分别对应于这两个具体产品角色，每一个具体工厂角色只负责某一个产品角色的实例化。每一个具体工厂类只负责创建抽象产品的某一个具体子类的实例。 单件模式 Singleton就是确保一个...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-20</time>
+      <div>
+        <h2><a href="../../2019/03/20/design-pattern-builder/index.html">设计模式——生成器Builder模式</a></h2>
+        <p>定义 将一个复杂的对象，分成多分，使同样的构建过程，能有不同的表示，这样的设计模式被称为建造者模式。 参与者 Builder 为创建一个Product对象的各个部件指定抽象接口，稳定某一过程 ConcreteBuilder 实现Builder的接口以构造和装配该产品的各个部件 定义并明确它所创建的表示 提供一个检索产品的接口 Direct...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-19</time>
+      <div>
+        <h2><a href="../../2019/03/19/design-pattern-singleton/index.html">设计模式——单例Singleton模式</a></h2>
+        <p>单例模式，又称单件模式。 定义： 确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。它是一种常用的设计模式，它属于 创建者模式 。单例模式只允许有一个实例，通过构造函数私有化的方式隐藏对象创建入口，取而代之的是提供公共接口用于获取类的单例。其应用场景广泛，例如创建管理类（只需要一个管理实体），或者应用于对象需要限定唯一性的...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-03</time>
+      <div>
+        <h2><a href="../../2019/03/03/pyqt5_mvc/index.html">PyQt5构建MVC模式样例</a></h2>
+        <p>MVC 是一种使用 MVC（Model View Controller 模型-视图-控制器）设计创建 Web 应用程序的模式： [1] Model（模型）表示应用程序核心（比如数据库记录列表）。 View（视图）显示数据（数据库记录）。 Controller（控制器）处理输入（写入数据库记录）。 MVC 模式同时提供了对 HTML、CSS...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2019-03-02</time>
+      <div>
+        <h2><a href="../../2019/03/02/ood-principles/index.html">面向对象设计七大原则</a></h2>
+        <p>七大原则 开闭原则、里氏代换原则、迪米特原则（最少知道原则）、单一职责原则、接口分隔原则、依赖倒置原则、组合/聚合复用原则。 开闭原则（The Open-Closed Principle ，OCP） 开闭原则详解 https://omegaxyz.com/2018/06/14/面向对象设计原则之开闭原则/ 软件实体（模块，类，方法等）应该...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-27</time>
+      <div>
+        <h2><a href="../../2018/06/27/design-pattern-adapter/index.html">设计模式-适配器模式</a></h2>
+        <p>模式动机 在软件开发中采用类似于电源适配器的设计和编码技巧被称为适配器模式。 通常情况下，客户端可以通过目标类的接口访问它所提供的服务。有时，现有的类可以满足客户类的功能需要，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。 在这种情况下，现有的接口需要转化为客户类期望的接口...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-22</time>
+      <div>
+        <h2><a href="../../2018/06/22/design-pattern-strategy/index.html">设计模式-策略模式</a></h2>
+        <p>简介 策略模式是指有一定行动内容的相对稳定的策略名称。策略模式在古代中又称“计策”，简称“计”，如《汉书·高帝纪上》：“汉王从其计”。这里的“计”指的就是计谋、策略。策略模式具有相对稳定的形式，如“避实就虚”、“出奇制胜”等。一定的策略模式，既可应用于战略决策，也可应用于战术决策；既可实施于大系统的全局性行动，也可实施于大系统的局部性行动...</p>
+      </div>
+    </article>
+    
+    <article class="archive-item">
+      <time>2018-06-14</time>
+      <div>
+        <h2><a href="../../2018/06/14/面向对象设计原则之开闭原则/index.html">面向对象设计原则之开闭原则</a></h2>
+        <p>开闭原则的定义 Software entities like classes,modules and functions should be open for extension but closed for modifications. 一个软件实体如类，模块和函数应该对扩展开放，对修改关闭。 从软件工程的角度来看，它将具有可复用性好和...</p>
+      </div>
+    </article>
+    </div></main>
+  <footer class="site-footer">
+    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
+  </footer>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../../assets/site.js"></script>
+</body>
+</html>

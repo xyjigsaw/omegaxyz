@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>基于训练集的代理模型生成算法（DROP3、AGG） · OmegaXYZ</title>
   <meta name="description" content="DROP3算法 目的：保留类边界上的实例，去除类内部的实例，构造代理训练集 主要思想：利用KNN算法及排序来去除噪音实例 算法步骤 ①先去除训练集上所有KNN算法错误分类的特征 ②对于二分类来说，计算每个实例与最近的其它类的实例距离，并排序 ③去除上述距离较远的实例 ④去除不影响其它实例预测结果的实例 示例 Agglomerative C...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>

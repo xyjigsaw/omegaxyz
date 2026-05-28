@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FR算法（Fruchterman-Reingold）Python实现 · OmegaXYZ</title>
   <meta name="description" content="简介 FR算法将所有的结点看做是电子，每个结点收到两个力的作用： 1. 其他结点的库伦力（斥力） 2. 边对点的胡克力（引力）。 该算法遵循两个简单的原则： 有边连接的节点应该互相靠近；节点间不能离得太近。FR算法建立在粒子物理理论的基础上，将图中的节点模拟成原子，通过模拟原子间的力场来计算节点间的位置关系。算法通过考虑原子间引力和斥力的...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,17 +27,17 @@
       <article class="article">
         <div class="meta">2020-04-12</div>
         <h1>FR算法（Fruchterman-Reingold）Python实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/social-network/index.html">社交网络</a></div>
         <div class="article-content"><h2><strong>简介</strong></h2>
 FR算法将所有的结点看做是电子，每个结点收到两个力的作用：
 
 1. 其他结点的库伦力（斥力）
 
-<img class="ql-img-inline-formula " title="Rendered by QuickLaTeX.com" src="https://omegaxyz.com/wp-content/ql-cache/quicklatex.com-b3afed8f1ed701c6712f7b9213b0bc0c_l3.svg" alt="f_{a}(d)=\frac{d^{2}}{k}" width="79" height="24" />
+<img class="ql-img-inline-formula " title="Rendered by QuickLaTeX.com" src="../../../../search/index.html" alt="f_{a}(d)=\frac{d^{2}}{k}" width="79" height="24" />
 
 2. 边对点的胡克力（引力）。
 
-<img class="ql-img-inline-formula " title="Rendered by QuickLaTeX.com" src="https://omegaxyz.com/wp-content/ql-cache/quicklatex.com-234bf64bf5f465a00c51cf06868b466d_l3.svg" alt="f_{r}(d)=\frac{-k^{2}}{d}" width="90" height="24" />
+<img class="ql-img-inline-formula " title="Rendered by QuickLaTeX.com" src="../../../../search/index.html" alt="f_{r}(d)=\frac{-k^{2}}{d}" width="90" height="24" />
 
 <strong>该算法遵循两个简单的原则：</strong>有边连接的节点应该互相靠近；节点间不能离得太近。FR算法建立在粒子物理理论的基础上，将图中的节点模拟成原子，通过模拟原子间的力场来计算节点间的位置关系。算法通过考虑原子间引力和斥力的互相作用，计算得到节点的速度和加速度。依照类似原子或者行星的运动规律，系统最终进入一种动态平衡状态。
 

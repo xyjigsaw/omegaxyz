@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Backtracking method - C++ implementation of prime number ring · OmegaXYZ</title>
   <meta name="description" content="Introduction to the backtracking method The backtracking method searches the solution space tree of the problem according to the depth-first strategy. First, the solution space tree is searched from the root node. When the algorithm searches to a certain node of the solution space tree, the pruning function is first used to determine whether the node is feasible (that is, the solution to the problem can be obtained). If this is not feasible, skip the search for the subtree with the node as the root and backtrack to its ancestor nodes layer by layer; otherwise, enter the subtree and continue searching according to the depth-first strategy. The basic behavior of the backtracking method is search. The search process uses pruning functions to avoid invalid...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2019-05-17</div>
         <h1>Backtracking method - C++ implementation of prime number ring</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C</a></div>
         <div class="article-content"><h2><strong>Introduction to backtracking method</strong></h2>The backtracking method searches the solution space tree of the problem according to the depth-first strategy. First, the solution space tree is searched from the root node. When the algorithm searches to a certain node of the solution space tree, the pruning function is first used to determine whether the node is feasible (that is, the solution to the problem can be obtained). If this is not feasible, skip the search for the subtree with the node as the root and backtrack to its ancestor nodes layer by layer; otherwise, enter the subtree and continue searching according to the depth-first strategy.
 
 The basic behavior of the backtracking method is search, and the search process uses pruning functions to avoid invalid searches. Pruning functions include two categories:<ul>

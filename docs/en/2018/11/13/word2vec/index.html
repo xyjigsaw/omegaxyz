@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Introduction to word2vec in NLP · OmegaXYZ</title>
   <meta name="description" content="Introduction Word2vec is a group of related models used to generate word vectors. These models are shallow, two-layer neural networks trained to reconstruct linguistic word text. The network is represented by words and needs to guess the input words at adjacent positions. Under the assumption of the word bag model in word2vec, the order of the words is not important. After training is completed, the word2vec model can be used to map each word to a vector, which can be used to represent the relationship between words. This vector is the hidden layer of the neural network. W...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-11-13</div>
         <h1>Introduction to word2vec in NLP</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/nlp/index.html">自然语言处理</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">NLP</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/nlp/index.html">Natural Language Processing</a><a class="pill" href="../../../../tag/ann/index.html">神经网络</a><a class="pill" href="../../../../tag/nlp/index.html">Natural Language Processing</a></div>
         <div class="article-content"><h2><strong>Introduction</strong></h2>Word2vec is a group of related models used to generate word vectors. These models are shallow, two-layer neural networks trained to reconstruct linguistic word text. The network is represented by words and needs to guess the input words at adjacent positions. Under the assumption of the word bag model in word2vec, the order of the words is not important. After training is completed, the word2vec model can be used to map each word to a vector, which can be used to represent the relationship between words. This vector is the hidden layer of the neural network.<img alt="" class="alignnone size-full wp-image-5123" height="446" src="https://cdn.omegaxyz.com/2018/11/word2vec.png" width="800"/>
 <em>WI</em>The size is<em>VxN, V</em>is the size of the word dictionary, each input is a word, and N is the hidden layer size you set.<h2><strong>One-hot encoding</strong></h2>One hot representation is very simple to represent word vectors, but it has many problems. When the number of words is extremely large, it will cause the curse of dimensionality. In fact, except for one position of such a vector, which is 1, the other positions are all 0, and the expression efficiency is very low.<strong>one-hot encoding python implementation</strong>https://omegaxyz.com/2018/04/22/one-hot/?hilite=%27one-hot%27
 

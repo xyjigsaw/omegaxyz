@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>JSP读取数据库数据画饼图 · OmegaXYZ</title>
   <meta name="description" content="在jsp中，可以使用jsp通过servlet中的代码读取数据库数据。 下面给出了jstl读取数据库数据并使用JavaScript画出饼图方法的jsp代码。 首先在该类的Servlet中加入如下方法： 另外对应的controller.jsp页面如下： 效果：">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-12-18</div>
         <h1>JSP读取数据库数据画饼图</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/html/index.html">HTML</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/jsp/index.html">jsp</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/web/index.html">Web开发</a><a class="pill" href="../../../../category/javascript/index.html">JavaScript&amp;Html</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/javascript/index.html">JavaScript</a><a class="pill" href="../../../../tag/html/index.html">HTML</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/jsp/index.html">jsp</a></div>
         <div class="article-content">在jsp中，可以使用jsp通过servlet中的代码读取数据库数据。
 
 下面给出了jstl读取数据库数据并使用JavaScript画出饼图方法的jsp代码。
@@ -54,8 +55,8 @@
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;客户列表&lt;/title&gt;
-    &lt;script type="text/javascript" src="&lt;%= request.getContextPath()%&gt;/plugin/layui/layui.all.js"&gt;&lt;/script&gt;
-    &lt;link rel="stylesheet" href="&lt;%= request.getContextPath()%&gt;/plugin/layui/css/layui.css"&gt;
+    &lt;script type="text/javascript" src="&amp;lt;%= request.getContextPath()%&amp;gt;/plugin/layui/layui.all.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="&amp;lt;%= request.getContextPath()%&amp;gt;/plugin/layui/css/layui.css"&gt;
     &lt;script src="jquery-1.4.4.min.js"&gt;&lt;/script&gt;
     &lt;!--[if IE]&gt;
     &lt;script src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"&gt;&lt;/script&gt;

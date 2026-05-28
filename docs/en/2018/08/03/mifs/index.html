@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feature selection algorithm based on mutual information MATLAB implementation · OmegaXYZ</title>
   <meta name="description" content="In probability theory and information theory, the mutual information (Mutual Information, MI for short) or transfer information (transinformation) of two random variables is a measure of the interdependence between the variables. Unlike the correlation coefficient, mutual information is not limited to real-valued random variables, it is more general and determines how similar the joint distribution p(X,Y) and the product of decomposed marginal distributions p(X)p(Y) are. Mutual information (Mutual Infor...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-08-03</div>
         <h1>Feature selection algorithm based on mutual information MATLAB implementation</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
         <div class="article-content">In probability theory and information theory, the relationship between two random variables<strong>Mutual Information (MI)</strong>Or transfer information (transinformation) is a measure of interdependence between variables. Unlike the correlation coefficient, mutual information is not limited to real-valued random variables, it is more general and determines how similar the joint distribution p(X,Y) and the product of decomposed marginal distributions p(X)p(Y) are. Mutual information (Mutual Information) measures the correlation (mutual dependence) between two event sets. The most commonly used unit of mutual information is bit.<h2><strong>Definition of mutual information</strong></h2>
 <strong>Formally, the mutual information of two discrete random variables X and Y can be defined as:</strong>where p(x,y) is the joint probability distribution function of X and Y, and p(x) and p(y) are the marginal probability distribution functions of X and Y respectively.<img alt="" class="aligncenter wp-image-4864 size-full" height="68" src="https://cdn.omegaxyz.com/2018/08/MI1.png" width="341"/>In the case of continuous random variables, the summation is replaced by a double definite integral:<img alt="" class="aligncenter wp-image-4865 size-full" height="52" src="https://cdn.omegaxyz.com/2018/08/MI2.png" width="385"/>where p(x,y) is currently the joint probability density function of X and Y, and p(x) and p(y) are the marginal probability density functions of X and Y respectively.
 
@@ -36,7 +37,7 @@ Intuitively, mutual information measures the information shared by X and Y: it m
 
 Mutual information is the intrinsic dependence between the joint distribution of X and Y relative to the joint distribution if X and Y are assumed to be independent. Mutual information then measures dependence in the following way: I(X; Y) = 0 if and only if X and Y are independent random variables. It's easy to see in one direction: when X and Y are independent, p(x,y) = p(x) p(y), therefore:<img alt="" class="wp-image-4866 aligncenter size-full" height="59" src="https://cdn.omegaxyz.com/2018/08/MI3.png" width="250"/>Furthermore, the mutual information is nonnegative (i.e., I(X;Y) ≥ 0; see below) and symmetric (i.e., I(X;Y) = I(Y;X)).
 
-For more mutual information, please visit:<a href="https://omegaxyz.com/2018/08/02/mi/">https://omegaxyz.com/2018/08/02/mi/</a>
+For more mutual information, please visit:<a href="../../02/mi/index.html">https://omegaxyz.com/2018/08/02/mi/</a>
 <h2><strong>Steps of mutual information feature selection algorithm</strong></h2>
 <ul>
 <li>①Divide the data set</li>
@@ -148,7 +149,7 @@ Dataset:<a href="https://github.com/xyjigsaw/Dataset">https://github.com/xyjigsa
 <div class="textwidget custom-html-widget" style="text-align: center;"><strong>All original codes on the website use<a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license"><span style="color: #005ab5;"> Apache 2.0 </span></a>Authorize</strong>
 <strong>Articles on this website are licensed under a Creative Commons license<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license"><span style="color: #005ab5;"> BY-NC-SA4.0 </span></a>Authorize</strong></div>
 </aside></div>
-<div class="copyright-bar" style="text-align: center;"><strong><span class="copyright">© 2018</span> • <a href="https://omegaxyz.com/" rel="noopener noreferrer" target="_blank">OmegaXYZ</a>-<span style="color: #ff0000;">All rights reserved. Please indicate the source for reprinting.</span>-Anhui ICP No. 17007601</strong></div></div>
+<div class="copyright-bar" style="text-align: center;"><strong><span class="copyright">© 2018</span> • <a href="../../../../index.html" rel="noopener noreferrer" target="_blank">OmegaXYZ</a>-<span style="color: #ff0000;">All rights reserved. Please indicate the source for reprinting.</span>-Anhui ICP No. 17007601</strong></div></div>
         <section class="comments"><h2>Comments (42)</h2>
         <div class="comment" id="comment-3822">
           <strong>陈华</strong>

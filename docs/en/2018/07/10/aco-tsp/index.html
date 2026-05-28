@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ant colony algorithm (ACO) traveling salesman problem (TSP) path planning MATLAB implementation · OmegaXYZ</title>
   <meta name="description" content="The Origin of Ant Colony Algorithm Ant colony optimization (ant colony optimization) was first proposed by Marco Dorigo and others in 1991. During the process of researching new algorithms, they discovered that when ant colonies were looking for food, they could quickly find the target by secreting a biological hormone called pheromone to exchange foraging information and thus find the target quickly. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback. The basic idea of ​​ant colony algorithm comes from the shortest path principle of ants foraging in nature...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-07-10</div>
         <h1>Ant colony algorithm (ACO) traveling salesman problem (TSP) path planning MATLAB implementation</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/aco/index.html">ACO算法</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/aco/index.html">ACO算法</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
 <h1><strong>The origin of ant colony algorithm</strong></h1>Ant colony optimization (ant colony optimization) was first proposed by Marco Dorigo and others in 1991. In the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. Based on this, they proposed an ant colony algorithm based on the principle of positive information feedback.
 
@@ -40,7 +41,7 @@ https://omegaxyz.com/2018/01/26/aco/
 
 https://omegaxyz.com/2018/01/27/aco_routes/
 
-<strong>More ACO algorithms:</strong><a href="https://omegaxyz.com/tag/aco/">https://omegaxyz.com/tag/aco/</a>
+<strong>More ACO algorithms:</strong><a href="../../../../tag/aco/index.html">https://omegaxyz.com/tag/aco/</a>
 <h1><strong>TSP problem</strong></h1>The Traveling Salesman Problem, also known as the Traveling Salesman Problem (TSP), is one of the famous problems in mathematics. Suppose there is a traveling businessman who wants to visit n cities. He must choose the path he wants to take. The limit of the path is that each city can only be visited once, and he must eventually return to the original city of departure. The goal of path selection is to require the path distance to be the minimum value among all paths.<h1><strong>The code to be implemented in this article</strong></h1>
 <strong>①Problem modeling</strong>The capitals of 31 provinces, municipalities and autonomous regions are drawn on the Cartesian coordinate system and expressed by coordinates. The distance between two cities is expressed by the two-dimensional distance formula.<strong>②Initialization parameters</strong>m is the population number, n is the number of nodes (here refers to the number of cities)<strong>③Construct solution space</strong>Randomly place each individual at a different point and perform iterative updates.<strong>④Update pheromones</strong>Calculate the shortest path in this round and update the pheromone.<strong>⑤Determine whether to terminate</strong>
 <h1><strong>Advantages of ACOs</strong></h1>① Using a positive feedback mechanism, it is not easy to fall into local optimality.

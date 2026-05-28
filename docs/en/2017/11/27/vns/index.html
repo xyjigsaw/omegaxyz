@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Variable Neighborhood Search (VNS) · OmegaXYZ</title>
   <meta name="description" content="Let’s talk about local search first: Local search is a heuristic algorithm for solving optimization problems. For some optimization problems that are very complex to calculate, such as various NP-complete problems, the time required to find the optimal solution increases exponentially with the size of the problem. Therefore, various heuristic algorithms were born to find sub-optimal solutions. This is an approximate algorithm (Approximate algorithms) that trades time for accuracy. Local search is one of these methods. Variable neighborhood search algorithm...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-11-27</div>
         <h1>Variable Neighborhood Search (VNS)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a></div>
         <div class="article-content">Let’s talk about local search first:
 
 Local search is a heuristic algorithm for solving optimization problems. For some optimization problems that are very complex to calculate, such as various NP-complete problems, the time required to find the optimal solution increases exponentially with the size of the problem. Therefore, various heuristic algorithms were born to find sub-optimal solutions. This is an approximate algorithm (Approximate algorithms) that trades time for accuracy. Local search is one of these methods.<strong>The main idea of ​​the variable neighborhood search algorithm is:</strong>Systematic search using multiple different neighborhoods. First use the smallest neighborhood search, and when the solution cannot be improved, switch to a slightly larger neighborhood. If the solution can continue to be improved, return to the smallest neighborhood, otherwise continue to switch to a larger neighborhood.

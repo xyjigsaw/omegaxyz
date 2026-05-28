@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Why ++i is better and faster than i++ · OmegaXYZ</title>
   <meta name="description" content="The increment (++) and decrement (--) operators provide a concise written form for incrementing and decrementing objects by one. In addition, these two operators can also be used on iterators, because many iterators do not natively support arithmetic operations, so at this time increment and decrement are necessary in addition to the introduction. The increment and decrement operators have two forms: prefix form and postfix form, corresponding to ++i and i++ respectively. The prefix form of the operator adds 1 (or subtracts 1) to the object, and then uses the evaluated object as the result, while the postfix form...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-05-20</div>
         <h1>Why ++i is better and faster than i++</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C</a></div>
         <div class="article-content">The increment (++) and decrement (--) operators provide a concise written form for incrementing and decrementing objects by one. In addition, these two operators can also be used on iterators, because many iterators do not natively support arithmetic operations, so at this time increment and decrement are necessary in addition to the introduction.<wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/>The increment and decrement operators have two forms: prefix form and postfix form, corresponding to ++i and i++ respectively. The prefix form of the operator adds 1 (or subtracts 1) to the object, and then uses the evaluated object as the result, while the postfix form also adds 1 (or subtracts 1) to the object, but the evaluation result is a copy of the value of the object that has not been operated on.<wbr/> <wbr/> <wbr/> int i=0，j；
 
 <wbr/> <wbr/> <wbr/> j=++i; <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> <wbr/> // <wbr/> <wbr/> i=1，j=1

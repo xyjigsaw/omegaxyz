@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>scrapy selenium phantomJS dynamic web crawler · OmegaXYZ</title>
   <meta name="description" content="At present, phantomJS has stopped updating. The latest selenium package also issues a warning when calling phantomJS, saying that phantomJS is no longer supported. You can use the headless parameter to call other browsers to replace phantomJS. But this hidden browser is really easy to use, and it also supports Windows, Linux, and macOS. The following is a general middleware that enables scrapy to adjust...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2020-02-11</div>
         <h1>scrapy selenium phantomJS dynamic web crawler</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
         <div class="article-content">At present, phantomJS has stopped updating. The latest selenium package also issues a warning when calling phantomJS, saying that phantomJS is no longer supported. You can use the headless parameter to call other browsers to replace phantomJS. But this hidden browser is really easy to use, and it also supports Windows, Linux, and macOS.
 
 The following is a general middleware that enables scrapy to call phantomJS to implement dynamic web crawlers.<h2><strong>middlewares.py</strong></h2>where js is the operation to be performed in the browser.<pre><code class="language-python">from scrapy import signals

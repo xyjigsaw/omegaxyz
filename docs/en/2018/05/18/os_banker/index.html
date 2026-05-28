@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Operating system banker algorithm C language implementation · OmegaXYZ</title>
   <meta name="description" content="Algorithm Introduction Banker&#x27;s Algorithm is a famous algorithm for avoiding deadlock. It is an algorithm designed by Ezger Dijkstra in 1965 for the T.H.E system to avoid deadlock. It is based on the allocation strategy of the bank lending system to judge and ensure the safe operation of the system. The purpose of the algorithm is to understand the resource allocation of the system. It is assumed that any resource in the system can only be used by one process at any time. Any...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-05-18</div>
         <h1>Operating system banker algorithm C language implementation</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c/index.html">C</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
 <h2><strong>Algorithm introduction</strong></h2>Banker's Algorithm is a famous algorithm for avoiding deadlock. It was designed by Ezger Dijkstra in 1965 for the T.H.E system to avoid deadlock. It is based on the allocation strategy of the bank lending system to judge and ensure the safe operation of the system.<h2><strong>Algorithm purpose</strong></h2>In order to understand the resource allocation of the system, it is assumed that any resource in the system can only be used by one process at any time. The resources occupied by any process can only be released by the process itself and cannot be preempted by other processes. When the resources requested by the process cannot be satisfied, it must wait. Therefore, as long as the resource allocation algorithm can guarantee the resource request of the process and no circular waiting occurs, the system will not deadlock.<h2><strong>Algorithm principle</strong></h2>In methods of avoiding deadlock, the constraints imposed are weaker and it is possible to obtain satisfactory system performance. In this method, the state of the system is divided into a safe state and an unsafe state. As long as the system can always be in a safe state, deadlock can be avoided.
 
@@ -262,7 +263,7 @@ int main()
 <h2><strong>achieve effect</strong></h2>Security check<img alt="" class="alignnone size-full wp-image-4304" height="453" src="https://cdn.omegaxyz.com/2018/05/banker3.png" width="682"/>Allocate resources and security checks<img alt="" class="alignnone size-full wp-image-4305" height="639" src="https://cdn.omegaxyz.com/2018/05/banker4.png" width="690"/>
 <p style="text-align: center;"><span style="color: #ff0000;">All original codes on the website use<span style="color: #000000;"><a href="http://www.apache.org/licenses/LICENSE-2.0" rel="license" style="color: #000000;"><strong>Apache 2.0</strong></a></span>Authorize</span>
 <span style="color: #ff0000;">Articles on this website are licensed under a Creative Commons license<span style="color: #000000;"><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license" style="color: #000000;"><strong>BY-NC-SA4.0</strong></a></span>Authorize</span></p>
-<p style="text-align: center;"><span style="color: #ff0000;"><span class="copyright">© 2018</span> • <span style="color: #000000;"><a href="https://omegaxyz.com/" rel="noopener" style="color: #000000;" target="_blank">OmegaXYZ</a></span>-All rights reserved. Please indicate the source for reprinting.</span></p>
+<p style="text-align: center;"><span style="color: #ff0000;"><span class="copyright">© 2018</span> • <span style="color: #000000;"><a href="../../../../index.html" rel="noopener" style="color: #000000;" target="_blank">OmegaXYZ</a></span>-All rights reserved. Please indicate the source for reprinting.</span></p>
  </div>
         
       </article>

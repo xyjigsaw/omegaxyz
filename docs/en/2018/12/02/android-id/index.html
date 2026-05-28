@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Android uses string to dynamically obtain resource ID · OmegaXYZ</title>
   <meta name="description" content="Each file in the android file has an ID, as shown in the figure below. The 0x7f060000 on the left is the ID of the file: If we want to obtain the ID of this file in the code, we should use an efficient reflection mechanism. We can create a new Java class code as follows: Or add a method to the current class: Calling method: where icon is the file name, no need to add a suffix">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-12-02</div>
         <h1>Android uses string to dynamically obtain resource ID</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/android/index.html">Android</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/java/index.html">Java</a><a class="pill" href="../../../../tag/java/index.html">Java</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/android/index.html">Android</a></div>
         <div class="article-content">Each file in the android file has an ID, as shown in the figure below. The 0x7f060000 on the left is the file ID:<img alt="" class="alignnone wp-image-5188" height="246" src="https://cdn.omegaxyz.com/2018/12/Androidid.png" width="483"/>If we want to obtain the ID of this file in code, we should use an efficient reflection mechanism. We can create a new Java class code as follows:<pre><code class="language-java">public class ResourceMan {
     public static int getResId(String variableName, Class&lt;?&gt; c) {
         try {

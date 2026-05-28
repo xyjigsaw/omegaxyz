@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SQL Server performs cascade delete and update · OmegaXYZ</title>
   <meta name="description" content="Problem with deleting tuples dependent on foreign codes in SQL statements: When creating a foreign key table, you need to define the foreign key to allow &quot;cascade deletion. Otherwise, when deleting the parent table data, an error that the foreign key cannot be deleted will be reported. Cascade deletion: When we do not add cascade deletion to the key, when deleting the data in the primary key table (data referenced by the foreign key table), an error will be reported and cannot be deleted. The associated foreign key data must be deleted first before the data in the primary key table can be deleted. However, if cascade deletion is set when creating a new foreign key, then when we...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-06-06</div>
         <h1>SQL Server performs cascade delete and update</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/database/index.html">数据库</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/database/index.html">Databases</a><a class="pill" href="../../../../tag/database/index.html">Databases</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
         <div class="article-content">Problem with deleting tuples dependent on foreign codes in SQL statements: When creating a foreign key table, you need to define the foreign key to allow "cascade deletion." Otherwise, when deleting the parent table data, an error that the foreign key cannot be deleted will be reported.<strong>Cascade delete:</strong>When we do not add cascade delete to the key, when deleting the data in the primary key table (data referenced by the foreign key table), an error will be reported and cannot be deleted. The associated foreign key data must be deleted first before the data in the primary key table can be deleted. However, if cascade delete is set when creating a new foreign key, then when we delete the data in the primary key table, the database will automatically delete the associated foreign key table data for us.<strong>Cascading updates:</strong>We modify the fields in the primary key table that are associated with the foreign key table (usually the primary key of the primary key table, mssql seems to have to be the primary key). If we do not set up cascade update, then we will be prompted that we cannot update at this time, because there is still data in the foreign key table that is being associated with this data, but if we set up cascade update, then the data in the foreign key table will automatically update for us.
 
 Add cascading SQL code:<pre><code class="language-mysql">ALTER TABLE [name]

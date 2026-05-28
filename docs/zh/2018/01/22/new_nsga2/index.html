@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NSGA2算法MATLAB实现（能够自定义优化函数） · OmegaXYZ</title>
   <meta name="description" content="以前写了一个简单的NSGA2的算法能够用在ZDT1函数上： https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ 那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。 NSGA2的过程为： 1、随机产生一个初始父代Po，在此基础上采用二...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,8 +27,8 @@
       <article class="article">
         <div class="meta">2018-01-22</div>
         <h1>NSGA2算法MATLAB实现（能够自定义优化函数）</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
-        <div class="article-content">以前写了一个简单的NSGA2的算法能够用在ZDT1函数上：<a href="https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/">https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/</a>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="article-content">以前写了一个简单的NSGA2的算法能够用在ZDT1函数上：<a href="../../../../2017/05/04/nsga2matlabzdt1/index.html">https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/</a>
 
 那个NSGA2的算法不具有普遍性，下面参考课国外的课题小组的代码重新修改了内部冗余内容，使之能够自定义优化函数。
 
@@ -41,9 +42,9 @@ NSGA2的过程为：
 
 3、按照需要计算Fi中所有个体的拥挤距离，并根据拥挤比较运算符构造Pt+1，直至Pt+1规模为N，图中的Fi为F3
 
-具体解释请见：<a href="https://omegaxyz.com/2017/04/14/nsga-iiintro/">https://omegaxyz.com/2017/04/14/nsga-iiintro/</a>
+具体解释请见：<a href="../../../../2017/04/14/nsga-iiintro/index.html">https://omegaxyz.com/2017/04/14/nsga-iiintro/</a>
 
-C++代码请见（测试函数ZDT1）：<a href="https://omegaxyz.com/2017/04/20/nsga2zdt1/">https://omegaxyz.com/2017/04/20/nsga2zdt1/</a>
+C++代码请见（测试函数ZDT1）：<a href="../../../../2017/04/20/nsga2zdt1/index.html">https://omegaxyz.com/2017/04/20/nsga2zdt1/</a>
 
 <strong>下面是完整版的代码：</strong>
 

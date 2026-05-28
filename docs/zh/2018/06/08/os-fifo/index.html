@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FIFO算法实现分页管理的缺页调度 · OmegaXYZ</title>
   <meta name="description" content="FIFO（先进先出）算法的基本原理为：该算法总是淘汰最先进入内存的页面，即选择在内存中驻留时间最久的页面予以淘汰。 数据结构 先定义一个主存表 memeoryList 用来存放主存中的地址空间用来进行页面变换 再定义一个 pageList 作为页表 替换 注意这里首先判断当前位置是否被占用，再判断页面是否在当前位置。如果需要中断替换，则进...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-06-08</div>
         <h1>FIFO算法实现分页管理的缺页调度</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/operating-system/index.html">操作系统原理</a></div>
         <div class="article-content">FIFO（先进先出）算法的基本原理为：该算法总是淘汰最先进入内存的页面，即选择在内存中驻留时间最久的页面予以淘汰。
 <h2><strong>数据结构</strong></h2>
 先定义一个主存表<strong>memeoryList</strong>用来存放主存中的地址空间用来进行页面变换

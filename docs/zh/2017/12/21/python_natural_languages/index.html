@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python识别字符串中的自然语言（单词） · OmegaXYZ</title>
   <meta name="description" content="生成一个随机字符串（无空格），能否鉴别出这个字符串中是否有自然语言中的单词。比如“ervmothersdclovecsasd”，这个字符串中就存在“mother”和“love”这两个单词。 于是我想到了对输入的词进行划分。这时就要用到了外部字典文件，我把常用的单词导入到txt文件中（不太清楚NTLK是否有类似的功能，寒假再研究一下，这里先...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-12-21</div>
         <h1>Python识别字符串中的自然语言（单词）</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
         <div class="article-content">生成一个随机字符串（无空格），能否鉴别出这个字符串中是否有自然语言中的单词。比如“ervmothersdclovecsasd”，这个字符串中就存在“mother”和“love”这两个单词。
 
 于是我想到了对输入的词进行划分。这时就要用到了外部字典文件，我把常用的单词导入到txt文件中（不太清楚NTLK是否有类似的功能，寒假再研究一下，这里先把我想要做的实现一下）如图，这样，对每个连续的字符串能够进行自然语言的划分。这里用到的是正向最大匹配算法。

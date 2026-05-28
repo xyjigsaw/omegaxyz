@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>编译原理自动生成LR(0)分析表Python实现 · OmegaXYZ</title>
   <meta name="description" content="简介 对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。 这种句柄之后不含任何符号的前缀称为活前缀。 在LR分析工作过程中的任何时候，栈里的文法符号（自栈底而上）X 1 X 2 …X m 应该构成活前缀，把输入串的剩余部分配上之后即应成为规范句型（如果整个输入串确实构...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2019-02-27</div>
         <h1>编译原理自动生成LR(0)分析表Python实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
 <h2><strong>简介</strong></h2>
 对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。

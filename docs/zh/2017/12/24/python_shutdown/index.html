@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python实现Windows电脑定时关机 · OmegaXYZ</title>
   <meta name="description" content="定时关机， 功能：windows下，用户按照一定格式输入关机时间，系统到指定时间自动关闭 思路：从用户输入获取指定时间 分别以时分秒减去当前时间 最终计算得到当前时间距离指定 时间还有多少秒 作为关机命令的时间参数。 需要用到的模块： os 用于执行设定的系统命令 time 用于获取系统时间 需要用到cmd命令： shutdown -s...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-12-24</div>
         <h1>Python实现Windows电脑定时关机</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/windows/index.html">Windows</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/windows/index.html">Windows</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
         <div class="article-content"><span class="hljs-string">定时关机，</span><span class="hljs-string">功能：windows下，用户按照一定格式输入关机时间，系统到指定时间自动关闭 思路：从用户输入获取指定时间 分别以时分秒减去当前时间 最终计算得到当前时间距离指定 时间还有多少秒 作为关机命令的时间参数。</span>
 
 <span class="hljs-string">需要用到的模块： os 用于执行设定的系统命令 time 用于获取系统时间 需要用到cmd命令： shutdown -s -t xxx 其中xxx为距离自动关机所用秒数，即时间参数 shutdown -a 取消关机计划。</span>

@@ -7,13 +7,15 @@ import shutil
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/site.json"
 PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
+CDN = "https://cdn.omegaxyz.com"
+SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 
 I18N = {
     "zh": {
@@ -54,6 +56,37 @@ I18N = {
     },
 }
 
+TERM_EN = {
+    "tech": "Technology",
+    "machine-learning": "Machine Learning",
+    "deep-learning": "Deep Learning",
+    "nlp": "Natural Language Processing",
+    "algorithm": "Algorithms",
+    "database": "Databases",
+    "data-structure": "Data Structures",
+    "evolutionary-algorithm": "Evolutionary Algorithms",
+    "math": "Mathematics",
+    "programming": "Programming",
+    "高级语言": "Programming Languages",
+    "python": "Python",
+    "c": "C",
+    "cpp": "C++",
+    "cc": "C & C++",
+    "java": "Java",
+    "linux": "Linux",
+    "matlab": "MATLAB",
+    "ideas": "Ideas",
+    "software-engineering": "Software Engineering",
+    "knowledge-graph": "Knowledge Graphs",
+    "programmer": "Developer Life",
+    "life": "Life",
+    "essay": "Essays",
+    "trans": "Reposts",
+    "tools": "Tools",
+    "web": "Web",
+    "game": "Games",
+}
+
 
 def load_site():
     return json.loads(DATA.read_text(encoding="utf-8"))
@@ -74,7 +107,7 @@ def date_only(value):
 
 def rel_url(from_file, target):
     from_dir = Path(from_file).parent
-    return Path(target).relative_to(OUT).as_posix() if False else Path(
+    return Path(
         __import__("os").path.relpath(target, from_dir)
     ).as_posix()
 
@@ -95,7 +128,7 @@ def entry_path(entry, lang):
 
 
 def term_path(kind, slug, lang):
-    return f"{lang}/{kind}/{quote(slug, safe='')}/"
+    return f"{lang}/{kind}/{slug}/"
 
 
 def archive_path(lang, page=1):
@@ -104,6 +137,103 @@ def archive_path(lang, page=1):
 
 def esc(value):
     return html.escape(str(value or ""), quote=True)
+
+
+def term_label(term, lang):
+    if lang == "en":
+        return TERM_EN.get(term["slug"], term["name"])
+    return term["name"]
+
+
+def normalize_legacy_path(value):
+    parsed = urlparse(value)
+    raw_path = parsed.path if parsed.scheme or parsed.netloc else value.split("?", 1)[0].split("#", 1)[0]
+    path = unquote(raw_path).strip("/")
+    if path and not path.endswith("/"):
+        path += "/"
+    return path
+
+
+def build_legacy_map(site):
+    legacy = {"": {"zh": "zh/", "en": "en/"}}
+    for entry in site["entries"]:
+        path = normalize_legacy_path(entry["url"])
+        legacy[path] = {"zh": entry_path(entry, "zh"), "en": entry_path(entry, "en")}
+    terms_by_kind = {"category": {}, "tag": {}}
+    for entry in site["entries"]:
+        for kind, key in (("category", "categories"), ("tag", "tags")):
+            for term in entry[key]:
+                terms_by_kind[kind][term["slug"]] = term
+    for kind, collection in terms_by_kind.items():
+        wp_kind = "category" if kind == "category" else "tag"
+        for term in collection.values():
+            path = normalize_legacy_path(f"{wp_kind}/{term['slug']}/")
+            legacy[path] = {
+                "zh": term_path(kind, term["slug"], "zh"),
+                "en": term_path(kind, term["slug"], "en"),
+            }
+    return legacy
+
+
+def internal_target(value, lang, legacy):
+    if not value:
+        return ""
+    if value.startswith("//"):
+        value = "https:" + value
+    parsed = urlparse(value)
+    if parsed.scheme in ("mailto", "tel", "javascript"):
+        return ""
+    if parsed.netloc and parsed.netloc.lower() not in SOURCE_HOSTS:
+        return ""
+    target_lang = "en" if parsed.netloc.lower() == "en.omegaxyz.com" else lang
+
+    path = normalize_legacy_path(value)
+    if path.startswith("wp-content/uploads/"):
+        return CDN + "/" + path.removeprefix("wp-content/uploads/")
+    if path in legacy:
+        return legacy[path][target_lang]
+    if path.startswith(("wp-admin/", "wp-login.php", "feed/", "comments/")):
+        return f"{target_lang}/"
+    if parsed.netloc.lower() in SOURCE_HOSTS or value.startswith("/"):
+        return f"{target_lang}/search/"
+    return ""
+
+
+def rewrite_url(value, lang, current_file, legacy):
+    cleaned = value.strip().strip("“”‘’")
+    if cleaned != value and urlparse(cleaned if not cleaned.startswith("//") else "https:" + cleaned).scheme in ("http", "https"):
+        value = cleaned
+    target = internal_target(value, lang, legacy)
+    if not target:
+        return value
+    if target.startswith("https://"):
+        return target
+    fragment = urlparse(value).fragment
+    href = rel_url(current_file, path_to_file(target))
+    return f"{href}#{fragment}" if fragment else href
+
+
+def rewrite_srcset(value, lang, current_file, legacy):
+    pieces = []
+    for candidate in value.split(","):
+        bits = candidate.strip().split()
+        if not bits:
+            continue
+        bits[0] = rewrite_url(bits[0], lang, current_file, legacy)
+        pieces.append(" ".join(bits))
+    return ", ".join(pieces)
+
+
+def rewrite_content(markup, lang, current_file, legacy):
+    def repl(match):
+        attr, quote_char, value = match.groups()
+        if attr.lower() == "srcset":
+            rewritten = rewrite_srcset(value, lang, current_file, legacy)
+        else:
+            rewritten = rewrite_url(value, lang, current_file, legacy)
+        return f'{attr}={quote_char}{html.escape(rewritten, quote=True)}{quote_char}'
+
+    return re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup or "", flags=re.I)
 
 
 def strip_tags(markup):
@@ -152,6 +282,7 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)} · OmegaXYZ</title>
   <meta name="description" content="{esc(desc)}">
+  <link rel="icon" href="{rel_url(current_file, OUT / 'favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="{katex}">
   <link rel="stylesheet" href="{css}">
 </head>
@@ -174,7 +305,7 @@ def render_card(entry, lang, current_file):
     excerpt = entry[f"excerpt_{lang}"]
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     terms = entry["categories"][:2] or entry["tags"][:2]
-    pills = "".join(f'<span class="pill">{esc(t["name"])}</span>' for t in terms)
+    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
     return f"""
     <article class="post-card">
       <div class="meta">{esc(date_only(entry['date']))}</div>
@@ -185,13 +316,24 @@ def render_card(entry, lang, current_file):
     """
 
 
-def render_home(site, lang):
-    current = path_to_file(f"{lang}/")
+def render_home(site, lang, current=None):
+    current = current or path_to_file(f"{lang}/")
     posts = [e for e in site["entries"] if e["type"] == "post"]
     pages = [e for e in site["entries"] if e["type"] == "page"]
     stats = site["summary"]
     cards = "".join(render_card(e, lang, current) for e in posts[:6])
     page_links = "".join(render_card(e, lang, current) for e in pages[:3])
+    term_counts = {}
+    for entry in posts:
+        for term in entry["categories"]:
+            term_counts.setdefault(term["slug"], {"name": term["name"], "slug": term["slug"], "count": 0})
+            term_counts[term["slug"]]["count"] += 1
+    top_terms = sorted(term_counts.values(), key=lambda item: item["count"], reverse=True)[:8]
+    topic_links = "".join(
+        f'<a href="{rel_url(current, path_to_file(term_path("category", term["slug"], lang)))}">'
+        f'<span>{esc(term_label(term, lang))}</span><strong>{term.get("count", 0)}</strong></a>'
+        for term in top_terms
+    )
     t = I18N[lang]
     body = f"""
     <main class="wrap">
@@ -200,6 +342,10 @@ def render_home(site, lang):
           <div class="eyebrow">{esc(t['tagline'])}</div>
           <h1>OmegaXYZ</h1>
           <p>{esc(t['intro'])}</p>
+          <div class="hero-actions">
+            <a class="button primary" href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['all_posts'])}</a>
+            <a class="button" href="{rel_url(current, path_to_file(f'{lang}/search/'))}">{esc(t['search'])}</a>
+          </div>
         </div>
         <div class="stats">
           <div class="stat"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></div>
@@ -207,6 +353,9 @@ def render_home(site, lang):
           <div class="stat"><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></div>
           <div class="stat"><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></div>
         </div>
+      </section>
+      <section class="topic-rail" aria-label="{esc(t['categories'])}">
+        {topic_links}
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['latest'])}</h2><p>{esc(t['latest_desc'])}</p></div></div>
@@ -221,19 +370,19 @@ def render_home(site, lang):
     return layout(current, lang, "OmegaXYZ", body, t["intro"], f"{'en' if lang == 'zh' else 'zh'}/")
 
 
-def render_entry(entry, lang):
+def render_entry(entry, lang, legacy):
     current = path_to_file(entry_path(entry, lang))
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
-    content = entry[f"content_{lang}"]
+    content = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
     excerpt = entry[f"excerpt_{lang}"]
     term_links = []
     for c in entry["categories"]:
         href = rel_url(current, path_to_file(term_path("category", c["slug"], lang)))
-        term_links.append(f'<a class="pill" href="{href}">{esc(c["name"])}</a>')
+        term_links.append(f'<a class="pill" href="{href}">{esc(term_label(c, lang))}</a>')
     for tag in entry["tags"][:8]:
         href = rel_url(current, path_to_file(term_path("tag", tag["slug"], lang)))
-        term_links.append(f'<a class="pill" href="{href}">{esc(tag["name"])}</a>')
+        term_links.append(f'<a class="pill" href="{href}">{esc(term_label(tag, lang))}</a>')
     comments = render_comments(entry, lang)
     body = f"""
     <main class="wrap layout">
@@ -324,11 +473,12 @@ def render_terms(site, lang):
         chips = []
         for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
-            chips.append(f'<a class="pill" href="{href}">{esc(name)} · {len(entries)}</a>')
+            display_label = term_label({"slug": slug, "name": name}, lang)
+            chips.append(f'<a class="pill" href="{href}">{esc(display_label)} · {len(entries)}</a>')
             term_current = path_to_file(term_path(kind, slug, lang))
             items = "".join(render_archive_item(e, lang, term_current) for e in entries)
-            body = f'<main class="wrap band"><div class="section-head"><h1>{esc(name)}</h1></div><div class="archive-list">{items}</div></main>'
-            write(term_current, layout(term_current, lang, name, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
+            body = f'<main class="wrap band"><div class="section-head"><h1>{esc(display_label)}</h1></div><div class="archive-list">{items}</div></main>'
+            write(term_current, layout(term_current, lang, display_label, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
         body = f'<main class="wrap band"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms">{"".join(chips)}</div></main>'
         write(current, layout(current, lang, I18N[lang][label], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
 
@@ -341,7 +491,7 @@ def render_search(site, lang):
         index.append({
             "title": entry[f"title_{lang}"],
             "excerpt": entry[f"excerpt_{lang}"],
-            "tags": " ".join(t["name"] for t in entry["tags"] + entry["categories"]),
+            "tags": " ".join(term_label(t, lang) for t in entry["tags"] + entry["categories"]),
             "url": rel_url(index_file, path_to_file(entry_path(entry, lang))),
         })
     write(index_file, json.dumps(index, ensure_ascii=False))
@@ -364,6 +514,27 @@ def render_redirect(path, target):
     write(file, f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url={href}"><link rel="canonical" href="{href}">')
 
 
+def collect_legacy_paths(site, legacy):
+    found = set()
+    pattern = re.compile(r'\b(?:href|src)=["\']([^"\']+)["\']|(?:https?:)?//(?:www\.)?omegaxyz\.com/([^"\'\s<>)]+)', re.I)
+    for entry in site["entries"]:
+        for lang in ("zh", "en"):
+            for match in pattern.finditer(entry.get(f"content_{lang}", "")):
+                value = match.group(1) or ("https://omegaxyz.com/" + (match.group(2) or ""))
+                parsed = urlparse(value if not value.startswith("//") else "https:" + value)
+                if parsed.netloc and parsed.netloc.lower() not in SOURCE_HOSTS:
+                    continue
+                if not parsed.netloc and not value.startswith("/"):
+                    continue
+                path = normalize_legacy_path(value)
+                if not path or path in legacy:
+                    continue
+                if path.startswith(("wp-content/uploads/", "wp-admin/", "wp-login.php")):
+                    continue
+                found.add(path)
+    return found
+
+
 def copy_public():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -373,6 +544,7 @@ def copy_public():
 
 def main():
     site = load_site()
+    legacy = build_legacy_map(site)
     copy_public()
     for lang in ("zh", "en"):
         write(path_to_file(f"{lang}/"), render_home(site, lang))
@@ -380,11 +552,13 @@ def main():
         render_pages_index(site, lang)
         render_terms(site, lang)
         render_search(site, lang)
-    write(OUT / "index.html", render_home(site, "zh"))
+    write(OUT / "index.html", render_home(site, "zh", OUT / "index.html"))
     for entry in site["entries"]:
         for lang in ("zh", "en"):
-            write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang))
+            write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy))
         render_redirect(entry["url"], entry_path(entry, "zh"))
+    for path in collect_legacy_paths(site, legacy):
+        render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
     print(f"built {OUT}")
 

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATLAB implementation of NSGA2 algorithm (can customize optimization function) · OmegaXYZ</title>
   <meta name="description" content="I previously wrote a simple NSGA2 algorithm that can be used on the ZDT1 function: https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ That NSGA2 algorithm is not universal. The following refers to the code of a foreign research group to re-modify the internal redundant content so that it can customize the optimization function. The process of NSGA2 is: 1. Randomly generate an initial parent Po, and use two...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,8 +27,8 @@
       <article class="article">
         <div class="meta">2018-01-22</div>
         <h1>MATLAB implementation of NSGA2 algorithm (can customize optimization function)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
-        <div class="article-content">I previously wrote a simple NSGA2 algorithm that can be used on the ZDT1 function:<a href="https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/">https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/</a>The NSGA2 algorithm is not universal. The following refers to the code of a foreign research group to re-modify the internal redundant content so that it can customize the optimization function.<img alt="" class="alignnone wp-image-2952" height="197" src="https://cdn.omegaxyz.com/2018/01/NSGA2NEW.jpg" width="520"/>The process of NSGA2 is:
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/mop/index.html">多目标优化算法</a><a class="pill" href="../../../../tag/nsga-ii/index.html">NSGA-II</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a></div>
+        <div class="article-content">I previously wrote a simple NSGA2 algorithm that can be used on the ZDT1 function:<a href="../../../../2017/05/04/nsga2matlabzdt1/index.html">https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/</a>The NSGA2 algorithm is not universal. The following refers to the code of a foreign research group to re-modify the internal redundant content so that it can customize the optimization function.<img alt="" class="alignnone wp-image-2952" height="197" src="https://cdn.omegaxyz.com/2018/01/NSGA2NEW.jpg" width="520"/>The process of NSGA2 is:
 
 1. Randomly generate an initial parent Po, and use binary tournament selection, crossover and mutation operations to generate the offspring Qo. The population sizes of Po and Qo are both N.
 
@@ -35,7 +36,7 @@
 
 3. Calculate the crowding distance of all individuals in Fi as needed, and construct Pt+1 according to the crowding comparison operator until the scale of Pt+1 is N, and Fi in the figure is F3
 
-For detailed explanation, please see:<a href="https://omegaxyz.com/2017/04/14/nsga-iiintro/">https://omegaxyz.com/2017/04/14/nsga-iiintro/</a>Please see the C++ code (test function ZDT1):<a href="https://omegaxyz.com/2017/04/20/nsga2zdt1/">https://omegaxyz.com/2017/04/20/nsga2zdt1/</a>
+For detailed explanation, please see:<a href="../../../../2017/04/14/nsga-iiintro/index.html">https://omegaxyz.com/2017/04/14/nsga-iiintro/</a>Please see the C++ code (test function ZDT1):<a href="../../../../2017/04/20/nsga2zdt1/index.html">https://omegaxyz.com/2017/04/20/nsga2zdt1/</a>
 <strong>Here is the full version of the code:</strong>
 
 ①nsga2-optimization.m

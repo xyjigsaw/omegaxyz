@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Java Data Access Object (DAO) · OmegaXYZ</title>
   <meta name="description" content="What is DAO DAO (Data Access Object), as the name suggests, is an object that provides an abstract interface for a database or other persistence mechanism. It provides various data access operations without exposing the implementation details of the underlying persistence solution. In actual development, all access operations to the data source should be abstracted and encapsulated in a public API. In terms of programming language, it is to establish an interface, which defines all the things that will be used in this application...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-09-29</div>
         <h1>Java Data Access Object (DAO)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/database/index.html">数据库</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/java/index.html">Java</a><a class="pill" href="../../../../category/database/index.html">Databases</a><a class="pill" href="../../../../tag/java/index.html">Java</a><a class="pill" href="../../../../tag/sql/index.html">SQL</a></div>
         <div class="article-content"><h2><strong>What is DAO</strong></h2>DAO (Data Access Object), as the name suggests, is an object that provides an abstract interface for a database or other persistence mechanism. It provides various data access operations without exposing the implementation details of the underlying persistence solution. In actual development, all access operations to the data source should be abstracted and encapsulated in a public API. In terms of programming language, it is to establish an interface, which defines all transaction methods that will be used in this application. In this application, this interface is used when interacting with the data source, and a separate class is written to implement this interface, which logically corresponds to a specific data storage. The DAO pattern actually includes two patterns, one is Data Accessor, and the other is Data Object. The former solves the problem of how to access data, while the latter solves the problem of how to encapsulate data with objects.<h2><strong>The role of DAO model</strong></h2>1Isolate business logic code and data access code
 
 2.Isolate the implementation of different databases

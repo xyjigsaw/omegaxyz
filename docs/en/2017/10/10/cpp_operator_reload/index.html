@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Detailed explanation of C++ operator overloading · OmegaXYZ</title>
   <meta name="description" content="Why do we need to overload operators? The operand objects of C++ predefined operators are limited to basic built-in data types, but there is no way to operate on our custom types (classes). But most of the time we need to perform similar operations on the types we define. At this time, we need to redefine such operators and give them new functions to meet our own needs. The essence of operator overloading in C++ The essence of operator overloading is function overloading or function polymorphism. Operator overloading...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2017-10-10</div>
         <h1>Detailed explanation of C++ operator overloading</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/cc/index.html">C &amp; C++</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
 <h1>Why do we need to overload operators?</h1>The operands of operators predefined in C++ are limited to basic built-in data types, but there is no way to operate on our custom types (classes). But most of the time we need to perform similar operations on the types we define. At this time, we need to redefine such operators and give them new functions to meet our own needs.<h1>The essence of C++ operator overloading</h1>The essence of operator overloading is function overloading or function polymorphism. Operator overloading is a form of C++ polymorphism. The purpose is to enable people to use functions with the same name to complete different basic operations. To overload an operator, you need to use a special function form called an operator function. The operator function form is: operatorp (argument-list) // The 'p' after operator is the operator symbol to be overloaded.<h1>Rules for operator overloading</h1>(1) In order to prevent users from overloading operators on standard types, C++ stipulates that at least one of the operands of the overloaded operator must be a user-defined type
 

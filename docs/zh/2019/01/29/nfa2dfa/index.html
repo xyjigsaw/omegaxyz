@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>编译原理NFA转DFA-Python与C++实现 · OmegaXYZ</title>
   <meta name="description" content="某个有限自动机，如果每次状态转换的后继状态都是惟一的，则称它是确定有限自动机（DFA）；如果转换后的后继状态并不都是惟一的，则称它是不确定有限自动机（NFA）。 有限自动机的开始工作状态称为初始状态，结束工作的状态称为终止工作状态或接收状态。如果把上一小节中的状态转换图的各个结点看成是某一个状态，初始结点为初始状态，终止结点为终止状态，并...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2019-01-29</div>
         <h1>编译原理NFA转DFA-Python与C++实现</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../category/fundamentals-of-compiling/index.html">编译原理</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/fundamentals-of-compiling/index.html">编译原理</a></div>
         <div class="article-content">某个有限自动机，如果每次状态转换的后继状态都是惟一的，则称它是确定有限自动机（DFA）；如果转换后的后继状态并不都是惟一的，则称它是不确定有限自动机（NFA）。
 
 有限自动机的开始工作状态称为初始状态，结束工作的状态称为终止工作状态或接收状态。如果把上一小节中的状态转换图的各个结点看成是某一个状态，初始结点为初始状态，终止结点为终止状态，并且每一条边表示一个转换关系，这样一个有限自动机的工作状态就可以采用状态转换图来描述了，从而可以把前面的图看成是一个有限自动机。

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Machine learning data set partitioning and cross-validation selection · OmegaXYZ</title>
   <meta name="description" content="Data set partitioning is very important in machine learning. The following strategy is adopted when the number of samples (number of instances) is large: If the given samples are sufficient, a simple method for model selection is to randomly split the data set into three parts, divided into training set, validation set and testing set. The training set is used to train the model, the validation set is used for model selection, and the test set is used for the final evaluation of the learning method. exist...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-12</div>
         <h1>Machine learning data set partitioning and cross-validation selection</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a></div>
         <div class="article-content">Data set partitioning is very important in machine learning.<h1><strong>When the number of samples (number of instances) is large, the following strategy is adopted:</strong></h1>If the given samples are sufficient, a simple method for model selection is to randomly split the data set into three parts, divided into training set, validation set and testing set. The training set is used to train the model, the validation set is used for model selection, and the test set is used for the final evaluation of the learning method. Among the learned models of different complexity, the model with the smallest prediction error on the validation set is selected. Since the validation set has enough data, it is also effective to use it for model selection.
 
 Training set and Validation set are both used during the training process of the model:<pre><code class="language-default">for each epoch

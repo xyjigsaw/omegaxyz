@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATLAB implementation of PSO algorithm feature selection (single objective) · OmegaXYZ</title>
   <meta name="description" content="The main idea of ​​PSO for feature selection is to regard the selection of subsets as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare them with other combinations. In this way, subset selection is regarded as an optimization problem. For simple PSO MATLAB code and overview, please see: https://omegaxyz.com/2018/01/17/matlab_pso/ The following is the PSO process...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,10 +27,10 @@
       <article class="article">
         <div class="meta">2018-01-21</div>
         <h1>MATLAB implementation of PSO algorithm feature selection (single objective)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/matlab/index.html">MATLAB</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">Evolutionary Algorithms</a><a class="pill" href="../../../../tag/pso/index.html">PSO算法</a><a class="pill" href="../../../../tag/matlab/index.html">MATLAB</a><a class="pill" href="../../../../tag/feature-selection/index.html">特征选择</a><a class="pill" href="../../../../tag/svm/index.html">SVM</a></div>
         <div class="article-content">The main idea of ​​PSO for feature selection is to regard the selection of subsets as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare them with other combinations. In this way, subset selection is regarded as an optimization problem.
 
-For simple PSO MATLAB code and overview, please see:<a href="https://omegaxyz.com/2018/01/17/matlab_pso/">https://omegaxyz.com/2018/01/17/matlab_pso/</a>
+For simple PSO MATLAB code and overview, please see:<a href="../../17/matlab_pso/index.html">https://omegaxyz.com/2018/01/17/matlab_pso/</a>
 <strong>The following is the code for feature selection by PSO (note: the overall code is single-objective and only optimizes the error rate. Note that the training uses Lin Zhiren SVM, the data set is Parkinson, which can be downloaded from UCI, and the training result is the error rate)</strong>The data set is divided into training set and test set:<pre><code class="language-matlab">function divide_datasets
 load Parkinson.mat;
 dataMat=Parkinson_f;

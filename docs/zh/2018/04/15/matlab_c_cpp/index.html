@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MATLAB调用C/C++ · OmegaXYZ</title>
   <meta name="description" content="Matlab是矩阵语言，如果运算可以用矩阵实现，其运算速度非常快。但若运算中涉及到大量循环，Matlab的速度令人难以忍受的。当必须使用for循环且找不到对应的矩阵运算来等效时，可以将耗时长的函数用C语言实现，并编译成Mex文件，Matlab便可以像调用内建函数一样调用C编写的函数。Mex文件其实是一种动态链接库，旧版本Matlab可以直...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2018-04-15</div>
         <h1>MATLAB调用C/C++</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/cc/index.html">C&amp;C++</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../tag/c-2/index.html">C++</a><a class="pill" href="../../../../tag/c/index.html">C语言</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
         <div class="article-content">Matlab是矩阵语言，如果运算可以用矩阵实现，其运算速度非常快。但若运算中涉及到大量循环，Matlab的速度令人难以忍受的。当必须使用for循环且找不到对应的矩阵运算来等效时，可以将耗时长的函数用C语言实现，并编译成Mex文件，Matlab便可以像调用内建函数一样调用C编写的函数。Mex文件其实是一种动态链接库，旧版本Matlab可以直接调用.dll，新版本要调用.mexw32或.mexw64文件。
 
 编译过程需要C语言编译器，在Matlab中键入mex –setup进行安装与配置。

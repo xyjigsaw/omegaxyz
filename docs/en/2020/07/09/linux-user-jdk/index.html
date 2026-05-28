@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Linux non-root users deploy jdk and other commands · OmegaXYZ</title>
   <meta name="description" content="Step 1. Download the Linux installation package of jdk from the Oracle official website to the user folder. You can use commands to download or ftp transfer. 2. Extract the jdk compressed package to the specified folder, and remember the path of the folder. 3. Open the .bash_profile or .profile file 4. Add an environment variable at the end of the file where ${HOME} is your user folder, and / is followed by the relative path of the folder after jdk is decompressed. (Just need...">
+  <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
 </head>
@@ -26,7 +27,7 @@
       <article class="article">
         <div class="meta">2020-07-09</div>
         <h1>Linux non-root users deploy jdk and other commands</h1>
-        <div class="terms"><a class="pill" href="../../../../category/%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/java/index.html">JAVA</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">JAVA</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
+        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/java/index.html">Java</a><a class="pill" href="../../../../category/os/index.html">操作系统</a><a class="pill" href="../../../../tag/java/index.html">Java</a><a class="pill" href="../../../../tag/linux/index.html">Linux</a></div>
         <div class="article-content"><h2><strong>step</strong></h2>1. Download the jdk Linux installation package from the Oracle official website to the user folder. You can use commands to download or ftp transfer.
 
 2. Extract the jdk compressed package to the specified folder, and remember the path of the folder.<pre><code class="language-default">tar -zxvf jdk-linux-x64.tar.gz</code></pre>3. Open the .bash_profile or .profile file<pre><code class="language-default">vi .bash_profile</code></pre>4. Add environment variables at the end of the file<pre><code class="language-default">JAVA_HOME="${HOME}/jdk1.8.0"
