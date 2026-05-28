@@ -1,31 +1,30 @@
-<p><a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport</a> 是一个面向科学研究的 AI 辅助想法生成系统。它试图解决一个越来越现实的问题：论文增长速度远远快于研究者能够阅读、整理和联想的速度，尤其是在跨学科研究中，真正有价值的连接常常藏在不同领域的概念之间。</p>
-
-<figure>
-  <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">
-    <img src="https://cv.omegaxyz.com/images/deepreport.png" alt="DeepReport project preview">
-  </a>
-  <figcaption>DeepReport 项目预览图。图片来源：<a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">Yi Xu Homepage</a>。</figcaption>
-</figure>
-
-<h2>DeepReport 做什么</h2>
-
-<p>从产品视角看，DeepReport 提供论文检索、洞察抽取、概念探索、知识总结和想法生成等功能。它不是简单地把若干论文摘要拼接起来，而是把“研究想法”拆成两个阶段：先发现概念之间未来可能产生联系的位置，再用大语言模型把这种结构化线索组织成可读、可讨论、可继续验证的研究叙述。</p>
-
-<p>论文 <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">DeepReport: An AI-assisted Idea Generation System for Scientific Research</a> 已被 SIGIR 2025 demo track 收录。论文中描述的核心路线是：在超过 2.6 亿篇跨学科出版物上维护动态概念共现图，周期性更新概念与连接，再结合时间链接预测、图分析和大语言模型，把潜在的跨领域连接转化为更具体的研究想法。</p>
+<p><a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport</a> 是 SIGIR 2025 demo track 论文 <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">DeepReport: An AI-assisted Idea Generation System for Scientific Research</a> 提出的科研想法生成系统。它关注的问题很直接：当学术文献已经增长到单个研究者难以完整阅读、比较和综合的规模时，系统能否帮助研究者发现跨领域概念之间尚未被充分利用的连接，并把这些连接转化成可讨论的研究想法。</p>
 
 <figure>
   <img src="../../../../../assets/deepreport-flow.svg" alt="DeepReport workflow: retrieve, extract, explore, summarize, generate">
-  <figcaption>一个简化的 DeepReport 工作流：从学术数据到概念结构，再到可读的研究想法。</figcaption>
+  <figcaption>DeepReport 的简化流程：从大规模论文数据构建概念关系，再预测潜在连接并生成研究想法。</figcaption>
 </figure>
 
-<h2>为什么它有意思</h2>
+<h2>论文中的核心任务</h2>
 
-<p>科研中的“新想法”往往不是凭空出现的。它通常来自三类操作：发现两个原本分散的概念之间存在可解释联系；判断这种联系是否正在变强、是否具有时间趋势；最后把这个联系放回具体领域问题中，形成可执行的假设或实验方向。DeepReport 的价值正在于把这三步做成系统化流程。</p>
+<p>论文把科研想法生成拆成两个连续任务。第一步是 <strong>Temporal Link Prediction</strong>：系统在动态概念共现图上分析概念随时间共同出现的模式，寻找未来可能建立联系的概念对。第二步是 <strong>Idea Verbalization</strong>：系统把这些结构化的概念连接交给大语言模型，生成更完整、更容易阅读的研究想法描述。</p>
 
-<p>这也解释了为什么它适合放在学术大数据和知识图谱的交叉处：图结构负责保存概念关系和历史变化，时间预测负责寻找可能的新连接，LLM 则负责把机器发现的结构翻译成人能继续推敲的语言。对研究者来说，这种工具更像一个“高密度文献雷达”，它可以降低探索成本，但仍然把判断、取舍和实验设计留给人。</p>
+<p>这种拆分很重要。单纯让大语言模型“想一个新点子”容易得到泛泛而谈的结果；DeepReport 先用学术图结构和时间信息提供候选连接，再让 LLM 做语言组织，相当于把生成建立在可追踪的文献结构上。</p>
 
-<h2>可以从哪里开始</h2>
+<h2>系统如何组织知识</h2>
 
-<p>如果你想快速了解系统，可以先打开 <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport Demo</a>；如果你更关心学术背景，可以阅读 <a href="https://dl.acm.org/doi/pdf/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM PDF</a>。相关项目简介也整理在 <a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">个人主页的 DeepReport 部分</a>。</p>
+<p>DeepReport 维护覆盖超过 2.6 亿篇跨学科出版物的演化概念共现图，并周期性更新概念与关系。概念共现图的作用不是简单记录关键词同现，而是为“哪些概念正在靠近、哪些连接可能出现”提供结构化背景。论文还提到系统整合最新学术数据库，并提供动态概念关系可视化，让研究者能在图结构中探索不同领域之间的潜在路径。</p>
 
-<p>我个人更期待它在两个方向上的延展：一是让研究者能够围绕一个概念持续追踪新连接，而不是每次从搜索框重新开始；二是把生成的想法与证据链、反例和可复现实验计划绑定起来，让“想法生成”真正进入科研工作流，而不只是停留在灵感阶段。</p>
+<p>在这一框架中，图分析负责发现模式，时间链接预测负责提出候选连接，大语言模型负责把模式转写为自然语言。三者合起来，使 DeepReport 更像一个面向科研探索的辅助工作台，而不只是文献搜索或摘要工具。</p>
+
+<h2>为什么适合科研场景</h2>
+
+<p>跨学科研究的难点通常不是缺少论文，而是很难在大量论文中找到真正可解释、可继续验证的连接。DeepReport 的意义在于把“阅读大量文献、寻找概念连接、组织研究假设”这一链条系统化：它既能降低探索知识空间的成本，也能让研究者围绕候选想法继续追问证据、限制条件和实验设计。</p>
+
+<p>因此，DeepReport 更合理的定位不是替代研究者判断，而是放大研究者在文献网络中的探索能力。它提供候选方向、关系线索和文本化初稿，最终的学术价值仍然取决于人对问题意义、实验可行性和证据强度的判断。</p>
+
+<h2>链接</h2>
+
+<p>系统 Demo：<a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">https://idea.acemap.cn/</a><br>
+论文页面：<a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM DOI 页面</a><br>
+论文 PDF：<a href="https://dl.acm.org/doi/pdf/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM PDF</a></p>

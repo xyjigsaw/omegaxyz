@@ -1,31 +1,30 @@
-<p><a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport</a> is an AI-assisted idea generation system for scientific research. It addresses a practical bottleneck in modern scholarship: the literature grows faster than any researcher can read, connect, and synthesize, while many valuable interdisciplinary ideas live between concepts that rarely appear together in one narrow reading list.</p>
-
-<figure>
-  <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">
-    <img src="https://cv.omegaxyz.com/images/deepreport.png" alt="DeepReport project preview">
-  </a>
-  <figcaption>DeepReport project preview. Image source: <a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">Yi Xu Homepage</a>.</figcaption>
-</figure>
-
-<h2>What DeepReport Does</h2>
-
-<p>From a product perspective, DeepReport supports paper retrieval, insight extraction, concept exploration, knowledge summarization, and idea generation. It is not only a summary interface over papers. Its core task is closer to a two-stage research assistant: first find promising future links between academic concepts, then use large language models to verbalize those structured signals into ideas that researchers can inspect, challenge, and refine.</p>
-
-<p>The paper <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">DeepReport: An AI-assisted Idea Generation System for Scientific Research</a> was accepted to the SIGIR 2025 demo track. The system described in the paper maintains evolving concept co-occurrence graphs over more than 260 million publications across disciplines, updates concepts and relations periodically, and combines temporal link prediction, graph analysis, and large language models to transform cross-domain patterns into actionable research ideas.</p>
+<p><a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport</a> is a scientific idea generation system introduced in the SIGIR 2025 demo paper <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">DeepReport: An AI-assisted Idea Generation System for Scientific Research</a>. The paper starts from a concrete research bottleneck: academic literature has grown beyond what individual researchers can read, compare, and synthesize, especially when useful ideas require connections across distant fields.</p>
 
 <figure>
   <img src="../../../../../assets/deepreport-flow.svg" alt="DeepReport workflow: retrieve, extract, explore, summarize, generate">
-  <figcaption>A simplified DeepReport workflow: from academic data to concept structure, then to readable research ideas.</figcaption>
+  <figcaption>A simplified DeepReport workflow: large-scale literature becomes concept structure, then predicted links become research ideas.</figcaption>
 </figure>
 
-<h2>Why It Is Interesting</h2>
+<h2>The Core Tasks</h2>
 
-<p>New scientific ideas rarely appear from nowhere. They often come from three operations: discovering an interpretable relation between concepts that were previously separated, judging whether that relation is becoming stronger over time, and translating it back into a concrete domain problem with testable hypotheses. DeepReport is interesting because it turns these operations into a system workflow.</p>
+<p>The paper formulates idea generation as two sequential tasks. The first is <strong>Temporal Link Prediction</strong>: DeepReport analyzes evolving concept co-occurrence graphs to identify concept pairs that may become connected in the future. The second is <strong>Idea Verbalization</strong>: the system uses large language models to turn those structured concept links into coherent textual descriptions that researchers can inspect and refine.</p>
 
-<p>This is also why the system sits naturally between academic big data and knowledge graphs. Graph structure stores concept relations and historical changes, temporal prediction surfaces possible new links, and LLMs translate machine-discovered structure into language that researchers can continue to reason with. For researchers, the tool behaves less like an oracle and more like a dense literature radar: it reduces exploration cost while leaving judgment, selection, and experimental design to humans.</p>
+<p>This decomposition matters. Asking an LLM to “come up with a new idea” often produces generic suggestions. DeepReport first grounds generation in academic graph structure and temporal evidence, then uses the LLM as a verbalization layer. In other words, the system tries to make idea generation traceable to patterns in the literature rather than relying on free-form prompting alone.</p>
 
-<h2>Where To Start</h2>
+<h2>How DeepReport Organizes Knowledge</h2>
 
-<p>To try the system, open the <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport demo</a>. For academic details, read the <a href="https://dl.acm.org/doi/pdf/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM PDF</a>. A concise project description is also available in the <a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">DeepReport section of the personal homepage</a>.</p>
+<p>DeepReport maintains evolving concept co-occurrence graphs over more than 260 million publications across disciplines, with concepts and relations updated periodically. The graph is not just a keyword index. It provides a structural background for questions such as which concepts are moving closer, which cross-domain relations are emerging, and where hidden connections may exist.</p>
 
-<p>I am especially interested in two next steps: continuous monitoring of emerging concept links around a research topic, and tighter coupling between generated ideas, evidence trails, counterexamples, and reproducible experiment plans. That would move idea generation from a moment of inspiration into the daily research workflow.</p>
+<p>The system also integrates up-to-date academic databases and visualizes dynamic relationships among concepts. Within this architecture, graph analysis discovers patterns, temporal link prediction proposes candidate connections, and large language models translate those connections into readable research ideas. Together, these components make DeepReport closer to a research exploration workspace than a conventional paper search or summarization tool.</p>
+
+<h2>Why It Fits Scientific Research</h2>
+
+<p>The hardest part of interdisciplinary research is often not finding more papers, but identifying connections that are meaningful, defensible, and worth testing. DeepReport systematizes the path from literature scale to concept links to research hypotheses. It can reduce the cost of exploring a large knowledge landscape while still leaving the final evaluation to researchers.</p>
+
+<p>That distinction is important: DeepReport should not be read as replacing scientific judgment. Its role is to expand the search space and provide structured candidates, evidence trails, and textual drafts. The actual research value still depends on human decisions about problem significance, feasibility, evidence strength, and experimental design.</p>
+
+<h2>Links</h2>
+
+<p>System demo: <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">https://idea.acemap.cn/</a><br>
+Paper page: <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM DOI page</a><br>
+Paper PDF: <a href="https://dl.acm.org/doi/pdf/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM PDF</a></p>
