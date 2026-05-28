@@ -16,8 +16,10 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260528-footer"
+ASSET_VERSION = "20260528-fixes2"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
+HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
+CLUSTRMAPS_QUERY = "cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 
 FOOTER_LINKS = [
@@ -34,6 +36,36 @@ FOOTER_LINKS = [
     ("Python实用宝典", "https://pythondict.com/"),
     ("宇宙湾", "https://yuzhouwan.com/"),
     ("cvosRobot", "http://blog.cvosrobot.com/"),
+]
+
+FRIEND_LINKS = [
+    ("站点", "AI研习社", "https://www.yanxishe.com/", "https://omegaxyz.com/wp-content/uploads/2020/06/yanxishe2.jpg"),
+    ("站点", "雷锋网", "https://www.leiphone.com/", "https://omegaxyz.com/wp-content/uploads/2020/06/leiphone-x.png"),
+    ("站点", "ChainOE", "https://chainoe.com/", "https://omegaxyz.com/wp-content/uploads/2022/03/chineOE-e1648304685858.png"),
+    ("个人博客", "米虫博客", "http://www.mebugs.com/", "https://omegaxyz.com/wp-content/uploads/2018/04/mebugs.jpg"),
+    ("个人博客", "AI柠檬", "https://blog.ailemon.net/", "https://omegaxyz.com/wp-content/uploads/2018/01/machinelearningicon.jpg"),
+    ("个人博客", "hannlp", "https://hannlp.github.io/", "https://omegaxyz.com/wp-content/uploads/2018/01/machinelearningicon.jpg"),
+    ("个人博客", "StriveZ的博客", "http://www.strivezs.com/", "https://omegaxyz.com/wp-content/uploads/2018/03/striveZ.jpg"),
+    ("个人博客", "Oldpan的个人博客", "http://www.oldpan.me/", "https://omegaxyz.com/wp-content/uploads/2018/01/machinelearningicon.jpg"),
+    ("个人博客", "itsNekoDeng", "https://nekodeng.gitee.io/", "https://omegaxyz.com/wp-content/uploads/2020/11/nekoDeng.jpg"),
+    ("个人博客", "Python实用宝典", "https://pythondict.com/", "https://omegaxyz.com/wp-content/uploads/2020/05/Pythondict.jpg"),
+    ("个人博客", "九陌斋", "https://blog.jiumoz.com", "https://omegaxyz.com/wp-content/uploads/2023/04/jiumoz.png"),
+    ("个人博客", "科学空间", "https://kexue.fm", "https://omegaxyz.com/wp-content/uploads/2023/12/bojone.png"),
+    ("个人博客", "枫糖", "https://blog.maplesugar.top", "https://omegaxyz.com/wp-content/uploads/2019/08/maple-leaf-avatar.jpg"),
+    ("个人博客", "Kitcham 的归墟", "https://blog.uiharu.top/", "https://omegaxyz.com/wp-content/uploads/2020/09/Kitcham.png"),
+    ("个人博客", "碎言博客", "https://suiyan.cc/", "https://omegaxyz.com/wp-content/uploads/2023/05/suiyan.jpeg"),
+    ("个人博客", "海纪元", "https://www.seayj.cn/", "https://omegaxyz.com/wp-content/uploads/2024/10/SeaEpoch.png"),
+    ("个人博客", "cvosrobot", "http://blog.cvosrobot.com/", "https://omegaxyz.com/wp-content/uploads/2020/05/cvosrobot.png"),
+    ("个人博客", "宇宙湾", "https://yuzhouwan.com/", "https://omegaxyz.com/wp-content/uploads/2020/01/yuzhouwan.png"),
+    ("个人博客", "星萌亦派", "https://meta-sns.com/", "https://omegaxyz.com/wp-content/uploads/2023/08/lincoin.png"),
+    ("个人博客", "mmuaa", "https://www.mmuaa.com/", "https://omegaxyz.com/wp-content/uploads/2019/07/T19vXDXmNbXXXXXXXX.jpg"),
+    ("个人博客", "谭升的博客", "https://face2ai.com", "https://omegaxyz.com/wp-content/uploads/2018/10/tansheng.png"),
+    ("个人博客", "OhYee", "https://www.oyohyee.com/", "https://omegaxyz.com/wp-content/uploads/2020/02/oyohyee.png"),
+    ("按钮", "申请友链", "https://omegaxyz.com/makefriends/", ""),
+    ("退休", "yoko blog", "", "https://omegaxyz.com/wp-content/uploads/2019/08/default_avatar.jpg"),
+    ("退休", "shawnluo", "", "https://omegaxyz.com/wp-content/uploads/2018/06/shawnluo.png"),
+    ("退休", "人工智能网", "", "https://omegaxyz.com/wp-content/uploads/2018/01/machinelearningicon.jpg"),
+    ("退休", "Python爱好者", "", "https://omegaxyz.com/wp-content/uploads/2020/03/codingdogzxg.jpg"),
 ]
 
 I18N = {
@@ -55,7 +87,7 @@ I18N = {
         "language": "English",
         "search_placeholder": "搜索文章、页面、标签...",
         "explore": "探索知识库",
-        "intro": "面向编程、机器学习、知识工程与数学的长期笔记库。",
+        "intro": "徐奕的专栏",
         "archive_search_placeholder": "搜索标题、摘要、标签...",
         "sort": "排序",
         "sort_newest": "最新优先",
@@ -83,7 +115,7 @@ I18N = {
         "language": "中文",
         "search_placeholder": "Search posts, pages, and tags...",
         "explore": "Explore the archive",
-        "intro": "A long-running notebook for programming, machine learning, knowledge engineering, and mathematics.",
+        "intro": "Xu Yi's column",
         "archive_search_placeholder": "Search titles, summaries, and tags...",
         "sort": "Sort",
         "sort_newest": "Newest",
@@ -190,6 +222,13 @@ def archive_path(lang, page=1):
 
 def esc(value):
     return html.escape(str(value or ""), quote=True)
+
+
+def asset_url(value):
+    parsed = urlparse(value or "")
+    if parsed.netloc.lower() in SOURCE_HOSTS and parsed.path.startswith("/wp-content/uploads/"):
+        return CDN + parsed.path.removeprefix("/wp-content/uploads")
+    return value or ""
 
 
 def term_label(term, lang):
@@ -314,6 +353,7 @@ def short_text(value, length=92):
 def nav(current_file, lang, title, alt_path):
     t = I18N[lang]
     other = "en" if lang == "zh" else "zh"
+    logo_url = HOME_LOGO_URL if current_file in (OUT / "index.html", path_to_file(f"{lang}/")) else LOGO_URL
     links = [
         (t["home"], f"{lang}/"),
         (t["archive"], archive_path(lang)),
@@ -329,7 +369,7 @@ def nav(current_file, lang, title, alt_path):
     <header class="site-header">
       <nav class="nav">
         <a class="brand" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
-          <img src="{LOGO_URL}" alt="" width="32" height="32">
+          <img src="{logo_url}" alt="" width="32" height="32">
           <span class="brand-text"><strong>OmegaXYZ</strong><em>{esc(t['tagline'])}</em></span>
         </a>
         <div class="nav-links">
@@ -361,7 +401,10 @@ def footer(current_file, lang):
         <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="{privacy}">隐私政策</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
-        <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+        <div class="clustrmaps-widget">
+          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?{CLUSTRMAPS_QUERY}" alt="Visitor map" loading="lazy">
+          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?{CLUSTRMAPS_QUERY}"></script>
+        </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         {friend_links}
@@ -416,7 +459,8 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   <meta property="og:title" content="{esc(title)} · OmegaXYZ">
   <meta property="og:description" content="{esc(desc)}">
   <meta property="og:url" content="{esc(canonical)}">
-  <link rel="icon" href="{rel_url(current_file, OUT / 'favicon.svg')}" type="image/svg+xml">
+  <link rel="icon" href="{LOGO_URL}" type="image/jpeg">
+  <link rel="apple-touch-icon" href="{LOGO_URL}">
   <link rel="stylesheet" href="{katex}">
   <link rel="stylesheet" href="{css}">
 </head>
@@ -536,9 +580,9 @@ def render_home(site, lang, current=None):
     <main class="wrap">
       <section class="search-hero">
         <div class="search-shell">
+          <img class="hero-logo" src="{HOME_LOGO_URL}" alt="" width="74" height="74">
           <div class="eyebrow">{esc(t['tagline'])}</div>
           <h1>OmegaXYZ</h1>
-          <p>{esc(t['intro'])}</p>
           <section class="search-box home-search" data-search="{search_index}">
             <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
             <div class="search-results" data-search-results></div>
@@ -613,15 +657,47 @@ def render_friends_entry(entry, lang):
     desc = "长期阅读、技术写作与知识分享的朋友链接。" if lang == "zh" else "A curated set of long-running blogs and technical communities."
     apply_label = "申请友链" if lang == "zh" else "Apply for a link"
     visit_label = "访问" if lang == "zh" else "Visit"
-    cards = "".join(
-        f"""
-        <article class="friend-card">
-          <div><h2>{esc(label)}</h2><p>{esc(url.replace('https://', '').replace('http://', '').strip('/'))}</p></div>
-          <a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)}</a>
-        </article>
-        """
-        for label, url in FOOTER_LINKS
-    )
+    retired_label = "已退休" if lang == "zh" else "Retired"
+    groups = []
+    for category, label, url, logo in FRIEND_LINKS:
+        if category not in groups:
+            groups.append(category)
+    sections = []
+    for category in groups:
+        cards = []
+        for item_category, label, url, logo in FRIEND_LINKS:
+            if item_category != category:
+                continue
+            card_logo = asset_url(logo) if logo else LOGO_URL
+            if category == "按钮":
+                href = rel_url(current, path_to_file(f"{lang}/makefriends/"))
+                cards.append(f"""
+                <a class="friend-card friend-action" href="{href}">
+                  <img src="{LOGO_URL}" alt="" loading="lazy" width="52" height="52">
+                  <div><h2>{esc(label)}</h2><p>{esc(desc)}</p></div>
+                </a>
+                """)
+            elif url:
+                cards.append(f"""
+                <article class="friend-card">
+                  <img src="{esc(card_logo)}" alt="" loading="lazy" width="52" height="52">
+                  <div><h2>{esc(label)}</h2><p>{esc(url.replace('https://', '').replace('http://', '').strip('/'))}</p></div>
+                  <a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)}</a>
+                </article>
+                """)
+            else:
+                cards.append(f"""
+                <article class="friend-card is-retired">
+                  <img src="{esc(card_logo)}" alt="" loading="lazy" width="52" height="52">
+                  <div><h2>{esc(label)}</h2><p>{esc(retired_label)}</p></div>
+                </article>
+                """)
+        sections.append(f"""
+        <section class="friend-section">
+          <div class="section-head"><div><h2>{esc(category)}</h2></div></div>
+          <div class="friends-grid">{''.join(cards)}</div>
+        </section>
+        """)
     body = f"""
     <main class="wrap band friends-page">
       <section class="friends-hero">
@@ -632,11 +708,10 @@ def render_friends_entry(entry, lang):
         </div>
         <a class="button primary" href="{rel_url(current, path_to_file(f'{lang}/makefriends/'))}">{esc(apply_label)}</a>
       </section>
-      <section class="friends-grid">
-        {cards}
-      </section>
+      {''.join(sections)}
     </main>
     """
+    body = "\n".join(line.rstrip() for line in body.splitlines())
     return layout(current, lang, title, body, desc, entry_path(entry, other))
 
 
