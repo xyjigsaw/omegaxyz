@@ -27,14 +27,14 @@ I18N = {
         "tags": "标签",
         "search": "搜索",
         "latest": "最新笔记",
-        "latest_desc": "从 WordPress 迁移而来的文章、页面、评论和公式内容。",
+        "latest_desc": "近期更新与长期整理的技术、研究和知识工程笔记。",
         "featured": "知识结构",
         "comments": "评论",
         "toc": "目录",
         "all_posts": "全部文章",
         "all_pages": "全部页面",
         "language": "English",
-        "intro": "OmegaXYZ 是一个长期积累的学习与研究笔记库，内容覆盖编程、机器学习、知识工程、数学与个人思考。现在它被迁移为静态站点，页面更轻，链接更稳，公式和图片仍旧可读。",
+        "intro": "面向编程、机器学习、知识工程与数学的长期笔记库。",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -45,14 +45,14 @@ I18N = {
         "tags": "Tags",
         "search": "Search",
         "latest": "Latest Notes",
-        "latest_desc": "Posts, pages, comments, media, and formulas migrated from WordPress.",
+        "latest_desc": "Recent updates and long-running notes on engineering, research, and knowledge systems.",
         "featured": "Knowledge Map",
         "comments": "Comments",
         "toc": "Contents",
         "all_posts": "All Posts",
         "all_pages": "All Pages",
         "language": "中文",
-        "intro": "OmegaXYZ is a long-running notebook for study and research across programming, machine learning, knowledge engineering, mathematics, and personal ideas. It is now a static site: lighter pages, steadier links, and preserved formulas and media.",
+        "intro": "A long-running notebook for programming, machine learning, knowledge engineering, and mathematics.",
     },
 }
 
@@ -242,6 +242,20 @@ def strip_tags(markup):
     return html.unescape(re.sub(r"\s+", " ", text)).strip()
 
 
+def first_image(entry):
+    if entry.get("thumbnail"):
+        return entry["thumbnail"]
+    match = re.search(r'<img[^>]+src=(["\'])(.*?)\1', entry.get("content_zh", ""), flags=re.I)
+    return match.group(2) if match else ""
+
+
+def short_text(value, length=92):
+    text = re.sub(r"\s+", " ", strip_tags(value)).strip()
+    if len(text) <= length:
+        return text
+    return text[:length].rstrip() + "..."
+
+
 def nav(current_file, lang, title, alt_path):
     t = I18N[lang]
     other = "en" if lang == "zh" else "zh"
@@ -300,14 +314,17 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
 """
 
 
-def render_card(entry, lang, current_file):
+def render_card(entry, lang, current_file, compact=False):
     title = entry[f"title_{lang}"]
-    excerpt = entry[f"excerpt_{lang}"]
+    excerpt = short_text(entry[f"excerpt_{lang}"], 112 if compact else 150)
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     terms = entry["categories"][:2] or entry["tags"][:2]
     pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    image = first_image(entry)
+    image_html = f'<a class="card-media" href="{href}"><img src="{esc(image)}" alt=""></a>' if image and not compact else ""
     return f"""
     <article class="post-card">
+      {image_html}
       <div class="meta">{esc(date_only(entry['date']))}</div>
       <h3><a href="{href}">{esc(title)}</a></h3>
       <p>{esc(excerpt)}</p>
@@ -316,13 +333,59 @@ def render_card(entry, lang, current_file):
     """
 
 
+def render_feature(entry, lang, current_file):
+    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
+    image = first_image(entry)
+    terms = entry["categories"][:2] or entry["tags"][:2]
+    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    image_html = f'<img src="{esc(image)}" alt="">' if image else '<div class="media-fallback">OmegaXYZ</div>'
+    return f"""
+    <article class="feature-card">
+      <a class="feature-media" href="{href}">{image_html}</a>
+      <div class="feature-copy">
+        <div class="meta">{esc(date_only(entry['date']))}</div>
+        <h3><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h3>
+        <p>{esc(short_text(entry[f'excerpt_{lang}'], 132))}</p>
+        <div class="terms">{pills}</div>
+      </div>
+    </article>
+    """
+
+
+def render_quick_item(entry, lang, current_file):
+    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
+    term = (entry["categories"] or entry["tags"] or [{"name": "", "slug": ""}])[0]
+    return f"""
+    <a class="quick-item" href="{href}">
+      <time>{esc(date_only(entry['date']))}</time>
+      <strong>{esc(entry[f'title_{lang}'])}</strong>
+      <span>{esc(term_label(term, lang))}</span>
+    </a>
+    """
+
+
+def render_page_link(entry, lang, current_file):
+    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
+    return f"""
+    <a class="page-link" href="{href}">
+      <span>{esc(date_only(entry['date']))}</span>
+      <strong>{esc(entry[f'title_{lang}'])}</strong>
+    </a>
+    """
+
+
 def render_home(site, lang, current=None):
     current = current or path_to_file(f"{lang}/")
     posts = [e for e in site["entries"] if e["type"] == "post"]
     pages = [e for e in site["entries"] if e["type"] == "page"]
     stats = site["summary"]
-    cards = "".join(render_card(e, lang, current) for e in posts[:6])
-    page_links = "".join(render_card(e, lang, current) for e in pages[:3])
+    hero_entry = next((e for e in posts if first_image(e)), posts[0])
+    hero_href = rel_url(current, path_to_file(entry_path(hero_entry, lang)))
+    hero_image = first_image(hero_entry)
+    featured = render_feature(hero_entry, lang, current)
+    quick_items = "".join(render_quick_item(e, lang, current) for e in [p for p in posts if p["id"] != hero_entry["id"]][:7])
+    cards = "".join(render_card(e, lang, current, compact=True) for e in posts[7:13])
+    page_links = "".join(render_page_link(e, lang, current) for e in pages[:6])
     term_counts = {}
     for entry in posts:
         for term in entry["categories"]:
@@ -338,7 +401,7 @@ def render_home(site, lang, current=None):
     body = f"""
     <main class="wrap">
       <section class="hero">
-        <div>
+        <div class="hero-copy">
           <div class="eyebrow">{esc(t['tagline'])}</div>
           <h1>OmegaXYZ</h1>
           <p>{esc(t['intro'])}</p>
@@ -347,23 +410,33 @@ def render_home(site, lang, current=None):
             <a class="button" href="{rel_url(current, path_to_file(f'{lang}/search/'))}">{esc(t['search'])}</a>
           </div>
         </div>
-        <div class="stats">
-          <div class="stat"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></div>
-          <div class="stat"><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></div>
-          <div class="stat"><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></div>
-          <div class="stat"><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></div>
-        </div>
+        <a class="hero-media" href="{hero_href}">
+          <img src="{esc(hero_image)}" alt="">
+          <span>{esc(hero_entry[f'title_{lang}'])}</span>
+        </a>
       </section>
-      <section class="topic-rail" aria-label="{esc(t['categories'])}">
-        {topic_links}
+      <section class="stats-strip" aria-label="Site statistics">
+        <div><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></div>
+        <div><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></div>
+        <div><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></div>
+        <div><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></div>
+      </section>
+      <section class="home-panel">
+        <div class="topic-rail" aria-label="{esc(t['categories'])}">
+          {topic_links}
+        </div>
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['latest'])}</h2><p>{esc(t['latest_desc'])}</p></div></div>
-        <div class="grid">{cards}</div>
+        <div class="home-stream">
+          {featured}
+          <div class="quick-list">{quick_items}</div>
+        </div>
+        <div class="grid compact-grid">{cards}</div>
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['pages'])}</h2><p>{esc(t['featured'])}</p></div></div>
-        <div class="grid">{page_links}</div>
+        <div class="page-strip">{page_links}</div>
       </section>
     </main>
     """
