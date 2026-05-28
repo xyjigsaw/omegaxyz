@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>编译原理</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>编译原理</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>13</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="fundamentals-of-compiling" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">编译原理<span>12</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="mac" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">mac<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Software Engineering<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="regular-expression" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">正则表达式<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="design-pattern" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">设计模式<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="interpreter mode c++ implementation" data-date="2020-01-14" data-categories="高级语言 cc tech software-engineering fundamentals-of-compiling" data-tags="c-2 software-engineering design-pattern" data-search="interpreter mode c++ implementation introduction given a language, define a representation of its grammar, and define an interpreter that uses the representation to interpret sentences in the language. motivation for the interpreter pattern searching for a string matching a pattern is a common problem. regular expressions are a standard language for describing string patterns. a common search algorithm is used to interpret and execute a regular expression that defines the set of strings to be matched. the interpreter pattern describes how to define a text... programming languages c &amp; c++ technology software engineering 编译原理 c++ software engineering 设计模式 高级语言 cc tech software-engineering fundamentals-of-compiling c-2 software-engineering design-pattern">
       <time>2020-01-14</time>
       <div>
         <h2><a href="../../2020/01/14/design-pattern-interpreter/index.html">Interpreter mode C++ implementation</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/design-pattern/index.html"><span>设计模式</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="top-down syntax analysis implementation of predictive analysis table based on compilation principle" data-date="2019-03-05" data-categories="高级语言 tech python fundamentals-of-compiling" data-tags="python fundamentals-of-compiling" data-search="top-down syntax analysis implementation of predictive analysis table based on compilation principle recursive descent the idea of ​​the recursive subroutine method: the recursive subroutine method is a deterministic top-down grammar analysis method, which requires the grammar to be an ll(1) grammar. its implementation idea is to write a recursive process corresponding to each non-terminal symbol in the grammar. the function of each process is to identify the string derived from the non-terminal symbol. when the production of a certain non-terminal symbol has multiple candidates, it can uniquely select a candidate for derivation in the form of ll(1). for details, please see: https://omegaxyz.co... programming languages technology python 编译原理 python 编译原理 高级语言 tech python fundamentals-of-compiling python fundamentals-of-compiling">
       <time>2019-03-05</time>
       <div>
         <h2><a href="../../2019/03/05/predicttable/index.html">Top-down syntax analysis implementation of predictive analysis table based on compilation principle</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="compilation principle automatically generates lr(0) analysis table python implementation" data-date="2019-02-27" data-categories="高级语言 tech python fundamentals-of-compiling" data-tags="python fundamentals-of-compiling" data-search="compilation principle automatically generates lr(0) analysis table python implementation introduction for lr grammar, we can automatically construct the corresponding lr parsing table. in order to construct an lr analysis table, we need to define an important concept - the standard sentence pattern of grammar &quot;living prefix&quot;. a prefix that does not contain any symbols after such a handle is called a live prefix. at any time during the lr analysis process, the grammar symbols in the stack (from the bottom of the stack) x 1 programming languages technology python 编译原理 python 编译原理 高级语言 tech python fundamentals-of-compiling python fundamentals-of-compiling">
       <time>2019-02-27</time>
       <div>
         <h2><a href="../../2019/02/27/lr0-table/index.html">Compilation principle automatically generates LR(0) analysis table Python implementation</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="compilation principle calculation first set and follow set c++ implementation" data-date="2019-02-22" data-categories="高级语言 cc tech fundamentals-of-compiling" data-tags="c-2 fundamentals-of-compiling" data-search="compilation principle calculation first set and follow set c++ implementation suppose the grammar g[s]=(v n , v t , p, s), then the first character set is: first (α) = {a | α a β, a ∈ v t , α , β∈ v * }. if αε, ε∈first(α). it can be seen from the definition that first (α) refers to the set of terminal symbols at the beginning of all symbol strings that can be derived from the symbol string α. therefore, the first set is also called the first symbol set. let α=x 1 x... programming languages c &amp; c++ technology 编译原理 c++ 编译原理 高级语言 cc tech fundamentals-of-compiling c-2 fundamentals-of-compiling">
       <time>2019-02-22</time>
       <div>
         <h2><a href="../../2019/02/22/first_and_follow/index.html">Compilation principle calculation first set and follow set C++ implementation</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="eliminate left recursion in a grammar" data-date="2019-02-03" data-categories="高级语言 cc tech fundamentals-of-compiling" data-tags="c-2 fundamentals-of-compiling" data-search="eliminate left recursion in a grammar introduction 1. elimination of direct left recursion eliminating direct left recursion in productions is relatively easy. for example, assume that the rule for non-terminal p is p → pα / β where β is a symbol string that does not start with p. then, we can rewrite the rules of p into the following non-direct left recursive form: p → βp’ p’ → αp’ / ε these two rules are equivalent to the original rules, that is, the symbol strings deduced from p in the two forms are the same. let there be a simple expression grammar g[e]: e... programming languages c &amp; c++ technology 编译原理 c++ 编译原理 高级语言 cc tech fundamentals-of-compiling c-2 fundamentals-of-compiling">
       <time>2019-02-03</time>
       <div>
         <h2><a href="../../2019/02/03/toll/index.html">Eliminate left recursion in a grammar</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python implementation of hopcroft algorithm dfa minimization" data-date="2019-02-01" data-categories="高级语言 tech python fundamentals-of-compiling" data-tags="python fundamentals-of-compiling" data-search="python implementation of hopcroft algorithm dfa minimization dfa minimization principle the so-called automaton simplification problem is to construct another deterministic finite automaton dfa m&#x27; for any deterministic finite automaton dfa m, such that l (m) = l (m&#x27;), and the number of states of m&#x27; is not more than the number of states of m, and it can be said with certainty that an m&#x27; with the smallest number of states can be found. let&#x27;s first introduce some related basic concepts. suppose s i is a state of the automaton m. the set of all symbol strings that can be derived from s i... programming languages technology python 编译原理 python 编译原理 高级语言 tech python fundamentals-of-compiling python fundamentals-of-compiling">
       <time>2019-02-01</time>
       <div>
         <h2><a href="../../2019/02/01/hopcroft-min-dfa/index.html">Python implementation of Hopcroft algorithm DFA minimization</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="compilation principle nfa to dfa-python and c++ implementation" data-date="2019-01-29" data-categories="高级语言 cc tech python fundamentals-of-compiling" data-tags="c-2 c python fundamentals-of-compiling" data-search="compilation principle nfa to dfa-python and c++ implementation a certain finite automaton, if the successor state of each state transition is unique, is called a deterministic finite automaton (dfa); if the successor states after the transition are not all unique, it is called an indeterminate finite automaton (nfa). the starting working state of a finite automaton is called the initial state, and the ending working state is called the terminal working state or receiving state. if each node of the state transition diagram in the previous section is regarded as a certain state, the initial node is the initial state, the termination node is the termination state, and... programming languages c &amp; c++ technology python 编译原理 c++ c python 编译原理 高级语言 cc tech python fundamentals-of-compiling c-2 c python fundamentals-of-compiling">
       <time>2019-01-29</time>
       <div>
         <h2><a href="../../2019/01/29/nfa2dfa/index.html">Compilation principle NFA to DFA-Python and C++ implementation</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="the compilation principle constructs regular expressions (regular expressions) from regular grammar" data-date="2019-01-25" data-categories="高级语言 cc tech fundamentals-of-compiling" data-tags="c-2 c regular-expression fundamentals-of-compiling" data-search="the compilation principle constructs regular expressions (regular expressions) from regular grammar type 3 grammar (regular grammar, linear grammar) if for a certain grammar g, each rule in p has the following form: u :: = t or u :: = wt where t∈v t ; u, w∈v n , then the grammar g is called a left-linear grammar. if for a certain grammar g, each rule in p has the following form: u :: = t or u :: = tw where t∈v t ; u, w∈v n , then the grammar g is called a right linear grammar. ... programming languages c &amp; c++ technology 编译原理 c++ c 正则表达式 编译原理 高级语言 cc tech fundamentals-of-compiling c-2 c regular-expression fundamentals-of-compiling">
       <time>2019-01-25</time>
       <div>
         <h2><a href="../../2019/01/25/rg2re/index.html">The compilation principle constructs regular expressions (regular expressions) from regular grammar</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/regular-expression/index.html"><span>正则表达式</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="using flex and bison to implement console calculator on mac" data-date="2019-01-24" data-categories="高级语言 cc tech os fundamentals-of-compiling" data-tags="c-2 c fundamentals-of-compiling mac" data-search="using flex and bison to implement console calculator on mac introduction we use flex and bison to perform lexical and syntactic analysis of a given expression, and complete corresponding calculations while performing syntactic analysis. use flex and bison to implement a more powerful calculator, including the following operations: a) addition, subtraction, multiplication, and division operations b) exponentiation and square root operations c) bit operations – and &amp;, or |, not ~ d) factorial operation! e) trigonometric operations sin cos tan lex and y... programming languages c &amp; c++ technology 操作系统 编译原理 c++ c 编译原理 mac 高级语言 cc tech os fundamentals-of-compiling c-2 c fundamentals-of-compiling mac">
       <time>2019-01-24</time>
       <div>
         <h2><a href="../../2019/01/24/flex-bision-cal/index.html">Using Flex and Bison to implement console calculator on Mac</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mac/index.html"><span>mac</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="chomsky grammar type judgment" data-date="2019-01-23" data-categories="高级语言 cc tech fundamentals-of-compiling" data-tags="c-2 c fundamentals-of-compiling" data-search="chomsky grammar type judgment introduction to grammar 1. type 0 grammar (phrase grammar) if for a certain grammar g, each rule in p has the following form: u:: = v where u∈v＋, v∈v*, then the grammar g is called a type 0 grammar or phrase grammar, abbreviated as psg. the corresponding language of type 0 grammar or phrase structure grammar is called type 0 language or phrase structure language l0. since this kind of grammar has no other restrictions, type 0 grammar is also called an unrestricted grammar, and its corresponding language is called an unrestricted language. any 0... programming languages c &amp; c++ technology 编译原理 c++ c 编译原理 高级语言 cc tech fundamentals-of-compiling c-2 c fundamentals-of-compiling">
       <time>2019-01-23</time>
       <div>
         <h2><a href="../../2019/01/23/chomsky-grammar/index.html">Chomsky grammar type judgment</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="recursive descent to implement ll(1) grammar analysis in c language and python" data-date="2018-12-21" data-categories="高级语言 cc tech python fundamentals-of-compiling" data-tags="c-2 python fundamentals-of-compiling" data-search="recursive descent to implement ll(1) grammar analysis in c language and python the necessary and sufficient condition for a definite top-down grammatical analysis of sentences of grammar g is that any two productions a—&gt;α|β of g with the same left part satisfy the following conditions: (1) if neither α nor β can derive ε, then first(α) ∩ first(β) = ∅. (2) at most one of α and β can derive ε. (3) if β *═&gt; ε, then first(α) ∩ follow(a) = ∅. will satisfy... programming languages c &amp; c++ technology python 编译原理 c++ python 编译原理 高级语言 cc tech python fundamentals-of-compiling c-2 python fundamentals-of-compiling">
       <time>2018-12-21</time>
       <div>
         <h2><a href="../../2018/12/21/ll1-recursiondown/index.html">Recursive descent to implement LL(1) grammar analysis in C language and Python</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="compilation principles using flex on unix/lunix-like systems" data-date="2018-12-13" data-categories="tech fundamentals-of-compiling" data-tags="fundamentals-of-compiling" data-search="compilation principles using flex on unix/lunix-like systems flex, formerly lex, is a lexical analyzer generation tool based on the unix environment that was completed in 1975 by mike lesk and eric schmidt, who was an intern at at&amp;t at the time. this lex is very famous, but its efficiency is too low and it has bugs, which makes it very uncomfortable to use. later vern paxson of berkeley lab rewrote lex in c and named it flex (fast lexical analy... technology 编译原理 编译原理 tech fundamentals-of-compiling fundamentals-of-compiling">
       <time>2018-12-13</time>
       <div>
         <h2><a href="../../2018/12/13/linux-flex/index.html">Compilation principles using flex on Unix/Lunix-like systems</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>编译原理</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="compilation process" data-date="2018-09-07" data-categories="tech fundamentals-of-compiling" data-tags="fundamentals-of-compiling" data-search="compilation process compilation process the working process of a compiler can generally be divided into six stages: 1. lexical analysis 2. syntax analysis 3. semantic analysis 4. intermediate code generation 5. optimization 6. target code generation lexical analysis the task of lexical analysis is to input the source program, scan and decompose the strings that constitute the source program, and identify each word (definition, identifier, operator, delimiter, constant). what is followed in the lexical analysis stage is the grammatical rules (or construction) of the language... technology 编译原理 编译原理 tech fundamentals-of-compiling fundamentals-of-compiling">
       <time>2018-09-07</time>
       <div>
         <h2><a href="../../2018/09/07/fundamentals-of-compiling-process/index.html">Compilation process</a></h2>
@@ -151,8 +177,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>编译原理</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -161,13 +190,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -176,7 +205,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

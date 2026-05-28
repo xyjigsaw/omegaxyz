@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>English</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>English</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>7</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-architecture" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">组成原理与体系结构<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ideas<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GNN<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="速读-对抗攻击的弹性异构dnn加速器体系结构" data-date="2021-03-31" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-对抗攻击的弹性异构dnn加速器体系结构 paper: wang, xingbin, et al. &quot;dnnguard: an elastic heterogeneous dnn accelerator architecture against adversarial attacks.&quot; proceedings of the twenty-fifth international... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-03-31</time>
       <div>
         <h2><a href="../../2021/03/31/dnn-guard/index.html">速读-对抗攻击的弹性异构DNN加速器体系结构</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="捍卫真理——眼见不为实" data-date="2021-03-03" data-categories="ideas programmer english" data-tags="ideas" data-search="捍卫真理——眼见不为实 deepfake imagine if someone replaces the character in a certain video with your face image just for fun, what would you think? this is what deepfake is doing. its functio... ideas 程序人生 english ideas ideas programmer english ideas">
       <time>2021-03-03</time>
       <div>
         <h2><a href="../../2021/03/03/defend-the-truth/index.html">捍卫真理——眼见不为实</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>English</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-张量流处理器（tsp）" data-date="2021-02-03" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-张量流处理器（tsp） paper: abts, dennis, et al. &quot;think fast: a tensor streaming processor (tsp) for accelerating deep learning workloads.&quot; 2020 acm/ieee 47th annual international symposium o... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-02-03</time>
       <div>
         <h2><a href="../../2021/02/03/tsp/index.html">速读-张量流处理器（TSP）</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="breaking news: the english version of omegaxyz is back online" data-date="2021-01-22" data-categories="tech ideas web programmer english" data-tags="ideas" data-search="breaking news: the english version of omegaxyz is back online en.omegaxyz.com our service is adapted to all devices now. 技术域 ideas web开发 程序人生 english ideas tech ideas web programmer english ideas">
       <time>2021-01-22</time>
       <div>
         <h2><a href="../../2021/01/22/breaking-news-the-english-version-of-omegaxyz-is-back-online/index.html">Breaking News: The English version of OmegaXYZ is back online</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-nfa的gpu加速器" data-date="2020-12-31" data-categories="tech computer-architecture english" data-tags="computer-architecture" data-search="速读-nfa的gpu加速器 paper: liu, hongyuan, sreepathi pai, and adwait jog. &quot;why gpus are slow at executing nfas and how to make them faster.&quot; proceedings of the twenty-fifth international conf... 技术域 组成原理与体系结构 english 组成原理与体系结构 tech computer-architecture english computer-architecture">
       <time>2020-12-31</time>
       <div>
         <h2><a href="../../2020/12/31/nfa_gpu/index.html">速读-NFA的GPU加速器</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>English</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-a3基于注意力机制的神经网络处理器" data-date="2020-10-16" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-a3基于注意力机制的神经网络处理器 论文： ham, tae jun, et al. &quot;a^ 3: accelerating attention mechanisms in neural networks with approximation.&quot; 2020 ieee international symposium on high performance computer a... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2020-10-16</time>
       <div>
         <h2><a href="../../2020/10/16/a3-hpca2020/index.html">速读-A3基于注意力机制的神经网络处理器</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="gcc图神经网络预训练概述" data-date="2020-09-30" data-categories="tech machine-learning deep-learning knowledge-graph english" data-tags="ann social-network knowledge-graph gnn" data-search="gcc图神经网络预训练概述 paper gcc: graph contrastive coding for graph neural network pre-training conference : kdd keywords : contrastive learning, instance discrimination, transferability, pre-... 技术域 机器学习 深度学习 知识图谱 english 神经网络 社交网络 知识图谱 gnn tech machine-learning deep-learning knowledge-graph english ann social-network knowledge-graph gnn">
       <time>2020-09-30</time>
       <div>
         <h2><a href="../../2020/09/30/gcc-pre-training/index.html">GCC图神经网络预训练概述</a></h2>
@@ -97,8 +123,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../deep-learning/index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -107,13 +136,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

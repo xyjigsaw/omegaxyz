@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>Evolutionary Algorithms</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>Evolutionary Algorithms</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>69</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="mop" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">多目标优化算法<span>25</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="pso" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">PSO算法<span>22</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="matlab" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">MATLAB<span>21</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="feature-selection" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">特征选择<span>16</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="coevolution" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">协同进化<span>11</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="nsga-ii" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">NSGA-II<span>10</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="aco" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ACO算法<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="greedy-algorithm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">贪心算法<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="svm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">SVM<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="differential-evolution" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">差分进化<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gui" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GUI<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="pyqt" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">PyQt<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="clustering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">聚类<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="introduction to multi-objective evolutionary algorithms based on sparse large-scale matrices" data-date="2019-05-12" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop feature-selection ann" data-search="introduction to multi-objective evolutionary algorithms based on sparse large-scale matrices introduction you can see that the featured image in this article is an extremely sparsely connected neural network, which is obtained by the algorithm sparseea we are about to introduce in the paper. this paper was published by bimk&#x27;s tian tian, ​​zhang xingyi and others in the journal ieee transactions on evolutionary computation (sci area 1) on april 2019. the paper proposes a multi-objective algorithm to solve large-scale sparse problems. large-scale... technology machine learning evolutionary algorithms 多目标优化算法 特征选择 神经网络 tech machine-learning evolutionary-algorithm mop feature-selection ann">
       <time>2019-05-12</time>
       <div>
         <h2><a href="../../2019/05/12/sparse-ea/index.html">Introduction to multi-objective evolutionary algorithms based on sparse large-scale matrices</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of hypervolume multi-objective evaluation indicators" data-date="2019-03-09" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop feature-selection" data-search="overview of hypervolume multi-objective evaluation indicators the hypervolume index evaluation method was first proposed by zitzler et al. it represents the volume of the hypercube surrounded by the individuals in the solution set and the reference point in the target space. evaluation standard hypervolume index evaluation method is a pareto-compliant evaluation method, that is to say, if a solution set s is better than another solution set s&#x27;, then the solution set s... technology machine learning evolutionary algorithms 多目标优化算法 特征选择 tech machine-learning evolutionary-algorithm mop feature-selection">
       <time>2019-03-09</time>
       <div>
         <h2><a href="../../2019/03/09/hypervolume/index.html">Overview of HyperVolume multi-objective evaluation indicators</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of ba algorithm based on iterative local search and random inertia weight (ilssiwba)" data-date="2019-02-28" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="pso matlab" data-search="matlab implementation of ba algorithm based on iterative local search and random inertia weight (ilssiwba) introduction to ba algorithm https://omegaxyz.com/2019/02/12/ba-matlab/ modifications of this paper the author made 3 modifications on the original ba algorithm: ① jump out of the local optimum (perturb individuals) ② make the algorithm stable ③ pulse and loudness modification, balance local and global search main idea flowchart matlab code evaluation function: programming languages technology matlab machine learning evolutionary algorithms pso算法 matlab 高级语言 tech matlab machine-learning evolutionary-algorithm pso matlab">
       <time>2019-02-28</time>
       <div>
         <h2><a href="../../2019/02/28/ilssiwba/index.html">MATLAB implementation of BA algorithm based on iterative local search and random inertia weight (ILSSIWBA)</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of classic bat algorithm" data-date="2019-02-12" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="pso matlab" data-search="matlab implementation of classic bat algorithm why are there so many algorithms based on swarm intelligence, such as ant colonies, particle swarms, fish swarms, fireworks, firecrackers, pigs, cattle, horses, sheep, monkeys, and chickens. . . algorithm. ? ? ? ? ? ? black question mark.jpg the bat algorithm (ba) is a heuristic search algorithm proposed by professor yang in 2010 based on swarm intelligence. it is an effective method for searching for the global optimal solution. the algorithm is an optimization technology based on iteration, which is initialized as a set of random solutions, and then searches for the optimal solution through iteration... programming languages technology matlab machine learning evolutionary algorithms pso算法 matlab 高级语言 tech matlab machine-learning evolutionary-algorithm pso matlab">
       <time>2019-02-12</time>
       <div>
         <h2><a href="../../2019/02/12/ba-matlab/index.html">MATLAB implementation of classic bat algorithm</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ant colony algorithm shortest path planning with multiple exits and questions and answers" data-date="2019-01-28" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab greedy-algorithm aco" data-search="ant colony algorithm shortest path planning with multiple exits and questions and answers recently, many people have asked me how to set up multiple exits for the ant colony algorithm shortest path planning. it turns out that the 2019 us competition question d &quot;saving the louvre&quot; needs to be used. i have not seen the questions in the us competition, so here are some immature codes. introduction to ant colony algorithm: ant colony algorithm was first proposed by marco dorigo and others in 1991. in the process of researching new algorithms, they discovered that when ant colonies are looking for food, they exchange foraging information by secreting a biological hormone called pheromone, so that they can quickly find... programming languages technology matlab machine learning evolutionary algorithms matlab 贪心算法 aco算法 高级语言 tech matlab machine-learning evolutionary-algorithm matlab greedy-algorithm aco">
       <time>2019-01-28</time>
       <div>
         <h2><a href="../../2019/01/28/aco_routes2/index.html">Ant colony algorithm shortest path planning with multiple exits and questions and answers</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/aco/index.html"><span>ACO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="a review of research on solving np hard problems based on evolutionary computation" data-date="2019-01-27" data-categories="tech machine-learning evolutionary-algorithm" data-tags="nsga-ii pso feature-selection ai" data-search="a review of research on solving np hard problems based on evolutionary computation abstract as a stochastic optimization algorithm, evolutionary algorithm has been widely used in the fields of complex function optimization, combinatorial optimization and path planning. this article conducts a detailed analysis and investigation from the development status, defects and improvements of evolutionary algorithms. the definition and research results of np problems are introduced in detail, and methods and strategies for solving np problems with constrained combinatorial optimization based on traditional classic and latest cutting-edge evolutionary algorithms are studied and discussed. experimental results on standard data sets show that evolutionary algorithms have certain capabilities in solving np problems... technology machine learning evolutionary algorithms nsga-ii pso算法 特征选择 人工智能 tech machine-learning evolutionary-algorithm nsga-ii pso feature-selection ai">
       <time>2019-01-27</time>
       <div>
         <h2><a href="../../2019/01/27/ea-np/index.html">A review of research on solving NP hard problems based on evolutionary computation</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="astar algorithm solves the eight-digit problem in python (gui)" data-date="2019-01-22" data-categories="高级语言 tech machine-learning python evolutionary-algorithm" data-tags="python gui pyqt ai" data-search="astar algorithm solves the eight-digit problem in python (gui) introduction eight-digit problem: on a 3*3 square chessboard, eight numbers from 1 to 8 are placed, and one square is empty. its initial state is shown in figure 1. it is required to perform four operations on the spaces: space left shift, space shift right, space shift up, and space shift down to make the chessboard from the initial state to the target state. state chart search: search tree: the nodes and edges passed during the search process form a tree-shaped directed graph according to the connection relationship of the original graph, which is called a search tree. search method tree search: record everything passed during the search process... programming languages technology machine learning python evolutionary algorithms python gui pyqt 人工智能 高级语言 tech machine-learning python evolutionary-algorithm python gui pyqt ai">
       <time>2019-01-22</time>
       <div>
         <h2><a href="../../2019/01/22/eight-puzzle-python/index.html">Astar algorithm solves the eight-digit problem in Python (GUI)</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pyqt/index.html"><span>PyQt</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of genetic algorithm to solve tsp problem (details)" data-date="2019-01-21" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab" data-search="matlab implementation of genetic algorithm to solve tsp problem (details) problem definition: itinerant traveling salesman problem: given a set of n cities and the direct distance between them, find a closed journey that makes each city pass through exactly once and the total travel distance is the shortest. the tsp problem, also known as the tsp problem, is an ancient problem. the problem of knightly travel can be traced back to 1759 by euler. in 1948, promoted by the rand corporation of the united states, tsp became a typical problem in the field of modern combinatorial optimization. tsp is a product with a wide range of application backgrounds and... programming languages technology matlab machine learning evolutionary algorithms matlab 高级语言 tech matlab machine-learning evolutionary-algorithm matlab">
       <time>2019-01-21</time>
       <div>
         <h2><a href="../../2019/01/21/matlab-tsp-all/index.html">MATLAB implementation of genetic algorithm to solve TSP problem (details)</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="an overview of evolutionary (evolutionary) computation" data-date="2019-01-20" data-categories="tech machine-learning evolutionary-algorithm" data-tags="nsga-ii pso ai" data-search="an overview of evolutionary (evolutionary) computation evolutionary computing 1.1 the history and current situation of evolutionary computing in the 1950s, when computer performance was still far behind, darwin&#x27;s theory of evolution was applied to automatic problem solving [1]. in the united states, fogel proposed the idea of ​​evolutionary programming [2], which was later called the genetic algorithm (ga). the ga algorithm is influenced by the natural selection mechanism of &quot;survival of the fittest&quot; and the transmission law of genetic information in the process of biological evolution. it simulates this process through program iteration, and regards the problem to be solved as... technology machine learning evolutionary algorithms nsga-ii pso算法 人工智能 tech machine-learning evolutionary-algorithm nsga-ii pso ai">
       <time>2019-01-20</time>
       <div>
         <h2><a href="../../2019/01/20/evolutionary-computing/index.html">An overview of evolutionary (evolutionary) computation</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="inverse generation distance evaluation index igd" data-date="2019-01-14" data-categories="tech machine-learning evolutionary-algorithm" data-tags="" data-search="inverse generation distance evaluation index igd the inverted generational distance (igd) evaluation index is a comprehensive performance evaluation index. it mainly evaluates the convergence performance and distribution performance of the algorithm by calculating the sum of the minimum distances between each point (individual) on the real pareto front and the individual set obtained by the algorithm. the smaller the value, the better the overall performance of the algorithm including convergence and distribution performance. formula: where, p is uniformly distributed in the real pare... technology machine learning evolutionary algorithms tech machine-learning evolutionary-algorithm">
       <time>2019-01-14</time>
       <div>
         <h2><a href="../../2019/01/14/igd/index.html">Inverse generation distance evaluation index IGD</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="classification-based preprocessing agent model in evolutionary computation" data-date="2018-11-24" data-categories="tech machine-learning evolutionary-algorithm" data-tags="" data-search="classification-based preprocessing agent model in evolutionary computation question: the construction of the surrogate model is relatively complex, and the author hopes to construct a simpler and cheaper surrogate model to evaluate the quality of the subset. therefore, the author proposed an algorithm called cps (classification based preselection). preselection (preselection) in evolutionary algorithms, preselection is a classification problem. to be precise, the offspring solution is used as an external data set for two classifications... technology machine learning evolutionary algorithms tech machine-learning evolutionary-algorithm">
       <time>2018-11-24</time>
       <div>
         <h2><a href="../../2018/11/24/cps/index.html">Classification-based preprocessing agent model in evolutionary computation</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="multi-objective pso algorithm based on crowding distance and mutation dominance" data-date="2018-10-15" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop pso feature-selection" data-search="multi-objective pso algorithm based on crowding distance and mutation dominance this is a paper published by xue bing in the first area of ​​cybernetics, which proposes two multi-objective pso feature selection algorithms, one is nspso and the other is cmdpso. among them, nspso refers to the framework and ideas of nsga2. let’s talk about cmdpso in detail below. the full name of cmdpso is crowding, mutation, dominance pso algorithm. overview and implementation of nspso algorithm https:... technology machine learning evolutionary algorithms 多目标优化算法 pso算法 特征选择 tech machine-learning evolutionary-algorithm mop pso feature-selection">
       <time>2018-10-15</time>
       <div>
         <h2><a href="../../2018/10/15/cmdpso/index.html">Multi-objective PSO algorithm based on crowding distance and mutation dominance</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of multi-objective pso algorithm based on non-dominated sorting" data-date="2018-09-22" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop pso matlab" data-search="matlab implementation of multi-objective pso algorithm based on non-dominated sorting this is a paper published by xue bing in the first area of ​​cybernetics, which proposes two multi-objective pso feature selection algorithms, one is nspso and the other is cmdpso. among them, nspso refers to the framework and ideas of nsga2. for an introduction to this algorithm, please go to: https://omegaxyz.com/2018/09/01/nspso/ pseudocode specific process ① divide the data set into a test set and a training set ② initial... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 pso算法 matlab 高级语言 tech matlab machine-learning evolutionary-algorithm mop pso matlab">
       <time>2018-09-22</time>
       <div>
         <h2><a href="../../2018/09/22/nspso_matlab/index.html">MATLAB implementation of multi-objective PSO algorithm based on non-dominated sorting</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of high-dimensional feature selection algorithm (vlpso) based on variable length pso" data-date="2018-09-16" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso feature-selection" data-search="overview of high-dimensional feature selection algorithm (vlpso) based on variable length pso introduction vlpso is a pso algorithm for solving high-dimensional feature selection published by binh tran, bing xue and others in ieee transactions on evolutionary computation, a top artificial intelligence magazine. it can solve high-dimensional feature selection problems very well, especially the calculation time can be greatly reduced. questions raised: ① high-dimensional feature selection, occupying memory ② high-dimensional feature selection, time-consuming v... technology machine learning evolutionary algorithms pso算法 特征选择 tech machine-learning evolutionary-algorithm pso feature-selection">
       <time>2018-09-16</time>
       <div>
         <h2><a href="../../2018/09/16/vlpso/index.html">Overview of high-dimensional feature selection algorithm (VLPSO) based on variable length PSO</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="technologies and bottlenecks of high-dimensional (multivariable) optimization problems" data-date="2018-09-10" data-categories="tech machine-learning evolutionary-algorithm" data-tags="feature-selection" data-search="technologies and bottlenecks of high-dimensional (multivariable) optimization problems optimization problems in the real world often have high complexity and dimensionality, and are called lsgo problems, or large-scale global optimization. this problem has attracted great interest in research efforts in various fields. many scientific and engineering applications are formulated as lsgo problems, such as designing large electronic systems, scheduling problems of large resources, vehicles in large-scale traffic, routing problems in networks, gene identification in bioinformatics, inverse problems, chemical dynamics... technology machine learning evolutionary algorithms 特征选择 tech machine-learning evolutionary-algorithm feature-selection">
       <time>2018-09-10</time>
       <div>
         <h2><a href="../../2018/09/10/lsgo/index.html">Technologies and bottlenecks of high-dimensional (multivariable) optimization problems</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="multi-objective pso algorithm based on non-dominated sorting" data-date="2018-09-01" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop pso feature-selection" data-search="multi-objective pso algorithm based on non-dominated sorting this is a paper published by xue bing in the first area of ​​cybernetics, which proposes two multi-objective pso feature selection algorithms, one is nspso and the other is cmdpso. among them, nspso refers to the framework and ideas of nsga2. let’s talk about nspso in detail below. cmdpso algorithm https://omegaxyz.com/2018/10/15/cmdpso/ non-dominated sorting from nsga2... technology machine learning evolutionary algorithms 多目标优化算法 pso算法 特征选择 tech machine-learning evolutionary-algorithm mop pso feature-selection">
       <time>2018-09-01</time>
       <div>
         <h2><a href="../../2018/09/01/nspso/index.html">Multi-objective PSO algorithm based on non-dominated sorting</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of feature discretization and selection epso algorithm" data-date="2018-08-08" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso feature-selection" data-search="detailed explanation of feature discretization and selection epso algorithm introduction to epso the main idea of ​​epso is to use bbpso to directly evolve a tangent point that can be any value within the corresponding eigenvalue range [minf···maxf]. the position of each particle represents a candidate solution, which is an n-dimensional real vector corresponding to the dimension of the problem. figure 2 gives an example of a particle position and its corresponding candidate solution. in this example, the first dimension of the particle, representing the cut point of the first characteristic (f1), needs to have a value in the range [8.5,25... technology machine learning evolutionary algorithms pso算法 特征选择 tech machine-learning evolutionary-algorithm pso feature-selection">
       <time>2018-08-08</time>
       <div>
         <h2><a href="../../2018/08/08/fdfs-epso/index.html">Detailed explanation of feature discretization and selection EPSO algorithm</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="feature discretization and selection algorithm based on pso" data-date="2018-07-27" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso feature-selection" data-search="feature discretization and selection algorithm based on pso previously, we introduced the importance of feature selection (fs) and discretized data, gave an overview of the importance of pso in fs and some commonly used methods, introduced the background of fs and discretization, and introduced the entropy-based cutting point and the minimum description length principle (mdlp) used in this article. for details, please click on the link: https://omegaxyz.com/2018/07/23/feature-discret... technology machine learning evolutionary algorithms pso算法 特征选择 tech machine-learning evolutionary-algorithm pso feature-selection">
       <time>2018-07-27</time>
       <div>
         <h2><a href="../../2018/07/27/pso-fdfs/index.html">Feature discretization and selection algorithm based on PSO</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="feature engineering - feature discretization and selection" data-date="2018-07-23" data-categories="tech machine-learning evolutionary-algorithm" data-tags="feature-selection" data-search="feature engineering - feature discretization and selection summary since many feature selection problems deal with discrete data, a common approach is to apply discretization before feature selection. in order to improve efficiency, features are usually discretized univariately. this scheme is based on the assumption that each feature affects the task independently, which may not be true in the presence of feature interactions. therefore, univariate discretization reduces the performance of the feature selection stage after information is displayed. feature interactions may be lost during the discretization process. in addition to feature selection, feature discretization also deals with... technology machine learning evolutionary algorithms 特征选择 tech machine-learning evolutionary-algorithm feature-selection">
       <time>2018-07-23</time>
       <div>
         <h2><a href="../../2018/07/23/feature-discretization-selection/index.html">Feature engineering - feature discretization and selection</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="introduction to matlab genetic algorithm toolbox" data-date="2018-07-13" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab" data-search="introduction to matlab genetic algorithm toolbox matlab is a commercial mathematics software produced by the american mathworks company. it is an advanced technical computing language and interactive environment used for algorithm development, data visualization, data analysis and numerical calculations. it mainly includes matlab and simulink. matlab software is a very powerful tool, in which the ga toolbox can be used to perform data optimization of genetic algorithms. a specific example of simple operation is given below. ①use gui to open and use matlab... programming languages technology matlab machine learning evolutionary algorithms matlab 高级语言 tech matlab machine-learning evolutionary-algorithm matlab">
       <time>2018-07-13</time>
       <div>
         <h2><a href="../../2018/07/13/matlab-ga-tool/index.html">Introduction to MATLAB Genetic Algorithm Toolbox</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ant colony algorithm (aco) traveling salesman problem (tsp) path planning matlab implementation" data-date="2018-07-10" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab aco" data-search="ant colony algorithm (aco) traveling salesman problem (tsp) path planning matlab implementation the origin of ant colony algorithm ant colony optimization (ant colony optimization) was first proposed by marco dorigo and others in 1991. during the process of researching new algorithms, they discovered that when ant colonies were looking for food, they could quickly find the target by secreting a biological hormone called pheromone to exchange foraging information and thus find the target quickly. based on this, they proposed an ant colony algorithm based on the principle of positive information feedback. the basic idea of ​​ant colony algorithm comes from the shortest path principle of ants foraging in nature... programming languages technology matlab machine learning evolutionary algorithms matlab aco算法 高级语言 tech matlab machine-learning evolutionary-algorithm matlab aco">
       <time>2018-07-10</time>
       <div>
         <h2><a href="../../2018/07/10/aco-tsp/index.html">Ant colony algorithm (ACO) traveling salesman problem (TSP) path planning MATLAB implementation</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/aco/index.html"><span>ACO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="improvement strategies of pso algorithm" data-date="2018-07-09" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso" data-search="improvement strategies of pso algorithm pso (pso - particle swarm optimization) (population-based stochastic optimization technology algorithm) particle swarm algorithm imitates the swarming behavior of insects, beasts, birds, fish, etc. these groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members. introduction: https://omegaxyz.com/2017/05/04/… technology machine learning evolutionary algorithms pso算法 tech machine-learning evolutionary-algorithm pso">
       <time>2018-07-09</time>
       <div>
         <h2><a href="../../2018/07/09/improved-simple-pso/index.html">Improvement strategies of PSO algorithm</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="summary of multi-objective co-evolution algorithm" data-date="2018-06-13" data-categories="tech trans machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="summary of multi-objective co-evolution algorithm reprinted from: https://ecole.asia/news/2018/06/10/weekly143/ intrusion and deletion! co-evolution has always been a hot research topic, especially when dealing with large-scale global optimization problems (aaeo issue 27, 32). co-evolutionary algorithms often construct two or more co-evolving populations and use the competition or cooperation between populations to optimize the populations. compared with traditional evolutionary algorithms, co-evolutionary algorithms fully consider the interaction between populations... technology reposts machine learning evolutionary algorithms 多目标优化算法 协同进化 tech trans machine-learning evolutionary-algorithm mop coevolution">
       <time>2018-06-13</time>
       <div>
         <h2><a href="../../2018/06/13/cmoea/index.html">Summary of multi-objective co-evolution algorithm</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../trans/index.html"><span>Reposts</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of large-scale optimization algorithm for cooperative co-evolution of differential grouping" data-date="2018-06-05" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="detailed explanation of large-scale optimization algorithm for cooperative co-evolution of differential grouping cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. in practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. in this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that their interdependencies are maintained to the maximum... technology machine learning evolutionary algorithms 多目标优化算法 协同进化 tech machine-learning evolutionary-algorithm mop coevolution">
       <time>2018-06-05</time>
       <div>
         <h2><a href="../../2018/06/05/ccdifferential_grouping_new/index.html">Detailed explanation of large-scale optimization algorithm for cooperative co-evolution of differential grouping</a></h2>
@@ -250,8 +276,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pso algorithm (cso) based on triple competition mechanism" data-date="2018-05-19" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso" data-search="pso algorithm (cso) based on triple competition mechanism source of tcso algorithm paper title: a modiﬁed competitive swarm optimizer for large scale optimization problems author: prabhujit mohapatra, kedar nath das, santanu roy department of mathematics... technology machine learning evolutionary algorithms pso算法 tech machine-learning evolutionary-algorithm pso">
       <time>2018-05-19</time>
       <div>
         <h2><a href="../../2018/05/19/tcso/index.html">PSO algorithm (CSO) based on triple competition mechanism</a></h2>
@@ -259,8 +285,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pso feature selection algorithm based on training set dynamic surrogate model" data-date="2018-05-10" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso feature-selection" data-search="pso feature selection algorithm based on training set dynamic surrogate model problem ① the wrapper feature selection algorithm based on evolutionary computing is very computationally expensive. ②the feature selection algorithm based on pso evolutionary calculation has significantly improved the evolutionary efficiency, but the evaluation process still takes a long time. contribution the author proposes a dynamic agent model that applies clustering to the training set, which helps to obtain features on the data set to make the selected features better. drop3 algorithm purpose: retain instances on class boundaries, remove instances within classes, and construct a proxy training set. main idea... technology machine learning evolutionary algorithms pso算法 特征选择 tech machine-learning evolutionary-algorithm pso feature-selection">
       <time>2018-05-10</time>
       <div>
         <h2><a href="../../2018/05/10/ts_surrogate_pso_fs/index.html">PSO feature selection algorithm based on training set dynamic surrogate model</a></h2>
@@ -268,8 +294,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="proxy model generation algorithm based on training set (drop3, agg)" data-date="2018-05-08" data-categories="tech machine-learning evolutionary-algorithm" data-tags="clustering" data-search="proxy model generation algorithm based on training set (drop3, agg) drop3 algorithm purpose: retain instances on the class boundary, remove instances within the class, and construct a proxy training set. main idea: use the knn algorithm and sorting to remove noisy instances. algorithm steps: ① first remove all features misclassified by the knn algorithm on the training set. ② for two classifications, calculate the distance between each instance and the nearest instances of other classes, and sort them. ③ remove the above-mentioned instances that are far away. ④ remove instances that do not affect the prediction results of other instances. example agglomerative c... technology machine learning evolutionary algorithms 聚类 tech machine-learning evolutionary-algorithm clustering">
       <time>2018-05-08</time>
       <div>
         <h2><a href="../../2018/05/08/drop3_agg/index.html">Proxy model generation algorithm based on training set (DROP3, AGG)</a></h2>
@@ -277,8 +303,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/clustering/index.html"><span>聚类</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="differential evolution algorithm python implementation" data-date="2018-04-25" data-categories="高级语言 tech machine-learning python evolutionary-algorithm" data-tags="python differential-evolution" data-search="differential evolution algorithm python implementation the de algorithm is mainly used to solve global optimization problems of continuous variables. its main working steps are basically the same as other evolutionary algorithms, including three operations: mutation, crossover, and selection. the basic idea of ​​the algorithm is to start from a randomly generated initial population, use the difference vector of two randomly selected individuals from the population as the source of random change for the third individual, weight the difference vector and sum it with the third individual according to certain rules... programming languages technology machine learning python evolutionary algorithms python 差分进化 高级语言 tech machine-learning python evolutionary-algorithm python differential-evolution">
       <time>2018-04-25</time>
       <div>
         <h2><a href="../../2018/04/25/de_python/index.html">Differential evolution algorithm Python implementation</a></h2>
@@ -286,8 +312,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/differential-evolution/index.html"><span>差分进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of differential evolution" data-date="2018-04-24" data-categories="tech machine-learning evolutionary-algorithm" data-tags="differential-evolution" data-search="overview of differential evolution introduction to de algorithm differential evolution (de) was proposed by storn et al. in 1995. like other evolutionary algorithms, de is a stochastic model that simulates biological evolution. through repeated iterations, individuals that adapt to the environment are preserved. however, compared with evolutionary algorithms, de retains the global search strategy based on the population, and uses real number encoding, simple mutation operations based on differences, and one-to-one competition survival strategies to reduce the complexity of genetic operations... technology machine learning evolutionary algorithms 差分进化 tech machine-learning evolutionary-algorithm differential-evolution">
       <time>2018-04-24</time>
       <div>
         <h2><a href="../../2018/04/24/differential_evolution_intro/index.html">Overview of Differential Evolution</a></h2>
@@ -295,8 +321,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/differential-evolution/index.html"><span>差分进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of crossover mutation of genetic algorithm" data-date="2018-04-21" data-categories="tech machine-learning evolutionary-algorithm" data-tags="nsga-ii" data-search="detailed explanation of crossover mutation of genetic algorithm crossover binary coded crossover single-point crossover single-point crossover is also called simple crossover. it refers to randomly setting only one crossover point in the individual coding string, and then exchanging part of the chromosomes of the two ligand individuals at this point. figure 1 is a schematic diagram of a single-point crossover operation. two-point crossover two-point crossover refers to randomly setting two crossover points in individual coding strings, and then performing partial gene exchange. the specific operation process of two-point crossover is: ① randomly set two crossover points in two paired individual coding strings; ② exchange two... technology machine learning evolutionary algorithms nsga-ii tech machine-learning evolutionary-algorithm nsga-ii">
       <time>2018-04-21</time>
       <div>
         <h2><a href="../../2018/04/21/crossover_mutation/index.html">Detailed explanation of crossover mutation of genetic algorithm</a></h2>
@@ -304,8 +330,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="artificial fish swarm algorithm matlab implementation" data-date="2018-04-04" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab" data-search="artificial fish swarm algorithm matlab implementation artificial fish swarm algorithm in a body of water, fish can often find places with more nutrients on their own or by following other fish. therefore, the place where the largest number of fish live is generally the place with the most nutrients in the water area. the artificial fish swarm algorithm is based on this feature and constructs artificial fish to imitate the feeding, swarming and tail-chasing behaviors of fish schools, thereby achieving optimization. chinese name artificial fish swarm algorithm typical behavior foraging behavior characteristics fast convergence speed stop condition the mean square error is less than the allowable error. algorithm description... programming languages technology matlab machine learning evolutionary algorithms matlab 高级语言 tech matlab machine-learning evolutionary-algorithm matlab">
       <time>2018-04-04</time>
       <div>
         <h2><a href="../../2018/04/04/af/index.html">Artificial fish swarm algorithm MATLAB implementation</a></h2>
@@ -313,8 +339,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of function optimization algorithm based on quantum genetics" data-date="2018-04-02" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab" data-search="matlab implementation of function optimization algorithm based on quantum genetics quantum genetic algorithm is a genetic algorithm based on quantum computing principles. the quantum state vector expression is introduced into genetic coding, and quantum logic gates are used to realize the evolution of chromosomes, achieving better results than conventional genetic algorithms. the quantum genetic algorithm is based on the quantum state vector representation. it applies the probability amplitude representation of qubits to the encoding of chromosomes, so that one chromosome can express the superposition of multiple states, and uses quantum logic gates to realize the update operation of the chromosome, thereby achieving the optimal solution of the goal. m... programming languages technology matlab machine learning evolutionary algorithms matlab 高级语言 tech matlab machine-learning evolutionary-algorithm matlab">
       <time>2018-04-02</time>
       <div>
         <h2><a href="../../2018/04/02/quantum/index.html">MATLAB implementation of function optimization algorithm based on quantum genetics</a></h2>
@@ -322,8 +348,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="basic methods and ideas of evolutionary computation" data-date="2018-03-21" data-categories="tech machine-learning evolutionary-algorithm" data-tags="coevolution" data-search="basic methods and ideas of evolutionary computation in biological systems, evolution is considered a successful adaptive method with good robustness. basic idea: darwinian evolution is a robust search and optimization mechanism. most organisms evolve through natural selection and sexual reproduction. natural selection determines which individuals in a population survive and reproduce, and sexual reproduction ensures mixing and recombination in the genes of future generations. the principle of natural selection is survival of the fittest and survival of the fittest. evolutionary computing is a type of technology developed by drawing on natural selection and natural genetic mechanisms in the biological world... technology machine learning evolutionary algorithms 协同进化 tech machine-learning evolutionary-algorithm coevolution">
       <time>2018-03-21</time>
       <div>
         <h2><a href="../../2018/03/21/ec_intro/index.html">Basic methods and ideas of evolutionary computation</a></h2>
@@ -331,8 +357,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of generalized coevolutionary algorithms" data-date="2018-03-20" data-categories="tech machine-learning evolutionary-algorithm" data-tags="coevolution" data-search="overview of generalized coevolutionary algorithms co-evolutionary algorithm is a new type of evolutionary algorithm proposed on the basis of co-evolution theory in the past ten years. co-evolutionary algorithm takes into account the coordination between the population and the environment, and between the population and the population in the evolutionary process. although research in this area started late, due to the superiority of co-evolutionary algorithms, more and more scholars have conducted research on it. at present, co-evolutionary algorithms have become an active research branch in the field of natural computing. classification of co-evolution: ① co-evolution algorithm based on competition mechanism between populations: this type... technology machine learning evolutionary algorithms 协同进化 tech machine-learning evolutionary-algorithm coevolution">
       <time>2018-03-20</time>
       <div>
         <h2><a href="../../2018/03/20/coevolution/index.html">Overview of Generalized Coevolutionary Algorithms</a></h2>
@@ -340,8 +366,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="self-evaluation algorithm (see) framework" data-date="2018-03-16" data-categories="tech machine-learning evolutionary-algorithm" data-tags="coevolution" data-search="self-evaluation algorithm (see) framework disadvantages of cooperative coevolution: cc faces the difficulty of correctly evaluating and ranking partial solutions when dealing with sub-problems with interactive dependencies. the possible reason for this problem is that the variables with mutual dependence are divided into different groups, which provides wrong guidance for genetic variation. solution: ① use an algorithm that is insensitive to the interactive dependence of variables during iterative optimization. ②use the grouping strategy to group items that have a certain common characteristic (... technology machine learning evolutionary algorithms 协同进化 tech machine-learning evolutionary-algorithm coevolution">
       <time>2018-03-16</time>
       <div>
         <h2><a href="../../2018/03/16/see_simple/index.html">Self-Evaluation Algorithm (SEE) Framework</a></h2>
@@ -349,8 +375,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="gaussian mutation" data-date="2018-03-13" data-categories="tech machine-learning evolutionary-algorithm" data-tags="" data-search="gaussian mutation gaussian mutation is another mutation operation method that improves the local search performance of the genetic algorithm for key search areas. during mutation, the original gene value is replaced with a random number from a normal distribution with mean μ and variance σ. the operation process is similar to uniform mutation. gaussian mutation operator the so-called gaussian mutation operation refers to using a random distribution that conforms to the normal distribution with mean and variance... technology machine learning evolutionary algorithms tech machine-learning evolutionary-algorithm">
       <time>2018-03-13</time>
       <div>
         <h2><a href="../../2018/03/13/gaussian_mutation/index.html">Gaussian mutation</a></h2>
@@ -358,8 +384,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="hyperheuristic algorithm" data-date="2018-03-11" data-categories="tech machine-learning evolutionary-algorithm" data-tags="" data-search="hyperheuristic algorithm what is a heuristic algorithm? an algorithm based on intuition or experience can provide a feasible solution for each instance of the optimization problem to be solved at an acceptable cost (referring to computing time, occupied space, etc.). the deviation of the feasible solution from the optimal solution may not necessarily be predicted in advance. heuristic algorithm is a technology that allows the best solution to be found within an acceptable computational cost, but it does not necessarily guarantee the feasibility and optimality of the obtained solution. in most cases, it is impossible to explain the approximation between the obtained solution and the optimal solution... technology machine learning evolutionary algorithms tech machine-learning evolutionary-algorithm">
       <time>2018-03-11</time>
       <div>
         <h2><a href="../../2018/03/11/hyper-heuristic_algorithm/index.html">hyperheuristic algorithm</a></h2>
@@ -367,8 +393,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="the difference between convergence variables and diversity variables" data-date="2018-03-10" data-categories="tech machine-learning evolutionary-algorithm" data-tags="feature-selection" data-search="the difference between convergence variables and diversity variables let’s first introduce the pareto solution and the pareto optimal solution: if x*∈c*, and there is no solution x that is superior to x in c, then x* is said to be the pareto optimal solution of the multi-objective optimization model, also known as the effective solution. generally speaking, there is no optimal solution to a multi-objective optimization problem. all possible solutions are called non-inferior solutions, also called pareto solutions. traditional optimization techniques can generally obtain one pareo solution set each time, but using intelligent algorithms to solve can obtain more pa... technology machine learning evolutionary algorithms 特征选择 tech machine-learning evolutionary-algorithm feature-selection">
       <time>2018-03-10</time>
       <div>
         <h2><a href="../../2018/03/10/convergence_diverdity_variables/index.html">The difference between convergence variables and diversity variables</a></h2>
@@ -376,8 +402,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation and pseudocode of cooperative co-evolution" data-date="2018-03-06" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="detailed explanation and pseudocode of cooperative co-evolution cooperative coevolution is an evolutionary computing method that decomposes a large problem into sub-problems and solves them independently. sub-problems are also called species. subcomponents are implemented as subgroups, and the only interaction between subgroups is the cooperative evaluation of individuals from each subgroup. the general cc framework is motivated by nature, where individuals of a specific population mate among themselves, however, mating between different species is not feasible. by placing the current individual in other subpopulations... technology machine learning evolutionary algorithms 多目标优化算法 协同进化 tech machine-learning evolutionary-algorithm mop coevolution">
       <time>2018-03-06</time>
       <div>
         <h2><a href="../../2018/03/06/cc_details/index.html">Detailed explanation and pseudocode of cooperative co-evolution</a></h2>
@@ -385,8 +411,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="general matlab code for non-dominated sorting algorithm" data-date="2018-02-11" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop matlab" data-search="general matlab code for non-dominated sorting algorithm each individual in a population of size n needs to compare m objective functions with n-1 individuals in the population, and the complexity is o(mn). therefore, the complexity of comparing n individuals in the population is o(mn2), that is, the time complexity of each pareto classification is o(mn2). this algorithm needs to save two quantities: (1). dominant number np. this quantity is the number of all individuals that can dominate individual p in the feasible solution space. (2).the set of dominated individuals sp... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 matlab 高级语言 tech matlab machine-learning evolutionary-algorithm mop matlab">
       <time>2018-02-11</time>
       <div>
         <h2><a href="../../2018/02/11/ndsort/index.html">General MATLAB code for non-dominated sorting algorithm</a></h2>
@@ -394,8 +420,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="random fixed group cooperative coevolution nsga2 algorithm (ccnsga2)" data-date="2018-02-08" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop nsga-ii matlab coevolution" data-search="random fixed group cooperative coevolution nsga2 algorithm (ccnsga2) cooperative coevolution is an effective method for solving large-scale optimization algorithms. break large-scale problems into sets of smaller sub-problems. the key to cooperative coevolution is the decomposition strategy. for the cooperative coevolution algorithm, please see: https://omegaxyz.com/2017/10/14/cooperative_coevolution/ the nsga2 algorithm is a multi-objective genetic algorithm... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 nsga-ii matlab 协同进化 高级语言 tech matlab machine-learning evolutionary-algorithm mop nsga-ii matlab coevolution">
       <time>2018-02-08</time>
       <div>
         <h2><a href="../../2018/02/08/ccnsga2/index.html">Random fixed group cooperative coevolution NSGA2 algorithm (CCNSGA2)</a></h2>
@@ -403,8 +429,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="random fixed group cooperative coevolution pso algorithm (ccpso)" data-date="2018-01-29" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="pso matlab coevolution" data-search="random fixed group cooperative coevolution pso algorithm (ccpso) cooperative coevolution is an effective method for solving large-scale optimization algorithms. break large-scale problems into sets of smaller sub-problems. the key to cooperative coevolution is the decomposition strategy. for the cooperative coevolution algorithm, please see: https://omegaxyz.com/2017/10/14/cooperative_coevolution/ the pso algorithm is a particle swarm optimization algorithm. this article... programming languages technology matlab machine learning evolutionary algorithms pso算法 matlab 协同进化 高级语言 tech matlab machine-learning evolutionary-algorithm pso matlab coevolution">
       <time>2018-01-29</time>
       <div>
         <h2><a href="../../2018/01/29/ccpso_std/index.html">Random fixed group cooperative coevolution PSO algorithm (CCPSO)</a></h2>
@@ -412,8 +438,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ant colony algorithm (aco) shortest path planning (matlab)" data-date="2018-01-27" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab greedy-algorithm aco" data-search="ant colony algorithm (aco) shortest path planning (matlab) the ant colony algorithm was first proposed by marco dorigo and others in 1991. in the process of researching new algorithms, they discovered that when ant colonies are looking for food, they can quickly find the target by exchanging foraging information by secreting a biological hormone called pheromone. based on this, they proposed an ant colony algorithm based on the principle of positive information feedback. ant colony algorithm is a bionic algorithm designed based on simulating the shortest path behavior of ants looking for food. therefore, generally speaking, ant colony algorithm is used to solve the shortest path problem, and it is really used in traveling salesman questions... programming languages technology matlab machine learning evolutionary algorithms matlab 贪心算法 aco算法 高级语言 tech matlab machine-learning evolutionary-algorithm matlab greedy-algorithm aco">
       <time>2018-01-27</time>
       <div>
         <h2><a href="../../2018/01/27/aco_routes/index.html">Ant Colony Algorithm (ACO) Shortest Path Planning (MATLAB)</a></h2>
@@ -421,8 +447,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/aco/index.html"><span>ACO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ant colony algorithm (aco) matlab implementation" data-date="2018-01-26" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="matlab greedy-algorithm aco" data-search="ant colony algorithm (aco) matlab implementation (1) the origin of ant colony algorithm ant colony optimization (ant colony optimization) was first proposed by marco dorigo and others in 1991. in the process of researching new algorithms, they discovered that when ant colonies are looking for food, they exchange foraging information by secreting a biological hormone called pheromone to quickly find the target. based on this, they proposed the ant colony algorithm based on the principle of positive information feedback. the basic idea of ​​ant colony algorithm comes from the shortest path of ants foraging in nature... programming languages technology matlab machine learning evolutionary algorithms matlab 贪心算法 aco算法 高级语言 tech matlab machine-learning evolutionary-algorithm matlab greedy-algorithm aco">
       <time>2018-01-26</time>
       <div>
         <h2><a href="../../2018/01/26/aco/index.html">Ant colony algorithm (ACO) MATLAB implementation</a></h2>
@@ -430,8 +456,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/aco/index.html"><span>ACO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="simulated annealing algorithm (saa) implemented in c language and matlab" data-date="2018-01-25" data-categories="高级语言 cc tech matlab machine-learning evolutionary-algorithm" data-tags="c matlab greedy-algorithm" data-search="simulated annealing algorithm (saa) implemented in c language and matlab hill climbing method before introducing the simulated annealing algorithm, let us first introduce the hill climbing method. hill climbing is a greedy algorithm. the goal is to find the maximum value of the function. if the initial point is at c during initialization, the nearby local maximum point a will be found. since point a is a local maximum point, for the mountain climbing method, the algorithm cannot jump out of the local maximum point. if the initial point is selected at d, according to the hill climbing method, all maximum value points b will be found. this also illustrates whether such a greed-based mountain climbing method... programming languages c &amp; c++ technology matlab machine learning evolutionary algorithms c matlab 贪心算法 高级语言 cc tech matlab machine-learning evolutionary-algorithm c matlab greedy-algorithm">
       <time>2018-01-25</time>
       <div>
         <h2><a href="../../2018/01/25/saa/index.html">Simulated annealing algorithm (SAA) implemented in C language and MATLAB</a></h2>
@@ -439,8 +465,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="nsga2 algorithm feature selection matlab implementation (multi-objective)" data-date="2018-01-23" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop nsga-ii matlab feature-selection svm" data-search="nsga2 algorithm feature selection matlab implementation (multi-objective) the main idea of ​​using nsga2 for feature selection is to regard subset selection as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare with other combinations. in this way, subset selection is regarded as an optimization problem. the two goals that need to be optimized are the number of features and accuracy. nsga2 is a multi-objective optimization algorithm. for the specific nsga2 general algorithm, please see: https://omegaxyz.... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 nsga-ii matlab 特征选择 svm 高级语言 tech matlab machine-learning evolutionary-algorithm mop nsga-ii matlab feature-selection svm">
       <time>2018-01-23</time>
       <div>
         <h2><a href="../../2018/01/23/nsga2_fs/index.html">NSGA2 algorithm feature selection MATLAB implementation (multi-objective)</a></h2>
@@ -448,8 +474,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of nsga2 algorithm (can customize optimization function)" data-date="2018-01-22" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop nsga-ii matlab" data-search="matlab implementation of nsga2 algorithm (can customize optimization function) i previously wrote a simple nsga2 algorithm that can be used on the zdt1 function: https://omegaxyz.com/2017/05/04/nsga2matlabzdt1/ that nsga2 algorithm is not universal. the following refers to the code of a foreign research group to re-modify the internal redundant content so that it can customize the optimization function. the process of nsga2 is: 1. randomly generate an initial parent po, and use two... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 nsga-ii matlab 高级语言 tech matlab machine-learning evolutionary-algorithm mop nsga-ii matlab">
       <time>2018-01-22</time>
       <div>
         <h2><a href="../../2018/01/22/new_nsga2/index.html">MATLAB implementation of NSGA2 algorithm (can customize optimization function)</a></h2>
@@ -457,8 +483,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of pso algorithm feature selection (single objective)" data-date="2018-01-21" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="pso matlab feature-selection svm" data-search="matlab implementation of pso algorithm feature selection (single objective) the main idea of ​​pso for feature selection is to regard the selection of subsets as a search optimization problem (wrapper method), generate different combinations, evaluate the combinations, and then compare them with other combinations. in this way, subset selection is regarded as an optimization problem. for simple pso matlab code and overview, please see: https://omegaxyz.com/2018/01/17/matlab_pso/ the following is the pso process... programming languages technology matlab machine learning evolutionary algorithms pso算法 matlab 特征选择 svm 高级语言 tech matlab machine-learning evolutionary-algorithm pso matlab feature-selection svm">
       <time>2018-01-21</time>
       <div>
         <h2><a href="../../2018/01/21/psofs/index.html">MATLAB implementation of PSO algorithm feature selection (single objective)</a></h2>
@@ -466,8 +492,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/svm/index.html"><span>SVM</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab particle swarm optimization algorithm implementation (pso)" data-date="2018-01-17" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="pso matlab" data-search="matlab particle swarm optimization algorithm implementation (pso) pso (pso - particle swarm optimization) (population-based stochastic optimization technology algorithm) particle swarm algorithm imitates the swarming behavior of insects, beasts, birds, fish, etc. these groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members. for an overview, please see: https://omegaxyz.com/2017/05/0... programming languages technology matlab machine learning evolutionary algorithms pso算法 matlab 高级语言 tech matlab machine-learning evolutionary-algorithm pso matlab">
       <time>2018-01-17</time>
       <div>
         <h2><a href="../../2018/01/17/matlab_pso/index.html">MATLAB particle swarm optimization algorithm implementation (PSO)</a></h2>
@@ -475,8 +501,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pso algorithm based on particle interactive learning strategy (iil-pso)" data-date="2018-01-16" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso" data-search="pso algorithm based on particle interactive learning strategy (iil-pso) iil-pso algorithm idea (single target) interswarm interactive learning ①initialization: randomly divide the particles into two groups of equal number, and initialize the position, speed, global optimal particle, and individual historical optimal array for each group of particles. ②iteration and learning: calculate the probability of each group of particles becoming a learned particle group. becoming a particle in the learned particle swarm is updated the same as the ordinary pso algorithm. becoming a particle in the learning particle swarm not only... technology machine learning evolutionary algorithms pso算法 tech machine-learning evolutionary-algorithm pso">
       <time>2018-01-16</time>
       <div>
         <h2><a href="../../2018/01/16/iil_pso/index.html">PSO algorithm based on particle interactive learning strategy (IIL-PSO)</a></h2>
@@ -484,8 +510,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python particle swarm optimization algorithm implementation (pso)" data-date="2018-01-12" data-categories="高级语言 tech machine-learning python evolutionary-algorithm" data-tags="pso python" data-search="python particle swarm optimization algorithm implementation (pso) pso (pso - particle swarm optimization) (population-based stochastic optimization technology algorithm) particle swarm algorithm imitates the swarming behavior of insects, beasts, birds, fish, etc. these groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members. for an overview, please see: https://omegaxyz.com/2017/05/0... programming languages technology machine learning python evolutionary algorithms pso算法 python 高级语言 tech machine-learning python evolutionary-algorithm pso python">
       <time>2018-01-12</time>
       <div>
         <h2><a href="../../2018/01/12/python_pso/index.html">Python particle swarm optimization algorithm implementation (PSO)</a></h2>
@@ -493,8 +519,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="single-objective pso based on cauchy and gaussian distributions" data-date="2018-01-09" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso" data-search="single-objective pso based on cauchy and gaussian distributions purpose: in order to solve large-scale optimization problems, the pso algorithm based on cauchy and gaussian distribution sampling can maintain a balance in search efficiency and convergence. since the selection probabilities of cauchy and gaussian distributions are different, it can better maintain particle diversity than simply updating positions with gaussian distribution. differences from traditional pso: ①the speed update formula in traditional pso is abandoned. ② use cauchy and gaussian distribution sampling to update particle positions. ③update based on individual optimality and ring topology optimality... technology machine learning evolutionary algorithms pso算法 tech machine-learning evolutionary-algorithm pso">
       <time>2018-01-09</time>
       <div>
         <h2><a href="../../2018/01/09/cauchy_and_gaussian-based_pso/index.html">Single-objective PSO based on Cauchy and Gaussian distributions</a></h2>
@@ -502,8 +528,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="high-dimensional feature selection algorithm based on vns and markov blanket grouping" data-date="2017-11-29" data-categories="tech machine-learning evolutionary-algorithm" data-tags="feature-selection" data-search="high-dimensional feature selection algorithm based on vns and markov blanket grouping keywords: high-dimensional feature selection, markov blanket, variable neighborhood search algorithm, feature grouping journal: information science (district 1) ① markov blanket: divide a complete set of random variables u into three mutually exclusive parts, the variable in formula (2-16), the set mb is i... technology machine learning evolutionary algorithms 特征选择 tech machine-learning evolutionary-algorithm feature-selection">
       <time>2017-11-29</time>
       <div>
         <h2><a href="../../2017/11/29/pgvns/index.html">High-dimensional feature selection algorithm based on VNS and Markov blanket grouping</a></h2>
@@ -511,8 +537,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="variable neighborhood search (vns)" data-date="2017-11-27" data-categories="tech machine-learning evolutionary-algorithm" data-tags="" data-search="variable neighborhood search (vns) let’s talk about local search first: local search is a heuristic algorithm for solving optimization problems. for some optimization problems that are very complex to calculate, such as various np-complete problems, the time required to find the optimal solution increases exponentially with the size of the problem. therefore, various heuristic algorithms were born to find sub-optimal solutions. this is an approximate algorithm (approximate algorithms) that trades time for accuracy. local search is one of these methods. variable neighborhood search algorithm... technology machine learning evolutionary algorithms tech machine-learning evolutionary-algorithm">
       <time>2017-11-27</time>
       <div>
         <h2><a href="../../2017/11/27/vns/index.html">Variable Neighborhood Search (VNS)</a></h2>
@@ -520,8 +546,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="differential group cooperative co-evolution matlab code" data-date="2017-10-25" data-categories="高级语言 tech matlab machine-learning evolutionary-algorithm" data-tags="mop matlab coevolution" data-search="differential group cooperative co-evolution matlab code cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. in practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. in this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that their interdependencies are maintained to the maximum... programming languages technology matlab machine learning evolutionary algorithms 多目标优化算法 matlab 协同进化 高级语言 tech matlab machine-learning evolutionary-algorithm mop matlab coevolution">
       <time>2017-10-25</time>
       <div>
         <h2><a href="../../2017/10/25/cooperative_coevolution_matlab/index.html">Differential group cooperative co-evolution MATLAB code</a></h2>
@@ -529,8 +555,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of a faster and more accurate differential grouping large-scale black-box optimization algorithm" data-date="2017-10-17" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop" data-search="overview of a faster and more accurate differential grouping large-scale black-box optimization algorithm dg2 has two main parts. ① generate the original interaction structure matrix, which contains the threshold value of |δ(1) − δ(2)| for each pair of variables. ② find a suitable threshold ǫ and convert the original interaction structure matrix λ into the processed matrix θ θij. take 1 if λij &gt; ǫ. it should be pointed out that unlike dg, the threshold of dg2 obtains information based on a large number of function values ​​and the original interaction matrix. this is generated by the ism function. ③ divide variables into irreducible parts... technology machine learning evolutionary algorithms 多目标优化算法 tech machine-learning evolutionary-algorithm mop">
       <time>2017-10-17</time>
       <div>
         <h2><a href="../../2017/10/17/dg2/index.html">Overview of a faster and more accurate differential grouping large-scale black-box optimization algorithm</a></h2>
@@ -538,8 +564,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of cooperative coevolution algorithm (cooperative coevolution)" data-date="2017-10-14" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="overview of cooperative coevolution algorithm (cooperative coevolution) cooperative coevolution is an effective method for solving large-scale optimization algorithms. break large-scale problems into sets of smaller sub-problems. the key to cooperative coevolution is the decomposition strategy. classification of decomposition strategies: ① random decomposition: the order of genes is randomly selected, but the user has to decide the number of groups and the size of the groups. ②perturbation: use several methods to perturb the decision variables to try to group the variables. ③model construction: concept based on the number of individuals s... technology machine learning evolutionary algorithms 多目标优化算法 协同进化 tech machine-learning evolutionary-algorithm mop coevolution">
       <time>2017-10-14</time>
       <div>
         <h2><a href="../../2017/10/14/cooperative_coevolution/index.html">Overview of cooperative coevolution algorithm (Cooperative Coevolution)</a></h2>
@@ -547,8 +573,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="an overview of large-scale optimization algorithms for cooperative coevolution with differential grouping" data-date="2017-09-29" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="an overview of large-scale optimization algorithms for cooperative coevolution with differential grouping cooperative coevolution has introduced coevolutionary algorithms with the aim of solving increasingly complex optimization problems through a divide-and-conquer paradigm. theoretically, the idea of ​​cooperatively changing subcomponents is very suitable for solving large-scale optimization problems. in practice, however, without prior knowledge about the problem, it is unclear how the problem should be decomposed. in this paper, we propose an automatic decomposition strategy, called differential grouping, that can reveal the underlying interaction structure of decision variables and form subcomponents so that their interdependencies are maintained to the maximum... technology machine learning evolutionary algorithms 多目标优化算法 协同进化 tech machine-learning evolutionary-algorithm mop coevolution">
       <time>2017-09-29</time>
       <div>
         <h2><a href="../../2017/09/29/ccdifferential_grouping/index.html">An overview of large-scale optimization algorithms for cooperative coevolution with differential grouping</a></h2>
@@ -556,8 +582,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of basic methods for feature selection" data-date="2017-09-25" data-categories="tech machine-learning evolutionary-algorithm" data-tags="feature-selection" data-search="overview of basic methods for feature selection there are three main methods of feature selection: 1. filter method. the main idea is to &quot;score&quot; the features of each dimension, that is, to give weights to the features of each dimension. such weights represent the importance of the features of that dimension, and then sort according to the weight. the main methods are: chi-squared test (chi-squared test) information gain (information gain), for details, see &quot;simple and easy-to-learn machine learning algorithm - id3 algorithm of decision tree&quot; cor... technology machine learning evolutionary algorithms 特征选择 tech machine-learning evolutionary-algorithm feature-selection">
       <time>2017-09-25</time>
       <div>
         <h2><a href="../../2017/09/25/feature_section_measures_intro/index.html">Overview of basic methods for feature selection</a></h2>
@@ -565,8 +591,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of multi-objective optimization problems" data-date="2017-09-02" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop pso" data-search="detailed explanation of multi-objective optimization problems in life, many problems are composed of multiple goals that conflict and influence each other. people often encounter the optimization problem of making multiple objectives as optimal as possible in a given area at the same time, which is a multi-objective optimization problem. if an optimization problem has more than one optimization objective and needs to be processed simultaneously, it becomes a multi-objective optimization problem. multi-objective optimization problems are very common and occupy a very important position in real life such as engineering applications. these practical problems are usually very complex and difficult and are one of the main research fields. since 2... technology machine learning evolutionary algorithms 多目标优化算法 pso算法 tech machine-learning evolutionary-algorithm mop pso">
       <time>2017-09-02</time>
       <div>
         <h2><a href="../../2017/09/02/mop/index.html">Detailed explanation of multi-objective optimization problems</a></h2>
@@ -574,8 +600,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="multi-objective cso algorithm (mocso) understanding" data-date="2017-06-24" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop pso" data-search="multi-objective cso algorithm (mocso) understanding mocso (multi-objective competitive swarm optimizer) is a variant of pso (particle swarm optimization) competitive particle swarm optimization algorithm (mocso) based on multi-objective optimization abstract: in evolutionary computation, exploring effective multi-objective optimization techniques is worthy of attention. we propose a multi-objective optimization algorithm based on the recently developed swarm intelligence paradigm. based on this algorithm, we propose a... technology machine learning evolutionary algorithms 多目标优化算法 pso算法 tech machine-learning evolutionary-algorithm mop pso">
       <time>2017-06-24</time>
       <div>
         <h2><a href="../../2017/06/24/mocso1/index.html">Multi-objective CSO algorithm (MOCSO) understanding</a></h2>
@@ -583,8 +609,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab implementation of nsga-ⅱ algorithm (test function is zdt1)" data-date="2017-05-04" data-categories="tech matlab machine-learning evolutionary-algorithm" data-tags="mop nsga-ii matlab" data-search="matlab implementation of nsga-ⅱ algorithm (test function is zdt1) in order to understand the main operations and ideas of matlab at any time. therefore, this article pastes the matlab implementation of the nsga-ⅱ algorithm (the test function is zdt1). thanks to senior guo wei for providing the code. the ownership of the code belongs to senior guo wei. before looking at the matlab implementation, please take a look at the overview of the nsga-ii algorithm https://omegaxyz.com/2017/04/14/nsga-iiintro/ nsga-ⅱ is the first generation non... technology matlab machine learning evolutionary algorithms 多目标优化算法 nsga-ii matlab tech matlab machine-learning evolutionary-algorithm mop nsga-ii matlab">
       <time>2017-05-04</time>
       <div>
         <h2><a href="../../2017/05/04/nsga2matlabzdt1/index.html">Matlab implementation of NSGA-Ⅱ algorithm (test function is ZDT1)</a></h2>
@@ -592,8 +618,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../matlab/index.html"><span>MATLAB</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/matlab/index.html"><span>MATLAB</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of the particle swarm optimization (pso) algorithm" data-date="2017-05-04" data-categories="tech machine-learning evolutionary-algorithm" data-tags="pso" data-search="overview of the particle swarm optimization (pso) algorithm pso (pso - particle swarm optimization) (population-based stochastic optimization technology algorithm) particle swarm algorithm imitates the swarming behavior of insects, beasts, birds, fish, etc. these groups search for food in a cooperative manner, and each member of the group continuously changes its search pattern by learning from its own experience and the experience of other members. kennedy and eberhart proposed the main design ideas and two aspects of particle swarm algorithm... technology machine learning evolutionary algorithms pso算法 tech machine-learning evolutionary-algorithm pso">
       <time>2017-05-04</time>
       <div>
         <h2><a href="../../2017/05/04/introductionofpso/index.html">Overview of the particle swarm optimization (PSO) algorithm</a></h2>
@@ -601,8 +627,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pso/index.html"><span>PSO算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c++ implementation of nsga-ⅱ algorithm (test function is zdt1)" data-date="2017-04-20" data-categories="高级语言 cc tech machine-learning evolutionary-algorithm" data-tags="mop nsga-ii" data-search="c++ implementation of nsga-ⅱ algorithm (test function is zdt1) before looking at the c++ implementation, please take a look at the overview of the nsga-ii algorithm https://omegaxyz.com/2017/04/14/nsga-iiintro/ nsga-ii is improved on the basis of the first generation non-dominated sorting genetic algorithm. its improvements are mainly aimed at the three aspects mentioned above: ① a fast non-dominated sorting algorithm is proposed, which on the one hand reduces the complexity of the calculation. on the other hand, it merges the parent population with the offspring population, so that... programming languages c &amp; c++ technology machine learning evolutionary algorithms 多目标优化算法 nsga-ii 高级语言 cc tech machine-learning evolutionary-algorithm mop nsga-ii">
       <time>2017-04-20</time>
       <div>
         <h2><a href="../../2017/04/20/nsga2zdt1/index.html">C++ implementation of NSGA-Ⅱ algorithm (test function is ZDT1)</a></h2>
@@ -610,8 +636,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="understanding nsga-ii fast non-dominated sorting algorithm" data-date="2017-04-19" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop nsga-ii" data-search="understanding nsga-ii fast non-dominated sorting algorithm fast non-dominated sorting when nsga performs non-dominated sorting, each individual in a population of size n must be compared with n-1 individuals in the population for m objective functions, and the complexity is o(mn). therefore, the complexity of comparing n individuals in the population is o(mn2), that is, the time complexity of each pareto classification is o(mn2). in the worst case, each pareto level contains only one individual, so the time required for n grading... technology machine learning evolutionary algorithms 多目标优化算法 nsga-ii tech machine-learning evolutionary-algorithm mop nsga-ii">
       <time>2017-04-19</time>
       <div>
         <h2><a href="../../2017/04/19/nsga2fastsort/index.html">Understanding NSGA-II fast non-dominated sorting algorithm</a></h2>
@@ -619,8 +645,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="some explanations of pareto optimal solutions" data-date="2017-04-16" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop" data-search="some explanations of pareto optimal solutions 1. pareto optimal solution is also called non-dominated solution and non-dominant solution. pareto optimal solution set is also called non-inferior solution, non-dominated solution set and non-dominant solution set. 2. the figure below shows the final pareto frontier (pareto) of the minimized two-objective optimization problem. front) distribution schematic diagram, the smaller the target values ​​of f1 and f2 are, the better. the components of the solid line and the dotted line are the feasible areas. the solid line represents the pareto front surface, which is the surface composed of the target vectors corresponding to all pareto optimal solutions. one... technology machine learning evolutionary algorithms 多目标优化算法 tech machine-learning evolutionary-algorithm mop">
       <time>2017-04-16</time>
       <div>
         <h2><a href="../../2017/04/16/theexpofpareto/index.html">Some explanations of Pareto optimal solutions</a></h2>
@@ -628,8 +654,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="the general process of multi-objective evolutionary algorithms" data-date="2017-04-16" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop" data-search="the general process of multi-objective evolutionary algorithms ① randomly generate population p. ②p uses ea (evolutionary algorithm) to obtain g. ③construct the non-dominated solution set ndset (non dominated set) of p∪g. (this involves how to construct a non-dominated solution set) ④adjust the size of ndset and make it meet the distribution requirements. (this involves what strategy to use to adjust the size of ndset, and how to maintain the diversity and distribution of the non-dominated set) ⑤ if p&lt;=ndset, the loop goes to step ②, otherwise it goes to... technology machine learning evolutionary algorithms 多目标优化算法 tech machine-learning evolutionary-algorithm mop">
       <time>2017-04-16</time>
       <div>
         <h2><a href="../../2017/04/16/theprocedureofmultioa/index.html">The general process of multi-objective evolutionary algorithms</a></h2>
@@ -637,8 +663,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of nsga-ii multi-objective genetic algorithm" data-date="2017-04-14" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop nsga-ii" data-search="overview of nsga-ii multi-objective genetic algorithm what is nsga-ii non dominated sorting genetic algorithm -ii nsga-ii is one of the most popular multi-objective genetic algorithms at present. it reduces the complexity of the non-dominated sorting genetic algorithm, has the advantages of fast running speed and good convergence of the solution set, and has become the benchmark for the performance of other multi-objective optimization algorithms. nsga-ⅱ is improved on the basis of the first generation of non-dominated sorting genetic algorithm. its improvements are mainly aimed at... technology machine learning evolutionary algorithms 多目标优化算法 nsga-ii tech machine-learning evolutionary-algorithm mop nsga-ii">
       <time>2017-04-14</time>
       <div>
         <h2><a href="../../2017/04/14/nsga-iiintro/index.html">Overview of NSGA-II multi-objective genetic algorithm</a></h2>
@@ -646,8 +672,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/nsga-ii/index.html"><span>NSGA-II</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="overview of multi-objective optimization problems" data-date="2017-04-13" data-categories="tech machine-learning evolutionary-algorithm" data-tags="mop" data-search="overview of multi-objective optimization problems definition: searching for the best possible solution (non-inferior solution) within a given area under the constraints of several conflicting or interacting conditions. keywords: conditional constraints, compromise optimal solution (the fact that the solution is not unique is the essential difference from the single-objective optimization problem) text description: d decision variable parameters; n objective functions; m+n constraints. mathematical description: technology machine learning evolutionary algorithms 多目标优化算法 tech machine-learning evolutionary-algorithm mop">
       <time>2017-04-13</time>
       <div>
         <h2><a href="../../2017/04/13/briefintroductionofpareto/index.html">Overview of multi-objective optimization problems</a></h2>
@@ -655,8 +681,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Evolutionary Algorithms</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mop/index.html"><span>多目标优化算法</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -665,13 +694,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -680,7 +709,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

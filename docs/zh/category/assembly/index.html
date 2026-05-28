@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>汇编语言</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>汇编语言</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>16</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="assembly" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">汇编语言<span>16</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-architecture" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">组成原理与体系结构<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="海明码汇编语言实现" data-date="2018-07-31" data-categories="assembly tech computer-architecture" data-tags="assembly computer-architecture" data-search="海明码汇编语言实现 作者：徐奕、仇康 海明码简介 海明码其性能是检测一位错，是在奇偶校验码的思想上发展起来的，它在k位数据位中加入r个校验位，形成一个k+r位的新码字，并且将数据的每个二进制位分配到几个不同的奇偶校验组中。这样，当其中一位发生变化时，会引起有关的几个组出现奇偶校验错。通过这些出错组的不同组合，就能够指明是哪一位出现了错误，从而进行纠错。 使用... 汇编语言 技术域 组成原理与体系结构 汇编语言 组成原理与体系结构 assembly tech computer-architecture assembly computer-architecture">
       <time>2018-07-31</time>
       <div>
         <h2><a href="../../2018/07/31/hamming-code-assembly/index.html">海明码汇编语言实现</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编语言辗转相除法求最大公约数" data-date="2018-07-17" data-categories="assembly tech" data-tags="assembly" data-search="汇编语言辗转相除法求最大公约数 辗转相除法， 又名欧几里德算法（euclidean algorithm），是求最大公约数的一种方法。它的具体做法是：用较小数除较大数，再用出现的余数（第一余数）去除除数，再用出现的余数（第二余数）去除第一余数，如此反复，直到最后余数是0为止。如果是求两个数的最大公约数，那么最后的除数就是这两个数的最大公约数。 汇编中的主要子程序 ①主程序... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2018-07-17</time>
       <div>
         <h2><a href="../../2018/07/17/assembly-gcd/index.html">汇编语言辗转相除法求最大公约数</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编语言排序算法" data-date="2018-07-16" data-categories="assembly tech" data-tags="assembly" data-search="汇编语言排序算法 问题 用变量传递参数键盘输入字符串到缓冲区后，对缓冲区内容降序排序并输出（冒泡排序） 流程 ①把字符串通过键盘输入到缓冲区 ②对字符串按照ascii码降序排序（子程序） ③对排序后的字符串输出（子程序） 难点 排序算法的多重循环实现 代码 结果 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2018-07-16</time>
       <div>
         <h2><a href="../../2018/07/16/assembly-bubble-sort/index.html">汇编语言排序算法</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编程序16位带符号变量计算" data-date="2017-11-26" data-categories="assembly tech" data-tags="assembly" data-search="汇编程序16位带符号变量计算 用16位指令编写完整的程序，并上机测试，计算w=（x+y）*z,其中所有变量均为16位带符号变量。 注意伪指令的使用。 用16位指令编制程序，处理32位的加减乘除算术四则运算题。 本文计算（3*x+y-z）/5的值请看 https://omegaxyz.com/2017/05/05/assemblyexperiment4_2/ 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-11-26</time>
       <div>
         <h2><a href="../../2017/11/26/汇编程序16位带符号变量计算/index.html">汇编程序16位带符号变量计算</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="16位伪指令汇编程序查看内存" data-date="2017-11-26" data-categories="assembly tech" data-tags="assembly" data-search="16位伪指令汇编程序查看内存 【实验内容】 用16位指令编写完整程序，实现下列数据定义语句和相关指令，在debug下查看内存数据的定义情况，单步跟踪查看各寄存器的值。 题目： org 0 array label byte da1 dw 2，9，14，3，315h，-6 da2 db 7，‘abcdedfg’ len = $－da2 org 100h da3 dw da... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-11-26</time>
       <div>
         <h2><a href="../../2017/11/26/as_ram_16/index.html">16位伪指令汇编程序查看内存</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编伪指令" data-date="2017-11-26" data-categories="assembly tech" data-tags="assembly" data-search="汇编伪指令 伪指令：伪指令，告诉编译器如何进行编译的指令，它既不控制机器的操作，也不被汇编成机器代码，只能为汇编程序所识别并指导编译器如何翻译源程序。 伪指令与指令的最大区别在于，伪指令只在编译时起作用，而指令只能在程序运行时才发挥作用。 1、equ（equate） 一般格式为： 标号： equ 操作数 指令功能为将操作数赋予标号，两边的值完全相等。... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-11-26</time>
       <div>
         <h2><a href="../../2017/11/26/as_pseudo_instruction/index.html">汇编伪指令</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="使用汇编语言编写的计算器" data-date="2017-05-26" data-categories="assembly tech" data-tags="assembly" data-search="使用汇编语言编写的计算器 计算器实现简单的加减乘除运算（小于65536的正数） ①从键盘输入算数的等式 ②不接受复合算数如3+5*7 ③按‘=’号输出结果 ④按‘c’号作为clear清零 程序分为输入模块，判断模块，计算模块，输出模块。 其他：增加了一些特性 ①能够得出两个正数相减得到的负数 ②能够计算除法中的余数 ③比较美观 代码过长由于增加了一些特性 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-26</time>
       <div>
         <h2><a href="../../2017/05/26/assemblycalculator/index.html">使用汇编语言编写的计算器</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验6-2（将正负数复制到不同的数组）" data-date="2017-05-26" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验6-2（将正负数复制到不同的数组） 分离字数组array中的正，负数，把其中的正数复制到pdata数组：负数复制到ndata数组，并分别统计正、负数个数。 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-26</time>
       <div>
         <h2><a href="../../2017/05/26/assemblyexperiment6_2/index.html">汇编实验6-2（将正负数复制到不同的数组）</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验7-2（输入7位二进制数显示字符）" data-date="2017-05-19" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验7-2（输入7位二进制数显示字符） 实验要求： 从键盘输入7位二进制数，显示对应的字符，回车键退出循环，终止程序。 输入0110011即33h是3的码，注意只要输入7位即可，第一个0省略了。 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-19</time>
       <div>
         <h2><a href="../../2017/05/19/assemblyexperiment7_2/index.html">汇编实验7-2（输入7位二进制数显示字符）</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第六章至第十章" data-date="2017-05-17" data-categories="assembly tech" data-tags="assembly" data-search="《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第六章至第十章 网上的答案是第一版的，重新整理了一下 《汇编语言程序设计教程》人民邮电出版社第二版第六章至第十章 刘慧婷，王庆生 主编 习题及参考答案 第一张到第五章请参考： https://omegaxyz.com/2017/05/04/assemblyans1_5/ 习题6 6.1 画图说明下列数据定义语句所示内存空间的数据，并回答寄存器的值。 or... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-17</time>
       <div>
         <h2><a href="../../2017/05/17/assemblyans6_10/index.html">《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第六章至第十章</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验4-2（32位加减乘除运算题）" data-date="2017-05-05" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验4-2（32位加减乘除运算题） 用16位指令编制程序，处理32位的加减乘除算术四则运算题。 本文计算（3*x+y-z）/5的值 值分别为： 其中除5后商为3，余2 前四个步骤的寄存器状态 zf=0 sf=0 cf=0 of=0 最后几步 al=03，dl=02 符合 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-05</time>
       <div>
         <h2><a href="../../2017/05/05/assemblyexperiment4_2/index.html">汇编实验4-2（32位加减乘除运算题）</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验4-3（字符串比较与查找）" data-date="2017-05-05" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验4-3（字符串比较与查找） 答案仅供参考，大家还是自己写比较好。 (汇编语言实现)用字符串处理指令编制程序，处理字符串的比较和查找，显示结果。 要求： （1）字符串的比较函数中，一个字符串在数据段定义，另一个字符串在程序执行时从键盘输入，必须定义键盘缓冲区。指出不相等的位置。 （2）在字符串中查找某个字符，并指出找到的位置。 第一问： 测试： 代码中字符串为www.... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-05</time>
       <div>
         <h2><a href="../../2017/05/05/assemblyexperiment4_3/index.html">汇编实验4-3（字符串比较与查找）</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第一章至第五章" data-date="2017-05-04" data-categories="assembly tech" data-tags="assembly" data-search="《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第一章至第五章 网上的答案是第一版的，重新整理了一下 《汇编语言程序设计教程》人民邮电出版社第二版 刘慧婷，王庆生 主编 习题及参考答案 第六章至第十章请参考： https://omegaxyz.com/2017/05/17/assemblyans6_10/ 第一章至第五章 核对及编辑：xyjigsaw 习题1 1.1 什么是机器语言？什么是汇编语言？简... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-05-04</time>
       <div>
         <h2><a href="../../2017/05/04/assemblyans1_5/index.html">《汇编语言程序设计教程》人民邮电出版社第二版习题及参考答案第一章至第五章</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验4-4（al字节内容反向排序）" data-date="2017-04-28" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验4-4（al字节内容反向排序） 如果有错误或问题请评论，谢谢！！ 注意是是二进制，主要考察汇编移位rcl, rcr指令 shl(shift left): 逻辑左移 shr(shift right): 逻辑右移 sal(shift arithmetic left): 算术左移 sar(shift arithmetic right): 算术右移 其中的 shl 和 sal... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-04-28</time>
       <div>
         <h2><a href="../../2017/04/28/assemblyexperiment4_4/index.html">汇编实验4-4（AL字节内容反向排序）</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="汇编实验4-1（数据段查找ascii码并回显）" data-date="2017-04-28" data-categories="assembly tech" data-tags="assembly" data-search="汇编实验4-1（数据段查找ascii码并回显） 实验要求：在数据段预先存放16个十六进制的ascii码，首地址为asc。从键盘输入一位十六进制数到bx，用asc[bx]（寄存器相对寻址）寻址方式找到对应数位的ascii码，并取出显示。 汇编代码片段： 实验结果在masm for windows显示 输入数字5，返回数字5 输入字母a，返回字母a debug调试： 1.输入5赋值给al,... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-04-28</time>
       <div>
         <h2><a href="../../2017/04/28/assemblyexperiment4_1/index.html">汇编实验4-1（数据段查找ASCII码并回显）</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="如何在win10 64位下搭载汇编环境（包含64位机可以使用的edit命令）" data-date="2017-04-07" data-categories="assembly tech" data-tags="assembly" data-search="如何在win10 64位下搭载汇编环境（包含64位机可以使用的edit命令） 网上的教程只能在win10中使用debug 命令 不能使用edit命令 找了半天终于找到了可以在64位机下使用的edit源文件并插入到网上下载的masm包中。 汇编文件 https://pan.baidu.com/s/1w27jqtrklbam4zpzgvzr7a 首先，将文件下载安装dosbox0.74注意不要安装在c盘 将下载的mas... 汇编语言 技术域 汇编语言 assembly tech assembly">
       <time>2017-04-07</time>
       <div>
         <h2><a href="../../2017/04/07/如何在win10-64位下搭载汇编环境-包含64位机可以使用的e/index.html">如何在win10 64位下搭载汇编环境（包含64位机可以使用的edit命令）</a></h2>
@@ -178,8 +204,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>汇编语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/assembly/index.html"><span>汇编语言</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -188,13 +217,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>计算机图形学</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>计算机图形学</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>4</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="cg" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">计算机图形学<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="opengl" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">openGL<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C<span>2</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="overview of the cohen-sutherland algorithm" data-date="2018-10-29" data-categories="tech cg" data-tags="cg" data-search="overview of the cohen-sutherland algorithm idea: by assigning a 4-bit binary code to any endpoint (x, y) according to the area where its coordinates are located, it is judged whether the graphic element falls within the clipping window and the internal part is found through the intersection operation. coding method note: l is left, r is right, b is bottom, t is top (1) if x is less than wxl, d0=1, otherwise d0=0 (2) if x is greater than wxr, d1=1, otherwise d1=0 (3) if y is less than wyb,... technology 计算机图形学 计算机图形学 tech cg cg">
       <time>2018-10-29</time>
       <div>
         <h2><a href="../../2018/10/29/cohen-sutherland/index.html">Overview of the Cohen-Sutherland algorithm</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>计算机图形学</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/cg/index.html"><span>计算机图形学</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="opengl implements bresenham circle drawing algorithm" data-date="2018-10-14" data-categories="高级语言 cc tech cg" data-tags="c-2 c cg opengl" data-search="opengl implements bresenham circle drawing algorithm midpoint bresenham algorithm bresenham circle drawing algorithm, also known as midpoint circle drawing algorithm, is the same as bresenham straight line algorithm. its basic method is to use the discriminant variable to judge and select the nearest pixel point. the value of the discriminant variable can be calculated using only some addition, subtraction and shift operations. for the sake of simplicity, consider a circle with the center at the origin of the coordinates, and only calculate the points on the eighth circle, and the other points on the circle can be obtained by using symmetry. why only calculate the eight-sector circumference... programming languages c &amp; c++ technology 计算机图形学 c++ c 计算机图形学 opengl 高级语言 cc tech cg c-2 c cg opengl">
       <time>2018-10-14</time>
       <div>
         <h2><a href="../../2018/10/14/opengl-bresenham-circle/index.html">OpenGL implements Bresenham circle drawing algorithm</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/cg/index.html"><span>计算机图形学</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/opengl/index.html"><span>openGL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="opengl numerical differentiation method (dda) draws a straight line" data-date="2018-09-23" data-categories="高级语言 cc tech cg" data-tags="c-2 c cg opengl" data-search="opengl numerical differentiation method (dda) draws a straight line the dda algorithm is a method in computer graphics that generates straight lines based on differential equations of straight lines. due to floating point operations and rounding, this algorithm is not conducive to hardware implementation. the main idea is derived from the straight line formula y = kx + b. we know the two endpoints of the straight line segment p0(x0,y0) and p1(x1,y1), and we can find k and b. under the condition that k and b are both found, as long as we know an x ​​value, we can calculate a y value. if x&#x27;s step... programming languages c &amp; c++ technology 计算机图形学 c++ c 计算机图形学 opengl 高级语言 cc tech cg c-2 c cg opengl">
       <time>2018-09-23</time>
       <div>
         <h2><a href="../../2018/09/23/dda_cg/index.html">OpenGL numerical differentiation method (DDA) draws a straight line</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/cg/index.html"><span>计算机图形学</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/opengl/index.html"><span>openGL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="getting started with opengl" data-date="2018-09-12" data-categories="高级语言 cc tech cg" data-tags="c-2 cg opengl" data-search="getting started with opengl opengl (full open graphics library) refers to a professional graphics program interface that defines a cross-programming language and cross-platform programming interface specifications. it is used for three-dimensional images (two-dimensional as well), and is a powerful and easy-to-call underlying graphics library. opengl™ is the most widely accepted 2d/3d graphics api in the industry. since its inception, it has spawned thousands of excellent applications on various computer platforms and devices. open... programming languages c &amp; c++ technology 计算机图形学 c++ 计算机图形学 opengl 高级语言 cc tech cg c-2 cg opengl">
       <time>2018-09-12</time>
       <div>
         <h2><a href="../../2018/09/12/opengl_intro/index.html">Getting Started with OpenGL</a></h2>
@@ -70,8 +96,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/cg/index.html"><span>计算机图形学</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/opengl/index.html"><span>openGL</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -80,13 +109,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -95,7 +124,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

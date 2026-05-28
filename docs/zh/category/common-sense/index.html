@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>常识</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>常识</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>3</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ideas<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="web" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">web<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="华氏451" data-date="2018-12-22" data-categories="ideas common-sense" data-tags="web ideas" data-search="华氏451 2015 年 12 月 21 日，因特网工程指导组 (ietf) 批准了全新 http 状态错误代码 “451” ，这个代码的官方释义为 “ 由于法律原因而不可用 ” 。 451 数字来源于 1953 年由美国作家雷 · 布莱伯利所著的反乌托邦小说《华氏 451 度》。 故事叙述了一个压制自由的近未来世界，禁止人们阅读、拥有书籍，所谓的消... ideas 常识 web ideas ideas common-sense web ideas">
       <time>2018-12-22</time>
       <div>
         <h2><a href="../../2018/12/22/http451/index.html">华氏451</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="如何正确给锂电池充电" data-date="2018-02-10" data-categories="ideas common-sense" data-tags="ideas" data-search="如何正确给锂电池充电 刚给手机换了新电池，发现很多人在手机和电脑充电方面存在着误区，比如下面这个流言。 流言： 新买的手机必须充满8小时以上并重复几次完全充电放电，这个过程叫做激活，这样可以使手机的电池达到最大容量。手机充满电之后必须马上拔掉电源，因为过度充电会引起电池爆炸。笔记本电脑和手机的电池最好把电用光再充电，这样可以尽量减少充电次数，延长电池寿命。 真... ideas 常识 ideas ideas common-sense ideas">
       <time>2018-02-10</time>
       <div>
         <h2><a href="../../2018/02/10/battery/index.html">如何正确给锂电池充电</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="你还在用xx浏览器吗~" data-date="2017-08-14" data-categories="ideas programmer common-sense" data-tags="ideas" data-search="你还在用xx浏览器吗~ 第一次写软文，哈哈哈。其实是分享几张图片吧。 在我大天朝，大多数人使用的ie浏览器（事业单位用得比较多）、谷歌浏览器（chrome）、360安全 （liu mang） 浏览器、360极速浏览器（其实就是用得谷歌浏览器的内核）、safari等，还有一部分人用的firefox。 ie浏览器 为什么说ie浏览器是垃圾呢？ 对web开发者来说，兼... ideas 程序人生 常识 ideas ideas programmer common-sense ideas">
       <time>2017-08-14</time>
       <div>
         <h2><a href="../../2017/08/14/browser/index.html">你还在用XX浏览器吗~</a></h2>
@@ -61,8 +87,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -71,13 +100,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

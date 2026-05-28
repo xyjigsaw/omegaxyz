@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>数据库</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>数据库</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>16</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="database" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">数据库<span>14</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="sql" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">SQL<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="web" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">web<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="java" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JAVA<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="neo4j" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Neo4j<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="javascript" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JavaScript<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="jsp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">jsp<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">软件工程<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="django" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Django<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="github" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Github<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="html" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HTML<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="mvc" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">MVC<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="vue" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Vue<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="全栈开发与快速部署demo" data-date="2023-11-01" data-categories="高级语言 tech web javascript python database software-engineering" data-tags="web javascript python database software-engineering vue" data-search="全栈开发与快速部署demo 框架 我们采用的是前后端分离的框架fastapi + vue。 优点 1. 职责分明 ：前端负责展示和交互，后端负责数据处理和业务逻辑，各自开发独立，不会相互影响。 2. 提高开发效率 ：前后端可以并行开发，大大减少了项目的开发周期。 3. 提高可维护性 ：由于前后端分离，如果需要修改ui或者后端逻辑，只需要修改对应的部分即可，不会影响到... 高级语言 技术域 web开发 javascript&amp;html python 数据库 软件工程 web javascript python 数据库 软件工程 vue 高级语言 tech web javascript python database software-engineering web javascript python database software-engineering vue">
       <time>2023-11-01</time>
       <div>
         <h2><a href="../../2023/11/01/fullstackdemo/index.html">全栈开发与快速部署Demo</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识图谱可视化demo" data-date="2020-03-03" data-categories="高级语言 tech web javascript machine-learning python database knowledge-graph" data-tags="web javascript python database github social-network knowledge-graph neo4j django" data-search="知识图谱可视化demo introduction 本项目支持2d，3d知识图谱查询与可视化。知识图谱数据集import2neo4j文件夹中。 完整代码及配置说明请移步github： https://github.com/xyjigsaw/knowledge-graph-and-visualization-demo neo4j 数据库名：covid-19 用户名：... 高级语言 技术域 web开发 javascript&amp;html 机器学习 python 数据库 知识图谱 web javascript python 数据库 github 社交网络 知识图谱 neo4j django 高级语言 tech web javascript machine-learning python database knowledge-graph web javascript python database github social-network knowledge-graph neo4j django">
       <time>2020-03-03</time>
       <div>
         <h2><a href="../../2020/03/03/knowledge-graph-demo/index.html">知识图谱可视化Demo</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="neo4j-import导入csv的数据" data-date="2020-02-29" data-categories="tech database" data-tags="database neo4j" data-search="neo4j-import导入csv的数据 最近有个上亿个关系/节点的数据需要导入到neo4j，有以下几个工具可以导入： cypher create 语句，为每一条数据写一个create cypher load csv 语句，将数据转成csv格式，通过load csv读取数据。 官方提供的java api —— batch inserter batch import 工具 neo4... 技术域 数据库 数据库 neo4j tech database database neo4j">
       <time>2020-02-29</time>
       <div>
         <h2><a href="../../2020/02/29/neo4j-import-csv/index.html">Neo4j-import导入CSV的数据</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/neo4j/index.html"><span>Neo4j</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="neo4j数据导入与可视化" data-date="2020-01-17" data-categories="tech database" data-tags="database neo4j" data-search="neo4j数据导入与可视化 简介 neo4j是一个高性能的nosql图形数据库，它将结构化数据存储在网络上而不是表中。它是一个嵌入式的、基于磁盘的、具备完全的事务特性的java持久化引擎，但是它将结构化数据存储在网络(从数学角度叫做图)上而不是表中。neo4j也可以被看作是一个高性能的图引擎，该引擎具有成熟数据库的所有特性。程序员工作在一个面向对象的、灵活的网络结构... 技术域 数据库 数据库 neo4j tech database database neo4j">
       <time>2020-01-17</time>
       <div>
         <h2><a href="../../2020/01/17/neo4j_introduction/index.html">Neo4j数据导入与可视化</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/neo4j/index.html"><span>Neo4j</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="jsp连数据库登录检查用户名和密码模板" data-date="2018-12-17" data-categories="高级语言 tech web javascript java database" data-tags="java web html database jsp" data-search="jsp连数据库登录检查用户名和密码模板 jsp全名为java server pages，中文名叫java服务器页面，其根本是一个简化的servlet设计，它是由sun microsystems公司倡导、许多公司参与一起建立的一种动态网页技术标准。jsp技术有点类似asp技术，它是在传统的网页html（标准通用标记语言的子集）文件(*.htm,*.html)中插入java程序段(... 高级语言 技术域 web开发 javascript&amp;html java 数据库 java web html 数据库 jsp 高级语言 tech web javascript java database java web html database jsp">
       <time>2018-12-17</time>
       <div>
         <h2><a href="../../2018/12/17/jsp-login/index.html">JSP连数据库登录检查用户名和密码模板</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="数据库c3p0配置sql server与mysql" data-date="2018-12-06" data-categories="tech web database" data-tags="web sql" data-search="数据库c3p0配置sql server与mysql c3p0是一个开源的jdbc连接池，它实现了数据源和jndi绑定，支持jdbc3规范和jdbc2的标准扩展。目前使用它的开源项目有hibernate，spring等。 sql server配置： 注意1433是端口号，xxx是数据库名称，相应的用户名和密码均需改正。 mysql配置： 注意3306是端口号，xxx是数据库名称，相应的用户名... 技术域 web开发 数据库 web sql tech web database web sql">
       <time>2018-12-06</time>
       <div>
         <h2><a href="../../2018/12/06/c3p0/index.html">数据库c3p0配置SQL Server与MySQL</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="java-web项目总结" data-date="2018-11-06" data-categories="高级语言 tech web java database" data-tags="java web database" data-search="java-web项目总结 使用jetbrain的idea创建java-web项目 https://omegaxyz.com/2018/10/04/intellij-idea-java-web/ java-mvc模式概述 https://omegaxyz.com/2018/10/03/javaweb-mvc/ 走过的坑（未完待续） ①web-inf下的jsp是不能通... 高级语言 技术域 web开发 java 数据库 java web 数据库 高级语言 tech web java database java web database">
       <time>2018-11-06</time>
       <div>
         <h2><a href="../../2018/11/06/java-web项目总结/index.html">Java-Web项目总结</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javaweb-mvc模式概述" data-date="2018-10-03" data-categories="高级语言 tech web java database" data-tags="java web database software-engineering jsp mvc" data-search="javaweb-mvc模式概述 mvc设计模式 mvc模式（ model-view-controller ）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分： 模型（model）、视图（view）和控制器（controller） 。 mvc模式最早为trygve reenskaug提出，为施乐帕罗奥多研究中心（xerox parc）的smalltalk语言发明... 高级语言 技术域 web开发 java 数据库 java web 数据库 软件工程 jsp mvc 高级语言 tech web java database java web database software-engineering jsp mvc">
       <time>2018-10-03</time>
       <div>
         <h2><a href="../../2018/10/03/javaweb-mvc/index.html">JavaWeb-MVC模式概述</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="java数据存取对象（dao）" data-date="2018-09-29" data-categories="高级语言 tech java database" data-tags="java sql" data-search="java数据存取对象（dao） 什么是dao dao（data access object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共api中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事... 高级语言 技术域 java 数据库 java sql 高级语言 tech java database java sql">
       <time>2018-09-29</time>
       <div>
         <h2><a href="../../2018/09/29/java_dao/index.html">Java数据存取对象（DAO）</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="sql server进行级联删除与更新" data-date="2018-06-06" data-categories="tech database" data-tags="database sql" data-search="sql server进行级联删除与更新 删除sql语句中的外码依赖的元组问题：在外键表建立的时候需要定义外键允许“级联删除。否则删除父表数据的时候，会报外键无法删除的错误。 级联删除： 当我们没有对键加级联删除的时候，删除主键表中的数据（外键表有引用的数据）时，会报错，不能删除，必须先把相关联的外键数据删除了，才能删除主键表的数据，但如果新建外键的时候设置了级联删除，那么当我们... 技术域 数据库 数据库 sql tech database database sql">
       <time>2018-06-06</time>
       <div>
         <h2><a href="../../2018/06/06/sql-server-cascade/index.html">SQL Server进行级联删除与更新</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="常用数据模型的对比分析" data-date="2018-04-28" data-categories="tech database" data-tags="database" data-search="常用数据模型的对比分析 第一章 数据模型概述 数据模型（data model）是数据特征的抽象。数据（data）是描述事物的符号记录，模型（model)是现实世界的抽象。数据模型从抽象层次上描述了系统的静态特征、动态行为和约束条件，为数据库系统的信息表示与操作提供了一个抽象的框架。数据模型所描述的内容有三部分：数据结构、数据操作和数据完整性约束。 第二章 数据模... 技术域 数据库 数据库 tech database database">
       <time>2018-04-28</time>
       <div>
         <h2><a href="../../2018/04/28/data_model_cmp/index.html">常用数据模型的对比分析</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="sql数据定义" data-date="2018-04-14" data-categories="tech database" data-tags="database sql" data-search="sql数据定义 平台：sql server 2008 sql server 是microsoft 公司推出的关系型数据库管理系统。具有使用方便可伸缩性好与相关软件集成程度高等优点，可跨越从运行microsoft windows 98 的膝上型电脑到运行microsoft windows 2012 的大型多处理器的服务器等多种平台使用。 microsoft... 技术域 数据库 数据库 sql tech database database sql">
       <time>2018-04-14</time>
       <div>
         <h2><a href="../../2018/04/14/sql_ddl/index.html">SQL数据定义</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="利用微软access写sql语句" data-date="2018-03-31" data-categories="tech database" data-tags="database sql" data-search="利用微软access写sql语句 microsoft office access是由微软发布的关系数据库管理系统。它结合了 microsoftjet database engine 和 图形用户界面两项特点，是 microsoft office 的系统程序之一。下面介绍如何使用access写sql语句。 1.首先打开access软件，并新建一个空白数据库。（当然也可以打开... 技术域 数据库 数据库 sql tech database database sql">
       <time>2018-03-31</time>
       <div>
         <h2><a href="../../2018/03/31/access_sql/index.html">利用微软Access写SQL语句</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="sql简介与基本语法" data-date="2018-03-28" data-categories="tech database" data-tags="database sql" data-search="sql简介与基本语法 sql 是用于访问和处理数据库的标准的计算机语言。 什么是 sql？ sql 指结构化查询语言 sql 使我们有能力访问数据库 sql 是一种 ansi 的标准计算机语言 sql 能做什么？ sql 面向数据库执行查询 sql 可从数据库取回数据 sql 可在数据库中插入新的记录 sql 可更新数据库中的数据 sql 可从数据库删除记录... 技术域 数据库 数据库 sql tech database database sql">
       <time>2018-03-28</time>
       <div>
         <h2><a href="../../2018/03/28/sql_introduction/index.html">SQL简介与基本语法</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/sql/index.html"><span>SQL</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="数据库的发展历史和当前主流技术和产品" data-date="2018-03-26" data-categories="tech database" data-tags="database" data-search="数据库的发展历史和当前主流技术和产品 第一章 前 言 科学技术是第一生产力，数据则是科学研究的基础与源泉。数据库技术的出现与发展对数据存储、处理与信息挖掘起到了至关重要的作用。本文将系统地介绍数据库技术的发展历史、当前主流技术和产品，并对数据库未来的发展演变做出合理的预测。 1.1 数据库技术概述 数据库是按照数据结构来组织、存储和管理数据的仓库，它产生于距今五十年前，随着信... 技术域 数据库 数据库 tech database database">
       <time>2018-03-26</time>
       <div>
         <h2><a href="../../2018/03/26/brief_history_of_database/index.html">数据库的发展历史和当前主流技术和产品</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="数据库发展简史" data-date="2018-03-09" data-categories="tech trans database" data-tags="database" data-search="数据库发展简史 随着处理器，计算机内存，计算机存储和计算机网络领域的技术进步，数据库及其各自的dbms的规模，功能和性能已经增长了数量级。数据库技术的发展可以基于数据模型或结构划分为三个时代：导航， sql/关系和后关系。 两个主要的早期导航数据模型是由ibm的ims系统缩减的分层模型，以及在idms等多种产品中实施的codasyl模型（网络模型）。 在... 技术域 转载 数据库 数据库 tech trans database database">
       <time>2018-03-09</time>
       <div>
         <h2><a href="../../2018/03/09/brief_history_of_db/index.html">数据库发展简史</a></h2>
@@ -178,8 +204,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -188,13 +217,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

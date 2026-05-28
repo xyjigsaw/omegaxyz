@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>随笔</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>随笔</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>15</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ideas<span>12</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="app" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">app<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C语言<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="game" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Game<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ios" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">iOS<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="linux" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Linux<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="terraria" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Terraria<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="三体" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">三体<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">软件工程<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="粉丝期待的三体电影宇宙（近四十部电影与电视剧集）" data-date="2023-01-16" data-categories="ideas jotting" data-tags="三体" data-search="粉丝期待的三体电影宇宙（近四十部电影与电视剧集） 四年前，坐在教室里幻想着三体电影如何拍，如今电视剧已经来临，很是感慨。 这是当时（2019年）想看的改变剧集： 主线电影 《三体前传:红岸》 时间：1966-1980 开始：文革与叶哲泰之死。 高潮：叶文杰收到三体信息后杀死雷志成、杨卫宁。 结尾：杨冬出生，新纪元开始。 《三体前传:起源》 时间：xxxx-yyyy 讲述三体星系的前世今生... ideas 随笔 三体 ideas jotting 三体">
       <time>2023-01-16</time>
       <div>
         <h2><a href="../../2023/01/16/three-body-movie-universe/index.html">粉丝期待的三体电影宇宙（近四十部电影与电视剧集）</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/三体/index.html"><span>三体</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="泰拉瑞亚terriaria快速部署linux服务器" data-date="2022-11-20" data-categories="ideas jotting" data-tags="linux game terraria" data-search="泰拉瑞亚terriaria快速部署linux服务器 最近泰拉瑞亚更新频繁（每次开都要重新部署！！！），多人游戏的linux服务器也需要同步更新，但是我记不住新版下载地址：(。记录在此。 下载地址 https://terraria.org/api/download/pc-dedicated-server/terraria-server-1447.zip 最后的1447是版本号，如果是1.4.... ideas 随笔 linux game terraria ideas jotting linux game terraria">
       <time>2022-11-20</time>
       <div>
         <h2><a href="../../2022/11/20/terriaria_linux/index.html">泰拉瑞亚Terriaria快速部署Linux服务器</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/linux/index.html"><span>Linux</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/game/index.html"><span>Game</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/terraria/index.html"><span>Terraria</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ipad生产力指南——编程" data-date="2022-06-10" data-categories="ideas jotting" data-tags="app ios" data-search="ipad生产力指南——编程 买前生产力，买后爱奇艺？不！是你少了这份指南。本篇介绍了ipad作为编程工具的使用方式。 设备： ipad pro 2021 m1，11英寸 使用场景： cs编程与论文撰写 textastic textastic是一款适用于ipad的高级代码编辑器。它支持 语法高亮 ssh终端连接服务器 sftp文件传输 在使用textastic时，我经... ideas 随笔 app ios ideas jotting app ios">
       <time>2022-06-10</time>
       <div>
         <h2><a href="../../2022/06/10/ipad-coding/index.html">iPad生产力指南——编程</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ios/index.html"><span>iOS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="奥威尔：老大哥在看着你-软件公司十诫" data-date="2020-05-30" data-categories="tech ideas jotting programmer software-engineering" data-tags="ideas software-engineering" data-search="奥威尔：老大哥在看着你-软件公司十诫 奥威尔：老大哥在看着你 orwell: keeping an eye on you是一款反乌托邦政府监控模拟器。 其中的奥威尔（orwell）是一项新的政府安全计划，有权对“国家”中每个人的在线状态进行调查。它可以监视所有个人通信并访问任何计算机。为了保护公民的隐私，人类研究人员检查了奥威尔发现的数据，并决定应将哪些信息传递给安全部队，以... 技术域 ideas 随笔 程序人生 软件工程 ideas 软件工程 tech ideas jotting programmer software-engineering ideas software-engineering">
       <time>2020-05-30</time>
       <div>
         <h2><a href="../../2020/05/30/orwell-software/index.html">奥威尔：老大哥在看着你-软件公司十诫</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="黑暗森林：知识图谱的前世今生" data-date="2020-04-29" data-categories="tech ideas machine-learning jotting programmer knowledge-graph" data-tags="ideas knowledge-graph" data-search="黑暗森林：知识图谱的前世今生 黑暗森林 宇宙就是一座黑暗森林，每个文明都是带枪的猎人，像幽灵般潜行于林间，轻轻拨开挡路的树枝，竭力不让脚步发出一点儿声音，连呼吸都必须小心翼翼：他必须小心，因为林中到处都有与他一样潜行的猎人，如果他发现了别的生命，能做的只有一件事：开枪消灭之。在这片森林中，他人就是地狱，就是永恒的威胁，任何暴露自己存在的生命都将很快被消灭，这就是宇宙文... 技术域 ideas 机器学习 随笔 程序人生 知识图谱 ideas 知识图谱 tech ideas machine-learning jotting programmer knowledge-graph ideas knowledge-graph">
       <time>2020-04-29</time>
       <div>
         <h2><a href="../../2020/04/29/dark-forest-kg/index.html">黑暗森林：知识图谱的前世今生</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="2019新闻记录" data-date="2020-01-26" data-categories="ideas jotting" data-tags="ideas" data-search="2019新闻记录 关键词：华为，香港，贸易战，猪肉 2019.1 权健涉嫌传销被调查 2019.2 翟天林学术不端事件 2019.2 《流浪地球》上映 2019.3 江苏盐城响水化工厂爆炸 2019.3 凉山火灾31名消防员死亡 2019.4 人类历史上第一张黑洞照片公布 2019.4 巴黎圣母院大火 2019.5 华为遭美国制裁 2019.6 中国提高美... ideas 随笔 ideas ideas jotting ideas">
       <time>2020-01-26</time>
       <div>
         <h2><a href="../../2020/01/26/2019-news/index.html">2019新闻记录</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="2020年初做了些啥？" data-date="2020-01-04" data-categories="ideas jotting" data-tags="ideas" data-search="2020年初做了些啥？ 最近几个月忙着一些并不是很重要的事情，好久未更新博客了。突然心血来潮，年初花了一个下午和晚上给站点和服务器做了些优化。 重置服务器，删除站点无用缓存，优化站点数据库。 全站http转https。 配置站点相应的微信小程序。 站点订阅功能下架。 对未能及时收到回复的评论者与网站订阅者说声抱歉，感谢大家一直以来的支持。 欢迎访问图灵技术域微信... ideas 随笔 ideas ideas jotting ideas">
       <time>2020-01-04</time>
       <div>
         <h2><a href="../../2020/01/04/2020/index.html">2020年初做了些啥？</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《三体》：如果李云龙是执剑人" data-date="2018-07-14" data-categories="ideas trans jotting" data-tags="ideas" data-search="《三体》：如果李云龙是执剑人 作者：小人物 链接： https://www.zhihu.com/question/48867879/answer/132539064 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 “老李，你醒了？”赵刚激动的站了起来。 李云龙盯着赵刚，仿佛像不认识他一样，眼神有些迷茫。 “老李，不要多想，现在你的大脑... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-07-14</time>
       <div>
         <h2><a href="../../2018/07/14/tbp-liyunlong/index.html">《三体》：如果李云龙是执剑人</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="你是如何变平庸的？" data-date="2018-05-28" data-categories="ideas jotting" data-tags="ideas" data-search="你是如何变平庸的？ 当你醒来第一件事就是找手机时， 当你下床后就立刻打开电脑时， 当你感到无聊便用游戏打发时间时， 当你感到寂寞就在各大社交网站寻求刺激时， 当你一遍遍刷新知乎、微博、朋友圈时， 当你沉迷游戏、小说、漫画不能自控时， 当你承受不住压力就要朝别人宣泄时， 当你感到委屈就忍不住对别人发火时， 当你愤怒不能自控向别人恶语相加时， 当你每次受到不公就... ideas 随笔 ideas ideas jotting ideas">
       <time>2018-05-28</time>
       <div>
         <h2><a href="../../2018/05/28/mediocrity/index.html">你是如何变平庸的？</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对生活失去热情怎么办？" data-date="2018-03-22" data-categories="ideas trans jotting" data-tags="ideas" data-search="对生活失去热情怎么办？ 本文章源自quora 答主 emberton，获 15k+赞 ） 很多人都相信一种叫做“热情”的奇迹。“如果我能寻找到我的热情就好了”，我们哭着说，“只有找到我的热情我才会快乐”。 的确，热情是真实而且有力量的。但是大多数人关于“寻找”的看法却是错误的。 规则一：热情源于成功 所有我们拥有的情感存在是有合理的原因的。我们感觉饥饿是为了不饿... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-03-22</time>
       <div>
         <h2><a href="../../2018/03/22/passion/index.html">对生活失去热情怎么办？</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="我眼中的人工智能" data-date="2018-03-12" data-categories="ideas jotting" data-tags="ideas ai" data-search="我眼中的人工智能 作为一个学计算机的，当然有必要来谈一谈人工智能。 说起人工智能，大多数人脑子里冒出来的一定是这样一个画面——机器人。 稍微有点了解的人会说出深度学习、神经网络、机器学习这样的专业词汇。 此时，内行的人可能会偷偷笑笑。 是这样的，简单地来说人工智能在不同时期所代表的意思是不一样的，在过去人工智能也许只意味着一个会下五子棋的程序或者是一个聊天... ideas 随笔 ideas 人工智能 ideas jotting ideas ai">
       <time>2018-03-12</time>
       <div>
         <h2><a href="../../2018/03/12/ai_in_myeye/index.html">我眼中的人工智能</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人际关系中常见的6种操纵策略" data-date="2018-01-30" data-categories="ideas trans jotting" data-tags="ideas" data-search="人际关系中常见的6种操纵策略 人为什么要操纵？braiker(2003)认为，关系中的操纵行为主要出于3个动机，虽然在很多情况下，操纵者未必能够知道自己的动机，他们只是本能地在进行操纵。 1. 达到自己的目的： 操纵者希望达到一些目的，比如获得金钱、地位、性、爱情、胜利，或者是避免损失，而他们认为操纵是达成目标的捷径。 2. 获得力量感和优势： 一次成功的操纵，就是对... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-01-30</time>
       <div>
         <h2><a href="../../2018/01/30/control_strategy/index.html">人际关系中常见的6种操纵策略</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《三体》语录" data-date="2018-01-29" data-categories="ideas jotting" data-tags="ideas" data-search="《三体》语录 1，给时光以生命，给岁月以文明。 2，你的无畏来源于无知。 3，我们都是阴沟里的虫子,但总还是得有人仰望星空。 4，在中国，任何超脱飞扬的思想都会砰然坠地——现实的引力实在是太沉重了。 5，死亡是一座永恒的灯塔，不管你驶向何方，最终都会朝它转向。一切都将逝去，只有死神永生。 6，碑是那么小，与其说是为了纪念，更像是为了忘却。 7，孩子问，... ideas 随笔 ideas ideas jotting ideas">
       <time>2018-01-29</time>
       <div>
         <h2><a href="../../2018/01/29/three_body_pro/index.html">《三体》语录</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="豫章书院看中国最差家长，自己是猪，望子成龙。" data-date="2017-11-13" data-categories="ideas jotting" data-tags="ideas" data-search="豫章书院看中国最差家长，自己是猪，望子成龙。 本来不想讨论这件事的，然而就在双十一前一天，每周一更的暴走大事件的第36期突然下架，这个敢于说真话，娱乐大众，针砭时弊的平台被封，让大家难以接受，本已快尘埃落定的豫章书院再次成为热议话题。 一束光照进铁塔，铁塔里的肮脏龌龊被显现，这束光便有了罪。 是的，豫章书院，中国的《熔炉》。 另一方面，豫章书院关停，家长却拉横幅反对。 中国最差家长，... ideas 随笔 ideas ideas jotting ideas">
       <time>2017-11-13</time>
       <div>
         <h2><a href="../../2017/11/13/yuzhangshuyuan/index.html">豫章书院看中国最差家长，自己是猪，望子成龙。</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="规则绝对公平时，社会财富的流向谁？" data-date="2017-08-24" data-categories="高级语言 cc tech ideas jotting programmer" data-tags="c-2 c ideas" data-search="规则绝对公平时，社会财富的流向谁？ 从知乎有一个很有趣的问题：房间里有100个人，每人都有100元钱，如果每过一分钟，每个人都要拿出一元钱随机给另一个人，最后这100个人的财富分布是怎样的？ 这个问题，可以看成一个小型实验，模拟的是规则绝对公平时，社会财富的流向。财富随机流动的话，贫富差距是否就会消失呢？ 城市数据团用程序模拟了这个过程： 就这样，80%的钱跑进了20%的口... 高级语言 c&amp;c++ 技术域 ideas 随笔 程序人生 c++ c语言 ideas 高级语言 cc tech ideas jotting programmer c-2 c ideas">
       <time>2017-08-24</time>
       <div>
         <h2><a href="../../2017/08/24/socialwealth/index.html">规则绝对公平时，社会财富的流向谁？</a></h2>
@@ -169,8 +195,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c/index.html"><span>C语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -179,13 +208,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

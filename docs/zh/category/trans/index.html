@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>转载</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>转载</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>24</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ideas<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C语言<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="cgame" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C语言游戏<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-vision" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">计算机视觉<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="cnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">CNN<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tensorflow-pytorch" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">TensorFlow-Pytorch<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="github" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Github<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="html" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HTML<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="matlab" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Matlab<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="nlp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">NLP<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="svm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">SVM<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="web" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">web<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="coevolution" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">协同进化<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="mop" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">多目标优化算法<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="database" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">数据库<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="机器学习" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">机器学习<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="feature-selection" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">特征选择<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="programming" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">编程语言概述<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="nlg文本评估任务或许并不需要真值或参考文本" data-date="2024-11-18" data-categories="tech trans machine-learning nlp" data-tags="ai nlp 机器学习" data-search="nlg文本评估任务或许并不需要真值或参考文本 摘要 面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的bleu和meteor，例如近年来基于embedding相似性提出的bertscore和moverscore。这类方法，可以称为ref-free方法。 re... 技术域 转载 机器学习 自然语言处理 人工智能 nlp 机器学习 tech trans machine-learning nlp ai nlp 机器学习">
       <time>2024-11-18</time>
       <div>
         <h2><a href="../../2024/11/18/nlg_eval/index.html">NLG文本评估任务或许并不需要真值或参考文本</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/机器学习/index.html"><span>机器学习</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="git上传本地文件到仓库（可追加）" data-date="2020-02-12" data-categories="tech trans" data-tags="github" data-search="git上传本地文件到仓库（可追加） 1、 （进入你需要上传的文件（夹）所在的文件夹） 通过命令 git init 把这个目录变成git可以管理的仓库 2、把文件添加到版本库中，使用命令 git add .添加到暂存区里面去，不要忘记后面的小数点“.”，意为添加文件夹下的所有文件 3、用命令 git commit告诉git，把文件提交到仓库。引号内为提交说明 4、关联到远程库... 技术域 转载 github tech trans github">
       <time>2020-02-12</time>
       <div>
         <h2><a href="../../2020/02/12/git-upload/index.html">git上传本地文件到仓库（可追加）</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/github/index.html"><span>Github</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="王者荣耀ai论文：层次宏观策略模型" data-date="2018-12-25" data-categories="tech trans machine-learning deep-learning" data-tags="ai ann" data-search="王者荣耀ai论文：层次宏观策略模型 论文与作者 关于第一作者bin wu，他此刻是腾讯ai尝试室的高级研究员，也是王者光彩ai算法计划和开拓的技能认真人。 此前，他还照旧腾讯一个量化买卖营业项目标焦点成员，认真呆板进修算法的计划和开拓。这个团队搞的模子，已经获取了70%的净收益，2017年在a股市场的回报率为5%。 果真的资料表现，bin wu于2016年12月插手腾讯至今... 技术域 转载 机器学习 深度学习 人工智能 神经网络 tech trans machine-learning deep-learning ai ann">
       <time>2018-12-25</time>
       <div>
         <h2><a href="../../2018/12/25/moba-ai/index.html">王者荣耀AI论文：层次宏观策略模型</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="卷积神经网络cnn概述下（rgb图像卷积与单层神经网络）" data-date="2018-08-14" data-categories="tech trans machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="卷积神经网络cnn概述下（rgb图像卷积与单层神经网络） 以下内容转载自： https://blog.csdn.net/ice_actor/article/details/78648780 侵删！！！ 黑白图像卷积请参考： https://omegaxyz.com/2018/06/02/cnn1/ 彩色图像的卷积 以上讲述的卷积都是灰度图像的，如果想要在rgb图像上进行卷积，过滤器的大小不在是3... 技术域 转载 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech trans machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-08-14</time>
       <div>
         <h2><a href="../../2018/08/14/cnn2-rgb/index.html">卷积神经网络CNN概述下（RGB图像卷积与单层神经网络）</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《三体》：如果李云龙是执剑人" data-date="2018-07-14" data-categories="ideas trans jotting" data-tags="ideas" data-search="《三体》：如果李云龙是执剑人 作者：小人物 链接： https://www.zhihu.com/question/48867879/answer/132539064 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 “老李，你醒了？”赵刚激动的站了起来。 李云龙盯着赵刚，仿佛像不认识他一样，眼神有些迷茫。 “老李，不要多想，现在你的大脑... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-07-14</time>
       <div>
         <h2><a href="../../2018/07/14/tbp-liyunlong/index.html">《三体》：如果李云龙是执剑人</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html常用标签" data-date="2018-07-05" data-categories="高级语言 tech trans web javascript" data-tags="web html" data-search="html常用标签 简介 文本标记语言，即html（hypertext markup language），是用于描述网页文档的一种标记语言。 html之所以称为超文本标记语言，是因为文本中包含了所谓“超级链接”点。所谓超级链接，就是一种url指针，通过激活（点击）它，可使浏览器方便地获取新的网页。这也是html获得广泛应用的最重要的原因之一。 html是一种... 高级语言 技术域 转载 web开发 javascript&amp;html web html 高级语言 tech trans web javascript web html">
       <time>2018-07-05</time>
       <div>
         <h2><a href="../../2018/07/05/html-tag/index.html">HTML常用标签</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="多目标协同进化算法概要" data-date="2018-06-13" data-categories="tech trans machine-learning evolutionary-algorithm" data-tags="mop coevolution" data-search="多目标协同进化算法概要 转载自： https://ecole.asia/news/2018/06/10/weekly143/ 侵删！ 协同演化一直是人们研究的热点，尤其在处理大规模全局优化问题时（aaeo第27，32期）。协同演化算法往往构建两个或多个共同进化的种群，利用种群之间的竞争或合作关系，对种群进行优化。与传统演化算法相比，协同演化算法充分考虑种群之间以... 技术域 转载 机器学习 进化算法 多目标优化算法 协同进化 tech trans machine-learning evolutionary-algorithm mop coevolution">
       <time>2018-06-13</time>
       <div>
         <h2><a href="../../2018/06/13/cmoea/index.html">多目标协同进化算法概要</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/mop/index.html"><span>多目标优化算法</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/coevolution/index.html"><span>协同进化</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="卷积神经网络cnn概述上（黑白图像卷积）" data-date="2018-06-02" data-categories="tech trans machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="卷积神经网络cnn概述上（黑白图像卷积） 1.边界检测 检测图像的物体可以有垂直边缘和水平边缘检测。 如下是一个6*6的灰度图像，构造一个3*3的矩阵，在卷积神经网络中通常称之为filter，对这个6*6的图像进行卷积运算，以左上角的-5计算为例 3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5 其它的以此类推，让过滤器在图像上逐步滑动，对整... 技术域 转载 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech trans machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-06-02</time>
       <div>
         <h2><a href="../../2018/06/02/cnn1/index.html">卷积神经网络CNN概述上（黑白图像卷积）</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow手写识别入门" data-date="2018-04-26" data-categories="高级语言 tech trans machine-learning python deep-learning computer-vision" data-tags="python tensorflow-pytorch ann computer-vision" data-search="tensorflow手写识别入门 原文地址 ： mnist for ml beginners 翻译： linbojin python3源码：omegaxyz.com 当我们开始学习编程的时候，第一件事往往是学习打印&quot;hello world&quot;。就好比编程入门有hello world，机器学习入门有mnist。 mnist是一个入门级的计算机视觉数据集，它包含各种手写数字图片... 高级语言 技术域 转载 机器学习 python 深度学习 计算机视觉 python tensorflow-pytorch 神经网络 计算机视觉 高级语言 tech trans machine-learning python deep-learning computer-vision python tensorflow-pytorch ann computer-vision">
       <time>2018-04-26</time>
       <div>
         <h2><a href="../../2018/04/26/tensorflow_mnist_simple/index.html">TensorFlow手写识别入门</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow基本语句与概念" data-date="2018-04-20" data-categories="高级语言 tech trans machine-learning python deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensorflow基本语句与概念 文章转载自极客学院： http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html tensorflow简介 是 开发的一款神经网络的 外部的结构包，也是一个采用 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它... 高级语言 技术域 转载 机器学习 python 深度学习 python tensorflow-pytorch 神经网络 高级语言 tech trans machine-learning python deep-learning python tensorflow-pytorch ann">
       <time>2018-04-20</time>
       <div>
         <h2><a href="../../2018/04/20/tensorflow_intro/index.html">TensorFlow基本语句与概念</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="深度学习和经典机器学习对比" data-date="2018-04-09" data-categories="tech trans machine-learning" data-tags="ai" data-search="深度学习和经典机器学习对比 深度学习已成为大多数ai问题的首选技术，使得经典机器学习相形见绌。但是，尽管深度学习有很好的性能，经典机器学习方法仍有一些优势，而且在一些特定情况下最好使用经典机器学习方法，例如线性回归或决策树，而不是使用一个大型深度网络。本文将对比深度学习和经典机器学习，分别介绍这两种技术的优缺点。 来源： http://towardsdatascie... 技术域 转载 机器学习 人工智能 tech trans machine-learning ai">
       <time>2018-04-09</time>
       <div>
         <h2><a href="../../2018/04/09/deeplandml/index.html">深度学习和经典机器学习对比</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对生活失去热情怎么办？" data-date="2018-03-22" data-categories="ideas trans jotting" data-tags="ideas" data-search="对生活失去热情怎么办？ 本文章源自quora 答主 emberton，获 15k+赞 ） 很多人都相信一种叫做“热情”的奇迹。“如果我能寻找到我的热情就好了”，我们哭着说，“只有找到我的热情我才会快乐”。 的确，热情是真实而且有力量的。但是大多数人关于“寻找”的看法却是错误的。 规则一：热情源于成功 所有我们拥有的情感存在是有合理的原因的。我们感觉饥饿是为了不饿... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-03-22</time>
       <div>
         <h2><a href="../../2018/03/22/passion/index.html">对生活失去热情怎么办？</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="提高c++运行效率的方法" data-date="2018-03-12" data-categories="高级语言 cc tech trans" data-tags="c-2" data-search="提高c++运行效率的方法 一、尽量减少值传递，多用引用来传递参数。 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下： 其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构... 高级语言 c&amp;c++ 技术域 转载 c++ 高级语言 cc tech trans c-2">
       <time>2018-03-12</time>
       <div>
         <h2><a href="../../2018/03/12/improve_cpp/index.html">提高C++运行效率的方法</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c-2/index.html"><span>C++</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="数据库发展简史" data-date="2018-03-09" data-categories="tech trans database" data-tags="database" data-search="数据库发展简史 随着处理器，计算机内存，计算机存储和计算机网络领域的技术进步，数据库及其各自的dbms的规模，功能和性能已经增长了数量级。数据库技术的发展可以基于数据模型或结构划分为三个时代：导航， sql/关系和后关系。 两个主要的早期导航数据模型是由ibm的ims系统缩减的分层模型，以及在idms等多种产品中实施的codasyl模型（网络模型）。 在... 技术域 转载 数据库 数据库 tech trans database database">
       <time>2018-03-09</time>
       <div>
         <h2><a href="../../2018/03/09/brief_history_of_db/index.html">数据库发展简史</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../database/index.html"><span>数据库</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c语言游戏4：赌博机掷骰子" data-date="2018-02-04" data-categories="高级语言 cc tech trans" data-tags="c cgame" data-search="c语言游戏4：赌博机掷骰子 一个c语言写的小游戏——赌博机，适合学习c语言的人学习借鉴。 (a c language to write a small game- gambling machines, suitable for learning c language people learn.) http://www.pudn.com/download/item/i... 高级语言 c&amp;c++ 技术域 转载 c语言 c语言游戏 高级语言 cc tech trans c cgame">
       <time>2018-02-04</time>
       <div>
         <h2><a href="../../2018/02/04/c_gambler/index.html">C语言游戏4：赌博机掷骰子</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c/index.html"><span>C语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cgame/index.html"><span>C语言游戏</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势" data-date="2018-01-31" data-categories="tech ideas trans programmer" data-tags="programming ideas" data-search="如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势 摘录自csdn loonggg（侵删！！！） 作者简介：loonggg，一个文艺傲娇而又喜欢编码的程序猿，一个喜欢挑战而又喜欢分享的攻城狮。一个科技数码爱好者，又是一个爱好写作的达人。公众号「非著名程序员」的运营者。 你们知道程序员最熟悉，最熟练，最常用的两个快捷键是哪两个吗？ 没错，估计你现在心中所想的就是：ctrl+c 和 ctrl+... 技术域 ideas 转载 程序人生 编程语言概述 ideas tech ideas trans programmer programming ideas">
       <time>2018-01-31</time>
       <div>
         <h2><a href="../../2018/01/31/code_copy/index.html">如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/programming/index.html"><span>编程语言概述</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人际关系中常见的6种操纵策略" data-date="2018-01-30" data-categories="ideas trans jotting" data-tags="ideas" data-search="人际关系中常见的6种操纵策略 人为什么要操纵？braiker(2003)认为，关系中的操纵行为主要出于3个动机，虽然在很多情况下，操纵者未必能够知道自己的动机，他们只是本能地在进行操纵。 1. 达到自己的目的： 操纵者希望达到一些目的，比如获得金钱、地位、性、爱情、胜利，或者是避免损失，而他们认为操纵是达成目标的捷径。 2. 获得力量感和优势： 一次成功的操纵，就是对... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-01-30</time>
       <div>
         <h2><a href="../../2018/01/30/control_strategy/index.html">人际关系中常见的6种操纵策略</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="学生时代的7个国外编程博客" data-date="2018-01-26" data-categories="tech ideas trans programmer" data-tags="ideas" data-search="学生时代的7个国外编程博客 如果你想成为程序员，你需要沉浸在编程文化中。如果你仍然是一个学生，这是更真实的。编程领域非常广泛，吸收了太多的信息，如果你远距离参与，你永远不会出现在最前面。幸运的是，博客是一个易于访问的媒体。 只是要清楚，这些编程博客并不是要取代动手实践或正确的指导。如果你是一个完整的新手，你应该先选择一门编程语言来学习，然后从学习基础知识开始。一旦你... 技术域 ideas 转载 程序人生 ideas tech ideas trans programmer ideas">
       <time>2018-01-26</time>
       <div>
         <h2><a href="../../2018/01/26/7_blogs/index.html">学生时代的7个国外编程博客</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="matlab中svm（支持向量机）的用法" data-date="2018-01-23" data-categories="高级语言 tech trans matlab machine-learning" data-tags="matlab svm" data-search="matlab中svm（支持向量机）的用法 libsvm是台湾大学林智仁(lin chih-jen)教授等开发设计的一个简单、易于使用和快速有效的svm模式识别与回归的软件包，他不但提供了编译好的可在windows系列系统的执行文件，还提供了源代码，方便改进、修改以及在其它操作系统上应用；该软件对svm所涉及的参数调节相对比较少，提供了很多的默认参数，利用这些默认参数可以解决很多问... 高级语言 技术域 转载 matlab 机器学习 matlab svm 高级语言 tech trans matlab machine-learning matlab svm">
       <time>2018-01-23</time>
       <div>
         <h2><a href="../../2018/01/23/matlab_svm/index.html">MATLAB中SVM（支持向量机）的用法</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/svm/index.html"><span>SVM</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="特征选择方法与理解" data-date="2018-01-19" data-categories="tech trans machine-learning" data-tags="feature-selection" data-search="特征选择方法与理解 转载自作者： edwin jarvis 中文版本： https://www.cnblogs.com/tonglin0325/p/6214978.html 特征选择(排序)对于数据科学家、 机器学习 从业者来说非常重要。好的特征选择能够提升模型的性能，更能帮助我们理解数据的特点、底层结构，这对进一步改善模型、 算法 都有着重要作用。 特征选... 技术域 转载 机器学习 特征选择 tech trans machine-learning feature-selection">
       <time>2018-01-19</time>
       <div>
         <h2><a href="../../2018/01/19/fs_understanding/index.html">特征选择方法与理解</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/feature-selection/index.html"><span>特征选择</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c语言游戏2：五子棋" data-date="2017-07-31" data-categories="高级语言 cc tech trans" data-tags="c-2 c cgame" data-search="c语言游戏2：五子棋 来自：kwm376871059 网页: http://bbs.bccn.net/thread-432525-1-1.html 那么我们在下棋过程中，是怎么来考虑当前应该下在哪个格子呢？一般来说就是： (1) 看双方哪些格子可以同时拥有多种获胜方式，获胜方式越多越具优势。 (2) 比较双方最具优势的格子，若对方最具优势格子比自己的的更具优势... 高级语言 c&amp;c++ 技术域 转载 c++ c语言 c语言游戏 高级语言 cc tech trans c-2 c cgame">
       <time>2017-07-31</time>
       <div>
         <h2><a href="../../2017/07/31/c_game_fivego/index.html">C语言游戏2：五子棋</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c/index.html"><span>C语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cgame/index.html"><span>C语言游戏</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c语言游戏1：2048" data-date="2017-07-31" data-categories="高级语言 cc tech trans" data-tags="c-2 c cgame" data-search="c语言游戏1：2048 源代码来自：judge young 网址： http://www.cnblogs.com/judgeyoung/p/3760515.html 一、游戏介绍 《2048》是最近比较流行的一款数字游戏。原版2048首先在github上发布，原作者是gabriele cirulli。它是基于《1024》和《小3传奇》（threes!）的玩法开发... 高级语言 c&amp;c++ 技术域 转载 c++ c语言 c语言游戏 高级语言 cc tech trans c-2 c cgame">
       <time>2017-07-31</time>
       <div>
         <h2><a href="../../2017/07/31/c_game_2048/index.html">C语言游戏1：2048</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c/index.html"><span>C语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cgame/index.html"><span>C语言游戏</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="20位正在创造未来的科技远见者" data-date="2017-04-30" data-categories="ideas trans programmer" data-tags="ideas" data-search="20位正在创造未来的科技远见者 20位正在创造未来的科技远见者（而中国的同龄人还在考虑买房，买车，结婚） 下文转载自网易科技 网易科技讯4月30日消息，《连线》网站近日发布2017年度的next list榜单，介绍了20位正在创造未来的科技远见者。 微软将会打造出比苹果更加精美的电脑。机器人将会3d打印为你定制化设计的、很酷的鞋子。（而且只需要几天时间就能送到你家门口。... ideas 转载 程序人生 ideas ideas trans programmer ideas">
       <time>2017-04-30</time>
       <div>
         <h2><a href="../../2017/04/30/neteasesciseeker/index.html">20位正在创造未来的科技远见者</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="转载：对研究者july的评论" data-date="2017-04-09" data-categories="ideas trans programmer" data-tags="" data-search="转载：对研究者july的评论 做研究搞搞学术就得不断的update自己的知识，不然就是坐井观天，任由自己天马行空的扯淡。学术没有捷径可走，都得踏踏实实的看原始文献读paper。 对研究者july的评论 作者：jason copper 链接： https://www.zhihu.com/question/24957182/answer/70481601 来源：知乎 说一... ideas 转载 程序人生 ideas trans programmer">
       <time>2017-04-09</time>
       <div>
         <h2><a href="../../2017/04/09/对研究者july的评论/index.html">转载：对研究者July的评论</a></h2>
@@ -250,8 +276,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -260,13 +289,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

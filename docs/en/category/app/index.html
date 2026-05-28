@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>APP开发</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>APP开发</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>18</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gui" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GUI<span>13</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>11</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="app" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">app<span>9</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="wxpython" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">wxpython<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="android" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Android<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="multithreading" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">多线程<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="pyqt" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">PyQt<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="hci" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HCI<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="java" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Java<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Software Engineering<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="programming" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Programming<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tkinter" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">tkinter<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="windows" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Windows<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="pyqt5 multi-threaded refresh interface to prevent suspended animation" data-date="2019-03-07" data-categories="高级语言 tech app python" data-tags="python multithreading gui pyqt" data-search="pyqt5 multi-threaded refresh interface to prevent suspended animation when making a gui interface, we hope that background tasks can be separated from the ui. in pyqt, the main thread is used to redraw the interface. the real-time processing results in the sub-thread need to be fed back to the interface, and the interface update operation cannot be performed in the sub-thread. the wxpython multi-thread refresh interface goes to https://omegaxyz.com/2017/10/31/wxpython_thread_sendmessage/ the following is a class python3... programming languages technology app开发 python python 多线程 gui pyqt 高级语言 tech app python python multithreading gui pyqt">
       <time>2019-03-07</time>
       <div>
         <h2><a href="../../2019/03/07/pyqt5-multi-threading/index.html">PyQt5 multi-threaded refresh interface to prevent suspended animation</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="android uses string to dynamically obtain resource id" data-date="2018-12-02" data-categories="高级语言 tech app java" data-tags="java app android" data-search="android uses string to dynamically obtain resource id each file in the android file has an id, as shown in the figure below. the 0x7f060000 on the left is the id of the file: if we want to obtain the id of this file in the code, we should use an efficient reflection mechanism. we can create a new java class code as follows: or add a method to the current class: calling method: where icon is the file name, no need to add a suffix programming languages technology app开发 java java app android 高级语言 tech app java java app android">
       <time>2018-12-02</time>
       <div>
         <h2><a href="../../2018/12/02/android-id/index.html">Android uses string to dynamically obtain resource ID</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pyqt5 creates menu bar, status bar and toolbar" data-date="2018-11-29" data-categories="高级语言 tech app python" data-tags="app python gui pyqt" data-search="pyqt5 creates menu bar, status bar and toolbar menu bar, status bar and toolbar are the basic forms of human-computer interaction. a good interactive interface generally has part of the human-computer interaction interface. the qmainwindow class provides an application main window. by default, a classic application window skeleton is created with a status bar, toolbar, and menu bar. through qmainwindow you can add your own qtoolbars, qdockwidgets, qmenubar, qstatusbar, etc. code: effect:... programming languages technology app开发 python app python gui pyqt 高级语言 tech app python app python gui pyqt">
       <time>2018-11-29</time>
       <div>
         <h2><a href="../../2018/11/29/pyqt5_qmainwindow/index.html">pyqt5 creates menu bar, status bar and toolbar</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="forms of human-computer interaction" data-date="2018-11-26" data-categories="tech app software-engineering" data-tags="app gui software-engineering hci" data-search="forms of human-computer interaction command line interaction advantages: ① expert users can complete tasks more quickly using the command line ② save system resources more than a graphical interface ③ it is open to users, and there is no problem that user-operable options cannot be dynamically configured in the graphical interface ④ keyboard operation is more precise than mouse operation and has stronger control over applications ⑤ supports user-defined commands disadvantages: ① mastering the command language puts higher demands on the user&#x27;s long-term memory and short-term memory ②the interface uses a memory-based approach, without pictures... technology app开发 software engineering app gui software engineering hci tech app software-engineering app gui software-engineering hci">
       <time>2018-11-26</time>
       <div>
         <h2><a href="../../2018/11/26/hci/index.html">Forms of human-computer interaction</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-category" data-label="CAT" href="../software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/hci/index.html"><span>HCI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pyqt5 converts ui files generated by graphic design into py files" data-date="2018-11-25" data-categories="高级语言 tech app python" data-tags="python gui pyqt" data-search="pyqt5 converts ui files generated by graphic design into py files qt creator is a cross-platform qt ide. qt creator is a new lightweight integrated development environment (ide) launched after qt was acquired by nokia. this ide is cross-platform and supports linux (32-bit and 64-bit), mac os x, and windows. according to the official description, qt creator is designed to enable developers to take advantage of qt... programming languages technology app开发 python python gui pyqt 高级语言 tech app python python gui pyqt">
       <time>2018-11-25</time>
       <div>
         <h2><a href="../../2018/11/25/ui2py/index.html">pyqt5 converts ui files generated by graphic design into py files</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="human-computer interaction - eec model" data-date="2018-09-24" data-categories="tech app software-engineering" data-tags="app gui software-engineering hci" data-search="human-computer interaction - eec model a framework is a structure that provides an understanding or definition of something. what is an interactive framework? ①help define the interaction design process ②identify the main issues in the design process ③help define the problem domain execution/evaluation activity cycle eec model basic components (structure) of activities ①goal: what you want to do, this is the most important ②execution: the operations that must be performed to achieve the goal ③objective factors (world): objective factors that need to be considered to perform activities... technology app开发 software engineering app gui software engineering hci tech app software-engineering app gui software-engineering hci">
       <time>2018-09-24</time>
       <div>
         <h2><a href="../../2018/09/24/eec/index.html">Human-computer interaction - EEC model</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-category" data-label="CAT" href="../software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/hci/index.html"><span>HCI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="baidu library downloader python implementation" data-date="2018-07-11" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="baidu library downloader python implementation introduction: in the past, you could use your school&#x27;s corporate account to download documents. later, baidu library was revised and you needed to buy a download coupon or membership. therefore, a baidu library downloader is needed. there was a freezing library downloader before, but it didn’t work anymore. the following is a baidu library downloader written in python. this downloader can download doc type, txt type text documents and ppt, but the ppt will eventually be saved in the form of pictures. due to limitations of baidu library, it is temporarily impossible to break through the documents for trial reading. pd... programming languages technology app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2018-07-11</time>
       <div>
         <h2><a href="../../2018/07/11/wenku-python-gui/index.html">Baidu library downloader Python implementation</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="about android studio project directory structure analysis" data-date="2018-04-08" data-categories="tech app" data-tags="android" data-search="about android studio project directory structure analysis there are many directories in the project after android studio automatically generates the first hello world file. similarly, other project files will also include these directories for the hello world program. the following uses hello android as a prototype to introduce the directory structure. it starts with the android file framework. change the directory framework to project for easier analysis (the project shown in the upper row of dark blue). files and objects that do not need to be overly concerned... technology app开发 android tech app android">
       <time>2018-04-08</time>
       <div>
         <h2><a href="../../2018/04/08/android_studio_files/index.html">About Android Studio project directory structure analysis</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="hello, android" data-date="2018-04-04" data-categories="tech app" data-tags="app android" data-search="hello, android android studio is an android integrated development tool based on intellij idea. similar to eclipse adt, android studio provides integrated android development tools for development and debugging. based on idea, android studio provides: ①gradle-based build support ②android-specific refactoring and rapid repair... technology app开发 app android tech app app android">
       <time>2018-04-04</time>
       <div>
         <h2><a href="../../2018/04/04/hello-android/index.html">Hello, Android</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python graphical interface program organization" data-date="2018-02-16" data-categories="高级语言 tech app python" data-tags="app python wxpython gui tkinter" data-search="python graphical interface program organization python graphical interface program is a gui program. you can use tkinter, wxpython, and pyqt to write gui in python. all three of them can be written in python 2 and 3 versions at the same time. below we have compiled some codes for basic gui programs and how to package them into a single exe file and run them in a python-free environment. last updated: june 10, 2018 gui program ① python course design wi... programming languages technology app开发 python app python wxpython gui tkinter 高级语言 tech app python app python wxpython gui tkinter">
       <time>2018-02-16</time>
       <div>
         <h2><a href="../../2018/02/16/python_gui/index.html">Python graphical interface program organization</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python weibo crawler gui program" data-date="2018-02-14" data-categories="高级语言 tech app python" data-tags="app python multithreading wxpython gui" data-search="python weibo crawler gui program the web version of weibo is pure html and calls weibo’s own api to obtain images. the url: https://m.weibo.cn/api/container/ is the weibo api which contains personal information and the storage address of weibo text and pictures. this is a pure code non-gui blog post: https://omegaxyz.com/2018/02/13/python_weibo/ functions of gui programs:... programming languages technology app开发 python app python 多线程 wxpython gui 高级语言 tech app python app python multithreading wxpython gui">
       <time>2018-02-14</time>
       <div>
         <h2><a href="../../2018/02/14/python_weibo_gui/index.html">python Weibo crawler GUI program</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python brush traffic gui program" data-date="2018-02-12" data-categories="高级语言 tech app python" data-tags="app python multithreading wxpython gui" data-search="python brush traffic gui program statement 1: it is your right to blog, and no one will ban you. however, we use blogs to record every detail on the road to technology. the purpose of writing a blog is purely for my own use as an online diary. if we blog just for traffic, it insults the very purpose of blogging. statement 2: www.omegaxyz.com has added malicious robot checking code and anti-crawler plug-ins. according to actual tests, it cannot increase the number of visits to this blog. function: ①added the speed adjustment of brushing the number of visits, which can... programming languages technology app开发 python app python 多线程 wxpython gui 高级语言 tech app python app python multithreading wxpython gui">
       <time>2018-02-12</time>
       <div>
         <h2><a href="../../2018/02/12/boomer/index.html">Python brush traffic GUI program</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python course design windows system resource detector" data-date="2018-02-06" data-categories="高级语言 tech app python" data-tags="app windows python multithreading wxpython gui" data-search="python course design windows system resource detector 1. requirements analysis (1) folder dynamic monitoring: windows system c drive is the system disk, which stores many important data files. the available space is sufficient at the beginning, but after using the computer for a period of time, we will find that the c drive space is getting larger and larger. this is a common problem in windows systems, so i hope to make a program that can monitor selected folders in real time. this program is different from the resource manager that comes with windows. it can dynamically and automatically monitor the files in the folder... programming languages technology app开发 python app windows python 多线程 wxpython gui 高级语言 tech app python app windows python multithreading wxpython gui">
       <time>2018-02-06</time>
       <div>
         <h2><a href="../../2018/02/06/sysniffer/index.html">Python course design Windows system resource detector</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/windows/index.html"><span>Windows</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python password storage" data-date="2018-01-16" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="python password storage (do not use a database) design a small password recording and query software to simulate recording the accounts and passwords you use on various websites and save them in files. you are required to design your own storage method and implement basic operations such as browsing, querying, adding, deleting, and modifying, and you can expand other functions by yourself. expanded functions: ① encrypt the software and use the secret key specified by the user to encrypt the password stored in the file. if the password is entered incorrectly, the decrypted password will be garbled and the correct password cannot be seen. this program benefits... programming languages technology app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2018-01-16</time>
       <div>
         <h2><a href="../../2018/01/16/python_password_archive/index.html">Python password storage</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="wxpython simple gui program for recording new words" data-date="2017-12-06" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="wxpython simple gui program for recording new words without using a database, implement a simple new word memorization software. the basic functions include adding new new words and their chinese meanings, browsing the recorded words, and randomly selecting some words for review. other expanded functions may be considered. here we use the basic operations of wxpython and how to call classes and functions. programming languages technology app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2017-12-06</time>
       <div>
         <h2><a href="../../2017/12/06/xydic_gui/index.html">wxpython simple GUI program for recording new words</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="wxpython multi-thread anti-suspended death and message passing between threads" data-date="2017-10-31" data-categories="高级语言 tech app python" data-tags="python multithreading wxpython gui" data-search="wxpython multi-thread anti-suspended death and message passing between threads way to enable threading in wxpython to separate execution of gui and functionality. the news on the internet about python multi-threading anti-suspended death and thread passing is from a few years ago. since the wxpython and threading modules have been updated, the latest modified code is given and can run in the latest version of python and modules in 2017. the original publisher() and callafter cannot be used. modified code. programming languages technology app开发 python python 多线程 wxpython gui 高级语言 tech app python python multithreading wxpython gui">
       <time>2017-10-31</time>
       <div>
         <h2><a href="../../2017/10/31/wxpython_thread_sendmessage/index.html">wxpython multi-thread anti-suspended death and message passing between threads</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="understand the connection and difference between java and android in one minute" data-date="2017-08-02" data-categories="高级语言 tech app java" data-tags="programming java android" data-search="understand the connection and difference between java and android in one minute android is an open source operating system based on linux. java is an object-oriented programming language. most applications on android are developed using java, but the android sdk references most of the java sdk, and a few are abandoned by the android sdk. when developing android, you don&#x27;t need to know the underlying programming of java, because many commonly used libraries have already been written by others, so your task is... programming languages technology app开发 java programming java android 高级语言 tech app java programming java android">
       <time>2017-08-02</time>
       <div>
         <h2><a href="../../2017/08/02/onemtolearnandroidandjava/index.html">Understand the connection and difference between JAVA and Android in one minute</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/programming/index.html"><span>Programming</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="android studio program cannot be loaded into the virtual machine solution" data-date="2017-07-29" data-categories="tech app" data-tags="android" data-search="android studio program cannot be loaded into the virtual machine solution after installing android studio, create a project (hello world) with the specific description: &quot;waiting for target device to come online&quot;. that is &quot;wait for the target device to come online&quot;. problem solving: ①: command line (win+r–cmd) locates in the android_sdk/platform-tools/ directory and executes “adb kill-se... technology app开发 android tech app android">
       <time>2017-07-29</time>
       <div>
         <h2><a href="../../2017/07/29/androidstudioconnect/index.html">Android Studio program cannot be loaded into the virtual machine solution</a></h2>
@@ -196,8 +222,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -206,13 +235,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -221,7 +250,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

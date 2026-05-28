@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>ideas</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>ideas</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>41</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ideas<span>30</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="cyber-crime" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Cyber Crime<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="web" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">web<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">软件工程<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="app" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">app<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C语言<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="game" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Game<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="github" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Github<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="google" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">google<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ios" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">iOS<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="linux" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Linux<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="nlp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">NLP<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="roc" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">ROC<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tensorflow-pytorch" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">TensorFlow-Pytorch<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="terraria" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Terraria<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="三体" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">三体<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="feature-selection" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">特征选择<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="programming" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">编程语言概述<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="interview" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">面试<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="学术idea自动发现与生成" data-date="2023-08-26" data-categories="tech ideas machine-learning deep-learning knowledge-graph nlp" data-tags="ai ann nlp knowledge-graph" data-search="学术idea自动发现与生成 摘要 研究人员通常只有在深入了解大量文献后才能提出新的想法。学术出版物的数量呈指数级增长，这一事实加剧了这一过程的困难。在本研究中，我们设计了一个基于概念共现的学术思想启发框架，该框架已集成到一个研究辅助系统deepreport中。从我们的角度来看，在一篇学术论文中同时出现的两个 概念（concept） 的融合可以被视为一种 新思想（id... 技术域 ideas 机器学习 深度学习 知识图谱 自然语言处理 人工智能 神经网络 nlp 知识图谱 tech ideas machine-learning deep-learning knowledge-graph nlp ai ann nlp knowledge-graph">
       <time>2023-08-26</time>
       <div>
         <h2><a href="../../2023/08/26/kiscovery/index.html">学术idea自动发现与生成</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="粉丝期待的三体电影宇宙（近四十部电影与电视剧集）" data-date="2023-01-16" data-categories="ideas jotting" data-tags="三体" data-search="粉丝期待的三体电影宇宙（近四十部电影与电视剧集） 四年前，坐在教室里幻想着三体电影如何拍，如今电视剧已经来临，很是感慨。 这是当时（2019年）想看的改变剧集： 主线电影 《三体前传:红岸》 时间：1966-1980 开始：文革与叶哲泰之死。 高潮：叶文杰收到三体信息后杀死雷志成、杨卫宁。 结尾：杨冬出生，新纪元开始。 《三体前传:起源》 时间：xxxx-yyyy 讲述三体星系的前世今生... ideas 随笔 三体 ideas jotting 三体">
       <time>2023-01-16</time>
       <div>
         <h2><a href="../../2023/01/16/three-body-movie-universe/index.html">粉丝期待的三体电影宇宙（近四十部电影与电视剧集）</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/三体/index.html"><span>三体</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="泰拉瑞亚terriaria快速部署linux服务器" data-date="2022-11-20" data-categories="ideas jotting" data-tags="linux game terraria" data-search="泰拉瑞亚terriaria快速部署linux服务器 最近泰拉瑞亚更新频繁（每次开都要重新部署！！！），多人游戏的linux服务器也需要同步更新，但是我记不住新版下载地址：(。记录在此。 下载地址 https://terraria.org/api/download/pc-dedicated-server/terraria-server-1447.zip 最后的1447是版本号，如果是1.4.... ideas 随笔 linux game terraria ideas jotting linux game terraria">
       <time>2022-11-20</time>
       <div>
         <h2><a href="../../2022/11/20/terriaria_linux/index.html">泰拉瑞亚Terriaria快速部署Linux服务器</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/linux/index.html"><span>Linux</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/game/index.html"><span>Game</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/terraria/index.html"><span>Terraria</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ipad生产力指南——编程" data-date="2022-06-10" data-categories="ideas jotting" data-tags="app ios" data-search="ipad生产力指南——编程 买前生产力，买后爱奇艺？不！是你少了这份指南。本篇介绍了ipad作为编程工具的使用方式。 设备： ipad pro 2021 m1，11英寸 使用场景： cs编程与论文撰写 textastic textastic是一款适用于ipad的高级代码编辑器。它支持 语法高亮 ssh终端连接服务器 sftp文件传输 在使用textastic时，我经... ideas 随笔 app ios ideas jotting app ios">
       <time>2022-06-10</time>
       <div>
         <h2><a href="../../2022/06/10/ipad-coding/index.html">iPad生产力指南——编程</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ios/index.html"><span>iOS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="捍卫真理——眼见不为实" data-date="2021-03-03" data-categories="ideas programmer english" data-tags="ideas" data-search="捍卫真理——眼见不为实 deepfake imagine if someone replaces the character in a certain video with your face image just for fun, what would you think? this is what deepfake is doing. its functio... ideas 程序人生 english ideas ideas programmer english ideas">
       <time>2021-03-03</time>
       <div>
         <h2><a href="../../2021/03/03/defend-the-truth/index.html">捍卫真理——眼见不为实</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-category" data-label="分类" href="../english/index.html"><span>English</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="breaking news: the english version of omegaxyz is back online" data-date="2021-01-22" data-categories="tech ideas web programmer english" data-tags="ideas" data-search="breaking news: the english version of omegaxyz is back online en.omegaxyz.com our service is adapted to all devices now. 技术域 ideas web开发 程序人生 english ideas tech ideas web programmer english ideas">
       <time>2021-01-22</time>
       <div>
         <h2><a href="../../2021/01/22/breaking-news-the-english-version-of-omegaxyz-is-back-online/index.html">Breaking News: The English version of OmegaXYZ is back online</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="奥威尔：老大哥在看着你-软件公司十诫" data-date="2020-05-30" data-categories="tech ideas jotting programmer software-engineering" data-tags="ideas software-engineering" data-search="奥威尔：老大哥在看着你-软件公司十诫 奥威尔：老大哥在看着你 orwell: keeping an eye on you是一款反乌托邦政府监控模拟器。 其中的奥威尔（orwell）是一项新的政府安全计划，有权对“国家”中每个人的在线状态进行调查。它可以监视所有个人通信并访问任何计算机。为了保护公民的隐私，人类研究人员检查了奥威尔发现的数据，并决定应将哪些信息传递给安全部队，以... 技术域 ideas 随笔 程序人生 软件工程 ideas 软件工程 tech ideas jotting programmer software-engineering ideas software-engineering">
       <time>2020-05-30</time>
       <div>
         <h2><a href="../../2020/05/30/orwell-software/index.html">奥威尔：老大哥在看着你-软件公司十诫</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="黑暗森林：知识图谱的前世今生" data-date="2020-04-29" data-categories="tech ideas machine-learning jotting programmer knowledge-graph" data-tags="ideas knowledge-graph" data-search="黑暗森林：知识图谱的前世今生 黑暗森林 宇宙就是一座黑暗森林，每个文明都是带枪的猎人，像幽灵般潜行于林间，轻轻拨开挡路的树枝，竭力不让脚步发出一点儿声音，连呼吸都必须小心翼翼：他必须小心，因为林中到处都有与他一样潜行的猎人，如果他发现了别的生命，能做的只有一件事：开枪消灭之。在这片森林中，他人就是地狱，就是永恒的威胁，任何暴露自己存在的生命都将很快被消灭，这就是宇宙文... 技术域 ideas 机器学习 随笔 程序人生 知识图谱 ideas 知识图谱 tech ideas machine-learning jotting programmer knowledge-graph ideas knowledge-graph">
       <time>2020-04-29</time>
       <div>
         <h2><a href="../../2020/04/29/dark-forest-kg/index.html">黑暗森林：知识图谱的前世今生</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="访问量突破一百万" data-date="2020-03-05" data-categories="ideas programmer" data-tags="ideas" data-search="访问量突破一百万 运行第1069天，2020.3.5 访问量破1m，感谢各位支持。 友情链接 https://omegaxyz.com/friends/ 时间线 https://omegaxyz.com/webhistory/ ideas 程序人生 ideas ideas programmer ideas">
       <time>2020-03-05</time>
       <div>
         <h2><a href="../../2020/03/05/visitors1m/index.html">访问量突破一百万</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="数据分析岗位面试必备" data-date="2020-02-17" data-categories="tech ideas machine-learning interview" data-tags="roc feature-selection interview" data-search="数据分析岗位面试必备 业务逻辑 数据分析遵循一定的流程，不仅可以保证数据分析每一个阶段的工作内容有章可循，而且还可以让分析最终的结果更加准确，更加有说服力。一般情况下，数据分析分为以下几个步骤： 业务理解，确定目标、明确分析需求; 数据理解，收集原始数据、描述数据、探索数据、检验数据质量; 数据准备，选择数据、清洗数据、构造数据、整合数据、格式化数据; 建立模... 技术域 ideas 机器学习 面试 roc 特征选择 面试 tech ideas machine-learning interview roc feature-selection interview">
       <time>2020-02-17</time>
       <div>
         <h2><a href="../../2020/02/17/data-analysis-interview/index.html">数据分析岗位面试必备</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/roc/index.html"><span>ROC</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/feature-selection/index.html"><span>特征选择</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/interview/index.html"><span>面试</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="2019新闻记录" data-date="2020-01-26" data-categories="ideas jotting" data-tags="ideas" data-search="2019新闻记录 关键词：华为，香港，贸易战，猪肉 2019.1 权健涉嫌传销被调查 2019.2 翟天林学术不端事件 2019.2 《流浪地球》上映 2019.3 江苏盐城响水化工厂爆炸 2019.3 凉山火灾31名消防员死亡 2019.4 人类历史上第一张黑洞照片公布 2019.4 巴黎圣母院大火 2019.5 华为遭美国制裁 2019.6 中国提高美... ideas 随笔 ideas ideas jotting ideas">
       <time>2020-01-26</time>
       <div>
         <h2><a href="../../2020/01/26/2019-news/index.html">2019新闻记录</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="2020年初做了些啥？" data-date="2020-01-04" data-categories="ideas jotting" data-tags="ideas" data-search="2020年初做了些啥？ 最近几个月忙着一些并不是很重要的事情，好久未更新博客了。突然心血来潮，年初花了一个下午和晚上给站点和服务器做了些优化。 重置服务器，删除站点无用缓存，优化站点数据库。 全站http转https。 配置站点相应的微信小程序。 站点订阅功能下架。 对未能及时收到回复的评论者与网站订阅者说声抱歉，感谢大家一直以来的支持。 欢迎访问图灵技术域微信... ideas 随笔 ideas ideas jotting ideas">
       <time>2020-01-04</time>
       <div>
         <h2><a href="../../2020/01/04/2020/index.html">2020年初做了些啥？</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="计算机领域顶级会议、期刊、人物与国家排名2019" data-date="2019-03-01" data-categories="tech ideas machine-learning programmer" data-tags="ideas ai" data-search="计算机领域顶级会议、期刊、人物与国家排名2019 最近浏览到一个网站： http://www.guide2research.com/ 这是一个根据谷歌学术排名的计算机领域各类会议、学术期刊、人物、国家、组织的排名查询网站。 时间2019年3月 会议 按照hindex排名。 显然第一名就是大名鼎鼎的cvpr了，第二名为nips。 学术期刊 人物（全球排名） 灯塔国还是强啊！ 人物（中国大陆... 技术域 ideas 机器学习 程序人生 ideas 人工智能 tech ideas machine-learning programmer ideas ai">
       <time>2019-03-01</time>
       <div>
         <h2><a href="../../2019/03/01/guide2research/index.html">计算机领域顶级会议、期刊、人物与国家排名2019</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="资金的时间价值与风险型软件项目成本效益" data-date="2019-02-02" data-categories="tech ideas programmer software-engineering" data-tags="ideas software-engineering" data-search="资金的时间价值与风险型软件项目成本效益 一、引言 软件工程经济学中涉及软件项目与产品中的各项工程经济活动，如软件项目投资与筹资、招标与投标、项目可行性分析、项目任务分解、计划进度指定与团队组织建设、软件项目的成本、定价、效益以及经济、社会效果评价、风险分析、软件测试等工程经济参数间的关联分析与统计内容 [1] 。 而在任何软件的研发与管理都是在特定的时空范围内进行的，明确资金的... 技术域 ideas 程序人生 软件工程 ideas 软件工程 tech ideas programmer software-engineering ideas software-engineering">
       <time>2019-02-02</time>
       <div>
         <h2><a href="../../2019/02/02/engineering-economics/index.html">资金的时间价值与风险型软件项目成本效益</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="华氏451" data-date="2018-12-22" data-categories="ideas common-sense" data-tags="web ideas" data-search="华氏451 2015 年 12 月 21 日，因特网工程指导组 (ietf) 批准了全新 http 状态错误代码 “451” ，这个代码的官方释义为 “ 由于法律原因而不可用 ” 。 451 数字来源于 1953 年由美国作家雷 · 布莱伯利所著的反乌托邦小说《华氏 451 度》。 故事叙述了一个压制自由的近未来世界，禁止人们阅读、拥有书籍，所谓的消... ideas 常识 web ideas ideas common-sense web ideas">
       <time>2018-12-22</time>
       <div>
         <h2><a href="../../2018/12/22/http451/index.html">华氏451</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../common-sense/index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《三体》：如果李云龙是执剑人" data-date="2018-07-14" data-categories="ideas trans jotting" data-tags="ideas" data-search="《三体》：如果李云龙是执剑人 作者：小人物 链接： https://www.zhihu.com/question/48867879/answer/132539064 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 “老李，你醒了？”赵刚激动的站了起来。 李云龙盯着赵刚，仿佛像不认识他一样，眼神有些迷茫。 “老李，不要多想，现在你的大脑... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-07-14</time>
       <div>
         <h2><a href="../../2018/07/14/tbp-liyunlong/index.html">《三体》：如果李云龙是执剑人</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="优雅与高效——读《代码整洁之道》" data-date="2018-07-07" data-categories="tech ideas others programmer" data-tags="ideas" data-search="优雅与高效——读《代码整洁之道》 转载并整理自哪儿忘了，侵删 《代码整洁之道》是2010年1月由人民邮电出版社出版的图书，作者是robert c.martin。本书主要讲述了代码质量与其整洁度成正比的道理，并由此揭示代码整洁之道。 代码逻辑应当直截了当，叫缺陷难以隐藏；尽量减少依赖关系，使之便于维护；依据某种分层战略完善错误处理代码；性能调至最优，省得引诱别人做没规矩的优... 技术域 ideas 其它 程序人生 ideas tech ideas others programmer ideas">
       <time>2018-07-07</time>
       <div>
         <h2><a href="../../2018/07/07/how-to-code/index.html">优雅与高效——读《代码整洁之道》</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../others/index.html"><span>其它</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="你是如何变平庸的？" data-date="2018-05-28" data-categories="ideas jotting" data-tags="ideas" data-search="你是如何变平庸的？ 当你醒来第一件事就是找手机时， 当你下床后就立刻打开电脑时， 当你感到无聊便用游戏打发时间时， 当你感到寂寞就在各大社交网站寻求刺激时， 当你一遍遍刷新知乎、微博、朋友圈时， 当你沉迷游戏、小说、漫画不能自控时， 当你承受不住压力就要朝别人宣泄时， 当你感到委屈就忍不住对别人发火时， 当你愤怒不能自控向别人恶语相加时， 当你每次受到不公就... ideas 随笔 ideas ideas jotting ideas">
       <time>2018-05-28</time>
       <div>
         <h2><a href="../../2018/05/28/mediocrity/index.html">你是如何变平庸的？</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="github是代码共产主义？" data-date="2018-05-21" data-categories="tech ideas others programmer" data-tags="github" data-search="github是代码共产主义？ 什么是github github是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名github。 github于2008年4月10日正式上线，除了git代码仓库托管及基本的 web管理界面以外，还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱（报表）、代码片段分享（gist）等功能。目前，... 技术域 ideas 其它 程序人生 github tech ideas others programmer github">
       <time>2018-05-21</time>
       <div>
         <h2><a href="../../2018/05/21/github_communist/index.html">Github是代码共产主义？</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../others/index.html"><span>其它</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/github/index.html"><span>Github</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人工智能哪家强？" data-date="2018-03-24" data-categories="ideas programmer" data-tags="ideas ai" data-search="人工智能哪家强？ 人工智能（artificial intelligence），英文缩写为ai。它是研究、开发用于模拟、延伸和扩展人的智能的理论、方法、技术及应用系统的一门新的技术科学。 人工智能是计算机科学的一个分支，它企图了解智能的实质，并生产出一种新的能以人类智能相似的方式做出反应的智能机器，该领域的研究包括机器人、语言识别、图像识别、自然语言处理和专... ideas 程序人生 ideas 人工智能 ideas programmer ideas ai">
       <time>2018-03-24</time>
       <div>
         <h2><a href="../../2018/03/24/ai_go/index.html">人工智能哪家强？</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对生活失去热情怎么办？" data-date="2018-03-22" data-categories="ideas trans jotting" data-tags="ideas" data-search="对生活失去热情怎么办？ 本文章源自quora 答主 emberton，获 15k+赞 ） 很多人都相信一种叫做“热情”的奇迹。“如果我能寻找到我的热情就好了”，我们哭着说，“只有找到我的热情我才会快乐”。 的确，热情是真实而且有力量的。但是大多数人关于“寻找”的看法却是错误的。 规则一：热情源于成功 所有我们拥有的情感存在是有合理的原因的。我们感觉饥饿是为了不饿... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-03-22</time>
       <div>
         <h2><a href="../../2018/03/22/passion/index.html">对生活失去热情怎么办？</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="迅雷“应版权方要求，文件无法下载”的解决办法" data-date="2018-03-17" data-categories="ideas programmer" data-tags="ideas" data-search="迅雷“应版权方要求，文件无法下载”的解决办法 迅雷下载有的电影电视剧的时候会出现：应版权方要求，文件无法下载，或者显示迅雷任务包含违规内容 无法继续下载。这个是因为版权方和迅雷公司交涉，迅雷公司通过技术手段阻止了迅雷任务的下载，比如下载最近的《人民的名义》就出现应版权方要求，文件无法下载这个问题，特别是用最新的迅雷9会出现这个提示，如下图所示。 网上的方法要么失效要么难操作，下面给出... ideas 程序人生 ideas ideas programmer ideas">
       <time>2018-03-17</time>
       <div>
         <h2><a href="../../2018/03/17/thunder_cracker/index.html">迅雷“应版权方要求，文件无法下载”的解决办法</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="我眼中的人工智能" data-date="2018-03-12" data-categories="ideas jotting" data-tags="ideas ai" data-search="我眼中的人工智能 作为一个学计算机的，当然有必要来谈一谈人工智能。 说起人工智能，大多数人脑子里冒出来的一定是这样一个画面——机器人。 稍微有点了解的人会说出深度学习、神经网络、机器学习这样的专业词汇。 此时，内行的人可能会偷偷笑笑。 是这样的，简单地来说人工智能在不同时期所代表的意思是不一样的，在过去人工智能也许只意味着一个会下五子棋的程序或者是一个聊天... ideas 随笔 ideas 人工智能 ideas jotting ideas ai">
       <time>2018-03-12</time>
       <div>
         <h2><a href="../../2018/03/12/ai_in_myeye/index.html">我眼中的人工智能</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="如何正确给锂电池充电" data-date="2018-02-10" data-categories="ideas common-sense" data-tags="ideas" data-search="如何正确给锂电池充电 刚给手机换了新电池，发现很多人在手机和电脑充电方面存在着误区，比如下面这个流言。 流言： 新买的手机必须充满8小时以上并重复几次完全充电放电，这个过程叫做激活，这样可以使手机的电池达到最大容量。手机充满电之后必须马上拔掉电源，因为过度充电会引起电池爆炸。笔记本电脑和手机的电池最好把电用光再充电，这样可以尽量减少充电次数，延长电池寿命。 真... ideas 常识 ideas ideas common-sense ideas">
       <time>2018-02-10</time>
       <div>
         <h2><a href="../../2018/02/10/battery/index.html">如何正确给锂电池充电</a></h2>
@@ -250,8 +276,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../common-sense/index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势" data-date="2018-01-31" data-categories="tech ideas trans programmer" data-tags="programming ideas" data-search="如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势 摘录自csdn loonggg（侵删！！！） 作者简介：loonggg，一个文艺傲娇而又喜欢编码的程序猿，一个喜欢挑战而又喜欢分享的攻城狮。一个科技数码爱好者，又是一个爱好写作的达人。公众号「非著名程序员」的运营者。 你们知道程序员最熟悉，最熟练，最常用的两个快捷键是哪两个吗？ 没错，估计你现在心中所想的就是：ctrl+c 和 ctrl+... 技术域 ideas 转载 程序人生 编程语言概述 ideas tech ideas trans programmer programming ideas">
       <time>2018-01-31</time>
       <div>
         <h2><a href="../../2018/01/31/code_copy/index.html">如何优雅地抄袭代码？天下代码一大抄，这才是正确的姿势</a></h2>
@@ -259,8 +285,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/programming/index.html"><span>编程语言概述</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人际关系中常见的6种操纵策略" data-date="2018-01-30" data-categories="ideas trans jotting" data-tags="ideas" data-search="人际关系中常见的6种操纵策略 人为什么要操纵？braiker(2003)认为，关系中的操纵行为主要出于3个动机，虽然在很多情况下，操纵者未必能够知道自己的动机，他们只是本能地在进行操纵。 1. 达到自己的目的： 操纵者希望达到一些目的，比如获得金钱、地位、性、爱情、胜利，或者是避免损失，而他们认为操纵是达成目标的捷径。 2. 获得力量感和优势： 一次成功的操纵，就是对... ideas 转载 随笔 ideas ideas trans jotting ideas">
       <time>2018-01-30</time>
       <div>
         <h2><a href="../../2018/01/30/control_strategy/index.html">人际关系中常见的6种操纵策略</a></h2>
@@ -268,8 +294,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="《三体》语录" data-date="2018-01-29" data-categories="ideas jotting" data-tags="ideas" data-search="《三体》语录 1，给时光以生命，给岁月以文明。 2，你的无畏来源于无知。 3，我们都是阴沟里的虫子,但总还是得有人仰望星空。 4，在中国，任何超脱飞扬的思想都会砰然坠地——现实的引力实在是太沉重了。 5，死亡是一座永恒的灯塔，不管你驶向何方，最终都会朝它转向。一切都将逝去，只有死神永生。 6，碑是那么小，与其说是为了纪念，更像是为了忘却。 7，孩子问，... ideas 随笔 ideas ideas jotting ideas">
       <time>2018-01-29</time>
       <div>
         <h2><a href="../../2018/01/29/three_body_pro/index.html">《三体》语录</a></h2>
@@ -277,8 +303,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="学生时代的7个国外编程博客" data-date="2018-01-26" data-categories="tech ideas trans programmer" data-tags="ideas" data-search="学生时代的7个国外编程博客 如果你想成为程序员，你需要沉浸在编程文化中。如果你仍然是一个学生，这是更真实的。编程领域非常广泛，吸收了太多的信息，如果你远距离参与，你永远不会出现在最前面。幸运的是，博客是一个易于访问的媒体。 只是要清楚，这些编程博客并不是要取代动手实践或正确的指导。如果你是一个完整的新手，你应该先选择一门编程语言来学习，然后从学习基础知识开始。一旦你... 技术域 ideas 转载 程序人生 ideas tech ideas trans programmer ideas">
       <time>2018-01-26</time>
       <div>
         <h2><a href="../../2018/01/26/7_blogs/index.html">学生时代的7个国外编程博客</a></h2>
@@ -286,8 +312,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="sci-hub" data-date="2018-01-14" data-categories="ideas programmer" data-tags="ideas" data-search="sci-hub sci-hub是一个线上数据库，其上提供62,000,000篇科学学术论文和文章。网站透过“.edu”代理服务器访问相关页面，每天会上传新的论文文章。2011年，哈萨克研究生亚历珊卓·艾尔巴金因为研究论文成本过高，每篇论文在付费墙机制下通常需要花费30美元，而决定成立sci-hub。2014年，学术界开始预测网站将会发展为类似napste... ideas 程序人生 ideas ideas programmer ideas">
       <time>2018-01-14</time>
       <div>
         <h2><a href="../../2018/01/14/sci-hub/index.html">Sci-Hub</a></h2>
@@ -295,8 +321,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="30个谷歌开源项目" data-date="2018-01-08" data-categories="tech ideas others programmer" data-tags="google tensorflow-pytorch" data-search="30个谷歌开源项目 1 机器学习系统 tensorflow tensorflow 是谷歌的第二代机器学习系统，据谷歌说，在某些基准测试中，tensorflow 的表现比第一代的 distbelief 快了 2 倍。tensorflow 内建深度学习的扩展支持，任何能够用计算流图形来表达的计算，都可以使用 tensorflow。任何基于梯度的机器学习算法都能够... 技术域 ideas 其它 程序人生 google tensorflow-pytorch tech ideas others programmer google tensorflow-pytorch">
       <time>2018-01-08</time>
       <div>
         <h2><a href="../../2018/01/08/google_open_source/index.html">30个谷歌开源项目</a></h2>
@@ -304,8 +330,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../others/index.html"><span>其它</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/google/index.html"><span>google</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="豫章书院看中国最差家长，自己是猪，望子成龙。" data-date="2017-11-13" data-categories="ideas jotting" data-tags="ideas" data-search="豫章书院看中国最差家长，自己是猪，望子成龙。 本来不想讨论这件事的，然而就在双十一前一天，每周一更的暴走大事件的第36期突然下架，这个敢于说真话，娱乐大众，针砭时弊的平台被封，让大家难以接受，本已快尘埃落定的豫章书院再次成为热议话题。 一束光照进铁塔，铁塔里的肮脏龌龊被显现，这束光便有了罪。 是的，豫章书院，中国的《熔炉》。 另一方面，豫章书院关停，家长却拉横幅反对。 中国最差家长，... ideas 随笔 ideas ideas jotting ideas">
       <time>2017-11-13</time>
       <div>
         <h2><a href="../../2017/11/13/yuzhangshuyuan/index.html">豫章书院看中国最差家长，自己是猪，望子成龙。</a></h2>
@@ -313,8 +339,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../jotting/index.html"><span>随笔</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python中的彩蛋（哈哈哈）" data-date="2017-10-17" data-categories="高级语言 tech ideas python programmer" data-tags="python" data-search="python中的彩蛋（哈哈哈） python之父guido van rossum于1989年发明了蟒蛇（python）他喜欢monty python是英国六人喜剧团体，喜剧界的披头士，而且后来python的解释器以里面一个成员命名idle，后来开发python的到这帮家伙在python源代码中加入了彩蛋来娱乐大众。 让我们来细数一下python中的那些彩蛋。 (谁说程序... 高级语言 技术域 ideas python 程序人生 python 高级语言 tech ideas python programmer python">
       <time>2017-10-17</time>
       <div>
         <h2><a href="../../2017/10/17/python_easter_egg/index.html">Python中的彩蛋（哈哈哈）</a></h2>
@@ -322,8 +348,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="软件工程师与码农的区别" data-date="2017-10-01" data-categories="ideas programmer" data-tags="ideas" data-search="软件工程师与码农的区别 先说个题外话，首先拥有这两种称呼的人都不是修电脑装软件的。本人认为计算机组装与维护（修电脑，装软件，装系统，office，基本c语言操作）是一个任何办公室白领的必备的基本技能，让一个程序员或者软件工程师做这些事简直是对他们的侮辱。 进入正题，来说说软件工程师与码农的区别，下面列除了一些人的观点： 一个好的软件工程师不光只是考虑怎么去用代码... ideas 程序人生 ideas ideas programmer ideas">
       <time>2017-10-01</time>
       <div>
         <h2><a href="../../2017/10/01/differencesbetweencode/index.html">软件工程师与码农的区别</a></h2>
@@ -331,8 +357,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="2017程序员综合素质调研测试" data-date="2017-08-27" data-categories="ideas programmer" data-tags="ideas" data-search="2017程序员综合素质调研测试 只要志愿选得好，年年期末是高考~~~~ 高等数学、线性代数、c语言、计算机导论、数据结构、离散数学、电子技术、c++程序设计、汇编语言程序设计、计算机组成原理、编译原理、操作系统、数据库原理、java程序设计、python…… 下面从互联网上找的段子~~~哈哈哈哈 试卷a（低级） 考生类别：码农 1、程序员a：借我1000元吧。 程序员b... ideas 程序人生 ideas ideas programmer ideas">
       <time>2017-08-27</time>
       <div>
         <h2><a href="../../2017/08/27/2017paperhhh/index.html">2017程序员综合素质调研测试</a></h2>
@@ -340,8 +366,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="规则绝对公平时，社会财富的流向谁？" data-date="2017-08-24" data-categories="高级语言 cc tech ideas jotting programmer" data-tags="c-2 c ideas" data-search="规则绝对公平时，社会财富的流向谁？ 从知乎有一个很有趣的问题：房间里有100个人，每人都有100元钱，如果每过一分钟，每个人都要拿出一元钱随机给另一个人，最后这100个人的财富分布是怎样的？ 这个问题，可以看成一个小型实验，模拟的是规则绝对公平时，社会财富的流向。财富随机流动的话，贫富差距是否就会消失呢？ 城市数据团用程序模拟了这个过程： 就这样，80%的钱跑进了20%的口... 高级语言 c&amp;c++ 技术域 ideas 随笔 程序人生 c++ c语言 ideas 高级语言 cc tech ideas jotting programmer c-2 c ideas">
       <time>2017-08-24</time>
       <div>
         <h2><a href="../../2017/08/24/socialwealth/index.html">规则绝对公平时，社会财富的流向谁？</a></h2>
@@ -349,8 +375,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../cc/index.html"><span>C&amp;C++</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/c/index.html"><span>C语言</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="你还在用xx浏览器吗~" data-date="2017-08-14" data-categories="ideas programmer common-sense" data-tags="ideas" data-search="你还在用xx浏览器吗~ 第一次写软文，哈哈哈。其实是分享几张图片吧。 在我大天朝，大多数人使用的ie浏览器（事业单位用得比较多）、谷歌浏览器（chrome）、360安全 （liu mang） 浏览器、360极速浏览器（其实就是用得谷歌浏览器的内核）、safari等，还有一部分人用的firefox。 ie浏览器 为什么说ie浏览器是垃圾呢？ 对web开发者来说，兼... ideas 程序人生 常识 ideas ideas programmer common-sense ideas">
       <time>2017-08-14</time>
       <div>
         <h2><a href="../../2017/08/14/browser/index.html">你还在用XX浏览器吗~</a></h2>
@@ -358,8 +384,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-category" data-label="分类" href="../common-sense/index.html"><span>常识</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="什么是前端开发工程师？" data-date="2017-07-29" data-categories="tech ideas web programmer" data-tags="web ideas" data-search="什么是前端开发工程师？ 概述 前端工程师，也叫web前端开发工程师。他是随着web发展，细分出来的行业。web前端开发技术主要包括三个要素：html、css和javascript!html甚至不是一门语言，仅仅是简单的标记语言!css只是无类型的样式修饰语言。当然可以勉强算作弱类型语言。javascript的基础部分相对来说不难，入手还算快。 前端开发的入门门槛... 技术域 ideas web开发 程序人生 web ideas tech ideas web programmer web ideas">
       <time>2017-07-29</time>
       <div>
         <h2><a href="../../2017/07/29/webengineer/index.html">什么是前端开发工程师？</a></h2>
@@ -367,8 +393,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="浅析计算机科学在经济犯罪中的特征与表现" data-date="2017-06-27" data-categories="ideas programmer" data-tags="cyber-crime" data-search="浅析计算机科学在经济犯罪中的特征与表现 摘要： 大数据时代已经来临,与此同时计算机经济犯罪也呈现愈演愈烈的势态,它不仅对各国的国家安全、社会文化等构成威胁,而且扰乱社会的经济秩序,也给普通受害第三人造成巨大的经济损失，例如利用互联网进行集资诈骗，传销，洗钱，传播制作盗版，淫秽产品等。在计算机经济犯罪中，网络软件的下载与传播，是现代计算机经济犯罪的重要特征。本文将利用经济刑法课程... ideas 程序人生 cyber crime ideas programmer cyber-crime">
       <time>2017-06-27</time>
       <div>
         <h2><a href="../../2017/06/27/ecocriminallawessay/index.html">浅析计算机科学在经济犯罪中的特征与表现</a></h2>
@@ -376,8 +402,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cyber-crime/index.html"><span>Cyber Crime</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="20位正在创造未来的科技远见者" data-date="2017-04-30" data-categories="ideas trans programmer" data-tags="ideas" data-search="20位正在创造未来的科技远见者 20位正在创造未来的科技远见者（而中国的同龄人还在考虑买房，买车，结婚） 下文转载自网易科技 网易科技讯4月30日消息，《连线》网站近日发布2017年度的next list榜单，介绍了20位正在创造未来的科技远见者。 微软将会打造出比苹果更加精美的电脑。机器人将会3d打印为你定制化设计的、很酷的鞋子。（而且只需要几天时间就能送到你家门口。... ideas 转载 程序人生 ideas ideas trans programmer ideas">
       <time>2017-04-30</time>
       <div>
         <h2><a href="../../2017/04/30/neteasesciseeker/index.html">20位正在创造未来的科技远见者</a></h2>
@@ -385,8 +411,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ideas/index.html"><span>ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="网络犯罪概述" data-date="2017-04-28" data-categories="ideas programmer" data-tags="cyber-crime" data-search="网络犯罪概述 一．概念 网络犯罪 是指行为人运用计算机技术，借助于网络对其系统或信息进行攻击，破坏或利用网络进行其他犯罪的总称。 既包括行为人运用其编程，加密，解码技术或工具在网络上实施的犯罪，也包括行为人利用软件指令，网络系统或产品加密等技术及法律规定上的漏洞在网络内外交互实施的犯罪，还包括行为人借助于其居于网络服务提供者特定地位或其他方法在网络系统... ideas 程序人生 cyber crime ideas programmer cyber-crime">
       <time>2017-04-28</time>
       <div>
         <h2><a href="../../2017/04/28/cybercrime/index.html">网络犯罪概述</a></h2>
@@ -394,8 +420,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cyber-crime/index.html"><span>Cyber Crime</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="转载：对研究者july的评论" data-date="2017-04-09" data-categories="ideas trans programmer" data-tags="" data-search="转载：对研究者july的评论 做研究搞搞学术就得不断的update自己的知识，不然就是坐井观天，任由自己天马行空的扯淡。学术没有捷径可走，都得踏踏实实的看原始文献读paper。 对研究者july的评论 作者：jason copper 链接： https://www.zhihu.com/question/24957182/answer/70481601 来源：知乎 说一... ideas 转载 程序人生 ideas trans programmer">
       <time>2017-04-09</time>
       <div>
         <h2><a href="../../2017/04/09/对研究者july的评论/index.html">转载：对研究者July的评论</a></h2>
@@ -403,8 +429,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../programmer/index.html"><span>程序人生</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -413,13 +442,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

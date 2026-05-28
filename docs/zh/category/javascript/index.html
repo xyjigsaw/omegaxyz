@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>JavaScript&amp;Html</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>JavaScript&amp;Html</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>23</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="web" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">web<span>20</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="javascript" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JavaScript<span>16</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="html" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HTML<span>15</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="database" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">数据库<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="css" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">CSS<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="django" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Django<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="java" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JAVA<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="jsp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">jsp<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="vue" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Vue<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ajax" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Ajax<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="github" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Github<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="neo4j" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Neo4j<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="windows" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Windows<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="data-structure" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">数据结构<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="regular-expression" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">正则表达式<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">软件工程<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="全栈开发与快速部署demo" data-date="2023-11-01" data-categories="高级语言 tech web javascript python database software-engineering" data-tags="web javascript python database software-engineering vue" data-search="全栈开发与快速部署demo 框架 我们采用的是前后端分离的框架fastapi + vue。 优点 1. 职责分明 ：前端负责展示和交互，后端负责数据处理和业务逻辑，各自开发独立，不会相互影响。 2. 提高开发效率 ：前后端可以并行开发，大大减少了项目的开发周期。 3. 提高可维护性 ：由于前后端分离，如果需要修改ui或者后端逻辑，只需要修改对应的部分即可，不会影响到... 高级语言 技术域 web开发 javascript&amp;html python 数据库 软件工程 web javascript python 数据库 软件工程 vue 高级语言 tech web javascript python database software-engineering web javascript python database software-engineering vue">
       <time>2023-11-01</time>
       <div>
         <h2><a href="../../2023/11/01/fullstackdemo/index.html">全栈开发与快速部署Demo</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="vue快速开发注记" data-date="2020-11-30" data-categories="高级语言 tech web javascript" data-tags="web javascript vue" data-search="vue快速开发注记 vue.js（读音 /vjuː/, 类似于 view） 是一套构建用户界面的渐进式框架。vue 只关注视图层， 采用自底向上增量开发的设计。 vue项目初始化 使用vue-cli工具 目录结构，等参考： https://www.jianshu.com/p/45b5ce2ab1c5 工具 使用fastapi等后端，建议使用axios工具 快... 高级语言 技术域 web开发 javascript&amp;html web javascript vue 高级语言 tech web javascript web javascript vue">
       <time>2020-11-30</time>
       <div>
         <h2><a href="../../2020/11/30/vue-manual/index.html">Vue快速开发注记</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/vue/index.html"><span>Vue</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="学科领域本体关系数据与可视化" data-date="2020-07-13" data-categories="高级语言 tech web javascript machine-learning knowledge-graph" data-tags="web javascript html social-network knowledge-graph" data-search="学科领域本体关系数据与可视化 学科领域种类 applied sciences arts &amp; humanities economic &amp; social sciences general health sciences natural sciences 6个领域，180个子领域 可视化 echarts jquery 项目地址 https://github.com/xyji... 高级语言 技术域 web开发 javascript&amp;html 机器学习 知识图谱 web javascript html 社交网络 知识图谱 高级语言 tech web javascript machine-learning knowledge-graph web javascript html social-network knowledge-graph">
       <time>2020-07-13</time>
       <div>
         <h2><a href="../../2020/07/13/domain_data_visualization/index.html">学科领域本体关系数据与可视化</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="ajax与jquery异步加载数据" data-date="2020-03-10" data-categories="高级语言 tech web javascript python" data-tags="web javascript python django ajax" data-search="ajax与jquery异步加载数据 简介 一次性从服务器数据库中读取数据并传送到前端页面上是不现实的，一方面会加重服务器的压力，另一方面客户的带宽资源也会被占用。ajax刚好可以解决数据异步加载的问题。ajax 即“ a synchronous j avascript a nd x ml”（异步 javascript 和 xml），是指一种创建交互式、快速动态网页应用的网页... 高级语言 技术域 web开发 javascript&amp;html python web javascript python django ajax 高级语言 tech web javascript python web javascript python django ajax">
       <time>2020-03-10</time>
       <div>
         <h2><a href="../../2020/03/10/ajax-django/index.html">Ajax与jQuery异步加载数据</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/django/index.html"><span>Django</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识图谱可视化demo" data-date="2020-03-03" data-categories="高级语言 tech web javascript machine-learning python database knowledge-graph" data-tags="web javascript python database github social-network knowledge-graph neo4j django" data-search="知识图谱可视化demo introduction 本项目支持2d，3d知识图谱查询与可视化。知识图谱数据集import2neo4j文件夹中。 完整代码及配置说明请移步github： https://github.com/xyjigsaw/knowledge-graph-and-visualization-demo neo4j 数据库名：covid-19 用户名：... 高级语言 技术域 web开发 javascript&amp;html 机器学习 python 数据库 知识图谱 web javascript python 数据库 github 社交网络 知识图谱 neo4j django 高级语言 tech web javascript machine-learning python database knowledge-graph web javascript python database github social-network knowledge-graph neo4j django">
       <time>2020-03-03</time>
       <div>
         <h2><a href="../../2020/03/03/knowledge-graph-demo/index.html">知识图谱可视化Demo</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="图结构可视化javascript" data-date="2020-01-19" data-categories="高级语言 data-structure tech web javascript" data-tags="data-structure javascript css" data-search="图结构可视化javascript 包括社交网络，知识图谱在内的图数据结构需要通过可视化才能明确其中的关系。 下面给出 思知 提供的一个简单图数据结构呈现的js代码，其中的关系矩阵可以自己定义，包含四个属性： source target rela type 代码版权： https://github.com/ownthink/kg-view 高级语言 数据结构 技术域 web开发 javascript&amp;html 数据结构 javascript css 高级语言 data-structure tech web javascript data-structure javascript css">
       <time>2020-01-19</time>
       <div>
         <h2><a href="../../2020/01/19/graph-view-javascript/index.html">图结构可视化JavaScript</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../data-structure/index.html"><span>数据结构</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/data-structure/index.html"><span>数据结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/css/index.html"><span>CSS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html跳转到页面某一位置" data-date="2019-01-19" data-categories="高级语言 tech web javascript" data-tags="web javascript html" data-search="html跳转到页面某一位置 设计网页时，有时需要跳转到页面某一位置，下面给出了两种跳转到页面某一位置的两种方法。 下面两种方式均无滑动效果 方法1：使用javascript控制 代码： 方法2：使用html描点控制 注意此处使用的id来查找 复制上述代码进入下面的链接测试效果： https://omegaxyz.com/onlinetools/web-running... 高级语言 技术域 web开发 javascript&amp;html web javascript html 高级语言 tech web javascript web javascript html">
       <time>2019-01-19</time>
       <div>
         <h2><a href="../../2019/01/19/html-jmp2/index.html">HTML跳转到页面某一位置</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html发送邮件代码（启动邮件客户端）" data-date="2019-01-15" data-categories="高级语言 tech web javascript" data-tags="web html" data-search="html发送邮件代码（启动邮件客户端） 网站优化时，需要一些社交插件。为了提高网站速度，不如自己写。下面是点击链接发送邮件的代码。原理是启动本地邮件客户端。实测windows、mac、android、ios支持。 代码很简单，就一行a标签。 其中mailto后面是自己的邮件地址。subject是邮件主题，&amp;body后是邮件主题内容初始化。另外a标签中的内容可以是图片也可以是文字... 高级语言 技术域 web开发 javascript&amp;html web html 高级语言 tech web javascript web html">
       <time>2019-01-15</time>
       <div>
         <h2><a href="../../2019/01/15/html-mailto/index.html">HTML发送邮件代码（启动邮件客户端）</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="jsp读取数据库数据画饼图" data-date="2018-12-18" data-categories="高级语言 tech web javascript java" data-tags="java javascript html database jsp" data-search="jsp读取数据库数据画饼图 在jsp中，可以使用jsp通过servlet中的代码读取数据库数据。 下面给出了jstl读取数据库数据并使用javascript画出饼图方法的jsp代码。 首先在该类的servlet中加入如下方法： 另外对应的controller.jsp页面如下： 效果： 高级语言 技术域 web开发 javascript&amp;html java java javascript html 数据库 jsp 高级语言 tech web javascript java java javascript html database jsp">
       <time>2018-12-18</time>
       <div>
         <h2><a href="../../2018/12/18/jsp-pie/index.html">JSP读取数据库数据画饼图</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="jsp连数据库登录检查用户名和密码模板" data-date="2018-12-17" data-categories="高级语言 tech web javascript java database" data-tags="java web html database jsp" data-search="jsp连数据库登录检查用户名和密码模板 jsp全名为java server pages，中文名叫java服务器页面，其根本是一个简化的servlet设计，它是由sun microsystems公司倡导、许多公司参与一起建立的一种动态网页技术标准。jsp技术有点类似asp技术，它是在传统的网页html（标准通用标记语言的子集）文件(*.htm,*.html)中插入java程序段(... 高级语言 技术域 web开发 javascript&amp;html java 数据库 java web html 数据库 jsp 高级语言 tech web javascript java database java web html database jsp">
       <time>2018-12-17</time>
       <div>
         <h2><a href="../../2018/12/17/jsp-login/index.html">JSP连数据库登录检查用户名和密码模板</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/database/index.html"><span>数据库</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html5与html4区别" data-date="2018-08-01" data-categories="高级语言 tech web javascript" data-tags="web html" data-search="html5与html4区别 什么是html5呢？ html5最先由whatwg(web 超文本应用技术工作组)命名的一种超文本标记语言，随后和w3c的xhtml2.0(标准)相结合，产生现在最新一代的超文本标记语言。可以简单点理解成：html 5 ≈ html+css 3+js+api。 hmtl5于html的区别 我们现在web前端开发的静态网页，一般都是html... 高级语言 技术域 web开发 javascript&amp;html web html 高级语言 tech web javascript web html">
       <time>2018-08-01</time>
       <div>
         <h2><a href="../../2018/08/01/html5-html4/index.html">HTML5与HTML4区别</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript实现随机图片" data-date="2018-07-24" data-categories="高级语言 tech web javascript" data-tags="web javascript html" data-search="javascript实现随机图片 在很多网站中，有很多顶部特色图像，每次进入时图像显示的都不一样，即实现图片随机展示。仔细分析一下可知，改特效实现的原理应该是在html中嵌入javascript代码，将图片地址存入数组，然后通过随机数产生随机索引，再调用写入函数，这样就可以随机化图片。 这篇文章主要介绍了js实现页面载入时随机显示图片效果,涉及javascript基于随机... 高级语言 技术域 web开发 javascript&amp;html web javascript html 高级语言 tech web javascript web javascript html">
       <time>2018-07-24</time>
       <div>
         <h2><a href="../../2018/07/24/javascript-random-pic/index.html">JavaScript实现随机图片</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html与css组织静态网页" data-date="2018-07-15" data-categories="高级语言 tech web javascript" data-tags="web html css" data-search="html与css组织静态网页 如果说html是搭建房子的原材料，比如钢铁，水泥，木头，那么css则是房子的设计图纸，也就是房子的样式，是古典园林风格还是哥特式建筑。 因此html与css是相辅相成的，只有html没有css，那么做出来的网页可读性差，交互性也差，缺乏美。只有css而没有html那么网页根本就是空谈。 下面用html于css搭建一个静态网页。 注意以下的... 高级语言 技术域 web开发 javascript&amp;html web html css 高级语言 tech web javascript web html css">
       <time>2018-07-15</time>
       <div>
         <h2><a href="../../2018/07/15/html-css/index.html">HTML与CSS组织静态网页</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/css/index.html"><span>CSS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript入门——简单代码实例" data-date="2018-07-12" data-categories="高级语言 tech web javascript" data-tags="web javascript" data-search="javascript入门——简单代码实例 javascript ，也称ecmascript，是一种基于对象和事件驱动并具有相对安全性并广泛用于客户端网页开发的脚本语言，同时也是一种广泛用于客户端web开发的脚本语言。 javascript是世界上最流行的脚本语言，因为你在电脑、手机（android、ios）、平板上浏览的所有的网页，以及无数基于html5的手机app，交互逻辑都是... 高级语言 技术域 web开发 javascript&amp;html web javascript 高级语言 tech web javascript web javascript">
       <time>2018-07-12</time>
       <div>
         <h2><a href="../../2018/07/12/javascript入门-简单代码实例/index.html">JavaScript入门——简单代码实例</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript文档（dom）与浏览器对象模型（bom）" data-date="2018-07-08" data-categories="高级语言 tech web javascript" data-tags="web javascript html" data-search="javascript文档（dom）与浏览器对象模型（bom） dom简介 文档对象模型（document object model，简称dom），是w3c组织推荐的处理可扩展置标语言的标准编程接口。它是一种与平台和语言无关的应用程序接口(api),它可以动态地访问程序和脚本,更新其内容、结构和www文档的风格(目前,html和xml文档是通过说明部分定义的)。文档可以进一步被处理，处理的结果可以加入... 高级语言 技术域 web开发 javascript&amp;html web javascript html 高级语言 tech web javascript web javascript html">
       <time>2018-07-08</time>
       <div>
         <h2><a href="../../2018/07/08/js-dom-bom/index.html">JavaScript文档（DOM）与浏览器对象模型（BOM）</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html常用标签" data-date="2018-07-05" data-categories="高级语言 tech trans web javascript" data-tags="web html" data-search="html常用标签 简介 文本标记语言，即html（hypertext markup language），是用于描述网页文档的一种标记语言。 html之所以称为超文本标记语言，是因为文本中包含了所谓“超级链接”点。所谓超级链接，就是一种url指针，通过激活（点击）它，可使浏览器方便地获取新的网页。这也是html获得广泛应用的最重要的原因之一。 html是一种... 高级语言 技术域 转载 web开发 javascript&amp;html web html 高级语言 tech trans web javascript web html">
       <time>2018-07-05</time>
       <div>
         <h2><a href="../../2018/07/05/html-tag/index.html">HTML常用标签</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript模拟终端输入" data-date="2018-07-01" data-categories="高级语言 tech web javascript" data-tags="web javascript html css" data-search="javascript模拟终端输入 利用javascript+css能够模拟出终端输入画面（类似于linux终端画面）当然更好的代码也可以模拟出黑客帝国那样的输出画面。 css设置： height:auto表示随着输出字数的增加，界面随之向下移动，如果设置为200px则是固定大小为200像素，不能动态增加高度。 background:black表示背景是黑色，当然你也可以试... 高级语言 技术域 web开发 javascript&amp;html web javascript html css 高级语言 tech web javascript web javascript html css">
       <time>2018-07-01</time>
       <div>
         <h2><a href="../../2018/07/01/javascript-terminal/index.html">JavaScript模拟终端输入</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/css/index.html"><span>CSS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript入门" data-date="2018-06-16" data-categories="高级语言 tech web javascript" data-tags="web javascript" data-search="javascript入门 什么是javascript javascript ，也称ecmascript，是一种基于对象和事件驱动并具有相对安全性并广泛用于客户端网页开发的脚本语言，同时也是一种广泛用于客户端web开发的脚本语言。 javascript是世界上最流行的脚本语言，因为你在电脑、手机（android、ios）、平板上浏览的所有的网页，以及无数基于html... 高级语言 技术域 web开发 javascript&amp;html web javascript 高级语言 tech web javascript web javascript">
       <time>2018-06-16</time>
       <div>
         <h2><a href="../../2018/06/16/javascript-introduction/index.html">JavaScript入门</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html与js正则表达式测试代码" data-date="2017-12-07" data-categories="高级语言 tech web javascript" data-tags="web javascript html regular-expression" data-search="html与js正则表达式测试代码 正则表达式，又称规则表达式。（英语：regular expression，在代码中常简写为regex、regexp或re），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。 许多程序设计语言都支持利用正则表达式进行字符串操作。例如，在perl中就内建了一个功能强大的正则表达式引擎。正则表达式这个概念最初是由... 高级语言 技术域 web开发 javascript&amp;html web javascript html 正则表达式 高级语言 tech web javascript web javascript html regular-expression">
       <time>2017-12-07</time>
       <div>
         <h2><a href="../../2017/12/07/html_re/index.html">Html与JS正则表达式测试代码</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/regular-expression/index.html"><span>正则表达式</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="必应网站首页图片抓取" data-date="2017-08-27" data-categories="tech web javascript" data-tags="web html windows" data-search="必应网站首页图片抓取 微软必应bing搜索引擎每日会在网站上更新风景图片，质量很高，可以用来做壁纸。 如果你是win10用户的话请在微软应用商店下载碧影壁纸，这样就能从该应用中获取壁纸。 如果你会python的话你可以写一个网页抓取代码。 当然你可以在我的网站中在线工具里面提供的壁纸抓取 链接为： https://omegaxyz.com/mypage/wal... 技术域 web开发 javascript&amp;html web html windows tech web javascript web html windows">
       <time>2017-08-27</time>
       <div>
         <h2><a href="../../2017/08/27/bingwallpaper/index.html">必应网站首页图片抓取</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>JavaScript&amp;Html</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/windows/index.html"><span>Windows</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="利用javascript批量删除qq空间说说（只需一个浏览器）" data-date="2017-08-06" data-categories="高级语言 tech javascript" data-tags="javascript" data-search="利用javascript批量删除qq空间说说（只需一个浏览器） 每个人都有历史，记录说说是保存瞬间思想的最好方式，但时间久了，我们发现从前的灵光闪现是多么的好笑，于是我们开始删说说，可是说说那么多，哎算了重注册一个qq号吧。 别这样，这里教你一种快速删说说的方法，无需下载任何软件（但还是推荐使用360、qq或谷歌浏览器比较好），只需要在电脑上打开qq空间。按下键盘上的f12键（注意是功能键哦！！！），... 高级语言 技术域 javascript&amp;html javascript 高级语言 tech javascript javascript">
       <time>2017-08-06</time>
       <div>
         <h2><a href="../../2017/08/06/usejstodeleteshuoshuo/index.html">利用JavaScript批量删除QQ空间说说（只需一个浏览器）</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>JavaScript&amp;Html</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="javascript网页中动态显示时间" data-date="2017-06-15" data-categories="高级语言 tech web javascript" data-tags="web javascript html" data-search="javascript网页中动态显示时间 本文着重介绍一下如何在网页中使用javascript添加动态时间方法 date对象的方法 date 对象能够使你获得相对于国际标准时间（格林威治标准时间，现在被称为 utc-universal coordinated time）或者是 flash 播放器正运行的操作系统的时间和日期。要使用date对象的方法，你就必须先创建一个date对象... 高级语言 技术域 web开发 javascript&amp;html web javascript html 高级语言 tech web javascript web javascript html">
       <time>2017-06-15</time>
       <div>
         <h2><a href="../../2017/06/15/javascriptrunningtime/index.html">JavaScript网页中动态显示时间</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="html页面内文字滚动代码" data-date="2017-06-06" data-categories="高级语言 tech web javascript" data-tags="web html" data-search="html页面内文字滚动代码 示例文字 html页面内文字滚动代码 文字滚动的设置 示例文字 文字滚动的设置 示例文字 高级语言 技术域 web开发 javascript&amp;html web html 高级语言 tech web javascript web html">
       <time>2017-06-06</time>
       <div>
         <h2><a href="../../2017/06/06/htmlcoderunning/index.html">Html页面内文字滚动代码</a></h2>
@@ -241,8 +267,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../web/index.html"><span>Web开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/web/index.html"><span>web</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/html/index.html"><span>HTML</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -251,13 +280,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

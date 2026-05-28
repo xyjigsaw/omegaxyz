@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>APP开发</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>APP开发</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>18</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gui" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GUI<span>13</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>11</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="app" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">app<span>9</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="wxpython" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">wxpython<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="android" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Android<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="multithreading" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">多线程<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="pyqt" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">PyQt<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="hci" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HCI<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="java" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JAVA<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="software-engineering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">软件工程<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tkinter" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">tkinter<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="windows" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Windows<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="programming" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">编程语言概述<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="pyqt5多线程刷新界面防假死" data-date="2019-03-07" data-categories="高级语言 tech app python" data-tags="python multithreading gui pyqt" data-search="pyqt5多线程刷新界面防假死 在做gui界面时我们希望后台任务能够与ui分开，在pyqt中，主线程用来重绘界面。而子线程里边的实时处理结果需要反馈到界面，子线程里边不能执行界面更新操作。 wxpython多线程刷新界面转到 https://omegaxyz.com/2017/10/31/wxpython_thread_sendmessage/ 下面给出类python3... 高级语言 技术域 app开发 python python 多线程 gui pyqt 高级语言 tech app python python multithreading gui pyqt">
       <time>2019-03-07</time>
       <div>
         <h2><a href="../../2019/03/07/pyqt5-multi-threading/index.html">PyQt5多线程刷新界面防假死</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="android 使用字符串动态获取资源id" data-date="2018-12-02" data-categories="高级语言 tech app java" data-tags="java app android" data-search="android 使用字符串动态获取资源id android文件中每个文件都有一个id，如下图所示，左边的0x7f060000即是文件的id： 如果我们想在代码中获取这个文件的id应该使用高效率的反射机制，可以新建一个java类代码如下： 或者在当前类增加一个方法： 调用方式： 其中icon是文件名称，不需要增加后缀 高级语言 技术域 app开发 java java app android 高级语言 tech app java java app android">
       <time>2018-12-02</time>
       <div>
         <h2><a href="../../2018/12/02/android-id/index.html">Android 使用字符串动态获取资源ID</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pyqt5创建菜单栏、状态栏和工具栏" data-date="2018-11-29" data-categories="高级语言 tech app python" data-tags="app python gui pyqt" data-search="pyqt5创建菜单栏、状态栏和工具栏 菜单栏、状态栏与工具栏是人机交互的基本形式。一个好的交互界面一般都有部分的人机交互接口。qmainwindow类提供了一个应用主窗口。默认创建一个拥有状态栏、工具栏和菜单栏的经典应用窗口骨架。通过qmainwindow你可以添加自己的qtoolbars、qdockwidgets、qmenubar、qstatusbar等。 代码： 效果：... 高级语言 技术域 app开发 python app python gui pyqt 高级语言 tech app python app python gui pyqt">
       <time>2018-11-29</time>
       <div>
         <h2><a href="../../2018/11/29/pyqt5_qmainwindow/index.html">pyqt5创建菜单栏、状态栏和工具栏</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人机交互的形式" data-date="2018-11-26" data-categories="tech app software-engineering" data-tags="app gui software-engineering hci" data-search="人机交互的形式 命令行交互 优点： ①专家用户使用命令行能够更加快速地完成任务 ②较图形界面更加节约系统资源 ③对用户而言是开放的，不存在图形界面中不能动态配置用户可操作选项的问题 ④键盘操作方式较鼠标操作更加精确，对应用的掌控力更强 ⑤支持用户自定义命令 缺点： ①命令语言的掌握对用户的长时记忆和短时记忆提出了较高要求 ②界面使用基于回忆的方式，没有图... 技术域 app开发 软件工程 app gui 软件工程 hci tech app software-engineering app gui software-engineering hci">
       <time>2018-11-26</time>
       <div>
         <h2><a href="../../2018/11/26/hci/index.html">人机交互的形式</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-category" data-label="分类" href="../software-engineering/index.html"><span>软件工程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/hci/index.html"><span>HCI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pyqt5将图形设计生成的ui文件转化为py文件" data-date="2018-11-25" data-categories="高级语言 tech app python" data-tags="python gui pyqt" data-search="pyqt5将图形设计生成的ui文件转化为py文件 qt creator是跨平台的 qt ide， qt creator 是 qt 被 nokia 收购后推出的一款新的轻量级集成开发环境（ide）。此 ide 能够跨平台运行，支持的系统包括 linux（32 位及 64 位）、mac os x 以及 windows。根据官方描述，qt creator 的设计目标是使开发人员能够利用 qt... 高级语言 技术域 app开发 python python gui pyqt 高级语言 tech app python python gui pyqt">
       <time>2018-11-25</time>
       <div>
         <h2><a href="../../2018/11/25/ui2py/index.html">pyqt5将图形设计生成的ui文件转化为py文件</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/pyqt/index.html"><span>PyQt</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="人机交互——eec模型" data-date="2018-09-24" data-categories="tech app software-engineering" data-tags="app gui software-engineering hci" data-search="人机交互——eec模型 框架是提供理解或定义某种事物的一种结构。 什么是交互式的框架？ ①帮助定义交互设计过程 ②识别设计过程中的主要问题 ③帮助定义问题域 执行/评估活动周期eec模型 活动的基本组成（结构） ①目标（goal）：想做什么，这是最重要的 ②执行（execution）：要实现目标必须进行的操作 ③客观因素（world）：执行活动需要考虑的客观因素... 技术域 app开发 软件工程 app gui 软件工程 hci tech app software-engineering app gui software-engineering hci">
       <time>2018-09-24</time>
       <div>
         <h2><a href="../../2018/09/24/eec/index.html">人机交互——EEC模型</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-category" data-label="分类" href="../software-engineering/index.html"><span>软件工程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/software-engineering/index.html"><span>软件工程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/hci/index.html"><span>HCI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="百度文库下载器python实现" data-date="2018-07-11" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="百度文库下载器python实现 简介 以前可以用学校的企业账户下载文档，后来百度文库改版，需要买下载券或者会员。因此需要一个百度文库下载器。 之前有冰点文库下载器但是后来不好使了。 下面给出利用python写的百度文库下载器。 此下载器可以下载doc类型的，txt类型的文本文档及ppt，不过ppt最终将以图片的形式保存。由于百度文库限制，暂时无法突破有试阅读的文档。pd... 高级语言 技术域 app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2018-07-11</time>
       <div>
         <h2><a href="../../2018/07/11/wenku-python-gui/index.html">百度文库下载器Python实现</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="关于android studio工程目录结构分析" data-date="2018-04-08" data-categories="tech app" data-tags="android" data-search="关于android studio工程目录结构分析 android studio自动生成第一个hello world文件后项目中有很多目录。 同样地其它工程文件也会想hello world程序包含这些目录。下面以hello android为原型介绍目录结构。 一开始是android文件框架，将目录框架改为project便于分析（深蓝色上面一行显示的project） 不需要过度关心的文件及目... 技术域 app开发 android tech app android">
       <time>2018-04-08</time>
       <div>
         <h2><a href="../../2018/04/08/android_studio_files/index.html">关于Android Studio工程目录结构分析</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="hello, android" data-date="2018-04-04" data-categories="tech app" data-tags="app android" data-search="hello, android android studio 是一个android集成开发工具，基于intellij idea. 类似 eclipse adt，android studio 提供了集成的 android 开发工具用于开发和调试。 在idea的基础上，android studio 提供 ： ①基于gradle的构建支持 ②android 专属的重构和快速修... 技术域 app开发 app android tech app app android">
       <time>2018-04-04</time>
       <div>
         <h2><a href="../../2018/04/04/hello-android/index.html">Hello, Android</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python图形界面程序整理" data-date="2018-02-16" data-categories="高级语言 tech app python" data-tags="app python wxpython gui tkinter" data-search="python图形界面程序整理 python图形界面程序即gui程序，python中可以用到tkinter、wxpython、pyqt来编写gui，这三种都能同时在python2和3的版本写编写。下面为大家整理了一些基础的gui程序编写的代码和打包成单个exe文件在无python环境下运行的方法。 最后更新：2018年6月10日 gui程序 ① python课程设计wi... 高级语言 技术域 app开发 python app python wxpython gui tkinter 高级语言 tech app python app python wxpython gui tkinter">
       <time>2018-02-16</time>
       <div>
         <h2><a href="../../2018/02/16/python_gui/index.html">Python图形界面程序整理</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python微博爬虫gui程序" data-date="2018-02-14" data-categories="高级语言 tech app python" data-tags="app python multithreading wxpython gui" data-search="python微博爬虫gui程序 网页版微博是纯正的html，而且调用的微博自家的api来获取图片。 网址:https://m.weibo.cn/api/container/即为微博api里面包含了个人的信息与微博文字与图片存储地址。 这是纯代码非gui的博文： https://omegaxyz.com/2018/02/13/python_weibo/ gui程序的功能：... 高级语言 技术域 app开发 python app python 多线程 wxpython gui 高级语言 tech app python app python multithreading wxpython gui">
       <time>2018-02-14</time>
       <div>
         <h2><a href="../../2018/02/14/python_weibo_gui/index.html">python微博爬虫GUI程序</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python刷访问量gui程序" data-date="2018-02-12" data-categories="高级语言 tech app python" data-tags="app python multithreading wxpython gui" data-search="python刷访问量gui程序 声明1：刷博客是你的权利，没有人会禁止你。但是，我们通过博客记录技术之路上的点滴，本人写博客的目的是纯粹作为网络日记留给自己用的。如果我们仅仅是为了访问量来写博客，那就侮辱了博客本身存在的意义。 声明2：www.omegaxyz.com增加了恶意机器人检查代码与反爬虫插件，实测无法刷本博客的访问量。 功能： ①增加了刷访问量的快慢调节，可... 高级语言 技术域 app开发 python app python 多线程 wxpython gui 高级语言 tech app python app python multithreading wxpython gui">
       <time>2018-02-12</time>
       <div>
         <h2><a href="../../2018/02/12/boomer/index.html">Python刷访问量GUI程序</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python课程设计windows系统资源探测器" data-date="2018-02-06" data-categories="高级语言 tech app python" data-tags="app windows python multithreading wxpython gui" data-search="python课程设计windows系统资源探测器 一、需求分析 （1）文件夹动态监控： windows系统c盘是系统盘，存储着很多重要的数据文件，可用空间一开始很充足，但是电脑在使用一段时间后，我们会发现c盘空间越来越大。这是windows系统的一个通病，于是我希望制作一个能够对选定文件夹实时监测的程序，这个程序不同于windows自身自带的资源管理器，它能够动态且自动监测文件夹中文件的... 高级语言 技术域 app开发 python app windows python 多线程 wxpython gui 高级语言 tech app python app windows python multithreading wxpython gui">
       <time>2018-02-06</time>
       <div>
         <h2><a href="../../2018/02/06/sysniffer/index.html">Python课程设计Windows系统资源探测器</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/windows/index.html"><span>Windows</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/multithreading/index.html"><span>多线程</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python密码存储器" data-date="2018-01-16" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="python密码存储器 （不使用数据库）设计一个密码记录及查询小软件，模拟记录自己在各个网站上所使用的账号及密码，保存在文件中。要求自行设计存储方式，并实现浏览，查询，增加，删除，修改等基本操作，可自行拓展其他功能。 拓展功能： ① 对软件进行加密，并使用用户指定的秘钥对文件中存储的密码进行加密，如果密码输错，则密码解密出来的是乱码，无法看到正确的密码。本程序利... 高级语言 技术域 app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2018-01-16</time>
       <div>
         <h2><a href="../../2018/01/16/python_password_archive/index.html">Python密码存储器</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="wxpython简单记录生词gui程序" data-date="2017-12-06" data-categories="高级语言 tech app python" data-tags="python wxpython gui" data-search="wxpython简单记录生词gui程序 不使用数据库,实现一个简单的记生词软件，基本功能包括，添加新的生词及其中文含义，浏览已经记录的单词，随机选择部分单词进行复习。可考虑其它拓展的功能。 这里使用wxpython的基本操作，以及类与函数的调用方式。 高级语言 技术域 app开发 python python wxpython gui 高级语言 tech app python python wxpython gui">
       <time>2017-12-06</time>
       <div>
         <h2><a href="../../2017/12/06/xydic_gui/index.html">wxpython简单记录生词GUI程序</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="wxpython多线程防假死与线程间传递消息" data-date="2017-10-31" data-categories="高级语言 tech app python" data-tags="python multithreading wxpython gui" data-search="wxpython多线程防假死与线程间传递消息 wxpython中启用线程的方法，将gui和功能的执行分开。 网上关于python多线程防假死与线程传递消息是几年前的，这里由于wxpython和threading模块已经更新最新，因此给出最新修改代码，能在2017年最新版的python和模块中运行。 原来的publisher()和callafter都无法使用。 修改后的代码。 高级语言 技术域 app开发 python python 多线程 wxpython gui 高级语言 tech app python python multithreading wxpython gui">
       <time>2017-10-31</time>
       <div>
         <h2><a href="../../2017/10/31/wxpython_thread_sendmessage/index.html">wxpython多线程防假死与线程间传递消息</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gui/index.html"><span>GUI</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="一分钟认识java与android的联系与区别" data-date="2017-08-02" data-categories="高级语言 tech app java" data-tags="programming java android" data-search="一分钟认识java与android的联系与区别 android是一种以linux为基础的开放源码操作系统。 java是一种面向对象的编程语言。 android上的应用大多数是用java开发的，但是android sdk引用了大部分的java sdk，少数部分被android sdk抛弃。 android开发时它不需要让你知道java底层的编写，因为很多常用的库早就有人编写了，你的任务就... 高级语言 技术域 app开发 java 编程语言概述 java android 高级语言 tech app java programming java android">
       <time>2017-08-02</time>
       <div>
         <h2><a href="../../2017/08/02/onemtolearnandroidandjava/index.html">一分钟认识JAVA与Android的联系与区别</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/programming/index.html"><span>编程语言概述</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/java/index.html"><span>JAVA</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="android studio程序无法加载到虚拟机解决方法" data-date="2017-07-29" data-categories="tech app" data-tags="android" data-search="android studio程序无法加载到虚拟机解决方法 安装玩android studio之后创建一个项目(hello world)具体描述为：”waiting for target device to come online”。即“等待目标设备在线”。 问题解决： ①：命令行（win+r–cmd）定位到android_sdk/platform-tools/目录下,执行”adb kill-se... 技术域 app开发 android tech app android">
       <time>2017-07-29</time>
       <div>
         <h2><a href="../../2017/07/29/androidstudioconnect/index.html">Android Studio程序无法加载到虚拟机解决方法</a></h2>
@@ -196,8 +222,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>APP开发</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/android/index.html"><span>Android</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -206,13 +235,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

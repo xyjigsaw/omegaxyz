@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>Data Structures</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>Data Structures</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>51</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="data-structure" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Data Structures<span>49</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>42</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C<span>36</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="poj" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">poj<span>11</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="dynamic-planning" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">动态规划<span>7</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="pat" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">PAT<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="graduate" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">研究生<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="greedy-algorithm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">贪心算法<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="leetcode" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">LeetCode<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="css" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">CSS<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="javascript" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">JavaScript<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="graph structure visualization javascript" data-date="2020-01-19" data-categories="高级语言 data-structure tech web javascript" data-tags="data-structure javascript css" data-search="graph structure visualization javascript graph data structures including social networks and knowledge graphs require visualization to clarify their relationships. the following is a js code that presents a simple graph data structure provided by sizhi. the relationship matrix can be defined by yourself and contains four attributes: source target rela type code copyright: https://github.com/ownthink/kg-view programming languages data structures technology web javascript&amp;html data structures javascript css 高级语言 data-structure tech web javascript data-structure javascript css">
       <time>2020-01-19</time>
       <div>
         <h2><a href="../../2020/01/19/graph-view-javascript/index.html">Graph structure visualization JavaScript</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/javascript/index.html"><span>JavaScript</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/css/index.html"><span>CSS</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python social network - getting started with networkx" data-date="2020-01-07" data-categories="高级语言 data-structure tech machine-learning python" data-tags="data-structure python social-network" data-search="python social network - getting started with networkx features networkx is a python package for creating, manipulating, and studying the structure and functionality of complex networks. data structures for graphs, directed graphs, and multigraphs many standard graph data algorithms network structures and analysis measures generators for generating classical graphs, random graphs, and synthetic networks nodes can be &quot;anything&quot; (e.g., text, images, xml records) edges can hold arbitrary data (e.g., weights, time series) undirected graphs directed graphs weighted graphs one point to another... programming languages data structures technology machine learning python data structures python 社交网络 高级语言 data-structure tech machine-learning python data-structure python social-network">
       <time>2020-01-07</time>
       <div>
         <h2><a href="../../2020/01/07/python-networkx/index.html">Python Social Network - Getting Started with NetworkX</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/social-network/index.html"><span>社交网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="simple blockchain python implementation" data-date="2019-11-04" data-categories="高级语言 data-structure tech others python" data-tags="" data-search="simple blockchain python implementation what is blockchain? blockchain is a data structure and a distributed database. from a technical point of view: a block is a data structure that records transactions, reflecting the flow of funds in a transaction. the blocks of transactions that have been reached in the system are connected together to form a main chain, and all nodes participating in the calculation record the main chain or part of the main chain. composition of block header the block header mainly contains three sets of metadata: (1) data used to connect previous blocks and indexed from the hash value of the parent block; (2) mining... programming languages data structures technology 其它 python 高级语言 data-structure tech others python">
       <time>2019-11-04</time>
       <div>
         <h2><a href="../../2019/11/04/blockchain-python/index.html">Simple blockchain Python implementation</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="subset generation algorithm template c++ implementation" data-date="2019-06-08" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="subset generation algorithm template c++ implementation introduction to subset generation. given n numbers, enumerate all possible subsets. for example, given n=3, enumerate all possible subsets of {1, 2, 3}. {1}, {2}, {3}, {1,2}, {1,2,3}, {2,3}. incremental construction method. bit vector method. binary method. programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2019-06-08</time>
       <div>
         <h2><a href="../../2019/06/08/gensubset/index.html">Subset generation algorithm template C++ implementation</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2017 postgraduate computer test (to be continued)" data-date="2019-06-04" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2017 postgraduate computer test (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. a: scholarship global question number 7908 number of submissions 207 number of attempts 40 number of passes 32 total time limit: 1000ms memory limit: 65536... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-06-04</time>
       <div>
         <h2><a href="../../2019/06/04/bailian-ss2017/index.html">Bailian-2017 Postgraduate Computer Test (to be continued)</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2016 graduate students are recommended to be exempted from computer-based exams (to be continued)" data-date="2019-06-03" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2016 graduate students are recommended to be exempted from computer-based exams (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. a: rock paper scissors global question number 4973 number of submissions 222 number of attempts 100 number of passes 95 total time limit: 1000ms memory limit: 65... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-06-03</time>
       <div>
         <h2><a href="../../2019/06/03/bailian-tm201602/index.html">Bailian-2016 graduate students are recommended to be exempted from computer-based exams (to be continued)</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="minimum spanning tree kruskal algorithm template question 2 c++ implementation" data-date="2019-06-02" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c greedy-algorithm poj" data-search="minimum spanning tree kruskal algorithm template question 2 c++ implementation basic ideas: (1) construct a subgraph containing only n vertices and an empty edge set. if each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) select an edge with the smallest weight from the edge set e of the network. if the two vertices of this edge belong to different trees, add it to the subgraph. in other words, combine the two trees where the two vertices are located into one tree; on the contrary, if the two vertices of the edge already fall on the same tree, it is not advisable, and the one with the smallest weight should be taken... programming languages c &amp; c++ data structures technology c++ data structures c 贪心算法 poj 高级语言 cc data-structure tech c-2 data-structure c greedy-algorithm poj">
       <time>2019-06-02</time>
       <div>
         <h2><a href="../../2019/06/02/kruskal-template-2/index.html">Minimum spanning tree Kruskal algorithm template question 2 C++ implementation</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="floyd algorithm c++ implementation and template question application" data-date="2019-06-01" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning poj" data-search="floyd algorithm c++ implementation and template question application introduction floyd&#x27;s algorithm is one of the simplest algorithms. the state transition equation is as follows map[i, j] =min{ map[i, k] + map[k, j], map[i, j]}; map[i, j] represents the shortest distance from i to j, k is the breakpoint of exhaustive i, j, and the initial value of map[n, n] should be 0, or do as the question means. of course, if this road doesn&#x27;t... programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 poj 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning poj">
       <time>2019-06-01</time>
       <div>
         <h2><a href="../../2019/06/01/floyd-cpp/index.html">Floyd algorithm C++ implementation and template question application</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2018 peking university software engineering discipline summer camp computer test (to be continued)" data-date="2019-05-31" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2018 peking university software engineering discipline summer camp computer test (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. a: the simplest true score. global question number 3526. number of submissions: 67. number of attempts: 39. number of passes: 38. total time limit: 1000ms. memory limit: 6553... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-05-31</time>
       <div>
         <h2><a href="../../2019/05/31/bailian-ssxly2018/index.html">Bailian-2018 Peking University Software Engineering Discipline Summer Camp Computer Test (to be continued)</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="minimum spanning tree kruskal algorithm template question c++ implementation" data-date="2019-05-31" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c greedy-algorithm poj" data-search="minimum spanning tree kruskal algorithm template question c++ implementation basic ideas: (1) construct a subgraph containing only n vertices and an empty edge set. if each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) select an edge with the smallest weight from the edge set e of the network. if the two vertices of this edge belong to different trees, add it to the subgraph. in other words, combine the two trees where the two vertices are located into one tree; on the contrary, if the two vertices of the edge already fall on the same tree, it is not advisable, and the one with the smallest weight should be taken... programming languages c &amp; c++ data structures technology c++ data structures c 贪心算法 poj 高级语言 cc data-structure tech c-2 data-structure c greedy-algorithm poj">
       <time>2019-05-31</time>
       <div>
         <h2><a href="../../2019/05/31/kruskal-template/index.html">Minimum spanning tree Kruskal algorithm template question C++ implementation</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2018 computer science summer camp pre-exam practice (to be continued)" data-date="2019-05-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2018 computer science summer camp pre-exam practice (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. address: http://bailian.openjudge.cn/xlylx2018/ a: determine the number of prime numbers. global question number 2178... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-05-30</time>
       <div>
         <h2><a href="../../2019/05/30/bailian-xlylx2018/index.html">Bailian-2018 Computer Science Summer Camp Pre-exam practice (to be continued)</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2018 peking university software engineering discipline summer camp computer practice (to be continued)" data-date="2019-05-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2018 peking university software engineering discipline summer camp computer practice (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. address: http://bailian.openjudge.cn/ssxly2018lx/ a: determine the number of prime numbers. global question number 2178... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-05-30</time>
       <div>
         <h2><a href="../../2019/05/30/bailian-ssxly2018lx/index.html">Bailian-2018 Peking University Software Engineering Discipline Summer Camp Computer Practice (to be continued)</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bailian-2018 computer science summer camp computer test question solutions (to be continued)" data-date="2019-05-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj graduate" data-search="bailian-2018 computer science summer camp computer test question solutions (to be continued) as a programming novice, i will first brush up on the first few questions. i will try to have ideas for 6 of the eight questions, be able to write 5 questions, and be able to perform ac on 3 questions (don’t laugh at me, boss). since some questions have been closed, it is impossible to see whether it is ac (the following code may not pass all test cases). if there are any errors, please point them out, o(∩_∩)o thank you. address: http://bailian.openjudge.cn/xly2018/ a: calculate the number of days between two dates. global question number 759... programming languages c &amp; c++ data structures technology c++ data structures c poj 研究生 高级语言 cc data-structure tech c-2 data-structure c poj graduate">
       <time>2019-05-30</time>
       <div>
         <h2><a href="../../2019/05/30/bailian-2018-cs-summer/index.html">Bailian-2018 Computer Science Summer Camp Computer Test Question Solutions (to be continued)</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="double dfs graph traversal the die is cast c++ implementation" data-date="2019-05-26" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c poj" data-search="double dfs graph traversal the die is cast c++ implementation source: poj 1481: the die is cast website: http://bailian.openjudge.cn/practice/1481/ total time limit: 1000ms memory limit: 65536kb description intergames is a high-tech startup company that specializes in de... programming languages c &amp; c++ data structures technology c++ data structures c poj 高级语言 cc data-structure tech c-2 data-structure c poj">
       <time>2019-05-26</time>
       <div>
         <h2><a href="../../2019/05/26/dfs-the-die-is-cast-c/index.html">Double DFS graph traversal The die is cast C++ implementation</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/poj/index.html"><span>poj</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="prime path prime number sieve and bfs dynamic programming" data-date="2019-05-24" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning poj" data-search="prime path prime number sieve and bfs dynamic programming bfs bfs, its full english name is breadth first search. bfs does not use a rule-of-thumb algorithm. from an algorithmic point of view, all child nodes resulting from expanding the node will be added to a first-in, first-out queue. in a general experiment, nodes whose neighbor nodes have not been tested are placed in a container called open (such as a queue or a linked list), while nodes that have been tested are placed in a container called closed. (… programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 poj 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning poj">
       <time>2019-05-24</time>
       <div>
         <h2><a href="../../2019/05/24/prime-path-bfs/index.html">Prime Path prime number sieve and BFS dynamic programming</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="dfs graph traversal classic example c++ implementation" data-date="2019-05-19" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="dfs graph traversal classic example c++ implementation the method of depth-first traversal of the graph is to start from a certain vertex v in the graph: (1) visit the vertex v; (2) starting from the unvisited adjacent points of v, perform a depth-first traversal of the graph until all vertices in the graph with paths connected to v have been visited; (3) if there are still unvisited vertices in the graph at this time, start from an unvisited vertex and repeat the depth-first traversal until all vertices in the graph have been visited. of course, when people first mastered depth-first search, they often used it to solve mazes. ... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2019-05-19</time>
       <div>
         <h2><a href="../../2019/05/19/dfs-example-graph-cpp/index.html">DFS graph traversal classic example C++ implementation</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="topological sorting example c++ implementation" data-date="2019-05-16" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c pat" data-search="topological sorting example c++ implementation introduction in graph theory, topological sorting is a linear sequence of all vertices of a directed acyclic graph (dag, directed acyclic graph). and the sequence must satisfy the following two conditions: each vertex appears only once. if there is a path from vertex a to vertex b, then vertex a appears before vertex b in the sequence. note: only directed acyclic graph (dag) has... programming languages c &amp; c++ data structures technology c++ data structures c pat 高级语言 cc data-structure tech c-2 data-structure c pat">
       <time>2019-05-16</time>
       <div>
         <h2><a href="../../2019/05/16/topological-order-cpp/index.html">Topological sorting example C++ implementation</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pat/index.html"><span>PAT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="binary tree data structure and c++ examples" data-date="2019-05-09" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c pat" data-search="binary tree data structure and c++ examples binary tree a binary tree is a type where each node has at most two subtrees (that is, the degree of each node of the binary tree is not greater than 2), and the subtrees of the binary tree can be divided into left and right subtrees, and their order cannot be reversed arbitrarily. properties of binary trees: at the i-th level of a binary tree, there are at most 2^(i-1) nodes. a binary tree with a depth of k has at most: (2^k)-1 nodes. in fact, this result is obtained by the summation of a geometric sequence. for any binary tree, if the number of leaf nodes is: n0, the number of nodes with degree 2... programming languages c &amp; c++ data structures technology c++ data structures c pat 高级语言 cc data-structure tech c-2 data-structure c pat">
       <time>2019-05-09</time>
       <div>
         <h2><a href="../../2019/05/09/binary-tree-data-structure/index.html">Binary tree data structure and C++ examples</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pat/index.html"><span>PAT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="selected lectures on dijkstra algorithm examples 1" data-date="2019-05-05" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning greedy-algorithm pat" data-search="selected lectures on dijkstra algorithm examples 1 introduction dijkstra&#x27;s algorithm is a typical single-source shortest path algorithm, used to calculate the shortest path from one node to all other nodes. the main feature is that it expands outward layer by layer from the starting point until it reaches the end point. dijkstra&#x27;s algorithm is a very representative shortest path algorithm and is introduced in detail as a basic content in many professional courses, such as data structure, graph theory, operations research, etc. note that this algorithm requires that there are no negative weight edges in the graph. problem description: in the undirected graph g=(v,e... programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 贪心算法 pat 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning greedy-algorithm pat">
       <time>2019-05-05</time>
       <div>
         <h2><a href="../../2019/05/05/dijkstra-example/index.html">Selected Lectures on Dijkstra Algorithm Examples 1</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="introduction to red-black trees and c++ applications" data-date="2019-05-02" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c pat" data-search="introduction to red-black trees and c++ applications introduction red black tree is a self-balancing binary search tree. it is a data structure used in computer science. its typical use is to implement associative arrays. it was invented by rudolf bayer in 1972 and was called symmetric binary b-trees at the time. later, in 1978, it was published by leo j. guibas and robert sedgew... programming languages c &amp; c++ data structures technology c++ data structures c pat 高级语言 cc data-structure tech c-2 data-structure c pat">
       <time>2019-05-02</time>
       <div>
         <h2><a href="../../2019/05/02/red-black-tree/index.html">Introduction to red-black trees and C++ applications</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pat/index.html"><span>PAT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="application of binary search algorithm——leetcode1011" data-date="2019-04-06" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c leetcode" data-search="application of binary search algorithm——leetcode1011 binary search, also known as half search, is a more efficient search method. principle: divide the array into three parts, in order: before the median value (the so-called median value is the value in the middle of the array), the median value, and after the median value; compare the value to be found with the median value of the array. if it is less than the median value, it will be searched in front of the median value. if it is greater than the median value, it will be searched after the median value. if it is equal to the median value, it will be returned directly. then there is a recursive process that continues to decompose the first or second half into three parts. leetcode 10... programming languages c &amp; c++ data structures technology c++ data structures c leetcode 高级语言 cc data-structure tech c-2 data-structure c leetcode">
       <time>2019-04-06</time>
       <div>
         <h2><a href="../../2019/04/06/bi-search/index.html">Application of binary search algorithm——LeetCode1011</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/leetcode/index.html"><span>LeetCode</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="implementation and application of three-way fast queuing in c++" data-date="2019-03-08" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c leetcode" data-search="implementation and application of three-way fast queuing in c++ three-way quick sort is an upgraded version of the quick sort algorithm, used to process arrays with a large amount of duplicate data. the main idea is to select a key, throw it to the left if it is smaller than the key, throw it to the right if it is larger than the key, and implement it recursively. specific operation process reference: https://blog.csdn.net/k_koris/article/details/80585979 c++ code: effect: leetcode75 color classification given a... programming languages c &amp; c++ data structures technology c++ data structures c leetcode 高级语言 cc data-structure tech c-2 data-structure c leetcode">
       <time>2019-03-08</time>
       <div>
         <h2><a href="../../2019/03/08/tri-quick-sort/index.html">Implementation and application of three-way fast queuing in C++</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/leetcode/index.html"><span>LeetCode</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="introduction to topological sorting" data-date="2019-02-24" data-categories="data-structure tech" data-tags="data-structure" data-search="introduction to topological sorting in graph theory, topological sorting is a linear sequence of all vertices of a directed acyclic graph (dag, directed acyclic graph). and the sequence must satisfy the following two conditions: each vertex appears only once. if there is a path from vertex a to vertex b, then vertex a appears before vertex b in the sequence. note: only directed acyclic graph (dag) has topology... data structures technology data structures data-structure tech data-structure">
       <time>2019-02-24</time>
       <div>
         <h2><a href="../../2019/02/24/topological/index.html">Introduction to topological sorting</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="complete binary tree and heap c++ code and application" data-date="2019-02-23" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c pat" data-search="complete binary tree and heap c++ code and application definition of heap: a heap is actually a complete binary tree (if the depth of the binary tree is h, except for the h-th layer, the number of nodes in each layer (1~h-1) reaches the maximum number, and the h-th layer all nodes of the layer are continuously concentrated on the far left), defined as: a sequence (h1, h2,...hn) with n elements, if and only if (hi&gt;=h2i,hi&gt;=h2i+1) or (hi&lt;=h2i,hi&lt;=2i+1) (i=1,2,...,n/... programming languages c &amp; c++ data structures technology c++ data structures c pat 高级语言 cc data-structure tech c-2 data-structure c pat">
       <time>2019-02-23</time>
       <div>
         <h2><a href="../../2019/02/23/heap/index.html">Complete binary tree and heap C++ code and application</a></h2>
@@ -250,8 +276,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pat/index.html"><span>PAT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="dijkstra algorithm adjacency matrix c++ and various transformations" data-date="2019-02-21" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure dynamic-planning greedy-algorithm" data-search="dijkstra algorithm adjacency matrix c++ and various transformations definition overview dijkstra&#x27;s algorithm is a typical single-source shortest path algorithm, used to calculate the shortest paths from one node to all other nodes. the main feature is that it expands outward layer by layer from the starting point until it reaches the end point. dijkstra&#x27;s algorithm is a very representative shortest path algorithm and is introduced in detail as a basic content in many professional courses, such as data structure, graph theory, operations research, etc. note that this algorithm requires that there are no negative weight edges in the graph. problem description: in the undirected graph g=(v... programming languages c &amp; c++ data structures technology c++ data structures 动态规划 贪心算法 高级语言 cc data-structure tech c-2 data-structure dynamic-planning greedy-algorithm">
       <time>2019-02-21</time>
       <div>
         <h2><a href="../../2019/02/21/dijkstra_cpp_more/index.html">Dijkstra algorithm adjacency matrix C++ and various transformations</a></h2>
@@ -259,8 +285,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="application of hash table (hash table)" data-date="2019-02-10" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure pat" data-search="application of hash table (hash table) hash table (also called hash table) is a data structure that is directly accessed based on the key value. that is, it accesses records by mapping the key value to a location in the table to speed up lookups. this mapping function is called a hash function, and the array storing the records is called a hash table. given table m, there is a function f(key). for any given keyword value key, if the record containing the keyword can be obtained after substituting into the function... programming languages c &amp; c++ data structures technology c++ data structures pat 高级语言 cc data-structure tech c-2 data-structure pat">
       <time>2019-02-10</time>
       <div>
         <h2><a href="../../2019/02/10/hashtable/index.html">Application of hash table (hash table)</a></h2>
@@ -268,8 +294,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/pat/index.html"><span>PAT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="conversion c++ implementation of binary tree traversal" data-date="2019-01-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure" data-search="conversion c++ implementation of binary tree traversal binary tree traversal is divided into the following three types: pre-order traversal: the traversal order rule is [root left and right] in-order traversal: the traversal order rule is [left root right] post-order traversal: the traversal order rule is [left root right] what is [root left and right] is to traverse the root first, then traverse the left node, and finally traverse the right node. for example: pre-order traversal: abcdefghk in-order traversal: bdcaehgkf post-order traversal: dcbhkgfea during the conversion process, please pay attention: the root node of pre-order traversal is at the first... programming languages c &amp; c++ data structures technology c++ data structures 高级语言 cc data-structure tech c-2 data-structure">
       <time>2019-01-30</time>
       <div>
         <h2><a href="../../2019/01/30/bitree-travel-trans/index.html">Conversion C++ implementation of binary tree traversal</a></h2>
@@ -277,8 +303,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c++stl implements depth and breadth first traversal of graphs (bfs&amp;dfs)" data-date="2018-05-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure" data-search="c++stl implements depth and breadth first traversal of graphs (bfs&amp;dfs) for the basic operations and traversal of data structure graphs in c language (the storage structure is an adjacency matrix), please see: https://omegaxyz.com/2017/05/17/graphofds2/ for the storage structure traversal of adjacency lists, please see https://omegaxyz.com/2017/05/16/graphofds/ the following is the depth and breadth first traversal (bfs&amp;dfs) of the c++stl implementation graph, among which bfs... programming languages c &amp; c++ data structures technology c++ data structures 高级语言 cc data-structure tech c-2 data-structure">
       <time>2018-05-30</time>
       <div>
         <h2><a href="../../2018/05/30/cpp-stl-bfs-dfs/index.html">C++STL implements depth and breadth first traversal of graphs (BFS&amp;DFS)</a></h2>
@@ -286,8 +312,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="huffman file encryption and compression algorithm implemented in python" data-date="2018-05-12" data-categories="高级语言 data-structure tech python" data-tags="data-structure python" data-search="huffman file encryption and compression algorithm implemented in python i suddenly became interested in compression algorithms, of course, thanks to hbo&#x27;s &quot;silicon valley&quot;. the play describes four socially awkward but extremely smart computer programmers who receive special care from a millionaire who made his fortune on the internet. they can live in his home for free, but if their project succeeds in the future, he will take 10% of the shares. at first the men failed to convince a billionaire to invest in their project, so they each returned to their original jobs. the company where the billionaire and one of the computer programmers worked soon realized... programming languages data structures technology python data structures python 高级语言 data-structure tech python data-structure python">
       <time>2018-05-12</time>
       <div>
         <h2><a href="../../2018/05/12/huffman_python/index.html">Huffman file encryption and compression algorithm implemented in Python</a></h2>
@@ -295,8 +321,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python implements multiple sorting algorithms and compares time" data-date="2017-12-02" data-categories="高级语言 data-structure tech python" data-tags="data-structure python" data-search="python implements multiple sorting algorithms and compares time instead of using sorted/sorted provided in python, implement three sorting methods by yourself, randomly generate 1000 integers between [1, 100000] and sort them, each 10 times, and compare the execution speed of the three methods. selected: bubble sort, insertion sort, quick sort. since 1,000 numbers cannot reflect the difference in algorithms, i changed 1,000 to 10,000. the average complexity of the bubble sort algorithm is o(n^2), so it is the slowest. the insertion sort algorithm is... programming languages data structures technology python data structures python 高级语言 data-structure tech python data-structure python">
       <time>2017-12-02</time>
       <div>
         <h2><a href="../../2017/12/02/python_sort/index.html">Python implements multiple sorting algorithms and compares time</a></h2>
@@ -304,8 +330,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="course design tourist attractions consulting system" data-date="2017-07-03" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="course design tourist attractions consulting system problem description: create a guide map of a tourist attraction represented by a directed network with at least 15 points. the vertex represents the scenic spot, and the type is a string (for example, the taishan guide map: &quot;tiandi square gate&quot;, &quot;eighteen pans&quot;, &quot;feng yuxiang tomb&quot;, &quot;peach blossom valley gate&quot;, &quot;zhongtian gate&quot;, &quot;south tianmen&quot;, &quot;jade emperor summit&quot;, etc.). the arc represents the direct access between the two scenic spots. the weight on the arc represents the distance (km) between the two scenic spots. there is also information on the arrival method (both walking and cableway). create a visitor advisory... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-07-03</time>
       <div>
         <h2><a href="../../2017/07/03/view_point/index.html">Course Design Tourist Attractions Consulting System</a></h2>
@@ -313,8 +339,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="course design huffman encoding/decoding system" data-date="2017-07-01" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="course design huffman encoding/decoding system problem description: using huffman coding for communication can greatly improve channel utilization, shorten information transmission time, and reduce transmission costs. however, this requires pre-coding the data to be transmitted through a coding system at the sending end, and decoding (decoding) the transmitted data at the receiving end. for a duplex channel (that is, a channel that can transmit information in both directions), a complete encoding/decoding system is required at each end. try to design a huffman encoding and decoding system for such an information sending and receiving station. 1. basic requirements (1) initialization (ini... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-07-01</time>
       <div>
         <h2><a href="../../2017/07/01/huffmanco_deco/index.html">Course Design Huffman Encoding/Decoding System</a></h2>
@@ -322,8 +348,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="course design parking lot management system" data-date="2017-06-30" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="course design parking lot management system problem description: there is only one long and narrow passage in the parking lot that can park n cars, and there is only one gate for cars to enter and exit. cars are arranged in the parking lot from north to south in order of vehicle arrival time (the gate is at the southern end, and the first car that arrives first is parked at the northern end of the parking lot). if the parking lot is full of n cars, subsequent cars can only wait on the sidewalk outside the door. once a car drives away, the first car on the sidewalk can drive in; when a car in the parking lot wants to leave, the car that drives in after it... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-06-30</time>
       <div>
         <h2><a href="../../2017/06/30/parking/index.html">Course Design Parking Lot Management System</a></h2>
@@ -331,8 +357,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="course design address book query system" data-date="2017-06-26" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="course design address book query system problem description: establish an employee address book management system for a certain unit, which can easily query the phone number and address of each employee. design hash table storage, design and implement address book search system. 1. basic requirements (1) each record has the following data items: phone number, user name, address; (2) enter each record from the keyboard and build a hash table with the phone number as the key; (3) use secondary detection and hashing method to resolve conflicts; (4) find and display the record of the given phone number; (5)... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-06-26</time>
       <div>
         <h2><a href="../../2017/06/26/addr_list/index.html">Course Design Address Book Query System</a></h2>
@@ -340,8 +366,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="curriculum design tv contest voting system" data-date="2017-06-24" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="curriculum design tv contest voting system design and implementation of audience voting and ranking system for tv competitions (8 hours) problem description: in many tv competitions, usually after the performance of the contestants, the audience votes for the contestants through the buttons in their hands, and then counts the number of votes the contestants received, sorting them in descending order from high to low, thereby automatically producing the champion, runner-up and third runner-up. it is required to write algorithms to simulate the functions of the above system. 1. basic requirements (1) first enter the number of contestants (range is 1-9), and then... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-06-24</time>
       <div>
         <h2><a href="../../2017/06/24/tvvote/index.html">Curriculum Design TV Contest Voting System</a></h2>
@@ -349,8 +375,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of radix sorting algorithm" data-date="2017-06-24" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="detailed explanation of radix sorting algorithm radix sort is a &quot;distribution sort&quot;, also known as &quot;bucket sort&quot; or bin sort. as the name suggests, it allocates the elements to be sorted into certain &quot;buckets&quot; through part of the key value information to achieve the sorting effect. the radix sort method is a stable sort, and its time complexity is o (nlog(r)m), where r is the radix taken, and m is the heap number... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-06-24</time>
       <div>
         <h2><a href="../../2017/06/24/radixsort/index.html">Detailed explanation of radix sorting algorithm</a></h2>
@@ -358,8 +384,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="universal solution to maze problem using c language data structure" data-date="2017-06-19" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning" data-search="universal solution to maze problem using c language data structure 1.1 problem description a maze is represented by an m*n rectangular matrix, and 0 and 1 represent the passages and obstacles in the maze respectively. design a program to find a path from the entrance to the exit for an arbitrarily set maze, or to conclude that there is no path. 1.2 basic requirements input form and range: non-recursive: the rows and columns are integers, and the coordinates are integers. recursive: the maze is input in the form of an integer two-dimensional array. output form: non-recursive outputs triplet paths and square matrix paths; recursive outputs the maze and all paths in square matrices... programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning">
       <time>2017-06-19</time>
       <div>
         <h2><a href="../../2017/06/19/mazepath/index.html">Universal solution to maze problem using C language data structure</a></h2>
@@ -367,8 +393,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="principle of floyd&#x27;s algorithm" data-date="2017-06-08" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning" data-search="principle of floyd&#x27;s algorithm floyd&#x27;s algorithm belongs to dynamic programming. its state transition equation is as follows map[i, j] =min{ map[i, k] + map[k, j], map[i, j]}; map[i, j] represents the shortest distance from i to j, k is the breakpoint of exhaustive i, j, and the initial value of map[n, n] should be 0, or as the question means. of course, if this road is not open, special handling must be done... programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning">
       <time>2017-06-08</time>
       <div>
         <h2><a href="../../2017/06/08/floydalgorithm/index.html">Principle of Floyd&#x27;s algorithm</a></h2>
@@ -376,8 +402,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="summary of complexity and stability of sorting algorithm" data-date="2017-06-03" data-categories="data-structure tech" data-tags="data-structure" data-search="summary of complexity and stability of sorting algorithm for details, please refer to: 1. summary of the nine sorting algorithms: http://blog.csdn.net/xiazdong/article/details/8462393 2. summary of common sorting algorithms: http://blog.csdn.net/whuslei/article/details/6442755 data structures technology data structures data-structure tech data-structure">
       <time>2017-06-03</time>
       <div>
         <h2><a href="../../2017/06/03/soringconclusion/index.html">Summary of complexity and stability of sorting algorithm</a></h2>
@@ -385,8 +411,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="prim&#x27;s greedy algorithm for minimum spanning tree" data-date="2017-05-31" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c dynamic-planning greedy-algorithm" data-search="prim&#x27;s greedy algorithm for minimum spanning tree let the vertex set of graph g be u. first, arbitrarily select a point in graph g as the starting point a, add this point to the set v, and then find another point b from the set u-v so that the weight of any point from point b to v is the smallest. at this time, point b is also added to the set v; with this by analogy, the current set v = {a, b}, and then find another point c from the set u-v so that the weight of any point from point c to v is the smallest. at this time, point c is added to the set v until all vertices are added to v. at this time, an mst is constructed. because there is... programming languages c &amp; c++ data structures technology c++ data structures c 动态规划 贪心算法 高级语言 cc data-structure tech c-2 data-structure c dynamic-planning greedy-algorithm">
       <time>2017-05-31</time>
       <div>
         <h2><a href="../../2017/05/31/prim/index.html">Prim&#x27;s Greedy Algorithm for Minimum Spanning Tree</a></h2>
@@ -394,8 +420,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/dynamic-planning/index.html"><span>动态规划</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="kruskal greedy algorithm of minimum spanning tree" data-date="2017-05-30" data-categories="高级语言 cc data-structure tech" data-tags="" data-search="kruskal greedy algorithm of minimum spanning tree basic ideas: (1) construct a subgraph containing only n vertices and an empty edge set. if each vertex in the graph is regarded as the root node of a tree, then it is a forest containing n trees. (2) select an edge with the smallest weight from the edge set e of the network. if the two vertices of this edge belong to different trees, add it to the subgraph. in other words, combine the two trees where the two vertices are located into one tree; on the contrary, if the two vertices of the edge already fall on the same tree, it is not advisable, and the one with the smallest weight should be taken... programming languages c &amp; c++ data structures technology 高级语言 cc data-structure tech">
       <time>2017-05-30</time>
       <div>
         <h2><a href="../../2017/05/30/kruskal/index.html">Kruskal greedy algorithm of minimum spanning tree</a></h2>
@@ -403,8 +429,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="principle of dijkstra&#x27;s algorithm dijkstra" data-date="2017-05-26" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c greedy-algorithm" data-search="principle of dijkstra&#x27;s algorithm dijkstra 1. definition overview the dijkstra algorithm is a typical single-source shortest path algorithm, used to calculate the shortest paths from one node to all other nodes. the main feature is that it expands outward layer by layer from the starting point until it reaches the end point. dijkstra&#x27;s algorithm is a very representative shortest path algorithm and is introduced in detail as a basic content in many professional courses, such as data structure, graph theory, operations research, etc. note that this algorithm requires that there are no negative weight edges in the graph. problem description:... programming languages c &amp; c++ data structures technology c++ data structures c 贪心算法 高级语言 cc data-structure tech c-2 data-structure c greedy-algorithm">
       <time>2017-05-26</time>
       <div>
         <h2><a href="../../2017/05/26/dijkstra/index.html">Principle of Dijkstra&#x27;s algorithm Dijkstra</a></h2>
@@ -412,8 +438,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/greedy-algorithm/index.html"><span>贪心算法</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="7 sorting algorithms for data structures (no radix sort)" data-date="2017-05-23" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="7 sorting algorithms for data structures (no radix sort) 1. experiment purpose: master the basic ideas of various sorting methods, including direct insertion sort, hill sort, bubble sort, quick sort, simple selection sort, heap sort, merge sort, etc., and be able to implement them in high-level languages. by comparing the efficiency of these algorithms, we can deepen our understanding of the algorithms. 2. experimental principle 3. experimental content use random numbers (between 1-100) to generate 10 key values ​​​​of data elements to be sorted). ① use direct insertion sorting and hill sorting methods to sort the above data to be sorted... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-05-23</time>
       <div>
         <h2><a href="../../2017/05/23/datastructure_sort/index.html">7 sorting algorithms for data structures (no radix sort)</a></h2>
@@ -421,8 +447,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="basic operations and traversal of data structure graphs (storage structure is adjacency matrix)" data-date="2017-05-17" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="basic operations and traversal of data structure graphs (storage structure is adjacency matrix) for the basic operations and traversal of the data structure graph, please see https://omegaxyz.com/2017/05/16/graphofds/ for the storage structure traversal of the adjacency list. experiment purpose: write a program to establish the adjacency matrix storage of the graph. based on the storage structure established above, the depth-first and breadth-first search algorithms are programmed. header file please use the c++ &lt;queue&gt; header file or write your own function for the queue used in this article ①construction of graph ②... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-05-17</time>
       <div>
         <h2><a href="../../2017/05/17/graphofds2/index.html">Basic operations and traversal of data structure graphs (storage structure is adjacency matrix)</a></h2>
@@ -430,8 +456,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="basic operations and traversal of data structure graphs (storage structure is adjacency list)" data-date="2017-05-16" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="basic operations and traversal of data structure graphs (storage structure is adjacency list) for basic operations and traversal of data structure graphs, please see https://omegaxyz.com/2017/05/17/graphofds2/ for adjacency matrix traversal of graphs. experiment purpose: write a program to establish adjacency list storage of the graph. based on the storage structure established above, program the depth-first and breadth-first search algorithms. specific functions and their operations header file main functions ① initialization function of the graph ② positioning of node positions ③ dfs depth first search... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-05-16</time>
       <div>
         <h2><a href="../../2017/05/16/graphofds/index.html">Basic operations and traversal of data structure graphs (storage structure is adjacency list)</a></h2>
@@ -439,8 +465,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="data structure sequential search and binary search" data-date="2017-05-09" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure" data-search="data structure sequential search and binary search experimental purpose: use c language to implement sequential search and binary search in static lookup tables, and analyze the time. search.h file main functions: ① creation of sequence table ② output of sequence table ③ sequential search ④ half search main function a time function is added to the main function to test the search time. of course, in the experiment, a large amount of data cannot be input, so the search time between the two is not much different. data: search: 3. experiment summary 1. ma... programming languages c &amp; c++ data structures technology c++ data structures 高级语言 cc data-structure tech c-2 data-structure">
       <time>2017-05-09</time>
       <div>
         <h2><a href="../../2017/05/09/数据结构顺序查找和折半查找/index.html">Data structure sequential search and binary search</a></h2>
@@ -448,8 +474,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="data structure huffman tree and encoding" data-date="2017-05-03" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="data structure huffman tree and encoding 1. experimental purpose: construct a huffman tree, and find the encoding of the huffman tree based on the constructed huffman tree; 2. basic ideas 1. arrange each english letter from small to large according to the frequency of occurrence, with the smallest on the left, to form a sequence 2. each letter represents a terminal node (leaf node), compare the frequency of occurrence of each letter, add the minimum two letter frequencies to form a new node, delete the two letters from the sequence, and add the generated node to the letter queue 3. repeat the above... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-05-03</time>
       <div>
         <h2><a href="../../2017/05/03/huffmancoding/index.html">Data structure Huffman tree and encoding</a></h2>
@@ -457,8 +483,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="basic operations of data structure tree (main traversal)" data-date="2017-04-25" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure" data-search="basic operations of data structure tree (main traversal) one. the purpose of the experiment is to implement the basic operations of trees in c language, mainly to examine the pre-order, in-order, post-order and hierarchical traversal of trees. 2. main content the binary tree used in this article is as shown in the figure: obviously, preorder: abcdegf, midorder: cbegdfa, postorder: cgefdba, level: abcdefg. bitree.h content. main functions: ① create a binary tree in preorder. note that if there are no left and right subtrees, enter a space when creating. input: abc_ _de_g... programming languages c &amp; c++ data structures technology c++ data structures 高级语言 cc data-structure tech c-2 data-structure">
       <time>2017-04-25</time>
       <div>
         <h2><a href="../../2017/04/25/dsoftree/index.html">Basic operations of data structure tree (main traversal)</a></h2>
@@ -466,8 +492,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="basic operations of data structure strings and kmp algorithm" data-date="2017-04-18" data-categories="cc data-structure tech" data-tags="data-structure" data-search="basic operations of data structure strings and kmp algorithm implement the basic string operations in c language and implement the kmp algorithm to calculate the values ​​of the next function and nextval. the basic content of sqstring.h and the specific implementation of the function ① initialize the string (two methods are given in this article) put the given string into the string s or input the string from the keyboard ② output of the string kmp algorithm part, including next function and modified nextval function main function part: summary: 1. since the array is unsigned c... c &amp; c++ data structures technology data structures cc data-structure tech data-structure">
       <time>2017-04-18</time>
       <div>
         <h2><a href="../../2017/04/18/dssstringandkmp/index.html">Basic operations of data structure strings and KMP algorithm</a></h2>
@@ -475,8 +501,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c implementation of linked list data structure (lead node)" data-date="2017-04-14" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="c implementation of linked list data structure (lead node) implement the data objects, data relationships and basic operations (functions) of the linked list (adt linklist) in c language and test it. mobile phone users click on the code to view the undisplayed content linklist.h content specific implementation of the function ① initialization of the linked list ② output of the linked list ③ insert a value into the linked list ④ delete a value in the linked list ⑤ inversion of the linked list note: the insertion method used here has an inversion time efficiency of o (n) ⑥ merge function of two non-decreasing linked lists... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-04-14</time>
       <div>
         <h2><a href="../../2017/04/14/dslinklist/index.html">C implementation of linked list data structure (lead node)</a></h2>
@@ -484,8 +510,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="data structure sequence table c implementation (14 user interfaces)" data-date="2017-04-14" data-categories="高级语言 cc data-structure tech" data-tags="c-2 data-structure c" data-search="data structure sequence table c implementation (14 user interfaces) implement the data objects, data relationships and basic operations (functions) of the sequence table (adt sqlist) in c language and test it. mobile phone users can click on the code to move to view the undisplayed content 1. sqlist.h header file content function implementation 1. initialization of the sequence table note: in order to check whether the sequence table is initialized, i called a function that checks whether the sequence table is empty (bool listisempty(sqlist l)). the function implementation will be discussed below. ... programming languages c &amp; c++ data structures technology c++ data structures c 高级语言 cc data-structure tech c-2 data-structure c">
       <time>2017-04-14</time>
       <div>
         <h2><a href="../../2017/04/14/dssqlist/index.html">Data structure sequence table C implementation (14 user interfaces)</a></h2>
@@ -493,8 +519,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/data-structure/index.html"><span>Data Structures</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -503,13 +532,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -518,7 +547,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

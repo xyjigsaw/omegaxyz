@@ -16,7 +16,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260528-polish"
+ASSET_VERSION = "20260528-termfilters"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 CLUSTRMAPS_QUERY = "cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"
@@ -96,6 +96,14 @@ I18N = {
         "filter_all": "全部",
         "results": "篇文章",
         "no_results": "没有匹配的文章",
+        "filter_by_tag": "按标签筛选",
+        "footer_license": "该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权",
+        "footer_copyright": "Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处",
+        "footer_icp": "皖ICP备:17007601",
+        "footer_business": "商业合作",
+        "privacy": "隐私政策",
+        "footer_more_friends": "更多(非首页友链)...",
+        "visitor_map": "访问统计地图",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -124,6 +132,14 @@ I18N = {
         "filter_all": "All",
         "results": "posts",
         "no_results": "No matching posts",
+        "filter_by_tag": "Filter by tag",
+        "footer_license": "Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.",
+        "footer_copyright": "Copyright © 2026 OmegaXYZ. Please cite the source when reposting.",
+        "footer_icp": "ICP record: 皖ICP备17007601",
+        "footer_business": "Business",
+        "privacy": "Privacy Policy",
+        "footer_more_friends": "More friends...",
+        "visitor_map": "Visitor map",
     },
 }
 
@@ -403,6 +419,7 @@ def nav(current_file, lang, title, alt_path):
 
 
 def footer(current_file, lang):
+    t = I18N[lang]
     friend_links = "".join(
         f'<a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>'
         for label, url in FOOTER_LINKS
@@ -417,13 +434,13 @@ def footer(current_file, lang):
           <img src="{LOGO_URL}" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="{privacy}">隐私政策</a></p>
+        <p>{esc(t["footer_license"])}</p>
+        <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> {esc(t["footer_icp"])} <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="{esc(t["visitor_map"])}">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>{esc(t["visitor_map"])}</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?{CLUSTRMAPS_QUERY}" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -432,7 +449,7 @@ def footer(current_file, lang):
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         {friend_links}
-        <a class="more-link" href="{more}">更多(非首页友链)...</a>
+        <a class="more-link" href="{more}">{esc(t["footer_more_friends"])}</a>
       </nav>
     </div>
   </footer>
@@ -880,8 +897,53 @@ def render_terms(site, lang):
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
             chips.append(f'<a class="pill term-pill term-{kind}" data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
             term_current = path_to_file(term_path(kind, slug, lang))
-            items = "".join(render_archive_item(e, lang, term_current) for e in entries)
-            body = f'<main class="wrap band term-page"><div class="section-head"><h1>{esc(display_label)}</h1><p>{esc(I18N[lang][label])}</p></div><div class="archive-list">{items}</div></main>'
+            if kind == "category":
+                tag_counts = {}
+                for entry in entries:
+                    for term in entry["tags"]:
+                        tag_counts.setdefault(term["slug"], {"name": term["name"], "slug": term["slug"], "count": 0})
+                        tag_counts[term["slug"]]["count"] += 1
+                top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
+                all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
+                tag_chips = "".join(
+                    f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+                    for term in top_tags
+                )
+                items = "".join(render_archive_item(e, lang, term_current, interactive=True) for e in entries)
+                body = f"""
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>{esc(display_label)}</h1><p>{esc(I18N[lang]["categories"])} · {esc(I18N[lang]["filter_by_tag"])}</p></div>
+                    <div class="archive-count"><strong data-archive-count>{len(entries)}</strong><span>{esc(I18N[lang]["results"])}</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
+                    </div>
+                    <label class="archive-sort">
+                      <span>{esc(I18N[lang]["sort"])}</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
+                        <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
+                        <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
+                        <option value="title">{esc(I18N[lang]["sort_title"])}</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="{esc(I18N[lang]["tags"])}">
+                    <div class="filter-group filter-group-all">{all_chip}</div>
+                    <div class="filter-group">
+                      <h2>{esc(I18N[lang]["tags"])}</h2>
+                      <div>{tag_chips}</div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">{items}</div>
+                  <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
+                </main>
+                """
+                body = "\n".join(line.rstrip() for line in body.splitlines())
+            else:
+                items = "".join(render_archive_item(e, lang, term_current) for e in entries)
+                body = f'<main class="wrap band term-page"><div class="section-head"><h1>{esc(display_label)}</h1><p>{esc(I18N[lang][label])}</p></div><div class="archive-list">{items}</div></main>'
             write(term_current, layout(term_current, lang, display_label, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
         body = f'<main class="wrap band term-index"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms term-cloud {kind}-cloud">{"".join(chips)}</div></main>'
         write(current, layout(current, lang, I18N[lang][label], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/{label}/"))

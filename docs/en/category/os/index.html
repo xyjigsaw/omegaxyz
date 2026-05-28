@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>操作系统</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>操作系统</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>20</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="operating-system" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">操作系统原理<span>14</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C<span>7</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="c-2" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">C++<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="java" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Java<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="linux" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Linux<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="mac" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">mac<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="multithreading" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">多线程<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Knowledge Graphs<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="embedded-system" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">嵌入式<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="fundamentals-of-compiling" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">编译原理<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="linux knowledge graph" data-date="2020-08-04" data-categories="tech machine-learning os knowledge-graph" data-tags="linux knowledge-graph" data-search="linux knowledge graph the linux knowledge graph based on triples and neo4j currently includes 401 entities and 377 relationships, and more data will be added in the future. project address: https://github.com/xyjigsaw/linux-knowledge-graph folder 📂linux kg these folders contain entities and relationships of linux stored in csv. the original data is located in linuxkg.xls... technology machine learning 操作系统 knowledge graphs linux knowledge graphs tech machine-learning os knowledge-graph linux knowledge-graph">
       <time>2020-08-04</time>
       <div>
         <h2><a href="../../2020/08/04/linux-knowledge-graph/index.html">Linux knowledge graph</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/linux/index.html"><span>Linux</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/knowledge-graph/index.html"><span>Knowledge Graphs</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="linux non-root users deploy jdk and other commands" data-date="2020-07-09" data-categories="高级语言 tech java os" data-tags="java linux" data-search="linux non-root users deploy jdk and other commands step 1. download the linux installation package of jdk from the oracle official website to the user folder. you can use commands to download or ftp transfer. 2. extract the jdk compressed package to the specified folder, and remember the path of the folder. 3. open the .bash_profile or .profile file 4. add an environment variable at the end of the file where ${home} is your user folder, and / is followed by the relative path of the folder after jdk is decompressed. (just need... programming languages technology java 操作系统 java linux 高级语言 tech java os java linux">
       <time>2020-07-09</time>
       <div>
         <h2><a href="../../2020/07/09/linux-user-jdk/index.html">Linux non-root users deploy jdk and other commands</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/linux/index.html"><span>Linux</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="terminal pip and pip3 configuration under mac (soft link)" data-date="2020-02-05" data-categories="高级语言 tech python os" data-tags="python mac" data-search="terminal pip and pip3 configuration under mac (soft link) origin the python environment on mac today is an absolute asshole. 1. the system comes with python 2.7 2. i downloaded 3.6 from the official website 3. homebrew quietly downloaded 3.x 4. anaconda came with 3.x 5. i updated the xcode command line tool the day before yesterday and secretly downloaded 3.7 for me. by the way, i wrote a certain soft connection variable to the system disk, and the installed package was placed on the data disk macos... programming languages technology python 操作系统 python mac 高级语言 tech python os python mac">
       <time>2020-02-05</time>
       <div>
         <h2><a href="../../2020/02/05/mac-pip-config/index.html">Terminal pip and pip3 configuration under Mac (soft link)</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mac/index.html"><span>mac</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="summary of frequently asked questions about macos catalina" data-date="2019-10-08" data-categories="tech os" data-tags="mac" data-search="summary of frequently asked questions about macos catalina as a pseudo-programmer, let me talk about some software compatibility and precautions of macos catalina. the app that cannot be used in the official version of macos catalina youdao dictionary crashes and the brew version is too low. there is a loading error. the vscode header file has wavy lines and needs to be reconfigured. the reason for the error: xcrun: error: invalid active developer path (/library/d... technology 操作系统 mac tech os mac">
       <time>2019-10-08</time>
       <div>
         <h2><a href="../../2019/10/08/macos-catalina-bugs/index.html">Summary of frequently asked questions about macOS Catalina</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mac/index.html"><span>mac</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="using flex and bison to implement console calculator on mac" data-date="2019-01-24" data-categories="高级语言 cc tech os fundamentals-of-compiling" data-tags="c-2 c fundamentals-of-compiling mac" data-search="using flex and bison to implement console calculator on mac introduction we use flex and bison to perform lexical and syntactic analysis of a given expression, and complete corresponding calculations while performing syntactic analysis. use flex and bison to implement a more powerful calculator, including the following operations: a) addition, subtraction, multiplication, and division operations b) exponentiation and square root operations c) bit operations – and &amp;, or |, not ~ d) factorial operation! e) trigonometric operations sin cos tan lex and y... programming languages c &amp; c++ technology 操作系统 编译原理 c++ c 编译原理 mac 高级语言 cc tech os fundamentals-of-compiling c-2 c fundamentals-of-compiling mac">
       <time>2019-01-24</time>
       <div>
         <h2><a href="../../2019/01/24/flex-bision-cal/index.html">Using Flex and Bison to implement console calculator on Mac</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/fundamentals-of-compiling/index.html"><span>编译原理</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/mac/index.html"><span>mac</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="linux math operations via shell" data-date="2018-07-30" data-categories="tech os" data-tags="linux" data-search="linux math operations via shell in the bash shell environment, you can use let, (( )), and [ ] to perform basic arithmetic operations. for advanced arithmetic operations, you can use the two tools expr and bc. let let operation: the let command can directly perform basic arithmetic operations. when using let, there is no need to add $ to the variable name. self-increment operation: let no1++; let no+=6; self-decrement operation: let no2--; let... technology 操作系统 linux tech os linux">
       <time>2018-07-30</time>
       <div>
         <h2><a href="../../2018/07/30/shell-math/index.html">Linux math operations via shell</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/linux/index.html"><span>Linux</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="edge computing and embedded systems" data-date="2018-07-06" data-categories="tech os" data-tags="operating-system embedded-system" data-search="edge computing and embedded systems introduction to edge computing edge computing is a method of processing data physically close to the location where the data is generated, that is, in live areas such as homes and remote offices where things and people are located. an open platform that integrates the core capabilities of network, computing, storage, and applications to provide edge intelligence services nearby to meet the key needs of industry digitalization in terms of agile connections, real-time services, data optimization, application intelligence, security, and privacy protection. edge operations will be handled entirely by central nodes... technology 操作系统 操作系统原理 嵌入式 tech os operating-system embedded-system">
       <time>2018-07-06</time>
       <div>
         <h2><a href="../../2018/07/06/edge-computing-and-eos/index.html">Edge Computing and Embedded Systems</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/embedded-system/index.html"><span>嵌入式</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="spooling technology" data-date="2018-06-20" data-categories="tech os" data-tags="operating-system" data-search="spooling technology introduction to spooling spooling (ie, external device online parallel operations), the abbreviation of simultaneous peripheral operations on-line, is a technology about how slow character devices exchange information with the computer host, often called &quot;spooling technology&quot;. spooling technology is actually a simultaneous online operation technology of peripheral devices, also known as queue dump technology. it&#x27;s between input and output... technology 操作系统 操作系统原理 tech os operating-system">
       <time>2018-06-20</time>
       <div>
         <h2><a href="../../2018/06/20/spooling/index.html">SPOOLing technology</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="fifo algorithm implements page fault scheduling for paging management" data-date="2018-06-08" data-categories="高级语言 cc tech os" data-tags="c-2 operating-system" data-search="fifo algorithm implements page fault scheduling for paging management the basic principle of the fifo (first in, first out) algorithm is: this algorithm always eliminates the page that enters the memory first, that is, it selects the page that has resided in the memory the longest and eliminates it. data structure: first define a main memory table memeorylist to store the address space in the main memory for page conversion. then define a pagelist as the page table for replacement. note that here first determines whether the current position is occupied, and then determines whether the page is at the current position. if you need to interrupt the replacement, proceed... programming languages c &amp; c++ technology 操作系统 c++ 操作系统原理 高级语言 cc tech os c-2 operating-system">
       <time>2018-06-08</time>
       <div>
         <h2><a href="../../2018/06/08/os-fifo/index.html">FIFO algorithm implements page fault scheduling for paging management</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="address translation in operating system paging virtual memory management" data-date="2018-06-07" data-categories="高级语言 cc tech os" data-tags="c-2 operating-system" data-search="address translation in operating system paging virtual memory management 1. request paging virtual storage management technology stores all information of the job address space on the disk. when a job is selected to run, the first few pages of the job are loaded into the main memory and started to run. for this reason, when creating a page table for a job, it should be stated which pages are already in main memory and which pages are not in main memory. 2. when the job is executed, the logical address in the instruction indicates the page number and page offset in the address of the operand (or instruction) participating in the operation. the hardware address translation mechanism looks up the page table by page number. 3. design an &quot;address variable...&quot; programming languages c &amp; c++ technology 操作系统 c++ 操作系统原理 高级语言 cc tech os c-2 operating-system">
       <time>2018-06-07</time>
       <div>
         <h2><a href="../../2018/06/07/os-transaddr/index.html">Address translation in operating system paging virtual memory management</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="main memory dynamic continuous allocation and recycling algorithm (ff, bf, wf)" data-date="2018-06-01" data-categories="高级语言 cc tech os" data-tags="c-2 c operating-system" data-search="main memory dynamic continuous allocation and recycling algorithm (ff, bf, wf) ①first fit algorithm (first fit) the ff algorithm requires idle partition chains to be linked in the order of increasing addresses. -- when allocating memory, search sequentially from the beginning of the chain until a free partition is found with a size that meets the requirements; -- then according to the size of the job, a memory space is allocated from the partition to the requester, and the remaining free partitions remain in the free chain. -- if a partition that meets the requirements cannot be found from the beginning of the chain to the end of the chain, then the memory allocation fails... programming languages c &amp; c++ technology 操作系统 c++ c 操作系统原理 高级语言 cc tech os c-2 c operating-system">
       <time>2018-06-01</time>
       <div>
         <h2><a href="../../2018/06/01/ff-bf-wf/index.html">Main memory dynamic continuous allocation and recycling algorithm (FF, BF, WF)</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="operating system banker algorithm c language implementation" data-date="2018-05-18" data-categories="高级语言 cc tech os" data-tags="c operating-system" data-search="operating system banker algorithm c language implementation algorithm introduction banker&#x27;s algorithm is a famous algorithm for avoiding deadlock. it is an algorithm designed by ezger dijkstra in 1965 for the t.h.e system to avoid deadlock. it is based on the allocation strategy of the bank lending system to judge and ensure the safe operation of the system. the purpose of the algorithm is to understand the resource allocation of the system. it is assumed that any resource in the system can only be used by one process at any time. any... programming languages c &amp; c++ technology 操作系统 c 操作系统原理 高级语言 cc tech os c operating-system">
       <time>2018-05-18</time>
       <div>
         <h2><a href="../../2018/05/18/os_banker/index.html">Operating system banker algorithm C language implementation</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="implementation of operating system dynamic priority scheduling algorithm in c language" data-date="2018-05-13" data-categories="高级语言 cc tech os" data-tags="c operating-system" data-search="implementation of operating system dynamic priority scheduling algorithm in c language dynamic priority algorithm dynamic priority refers to determining an initial priority number when the process is created, and then continuously modifying the priority number as the process characteristics change during the running of the process. in this way, a process that does not get the cpu because the initial priority number is very low can get the cpu to run because the priority number becomes the highest as the waiting time increases. for example: after a process obtains a cpu, its priority is reduced by 1, or when the process waits for more than a certain time limit, its priority is increased. every time you run your design... programming languages c &amp; c++ technology 操作系统 c 操作系统原理 高级语言 cc tech os c operating-system">
       <time>2018-05-13</time>
       <div>
         <h2><a href="../../2018/05/13/priority_c_os/index.html">Implementation of operating system dynamic priority scheduling algorithm in C language</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="implementation of operating system fcfs scheduling algorithm in c language" data-date="2018-05-11" data-categories="高级语言 cc tech os" data-tags="c operating-system" data-search="implementation of operating system fcfs scheduling algorithm in c language principle of fcfs scheduling algorithm fcfs is the simplest scheduling algorithm. this algorithm can be used for both job scheduling and process scheduling. when this algorithm is used in job scheduling, the system will schedule jobs in the order in which they arrive, or it will give priority to the job that has been waiting the longest in the system, regardless of the length of time the job needs to be executed. it selects several jobs that first enter the queue from the backup job queue, transfers them into memory, allocates resources to them and creates processes. then put it... programming languages c &amp; c++ technology 操作系统 c 操作系统原理 高级语言 cc tech os c operating-system">
       <time>2018-05-11</time>
       <div>
         <h2><a href="../../2018/05/11/fcfs/index.html">Implementation of operating system FCFS scheduling algorithm in C language</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="c language implementation of producer and consumer issues" data-date="2018-05-06" data-categories="高级语言 cc tech os" data-tags="c multithreading operating-system" data-search="c language implementation of producer and consumer issues experimental purposes ① to simulate the producer-consumer problem in order to better understand this classic process synchronization problem. the producer-consumer problem is a typical pv operation problem. assume that there is a relatively large buffer pool in the system. the producer&#x27;s task is to put produced products into it as long as the buffer pool is not full, and the consumer&#x27;s task is to take products from the buffer pool as long as the buffer pool is not empty. while the buffer pool is occupied, no process can access it. ②every producer must put the products he produces into slow... programming languages c &amp; c++ technology 操作系统 c 多线程 操作系统原理 高级语言 cc tech os c multithreading operating-system">
       <time>2018-05-06</time>
       <div>
         <h2><a href="../../2018/05/06/producer_consumer_c/index.html">C language implementation of producer and consumer issues</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="java implementation of producer consumer problem" data-date="2018-04-17" data-categories="高级语言 tech java os" data-tags="java operating-system" data-search="java implementation of producer consumer problem producer-consumer model multi-threaded concurrent applications have a classic model, the producer/consumer model. in the system, producers generate messages, and consumers process messages. consumers and producers pass messages through a buffer. the producer generates the message and submits it to the buffer, and then notifies the consumer that the message can be taken out for processing. after the consumer has processed the information, it notifies the producer that it can continue to provide messages. to implement this model, the key is to synchronize the two threads of consumer and producer... programming languages technology java 操作系统 java 操作系统原理 高级语言 tech java os java operating-system">
       <time>2018-04-17</time>
       <div>
         <h2><a href="../../2018/04/17/producer_consumer_java/index.html">Java implementation of producer consumer problem</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="detailed explanation of multi-threaded operation in c language" data-date="2018-04-10" data-categories="高级语言 cc tech os" data-tags="c-2 c multithreading operating-system" data-search="detailed explanation of multi-threaded operation in c language pthread_t: used to define a variable of thread type usage pthread_t programming languages c &amp; c++ technology 操作系统 c++ c 多线程 操作系统原理 高级语言 cc tech os c-2 c multithreading operating-system">
       <time>2018-04-10</time>
       <div>
         <h2><a href="../../2018/04/10/c_thread/index.html">Detailed explanation of multi-threaded operation in C language</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../cc/index.html"><span>C &amp; C++</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c-2/index.html"><span>C++</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/c/index.html"><span>C</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="operating system thread (process) synchronization java instance" data-date="2018-04-10" data-categories="高级语言 tech java os" data-tags="java multithreading operating-system" data-search="operating system thread (process) synchronization java instance to read this article, please read the java thread class first: https://omegaxyz.com/2018/04/09/java_threading/ java provides the executor interface to execute tasks in the thread pool, and the executorservice interface to manage and control tasks. executorservice executor = executors.newcachedthre... programming languages technology java 操作系统 java 多线程 操作系统原理 高级语言 tech java os java multithreading operating-system">
       <time>2018-04-10</time>
       <div>
         <h2><a href="../../2018/04/10/os_java_sync/index.html">Operating system thread (process) synchronization Java instance</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/java/index.html"><span>Java</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="principle of record semaphore (operating system)" data-date="2018-03-25" data-categories="tech os" data-tags="operating-system" data-search="principle of record semaphore (operating system) in 1965, the semaphores mechanism proposed by dutch scholar dijkstra is an effective process synchronization tool. in the long-term and extensive application, the semaphore mechanism has been greatly developed. it has developed from an integer semaphore through a record semaphore to a &quot;semaphore set&quot; mechanism. now, the semaphore mechanism has been widely used in single-processor and multi-processor systems and computer networks. the following is a record semaphore: the wait in the integer semaphore mechanism... technology 操作系统 操作系统原理 tech os operating-system">
       <time>2018-03-25</time>
       <div>
         <h2><a href="../../2018/03/25/semaphore/index.html">Principle of record semaphore (operating system)</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="the difference and connection between process and thread" data-date="2018-03-14" data-categories="tech os" data-tags="operating-system" data-search="the difference and connection between process and thread the concept of process is the basic unit for allocating and managing resources during the execution of concurrently executed programs. it is a dynamic concept and the basic unit for competing for computer system resources. each process has its own address space, which is process space or (virtual space). a thread is a part of a process. a process without threads can be considered single-threaded. threads are sometimes called light-weight processes or lightweight processes and are also a basic unit of cpu scheduling. the difference between the execution process of the process... technology 操作系统 操作系统原理 tech os operating-system">
       <time>2018-03-14</time>
       <div>
         <h2><a href="../../2018/03/14/progressandthread/index.html">The difference and connection between process and thread</a></h2>
@@ -214,8 +240,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>操作系统</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/operating-system/index.html"><span>操作系统原理</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -224,13 +253,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -239,7 +268,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>

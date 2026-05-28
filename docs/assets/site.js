@@ -48,9 +48,11 @@
 
     items.forEach((item) => {
       item.hidden = true;
+      item.style.display = "none";
     });
     visible.forEach((item) => {
       item.hidden = false;
+      item.style.removeProperty("display");
       if (list) list.appendChild(item);
     });
     if (count) count.textContent = visible.length;

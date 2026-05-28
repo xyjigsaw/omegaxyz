@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>深度学习</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>深度学习</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>39</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>32</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>15</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tensorflow-pytorch" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">TensorFlow-Pytorch<span>12</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-vision" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">计算机视觉<span>10</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="nlp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">NLP<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>7</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="cnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">CNN<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GNN<span>5</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gpt" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GPT<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="llm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">LLM<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-architecture" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">组成原理与体系结构<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="hci" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">HCI<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="matlab" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Matlab<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="information-theory" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">信息论<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="大模型alpacafarm分析" data-date="2024-12-18" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp" data-search="大模型alpacafarm分析 一、摘要 本研究工作介绍了一个名为alpacafarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp tech machine-learning deep-learning nlp ai ann nlp">
       <time>2024-12-18</time>
       <div>
         <h2><a href="../../2024/12/18/alpacafarm/index.html">大模型AlpacaFarm分析</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="大模型中的repe表征工程" data-date="2024-01-03" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp gpt llm" data-search="大模型中的repe表征工程 highlight 论文地址： https://arxiv.org/abs/2310.01405 表征工程（repe）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。 属于ai可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activ... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp gpt llm tech machine-learning deep-learning nlp ai ann nlp gpt llm">
       <time>2024-01-03</time>
       <div>
         <h2><a href="../../2024/01/03/repe/index.html">大模型中的RepE表征工程</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gpt/index.html"><span>GPT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="大模型也是一种优化器（llm as optimizer）" data-date="2023-11-23" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp gpt llm" data-search="大模型也是一种优化器（llm as optimizer） 论文：large language models as optimizers arxiv: https://arxiv.org/pdf/2309.03409.pdf affiliation: google deepmind 🚀highlight deepmind引入了一种名为“基于提示的优化方法”(optimization by prom... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp gpt llm tech machine-learning deep-learning nlp ai ann nlp gpt llm">
       <time>2023-11-23</time>
       <div>
         <h2><a href="../../2023/11/23/llm_optimizer/index.html">大模型也是一种优化器（LLM as Optimizer）</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gpt/index.html"><span>GPT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="学术idea自动发现与生成" data-date="2023-08-26" data-categories="tech ideas machine-learning deep-learning knowledge-graph nlp" data-tags="ai ann nlp knowledge-graph" data-search="学术idea自动发现与生成 摘要 研究人员通常只有在深入了解大量文献后才能提出新的想法。学术出版物的数量呈指数级增长，这一事实加剧了这一过程的困难。在本研究中，我们设计了一个基于概念共现的学术思想启发框架，该框架已集成到一个研究辅助系统deepreport中。从我们的角度来看，在一篇学术论文中同时出现的两个 概念（concept） 的融合可以被视为一种 新思想（id... 技术域 ideas 机器学习 深度学习 知识图谱 自然语言处理 人工智能 神经网络 nlp 知识图谱 tech ideas machine-learning deep-learning knowledge-graph nlp ai ann nlp knowledge-graph">
       <time>2023-08-26</time>
       <div>
         <h2><a href="../../2023/08/26/kiscovery/index.html">学术idea自动发现与生成</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="自回归语言模型（language model）python实现" data-date="2023-03-29" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python tensorflow-pytorch ai ann nlp gpt llm" data-search="自回归语言模型（language model）python实现 [latexpage] 自回归语言模型 自回归语言模型是一种计算概率的模型，它可以预测一个给定的单词序列中下一个词的概率。它基于一个假设：每个词的出现只与前面的词有关，而与后面的词无关。因此，模型使用前面的单词来预测下一个单词，这也被称为自回归。 在自回归语言模型中，每个单词都被表示为一个向量。模型使用这些向量作为输入，并在每个时间步预测... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python tensorflow-pytorch 人工智能 神经网络 nlp gpt llm 高级语言 tech machine-learning python deep-learning nlp python tensorflow-pytorch ai ann nlp gpt llm">
       <time>2023-03-29</time>
       <div>
         <h2><a href="../../2023/03/29/autoregressive-language-model/index.html">自回归语言模型（language model）Python实现</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="deepscience：学术趋势预测与分析" data-date="2022-03-30" data-categories="tech machine-learning deep-learning knowledge-graph" data-tags="ann knowledge-graph" data-search="deepscience：学术趋势预测与分析 导言 在此 github仓库 中，我们选择 covid-19 和 深度学习 领域来预测科学的发展趋势。 我们使用 acemap 中的论文和字段信息，值得注意的是，我们还收集了来自整个学术界的论文，包括19个学科（数学、历史、心理学、经济学、社会学、艺术、地理学、商业、物理学、政治学、哲学、生物学、计算机科学、材料科学、环境科学、医学、化学... 技术域 机器学习 深度学习 知识图谱 神经网络 知识图谱 tech machine-learning deep-learning knowledge-graph ann knowledge-graph">
       <time>2022-03-30</time>
       <div>
         <h2><a href="../../2022/03/30/deepscience-学术趋势预测与分析/index.html">DeepScience：学术趋势预测与分析</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对比学习中常见的数据增强策略" data-date="2022-02-02" data-categories="tech machine-learning deep-learning knowledge-graph nlp computer-vision" data-tags="ann nlp knowledge-graph gnn computer-vision" data-search="对比学习中常见的数据增强策略 [latexpage] 对比学习 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{l}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^... 技术域 机器学习 深度学习 知识图谱 自然语言处理 计算机视觉 神经网络 nlp 知识图谱 gnn 计算机视觉 tech machine-learning deep-learning knowledge-graph nlp computer-vision ann nlp knowledge-graph gnn computer-vision">
       <time>2022-02-02</time>
       <div>
         <h2><a href="../../2022/02/02/contrastive_learning_data_augmentation/index.html">对比学习中常见的数据增强策略</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对比学习python实现" data-date="2022-01-13" data-categories="高级语言 tech machine-learning python deep-learning computer-vision" data-tags="python ann computer-vision" data-search="对比学习python实现 [latexpage] 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{l}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^{2n}e... 高级语言 技术域 机器学习 python 深度学习 计算机视觉 python 神经网络 计算机视觉 高级语言 tech machine-learning python deep-learning computer-vision python ann computer-vision">
       <time>2022-01-13</time>
       <div>
         <h2><a href="../../2022/01/13/contrastive_learning_python/index.html">对比学习Python实现</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="迁移学习模型dann实现" data-date="2021-09-05" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="python ann" data-search="迁移学习模型dann实现 individual diﬀerences in eeg signals lead to the poor generalization ability of eeg-based aﬀective models. transfer learning, as we introduced in the class, can eliminate... 高级语言 技术域 机器学习 python 深度学习 python 神经网络 高级语言 tech machine-learning python deep-learning python ann">
       <time>2021-09-05</time>
       <div>
         <h2><a href="../../2021/09/05/dann/index.html">迁移学习模型DANN实现</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="生成对抗网络gan图像生成实例" data-date="2021-07-09" data-categories="高级语言 tech machine-learning python deep-learning computer-vision" data-tags="ann computer-vision" data-search="生成对抗网络gan图像生成实例 [latexpage] 本文实现了dcgan [1]，这是一种生成对抗网络。dcgan模型将完全连接层替换为全局池层。众所周知，gan的目的是在鉴别器和发生器之间实现纳什均衡。也就是说，这两种模式都不应该表现得特别好。实验所使用的数据集为cub200-2011，这是一个鸟类数据集，训练集包含5994个图像，实验设置如下所示：训练次数为20... 高级语言 技术域 机器学习 python 深度学习 计算机视觉 神经网络 计算机视觉 高级语言 tech machine-learning python deep-learning computer-vision ann computer-vision">
       <time>2021-07-09</time>
       <div>
         <h2><a href="../../2021/07/09/dcgan/index.html">生成对抗网络GAN图像生成实例</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识图谱中的结构信息建模" data-date="2021-06-17" data-categories="tech machine-learning deep-learning knowledge-graph" data-tags="ann knowledge-graph" data-search="知识图谱中的结构信息建模 什么是知识图谱 全球最具权威的it研究与顾问咨询公司高德纳发布了2020年ai领域技术成熟度曲线，其中 知识图谱 的期待值处在ai领域的顶峰，还有5到10年的发展机会达到平稳期，也就是大规模商用。知识图谱这个概念是在2012年谷歌知识图谱的提出而火起来的，追根溯源，知识图谱的前身是语义网络。通俗地说，知识图谱将无序分散的信息，以图的方式整... 技术域 机器学习 深度学习 知识图谱 神经网络 知识图谱 tech machine-learning deep-learning knowledge-graph ann knowledge-graph">
       <time>2021-06-17</time>
       <div>
         <h2><a href="../../2021/06/17/kg_structure_modeling/index.html">知识图谱中的结构信息建模</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="iclr2021图神经网络与知识图谱相关论文" data-date="2021-04-19" data-categories="tech machine-learning deep-learning knowledge-graph" data-tags="ann knowledge-graph gnn" data-search="iclr2021图神经网络与知识图谱相关论文 theory how neural networks extrapolate: from feedforward to graph neural networks 作者研究了通过梯度下降训练的神经网络如何进行推断，即他们在训练分布的支持之外学到了什么。**已知mlp在某些简单任务中无法很好地进行推断，但是图神经网络（有mlp模块的结构化网... 技术域 机器学习 深度学习 知识图谱 神经网络 知识图谱 gnn tech machine-learning deep-learning knowledge-graph ann knowledge-graph gnn">
       <time>2021-04-19</time>
       <div>
         <h2><a href="../../2021/04/19/iclr2021-gnn-kg/index.html">ICLR2021图神经网络与知识图谱相关论文</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-对抗攻击的弹性异构dnn加速器体系结构" data-date="2021-03-31" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-对抗攻击的弹性异构dnn加速器体系结构 paper: wang, xingbin, et al. &quot;dnnguard: an elastic heterogeneous dnn accelerator architecture against adversarial attacks.&quot; proceedings of the twenty-fifth international... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-03-31</time>
       <div>
         <h2><a href="../../2021/03/31/dnn-guard/index.html">速读-对抗攻击的弹性异构DNN加速器体系结构</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-张量流处理器（tsp）" data-date="2021-02-03" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-张量流处理器（tsp） paper: abts, dennis, et al. &quot;think fast: a tensor streaming processor (tsp) for accelerating deep learning workloads.&quot; 2020 acm/ieee 47th annual international symposium o... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-02-03</time>
       <div>
         <h2><a href="../../2021/02/03/tsp/index.html">速读-张量流处理器（TSP）</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="神经网络高维互信息计算python实现（mine）" data-date="2020-12-18" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="python information-theory" data-search="神经网络高维互信息计算python实现（mine） 论文 belghazi, mohamed ishmael, et al. &quot; mutual information neural estimation .&quot; international conference on machine learning . 2018. 利用神经网络的梯度下降法可以实现快速高维连续随机变量之间互信息的估计，上述论... 高级语言 技术域 机器学习 python 深度学习 python 信息论 高级语言 tech machine-learning python deep-learning python information-theory">
       <time>2020-12-18</time>
       <div>
         <h2><a href="../../2020/12/18/mine/index.html">神经网络高维互信息计算Python实现（MINE）</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/information-theory/index.html"><span>信息论</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="速读-a3基于注意力机制的神经网络处理器" data-date="2020-10-16" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="速读-a3基于注意力机制的神经网络处理器 论文： ham, tae jun, et al. &quot;a^ 3: accelerating attention mechanisms in neural networks with approximation.&quot; 2020 ieee international symposium on high performance computer a... 技术域 机器学习 组成原理与体系结构 深度学习 english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2020-10-16</time>
       <div>
         <h2><a href="../../2020/10/16/a3-hpca2020/index.html">速读-A3基于注意力机制的神经网络处理器</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="gcc图神经网络预训练概述" data-date="2020-09-30" data-categories="tech machine-learning deep-learning knowledge-graph english" data-tags="ann social-network knowledge-graph gnn" data-search="gcc图神经网络预训练概述 paper gcc: graph contrastive coding for graph neural network pre-training conference : kdd keywords : contrastive learning, instance discrimination, transferability, pre-... 技术域 机器学习 深度学习 知识图谱 english 神经网络 社交网络 知识图谱 gnn tech machine-learning deep-learning knowledge-graph english ann social-network knowledge-graph gnn">
       <time>2020-09-30</time>
       <div>
         <h2><a href="../../2020/09/30/gcc-pre-training/index.html">GCC图神经网络预训练概述</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="图神经网络（gnn）tensorflow实现" data-date="2020-08-17" data-categories="高级语言 tech machine-learning python deep-learning knowledge-graph" data-tags="python tensorflow-pytorch ann knowledge-graph gnn" data-search="图神经网络（gnn）tensorflow实现 图神经网络的研究与图嵌入或网络嵌入密切相关，图嵌入或网络嵌入是数据挖掘和机器学习界日益关注的另一个课题。图嵌入旨在通过保留图的网络拓扑结构和节点内容信息，将图中顶点表示为低维向量，以便使用简单的机器学习算法（例如，支持向量机分类）进行处理。许多图嵌入算法通常是无监督的算法，它们可以大致可以划分为三个类别，即矩阵分解、随机游走和深度学习方法... 高级语言 技术域 机器学习 python 深度学习 知识图谱 python tensorflow-pytorch 神经网络 知识图谱 gnn 高级语言 tech machine-learning python deep-learning knowledge-graph python tensorflow-pytorch ann knowledge-graph gnn">
       <time>2020-08-17</time>
       <div>
         <h2><a href="../../2020/08/17/gnn_tensorflow/index.html">图神经网络（GNN）TensorFlow实现</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="aminer学术社交网络数据知识图谱构建（三元组与嵌入）" data-date="2020-07-12" data-categories="高级语言 tech machine-learning python deep-learning knowledge-graph" data-tags="python social-network knowledge-graph gnn" data-search="aminer学术社交网络数据知识图谱构建（三元组与嵌入） aminer 科技情报大数据挖掘与服务系统平台 aminer 是由清华大学计算机科学与技术系教授唐杰率领团队建立的，具有完全自主知识产权的新一代科技情报分析与挖掘平台 。 aminer平台以科研人员、科技文献、学术活动三大类数据为基础，构建三者之间的关联关系，深入分析挖掘，面向全球科研机构及相关工作人员，提供学者、论文文献等学术信息资源检... 高级语言 技术域 机器学习 python 深度学习 知识图谱 python 社交网络 知识图谱 gnn 高级语言 tech machine-learning python deep-learning knowledge-graph python social-network knowledge-graph gnn">
       <time>2020-07-12</time>
       <div>
         <h2><a href="../../2020/07/12/aminer-academic-social-network/index.html">Aminer学术社交网络数据知识图谱构建（三元组与嵌入）</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="个人主页信息提取器" data-date="2020-06-18" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python ann nlp" data-search="个人主页信息提取器 简介 从研究人员的主页(html)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。 可以分成的类别： publication education honor 详细 从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用f... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python 神经网络 nlp 高级语言 tech machine-learning python deep-learning nlp python ann nlp">
       <time>2020-06-18</time>
       <div>
         <h2><a href="../../2020/06/18/fast-profile-extractor/index.html">个人主页信息提取器</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bert-bilstm-crf命名实体识别应用" data-date="2020-05-18" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python tensorflow-pytorch nlp" data-search="bert-bilstm-crf命名实体识别应用 引言 本文将采用bert+bilstm+crf模型进行命名实体识别（named entity recognition 简称ner），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 bert（bidirectional encoder representation from transf... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python tensorflow-pytorch nlp 高级语言 tech machine-learning python deep-learning nlp python tensorflow-pytorch nlp">
       <time>2020-05-18</time>
       <div>
         <h2><a href="../../2020/05/18/bert-bilstm-crf/index.html">BERT-BiLSTM-CRF命名实体识别应用</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于眼动跟踪技术的人机交互方法研究" data-date="2019-01-18" data-categories="tech machine-learning deep-learning computer-vision" data-tags="ann cnn hci computer-vision" data-search="基于眼动跟踪技术的人机交互方法研究 从科学研究到商业应用领域，眼动跟踪技术都受到普遍关注。本文主要从眼动跟踪技术的发展过程、应用领域、理论基础、研究方法及发展前景等方面展开了论述。通过调研认为，眼动跟踪技术对计算机硬件软件的实时性和准确性有极高的要求。由于近几年深度学习的发展，眼动跟踪技术在处理复杂问题的能力上得到了大幅度提高，在大规模商业应用具有延展性及实用性。 关键字：... 技术域 机器学习 深度学习 计算机视觉 神经网络 cnn hci 计算机视觉 tech machine-learning deep-learning computer-vision ann cnn hci computer-vision">
       <time>2019-01-18</time>
       <div>
         <h2><a href="../../2019/01/18/hci-eye-tracking/index.html">基于眼动跟踪技术的人机交互方法研究</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/hci/index.html"><span>HCI</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="pytorch入门" data-date="2019-01-12" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="tensorflow-pytorch" data-search="pytorch入门 pytorch入门 pytorch 是一个建立在 torch 库之上的 python 包，旨在加速深度学习应用。pytorch 提供一种类似 numpy 的抽象方法来表征张量（或多维数组），它可以利用 gpu 来加速训练。 pytorch 既可以看做加入了gpu 支持的numpy，同时也可以看成一个拥有自动求导功能的强大的深度神经网络，除... 高级语言 技术域 机器学习 python 深度学习 tensorflow-pytorch 高级语言 tech machine-learning python deep-learning tensorflow-pytorch">
       <time>2019-01-12</time>
       <div>
         <h2><a href="../../2019/01/12/pytorch-introduction/index.html">PyTorch入门</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="王者荣耀ai论文：层次宏观策略模型" data-date="2018-12-25" data-categories="tech trans machine-learning deep-learning" data-tags="ai ann" data-search="王者荣耀ai论文：层次宏观策略模型 论文与作者 关于第一作者bin wu，他此刻是腾讯ai尝试室的高级研究员，也是王者光彩ai算法计划和开拓的技能认真人。 此前，他还照旧腾讯一个量化买卖营业项目标焦点成员，认真呆板进修算法的计划和开拓。这个团队搞的模子，已经获取了70%的净收益，2017年在a股市场的回报率为5%。 果真的资料表现，bin wu于2016年12月插手腾讯至今... 技术域 转载 机器学习 深度学习 人工智能 神经网络 tech trans machine-learning deep-learning ai ann">
       <time>2018-12-25</time>
       <div>
         <h2><a href="../../2018/12/25/moba-ai/index.html">王者荣耀AI论文：层次宏观策略模型</a></h2>
@@ -250,8 +276,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于移动设备与cnn的眼动追踪技术简介" data-date="2018-12-20" data-categories="tech machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="基于移动设备与cnn的眼动追踪技术简介 眼动追踪是一项科学应用技术，用户无需与交互设备物理接触即可发送信息与接收反馈。从原理上看，眼动追踪主要是研究眼球运动信息的获取、建模和模拟，用途颇广。而获取眼球运动信息的设备除了红外设备之外，还可以是图像采集设备，甚至一般电脑或手机上的摄像头，其在软件的支持下也可以实现眼球跟踪。 下面说的这篇论文是mit2016年在cvpr上发的一篇论文... 技术域 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-12-20</time>
       <div>
         <h2><a href="../../2018/12/20/eye-tracking-for-everyone/index.html">基于移动设备与CNN的眼动追踪技术简介</a></h2>
@@ -259,8 +285,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="卷积神经网络cnn概述下（rgb图像卷积与单层神经网络）" data-date="2018-08-14" data-categories="tech trans machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="卷积神经网络cnn概述下（rgb图像卷积与单层神经网络） 以下内容转载自： https://blog.csdn.net/ice_actor/article/details/78648780 侵删！！！ 黑白图像卷积请参考： https://omegaxyz.com/2018/06/02/cnn1/ 彩色图像的卷积 以上讲述的卷积都是灰度图像的，如果想要在rgb图像上进行卷积，过滤器的大小不在是3... 技术域 转载 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech trans machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-08-14</time>
       <div>
         <h2><a href="../../2018/08/14/cnn2-rgb/index.html">卷积神经网络CNN概述下（RGB图像卷积与单层神经网络）</a></h2>
@@ -268,8 +294,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="神经网络（tensorflow）游乐场" data-date="2018-07-19" data-categories="tech machine-learning deep-learning" data-tags="tensorflow-pytorch ann" data-search="神经网络（tensorflow）游乐场 tensorflow游乐场是一个通过网页浏览器就可以训练的简单神经网络并实现了可视化训练过程的工具。可以去简单地模拟深度学习的过程。连线越粗表明权重越大。 网址： http://playground.tensorflow.org/ 参数介绍 epoch： 迭代次数 learning rate： 学习率，为了能够使得梯度下降法有较好的性能，... 技术域 机器学习 深度学习 tensorflow-pytorch 神经网络 tech machine-learning deep-learning tensorflow-pytorch ann">
       <time>2018-07-19</time>
       <div>
         <h2><a href="../../2018/07/19/tensorflow-playground/index.html">神经网络（TensorFlow）游乐场</a></h2>
@@ -277,8 +303,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="卷积神经网络googlenet概述" data-date="2018-07-14" data-categories="tech machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="卷积神经网络googlenet概述 名称 论文的名称是 going deeper with convolutions，启发自“we need to go deeper.”出处先不说。 而论文提出的cnn算法名称是googlenet，googlenet是谷歌（google）公司研究出来的深度神经网络结构，为什么不叫googlenet，而叫googlenet，据说是为了向len... 技术域 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-07-14</time>
       <div>
         <h2><a href="../../2018/07/14/googlenet/index.html">卷积神经网络GoogLeNet概述</a></h2>
@@ -286,8 +312,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bp神经网络matlab实现" data-date="2018-07-03" data-categories="高级语言 tech matlab machine-learning deep-learning" data-tags="matlab ann" data-search="bp神经网络matlab实现 bp神经网络 bp(back propagation)神经网络是1986年由rumelhart和mcclelland为首的科学家提出的概念，是一种按照误差逆向传播算法训练的多层前馈神经网络，是目前应用最广泛的神经网络。 bp神经网络的计算过程由正向计算过程和反向计算过程组成。正向传播过程，输入模式从输入层经隐单元层逐层处理，并转向输出层，... 高级语言 技术域 matlab 机器学习 深度学习 matlab 神经网络 高级语言 tech matlab machine-learning deep-learning matlab ann">
       <time>2018-07-03</time>
       <div>
         <h2><a href="../../2018/07/03/bp-matlab/index.html">BP神经网络MATLAB实现</a></h2>
@@ -295,8 +321,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow简单卷积神经（cnn）网络实现" data-date="2018-06-04" data-categories="高级语言 tech machine-learning python deep-learning computer-vision" data-tags="python tensorflow-pytorch ann cnn computer-vision" data-search="tensorflow简单卷积神经（cnn）网络实现 数据集 本次依然使用mnist数据集来进行卷积神经网络训练。 mnist是一个入门级的计算机视觉数据集，它包含各种手写数字图片： 之间用简单神经网络进行手写识别的博文： https://omegaxyz.com/2018/04/26/tensorflow_mnist_simple/ 简单卷积神经网络的流程 第一层卷积操作 需要输入的参数值... 高级语言 技术域 机器学习 python 深度学习 计算机视觉 python tensorflow-pytorch 神经网络 cnn 计算机视觉 高级语言 tech machine-learning python deep-learning computer-vision python tensorflow-pytorch ann cnn computer-vision">
       <time>2018-06-04</time>
       <div>
         <h2><a href="../../2018/06/04/tensorflow-simple-cnn/index.html">TensorFlow简单卷积神经（CNN）网络实现</a></h2>
@@ -304,8 +330,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="卷积神经网络cnn概述上（黑白图像卷积）" data-date="2018-06-02" data-categories="tech trans machine-learning deep-learning computer-vision" data-tags="ann cnn computer-vision" data-search="卷积神经网络cnn概述上（黑白图像卷积） 1.边界检测 检测图像的物体可以有垂直边缘和水平边缘检测。 如下是一个6*6的灰度图像，构造一个3*3的矩阵，在卷积神经网络中通常称之为filter，对这个6*6的图像进行卷积运算，以左上角的-5计算为例 3*1+0*0+1*-1+1*1+5*0+8*-1+2*1+7*0+2*-1 = -5 其它的以此类推，让过滤器在图像上逐步滑动，对整... 技术域 转载 机器学习 深度学习 计算机视觉 神经网络 cnn 计算机视觉 tech trans machine-learning deep-learning computer-vision ann cnn computer-vision">
       <time>2018-06-02</time>
       <div>
         <h2><a href="../../2018/06/02/cnn1/index.html">卷积神经网络CNN概述上（黑白图像卷积）</a></h2>
@@ -313,8 +339,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/cnn/index.html"><span>CNN</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow实现简单神经网络分类问题" data-date="2018-05-31" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensorflow实现简单神经网络分类问题 利用tensorflow来训练所有的神经网络的训练过程可以分为如下3个步骤： ①定义神经网络的结构和前向传播的输出结果。 ②定义损失函数以及选择反向传播优化算法。 ③生成会话（tf.session）并且在训练数据上反复运行反向传播优化算法。 下面给出一个简单的二分类问题的神经网络算法（完整的流程） 神经网络具体结构如下图： 训练流程图：... 高级语言 技术域 机器学习 python 深度学习 python tensorflow-pytorch 神经网络 高级语言 tech machine-learning python deep-learning python tensorflow-pytorch ann">
       <time>2018-05-31</time>
       <div>
         <h2><a href="../../2018/05/31/tensorflow-simple-classification/index.html">TensorFlow实现简单神经网络分类问题</a></h2>
@@ -322,8 +348,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensor（张量）的简介与运用" data-date="2018-05-27" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensor（张量）的简介与运用 张量 （tensor）是一个很重要的概念。在 tensorflow 中所有的数据都用张量来表示，当然张量可以被简单得理解为多维数组。 其中零阶张量表示标量（scalar），一阶张量表示向量（vector），n阶张量就是n阶数组。但是张量在tensorflow中的实现并不想numpy那样是数组的形式， 而只是运算结果的引用，即是一种计算过程... 高级语言 技术域 机器学习 python 深度学习 python tensorflow-pytorch 神经网络 高级语言 tech machine-learning python deep-learning python tensorflow-pytorch ann">
       <time>2018-05-27</time>
       <div>
         <h2><a href="../../2018/05/27/whatstensor/index.html">Tensor（张量）的简介与运用</a></h2>
@@ -331,8 +357,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="神经网络感知机概述" data-date="2018-05-01" data-categories="tech machine-learning deep-learning" data-tags="ann" data-search="神经网络感知机概述 定义 假设输入空间(特征向量)为x⊆rn，输出空间为y={-1, +1}。输入x∈x表示实例的特征向量，对应于输入空间的点；输出y∈y表示示例的类别。由输入空间到输出空间的函数为 f(x)=sign( w⋅x +b) 称为感知机。其中，参数w叫做权值向量weight，b称为偏置bias。w⋅x表示w和x的点积 ∑i=wixi=w1x1+w... 技术域 机器学习 深度学习 神经网络 tech machine-learning deep-learning ann">
       <time>2018-05-01</time>
       <div>
         <h2><a href="../../2018/05/01/perceptron/index.html">神经网络感知机概述</a></h2>
@@ -340,8 +366,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorboard显示tensorflow流程图" data-date="2018-04-27" data-categories="tech machine-learning deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensorboard显示tensorflow流程图 tensorflow 涉及到的运算，通常是在训练庞大的深度神经网络中出现的复杂而又难以理解的运算。 为了更方便 tensorflow 程序的理解、调试与优化，google发布了一套叫做 tensorboard 的可视化工具。你可以用 tensorboard 来展现你的 tensorflow 图像，绘制图像生成的定量指标图以及附加数据。 如... 技术域 机器学习 深度学习 python tensorflow-pytorch 神经网络 tech machine-learning deep-learning python tensorflow-pytorch ann">
       <time>2018-04-27</time>
       <div>
         <h2><a href="../../2018/04/27/tensorboard_tensorflow/index.html">TensorBoard显示TensorFlow流程图</a></h2>
@@ -349,8 +375,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow手写识别入门" data-date="2018-04-26" data-categories="高级语言 tech trans machine-learning python deep-learning computer-vision" data-tags="python tensorflow-pytorch ann computer-vision" data-search="tensorflow手写识别入门 原文地址 ： mnist for ml beginners 翻译： linbojin python3源码：omegaxyz.com 当我们开始学习编程的时候，第一件事往往是学习打印&quot;hello world&quot;。就好比编程入门有hello world，机器学习入门有mnist。 mnist是一个入门级的计算机视觉数据集，它包含各种手写数字图片... 高级语言 技术域 转载 机器学习 python 深度学习 计算机视觉 python tensorflow-pytorch 神经网络 计算机视觉 高级语言 tech trans machine-learning python deep-learning computer-vision python tensorflow-pytorch ann computer-vision">
       <time>2018-04-26</time>
       <div>
         <h2><a href="../../2018/04/26/tensorflow_mnist_simple/index.html">TensorFlow手写识别入门</a></h2>
@@ -358,8 +384,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/computer-vision/index.html"><span>计算机视觉</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow基本语句与概念" data-date="2018-04-20" data-categories="高级语言 tech trans machine-learning python deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensorflow基本语句与概念 文章转载自极客学院： http://wiki.jikexueyuan.com/project/tensorflow-zh/get_started/basic_usage.html tensorflow简介 是 开发的一款神经网络的 外部的结构包，也是一个采用 来进行数值计算的开源软件库。它被用于语音识别或图像识别等多项机器深度学习领域，它... 高级语言 技术域 转载 机器学习 python 深度学习 python tensorflow-pytorch 神经网络 高级语言 tech trans machine-learning python deep-learning python tensorflow-pytorch ann">
       <time>2018-04-20</time>
       <div>
         <h2><a href="../../2018/04/20/tensorflow_intro/index.html">TensorFlow基本语句与概念</a></h2>
@@ -367,8 +393,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="tensorflow神经网络函数拟合实例（基于python）" data-date="2018-04-19" data-categories="高级语言 tech machine-learning python deep-learning" data-tags="python tensorflow-pytorch ann" data-search="tensorflow神经网络函数拟合实例（基于python） 本文通过tensorflow生成双层神经网络，对二次函数进行拟合。 双层神经网络如下图所示。 weights代表神经元的权重，activation_function是激活函数sgn或sigmoid或relu函数 构建神经网络的函数 主要步骤： ①生成测试数据集，利用numpy来生成坐标轴的点，并在点上添加噪音。 ②添加占位符 ③添加隐藏层... 高级语言 技术域 机器学习 python 深度学习 python tensorflow-pytorch 神经网络 高级语言 tech machine-learning python deep-learning python tensorflow-pytorch ann">
       <time>2018-04-19</time>
       <div>
         <h2><a href="../../2018/04/19/2nn_tensorflow_py/index.html">TensorFlow神经网络函数拟合实例（基于Python）</a></h2>
@@ -376,8 +402,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="神经网络模型详解" data-date="2018-04-13" data-categories="tech machine-learning deep-learning" data-tags="ai ann" data-search="神经网络模型详解 什么是人工神经网络 人工神经网络基于一组称为人造神经元（在动物脑中的生物神经元的简化版本）的连接单元或节点。人造神经元之间的每个连接（简化版本的突触）可以将信号从一个传送到另一个。接收信号的人工神经元可以处理它，然后发出信号传递与之相连的人造神经元。 在常见的ann实现中，人造神经元之间的连接处的信号是实数，并且每个人造神经元的输出通过其... 技术域 机器学习 深度学习 人工智能 神经网络 tech machine-learning deep-learning ai ann">
       <time>2018-04-13</time>
       <div>
         <h2><a href="../../2018/04/13/ann_intro/index.html">神经网络模型详解</a></h2>
@@ -385,8 +411,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -395,13 +424,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

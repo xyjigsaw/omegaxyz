@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>自然语言处理</h1><p>分类</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>自然语言处理</h1><p>分类 · 按标签筛选</p></div>
+                    <div class="archive-count"><strong data-archive-count>24</strong><span>篇文章</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="搜索标题、摘要、标签..." aria-label="搜索">
+                    </div>
+                    <label class="archive-sort">
+                      <span>排序</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="排序">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="title">标题 A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="标签">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">全部</button></div>
+                    <div class="filter-group">
+                      <h2>标签</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="nlp" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">NLP<span>24</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>10</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="python" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Python<span>9</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">知识图谱<span>8</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ai" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">人工智能<span>6</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gpt" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GPT<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="llm" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">LLM<span>3</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="tensorflow-pytorch" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">TensorFlow-Pytorch<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="naivebayes" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">朴素贝叶斯<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="github" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Github<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GNN<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="matlab" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Matlab<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="机器学习" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">机器学习<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="clustering" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">聚类<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-vision" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">计算机视觉<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="大模型alpacafarm分析" data-date="2024-12-18" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp" data-search="大模型alpacafarm分析 一、摘要 本研究工作介绍了一个名为alpacafarm的模拟框架，旨在降低模型从人类反馈中学习方法的成本。作者设计了能够模拟人类反馈的大型语言模型提示，显著降低了数据收集的成本，并与人类评价达成高度一致性。此外，他们提出了一种自动化评估方法，并通过实际人类互动中的指令进行了验证。研究还贡献了多个从成对反馈中学习的参考方法的实现，并在真实人... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp tech machine-learning deep-learning nlp ai ann nlp">
       <time>2024-12-18</time>
       <div>
         <h2><a href="../../2024/12/18/alpacafarm/index.html">大模型AlpacaFarm分析</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../deep-learning/index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="nlg文本评估任务或许并不需要真值或参考文本" data-date="2024-11-18" data-categories="tech trans machine-learning nlp" data-tags="ai nlp 机器学习" data-search="nlg文本评估任务或许并不需要真值或参考文本 摘要 面对文本评估任务时，人们总是习惯性地想找到一个标准答案作为参考。这源自于一个很自然的思路，和参考相似的答案大概率是一个好的答案。许多文本评估方法的实现都是基于这个直觉，例如经典的bleu和meteor，例如近年来基于embedding相似性提出的bertscore和moverscore。这类方法，可以称为ref-free方法。 re... 技术域 转载 机器学习 自然语言处理 人工智能 nlp 机器学习 tech trans machine-learning nlp ai nlp 机器学习">
       <time>2024-11-18</time>
       <div>
         <h2><a href="../../2024/11/18/nlg_eval/index.html">NLG文本评估任务或许并不需要真值或参考文本</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../trans/index.html"><span>转载</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/机器学习/index.html"><span>机器学习</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="大模型中的repe表征工程" data-date="2024-01-03" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp gpt llm" data-search="大模型中的repe表征工程 highlight 论文地址： https://arxiv.org/abs/2310.01405 表征工程（repe）是一种借鉴认知神经科学的见解来提高人工智能系统透明度的方法。 属于ai可解释性领域，先前的可解释性相关工作主要以神经元为中心，这篇文章采用了认知神经科学中的一些观点，强调以模型中的信息表征（基本对应到模型每层的 activ... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp gpt llm tech machine-learning deep-learning nlp ai ann nlp gpt llm">
       <time>2024-01-03</time>
       <div>
         <h2><a href="../../2024/01/03/repe/index.html">大模型中的RepE表征工程</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../deep-learning/index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gpt/index.html"><span>GPT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="大模型也是一种优化器（llm as optimizer）" data-date="2023-11-23" data-categories="tech machine-learning deep-learning nlp" data-tags="ai ann nlp gpt llm" data-search="大模型也是一种优化器（llm as optimizer） 论文：large language models as optimizers arxiv: https://arxiv.org/pdf/2309.03409.pdf affiliation: google deepmind 🚀highlight deepmind引入了一种名为“基于提示的优化方法”(optimization by prom... 技术域 机器学习 深度学习 自然语言处理 人工智能 神经网络 nlp gpt llm tech machine-learning deep-learning nlp ai ann nlp gpt llm">
       <time>2023-11-23</time>
       <div>
         <h2><a href="../../2023/11/23/llm_optimizer/index.html">大模型也是一种优化器（LLM as Optimizer）</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../deep-learning/index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gpt/index.html"><span>GPT</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="学术idea自动发现与生成" data-date="2023-08-26" data-categories="tech ideas machine-learning deep-learning knowledge-graph nlp" data-tags="ai ann nlp knowledge-graph" data-search="学术idea自动发现与生成 摘要 研究人员通常只有在深入了解大量文献后才能提出新的想法。学术出版物的数量呈指数级增长，这一事实加剧了这一过程的困难。在本研究中，我们设计了一个基于概念共现的学术思想启发框架，该框架已集成到一个研究辅助系统deepreport中。从我们的角度来看，在一篇学术论文中同时出现的两个 概念（concept） 的融合可以被视为一种 新思想（id... 技术域 ideas 机器学习 深度学习 知识图谱 自然语言处理 人工智能 神经网络 nlp 知识图谱 tech ideas machine-learning deep-learning knowledge-graph nlp ai ann nlp knowledge-graph">
       <time>2023-08-26</time>
       <div>
         <h2><a href="../../2023/08/26/kiscovery/index.html">学术idea自动发现与生成</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../ideas/index.html"><span>ideas</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="自回归语言模型（language model）python实现" data-date="2023-03-29" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python tensorflow-pytorch ai ann nlp gpt llm" data-search="自回归语言模型（language model）python实现 [latexpage] 自回归语言模型 自回归语言模型是一种计算概率的模型，它可以预测一个给定的单词序列中下一个词的概率。它基于一个假设：每个词的出现只与前面的词有关，而与后面的词无关。因此，模型使用前面的单词来预测下一个单词，这也被称为自回归。 在自回归语言模型中，每个单词都被表示为一个向量。模型使用这些向量作为输入，并在每个时间步预测... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python tensorflow-pytorch 人工智能 神经网络 nlp gpt llm 高级语言 tech machine-learning python deep-learning nlp python tensorflow-pytorch ai ann nlp gpt llm">
       <time>2023-03-29</time>
       <div>
         <h2><a href="../../2023/03/29/autoregressive-language-model/index.html">自回归语言模型（language model）Python实现</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="对比学习中常见的数据增强策略" data-date="2022-02-02" data-categories="tech machine-learning deep-learning knowledge-graph nlp computer-vision" data-tags="ann nlp knowledge-graph gnn computer-vision" data-search="对比学习中常见的数据增强策略 [latexpage] 对比学习 对比学习是一种通过对比正反两个例子来学习表征的自监督学习方法。对于自监督对比学习，下一个等式是对比损失： \[ \mathcal{l}_{i,j} = - \log \frac{exp(\textbf{z}_i \cdot \textbf{z}_j / \tau)}{\sum_{k=1,k\neq i}^... 技术域 机器学习 深度学习 知识图谱 自然语言处理 计算机视觉 神经网络 nlp 知识图谱 gnn 计算机视觉 tech machine-learning deep-learning knowledge-graph nlp computer-vision ann nlp knowledge-graph gnn computer-vision">
       <time>2022-02-02</time>
       <div>
         <h2><a href="../../2022/02/02/contrastive_learning_data_augmentation/index.html">对比学习中常见的数据增强策略</a></h2>
@@ -97,8 +123,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../deep-learning/index.html"><span>深度学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识图谱应用github仓库（长期更新）" data-date="2021-02-10" data-categories="tech machine-learning knowledge-graph nlp" data-tags="nlp knowledge-graph" data-search="知识图谱应用github仓库（长期更新） 知识图谱可视化demo github: https://github.com/xyjigsaw/knowledge-graph-and-visualization-demo 本项目支持2d，3d知识图谱可视化与查询，主要为javascript代码。 详细描述 ： https://omegaxyz.com/2020/03/03/knowle... 技术域 机器学习 知识图谱 自然语言处理 nlp 知识图谱 tech machine-learning knowledge-graph nlp nlp knowledge-graph">
       <time>2021-02-10</time>
       <div>
         <h2><a href="../../2021/02/10/kg-github/index.html">知识图谱应用Github仓库（长期更新）</a></h2>
@@ -106,8 +132,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于embedding的实体对齐前瞻" data-date="2020-10-09" data-categories="tech machine-learning knowledge-graph nlp" data-tags="ann nlp social-network knowledge-graph" data-search="基于embedding的实体对齐前瞻 摘录论文 ：sun, zequn, et al. &quot;a benchmarking study of embedding-based entity alignment for knowledge graphs.&quot; arxiv preprint arxiv:2003.07743 (2020). 无监督实体对齐 unsupervised ent... 技术域 机器学习 知识图谱 自然语言处理 神经网络 nlp 社交网络 知识图谱 tech machine-learning knowledge-graph nlp ann nlp social-network knowledge-graph">
       <time>2020-10-09</time>
       <div>
         <h2><a href="../../2020/10/09/embedding-ea/index.html">基于Embedding的实体对齐前瞻</a></h2>
@@ -115,8 +141,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="dedupe去重与实体对齐" data-date="2020-07-24" data-categories="高级语言 tech machine-learning python knowledge-graph nlp" data-tags="python nlp knowledge-graph" data-search="dedupe去重与实体对齐 简介 dedupe是一个python库，使用机器学习对结构化数据快速执行模糊匹配，重复数据删除和实体对齐。 输入的数据 ：单文件csv表格 执行 ：用户在控制台根据提示标注少量相似数据即可 输出的数据 ：单文件csv表格，同时对相似的记录打上标签 dedupe操作实例 ： 从名称和地址的电子表格中 删除重复的条目 将 具有客户信息 的列表... 高级语言 技术域 机器学习 python 知识图谱 自然语言处理 python nlp 知识图谱 高级语言 tech machine-learning python knowledge-graph nlp python nlp knowledge-graph">
       <time>2020-07-24</time>
       <div>
         <h2><a href="../../2020/07/24/dedupe/index.html">Dedupe去重与实体对齐</a></h2>
@@ -124,8 +150,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="个人主页信息提取器" data-date="2020-06-18" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python ann nlp" data-search="个人主页信息提取器 简介 从研究人员的主页(html)中提取信息，并将信息自动分为三类(您可以添加更多的类)。支持中英文页面。 可以分成的类别： publication education honor 详细 从互联网文本数据中提取并分类学术行为的流程如下图所示，整个过程是线性的。在正式提取学术行为之前，首先人工标注互联网中少量的学术行为，生成训练集后，采用f... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python 神经网络 nlp 高级语言 tech machine-learning python deep-learning nlp python ann nlp">
       <time>2020-06-18</time>
       <div>
         <h2><a href="../../2020/06/18/fast-profile-extractor/index.html">个人主页信息提取器</a></h2>
@@ -133,8 +159,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识图谱综述论文阅读" data-date="2020-05-19" data-categories="tech machine-learning knowledge-graph nlp" data-tags="nlp knowledge-graph" data-search="知识图谱综述论文阅读 论文摘要 论文为a survey on knowledge graphs: representation, acquisition and applications，发表日期2020年，论文pdf，点击 链接 。 代表实体间结构关系的 知识图谱 已成为认知和人类智能研究的一个日益流行的方向。在这篇论文中，作者对 知识图谱 进行了全面的回顾... 技术域 机器学习 知识图谱 自然语言处理 nlp 知识图谱 tech machine-learning knowledge-graph nlp nlp knowledge-graph">
       <time>2020-05-19</time>
       <div>
         <h2><a href="../../2020/05/19/kg-survey/index.html">知识图谱综述论文阅读</a></h2>
@@ -142,8 +168,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="bert-bilstm-crf命名实体识别应用" data-date="2020-05-18" data-categories="高级语言 tech machine-learning python deep-learning nlp" data-tags="python tensorflow-pytorch nlp" data-search="bert-bilstm-crf命名实体识别应用 引言 本文将采用bert+bilstm+crf模型进行命名实体识别（named entity recognition 简称ner），即实体识别。命名实体识别，是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 bert（bidirectional encoder representation from transf... 高级语言 技术域 机器学习 python 深度学习 自然语言处理 python tensorflow-pytorch nlp 高级语言 tech machine-learning python deep-learning nlp python tensorflow-pytorch nlp">
       <time>2020-05-18</time>
       <div>
         <h2><a href="../../2020/05/18/bert-bilstm-crf/index.html">BERT-BiLSTM-CRF命名实体识别应用</a></h2>
@@ -151,8 +177,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/tensorflow-pytorch/index.html"><span>TensorFlow-Pytorch</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于知识图谱的问答系统demo" data-date="2020-04-28" data-categories="高级语言 tech machine-learning python knowledge-graph nlp" data-tags="python github nlp knowledge-graph" data-search="基于知识图谱的问答系统demo 简介 基于知识图谱的问答系统，即kbqa。其中一个简单的实现方法是根据用户输入的自然语言问句，转化为图数据库中的关系查询，最终将数据库中的实体及关系呈现给用户。 下面给出了一个kbqa的demo。 实现依赖 python 3.6+ apache jena fuseki sparqlwrapper refo jiaba 实例数据 此知识图谱... 高级语言 技术域 机器学习 python 知识图谱 自然语言处理 python github nlp 知识图谱 高级语言 tech machine-learning python knowledge-graph nlp python github nlp knowledge-graph">
       <time>2020-04-28</time>
       <div>
         <h2><a href="../../2020/04/28/kbqa-demo/index.html">基于知识图谱的问答系统Demo</a></h2>
@@ -160,8 +186,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/github/index.html"><span>Github</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="知识融合（实体对齐）笔记" data-date="2020-04-06" data-categories="tech machine-learning knowledge-graph nlp" data-tags="ann nlp social-network knowledge-graph" data-search="知识融合（实体对齐）笔记 知识融合包括以下几个部分 本体匹配（ontology matching） 侧重发现模式层等价或相似的类、属性或关系，也成为本体映射（mapping）、本体对齐（alignment） 实体对齐（entity alignment） 侧重发现指称真实世界相同对象的不同实例，也称为实体消解（resolution）、实例匹配（instance ma... 技术域 机器学习 知识图谱 自然语言处理 神经网络 nlp 社交网络 知识图谱 tech machine-learning knowledge-graph nlp ann nlp social-network knowledge-graph">
       <time>2020-04-06</time>
       <div>
         <h2><a href="../../2020/04/06/knowledge-fusion/index.html">知识融合（实体对齐）笔记</a></h2>
@@ -169,8 +195,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/knowledge-graph/index.html"><span>知识图谱</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于lda的文本主题聚类python实现" data-date="2020-02-24" data-categories="高级语言 tech machine-learning python nlp" data-tags="python clustering nlp" data-search="基于lda的文本主题聚类python实现 lda简介 lda（latent dirichlet allocation）是一种 文档主题生成模型 ，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。所谓生成模型，就是说，我们认为一篇文章的每个词都是通过“以一定概率选择了某个主题，并从这个主题中以一定概率选择某个词语”这样一个过程得到。文档到主题服从多项式分布，主题到词服从多... 高级语言 技术域 机器学习 python 自然语言处理 python 聚类 nlp 高级语言 tech machine-learning python nlp python clustering nlp">
       <time>2020-02-24</time>
       <div>
         <h2><a href="../../2020/02/24/lda-topic/index.html">基于LDA的文本主题聚类Python实现</a></h2>
@@ -178,8 +204,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/clustering/index.html"><span>聚类</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="推荐系统摘要" data-date="2020-02-16" data-categories="tech machine-learning nlp" data-tags="nlp" data-search="推荐系统摘要 作为一个推荐系统的门外汉，或者说是用户，我觉得推荐系统有以下几个特性。 推荐系统的真实目的并不是做到让用户满意，而是提高销售能力，业务水平和收益。 一个好的推荐系统并不是推荐用户最喜爱/想要的东西，量化评判一个推荐系统的好坏依然是工业界，学术界难点。 相同的推荐算法应用于不同的系统，结果必然不同。 简单易懂的推荐算法往往能获得意想不到的效... 技术域 机器学习 自然语言处理 nlp tech machine-learning nlp nlp">
       <time>2020-02-16</time>
       <div>
         <h2><a href="../../2020/02/16/recommendation-system-abstract/index.html">推荐系统摘要</a></h2>
@@ -187,8 +213,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>自然语言处理</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于wmd（词移距离）的句子相似度分析matlab代码" data-date="2018-12-09" data-categories="高级语言 tech matlab machine-learning nlp" data-tags="matlab nlp" data-search="基于wmd（词移距离）的句子相似度分析matlab代码 wmd简介 词移距离（word mover’s distance） https://omegaxyz.com/2018/11/22/wmd/ wmd matlab代码 注意emd_mex是调用搬土距离的库earth mover&#x27;s distance rwmd（relaxed word moving distance ） 先去掉一个约束，计... 高级语言 技术域 matlab 机器学习 自然语言处理 matlab nlp 高级语言 tech matlab machine-learning nlp matlab nlp">
       <time>2018-12-09</time>
       <div>
         <h2><a href="../../2018/12/09/wmd-matlab/index.html">基于WMD（词移距离）的句子相似度分析MATLAB代码</a></h2>
@@ -196,8 +222,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于有监督的词移距离（swmd）简介" data-date="2018-11-27" data-categories="tech machine-learning nlp" data-tags="nlp" data-search="基于有监督的词移距离（swmd）简介 声明：本文章为机器学习期末作业一部分 wmd距离 https://omegaxyz.com/2018/11/22/wmd/ 我们理解了 wmd 距离 , 那么问题来了, 学习这个权重矩阵用来聚类虽好 ( 告诉我们哪些文档比较相近 ), 但是 , 用来 分类 却很差 ! 为什么?因为一些文章虽然近义词很多, 但是表达的不是一个语义和主题。... 技术域 机器学习 自然语言处理 nlp tech machine-learning nlp nlp">
       <time>2018-11-27</time>
       <div>
         <h2><a href="../../2018/11/27/swmd/index.html">基于有监督的词移距离（SWMD）简介</a></h2>
@@ -205,8 +231,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>自然语言处理</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于wmd（词移距离）的句子相似度分析简介" data-date="2018-11-22" data-categories="tech machine-learning nlp" data-tags="nlp" data-search="基于wmd（词移距离）的句子相似度分析简介 word2vec word2vec是只有一个隐层的全连接神经网络,对语料中的所有词汇进行训练并生成相应的词向量（word embedding） wi 的大小是 vxn, v 是单词字典的大小, 每次输入是一个单词, n是设定的隐层大小。word2vec的模型通过一种神经网络语言模型（neural network language mode... 技术域 机器学习 自然语言处理 nlp tech machine-learning nlp nlp">
       <time>2018-11-22</time>
       <div>
         <h2><a href="../../2018/11/22/wmd/index.html">基于WMD（词移距离）的句子相似度分析简介</a></h2>
@@ -214,8 +240,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>自然语言处理</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="nlp之word2vec简介" data-date="2018-11-13" data-categories="tech machine-learning nlp" data-tags="ann nlp" data-search="nlp之word2vec简介 简介 word2vec，是为一群用来产生词向量的相关模型。这些模型为浅而双层的神经网络，用来训练以重新建构语言学之词文本。网络以词表现，并且需猜测相邻位置的输入词，在word2vec中词袋模型假设下，词的顺序是不重要的。训练完成之后，word2vec模型可用来映射每个词到一个向量，可用来表示词对词之间的关系，该向量为神经网络之隐藏层。 w... 技术域 机器学习 自然语言处理 神经网络 nlp tech machine-learning nlp ann nlp">
       <time>2018-11-13</time>
       <div>
         <h2><a href="../../2018/11/13/word2vec/index.html">NLP之word2vec简介</a></h2>
@@ -223,8 +249,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="index.html"><span>自然语言处理</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="基于词典的社交媒体内容的情感分析（python实现）" data-date="2018-03-02" data-categories="高级语言 tech machine-learning python nlp" data-tags="python nlp" data-search="基于词典的社交媒体内容的情感分析（python实现） 之前写了一篇基于nltk情感预测的文章 https://omegaxyz.com/2017/12/15/nltk_emotion/?hilite=%27nltk%27b 情感词典是从微博、新闻、论坛等数据来源的上百万篇情感标注数据当中自动构建的情感极性词典。因为标注包括微博数据，该词典囊括了很多网络用语及非正式简称，对非规范文本也有较高的... 高级语言 技术域 机器学习 python 自然语言处理 python nlp 高级语言 tech machine-learning python nlp python nlp">
       <time>2018-03-02</time>
       <div>
         <h2><a href="../../2018/03/02/weibo_emotion/index.html">基于词典的社交媒体内容的情感分析（Python实现）</a></h2>
@@ -232,8 +258,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="python机器学习与拼写检查器" data-date="2017-12-26" data-categories="高级语言 tech machine-learning python nlp" data-tags="python naivebayes nlp" data-search="python机器学习与拼写检查器 稍有闲暇，找来一篇很早就保存下来的好文--刘未鹏的 《数学之美番外篇：平凡而神奇的贝叶斯方法》 拿来研读。读到一半，发现其中有一篇 peter norvig原创 、徐宥翻译的 《怎样写一个拼写检查器》 很有意思。 原理：概率论之朴素贝叶斯 原文链接： http://norvig.com/spell-correct.html 中文链接： h... 高级语言 技术域 机器学习 python 自然语言处理 python 朴素贝叶斯 nlp 高级语言 tech machine-learning python nlp python naivebayes nlp">
       <time>2017-12-26</time>
       <div>
         <h2><a href="../../2017/12/26/python_check_word/index.html">Python机器学习与拼写检查器</a></h2>
@@ -241,8 +267,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/naivebayes/index.html"><span>朴素贝叶斯</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="nltk在python中对文字所表达的情感预测" data-date="2017-12-15" data-categories="高级语言 tech machine-learning python nlp" data-tags="python naivebayes nlp" data-search="nltk在python中对文字所表达的情感预测 nltk是python环境下nlp工具包，包含了丰富的文本处理和文本挖掘api。 自然语言处理是计算机科学领域与人工智能领域中的一个重要方向。自然语言工具箱（nltk，natural language toolkit） 是一个基于python语言的类库，它也是当前最为流行的自然语言编程与开发工具。在进行自然语言处理研究和应用时， 恰当利用... 高级语言 技术域 机器学习 python 自然语言处理 python 朴素贝叶斯 nlp 高级语言 tech machine-learning python nlp python naivebayes nlp">
       <time>2017-12-15</time>
       <div>
         <h2><a href="../../2017/12/15/nltk_emotion/index.html">NLTK在python中对文字所表达的情感预测</a></h2>
@@ -250,8 +276,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/naivebayes/index.html"><span>朴素贝叶斯</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../tag/nlp/index.html"><span>NLP</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>没有匹配的文章</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -260,13 +289,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">隐私政策</a></p>
       </section>
-      <section class="footer-map" aria-label="Visitor map">
+      <section class="footer-map" aria-label="访问统计地图">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>访问统计地图</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">

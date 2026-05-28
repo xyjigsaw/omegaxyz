@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-polish">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20260528-termfilters">
 </head>
 <body>
   
@@ -34,8 +34,34 @@
       </nav>
     </header>
     
-  <main class="wrap band term-page"><div class="section-head"><h1>English</h1><p>Categories</p></div><div class="archive-list">
-    <article class="archive-item">
+  
+                <main class="wrap band term-page" data-archive>
+                  <div class="section-head">
+                    <div><h1>English</h1><p>Categories · Filter by tag</p></div>
+                    <div class="archive-count"><strong data-archive-count>7</strong><span>posts</span></div>
+                  </div>
+                  <section class="archive-tools">
+                    <div class="archive-search">
+                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="Search titles, summaries, and tags..." aria-label="Search">
+                    </div>
+                    <label class="archive-sort">
+                      <span>Sort</span>
+                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="Sort">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title">Title A-Z</option>
+                      </select>
+                    </label>
+                  </section>
+                  <section class="archive-filters tag-only-filters" aria-label="Tags">
+                    <div class="filter-group filter-group-all"><button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">All</button></div>
+                    <div class="filter-group">
+                      <h2>Tags</h2>
+                      <div><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="computer-architecture" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">组成原理与体系结构<span>4</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ideas" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Ideas<span>2</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="gnn" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">GNN<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="knowledge-graph" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">Knowledge Graphs<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="social-network" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">社交网络<span>1</span></button><button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="ann" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">神经网络<span>1</span></button></div>
+                    </div>
+                  </section>
+                  <div class="archive-list archive-index">
+    <article class="archive-item" data-archive-item data-title="quick reading - resilient heterogeneous dnn accelerator architecture against attacks" data-date="2021-03-31" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="quick reading - resilient heterogeneous dnn accelerator architecture against attacks paper: wang, xingbin, et al. &quot;dnnguard: an elastic heterogeneous dnn accelerator architecture against adversarial attacks.&quot; proceedings of the twenty-fifth international... technology machine learning 组成原理与体系结构 deep learning english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-03-31</time>
       <div>
         <h2><a href="../../2021/03/31/dnn-guard/index.html">Quick Reading - Resilient Heterogeneous DNN Accelerator Architecture Against Attacks</a></h2>
@@ -43,8 +69,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="defending the truth – seeing is not believing" data-date="2021-03-03" data-categories="ideas programmer english" data-tags="ideas" data-search="defending the truth – seeing is not believing deepfake imagine if someone replaces the character in a certain video with your face image just for fun, what would you think? this is what deepfake is doing. its functio... ideas developer life english ideas ideas programmer english ideas">
       <time>2021-03-03</time>
       <div>
         <h2><a href="../../2021/03/03/defend-the-truth/index.html">Defending the truth – seeing is not believing</a></h2>
@@ -52,8 +78,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../ideas/index.html"><span>Ideas</span></a><a class="pill term-pill term-category" data-label="CAT" href="../programmer/index.html"><span>Developer Life</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>English</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ideas/index.html"><span>Ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="quick reading-tensor flow processor (tsp)" data-date="2021-02-03" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="quick reading-tensor flow processor (tsp) paper: abts, dennis, et al. &quot;think fast: a tensor streaming processor (tsp) for accelerating deep learning workloads.&quot; 2020 acm/ieee 47th annual international symposium o... technology machine learning 组成原理与体系结构 deep learning english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2021-02-03</time>
       <div>
         <h2><a href="../../2021/02/03/tsp/index.html">Quick Reading-Tensor Flow Processor (TSP)</a></h2>
@@ -61,8 +87,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="breaking news: the english version of omegaxyz is back online" data-date="2021-01-22" data-categories="tech ideas web programmer english" data-tags="ideas" data-search="breaking news: the english version of omegaxyz is back online en.omegaxyz.com our service is adapted to all devices now. technology ideas web developer life english ideas tech ideas web programmer english ideas">
       <time>2021-01-22</time>
       <div>
         <h2><a href="../../2021/01/22/breaking-news-the-english-version-of-omegaxyz-is-back-online/index.html">Breaking News: The English version of OmegaXYZ is back online</a></h2>
@@ -70,8 +96,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../ideas/index.html"><span>Ideas</span></a><a class="pill term-pill term-category" data-label="CAT" href="../web/index.html"><span>Web</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ideas/index.html"><span>Ideas</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="speed ​​reading-nfa’s gpu accelerator" data-date="2020-12-31" data-categories="tech computer-architecture english" data-tags="computer-architecture" data-search="speed ​​reading-nfa’s gpu accelerator paper: liu, hongyuan, sreepathi pai, and adwait jog. &quot;why gpus are slow at executing nfas and how to make them faster.&quot; proceedings of the twenty-fifth international conf... technology 组成原理与体系结构 english 组成原理与体系结构 tech computer-architecture english computer-architecture">
       <time>2020-12-31</time>
       <div>
         <h2><a href="../../2020/12/31/nfa_gpu/index.html">Speed ​​Reading-NFA’s GPU accelerator</a></h2>
@@ -79,8 +105,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-category" data-label="CAT" href="index.html"><span>English</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="speed ​​reading-a3 neural network processor based on attention mechanism" data-date="2020-10-16" data-categories="tech machine-learning computer-architecture deep-learning english" data-tags="computer-architecture" data-search="speed ​​reading-a3 neural network processor based on attention mechanism paper: ham, tae jun, et al. &quot;a^ 3: accelerating attention mechanisms in neural networks with approximation.&quot; 2020 ieee international symposium on high performance computer a... technology machine learning 组成原理与体系结构 deep learning english 组成原理与体系结构 tech machine-learning computer-architecture deep-learning english computer-architecture">
       <time>2020-10-16</time>
       <div>
         <h2><a href="../../2020/10/16/a3-hpca2020/index.html">Speed ​​Reading-A3 Neural Network Processor Based on Attention Mechanism</a></h2>
@@ -88,8 +114,8 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="../computer-architecture/index.html"><span>组成原理与体系结构</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/computer-architecture/index.html"><span>组成原理与体系结构</span></a></div>
       </div>
     </article>
-    
-    <article class="archive-item">
+
+    <article class="archive-item" data-archive-item data-title="gcc graph neural network pre-training overview" data-date="2020-09-30" data-categories="tech machine-learning deep-learning knowledge-graph english" data-tags="ann social-network knowledge-graph gnn" data-search="gcc graph neural network pre-training overview paper gcc: graph contrastive coding for graph neural network pre-training conference : kdd keywords : contrastive learning, instance discrimination, transferability, pre-... technology machine learning deep learning knowledge graphs english 神经网络 社交网络 knowledge graphs gnn tech machine-learning deep-learning knowledge-graph english ann social-network knowledge-graph gnn">
       <time>2020-09-30</time>
       <div>
         <h2><a href="../../2020/09/30/gcc-pre-training/index.html">GCC graph neural network pre-training overview</a></h2>
@@ -97,8 +123,11 @@
         <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="../deep-learning/index.html"><span>Deep Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/ann/index.html"><span>神经网络</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/social-network/index.html"><span>社交网络</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/knowledge-graph/index.html"><span>Knowledge Graphs</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../tag/gnn/index.html"><span>GNN</span></a></div>
       </div>
     </article>
-    </div></main>
-  <script src="../../../assets/site.js?v=20260528-polish"></script>
+    </div>
+                  <p class="archive-empty" data-archive-empty hidden>No matching posts</p>
+                </main>
+
+  <script src="../../../assets/site.js?v=20260528-termfilters"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -107,13 +136,13 @@
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
-        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
-        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="../../privacy/index.html">隐私政策</a></p>
+        <p>Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.</p>
+        <p>Copyright © 2026 OmegaXYZ. Please cite the source when reposting. <span class="footer-sep">|</span> ICP record: 皖ICP备17007601 <span class="footer-sep">|</span> Business:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../privacy/index.html">Privacy Policy</a></p>
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
           <div class="map-placeholder" aria-hidden="true">
-            <span>Visitor Map</span>
+            <span>Visitor map</span>
             <i></i><i></i><i></i><i></i><i></i>
           </div>
           <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
@@ -122,7 +151,7 @@
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
-        <a class="more-link" href="../../friends/index.html">更多(非首页友链)...</a>
+        <a class="more-link" href="../../friends/index.html">More friends...</a>
       </nav>
     </div>
   </footer>
