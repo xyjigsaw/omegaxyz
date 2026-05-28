@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>Xu Yi&#x27;s column</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a>
           <a href="../../../../../zh/2018/01/18/mic/index.html">中文</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-01-18</div>
         <h1>Detailed explanation of maximum mutual information coefficient (MIC)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../tag/information-theory/index.html">信息论</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../../../tag/information-theory/index.html"><span>信息论</span></a></div>
         <div class="article-content"><b>maximum information coefficient</b><b>maximal information coefficient (MIC), also known as the maximum mutual information coefficient</b>
 <strong>Purpose:</strong>Maximal Information Coefficient (MIC) is the maximum information coefficient, which belongs to Maximal Information-based Nonparametric Exploration (MINE). It is the largest information-based non-parametric exploration and is used to measure the linear or non-linear strength of two variables X and Y.<strong>The MIC metric is universal</strong>. It can not only discover linear functional relationships between variables, but also nonlinear functional relationships (exponential, periodic); it can not only discover functional relationships, but also non-functional relationships (such as the superposition of functional relationships, or interesting graphic patterns).<strong>The MIC metric is balanced</strong>. For functional or non-functional relationships with the same noise level, the MIC metric has approximate values. Therefore, the MIC measure can not only be used to compare the strength of the same correlation relationship vertically, but also to compare the strength of different relationships horizontally.<strong>advantage:</strong>Generality: With enough statistical samples, a wide range of relationships can be captured without being limited to specific function types (such as linear, exponential, periodic, etc.).
 Equitability: Give similar scores to relationships with equal levels of noise of different types.<strong>shortcoming:</strong>"The statistical ability of MIC has been questioned by some. When the null hypothesis does not hold, the statistics of MIC will be affected. This problem does not exist in some data sets, but it does exist in some data sets."<strong>Earliest source:</strong><a href="http://science.sciencemag.org/content/334/6062/1518.full">http://science.sciencemag.org/content/334/6062/1518.full</a>
@@ -79,6 +79,7 @@ References:<a href="http://blog.csdn.net/lijiancheng0614/article/details/5082627
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -92,8 +93,12 @@ References:<a href="http://blog.csdn.net/lijiancheng0614/article/details/5082627
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -103,7 +108,6 @@ References:<a href="http://blog.csdn.net/lijiancheng0614/article/details/5082627
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>Xu Yi&#x27;s column</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a>
           <a href="../../../../../zh/2018/02/13/python_weibo/index.html">中文</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-02-13</div>
         <h1>Python crawls Weibo text and images (without using cookies)</h1>
-        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../../../tag/python/index.html"><span>Python</span></a></div>
         <div class="article-content">The web version of Weibo is pure HTML and calls Weibo’s own API to obtain images.
 
 The URL: https://m.weibo.cn/api/container/ is the Weibo API which contains personal information and the storage address of Weibo text and pictures.<img alt="" class="alignnone wp-image-3449" height="264" src="https://cdn.omegaxyz.com/2018/02/weibo1.jpg" width="669"/>Entering the api page, we can clearly see that all kinds of information are stored in json. We can then use the json library in python to extract it. This is much more convenient than using cookies to simulate login. We only need to enter the Weibo ID of the crawled user and run it to automatically crawl.
@@ -323,6 +323,7 @@ GUI program:<a href="../../14/python_weibo_gui/index.html">https://omegaxyz.com/
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -336,8 +337,12 @@ GUI program:<a href="../../14/python_weibo_gui/index.html">https://omegaxyz.com/
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -347,7 +352,6 @@ GUI program:<a href="../../14/python_weibo_gui/index.html">https://omegaxyz.com/
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

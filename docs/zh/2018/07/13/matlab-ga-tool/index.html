@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>徐奕的专栏</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a>
           <a href="../../../../../en/2018/07/13/matlab-ga-tool/index.html">English</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-07-13</div>
         <h1>MATLAB遗传算法工具箱简介</h1>
-        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/matlab/index.html">Matlab</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../category/evolutionary-algorithm/index.html">进化算法</a><a class="pill" href="../../../../tag/matlab/index.html">Matlab</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../../../../category/高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/matlab/index.html"><span>Matlab</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/evolutionary-algorithm/index.html"><span>进化算法</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/matlab/index.html"><span>Matlab</span></a></div>
         <div class="article-content">MATLAB 是美国MathWorks公司出品的商业数学软件，用于算法开发、数据可视化、数据分析以及数值计算的高级技术计算语言和交互式环境，主要包括MATLAB和Simulink两大部分。MATLAB软件是一个功能很强大的工具，其中可以使用GA工具箱进行遗传算法的数据优化，下面给出具体的操作简单的实例。
 <h2><strong>①利用GUI打开并使用MATLAB遗传算法工具箱。</strong></h2>
 <h3><strong>打开MATLAB选择应用程序，点击Optimization。</strong></h3>
@@ -142,6 +142,7 @@ options = gaoptimset('PopulationSize',200,'EliteCount',20,'CrossoverFraction',0.
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -155,8 +156,12 @@ options = gaoptimset('PopulationSize',200,'EliteCount',20,'CrossoverFraction',0.
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -166,7 +171,6 @@ options = gaoptimset('PopulationSize',200,'EliteCount',20,'CrossoverFraction',0.
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

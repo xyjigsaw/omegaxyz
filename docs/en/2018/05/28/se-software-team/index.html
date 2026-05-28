@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>Xu Yi&#x27;s column</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a>
           <a href="../../../../../zh/2018/05/28/se-software-team/index.html">中文</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-05-28</div>
         <h1>Software Engineering-Organizational Form of Software Team</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/software-engineering/index.html">Software Engineering</a><a class="pill" href="../../../../tag/software-engineering/index.html">Software Engineering</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/software-engineering/index.html"><span>Software Engineering</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../../../tag/software-engineering/index.html"><span>Software Engineering</span></a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc=""></nav>
 <h2><strong>Why form a software team?</strong></h2>Most software products cannot be completed by a software professional alone within a limited time. Therefore, the product must be assigned to a group of professionals, forming a team. Before talking about the organizational form of the software team in detail, let’s introduce Brooks’ Law.<h2><strong>Brooks's Law</strong></h2>Brooks was the person in charge of the development of OS/360, the operating system of IBM System/360 in the 1960s. He later wrote the book "The Mythical Man-Month" based on his experience at that time.<strong>If such a project requires 12 man-months, then 3 people can complete the task in 4 months. Then, set observation points A/B/C/D every month.</strong>But the A result that needed to be completed in one month took two months to complete. This is already two months later than expected. what to do? Managers have the following countermeasures.<ol>
 <li>Although the original estimate was correct, it was just the initial engineering that was wrong. In other words, it is estimated that there are 9 person-months left. Because there are 9 person-months of work, it will take 9/2=4.5 people to complete the work in two months. Add two more people to the three-person team.</li>
@@ -74,6 +74,7 @@ Disadvantages: Narrow application scope, needs to be led by outstanding and char
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -87,8 +88,12 @@ Disadvantages: Narrow application scope, needs to be led by outstanding and char
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -98,7 +103,6 @@ Disadvantages: Narrow application scope, needs to be led by outstanding and char
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

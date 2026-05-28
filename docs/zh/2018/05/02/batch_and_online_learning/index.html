@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>徐奕的专栏</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a>
           <a href="../../../../../en/2018/05/02/batch_and_online_learning/index.html">English</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-05-02</div>
         <h1>批量学习与在线学习概述</h1>
-        <div class="terms"><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/machine-learning/index.html">机器学习</a><a class="pill" href="../../../../tag/online-learning/index.html">在线学习</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../../../../category/tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/online-learning/index.html"><span>在线学习</span></a></div>
         <div class="article-content"><h2><strong>一、批量学习（batch learning）</strong></h2>
 在监督学习的批量方法中，多层感知器的突出权值的调整在训练样本集合的所有N个例子都出现后进行，这构成了训练的一个回合。换句话说，批量学习的代价函数是由平均误差能量定义的。多层感知器的突触权值的调整是以回合-回合为基础的。相应地，学习曲线的一种实现方式是通过描绘平均误差能量对回合数的图形而得到，对于训练的每一个回合，训练样本集合的样例是随机选取的。学习曲线通过对足够大量的这样实现的总体平均来计算，这里每次实现是在随机选取不同初始条件下完成的。这一特点符合交叉验证的规律，实验中的实验集、验证集、测试集一般都是批量处理的典例。
 
@@ -73,6 +73,7 @@
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -86,8 +87,12 @@
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -97,7 +102,6 @@
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

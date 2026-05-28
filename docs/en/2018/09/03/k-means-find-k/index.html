@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>Xu Yi&#x27;s column</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a><a href="../../../../search/index.html">Search</a>
+          <a href="../../../../index.html">Home</a><a href="../../../../archive/index.html">Archive</a><a href="../../../../pages/index.html">Pages</a><a href="../../../../categories/index.html">Categories</a>
           <a href="../../../../../zh/2018/09/03/k-means-find-k/index.html">中文</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-09-03</div>
         <h1>kmeans clustering selects the optimal K value python implementation</h1>
-        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">Programming Languages</a><a class="pill" href="../../../../category/tech/index.html">Technology</a><a class="pill" href="../../../../category/machine-learning/index.html">Machine Learning</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/clustering/index.html">聚类</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/高级语言/index.html"><span>Programming Languages</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/tech/index.html"><span>Technology</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/machine-learning/index.html"><span>Machine Learning</span></a><a class="pill term-pill term-category" data-label="CAT" href="../../../../category/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="TAG" href="../../../../tag/clustering/index.html"><span>聚类</span></a></div>
         <div class="article-content">The determination of the K value in the Kmeans algorithm is very important.<h2><strong>The following uses the sklearn module in python to select the K value for data clustering.</strong></h2>Data set is a self-made data set with the following format:<img alt="" class="alignnone wp-image-4967" height="241" src="https://cdn.omegaxyz.com/2018/08/kmeansdatas-e1624606602101.jpg" width="322"/>Dimension is 3.<h2><strong>①Elbow method</strong></h2>The core indicator of the elbow method is SSE (sum of the squared errors, sum of squared errors).<img alt="" class="alignnone wp-image-4980" height="80" src="https://cdn.omegaxyz.com/2018/09/SSE.png" width="284"/>Among them, Ci is the i-th cluster, p is the sample point in Ci, mi is the centroid of Ci (the mean of all samples in Ci), and SSE is the clustering error of all samples, which represents the quality of the clustering effect.
 
 The core idea of ​​the elbow method is: as the number of clusters k increases, the sample division will be more refined, the degree of aggregation of each cluster will gradually increase, and the sum of squared errors SSE will naturally become smaller. Moreover, when k is less than the true number of clusters, the increase in k will greatly increase the degree of aggregation of each cluster, so the decline in SSE will be large. When k reaches the true number of clusters, the return on the degree of aggregation obtained by increasing k will quickly become smaller, so the decline in SSE will decrease sharply, and then level off as the value of k continues to increase. In other words, the relationship between SSE and k is in the shape of an elbow, and the k value corresponding to this elbow is the true number of clusters of the data. Of course, this is why this method is called the elbow method.<strong>python code:</strong>
@@ -121,6 +121,7 @@ https://omegaxyz.com/2018/08/28/python%E5%88%A9%E7%94%A8sklearn%E8%BF%9B%E8%A1%8
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -134,8 +135,12 @@ https://omegaxyz.com/2018/08/28/python%E5%88%A9%E7%94%A8sklearn%E8%BF%9B%E8%A1%8
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -145,7 +150,6 @@ https://omegaxyz.com/2018/08/28/python%E5%88%A9%E7%94%A8sklearn%E8%BF%9B%E8%A1%8
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   

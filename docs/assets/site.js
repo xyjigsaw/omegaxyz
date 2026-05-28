@@ -30,13 +30,14 @@
     const items = Array.from(archive.querySelectorAll("[data-archive-item]"));
     const query = (queryInput && queryInput.value ? queryInput.value : "").trim().toLowerCase();
     const sort = sortSelect ? sortSelect.value : "newest";
-    const activeTag = archive.dataset.activeTag || "";
+    const activeKind = archive.dataset.activeKind || "";
+    const activeTerm = archive.dataset.activeTerm || "";
     let visible = items.filter((item) => {
       const itemSearch = item.dataset.search || "";
-      const itemTags = (item.dataset.tags || "").split(/\s+/);
+      const itemTerms = (activeKind === "category" ? item.dataset.categories || "" : item.dataset.tags || "").split(/\s+/);
       const matchesQuery = !query || itemSearch.includes(query);
-      const matchesTag = !activeTag || itemTags.includes(activeTag);
-      return matchesQuery && matchesTag;
+      const matchesTerm = !activeTerm || itemTerms.includes(activeTerm);
+      return matchesQuery && matchesTerm;
     });
 
     visible.sort((a, b) => {
@@ -63,10 +64,17 @@
   window.omegaArchiveTag = (chip) => {
     const archive = chip && chip.closest ? chip.closest("[data-archive]") : null;
     if (!archive) return;
-    const nextTag = chip.dataset.archiveTag || "";
-    archive.dataset.activeTag = archive.dataset.activeTag === nextTag ? "" : nextTag;
-    archive.querySelectorAll("[data-archive-tag]").forEach((item) => {
-      item.classList.toggle("is-active", (item.dataset.archiveTag || "") === archive.dataset.activeTag);
+    const nextKind = chip.dataset.archiveKind || "";
+    const nextTerm = chip.dataset.archiveTerm || "";
+    const isSame = (archive.dataset.activeKind || "") === nextKind && (archive.dataset.activeTerm || "") === nextTerm;
+    archive.dataset.activeKind = isSame ? "" : nextKind;
+    archive.dataset.activeTerm = isSame ? "" : nextTerm;
+    archive.querySelectorAll("[data-archive-term]").forEach((item) => {
+      item.classList.toggle(
+        "is-active",
+        (item.dataset.archiveKind || "") === archive.dataset.activeKind &&
+          (item.dataset.archiveTerm || "") === archive.dataset.activeTerm
+      );
     });
     applyArchiveFilters(archive);
   };
@@ -74,7 +82,8 @@
   document.querySelectorAll("[data-archive]").forEach((archive) => {
     const queryInput = archive.querySelector("[data-archive-query]");
     const sortSelect = archive.querySelector("[data-archive-sort]");
-    archive.dataset.activeTag = archive.dataset.activeTag || "";
+    archive.dataset.activeKind = archive.dataset.activeKind || "";
+    archive.dataset.activeTerm = archive.dataset.activeTerm || "";
     if (queryInput) queryInput.addEventListener("input", () => applyArchiveFilters(archive));
     if (sortSelect) sortSelect.addEventListener("change", () => applyArchiveFilters(archive));
     applyArchiveFilters(archive);

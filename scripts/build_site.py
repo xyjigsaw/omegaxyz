@@ -16,7 +16,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260528-fixes2"
+ASSET_VERSION = "20260528-polish"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 CLUSTRMAPS_QUERY = "cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"
@@ -87,7 +87,7 @@ I18N = {
         "language": "English",
         "search_placeholder": "搜索文章、页面、标签...",
         "explore": "探索知识库",
-        "intro": "徐奕的专栏",
+        "intro": "OmegaXYZ",
         "archive_search_placeholder": "搜索标题、摘要、标签...",
         "sort": "排序",
         "sort_newest": "最新优先",
@@ -115,7 +115,7 @@ I18N = {
         "language": "中文",
         "search_placeholder": "Search posts, pages, and tags...",
         "explore": "Explore the archive",
-        "intro": "Xu Yi's column",
+        "intro": "OmegaXYZ",
         "archive_search_placeholder": "Search titles, summaries, and tags...",
         "sort": "Sort",
         "sort_newest": "Newest",
@@ -235,6 +235,27 @@ def term_label(term, lang):
     if lang == "en":
         return TERM_EN.get(term["slug"], term["name"])
     return term["name"]
+
+
+def term_pill(term, lang, kind, href=""):
+    label = term_label(term, lang)
+    text = esc(label)
+    cls = f"pill term-pill term-{kind}"
+    kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
+    if href:
+        return f'<a class="{cls}" data-label="{esc(kind_label)}" href="{href}"><span>{text}</span></a>'
+    return f'<span class="{cls}" data-label="{esc(kind_label)}"><span>{text}</span></span>'
+
+
+def render_term_pills(entry, lang, current, limit_categories=3, limit_tags=5):
+    pills = []
+    for category in entry["categories"][:limit_categories]:
+        href = rel_url(current, path_to_file(term_path("category", category["slug"], lang))) if current else ""
+        pills.append(term_pill(category, lang, "category", href))
+    for tag in entry["tags"][:limit_tags]:
+        href = rel_url(current, path_to_file(term_path("tag", tag["slug"], lang))) if current else ""
+        pills.append(term_pill(tag, lang, "tag", href))
+    return "".join(pills)
 
 
 def normalize_legacy_path(value):
@@ -359,7 +380,6 @@ def nav(current_file, lang, title, alt_path):
         (t["archive"], archive_path(lang)),
         (t["pages"], f"{lang}/pages/"),
         (t["categories"], f"{lang}/categories/"),
-        (t["search"], f"{lang}/search/"),
     ]
     link_html = "".join(
         f'<a href="{rel_url(current_file, path_to_file(path))}">{esc(label)}</a>' for label, path in links
@@ -370,7 +390,7 @@ def nav(current_file, lang, title, alt_path):
       <nav class="nav">
         <a class="brand" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
           <img src="{logo_url}" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>{esc(t['tagline'])}</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
           {link_html}
@@ -402,8 +422,12 @@ def footer(current_file, lang):
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?{CLUSTRMAPS_QUERY}" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?{CLUSTRMAPS_QUERY}"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?{CLUSTRMAPS_QUERY}" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?{CLUSTRMAPS_QUERY}"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -467,8 +491,8 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
 <body>
   {nav(current_file, lang, title, alt_path)}
   {body}
+  <script src="{js}"></script>
   {footer(current_file, lang)}
-  <script defer src="{js}"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   {analytics_scripts()}
@@ -481,8 +505,7 @@ def render_card(entry, lang, current_file, compact=False):
     title = entry[f"title_{lang}"]
     excerpt = short_text(entry[f"excerpt_{lang}"], 112 if compact else 150)
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
-    terms = entry["categories"][:2] or entry["tags"][:2]
-    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    pills = render_term_pills(entry, lang, current_file, 2, 2)
     image = first_image(entry)
     image_html = f'<a class="card-media" href="{href}"><img src="{esc(image)}" alt=""></a>' if image and not compact else ""
     return f"""
@@ -499,8 +522,7 @@ def render_card(entry, lang, current_file, compact=False):
 def render_feature(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
-    terms = entry["categories"][:2] or entry["tags"][:2]
-    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    pills = render_term_pills(entry, lang, current_file, 2, 2)
     image_html = f'<img src="{esc(image)}" alt="">' if image else '<div class="media-fallback">OmegaXYZ</div>'
     return f"""
     <article class="feature-card">
@@ -541,8 +563,7 @@ def render_latest_row(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
     image_html = f'<img src="{esc(image)}" alt="">' if image else '<span>OmegaXYZ</span>'
-    terms = entry["categories"][:2] or entry["tags"][:2]
-    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    pills = render_term_pills(entry, lang, current_file, 2, 2)
     return f"""
     <article class="latest-row">
       <a class="latest-media" href="{href}">{image_html}</a>
@@ -580,9 +601,10 @@ def render_home(site, lang, current=None):
     <main class="wrap">
       <section class="search-hero">
         <div class="search-shell">
-          <img class="hero-logo" src="{HOME_LOGO_URL}" alt="" width="74" height="74">
-          <div class="eyebrow">{esc(t['tagline'])}</div>
-          <h1>OmegaXYZ</h1>
+          <div class="hero-title">
+            <img class="hero-logo" src="{HOME_LOGO_URL}" alt="" width="74" height="74">
+            <h1>OmegaXYZ</h1>
+          </div>
           <section class="search-box home-search" data-search="{search_index}">
             <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
             <div class="search-results" data-search-results></div>
@@ -625,20 +647,14 @@ def render_entry(entry, lang, legacy):
     title = entry[f"title_{lang}"]
     content = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
     excerpt = entry[f"excerpt_{lang}"]
-    term_links = []
-    for c in entry["categories"]:
-        href = rel_url(current, path_to_file(term_path("category", c["slug"], lang)))
-        term_links.append(f'<a class="pill" href="{href}">{esc(term_label(c, lang))}</a>')
-    for tag in entry["tags"][:8]:
-        href = rel_url(current, path_to_file(term_path("tag", tag["slug"], lang)))
-        term_links.append(f'<a class="pill" href="{href}">{esc(term_label(tag, lang))}</a>')
+    term_links = render_term_pills(entry, lang, current, 8, 12)
     comments = render_comments(entry, lang)
     body = f"""
     <main class="wrap layout">
       <article class="article">
         <div class="meta">{esc(date_only(entry['date']))}</div>
         <h1>{esc(title)}</h1>
-        <div class="terms">{''.join(term_links)}</div>
+        <div class="terms">{term_links}</div>
         <div class="article-content">{content}</div>
         {comments}
       </article>
@@ -738,17 +754,27 @@ def render_archive(site, lang):
     posts = [e for e in site["entries"] if e["type"] == "post"]
     current = path_to_file(archive_path(lang))
     items = "".join(render_archive_item(e, lang, current, interactive=True) for e in posts)
-    term_counts = {}
+    category_counts = {}
+    tag_counts = {}
     for entry in posts:
-        for term in entry["categories"] + entry["tags"]:
+        for term in entry["categories"]:
             key = term["slug"]
-            term_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
-            term_counts[key]["count"] += 1
-    top_terms = sorted(term_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
-    chips = [f'<button class="filter-chip is-active" type="button" data-archive-tag="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>']
-    chips.extend(
-        f'<button class="filter-chip" type="button" data-archive-tag="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
-        for term in top_terms
+            category_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
+            category_counts[key]["count"] += 1
+        for term in entry["tags"]:
+            key = term["slug"]
+            tag_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
+            tag_counts[key]["count"] += 1
+    top_categories = sorted(category_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:24]
+    top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
+    all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
+    category_chips = "".join(
+        f'<button class="filter-chip category-filter" type="button" data-archive-kind="category" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+        for term in top_categories
+    )
+    tag_chips = "".join(
+        f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+        for term in top_tags
     )
     body = f"""
     <main class="wrap band archive-page" data-archive>
@@ -770,7 +796,15 @@ def render_archive(site, lang):
         </label>
       </section>
       <section class="archive-filters" aria-label="{esc(I18N[lang]["tags"])}">
-        {''.join(chips)}
+        <div class="filter-group filter-group-all">{all_chip}</div>
+        <div class="filter-group">
+          <h2>{esc(I18N[lang]["categories"])}</h2>
+          <div>{category_chips}</div>
+        </div>
+        <div class="filter-group">
+          <h2>{esc(I18N[lang]["tags"])}</h2>
+          <div>{tag_chips}</div>
+        </div>
       </section>
       <div class="archive-list archive-index">{items}</div>
       <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
@@ -785,18 +819,20 @@ def render_archive(site, lang):
 def render_archive_item(entry, lang, current, interactive=False):
     href = rel_url(current, path_to_file(entry_path(entry, lang)))
     terms = entry["categories"] + entry["tags"]
-    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms[:5])
+    pills = render_term_pills(entry, lang, current, 3, 4)
     if interactive:
         search_text = " ".join(
             [entry[f"title_{lang}"], entry[f"excerpt_{lang}"]]
             + [term_label(t, lang) for t in terms]
             + [t["slug"] for t in terms]
         ).lower()
-        term_slugs = " ".join(t["slug"] for t in terms)
+        category_slugs = " ".join(t["slug"] for t in entry["categories"])
+        tag_slugs = " ".join(t["slug"] for t in entry["tags"])
         attrs = (
             f' data-archive-item data-title="{esc(entry[f"title_{lang}"].lower())}"'
             f' data-date="{esc(date_only(entry["date"]))}"'
-            f' data-tags="{esc(term_slugs)}"'
+            f' data-categories="{esc(category_slugs)}"'
+            f' data-tags="{esc(tag_slugs)}"'
             f' data-search="{esc(search_text)}"'
         )
     else:
@@ -841,12 +877,13 @@ def render_terms(site, lang):
         for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
             display_label = term_label({"slug": slug, "name": name}, lang)
-            chips.append(f'<a class="pill" href="{href}">{esc(display_label)} · {len(entries)}</a>')
+            kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
+            chips.append(f'<a class="pill term-pill term-{kind}" data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
             term_current = path_to_file(term_path(kind, slug, lang))
             items = "".join(render_archive_item(e, lang, term_current) for e in entries)
-            body = f'<main class="wrap band"><div class="section-head"><h1>{esc(display_label)}</h1></div><div class="archive-list">{items}</div></main>'
+            body = f'<main class="wrap band term-page"><div class="section-head"><h1>{esc(display_label)}</h1><p>{esc(I18N[lang][label])}</p></div><div class="archive-list">{items}</div></main>'
             write(term_current, layout(term_current, lang, display_label, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
-        body = f'<main class="wrap band"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms">{"".join(chips)}</div></main>'
+        body = f'<main class="wrap band term-index"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms term-cloud {kind}-cloud">{"".join(chips)}</div></main>'
         write(current, layout(current, lang, I18N[lang][label], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
 
 

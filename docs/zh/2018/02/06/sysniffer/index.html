@@ -16,7 +16,7 @@
   <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-fixes2">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260528-polish">
 </head>
 <body>
   
@@ -24,10 +24,10 @@
       <nav class="nav">
         <a class="brand" href="../../../../index.html">
           <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
-          <span class="brand-text"><strong>OmegaXYZ</strong><em>徐奕的专栏</em></span>
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
         </a>
         <div class="nav-links">
-          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="../../../../search/index.html">搜索</a>
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a>
           <a href="../../../../../en/2018/02/06/sysniffer/index.html">English</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -39,7 +39,7 @@
       <article class="article">
         <div class="meta">2018-02-06</div>
         <h1>Python课程设计Windows系统资源探测器</h1>
-        <div class="terms"><a class="pill" href="../../../../category/高级语言/index.html">高级语言</a><a class="pill" href="../../../../category/tech/index.html">技术域</a><a class="pill" href="../../../../category/app/index.html">APP开发</a><a class="pill" href="../../../../category/python/index.html">Python</a><a class="pill" href="../../../../tag/app/index.html">app</a><a class="pill" href="../../../../tag/windows/index.html">Windows</a><a class="pill" href="../../../../tag/python/index.html">Python</a><a class="pill" href="../../../../tag/multithreading/index.html">多线程</a><a class="pill" href="../../../../tag/wxpython/index.html">wxpython</a><a class="pill" href="../../../../tag/gui/index.html">GUI</a></div>
+        <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../../../../category/高级语言/index.html"><span>高级语言</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/app/index.html"><span>APP开发</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/app/index.html"><span>app</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/windows/index.html"><span>Windows</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/python/index.html"><span>Python</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/multithreading/index.html"><span>多线程</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/wxpython/index.html"><span>wxpython</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/gui/index.html"><span>GUI</span></a></div>
         <div class="article-content"><nav class="inline-toc side-box" data-toc></nav>
 <h1>一、需求分析</h1>
 <strong>（1）文件夹动态监控：</strong>Windows系统C盘是系统盘，存储着很多重要的数据文件，可用空间一开始很充足，但是电脑在使用一段时间后，我们会发现C盘空间越来越大。这是Windows系统的一个通病，于是我希望制作一个能够对选定文件夹实时监测的程序，这个程序不同于Windows自身自带的资源管理器，它能够动态且自动监测文件夹中文件的创建、修改与删除的变化（当然程序需要一直挂在后台），并把文件变化的时间和路径反馈给用户，使用户能在第一时间知晓究竟是哪些文件是系统盘（或者是其他磁盘）变大的始作俑者。
@@ -238,6 +238,7 @@ data = soup.find_all('tr'))另外再通过简单的处理对数据格式优化�
       </aside>
     </main>
     
+  <script src="../../../../../assets/site.js?v=20260528-polish"></script>
   
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -251,8 +252,12 @@ data = soup.find_all('tr'))另外再通过简单的处理对数据格式优化�
       </section>
       <section class="footer-map" aria-label="Visitor map">
         <div class="clustrmaps-widget">
-          <img class="clustrmaps-fallback" src="https://clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="lazy">
-          <script async type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+          <div class="map-placeholder" aria-hidden="true">
+            <span>Visitor Map</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -262,7 +267,6 @@ data = soup.find_all('tr'))另外再通过简单的处理对数据格式优化�
     </div>
   </footer>
     
-  <script defer src="../../../../../assets/site.js?v=20260528-fixes2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
   
