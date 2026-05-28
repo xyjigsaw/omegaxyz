@@ -16,8 +16,25 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260528-archive"
+ASSET_VERSION = "20260528-footer"
+LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
+
+FOOTER_LINKS = [
+    ("AI研习社", "https://www.yanxishe.com/"),
+    ("雷锋网", "https://www.leiphone.com/"),
+    ("ChainOE", "https://chainoe.com/"),
+    ("Oldpan", "http://www.oldpan.me/"),
+    ("OhYee", "https://www.oyohyee.com/"),
+    ("科学空间", "https://kexue.fm/"),
+    ("谭升的博客", "https://face2ai.com/"),
+    ("米虫", "https://www.mebugs.com/"),
+    ("StriveZ", "https://www.strivezs.com/"),
+    ("AI柠檬", "https://blog.ailemon.me/"),
+    ("Python实用宝典", "https://pythondict.com/"),
+    ("宇宙湾", "https://yuzhouwan.com/"),
+    ("cvosRobot", "http://blog.cvosrobot.com/"),
+]
 
 I18N = {
     "zh": {
@@ -311,7 +328,10 @@ def nav(current_file, lang, title, alt_path):
     return f"""
     <header class="site-header">
       <nav class="nav">
-        <a class="brand" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">OmegaXYZ <span>{esc(t['tagline'])}</span></a>
+        <a class="brand" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
+          <img src="{LOGO_URL}" alt="" width="32" height="32">
+          <span class="brand-text"><strong>OmegaXYZ</strong><em>{esc(t['tagline'])}</em></span>
+        </a>
         <div class="nav-links">
           {link_html}
           <a href="{alt}">{esc(t['language'])}</a>
@@ -319,6 +339,57 @@ def nav(current_file, lang, title, alt_path):
         </div>
       </nav>
     </header>
+    """
+
+
+def footer(current_file, lang):
+    friend_links = "".join(
+        f'<a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>'
+        for label, url in FOOTER_LINKS
+    )
+    more = rel_url(current_file, path_to_file(f"{lang}/friends/"))
+    privacy = rel_url(current_file, path_to_file(f"{lang}/privacy/"))
+    return f"""
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <section class="footer-brand">
+        <a class="footer-logo" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
+          <img src="{LOGO_URL}" alt="" width="42" height="42">
+          <span>OmegaXYZ</span>
+        </a>
+        <p>该网站原创代码采用Apache 2.0授权，原创文章采用BY-NC-SA 4.0授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 | 皖ICP备:17007601 | 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> | <a href="{privacy}">隐私政策</a></p>
+      </section>
+      <section class="footer-map" aria-label="Visitor map">
+        <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+      </section>
+      <nav class="footer-friends" aria-label="友情链接">
+        {friend_links}
+        <a class="more-link" href="{more}">更多(非首页友链)...</a>
+      </nav>
+    </div>
+  </footer>
+    """
+
+
+def analytics_scripts():
+    return """
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1ff2438a5cf31d5625e00ac67e811160";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B96MD38Q4R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-B96MD38Q4R");
+  </script>
     """
 
 
@@ -352,12 +423,11 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
 <body>
   {nav(current_file, lang, title, alt_path)}
   {body}
-  <footer class="site-footer">
-    <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
-  </footer>
+  {footer(current_file, lang)}
   <script defer src="{js}"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  {analytics_scripts()}
 </body>
 </html>
 """
@@ -504,6 +574,8 @@ def render_home(site, lang, current=None):
 
 
 def render_entry(entry, lang, legacy):
+    if entry["url"].strip("/") == "friends":
+        return render_friends_entry(entry, lang)
     current = path_to_file(entry_path(entry, lang))
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
@@ -532,6 +604,40 @@ def render_entry(entry, lang, legacy):
     </main>
     """
     return layout(current, lang, title, body, excerpt, entry_path(entry, other))
+
+
+def render_friends_entry(entry, lang):
+    current = path_to_file(entry_path(entry, lang))
+    other = "en" if lang == "zh" else "zh"
+    title = "友情链接" if lang == "zh" else "Friends"
+    desc = "长期阅读、技术写作与知识分享的朋友链接。" if lang == "zh" else "A curated set of long-running blogs and technical communities."
+    apply_label = "申请友链" if lang == "zh" else "Apply for a link"
+    visit_label = "访问" if lang == "zh" else "Visit"
+    cards = "".join(
+        f"""
+        <article class="friend-card">
+          <div><h2>{esc(label)}</h2><p>{esc(url.replace('https://', '').replace('http://', '').strip('/'))}</p></div>
+          <a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)}</a>
+        </article>
+        """
+        for label, url in FOOTER_LINKS
+    )
+    body = f"""
+    <main class="wrap band friends-page">
+      <section class="friends-hero">
+        <div>
+          <div class="eyebrow">OmegaXYZ</div>
+          <h1>{esc(title)}</h1>
+          <p>{esc(desc)}</p>
+        </div>
+        <a class="button primary" href="{rel_url(current, path_to_file(f'{lang}/makefriends/'))}">{esc(apply_label)}</a>
+      </section>
+      <section class="friends-grid">
+        {cards}
+      </section>
+    </main>
+    """
+    return layout(current, lang, title, body, desc, entry_path(entry, other))
 
 
 def render_comments(entry, lang):
