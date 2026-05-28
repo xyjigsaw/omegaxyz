@@ -600,6 +600,105 @@ a.pill:hover {
 .side-box a:hover { color: var(--accent); }
 .toc-child { margin-left: 14px; }
 
+.archive-page .section-head {
+  align-items: center;
+}
+.archive-count {
+  min-width: 118px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--glass);
+  text-align: right;
+  backdrop-filter: blur(22px) saturate(1.25);
+}
+.archive-count strong {
+  display: block;
+  color: var(--accent);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.archive-count span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.archive-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.archive-search input,
+.archive-sort select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--glass-strong) 70%, transparent);
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+.archive-search input {
+  padding: 12px 15px;
+}
+.archive-sort {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding-left: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--glass);
+  color: var(--muted);
+  backdrop-filter: blur(22px) saturate(1.25);
+}
+.archive-sort select {
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0 8px 8px 0;
+  padding: 0 12px;
+  background: transparent;
+}
+.archive-search input:focus,
+.archive-sort select:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.archive-filters {
+  max-height: 150px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--glass-soft);
+  backdrop-filter: blur(22px) saturate(1.24);
+}
+.filter-chip {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  background: var(--glass);
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+.filter-chip span {
+  margin-left: 6px;
+  color: var(--accent-3);
+}
+.filter-chip:hover,
+.filter-chip.is-active {
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--line));
+  background: color-mix(in srgb, var(--accent) 14%, var(--glass));
+  color: var(--ink);
+}
 .archive-list { display: grid; gap: 0; }
 .archive-item {
   display: grid;
@@ -607,6 +706,15 @@ a.pill:hover {
   gap: 18px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
+}
+.archive-index .archive-item {
+  min-width: 0;
+  margin-bottom: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--glass);
+  backdrop-filter: blur(22px) saturate(1.25);
 }
 .archive-item h2 {
   margin: 0 0 6px;
@@ -616,6 +724,19 @@ a.pill:hover {
   max-width: 820px;
   margin: 0;
   color: var(--muted);
+}
+.archive-item .terms {
+  margin-top: 12px;
+  padding-top: 0;
+}
+.archive-empty {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--glass);
+  color: var(--muted);
+  text-align: center;
+  backdrop-filter: blur(22px) saturate(1.25);
 }
 
 .comments {
@@ -662,6 +783,7 @@ a.pill:hover {
   .grid,
   .page-strip,
   .topic-rail,
+  .archive-tools,
   .stats-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -704,9 +826,34 @@ a.pill:hover {
   .latest-copy h3 { font-size: 1.22rem; }
   .stats-strip,
   .topic-rail,
+  .archive-tools,
   .grid,
   .page-strip {
     grid-template-columns: 1fr;
+  }
+  .archive-page .section-head {
+    align-items: flex-start;
+  }
+  .archive-count {
+    width: 100%;
+    text-align: left;
+  }
+  .archive-sort {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 8px 12px 12px;
+  }
+  .archive-sort select {
+    min-height: 42px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    margin-top: 6px;
+    padding: 0;
+  }
+  .archive-filters {
+    max-height: 190px;
+    padding: 10px;
   }
   .section-head h1,
   .section-head h2 { font-size: 1.85rem; }
@@ -739,6 +886,17 @@ a.pill:hover {
   .archive-item {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+  .archive-index .archive-item {
+    width: 100%;
+    padding: 15px;
+  }
+  .archive-item time,
+  .archive-item h2,
+  .archive-item p,
+  .archive-item .terms {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .comment.reply { margin-left: 0; }
 }

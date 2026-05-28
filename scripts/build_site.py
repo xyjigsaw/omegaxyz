@@ -16,6 +16,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
+ASSET_VERSION = "20260528-archive"
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 
 I18N = {
@@ -38,6 +39,14 @@ I18N = {
         "search_placeholder": "搜索文章、页面、标签...",
         "explore": "探索知识库",
         "intro": "面向编程、机器学习、知识工程与数学的长期笔记库。",
+        "archive_search_placeholder": "搜索标题、摘要、标签...",
+        "sort": "排序",
+        "sort_newest": "最新优先",
+        "sort_oldest": "最早优先",
+        "sort_title": "标题 A-Z",
+        "filter_all": "全部",
+        "results": "篇文章",
+        "no_results": "没有匹配的文章",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -58,6 +67,14 @@ I18N = {
         "search_placeholder": "Search posts, pages, and tags...",
         "explore": "Explore the archive",
         "intro": "A long-running notebook for programming, machine learning, knowledge engineering, and mathematics.",
+        "archive_search_placeholder": "Search titles, summaries, and tags...",
+        "sort": "Sort",
+        "sort_newest": "Newest",
+        "sort_oldest": "Oldest",
+        "sort_title": "Title A-Z",
+        "filter_all": "All",
+        "results": "posts",
+        "no_results": "No matching posts",
     },
 }
 
@@ -306,8 +323,8 @@ def nav(current_file, lang, title, alt_path):
 
 
 def layout(current_file, lang, title, body, description="", alt_path=""):
-    css = rel_url(current_file, OUT / "assets/site.css")
-    js = rel_url(current_file, OUT / "assets/site.js")
+    css = rel_url(current_file, OUT / "assets/site.css") + f"?v={ASSET_VERSION}"
+    js = rel_url(current_file, OUT / "assets/site.js") + f"?v={ASSET_VERSION}"
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
     desc = description or I18N[lang]["intro"]
     canonical = site_url_for_file(current_file)
@@ -338,9 +355,9 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   <footer class="site-footer">
     <div class="wrap">OmegaXYZ · Migrated from WordPress · Images served by Cloudflare R2</div>
   </footer>
+  <script defer src="{js}"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
-  <script defer src="{js}"></script>
 </body>
 </html>
 """
@@ -538,25 +555,78 @@ def render_comments(entry, lang):
 
 def render_archive(site, lang):
     posts = [e for e in site["entries"] if e["type"] == "post"]
-    per_page = 24
-    pages = max(1, math.ceil(len(posts) / per_page))
-    for page in range(1, pages + 1):
-        current = path_to_file(archive_path(lang, page))
-        subset = posts[(page - 1) * per_page:page * per_page]
-        items = "".join(render_archive_item(e, lang, current) for e in subset)
-        pager = render_pager(lang, current, page, pages)
-        body = f'<main class="wrap band"><div class="section-head"><h1>{esc(I18N[lang]["all_posts"])}</h1></div><div class="archive-list">{items}</div>{pager}</main>'
-        write(current, layout(current, lang, I18N[lang]["all_posts"], body, alt_path=archive_path("en" if lang == "zh" else "zh", page if page <= pages else 1)))
+    current = path_to_file(archive_path(lang))
+    items = "".join(render_archive_item(e, lang, current, interactive=True) for e in posts)
+    term_counts = {}
+    for entry in posts:
+        for term in entry["categories"] + entry["tags"]:
+            key = term["slug"]
+            term_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
+            term_counts[key]["count"] += 1
+    top_terms = sorted(term_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
+    chips = [f'<button class="filter-chip is-active" type="button" data-archive-tag="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>']
+    chips.extend(
+        f'<button class="filter-chip" type="button" data-archive-tag="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+        for term in top_terms
+    )
+    body = f"""
+    <main class="wrap band archive-page" data-archive>
+      <div class="section-head">
+        <div><h1>{esc(I18N[lang]["all_posts"])}</h1><p>{esc(I18N[lang]["latest_desc"])}</p></div>
+        <div class="archive-count"><strong data-archive-count>{len(posts)}</strong><span>{esc(I18N[lang]["results"])}</span></div>
+      </div>
+      <section class="archive-tools">
+        <div class="archive-search">
+          <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
+        </div>
+        <label class="archive-sort">
+          <span>{esc(I18N[lang]["sort"])}</span>
+          <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
+            <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
+            <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
+            <option value="title">{esc(I18N[lang]["sort_title"])}</option>
+          </select>
+        </label>
+      </section>
+      <section class="archive-filters" aria-label="{esc(I18N[lang]["tags"])}">
+        {''.join(chips)}
+      </section>
+      <div class="archive-list archive-index">{items}</div>
+      <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
+    </main>
+    """
+    write(current, layout(current, lang, I18N[lang]["all_posts"], body, alt_path=archive_path("en" if lang == "zh" else "zh")))
+    pages = max(1, math.ceil(len(posts) / 24))
+    for page in range(2, pages + 1):
+        render_redirect(archive_path(lang, page), archive_path(lang))
 
 
-def render_archive_item(entry, lang, current):
+def render_archive_item(entry, lang, current, interactive=False):
     href = rel_url(current, path_to_file(entry_path(entry, lang)))
+    terms = entry["categories"] + entry["tags"]
+    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms[:5])
+    if interactive:
+        search_text = " ".join(
+            [entry[f"title_{lang}"], entry[f"excerpt_{lang}"]]
+            + [term_label(t, lang) for t in terms]
+            + [t["slug"] for t in terms]
+        ).lower()
+        term_slugs = " ".join(t["slug"] for t in terms)
+        attrs = (
+            f' data-archive-item data-title="{esc(entry[f"title_{lang}"].lower())}"'
+            f' data-date="{esc(date_only(entry["date"]))}"'
+            f' data-tags="{esc(term_slugs)}"'
+            f' data-search="{esc(search_text)}"'
+        )
+    else:
+        attrs = ""
     return f"""
-    <article class="archive-item">
+    <article class="archive-item"{attrs}>
       <time>{esc(date_only(entry['date']))}</time>
       <div>
         <h2><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h2>
-        <p>{esc(entry[f'excerpt_{lang}'])}</p>
+        <p>{esc(short_text(entry[f'excerpt_{lang}'], 150))}</p>
+        <div class="terms">{pills}</div>
       </div>
     </article>
     """
@@ -685,7 +755,6 @@ def main():
     copy_public()
     for lang in ("zh", "en"):
         write(path_to_file(f"{lang}/"), render_home(site, lang))
-        render_archive(site, lang)
         render_pages_index(site, lang)
         render_terms(site, lang)
         render_search(site, lang)
@@ -694,6 +763,8 @@ def main():
         for lang in ("zh", "en"):
             write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy))
         render_redirect(entry["url"], entry_path(entry, "zh"))
+    for lang in ("zh", "en"):
+        render_archive(site, lang)
     for path in collect_legacy_paths(site, legacy):
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
