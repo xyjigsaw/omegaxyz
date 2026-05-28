@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>提高C++运行效率的方法 · OmegaXYZ</title>
   <meta name="description" content="一、尽量减少值传递，多用引用来传递参数。 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下： 其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构...">
+  <link rel="canonical" href="https://omegaxyz.com/zh/2018/03/12/improve_cpp/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2018/03/12/improve_cpp/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2018/03/12/improve_cpp/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="提高C++运行效率的方法 · OmegaXYZ">
+  <meta property="og:description" content="一、尽量减少值传递，多用引用来传递参数。 至于其中的原因，相信大家也很清楚，如果参数是int等语言自定义的类型可能能性能的影响还不是很大，但是如果参数是一个类的对象，那么其效率问题就不言而喻了。例如一个判断两个字符串是否相等的函数，其声明如下： 其中若使用第一个函数（值传递），则在参数传递和函数返回时，需要调用string的构造函数和析构...">
+  <meta property="og:url" content="https://omegaxyz.com/zh/2018/03/12/improve_cpp/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">

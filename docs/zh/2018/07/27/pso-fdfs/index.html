@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>基于PSO的特征离散化与选择算法 · OmegaXYZ</title>
   <meta name="description" content="前面我们介绍了特征选择(Feature Selection，FS)与离散化数据的重要性，总览的介绍了PSO在FS中的重要性和一些常用的方法，介绍了FS与离散化的背景，介绍本文所采用的基于熵的切割点和最小描述长度原则(MDLP)。具体请点击链接： https://omegaxyz.com/2018/07/23/feature-discret...">
+  <link rel="canonical" href="https://omegaxyz.com/zh/2018/07/27/pso-fdfs/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2018/07/27/pso-fdfs/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2018/07/27/pso-fdfs/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="基于PSO的特征离散化与选择算法 · OmegaXYZ">
+  <meta property="og:description" content="前面我们介绍了特征选择(Feature Selection，FS)与离散化数据的重要性，总览的介绍了PSO在FS中的重要性和一些常用的方法，介绍了FS与离散化的背景，介绍本文所采用的基于熵的切割点和最小描述长度原则(MDLP)。具体请点击链接： https://omegaxyz.com/2018/07/23/feature-discret...">
+  <meta property="og:url" content="https://omegaxyz.com/zh/2018/07/27/pso-fdfs/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
@@ -71,7 +79,7 @@
 <div>在EPSO中，分类精度被用来作为衡量每个粒子的适应度指标。这可能很难区分类与类之间的边界相当大的情况，使许多不同的模型获得相同的精度。此外，虽然包装器方法能够产生高精度的解决方案，但过滤方法通常更快、更普遍。将这两种方法的强度结合在评价函数中，有望产生更好的解决方案。此外，结合这两种方法，还可以更好地区分特征子集之间的细微差别，提供更平滑的适应度环境以方便搜索过程。然而，简单地结合这些措施在计算上可能是不切实际的。因此，我们需要找到一种聪明的方法来组合它们，而不需要更多的运行时间。在常用的滤波方法中，距离是一种多变量测量方法，可以对特征集的判别能力进行评估，并将其作为KNN的基本测量方法。因此，将该方法与KNN包装方法结合起来不会增加计算时间，因为距离测量只计算一次，但使用两次。</div>
 <div></div>
 <div>适应度函数使用两种平衡分类精度和距离测量加权系数(μ)与测量的距离,如下所示,用于最大化之间的距离不同的类的实例(DB)和减少之间的距离相同的类的实例(DW)。DB和DW采用以下公式计算:</div>
-<div><img src="E:/Files/YoudaoNote/xy644327005@126.com/5252939604d0435b9aa86e90b6763158/%E5%85%AC%E5%BC%8F%E5%9B%9B-1.png" alt="" data-media-type="image" data-attr-org-src-id="7471BDD68FED43E0A2E11ACE60CDC2EE" /><img class="alignnone size-full wp-image-4848" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS6.png" alt="" width="403" height="193" /></div>
+<div><img src="#" alt="" data-media-type="image" data-attr-org-src-id="7471BDD68FED43E0A2E11ACE60CDC2EE" /><img class="alignnone size-full wp-image-4848" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS6.png" alt="" width="403" height="193" /></div>
 <div>其中Dis(Vi, Vj)是两个向量Vi和Vj之间的距离。在本文中，我们使用两个二进制向量之间的匹配或重叠的比例作为它们之间的距离。</div>
 <div></div>
 </div>

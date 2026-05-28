@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>编译原理自动生成LR(0)分析表Python实现 · OmegaXYZ</title>
   <meta name="description" content="简介 对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。 这种句柄之后不含任何符号的前缀称为活前缀。 在LR分析工作过程中的任何时候，栈里的文法符号（自栈底而上）X 1 X 2 …X m 应该构成活前缀，把输入串的剩余部分配上之后即应成为规范句型（如果整个输入串确实构...">
+  <link rel="canonical" href="https://omegaxyz.com/zh/2019/02/27/lr0-table/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2019/02/27/lr0-table/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2019/02/27/lr0-table/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="编译原理自动生成LR(0)分析表Python实现 · OmegaXYZ">
+  <meta property="og:description" content="简介 对于LR文法，我们可以自动构造相应的LR分析表。为了构造LR分析表，我们需要定义一个重要概念——文法的规范句型“活前缀”。 这种句柄之后不含任何符号的前缀称为活前缀。 在LR分析工作过程中的任何时候，栈里的文法符号（自栈底而上）X 1 X 2 …X m 应该构成活前缀，把输入串的剩余部分配上之后即应成为规范句型（如果整个输入串确实构...">
+  <meta property="og:url" content="https://omegaxyz.com/zh/2019/02/27/lr0-table/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">

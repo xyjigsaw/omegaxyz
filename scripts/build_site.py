@@ -15,6 +15,7 @@ DATA = ROOT / "data/site.json"
 PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
+SITE_URL = "https://omegaxyz.com"
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 
 I18N = {
@@ -34,6 +35,8 @@ I18N = {
         "all_posts": "全部文章",
         "all_pages": "全部页面",
         "language": "English",
+        "search_placeholder": "搜索文章、页面、标签...",
+        "explore": "探索知识库",
         "intro": "面向编程、机器学习、知识工程与数学的长期笔记库。",
     },
     "en": {
@@ -52,6 +55,8 @@ I18N = {
         "all_posts": "All Posts",
         "all_pages": "All Pages",
         "language": "中文",
+        "search_placeholder": "Search posts, pages, and tags...",
+        "explore": "Explore the archive",
         "intro": "A long-running notebook for programming, machine learning, knowledge engineering, and mathematics.",
     },
 }
@@ -117,6 +122,20 @@ def page_file(path):
     if not clean:
         return OUT / "index.html"
     return OUT / clean / "index.html"
+
+
+def site_url_for_file(file):
+    try:
+        rel = Path(file).resolve().relative_to(OUT.resolve()).as_posix()
+    except ValueError:
+        rel = "index.html"
+    if rel == "index.html":
+        path = ""
+    elif rel.endswith("/index.html"):
+        path = rel[:-len("index.html")]
+    else:
+        path = rel
+    return SITE_URL.rstrip("/") + "/" + path
 
 
 def path_to_file(path):
@@ -201,6 +220,8 @@ def internal_target(value, lang, legacy):
 
 def rewrite_url(value, lang, current_file, legacy):
     cleaned = value.strip().strip("“”‘’")
+    if re.match(r"^[A-Za-z]:[\\/]", cleaned):
+        return "#"
     if cleaned != value and urlparse(cleaned if not cleaned.startswith("//") else "https:" + cleaned).scheme in ("http", "https"):
         value = cleaned
     target = internal_target(value, lang, legacy)
@@ -289,6 +310,9 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
     js = rel_url(current_file, OUT / "assets/site.js")
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
     desc = description or I18N[lang]["intro"]
+    canonical = site_url_for_file(current_file)
+    other = "en" if lang == "zh" else "zh"
+    alternate = site_url_for_file(path_to_file(alt_path)) if alt_path else site_url_for_file(path_to_file(f"{other}/"))
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -296,6 +320,14 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)} · OmegaXYZ</title>
   <meta name="description" content="{esc(desc)}">
+  <link rel="canonical" href="{esc(canonical)}">
+  <link rel="alternate" hreflang="{other}" href="{esc(alternate)}">
+  <link rel="alternate" hreflang="{lang}" href="{esc(canonical)}">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{esc(title)} · OmegaXYZ">
+  <meta property="og:description" content="{esc(desc)}">
+  <meta property="og:url" content="{esc(canonical)}">
   <link rel="icon" href="{rel_url(current_file, OUT / 'favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="{katex}">
   <link rel="stylesheet" href="{css}">
@@ -374,17 +406,31 @@ def render_page_link(entry, lang, current_file):
     """
 
 
+def render_latest_row(entry, lang, current_file):
+    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
+    image = first_image(entry)
+    image_html = f'<img src="{esc(image)}" alt="">' if image else '<span>OmegaXYZ</span>'
+    terms = entry["categories"][:2] or entry["tags"][:2]
+    pills = "".join(f'<span class="pill">{esc(term_label(t, lang))}</span>' for t in terms)
+    return f"""
+    <article class="latest-row">
+      <a class="latest-media" href="{href}">{image_html}</a>
+      <div class="latest-copy">
+        <div class="meta">{esc(date_only(entry['date']))}</div>
+        <h3><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h3>
+        <p>{esc(short_text(entry[f'excerpt_{lang}'], 160))}</p>
+        <div class="terms">{pills}</div>
+      </div>
+    </article>
+    """
+
+
 def render_home(site, lang, current=None):
     current = current or path_to_file(f"{lang}/")
     posts = [e for e in site["entries"] if e["type"] == "post"]
     pages = [e for e in site["entries"] if e["type"] == "page"]
     stats = site["summary"]
-    hero_entry = next((e for e in posts if first_image(e)), posts[0])
-    hero_href = rel_url(current, path_to_file(entry_path(hero_entry, lang)))
-    hero_image = first_image(hero_entry)
-    featured = render_feature(hero_entry, lang, current)
-    quick_items = "".join(render_quick_item(e, lang, current) for e in [p for p in posts if p["id"] != hero_entry["id"]][:7])
-    cards = "".join(render_card(e, lang, current, compact=True) for e in posts[7:13])
+    latest_rows = "".join(render_latest_row(e, lang, current) for e in posts[:9])
     page_links = "".join(render_page_link(e, lang, current) for e in pages[:6])
     term_counts = {}
     for entry in posts:
@@ -398,22 +444,23 @@ def render_home(site, lang, current=None):
         for term in top_terms
     )
     t = I18N[lang]
+    search_index = rel_url(current, OUT / f"{lang}/search-index.json")
     body = f"""
     <main class="wrap">
-      <section class="hero">
-        <div class="hero-copy">
+      <section class="search-hero">
+        <div class="search-shell">
           <div class="eyebrow">{esc(t['tagline'])}</div>
           <h1>OmegaXYZ</h1>
           <p>{esc(t['intro'])}</p>
+          <section class="search-box home-search" data-search="{search_index}">
+            <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
+            <div class="search-results" data-search-results></div>
+          </section>
           <div class="hero-actions">
-            <a class="button primary" href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['all_posts'])}</a>
-            <a class="button" href="{rel_url(current, path_to_file(f'{lang}/search/'))}">{esc(t['search'])}</a>
+            <a class="button primary" href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['explore'])}</a>
+            <a class="button" href="{rel_url(current, path_to_file(f'{lang}/pages/'))}">{esc(t['pages'])}</a>
           </div>
         </div>
-        <a class="hero-media" href="{hero_href}">
-          <img src="{esc(hero_image)}" alt="">
-          <span>{esc(hero_entry[f'title_{lang}'])}</span>
-        </a>
       </section>
       <section class="stats-strip" aria-label="Site statistics">
         <div><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></div>
@@ -428,11 +475,7 @@ def render_home(site, lang, current=None):
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['latest'])}</h2><p>{esc(t['latest_desc'])}</p></div></div>
-        <div class="home-stream">
-          {featured}
-          <div class="quick-list">{quick_items}</div>
-        </div>
-        <div class="grid compact-grid">{cards}</div>
+        <div class="latest-list">{latest_rows}</div>
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['pages'])}</h2><p>{esc(t['featured'])}</p></div></div>
@@ -613,6 +656,27 @@ def copy_public():
         shutil.rmtree(OUT)
     shutil.copytree(PUBLIC, OUT, dirs_exist_ok=True)
     write(OUT / ".nojekyll", "")
+    write(OUT / "CNAME", "omegaxyz.com\n")
+
+
+def render_site_index_files():
+    urls = []
+    for file in sorted(OUT.rglob("*.html")):
+        head = file.read_text(encoding="utf-8", errors="ignore")[:300].lower()
+        if 'http-equiv="refresh"' in head:
+            continue
+        urls.append(site_url_for_file(file))
+    xml_urls = "\n".join(f"  <url><loc>{esc(url)}</loc></url>" for url in urls)
+    write(OUT / "sitemap.xml", f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{xml_urls}
+</urlset>
+""")
+    write(OUT / "robots.txt", f"""User-agent: *
+Allow: /
+
+Sitemap: {SITE_URL.rstrip("/")}/sitemap.xml
+""")
 
 
 def main():
@@ -633,6 +697,7 @@ def main():
     for path in collect_legacy_paths(site, legacy):
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
+    render_site_index_files()
     print(f"built {OUT}")
 
 

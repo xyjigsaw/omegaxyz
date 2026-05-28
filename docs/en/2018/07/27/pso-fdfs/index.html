@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feature discretization and selection algorithm based on PSO · OmegaXYZ</title>
   <meta name="description" content="Previously, we introduced the importance of Feature Selection (FS) and discretized data, gave an overview of the importance of PSO in FS and some commonly used methods, introduced the background of FS and discretization, and introduced the entropy-based cutting point and the minimum description length principle (MDLP) used in this article. For details, please click on the link: https://omegaxyz.com/2018/07/23/feature-discret...">
+  <link rel="canonical" href="https://omegaxyz.com/en/2018/07/27/pso-fdfs/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2018/07/27/pso-fdfs/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2018/07/27/pso-fdfs/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Feature discretization and selection algorithm based on PSO · OmegaXYZ">
+  <meta property="og:description" content="Previously, we introduced the importance of Feature Selection (FS) and discretized data, gave an overview of the importance of PSO in FS and some commonly used methods, introduced the background of FS and discretization, and introduced the entropy-based cutting point and the minimum description length principle (MDLP) used in this article. For details, please click on the link: https://omegaxyz.com/2018/07/23/feature-discret...">
+  <meta property="og:url" content="https://omegaxyz.com/en/2018/07/27/pso-fdfs/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
@@ -69,7 +77,7 @@
 <div>In EPSO, classification accuracy is used as a measure of the fitness index of each particle. This can make it difficult to distinguish situations where the boundaries between classes are quite large, allowing many different models to achieve the same accuracy. Furthermore, while wrapper methods are capable of producing highly accurate solutions, filtering methods are generally faster and more general. Combining the strengths of these two methods in a merit function is expected to produce better solutions. In addition, combining these two methods can also better distinguish subtle differences between feature subsets, providing a smoother fitness environment to facilitate the search process. However, simply combining these measures may be computationally impractical. Therefore, we need to find a smart way to combine them without requiring more running time. Among commonly used filtering methods, distance is a multivariate measurement method that can evaluate the discriminative ability of feature sets and is used as the basic measurement method of KNN. Therefore, combining this method with the KNN wrapper method does not increase the calculation time, since the distance measurement is only calculated once but used twice.</div>
 <div></div>
 <div>The fitness function uses both balancing classification accuracy and distance measurement weighting coefficient (μ) with the measured distance, as shown below, which is used to maximize the distance between instances of different classes (DB) and reduce the distance between instances of the same class (DW). DB and DW are calculated using the following formula:</div>
-<div><img alt="" data-attr-org-src-id="7471BDD68FED43E0A2E11ACE60CDC2EE" data-media-type="image" src="E:/Files/YoudaoNote/xy644327005@126.com/5252939604d0435b9aa86e90b6763158/%E5%85%AC%E5%BC%8F%E5%9B%9B-1.png"/><img alt="" class="alignnone size-full wp-image-4848" height="193" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS6.png" width="403"/></div>
+<div><img alt="" data-attr-org-src-id="7471BDD68FED43E0A2E11ACE60CDC2EE" data-media-type="image" src="#"/><img alt="" class="alignnone size-full wp-image-4848" height="193" src="https://cdn.omegaxyz.com/2018/07/PSOFDFS6.png" width="403"/></div>
 <div>where Dis(Vi, Vj) is the distance between two vectors Vi and Vj. In this paper, we use the proportion of matches or overlaps between two binary vectors as the distance between them.</div>
 <div></div>
 </div>

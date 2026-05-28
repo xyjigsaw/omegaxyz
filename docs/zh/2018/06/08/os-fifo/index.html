@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FIFO算法实现分页管理的缺页调度 · OmegaXYZ</title>
   <meta name="description" content="FIFO（先进先出）算法的基本原理为：该算法总是淘汰最先进入内存的页面，即选择在内存中驻留时间最久的页面予以淘汰。 数据结构 先定义一个主存表 memeoryList 用来存放主存中的地址空间用来进行页面变换 再定义一个 pageList 作为页表 替换 注意这里首先判断当前位置是否被占用，再判断页面是否在当前位置。如果需要中断替换，则进...">
+  <link rel="canonical" href="https://omegaxyz.com/zh/2018/06/08/os-fifo/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2018/06/08/os-fifo/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2018/06/08/os-fifo/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FIFO算法实现分页管理的缺页调度 · OmegaXYZ">
+  <meta property="og:description" content="FIFO（先进先出）算法的基本原理为：该算法总是淘汰最先进入内存的页面，即选择在内存中驻留时间最久的页面予以淘汰。 数据结构 先定义一个主存表 memeoryList 用来存放主存中的地址空间用来进行页面变换 再定义一个 pageList 作为页表 替换 注意这里首先判断当前位置是否被占用，再判断页面是否在当前位置。如果需要中断替换，则进...">
+  <meta property="og:url" content="https://omegaxyz.com/zh/2018/06/08/os-fifo/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">

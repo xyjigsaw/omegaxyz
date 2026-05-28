@@ -14,14 +14,11 @@ python3 scripts/translate_site.py --workers 8
 python3 scripts/build_site.py
 ```
 
-The generated site is written to `docs/`. The current public site is published by copying `docs/` to the `gh-pages` branch.
+The generated site is written to `docs/`. The current public site is deployed by GitHub Actions from the `master` branch.
 
 ## GitHub Pages Publishing
 
-The site can be published in either of these ways:
-
-1. Current mode: use the `gh-pages` branch. Build locally, copy `docs/` to `gh-pages`, and push that branch.
-2. GitHub Actions mode: in GitHub, open `Settings -> Pages -> Build and deployment`, set `Source` to `GitHub Actions`, then add a Pages workflow that uploads the `docs/` folder.
+The site is set up for GitHub Actions mode. In GitHub, open `Settings -> Pages -> Build and deployment`, set `Source` to `GitHub Actions`, and keep the workflow that uploads the `docs/` folder.
 
 Minimal workflow for Actions mode:
 
@@ -76,6 +73,8 @@ Set `CF_API_TOKEN` and `CF_ACCOUNT_ID` in your shell before running the upload c
 The script stores progress in `.cache/r2-uploaded.json` and can be resumed.
 Do not commit Cloudflare tokens, account IDs, S3 credentials, or generated migration caches.
 
-## Custom Domain Later
+## Custom Domain
 
-When `omegaxyz.com` is ready to move to GitHub Pages, copy `CNAME.example` to `docs/CNAME`, rebuild, commit, and configure the custom domain in the GitHub Pages settings.
+The generated site writes `docs/CNAME` with `omegaxyz.com`, and generated metadata uses `https://omegaxyz.com` for canonical URLs, Open Graph URLs, `robots.txt`, and `sitemap.xml`.
+
+To finish the domain switch in GitHub Pages, set the custom domain to `omegaxyz.com` and point DNS to GitHub Pages. Keep `cdn.omegaxyz.com` on Cloudflare R2 for uploaded media.

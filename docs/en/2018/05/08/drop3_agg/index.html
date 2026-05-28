@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Proxy model generation algorithm based on training set (DROP3, AGG) · OmegaXYZ</title>
   <meta name="description" content="DROP3 algorithm Purpose: retain instances on the class boundary, remove instances within the class, and construct a proxy training set. Main idea: Use the KNN algorithm and sorting to remove noisy instances. Algorithm steps: ① First remove all features misclassified by the KNN algorithm on the training set. ② For two classifications, calculate the distance between each instance and the nearest instances of other classes, and sort them. ③ Remove the above-mentioned instances that are far away. ④ Remove instances that do not affect the prediction results of other instances. Example Agglomerative C...">
+  <link rel="canonical" href="https://omegaxyz.com/en/2018/05/08/drop3_agg/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2018/05/08/drop3_agg/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2018/05/08/drop3_agg/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Proxy model generation algorithm based on training set (DROP3, AGG) · OmegaXYZ">
+  <meta property="og:description" content="DROP3 algorithm Purpose: retain instances on the class boundary, remove instances within the class, and construct a proxy training set. Main idea: Use the KNN algorithm and sorting to remove noisy instances. Algorithm steps: ① First remove all features misclassified by the KNN algorithm on the training set. ② For two classifications, calculate the distance between each instance and the nearest instances of other classes, and sort them. ③ Remove the above-mentioned instances that are far away. ④ Remove instances that do not affect the prediction results of other instances. Example Agglomerative C...">
+  <meta property="og:url" content="https://omegaxyz.com/en/2018/05/08/drop3_agg/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">

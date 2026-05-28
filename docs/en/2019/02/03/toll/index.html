@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Eliminate left recursion in a grammar · OmegaXYZ</title>
   <meta name="description" content="Introduction 1. Elimination of direct left recursion Eliminating direct left recursion in productions is relatively easy. For example, assume that the rule for non-terminal P is P → Pα / β where β is a symbol string that does not start with P. Then, we can rewrite the rules of P into the following non-direct left recursive form: P → βP’ P’ → αP’ / ε These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same. Let there be a simple expression grammar G[E]: E...">
+  <link rel="canonical" href="https://omegaxyz.com/en/2019/02/03/toll/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2019/02/03/toll/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2019/02/03/toll/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eliminate left recursion in a grammar · OmegaXYZ">
+  <meta property="og:description" content="Introduction 1. Elimination of direct left recursion Eliminating direct left recursion in productions is relatively easy. For example, assume that the rule for non-terminal P is P → Pα / β where β is a symbol string that does not start with P. Then, we can rewrite the rules of P into the following non-direct left recursive form: P → βP’ P’ → αP’ / ε These two rules are equivalent to the original rules, that is, the symbol strings deduced from P in the two forms are the same. Let there be a simple expression grammar G[E]: E...">
+  <meta property="og:url" content="https://omegaxyz.com/en/2019/02/03/toll/">
   <link rel="icon" href="../../../../../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <link rel="stylesheet" href="../../../../../assets/site.css">
