@@ -12,11 +12,12 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/site.json"
+EXTRA_ENTRIES = ROOT / "content/extra_entries.json"
 PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260528-termfilters"
+ASSET_VERSION = "20260529-deepreport"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 CLUSTRMAPS_QUERY = "cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"
@@ -75,6 +76,7 @@ I18N = {
         "archive": "文章",
         "pages": "页面",
         "categories": "分类",
+        "about": "关于",
         "tags": "标签",
         "search": "搜索",
         "latest": "最新笔记",
@@ -111,6 +113,7 @@ I18N = {
         "archive": "Archive",
         "pages": "Pages",
         "categories": "Categories",
+        "about": "About",
         "tags": "Tags",
         "search": "Search",
         "latest": "Latest Notes",
@@ -172,11 +175,46 @@ TERM_EN = {
     "tools": "Tools",
     "web": "Web",
     "game": "Games",
+    "ai": "Artificial Intelligence",
+    "llm": "Large Language Models",
+    "academic-big-data": "Academic Big Data",
+    "idea-generation": "Idea Generation",
+    "deepreport": "DeepReport",
 }
 
 
 def load_site():
-    return json.loads(DATA.read_text(encoding="utf-8"))
+    site = json.loads(DATA.read_text(encoding="utf-8"))
+    extras = load_extra_entries()
+    if extras:
+        extra_urls = {entry["url"] for entry in extras}
+        site["entries"] = extras + [entry for entry in site["entries"] if entry.get("url") not in extra_urls]
+        site["summary"] = build_summary(site["entries"])
+    return site
+
+
+def load_extra_entries():
+    if not EXTRA_ENTRIES.exists():
+        return []
+    entries = json.loads(EXTRA_ENTRIES.read_text(encoding="utf-8"))
+    for entry in entries:
+        for lang in ("zh", "en"):
+            key = f"content_{lang}_file"
+            if key in entry:
+                entry[f"content_{lang}"] = (ROOT / entry.pop(key)).read_text(encoding="utf-8")
+    return entries
+
+
+def build_summary(entries):
+    posts = [entry for entry in entries if entry["type"] == "post"]
+    pages = [entry for entry in entries if entry["type"] == "page"]
+    return {
+        "posts": len(posts),
+        "pages": len(pages),
+        "comments": sum(len(entry.get("comments", [])) for entry in entries),
+        "categories": len({term["slug"] for entry in entries for term in entry.get("categories", [])}),
+        "tags": len({term["slug"] for entry in entries for term in entry.get("tags", [])}),
+    }
 
 
 def ensure_dir(path):
@@ -392,13 +430,17 @@ def nav(current_file, lang, title, alt_path):
     other = "en" if lang == "zh" else "zh"
     logo_url = HOME_LOGO_URL if current_file in (OUT / "index.html", path_to_file(f"{lang}/")) else LOGO_URL
     links = [
-        (t["home"], f"{lang}/"),
-        (t["archive"], archive_path(lang)),
-        (t["pages"], f"{lang}/pages/"),
-        (t["categories"], f"{lang}/categories/"),
+        (t["home"], f"{lang}/", False),
+        (t["archive"], archive_path(lang), False),
+        (t["pages"], f"{lang}/pages/", False),
+        (t["categories"], f"{lang}/categories/", False),
+        (t["about"], "https://cv.omegaxyz.com/", True),
     ]
     link_html = "".join(
-        f'<a href="{rel_url(current_file, path_to_file(path))}">{esc(label)}</a>' for label, path in links
+        f'<a href="{esc(path)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>'
+        if external else
+        f'<a href="{rel_url(current_file, path_to_file(path))}">{esc(label)}</a>'
+        for label, path, external in links
     )
     alt = rel_url(current_file, path_to_file(alt_path)) if alt_path else rel_url(current_file, path_to_file(f"{other}/"))
     return f"""

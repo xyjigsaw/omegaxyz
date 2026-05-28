@@ -352,9 +352,9 @@ h1, h2, h3 { line-height: 1.1; letter-spacing: 0; }
   gap: 14px;
 }
 .latest-row {
-  min-height: 190px;
+  min-height: 148px;
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 210px minmax(0, 1fr);
   gap: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -364,7 +364,7 @@ h1, h2, h3 { line-height: 1.1; letter-spacing: 0; }
   backdrop-filter: blur(28px) saturate(1.35);
 }
 .latest-media {
-  min-height: 190px;
+  min-height: 148px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -381,13 +381,14 @@ h1, h2, h3 { line-height: 1.1; letter-spacing: 0; }
   filter: saturate(0.88) contrast(1.06);
 }
 .latest-copy {
-  padding: 24px 28px;
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
 }
 .latest-copy h3 {
-  margin: 8px 0 10px;
-  font-size: 1.45rem;
+  margin: 6px 0 8px;
+  font-size: 1.18rem;
+  line-height: 1.16;
 }
 .latest-copy h3 a {
   color: var(--ink);
@@ -398,6 +399,21 @@ h1, h2, h3 { line-height: 1.1; letter-spacing: 0; }
   max-width: 780px;
   margin: 0;
   color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.latest-copy .meta {
+  font-size: 0.78rem;
+}
+.latest-copy .terms {
+  gap: 6px;
+  padding-top: 10px;
+}
+.latest-copy .pill {
+  padding: 3px 8px;
+  font-size: 0.78rem;
 }
 
 .grid {
@@ -1111,7 +1127,7 @@ a.pill:hover {
     gap: 20px;
     padding-top: 28px;
   }
-  .latest-media { min-height: 240px; }
+  .latest-media { min-height: 178px; }
   .grid,
   .page-strip,
   .topic-rail,
@@ -1174,16 +1190,29 @@ a.pill:hover {
     height: 52px;
   }
   .search-shell h1 { font-size: 2.9rem; }
-  .latest-media { min-height: 190px; }
-  .latest-copy { padding: 20px; }
-  .latest-copy h3 { font-size: 1.22rem; }
-  .stats-strip,
+  .latest-media { min-height: 156px; }
+  .latest-copy { padding: 16px; }
+  .latest-copy h3 { font-size: 1.12rem; }
   .topic-rail,
   .archive-tools,
   .grid,
   .friends-grid,
   .page-strip {
     grid-template-columns: 1fr;
+  }
+  .stats-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats-strip div {
+    min-height: 58px;
+    padding: 11px 13px;
+  }
+  .stats-strip strong {
+    font-size: 1.22rem;
+  }
+  .stats-strip span {
+    margin-top: 4px;
+    font-size: 0.76rem;
   }
   .friends-hero {
     align-items: flex-start;
@@ -1203,7 +1232,12 @@ a.pill:hover {
   }
   .archive-count {
     width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
     text-align: left;
+  }
+  .archive-count strong {
+    font-size: 1.35rem;
   }
   .archive-sort {
     grid-template-columns: 1fr;

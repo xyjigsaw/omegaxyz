@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepReport：面向科学研究的 AI 辅助想法生成系统 · OmegaXYZ</title>
+  <meta name="description" content="DeepReport 将学术大数据、概念共现图、时间链接预测与大语言模型结合起来，帮助研究者从海量论文中发现跨学科连接，并把潜在连接转化为可讨论的研究想法。">
+  <link rel="canonical" href="https://omegaxyz.com/zh/2026/05/29/deepreport-ai-assisted-idea-generation/">
+  <link rel="alternate" hreflang="en" href="https://omegaxyz.com/en/2026/05/29/deepreport-ai-assisted-idea-generation/">
+  <link rel="alternate" hreflang="zh" href="https://omegaxyz.com/zh/2026/05/29/deepreport-ai-assisted-idea-generation/">
+  <meta property="og:site_name" content="OmegaXYZ">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DeepReport：面向科学研究的 AI 辅助想法生成系统 · OmegaXYZ">
+  <meta property="og:description" content="DeepReport 将学术大数据、概念共现图、时间链接预测与大语言模型结合起来，帮助研究者从海量论文中发现跨学科连接，并把潜在连接转化为可讨论的研究想法。">
+  <meta property="og:url" content="https://omegaxyz.com/zh/2026/05/29/deepreport-ai-assisted-idea-generation/">
+  <link rel="icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../../../assets/site.css?v=20260529-deepreport">
+</head>
+<body>
+  
+    <header class="site-header">
+      <nav class="nav">
+        <a class="brand" href="../../../../index.html">
+          <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="32" height="32">
+          <span class="brand-text"><strong>OmegaXYZ</strong></span>
+        </a>
+        <div class="nav-links">
+          <a href="../../../../index.html">主页</a><a href="../../../../archive/index.html">文章</a><a href="../../../../pages/index.html">页面</a><a href="../../../../categories/index.html">分类</a><a href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">关于</a>
+          <a href="../../../../../en/2026/05/29/deepreport-ai-assisted-idea-generation/index.html">English</a>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+        </div>
+      </nav>
+    </header>
+    
+  
+    <main class="wrap layout">
+      <article class="article">
+        <div class="meta">2026-05-29</div>
+        <h1>DeepReport：面向科学研究的 AI 辅助想法生成系统</h1>
+        <div class="terms"><a class="pill term-pill term-category" data-label="分类" href="../../../../category/tech/index.html"><span>技术域</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/machine-learning/index.html"><span>机器学习</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/nlp/index.html"><span>自然语言处理</span></a><a class="pill term-pill term-category" data-label="分类" href="../../../../category/knowledge-graph/index.html"><span>知识图谱</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/ai/index.html"><span>人工智能</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/llm/index.html"><span>LLM</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/academic-big-data/index.html"><span>学术大数据</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/idea-generation/index.html"><span>想法生成</span></a><a class="pill term-pill term-tag" data-label="标签" href="../../../../tag/deepreport/index.html"><span>DeepReport</span></a></div>
+        <div class="article-content"><p><a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport</a> 是一个面向科学研究的 AI 辅助想法生成系统。它试图解决一个越来越现实的问题：论文增长速度远远快于研究者能够阅读、整理和联想的速度，尤其是在跨学科研究中，真正有价值的连接常常藏在不同领域的概念之间。</p>
+
+<figure>
+  <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">
+    <img src="https://cv.omegaxyz.com/images/deepreport.png" alt="DeepReport project preview">
+  </a>
+  <figcaption>DeepReport 项目预览图。图片来源：<a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">Yi Xu Homepage</a>。</figcaption>
+</figure>
+
+<h2>DeepReport 做什么</h2>
+
+<p>从产品视角看，DeepReport 提供论文检索、洞察抽取、概念探索、知识总结和想法生成等功能。它不是简单地把若干论文摘要拼接起来，而是把“研究想法”拆成两个阶段：先发现概念之间未来可能产生联系的位置，再用大语言模型把这种结构化线索组织成可读、可讨论、可继续验证的研究叙述。</p>
+
+<p>论文 <a href="https://dl.acm.org/doi/abs/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">DeepReport: An AI-assisted Idea Generation System for Scientific Research</a> 已被 SIGIR 2025 demo track 收录。论文中描述的核心路线是：在超过 2.6 亿篇跨学科出版物上维护动态概念共现图，周期性更新概念与连接，再结合时间链接预测、图分析和大语言模型，把潜在的跨领域连接转化为更具体的研究想法。</p>
+
+<figure>
+  <img src="../../../../../assets/deepreport-flow.svg" alt="DeepReport workflow: retrieve, extract, explore, summarize, generate">
+  <figcaption>一个简化的 DeepReport 工作流：从学术数据到概念结构，再到可读的研究想法。</figcaption>
+</figure>
+
+<h2>为什么它有意思</h2>
+
+<p>科研中的“新想法”往往不是凭空出现的。它通常来自三类操作：发现两个原本分散的概念之间存在可解释联系；判断这种联系是否正在变强、是否具有时间趋势；最后把这个联系放回具体领域问题中，形成可执行的假设或实验方向。DeepReport 的价值正在于把这三步做成系统化流程。</p>
+
+<p>这也解释了为什么它适合放在学术大数据和知识图谱的交叉处：图结构负责保存概念关系和历史变化，时间预测负责寻找可能的新连接，LLM 则负责把机器发现的结构翻译成人能继续推敲的语言。对研究者来说，这种工具更像一个“高密度文献雷达”，它可以降低探索成本，但仍然把判断、取舍和实验设计留给人。</p>
+
+<h2>可以从哪里开始</h2>
+
+<p>如果你想快速了解系统，可以先打开 <a href="https://idea.acemap.cn/" target="_blank" rel="noopener noreferrer">DeepReport Demo</a>；如果你更关心学术背景，可以阅读 <a href="https://dl.acm.org/doi/pdf/10.1145/3726302.3730151" target="_blank" rel="noopener noreferrer">ACM PDF</a>。相关项目简介也整理在 <a href="https://cv.omegaxyz.com/#deepreport" target="_blank" rel="noopener noreferrer">个人主页的 DeepReport 部分</a>。</p>
+
+<p>我个人更期待它在两个方向上的延展：一是让研究者能够围绕一个概念持续追踪新连接，而不是每次从搜索框重新开始；二是把生成的想法与证据链、反例和可复现实验计划绑定起来，让“想法生成”真正进入科研工作流，而不只是停留在灵感阶段。</p>
+</div>
+        
+      </article>
+      <aside class="sidebar">
+        <section class="side-box"><h2>目录</h2><nav data-toc></nav></section>
+      </aside>
+    </main>
+    
+  <script src="../../../../../assets/site.js?v=20260529-deepreport"></script>
+  
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <section class="footer-brand">
+        <a class="footer-logo" href="../../../../index.html">
+          <img src="https://cdn.omegaxyz.com/2017/11/cropped-omegaxyzlogo.jpg" alt="" width="42" height="42">
+          <span>OmegaXYZ</span>
+        </a>
+        <p>该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权</p>
+        <p>Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处 <span class="footer-sep">|</span> 皖ICP备:17007601 <span class="footer-sep">|</span> 商业合作:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="../../../../privacy/index.html">隐私政策</a></p>
+      </section>
+      <section class="footer-map" aria-label="访问统计地图">
+        <div class="clustrmaps-widget">
+          <div class="map-placeholder" aria-hidden="true">
+            <span>访问统计地图</span>
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
+          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+        </div>
+      </section>
+      <nav class="footer-friends" aria-label="友情链接">
+        <a href="https://www.yanxishe.com/" target="_blank" rel="noopener noreferrer">AI研习社</a><a href="https://www.leiphone.com/" target="_blank" rel="noopener noreferrer">雷锋网</a><a href="https://chainoe.com/" target="_blank" rel="noopener noreferrer">ChainOE</a><a href="http://www.oldpan.me/" target="_blank" rel="noopener noreferrer">Oldpan</a><a href="https://www.oyohyee.com/" target="_blank" rel="noopener noreferrer">OhYee</a><a href="https://kexue.fm/" target="_blank" rel="noopener noreferrer">科学空间</a><a href="https://face2ai.com/" target="_blank" rel="noopener noreferrer">谭升的博客</a><a href="https://www.mebugs.com/" target="_blank" rel="noopener noreferrer">米虫</a><a href="https://www.strivezs.com/" target="_blank" rel="noopener noreferrer">StriveZ</a><a href="https://blog.ailemon.me/" target="_blank" rel="noopener noreferrer">AI柠檬</a><a href="https://pythondict.com/" target="_blank" rel="noopener noreferrer">Python实用宝典</a><a href="https://yuzhouwan.com/" target="_blank" rel="noopener noreferrer">宇宙湾</a><a href="http://blog.cvosrobot.com/" target="_blank" rel="noopener noreferrer">cvosRobot</a>
+        <a class="more-link" href="../../../../friends/index.html">更多(非首页友链)...</a>
+      </nav>
+    </div>
+  </footer>
+    
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1ff2438a5cf31d5625e00ac67e811160";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B96MD38Q4R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-B96MD38Q4R");
+  </script>
+    
+</body>
+</html>
