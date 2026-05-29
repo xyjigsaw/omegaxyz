@@ -17,7 +17,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-nav-footer"
+ASSET_VERSION = "20260529-flat"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 GITHUB_URL = "https://github.com/xyjigsaw"
@@ -82,6 +82,7 @@ FRIEND_LINKS = [
 I18N = {
     "zh": {
         "tagline": "徐奕的专栏",
+        "hero_line": "技术 · 研究 · 知识工程笔记",
         "home": "主页",
         "archive": "文章",
         "pages": "页面",
@@ -118,6 +119,7 @@ I18N = {
     },
     "en": {
         "tagline": "Xu Yi's column",
+        "hero_line": "Notes on engineering, research, and knowledge systems",
         "home": "Home",
         "archive": "Archive",
         "pages": "Pages",
@@ -682,28 +684,24 @@ def render_home(site, lang, current=None):
     search_index = rel_url(current, OUT / f"{lang}/search-index.json")
     body = f"""
     <main class="wrap">
-      <section class="search-hero">
-        <div class="search-shell">
-          <div class="hero-title">
-            <img class="hero-logo" src="{HOME_LOGO_URL}" alt="" width="74" height="74">
-            <h1>OmegaXYZ</h1>
-          </div>
-          <section class="search-box home-search" data-search="{search_index}">
-            <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
-            <div class="search-results" data-search-results></div>
-          </section>
-          <div class="hero-actions">
-            <a class="button primary" href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['explore'])}</a>
-            <a class="button" href="{rel_url(current, path_to_file(f'{lang}/pages/'))}">{esc(t['pages'])}</a>
-          </div>
-        </div>
+      <section class="hero">
+        <p class="hero-kicker">{esc(t['tagline'])}</p>
+        <h1 class="hero-line">{esc(t['hero_line'])}</h1>
+        <section class="search-box home-search" data-search="{search_index}">
+          <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
+          <div class="search-results" data-search-results></div>
+        </section>
+        <nav class="hero-actions" aria-label="{esc(t['explore'])}">
+          <a href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['explore'])} →</a>
+          <a href="{rel_url(current, path_to_file(f'{lang}/pages/'))}">{esc(t['pages'])}</a>
+        </nav>
       </section>
-      <section class="stats-strip" aria-label="Site statistics">
-        <div><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></div>
-        <div><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></div>
-        <div><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></div>
-        <div><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></div>
-      </section>
+      <ul class="stats-row" aria-label="Site statistics">
+        <li><strong>{stats['posts']}</strong> {esc(t['archive'])}</li>
+        <li><strong>{stats['pages']}</strong> {esc(t['pages'])}</li>
+        <li><strong>{stats['comments']}</strong> {esc(t['comments'])}</li>
+        <li><strong>{stats['tags']}</strong> {esc(t['tags'])}</li>
+      </ul>
       <section class="home-panel">
         <div class="topic-rail" aria-label="{esc(t['categories'])}">
           {topic_links}
