@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-history"
+ASSET_VERSION = "20260529-toc-hl"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -501,8 +501,8 @@ def nav(current_file, lang, title, alt_path):
         </a>
         <div class="nav-links">
           {link_html}
-          <a class="icon-button nav-github" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <a href="{alt}">{esc(t['language'])}</a>
+          <a class="icon-button nav-github" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
       </nav>
@@ -594,6 +594,8 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   {footer(current_file, lang)}
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/matlab.min.js"></script>
   {analytics_scripts()}
 </body>
 </html>
@@ -652,8 +654,8 @@ def render_page_link(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     return f"""
     <a class="page-link" href="{href}">
-      <span>{esc(date_only(entry['date']))}</span>
       <strong>{esc(entry[f'title_{lang}'])}</strong>
+      <span class="page-link-go" aria-hidden="true">→</span>
     </a>
     """
 
@@ -686,7 +688,12 @@ def render_home(site, lang, current=None):
     write(home_data_file, json.dumps(all_rows, ensure_ascii=False))
     home_data_url = rel_url(current, home_data_file)
     latest_rows = "".join(all_rows[:9])
-    page_links = "".join(render_page_link(e, lang, current) for e in pages[:6])
+    priority_slugs = ["friends", "webhistory", "makefriends"]
+    ordered_pages = sorted(
+        pages,
+        key=lambda p: priority_slugs.index(p["slug"]) if p["slug"] in priority_slugs else len(priority_slugs),
+    )
+    page_links = "".join(render_page_link(e, lang, current) for e in ordered_pages[:6])
     term_counts = {}
     for entry in posts:
         for term in entry["categories"]:
@@ -705,14 +712,11 @@ def render_home(site, lang, current=None):
       <section class="hero">
         <p class="hero-kicker">{esc(t['tagline'])}</p>
         <h1 class="hero-line"><span class="spinner-verb" data-spinner-verb>Pondering</span><span class="spinner-dots" aria-hidden="true">…</span></h1>
+        <p class="spinner-def" data-spinner-def></p>
         <section class="search-box home-search" data-search="{search_index}">
           <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
           <div class="search-results" data-search-results></div>
         </section>
-        <nav class="hero-actions" aria-label="{esc(t['explore'])}">
-          <a href="{rel_url(current, path_to_file(archive_path(lang)))}">{esc(t['explore'])} →</a>
-          <a href="{rel_url(current, path_to_file(f'{lang}/pages/'))}">{esc(t['pages'])}</a>
-        </nav>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
         <li><strong>{stats['posts']}</strong> {esc(t['archive'])}</li>
@@ -721,11 +725,11 @@ def render_home(site, lang, current=None):
         <li><strong>{stats['tags']}</strong> {esc(t['tags'])}</li>
       </ul>
       <section class="home-panel" data-home-topics>
-        <div class="topic-rail" data-topic-rail aria-label="{esc(t['categories'])}">
-          {topic_links}
-        </div>
-        <div class="topic-actions">
-          <button class="topic-refresh" type="button" data-topic-refresh>↻ {esc(t['shuffle_topics'])}</button>
+        <div class="topic-bar">
+          <div class="topic-rail" data-topic-rail aria-label="{esc(t['categories'])}">
+            {topic_links}
+          </div>
+          <button class="topic-refresh" type="button" data-topic-refresh aria-label="{esc(t['shuffle_topics'])}" title="{esc(t['shuffle_topics'])}">↻</button>
         </div>
       </section>
       <section class="band" data-home-latest data-home-data="{home_data_url}">
