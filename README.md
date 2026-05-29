@@ -47,6 +47,8 @@ GitHub Actions 会把 `docs/` 部署到 GitHub Pages。
 - `content/example.zh.html`：中文正文
 - `content/example.en.html`：英文正文
 
+媒体地址清单保存在 `data/media-cdn.json`。它只记录当前站点引用到的 `https://cdn.omegaxyz.com/...` URL，不包含真实图片文件，也不包含任何 Cloudflare 密钥。
+
 `scripts/build_site.py` 会先读取 `data/site.json`，再合并 `content/extra_entries.json` 里的新文章。换机器后只要 clone 仓库，就可以直接构建完整站点。
 
 ## 写一篇新文章
@@ -141,6 +143,14 @@ python3 scripts/upload_r2.py \
 
 不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json`。
 
+重建站点后，如果需要刷新 CDN 媒体清单：
+
+```bash
+python3 scripts/generate_media_manifest.py
+```
+
+这会扫描 `docs/`，更新 `data/media-cdn.json`。
+
 ## 分类和标签怎么注册
 
 不需要手动注册页面。只要文章元数据里写了：
@@ -173,6 +183,7 @@ python3 scripts/upload_r2.py \
 - 合并 `content/extra_entries.json`
 - 复制 `public/` 到 `docs/`
 - 生成中英文首页、文章页、页面索引、归档页、分类页、标签页、搜索索引、sitemap、robots 和 CNAME
+- `scripts/generate_media_manifest.py` 可以从 `docs/` 生成 Cloudflare CDN 媒体 URL 清单
 
 GitHub Pages workflow 不会重新生成站点，它只发布仓库里的 `docs/`。所以每次改内容后都要本地运行：
 
