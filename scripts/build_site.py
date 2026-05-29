@@ -17,10 +17,20 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-deepreport"
+ASSET_VERSION = "20260529-nav-footer"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
-CLUSTRMAPS_QUERY = "cl=080808&w=350&t=t&d=FE7PVw_CLT837rM_LSa4opyrN4W5MYhHu86bM_MzIIM&co=f2f5f7&cmo=3acc3a&cmn=ff5353&ct=808080"
+GITHUB_URL = "https://github.com/xyjigsaw"
+GITHUB_ICON = (
+    '<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false">'
+    '<path fill="currentColor" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 '
+    "5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13"
+    "-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07"
+    "-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82"
+    ".64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 "
+    "1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38"
+    'A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
+)
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 
 FOOTER_LINKS = [
@@ -105,7 +115,6 @@ I18N = {
         "footer_business": "商业合作",
         "privacy": "隐私政策",
         "footer_more_friends": "更多(非首页友链)...",
-        "visitor_map": "访问统计地图",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -142,7 +151,6 @@ I18N = {
         "footer_business": "Business",
         "privacy": "Privacy Policy",
         "footer_more_friends": "More friends...",
-        "visitor_map": "Visitor map",
     },
 }
 
@@ -477,6 +485,7 @@ def nav(current_file, lang, title, alt_path):
         </a>
         <div class="nav-links">
           {link_html}
+          <a class="icon-button nav-github" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <a href="{alt}">{esc(t['language'])}</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -503,16 +512,6 @@ def footer(current_file, lang):
         </a>
         <p>{esc(t["footer_license"])}</p>
         <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> {esc(t["footer_icp"])} <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a></p>
-      </section>
-      <section class="footer-map" aria-label="{esc(t["visitor_map"])}">
-        <div class="clustrmaps-widget">
-          <div class="map-placeholder" aria-hidden="true">
-            <span>{esc(t["visitor_map"])}</span>
-            <i></i><i></i><i></i><i></i><i></i>
-          </div>
-          <img class="clustrmaps-fallback" src="https://www.clustrmaps.com/map_v2.png?{CLUSTRMAPS_QUERY}" alt="Visitor map" loading="eager" decoding="async" width="350" height="175">
-          <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?{CLUSTRMAPS_QUERY}"></script>
-        </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         {friend_links}
@@ -834,6 +833,21 @@ def render_comments(entry, lang):
     return "".join(parts)
 
 
+def archive_count_box(value, lang):
+    icon = (
+        '<span class="archive-count-icon" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" '
+        'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+        '<path d="M12 3l8 4.5-8 4.5-8-4.5z"/><path d="M4 12l8 4.5 8-4.5"/>'
+        '<path d="M4 16.5l8 4.5 8-4.5"/></svg></span>'
+    )
+    return (
+        f'<div class="archive-count">{icon}'
+        f'<span class="archive-count-body"><strong data-archive-count>{value}</strong>'
+        f'<span>{esc(I18N[lang]["results"])}</span></span></div>'
+    )
+
+
 def render_archive(site, lang):
     posts = [e for e in site["entries"] if e["type"] == "post"]
     current = path_to_file(archive_path(lang))
@@ -864,7 +878,7 @@ def render_archive(site, lang):
     <main class="wrap band archive-page" data-archive>
       <div class="section-head">
         <div><h1>{esc(I18N[lang]["all_posts"])}</h1><p>{esc(I18N[lang]["latest_desc"])}</p></div>
-        <div class="archive-count"><strong data-archive-count>{len(posts)}</strong><span>{esc(I18N[lang]["results"])}</span></div>
+        {archive_count_box(len(posts), lang)}
       </div>
       <section class="archive-tools">
         <div class="archive-search">
@@ -984,7 +998,7 @@ def render_terms(site, lang):
                 <main class="wrap band term-page" data-archive>
                   <div class="section-head">
                     <div><h1>{esc(display_label)}</h1><p>{esc(I18N[lang]["categories"])} · {esc(I18N[lang]["filter_by_tag"])}</p></div>
-                    <div class="archive-count"><strong data-archive-count>{len(entries)}</strong><span>{esc(I18N[lang]["results"])}</span></div>
+                    {archive_count_box(len(entries), lang)}
                   </div>
                   <section class="archive-tools">
                     <div class="archive-search">
