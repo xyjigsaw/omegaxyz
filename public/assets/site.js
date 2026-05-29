@@ -144,6 +144,75 @@
     });
   }
 
+  // Homepage hero: random Claude-style spinner verb (from claude-spinner-verbs).
+  const spinnerEl = document.querySelector("[data-spinner-verb]");
+  if (spinnerEl) {
+    const VERBS = [
+      "Waffling", "Overtweaking", "Catastrophizing", "Spiraling", "Hedging",
+      "Faffing", "Kerfuffling", "Bouncing", "Guesstimating", "Discombobulating",
+      "Whatchamacalliting", "Cringing", "Caffeinating", "Levitating", "Julienning",
+      "Zesting", "Schlepping", "Sensing", "Honking", "Moonwalking", "Canoodling",
+      "Existentialising", "Gallivanting", "Dancing", "Razzmatazzing", "Flibbertigibbeting",
+      "Pruning", "Skedaddling", "Stupentifying", "Booping", "Sloppening", "Tomfoolering",
+      "Chronographing", "Reticulating", "Combobulating", "Guzzling", "Glazing", "Flexing",
+      "Partying", "Osmosing", "Cooking", "Mulling", "Twinkling", "Buzzing", "Curling",
+      "Incubating", "Sauteeing", "Finagling", "Wrangling", "Evaporating", "Gliding", "Fishing"
+    ];
+    spinnerEl.textContent = VERBS[Math.floor(Math.random() * VERBS.length)];
+  }
+
+  const pickIndices = (count, show, random) => {
+    const order = Array.from({ length: count }, (_, i) => i);
+    if (random) {
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+    }
+    return new Set(order.slice(0, show));
+  };
+
+  // Homepage "Latest / Shuffle" tabs — Shuffle draws a random 9 from ALL posts (lazy-loaded).
+  const latestSection = document.querySelector("[data-home-latest]");
+  if (latestSection) {
+    const list = latestSection.querySelector("[data-home-list]");
+    const baked = list ? list.innerHTML : "";
+    const dataUrl = latestSection.dataset.homeData;
+    const SHOW = 9;
+    let pool = null;
+    const buttons = latestSection.querySelectorAll("[data-home-mode]");
+    const setActive = (mode) => buttons.forEach((b) => b.classList.toggle("is-active", b.dataset.homeMode === mode));
+    const showRandom = (rows) => {
+      const idx = pickIndices(rows.length, SHOW, true);
+      list.innerHTML = Array.from(idx).map((i) => rows[i]).join("");
+    };
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.homeMode;
+        setActive(mode);
+        if (mode !== "random") { list.innerHTML = baked; return; }
+        if (pool) { showRandom(pool); return; }
+        if (!dataUrl) return;
+        fetch(dataUrl).then((r) => r.json()).then((rows) => { pool = rows; showRandom(rows); }).catch(() => {});
+      });
+    });
+  }
+
+  // Homepage topic rail: show top categories by default, shuffle to random on refresh.
+  const topicSection = document.querySelector("[data-home-topics]");
+  if (topicSection) {
+    const rail = topicSection.querySelector("[data-topic-rail]");
+    const items = rail ? Array.from(rail.children) : [];
+    const SHOW = 8;
+    const apply = (random) => {
+      const keep = pickIndices(items.length, SHOW, random);
+      items.forEach((item, i) => { item.style.display = keep.has(i) ? "" : "none"; });
+    };
+    const refresh = topicSection.querySelector("[data-topic-refresh]");
+    if (refresh) refresh.addEventListener("click", () => apply(true));
+    apply(false);
+  }
+
   const renderMath = () => {
     if (!window.renderMathInElement) return;
     window.renderMathInElement(document.body, {

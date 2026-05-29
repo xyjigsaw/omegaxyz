@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 import html
 import json
 import math
@@ -17,9 +18,10 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-flat"
+ASSET_VERSION = "20260529-history"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
+FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
 GITHUB_URL = "https://github.com/xyjigsaw"
 GITHUB_ICON = (
     '<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false">'
@@ -32,6 +34,10 @@ GITHUB_ICON = (
     'A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 )
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
+EXCLUDE_PAGE_SLUGS = {
+    "ai-ml-navigator", "web-running", "js_game", "regular_expression",
+    "caculator", "onlinetools", "lab", "hello-world", "acknowledgement",
+}
 
 FOOTER_LINKS = [
     ("AI研习社", "https://www.yanxishe.com/"),
@@ -82,7 +88,9 @@ FRIEND_LINKS = [
 I18N = {
     "zh": {
         "tagline": "徐奕的专栏",
-        "hero_line": "技术 · 研究 · 知识工程笔记",
+        "tab_latest": "最新",
+        "tab_random": "随机",
+        "shuffle_topics": "换一批",
         "home": "主页",
         "archive": "文章",
         "pages": "页面",
@@ -119,7 +127,9 @@ I18N = {
     },
     "en": {
         "tagline": "Xu Yi's column",
-        "hero_line": "Notes on engineering, research, and knowledge systems",
+        "tab_latest": "Latest",
+        "tab_random": "Shuffle",
+        "shuffle_topics": "Shuffle",
         "home": "Home",
         "archive": "Archive",
         "pages": "Pages",
@@ -199,7 +209,11 @@ def load_site():
     if extras:
         extra_urls = {entry["url"] for entry in extras}
         site["entries"] = extras + [entry for entry in site["entries"] if entry.get("url") not in extra_urls]
-        site["summary"] = build_summary(site["entries"])
+    site["entries"] = [
+        entry for entry in site["entries"]
+        if not (entry.get("type") == "page" and entry.get("slug") in EXCLUDE_PAGE_SLUGS)
+    ]
+    site["summary"] = build_summary(site["entries"])
     return site
 
 
@@ -463,7 +477,7 @@ def short_text(value, length=92):
 def nav(current_file, lang, title, alt_path):
     t = I18N[lang]
     other = "en" if lang == "zh" else "zh"
-    logo_url = HOME_LOGO_URL if current_file in (OUT / "index.html", path_to_file(f"{lang}/")) else LOGO_URL
+    logo_url = HOME_LOGO_URL
     links = [
         (t["home"], f"{lang}/", False),
         (t["archive"], archive_path(lang), False),
@@ -509,7 +523,7 @@ def footer(current_file, lang):
     <div class="wrap footer-grid">
       <section class="footer-brand">
         <a class="footer-logo" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
-          <img src="{LOGO_URL}" alt="" width="42" height="42">
+          <img src="{FAVICON_URL}" alt="" width="42" height="42">
           <span>OmegaXYZ</span>
         </a>
         <p>{esc(t["footer_license"])}</p>
@@ -568,8 +582,8 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
   <meta property="og:title" content="{esc(title)} · OmegaXYZ">
   <meta property="og:description" content="{esc(desc)}">
   <meta property="og:url" content="{esc(canonical)}">
-  <link rel="icon" href="{LOGO_URL}" type="image/jpeg">
-  <link rel="apple-touch-icon" href="{LOGO_URL}">
+  <link rel="icon" href="{FAVICON_URL}" type="image/png">
+  <link rel="apple-touch-icon" href="{FAVICON_URL}">
   <link rel="stylesheet" href="{katex}">
   <link rel="stylesheet" href="{css}">
 </head>
@@ -653,8 +667,8 @@ def render_latest_row(entry, lang, current_file):
     <article class="latest-row">
       <a class="latest-media" href="{href}">{image_html}</a>
       <div class="latest-copy">
-        <div class="meta">{esc(date_only(entry['date']))}</div>
         <h3><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h3>
+        <div class="meta">{esc(date_only(entry['date']))}</div>
         <p>{esc(short_text(entry[f'excerpt_{lang}'], 160))}</p>
         <div class="terms">{pills}</div>
       </div>
@@ -667,18 +681,22 @@ def render_home(site, lang, current=None):
     posts = [e for e in site["entries"] if e["type"] == "post"]
     pages = [e for e in site["entries"] if e["type"] == "page"]
     stats = site["summary"]
-    latest_rows = "".join(render_latest_row(e, lang, current) for e in posts[:9])
+    all_rows = [render_latest_row(e, lang, current) for e in posts]
+    home_data_file = current.parent / "home-rows.json"
+    write(home_data_file, json.dumps(all_rows, ensure_ascii=False))
+    home_data_url = rel_url(current, home_data_file)
+    latest_rows = "".join(all_rows[:9])
     page_links = "".join(render_page_link(e, lang, current) for e in pages[:6])
     term_counts = {}
     for entry in posts:
         for term in entry["categories"]:
             term_counts.setdefault(term["slug"], term_info(term))
             term_counts[term["slug"]]["count"] += 1
-    top_terms = sorted(term_counts.values(), key=lambda item: item["count"], reverse=True)[:8]
+    topic_pool = sorted(term_counts.values(), key=lambda item: item["count"], reverse=True)[:24]
     topic_links = "".join(
-        f'<a href="{rel_url(current, path_to_file(term_path("category", term["slug"], lang)))}">'
+        f'<a class="topic-chip" data-topic-item href="{rel_url(current, path_to_file(term_path("category", term["slug"], lang)))}">'
         f'<span>{esc(term_label(term, lang))}</span><strong>{term.get("count", 0)}</strong></a>'
-        for term in top_terms
+        for term in topic_pool
     )
     t = I18N[lang]
     search_index = rel_url(current, OUT / f"{lang}/search-index.json")
@@ -686,7 +704,7 @@ def render_home(site, lang, current=None):
     <main class="wrap">
       <section class="hero">
         <p class="hero-kicker">{esc(t['tagline'])}</p>
-        <h1 class="hero-line">{esc(t['hero_line'])}</h1>
+        <h1 class="hero-line"><span class="spinner-verb" data-spinner-verb>Pondering</span><span class="spinner-dots" aria-hidden="true">…</span></h1>
         <section class="search-box home-search" data-search="{search_index}">
           <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
           <div class="search-results" data-search-results></div>
@@ -702,14 +720,23 @@ def render_home(site, lang, current=None):
         <li><strong>{stats['comments']}</strong> {esc(t['comments'])}</li>
         <li><strong>{stats['tags']}</strong> {esc(t['tags'])}</li>
       </ul>
-      <section class="home-panel">
-        <div class="topic-rail" aria-label="{esc(t['categories'])}">
+      <section class="home-panel" data-home-topics>
+        <div class="topic-rail" data-topic-rail aria-label="{esc(t['categories'])}">
           {topic_links}
         </div>
+        <div class="topic-actions">
+          <button class="topic-refresh" type="button" data-topic-refresh>↻ {esc(t['shuffle_topics'])}</button>
+        </div>
       </section>
-      <section class="band">
-        <div class="section-head"><div><h2>{esc(t['latest'])}</h2><p>{esc(t['latest_desc'])}</p></div></div>
-        <div class="latest-list">{latest_rows}</div>
+      <section class="band" data-home-latest data-home-data="{home_data_url}">
+        <div class="section-head">
+          <h2>{esc(t['latest'])}</h2>
+          <div class="home-tabs" role="tablist">
+            <button class="home-tab is-active" type="button" data-home-mode="latest">{esc(t['tab_latest'])}</button>
+            <button class="home-tab" type="button" data-home-mode="random">{esc(t['tab_random'])}</button>
+          </div>
+        </div>
+        <div class="latest-list" data-home-list>{latest_rows}</div>
       </section>
       <section class="band">
         <div class="section-head"><div><h2>{esc(t['pages'])}</h2><p>{esc(t['featured'])}</p></div></div>
@@ -720,9 +747,60 @@ def render_home(site, lang, current=None):
     return layout(current, lang, "OmegaXYZ", body, t["intro"], f"{'en' if lang == 'zh' else 'zh'}/")
 
 
+TIMELINE = [
+    {"date": "2026.5.27", "zh": "弃用阿里云，网站从 WordPress 下架，迁移到 GitHub + Cloudflare", "en": "Dropped Alibaba Cloud; retired WordPress and migrated to GitHub + Cloudflare"},
+    {"date": "2023.3.29", "zh": "进入 AI 纪元", "en": "Entered the AI era"},
+    {"date": "2022.1.24", "zh": "网站 UI 重新设计", "en": "Website UI redesigned"},
+    {"date": "2021.6.16", "zh": "服务器优化与迁移（开发者服务器）", "en": "Server optimization and migration (developer server)"},
+    {"date": "2020.2.5", "zh": "网站总访问量突破 100 万", "en": "Total site visits surpassed 1,000,000"},
+    {"date": "2020.1.6", "zh": "网站配套微信小程序上线", "en": "Companion WeChat mini-program launched"},
+    {"date": "2020.1.4", "zh": "服务器重置、数据库清理、冗余插件清理、HTTPS 配置", "en": "Server reset, database cleanup, plugin pruning, and HTTPS configured"},
+    {"date": "2019.1.15", "zh": "网站速度提升，开启 Cache", "en": "Faster site; caching enabled"},
+    {"date": "2018.5.3", "zh": "增加 IP BAN，提高反爬虫能力（2020.1.4 已下线）", "en": "Added IP banning to deter scrapers (retired 2020.1.4)"},
+    {"date": "2018.3.28", "zh": "CSS 优化，进一步提高网站响应速度", "en": "CSS optimization for faster response times"},
+    {"date": "2018.1.15", "zh": "增加文章评分功能，搜索关键字高亮显示", "en": "Added article ratings and search keyword highlighting"},
+    {"date": "2018.1.9", "zh": "评论模块优化，增加网站订阅功能（2020.1.4 已下线）", "en": "Comment module improved; site subscriptions added (retired 2020.1.4)"},
+    {"date": "2017.8.25", "zh": "文章采用 BY-NC-SA 4.0 授权", "en": "Articles licensed under CC BY-NC-SA 4.0"},
+    {"date": "2017.7.27", "zh": "更换阿里云 ECS，实现网站整体迁移", "en": "Switched to Alibaba Cloud ECS; full site migration"},
+    {"date": "2017.7.25", "zh": "建立 TuringXY（图灵技术域）微信公众号，并绑定网站，实现公众号全站搜索", "en": "Founded the TuringXY WeChat official account, linked to the site for full-site search"},
+    {"date": "2017.4.18", "zh": "网站上线", "en": "Website went live"},
+    {"date": "2017.4.12", "zh": "工信部备案成功", "en": "MIIT (ICP) filing approved"},
+    {"date": "2017.4.6", "zh": "申请阿里云 ECS，制作网站并测试安装插件", "en": "Provisioned Alibaba Cloud ECS; built the site and tested plugins"},
+    {"date": "2017.4.1", "zh": "申请 OmegaXYZ.com 域名并提交备案", "en": "Registered OmegaXYZ.com and submitted the ICP filing"},
+]
+
+
+def render_timeline(lang):
+    items = "".join(
+        f"""
+        <li class="timeline-item">
+          <span class="timeline-marker" aria-hidden="true"></span>
+          <time class="timeline-date">{esc(item['date'])}</time>
+          <p class="timeline-event">{esc(item[lang])}</p>
+        </li>"""
+        for item in TIMELINE
+    )
+    return f'<ol class="timeline">{items}</ol>'
+
+
+def render_timeline_page(entry, lang):
+    current = path_to_file(entry_path(entry, lang))
+    other = "en" if lang == "zh" else "zh"
+    title = entry[f"title_{lang}"]
+    body = f"""
+    <main class="wrap band timeline-page">
+      <div class="section-head"><h1>{esc(title)}</h1></div>
+      {render_timeline(lang)}
+    </main>
+    """
+    return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, other))
+
+
 def render_entry(entry, lang, legacy):
     if entry["url"].strip("/") == "friends":
         return render_friends_entry(entry, lang)
+    if entry["url"].strip("/") == "webhistory":
+        return render_timeline_page(entry, lang)
     current = path_to_file(entry_path(entry, lang))
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
@@ -812,6 +890,19 @@ def render_friends_entry(entry, lang):
     return layout(current, lang, title, body, desc, entry_path(entry, other))
 
 
+COMMENT_EMOJIS = [
+    "🦊", "🐱", "🐼", "🦉", "🐧", "🦁", "🐯", "🐨", "🐸", "🐙",
+    "🦄", "🐝", "🦋", "🐬", "🦝", "🐺", "🦅", "🐢", "🦒", "🐳",
+    "🦦", "🐰", "🐶", "🐭", "🦔", "🐹", "🦜", "🐲", "🦓", "🐮",
+]
+
+
+def comment_emoji(author):
+    key = (author or "anon").strip().lower()
+    digest = hashlib.md5(key.encode("utf-8")).hexdigest()
+    return COMMENT_EMOJIS[int(digest, 16) % len(COMMENT_EMOJIS)]
+
+
 def render_comments(entry, lang):
     comments = entry["comments"]
     if not comments:
@@ -819,12 +910,15 @@ def render_comments(entry, lang):
     parts = [f'<section class="comments"><h2>{esc(I18N[lang]["comments"])} ({len(comments)})</h2>']
     for c in comments:
         cls = "comment reply" if c["parent"] else "comment"
-        author = f'<a href="{esc(c["url"])}" rel="nofollow">{c["author"]}</a>' if c["url"] else c["author"]
+        name = esc(c["author"] or "Anonymous")
+        author = f'<a href="{esc(c["url"])}" rel="nofollow noopener">{name}</a>' if c["url"] else name
         parts.append(f"""
         <div class="{cls}" id="comment-{c['id']}">
-          <strong>{author}</strong>
-          <time>{esc(c['date'])}</time>
-          <div>{c[f'content_{lang}']}</div>
+          <div class="comment-avatar" aria-hidden="true">{comment_emoji(c['author'])}</div>
+          <div class="comment-body">
+            <div class="comment-head"><strong>{author}</strong><time>{esc(c['date'])}</time></div>
+            <div class="comment-text">{c[f'content_{lang}']}</div>
+          </div>
         </div>
         """)
     parts.append("</section>")
