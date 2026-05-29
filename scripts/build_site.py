@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-perf-seo"
+ASSET_VERSION = "20260529-perf-seo2"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -92,6 +92,7 @@ FRIEND_LINKS = [
 I18N = {
     "zh": {
         "tagline": "徐奕的专栏",
+        "skip": "跳到正文",
         "tab_latest": "最新",
         "tab_random": "随机",
         "shuffle_topics": "换一批",
@@ -132,6 +133,7 @@ I18N = {
     },
     "en": {
         "tagline": "Xu Yi's column",
+        "skip": "Skip to content",
         "tab_latest": "Latest",
         "tab_random": "Shuffle",
         "shuffle_topics": "Shuffle",
@@ -461,7 +463,9 @@ def rewrite_content(markup, lang, current_file, legacy):
             rewritten = rewrite_url(value, lang, current_file, legacy)
         return f'{attr}={quote_char}{html.escape(rewritten, quote=True)}{quote_char}'
 
-    return re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup or "", flags=re.I)
+    rewritten = re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup or "", flags=re.I)
+    rewritten = re.sub(r'<img (?![^>]*\bloading=)', '<img loading="lazy" decoding="async" ', rewritten, flags=re.I)
+    return rewritten
 
 
 def strip_tags(markup):
@@ -595,13 +599,18 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
     other = "en" if lang == "zh" else "zh"
     alternate = site_url_for_file(path_to_file(alt_path)) if alt_path else site_url_for_file(path_to_file(f"{other}/"))
     og_image = image or LOGO_URL
-    head_katex = f'\n  <link rel="stylesheet" href="{katex}">' if article_assets else ""
+    head_katex = (
+        '\n  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>'
+        f'\n  <link rel="stylesheet" href="{katex}">'
+    ) if article_assets else ""
     body_assets = ARTICLE_ASSETS if article_assets else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://cdn.omegaxyz.com">
+  <link rel="preconnect" href="https://cv.omegaxyz.com">
   {THEME_SCRIPT}
   <title>{esc(title)} · OmegaXYZ</title>
   <meta name="description" content="{esc(desc)}">
@@ -624,7 +633,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <link rel="stylesheet" href="{css}">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">{esc(I18N[lang]["skip"])}</a>
   {nav(current_file, lang, title, alt_path)}
+  <a id="main-content" tabindex="-1"></a>
   {body}
   <script src="{js}"></script>
   {footer(current_file, lang)}{body_assets}
@@ -632,54 +643,6 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
 </body>
 </html>
 """
-
-
-def render_card(entry, lang, current_file, compact=False):
-    title = entry[f"title_{lang}"]
-    excerpt = short_text(entry[f"excerpt_{lang}"], 112 if compact else 150)
-    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
-    pills = render_term_pills(entry, lang, current_file, 2, 2)
-    image = first_image(entry)
-    image_html = f'<a class="card-media" href="{href}"><img src="{esc(image)}" alt=""></a>' if image and not compact else ""
-    return f"""
-    <article class="post-card">
-      {image_html}
-      <div class="meta">{esc(date_only(entry['date']))}</div>
-      <h3><a href="{href}">{esc(title)}</a></h3>
-      <p>{esc(excerpt)}</p>
-      <div class="terms">{pills}</div>
-    </article>
-    """
-
-
-def render_feature(entry, lang, current_file):
-    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
-    image = first_image(entry)
-    pills = render_term_pills(entry, lang, current_file, 2, 2)
-    image_html = f'<img src="{esc(image)}" alt="">' if image else '<div class="media-fallback">OmegaXYZ</div>'
-    return f"""
-    <article class="feature-card">
-      <a class="feature-media" href="{href}">{image_html}</a>
-      <div class="feature-copy">
-        <div class="meta">{esc(date_only(entry['date']))}</div>
-        <h3><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h3>
-        <p>{esc(short_text(entry[f'excerpt_{lang}'], 132))}</p>
-        <div class="terms">{pills}</div>
-      </div>
-    </article>
-    """
-
-
-def render_quick_item(entry, lang, current_file):
-    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
-    term = (entry["categories"] or entry["tags"] or [{"name": "", "slug": ""}])[0]
-    return f"""
-    <a class="quick-item" href="{href}">
-      <time>{esc(date_only(entry['date']))}</time>
-      <strong>{esc(entry[f'title_{lang}'])}</strong>
-      <span>{esc(term_label(term, lang))}</span>
-    </a>
-    """
 
 
 def render_page_link(entry, lang, current_file):
@@ -845,6 +808,20 @@ def render_entry(entry, lang, legacy):
     term_links = render_term_pills(entry, lang, current, 8, 12)
     comments = render_comments(entry, lang)
     og_image = entry.get("thumbnail") or first_image(entry)
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "datePublished": date_only(entry["date"]),
+        "dateModified": date_only(entry.get("modified") or entry["date"]),
+        "author": {"@type": "Person", "name": "Xu Yi"},
+        "publisher": {"@type": "Organization", "name": "OmegaXYZ",
+                      "logo": {"@type": "ImageObject", "url": LOGO_URL}},
+        "mainEntityOfPage": site_url_for_file(current),
+    }
+    if og_image:
+        ld["image"] = og_image
+    ld_json = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     body = f"""
     <main class="wrap layout">
       <article class="article">
@@ -858,6 +835,7 @@ def render_entry(entry, lang, legacy):
         <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
       </aside>
     </main>
+    <script type="application/ld+json">{ld_json}</script>
     """
     return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image)
 
@@ -1235,16 +1213,26 @@ def copy_public():
     write(OUT / "CNAME", "omegaxyz.com\n")
 
 
-def render_site_index_files():
-    urls = []
+def render_site_index_files(site):
+    lastmod = {}
+    for entry in site["entries"]:
+        mod = date_only(entry.get("modified") or entry["date"])
+        for lang in ("zh", "en"):
+            lastmod[site_url_for_file(path_to_file(entry_path(entry, lang)))] = mod
+    rows = []
     for file in sorted(OUT.rglob("*.html")):
         if file.name == "404.html":
             continue
         head = file.read_text(encoding="utf-8", errors="ignore")[:300].lower()
         if 'http-equiv="refresh"' in head or 'name="robots" content="noindex"' in head:
             continue
-        urls.append(site_url_for_file(file))
-    xml_urls = "\n".join(f"  <url><loc>{esc(url)}</loc></url>" for url in urls)
+        url = site_url_for_file(file)
+        mod = lastmod.get(url)
+        if mod:
+            rows.append(f"  <url><loc>{esc(url)}</loc><lastmod>{esc(mod)}</lastmod></url>")
+        else:
+            rows.append(f"  <url><loc>{esc(url)}</loc></url>")
+    xml_urls = "\n".join(rows)
     write(OUT / "sitemap.xml", f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {xml_urls}
@@ -1264,6 +1252,8 @@ def render_404():
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://cdn.omegaxyz.com">
+  <link rel="preconnect" href="https://cv.omegaxyz.com">
   {THEME_SCRIPT}
   <title>404 · OmegaXYZ</title>
   <meta name="robots" content="noindex">
@@ -1332,7 +1322,7 @@ def main():
     for path in collect_legacy_paths(site, legacy):
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
-    render_site_index_files()
+    render_site_index_files(site)
     render_404()
     print(f"built {OUT}")
 

@@ -124,6 +124,21 @@
       }
     });
     box.appendChild(root);
+    // Scrollspy: highlight the TOC entry for the section currently near the top.
+    if ("IntersectionObserver" in window) {
+      const tocLinks = {};
+      root.querySelectorAll("a").forEach((a) => { tocLinks[a.getAttribute("href").slice(1)] = a; });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const a = tocLinks[e.target.id];
+          if (!a) return;
+          root.querySelectorAll("a.is-active").forEach((x) => x.classList.remove("is-active"));
+          a.classList.add("is-active");
+        });
+      }, { rootMargin: "0px 0px -78% 0px" });
+      headings.forEach((h) => obs.observe(h));
+    }
   });
 
   const search = document.querySelector(".search-box[data-search]");
@@ -132,14 +147,8 @@
     const results = search.querySelector("[data-search-results]");
     const indexPath = search.dataset.search;
     let index = [];
-    fetch(indexPath)
-      .then((r) => r.json())
-      .then((data) => {
-        index = data;
-      })
-      .catch(() => {});
-
-    input.addEventListener("input", () => {
+    let loaded = false;
+    const runSearch = () => {
       const q = input.value.trim().toLowerCase();
       results.innerHTML = "";
       if (q.length < 2) return;
@@ -154,7 +163,15 @@
         a.querySelector("span").textContent = item.excerpt;
         results.appendChild(a);
       });
-    });
+    };
+    // Only fetch the (large) search index when the user actually engages the box.
+    const loadIndex = () => {
+      if (loaded) return;
+      loaded = true;
+      fetch(indexPath).then((r) => r.json()).then((data) => { index = data; runSearch(); }).catch(() => { loaded = false; });
+    };
+    input.addEventListener("focus", loadIndex, { once: true });
+    input.addEventListener("input", () => { loadIndex(); runSearch(); });
   }
 
   // Homepage hero: random Claude-style spinner verb + definition (from claude-spinner-verbs),
@@ -219,6 +236,7 @@
     ];
     let last = -1;
     let timer = null;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const spin = () => {
       let i = Math.floor(Math.random() * VERBS.length);
       if (VERBS.length > 1 && i === last) i = (i + 1) % VERBS.length;
@@ -226,7 +244,7 @@
       spinnerEl.textContent = VERBS[i].w;
       if (defEl) defEl.textContent = VERBS[i].d;
     };
-    const schedule = () => { if (timer) clearInterval(timer); timer = setInterval(spin, 5000); };
+    const schedule = () => { if (reduce) return; if (timer) clearInterval(timer); timer = setInterval(spin, 5000); };
     spin();
     schedule();
     const heroLine = spinnerEl.closest(".hero-line") || spinnerEl;
@@ -300,6 +318,18 @@
   };
   renderMath();
   window.addEventListener("load", renderMath, { once: true });
+
+  // Floating back-to-top button (appears after scrolling down).
+  const toTop = document.createElement("button");
+  toTop.type = "button";
+  toTop.className = "to-top";
+  toTop.setAttribute("aria-label", "Back to top");
+  toTop.textContent = "↑";
+  document.body.appendChild(toTop);
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  const toggleToTop = () => toTop.classList.toggle("is-visible", window.scrollY > 600);
+  window.addEventListener("scroll", toggleToTop, { passive: true });
+  toggleToTop();
 
   // Wrap article code blocks with a toolbar (copy + collapse). Default expanded.
   const enhanceCodeBlocks = () => {
