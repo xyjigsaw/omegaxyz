@@ -284,7 +284,9 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
-.stats-row li {
+.stats-row li { display: flex; }
+.stats-row a {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -293,6 +295,13 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--fill);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+.stats-row a:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: var(--panel);
 }
 .stats-row strong {
   color: var(--accent);
@@ -306,11 +315,9 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 /* ---------- topic rail ---------- */
 .home-panel { padding: 30px 0 6px; }
 .topic-bar {
-  max-width: 640px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .topic-rail {
   flex: 1;
@@ -970,6 +977,16 @@ a.pill:hover {
 .comment-text p { margin: 0.4em 0; }
 .comment-text p:first-child { margin-top: 0; }
 
+/* migrated post footer (license/copyright) rendered as a small muted block */
+.article-content .post-footer {
+  margin-top: 2.6em;
+  padding-top: 1em;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
 /* ---------- website-history timeline ---------- */
 .timeline-page .section-head { margin-bottom: 26px; }
 .timeline {
@@ -1056,7 +1073,7 @@ a.pill:hover {
 }
 .footer-logo img { width: 38px; height: 38px; border-radius: 9px; object-fit: cover; }
 .footer-decl { flex: 1; min-width: 0; }
-.footer-decl p { margin: 0; font-size: 0.8rem; line-height: 1.6; }
+.footer-decl p { margin: 0; font-size: 0.74rem; line-height: 1.6; }
 .footer-decl p + p { margin-top: 4px; }
 .footer-brand a,
 .footer-friends a { color: var(--accent); }
@@ -1229,13 +1246,14 @@ a.pill:hover {
 .donate-page .article-content { text-align: center; }
 .donate-page .article-content p { text-align: center; }
 .donate-page .article-content img {
-  width: 168px;
-  height: auto;
+  width: auto;
+  height: 240px;
   margin: 10px;
   border: 1px solid var(--line);
   border-radius: 12px;
   box-shadow: none;
   display: inline-block;
+  vertical-align: top;
 }
 
 /* ---------- privacy policy page: drop redundant rules, tidy spacing ---------- */

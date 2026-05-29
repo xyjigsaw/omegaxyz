@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-ui4"
+ASSET_VERSION = "20260529-ui5"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -225,6 +225,10 @@ def load_site():
         override = PAGE_TITLE_EN_OVERRIDE.get(entry.get("slug"))
         if override:
             entry["title_en"] = override
+        # Strip the stray WordPress [latexpage] shortcode wherever it leaked.
+        for field in ("excerpt_zh", "excerpt_en", "title_zh", "title_en"):
+            if entry.get(field):
+                entry[field] = re.sub(r"\[latexpage\]\s*", "", entry[field], flags=re.I).strip()
     site["summary"] = build_summary(site["entries"])
     return site
 
@@ -454,7 +458,31 @@ def rewrite_srcset(value, lang, current_file, legacy):
     return ", ".join(pieces)
 
 
+def fix_post_footer(markup):
+    """The migrated WordPress site footer is appended as raw text with bare
+    newlines (so it collapses into one line). When it appears as raw text at the
+    very end, give its lines real <br> breaks. Skip footers already wrapped in a tag."""
+    m = re.search(r"(更多内容访问|For more, visit)", markup)
+    if not m:
+        return markup
+    i = m.start()
+    if (i > 0 and markup[i - 1] == ">") or (len(markup) - i > 700):
+        return markup  # already wrapped, or not the trailing footer
+    head = re.sub(r"(?:\s|&nbsp;|\r|\n)+$", "", markup[:i])
+    lines = [ln.strip() for ln in re.split(r"\r?\n", markup[i:]) if ln.strip() and ln.strip() != "&nbsp;"]
+    return head + '\n<p class="post-footer">' + "<br>".join(lines) + "</p>"
+
+
 def rewrite_content(markup, lang, current_file, legacy):
+    markup = markup or ""
+    markup = re.sub(r"\[latexpage\]\s*", "", markup, flags=re.I)
+    markup = re.sub(
+        r"\[([^\]\n]+)\]\((https?://[^)\s]+)\)",
+        r'<a href="\2">\1</a>',
+        markup,
+    )
+    markup = fix_post_footer(markup)
+
     def repl(match):
         attr, quote_char, value = match.groups()
         if attr.lower() == "srcset":
@@ -463,7 +491,7 @@ def rewrite_content(markup, lang, current_file, legacy):
             rewritten = rewrite_url(value, lang, current_file, legacy)
         return f'{attr}={quote_char}{html.escape(rewritten, quote=True)}{quote_char}'
 
-    rewritten = re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup or "", flags=re.I)
+    rewritten = re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup, flags=re.I)
     rewritten = re.sub(r'<img (?![^>]*\bloading=)', '<img loading="lazy" decoding="async" ', rewritten, flags=re.I)
     return rewritten
 
@@ -500,6 +528,7 @@ NAV_ICONS = {
     "pages": _nav_icon('<path d="M8 3h6l4 4v14H8z"/><path d="M14 3v4h4"/>'),
     "categories": _nav_icon('<path d="M3 7a1 1 0 0 1 1-1h4.5l2 2H20a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>'),
     "about": _nav_icon('<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.3 3.8-4.8 6.5-4.8s5.3 1.5 6.5 4.8"/>'),
+    "lang": _nav_icon('<circle cx="12" cy="12" r="9"/><path d="M3.5 12h17"/><path d="M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/>'),
 }
 
 
@@ -532,7 +561,7 @@ def nav(current_file, lang, title, alt_path):
         </a>
         <div class="nav-links">
           {link_html}
-          <a href="{alt}">{esc(t['language'])}</a>
+          <a class="nav-item nav-lang" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
           <a class="icon-button nav-github" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -700,8 +729,8 @@ def render_home(site, lang, current=None):
     write(home_data_file, json.dumps(all_rows, ensure_ascii=False))
     home_data_url = rel_url(current, home_data_file)
     latest_rows = "".join(all_rows[:9])
-    priority_slugs = ["friends", "webhistory", "makefriends"]
-    home_pages = [p for p in pages if p["slug"] != "evolutionary-algorithm-navigator"]
+    priority_slugs = ["friends", "webhistory", "makefriends", "comment"]
+    home_pages = [p for p in pages if p["slug"] not in ("evolutionary-algorithm-navigator", "menu-bar-privacy")]
     ordered_pages = sorted(
         home_pages,
         key=lambda p: priority_slugs.index(p["slug"]) if p["slug"] in priority_slugs else len(priority_slugs),
@@ -725,6 +754,10 @@ def render_home(site, lang, current=None):
     )
     t = I18N[lang]
     search_index = rel_url(current, OUT / f"{lang}/search-index.json")
+    stat_archive = rel_url(current, path_to_file(archive_path(lang)))
+    stat_pages = rel_url(current, path_to_file(f"{lang}/pages/"))
+    stat_comment = rel_url(current, path_to_file(f"{lang}/comment/"))
+    stat_terms = rel_url(current, path_to_file(f"{lang}/categories/"))
     body = f"""
     <main class="wrap">
       <section class="hero">
@@ -737,10 +770,10 @@ def render_home(site, lang, current=None):
         </section>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
-        <li><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></li>
-        <li><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></li>
-        <li><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></li>
-        <li><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></li>
+        <li><a href="{stat_archive}"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></a></li>
+        <li><a href="{stat_pages}"><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></a></li>
+        <li><a href="{stat_comment}"><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></a></li>
+        <li><a href="{stat_terms}"><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></a></li>
       </ul>
       <section class="home-panel" data-home-topics>
         <div class="topic-bar">
@@ -761,7 +794,7 @@ def render_home(site, lang, current=None):
         <div class="latest-list" data-home-list>{latest_rows}</div>
       </section>
       <section class="band">
-        <div class="section-head"><div><h2>{esc(t['pages'])}</h2><p>{esc(t['featured'])}</p></div></div>
+        <div class="section-head"><div><h2>{esc(t['pages'])}</h2></div></div>
         <div class="page-strip">{page_links}</div>
       </section>
     </main>

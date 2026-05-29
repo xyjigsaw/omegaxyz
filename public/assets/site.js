@@ -279,20 +279,30 @@
     const dataUrl = latestSection.dataset.homeData;
     const SHOW = 9;
     let pool = null;
+    let loading = null;
     const buttons = latestSection.querySelectorAll("[data-home-mode]");
     const setActive = (mode) => buttons.forEach((b) => b.classList.toggle("is-active", b.dataset.homeMode === mode));
     const showRandom = (rows) => {
       const idx = pickIndices(rows.length, SHOW, true);
       list.innerHTML = Array.from(idx).map((i) => rows[i]).join("");
     };
+    const loadPool = () => {
+      if (pool) return Promise.resolve(pool);
+      if (!dataUrl) return Promise.reject();
+      if (!loading) loading = fetch(dataUrl).then((r) => r.json()).then((rows) => { pool = rows; return rows; });
+      return loading;
+    };
+    // Warm the shuffle data in the background so the first "随机" click is instant.
+    const prefetch = () => { loadPool().catch(() => {}); };
+    if ("requestIdleCallback" in window) requestIdleCallback(prefetch, { timeout: 3000 });
+    else window.addEventListener("load", () => setTimeout(prefetch, 1000), { once: true });
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const mode = btn.dataset.homeMode;
         setActive(mode);
         if (mode !== "random") { list.innerHTML = baked; return; }
         if (pool) { showRandom(pool); return; }
-        if (!dataUrl) return;
-        fetch(dataUrl).then((r) => r.json()).then((rows) => { pool = rows; showRandom(rows); }).catch(() => {});
+        loadPool().then(showRandom).catch(() => {});
       });
     });
   }
