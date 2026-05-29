@@ -129,6 +129,9 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 .nav-github { color: var(--muted); }
 .nav-github svg { display: block; width: 20px; height: 20px; }
 .nav-github:hover { color: var(--accent); }
+.nav-item { display: inline-flex; align-items: center; gap: 6px; }
+.nav-item svg { flex: 0 0 auto; opacity: 0.85; }
+.nav-item:hover svg { opacity: 1; }
 [data-theme-toggle] { font-size: 1.3rem; line-height: 1; }
 
 .wrap {
@@ -264,44 +267,50 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 .search-results a:last-child { border-bottom: 0; }
 .search-results a:hover { background: var(--fill); }
 .search-results span { color: var(--muted); font-size: 0.9rem; }
+.search-results mark {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: inherit;
+  padding: 0 1px;
+  border-radius: 3px;
+}
 
 /* ---------- stats row ---------- */
 .stats-row {
   list-style: none;
-  margin: 20px 0 0;
+  margin: 18px auto 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 .stats-row li {
-  flex: 0 1 auto;
-  min-width: 92px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 12px 20px;
+  padding: 12px 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--fill);
 }
 .stats-row strong {
   color: var(--accent);
-  font-size: 1.4rem;
+  font-size: 1.32rem;
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-.stats-row span { color: var(--muted); font-size: 0.78rem; }
+.stats-row span { color: var(--muted); font-size: 0.73rem; }
 
 /* ---------- topic rail ---------- */
 .home-panel { padding: 30px 0 6px; }
 .topic-bar {
+  max-width: 640px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .topic-rail {
   flex: 1;
@@ -309,21 +318,21 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 10px;
+  gap: 7px 8px;
 }
 .topic-rail a {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
+  gap: 6px;
+  padding: 6px 12px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.82rem;
 }
-.topic-rail strong { color: var(--muted); font-weight: 700; font-size: 0.82rem; }
+.topic-rail strong { color: var(--muted); font-weight: 700; font-size: 0.72rem; }
 .topic-rail a:hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
   color: var(--accent);
@@ -395,16 +404,17 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 .latest-list { display: flex; flex-direction: column; }
 .latest-row {
   display: grid;
-  grid-template-columns: 168px minmax(0, 1fr);
-  gap: 20px;
-  align-items: stretch;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
 .latest-list .latest-row:first-child { border-top: 1px solid var(--line); }
+.latest-list .latest-row:last-child { border-bottom: 0; }
 .latest-media {
-  height: 100%;
-  min-height: 128px;
+  width: 200px;
+  height: 132px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -788,11 +798,13 @@ a.pill:hover {
   color: var(--muted);
 }
 .archive-sort select {
+  appearance: none;
+  -webkit-appearance: none;
   border: 0;
   border-left: 1px solid var(--line);
   border-radius: 0 12px 12px 0;
-  padding: 0 12px;
-  background: transparent;
+  padding: 0 38px 0 12px;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a8a8e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;
 }
 .archive-search input:focus,
 .archive-sort select:focus {
@@ -800,11 +812,14 @@ a.pill:hover {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 13%, transparent);
 }
 .archive-filters {
-  max-height: 220px;
+  max-height: 230px;
   overflow: auto;
   display: grid;
   gap: 12px;
   margin-bottom: 18px;
+  padding: 10px 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
 }
 .filter-group { display: grid; gap: 8px; }
 .filter-group h2 {
@@ -937,7 +952,8 @@ a.pill:hover {
   place-items: center;
   border-radius: 50%;
   background: var(--fill);
-  border: 1px solid var(--line);
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
   font-size: 1.2rem;
   line-height: 1;
 }
@@ -1047,8 +1063,8 @@ a.pill:hover {
 .footer-friends {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px 8px;
-  font-size: 0.75rem;
+  gap: 6px 7px;
+  font-size: 0.7rem;
   padding-top: 4px;
 }
 .footer-friends a {
@@ -1112,6 +1128,11 @@ a.pill:hover {
     font-size: 0.9rem;
   }
   .nav-links .icon-button { min-width: 40px; }
+  .nav-links { justify-content: center; gap: 5px; }
+  .nav-item { gap: 5px; }
+  .nav-compact .nav-label { display: none; }
+  .nav-compact { padding: 7px 9px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
 
   .hero { padding: 56px 0 28px; }
   .hero-line { font-size: clamp(1.7rem, 8vw, 2.2rem); }
@@ -1203,3 +1224,30 @@ a.pill:hover {
 }
 .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
 .to-top:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+
+/* ---------- 留言/打赏 page: smaller, centered, side-by-side QR images ---------- */
+.donate-page .article-content { text-align: center; }
+.donate-page .article-content p { text-align: center; }
+.donate-page .article-content img {
+  width: 168px;
+  height: auto;
+  margin: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: none;
+  display: inline-block;
+}
+
+/* ---------- privacy policy page: drop redundant rules, tidy spacing ---------- */
+.privacy-page .article-content hr { display: none; }
+.privacy-page .article-content h2:first-child {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+.privacy-page .article-content h2 img {
+  display: block;
+  margin: 0 auto;
+  border: 0;
+  box-shadow: none;
+}

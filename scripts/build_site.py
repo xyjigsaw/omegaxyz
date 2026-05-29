@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-perf-seo2"
+ASSET_VERSION = "20260529-ui4"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -488,23 +488,40 @@ def short_text(value, length=92):
     return text[:length].rstrip() + "..."
 
 
+def _nav_icon(inner):
+    return ('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" '
+            'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+            + inner + "</svg>")
+
+
+NAV_ICONS = {
+    "home": _nav_icon('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/>'),
+    "archive": _nav_icon('<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/>'),
+    "pages": _nav_icon('<path d="M8 3h6l4 4v14H8z"/><path d="M14 3v4h4"/>'),
+    "categories": _nav_icon('<path d="M3 7a1 1 0 0 1 1-1h4.5l2 2H20a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>'),
+    "about": _nav_icon('<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.3 3.8-4.8 6.5-4.8s5.3 1.5 6.5 4.8"/>'),
+}
+
+
 def nav(current_file, lang, title, alt_path):
     t = I18N[lang]
     other = "en" if lang == "zh" else "zh"
     logo_url = HOME_LOGO_URL
+    # (label, path, external, icon, keep_label_on_mobile)
     links = [
-        (t["home"], f"{lang}/", False),
-        (t["archive"], archive_path(lang), False),
-        (t["pages"], f"{lang}/pages/", False),
-        (t["categories"], f"{lang}/categories/", False),
-        (t["about"], "https://cv.omegaxyz.com/", True),
+        (t["home"], f"{lang}/", False, NAV_ICONS["home"], True),
+        (t["archive"], archive_path(lang), False, NAV_ICONS["archive"], True),
+        (t["pages"], f"{lang}/pages/", False, NAV_ICONS["pages"], False),
+        (t["categories"], f"{lang}/categories/", False, NAV_ICONS["categories"], False),
+        (t["about"], "https://cv.omegaxyz.com/", True, NAV_ICONS["about"], False),
     ]
-    link_html = "".join(
-        f'<a href="{esc(path)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>'
-        if external else
-        f'<a href="{rel_url(current_file, path_to_file(path))}">{esc(label)}</a>'
-        for label, path, external in links
-    )
+    items = []
+    for label, path, external, icon, keep in links:
+        cls = "nav-item" if keep else "nav-item nav-compact"
+        href = esc(path) if external else rel_url(current_file, path_to_file(path))
+        target = ' target="_blank" rel="noopener noreferrer"' if external else ""
+        items.append(f'<a class="{cls}" href="{href}"{target} title="{esc(label)}">{icon}<span class="nav-label">{esc(label)}</span></a>')
+    link_html = "".join(items)
     alt = rel_url(current_file, path_to_file(alt_path)) if alt_path else rel_url(current_file, path_to_file(f"{other}/"))
     return f"""
     <header class="site-header">
@@ -658,7 +675,7 @@ def render_page_link(entry, lang, current_file):
 def render_latest_row(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
-    image_html = f'<img src="{esc(image)}" alt="" loading="lazy" decoding="async" width="168" height="128">' if image else '<span>OmegaXYZ</span>'
+    image_html = f'<img src="{esc(image)}" alt="" loading="lazy" decoding="async" width="200" height="132">' if image else '<span>OmegaXYZ</span>'
     pills = render_term_pills(entry, lang, current_file, 2, 2)
     return f"""
     <article class="latest-row">
@@ -684,11 +701,17 @@ def render_home(site, lang, current=None):
     home_data_url = rel_url(current, home_data_file)
     latest_rows = "".join(all_rows[:9])
     priority_slugs = ["friends", "webhistory", "makefriends"]
+    home_pages = [p for p in pages if p["slug"] != "evolutionary-algorithm-navigator"]
     ordered_pages = sorted(
-        pages,
+        home_pages,
         key=lambda p: priority_slugs.index(p["slug"]) if p["slug"] in priority_slugs else len(priority_slugs),
     )
-    page_links = "".join(render_page_link(e, lang, current) for e in ordered_pages[:6])
+    about_label = "关于我" if lang == "zh" else "About Me"
+    page_links = "".join(render_page_link(e, lang, current) for e in ordered_pages[:5])
+    page_links += (
+        '<a class="page-link" href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">'
+        f'<strong>{esc(about_label)}</strong><span class="page-link-go" aria-hidden="true">↗</span></a>'
+    )
     term_counts = {}
     for entry in posts:
         for term in entry["categories"]:
@@ -822,8 +845,9 @@ def render_entry(entry, lang, legacy):
     if og_image:
         ld["image"] = og_image
     ld_json = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    page_class = {"comment": " donate-page", "privacy": " privacy-page"}.get(entry.get("slug"), "")
     body = f"""
-    <main class="wrap layout">
+    <main class="wrap layout{page_class}">
       <article class="article">
         <div class="meta">{esc(date_only(entry['date']))}</div>
         <h1>{esc(title)}</h1>
@@ -912,10 +936,12 @@ COMMENT_EMOJIS = [
 ]
 
 
-def comment_emoji(author):
+def comment_avatar(author):
     key = (author or "anon").strip().lower()
     digest = hashlib.md5(key.encode("utf-8")).hexdigest()
-    return COMMENT_EMOJIS[int(digest, 16) % len(COMMENT_EMOJIS)]
+    emoji = COMMENT_EMOJIS[int(digest, 16) % len(COMMENT_EMOJIS)]
+    hue = int(digest[8:14], 16) % 360
+    return emoji, hue
 
 
 def render_comments(entry, lang):
@@ -926,10 +952,11 @@ def render_comments(entry, lang):
     for c in comments:
         cls = "comment reply" if c["parent"] else "comment"
         name = esc(c["author"] or "Anonymous")
-        author = f'<a href="{esc(c["url"])}" rel="nofollow noopener">{name}</a>' if c["url"] else name
+        author = f'<a href="{esc(c["url"])}" target="_blank" rel="nofollow noopener">{name}</a>' if c["url"] else name
+        emoji, hue = comment_avatar(c["author"])
         parts.append(f"""
         <div class="{cls}" id="comment-{c['id']}">
-          <div class="comment-avatar" aria-hidden="true">{comment_emoji(c['author'])}</div>
+          <div class="comment-avatar" aria-hidden="true" style="background:hsl({hue} 68% 84%)">{emoji}</div>
           <div class="comment-body">
             <div class="comment-head"><strong>{author}</strong><time>{esc(c['date'])}</time></div>
             <div class="comment-text">{c[f'content_{lang}']}</div>
@@ -1298,7 +1325,9 @@ def render_root_redirect():
         '<title>OmegaXYZ</title>'
         f'<link rel="canonical" href="{canonical}">'
         '<meta http-equiv="refresh" content="0; url=zh/">'
-        '<script>location.replace(String(navigator.language||"").toLowerCase().indexOf("en")===0?"en/":"zh/");</script>'
+        '<script>(function(){var l;try{l=localStorage.getItem("lang")}catch(e){}'
+        'if(l!=="zh"&&l!=="en")l=String(navigator.language||"").toLowerCase().indexOf("en")===0?"en":"zh";'
+        'location.replace(l+"/");})();</script>'
         '</head><body></body></html>'
     ))
 

@@ -2,6 +2,8 @@
   const root = document.documentElement;
   const toggle = document.querySelector("[data-theme-toggle]");
   root.dataset.enhanced = "true";
+  // Remember the last-viewed language so the root "/" redirect can honor it next visit.
+  try { localStorage.setItem("lang", root.lang === "en" ? "en" : "zh"); } catch (error) {}
   let saved = "";
   try {
     saved = localStorage.getItem("theme");
@@ -148,19 +150,25 @@
     const indexPath = search.dataset.search;
     let index = [];
     let loaded = false;
+    const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const highlight = (text, q) => {
+      const safe = escapeHtml(text || "");
+      if (!q) return safe;
+      const pat = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return safe.replace(new RegExp("(" + pat + ")", "gi"), "<mark>$1</mark>");
+    };
     const runSearch = () => {
-      const q = input.value.trim().toLowerCase();
+      const q = input.value.trim();
+      const ql = q.toLowerCase();
       results.innerHTML = "";
-      if (q.length < 2) return;
+      if (ql.length < 2) return;
       const matches = index
-        .filter((item) => (item.title + " " + item.excerpt + " " + item.tags).toLowerCase().includes(q))
+        .filter((item) => (item.title + " " + item.excerpt + " " + item.tags).toLowerCase().includes(ql))
         .slice(0, 12);
       matches.forEach((item) => {
         const a = document.createElement("a");
         a.href = item.url;
-        a.innerHTML = "<strong></strong><span></span>";
-        a.querySelector("strong").textContent = item.title;
-        a.querySelector("span").textContent = item.excerpt;
+        a.innerHTML = "<strong>" + highlight(item.title, q) + "</strong><span>" + highlight(item.excerpt, q) + "</span>";
         results.appendChild(a);
       });
     };
