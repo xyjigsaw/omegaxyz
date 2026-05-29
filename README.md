@@ -1,6 +1,6 @@
 # OmegaXYZ 静态站点维护手册
 
-这个仓库是 OmegaXYZ 从 WordPress 迁移后的静态站点。GitHub Pages 直接发布 `docs/` 目录，图片等大文件优先放到 Cloudflare R2/CDN。
+这个仓库是 OmegaXYZ 从 WordPress 迁移后的静态站点。GitHub Actions 会自动构建静态页面并发布到 GitHub Pages，图片等大文件优先放到 Cloudflare R2/CDN。
 
 ## 换机器后怎么开始
 
@@ -14,30 +14,27 @@ cd omegaxyz
 
 如果当前机器没有 GitHub SSH key，可以先在 GitHub 加新的 deploy key，或临时使用 HTTPS clone。
 
-3. 修改内容后重建静态站：
+3. 修改内容后可以选择本地预览：
 
 ```bash
 python3 scripts/build_site.py
-```
-
-4. 本地预览：
-
-```bash
 python3 -m http.server 4173 --directory docs
 ```
 
 打开 `http://127.0.0.1:4173/zh/`。
 
-5. 提交并推送：
+这一步不是发布必需步骤；正式发布会由 GitHub Actions 自动构建。
+
+4. 提交并推送源文件：
 
 ```bash
 git status
-git add content public docs scripts README.md
+git add content public README.md scripts .github/workflows
 git commit -m "Add new post"
 git push origin master
 ```
 
-GitHub Actions 会把 `docs/` 部署到 GitHub Pages。
+GitHub Actions 会在服务器上重新生成 `docs/`，然后部署到 GitHub Pages。日常写文章时通常只需要提交 `content/` 和相关图片或资源文件，不需要提交本地生成的 `docs/`。如果构建后发现 `data/media-cdn.json` 有变化，Actions 会自动回写一个清单更新提交。
 
 ## 内容从哪里来
 
@@ -101,7 +98,9 @@ content/my-post.en.html
 - `id` 用一个没用过的新数字。
 - `url` 决定最终链接，中文和英文分别生成到 `/zh/...` 和 `/en/...`。
 - `thumbnail` 是首页最新文章的缩略图。
-- `slug`、分类 slug、标签 slug 建议只用小写英文、数字和连字符。
+- 文章自己的 `slug` 和 `url` 建议都写清楚，`slug` 建议只用小写英文、数字和连字符。
+- 分类和标签必须写 `slug`，因为它决定分类页、标签页 URL 和前端过滤逻辑。
+- 分类和标签的 `name_en` 不是必填；如果不写，系统会优先使用旧站内置映射，仍没有映射时会根据 `slug` 自动生成英文名。
 
 ## 上传图片
 
@@ -141,9 +140,9 @@ python3 scripts/upload_r2.py \
   --bucket omegaxyz-image
 ```
 
-不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json`。
+不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json` 和 `data/media-cdn.json`。
 
-重建站点后，如果需要刷新 CDN 媒体清单：
+GitHub Actions 构建时会自动刷新 CDN 媒体清单，并在有变化时提交回仓库。若你想在本地检查当前站点引用了哪些 CDN 图片，也可以手动运行：
 
 ```bash
 python3 scripts/generate_media_manifest.py
@@ -177,7 +176,7 @@ python3 scripts/generate_media_manifest.py
 2. 旧站内置映射
 3. 根据 slug 自动生成，例如 `large-language-model` 会显示为 `Large Language Model`
 
-所以新增分类或标签时，推荐同时写 `name`、`name_en` 和 `slug`。如果忘记写 `name_en`，页面也能正常构建，只是英文名会根据 slug 自动生成。
+所以新增分类或标签时，`slug` 要写，`name_en` 可省。推荐写法是 `name`、`name_en` 和 `slug` 都写；偷懒时可以只写 `name` 和 `slug`。
 
 ## 构建逻辑摘要
 
@@ -185,12 +184,19 @@ python3 scripts/generate_media_manifest.py
 - 合并 `content/extra_entries.json`
 - 复制 `public/` 到 `docs/`
 - 生成中英文首页、文章页、页面索引、归档页、分类页、标签页、搜索索引、sitemap、robots 和 CNAME
-- `scripts/generate_media_manifest.py` 可以从 `docs/` 生成 Cloudflare CDN 媒体 URL 清单
+- `scripts/generate_media_manifest.py` 从生成后的 `docs/` 扫描 Cloudflare CDN 媒体 URL 清单
 
-GitHub Pages workflow 不会重新生成站点，它只发布仓库里的 `docs/`。所以每次改内容后都要本地运行：
+`.github/workflows/static.yml` 会在每次 push 到 `master` 时执行：
 
 ```bash
-python3 scripts/build_site.py
+python scripts/build_site.py
+python scripts/generate_media_manifest.py
 ```
 
-然后把 `content/`、`public/`、`scripts/` 和 `docs/` 的相关变化一起提交。
+然后把生成后的 `docs/` 作为 GitHub Pages artifact 发布。也就是说，日常更新内容不再需要本地构建并提交 `docs/`；需要预览或排查问题时再本地运行构建即可。
+
+如果 `data/media-cdn.json` 发生变化，workflow 会自动提交：
+
+```bash
+Update CDN media manifest [skip ci]
+```
