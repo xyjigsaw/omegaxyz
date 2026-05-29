@@ -41,13 +41,13 @@ GitHub Actions 会把 `docs/` 部署到 GitHub Pages。
 
 ## 内容从哪里来
 
-迁移后的 WordPress 数据在本地 `data/site.json`，这个目录被 `.gitignore` 忽略，不建议提交。日常新增文章放在 `content/`，例如：
+迁移后的 WordPress 数据保存在 `data/site.json`。这个文件已经提交到仓库，是换机器后完整重建旧文章、页面、评论、分类和标签的基础数据。日常新增文章放在 `content/`，例如：
 
 - `content/extra_entries.json`：文章元数据
 - `content/example.zh.html`：中文正文
 - `content/example.en.html`：英文正文
 
-`scripts/build_site.py` 会先读取 `data/site.json`，再合并 `content/extra_entries.json` 里的新文章。只要提交 `content/` 和生成后的 `docs/`，换机器也能继续维护新增内容。
+`scripts/build_site.py` 会先读取 `data/site.json`，再合并 `content/extra_entries.json` 里的新文章。换机器后只要 clone 仓库，就可以直接构建完整站点。
 
 ## 写一篇新文章
 
@@ -139,7 +139,7 @@ python3 scripts/upload_r2.py \
   --bucket omegaxyz-image
 ```
 
-不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、`data/` 提交到 GitHub。
+不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json`。
 
 ## 分类和标签怎么注册
 
