@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-ui5"
+ASSET_VERSION = "20260529-ui6"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -93,6 +93,7 @@ I18N = {
     "zh": {
         "tagline": "徐奕的专栏",
         "skip": "跳到正文",
+        "message": "留言",
         "tab_latest": "最新",
         "tab_random": "随机",
         "shuffle_topics": "换一批",
@@ -134,6 +135,7 @@ I18N = {
     "en": {
         "tagline": "Xu Yi's column",
         "skip": "Skip to content",
+        "message": "Message",
         "tab_latest": "Latest",
         "tab_random": "Shuffle",
         "shuffle_topics": "Shuffle",
@@ -529,6 +531,7 @@ NAV_ICONS = {
     "categories": _nav_icon('<path d="M3 7a1 1 0 0 1 1-1h4.5l2 2H20a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>'),
     "about": _nav_icon('<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.3 3.8-4.8 6.5-4.8s5.3 1.5 6.5 4.8"/>'),
     "lang": _nav_icon('<circle cx="12" cy="12" r="9"/><path d="M3.5 12h17"/><path d="M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/>'),
+    "comment": _nav_icon('<path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 4V6a1 1 0 0 1 1-1z"/>'),
 }
 
 
@@ -536,17 +539,18 @@ def nav(current_file, lang, title, alt_path):
     t = I18N[lang]
     other = "en" if lang == "zh" else "zh"
     logo_url = HOME_LOGO_URL
-    # (label, path, external, icon, keep_label_on_mobile)
+    # (label, path, external, icon, show_on_mobile)
     links = [
-        (t["home"], f"{lang}/", False, NAV_ICONS["home"], True),
+        (t["home"], f"{lang}/", False, NAV_ICONS["home"], False),
         (t["archive"], archive_path(lang), False, NAV_ICONS["archive"], True),
         (t["pages"], f"{lang}/pages/", False, NAV_ICONS["pages"], False),
         (t["categories"], f"{lang}/categories/", False, NAV_ICONS["categories"], False),
-        (t["about"], "https://cv.omegaxyz.com/", True, NAV_ICONS["about"], False),
+        (t["message"], f"{lang}/comment/", False, NAV_ICONS["comment"], False),
+        (t["about"], "https://cv.omegaxyz.com/", True, NAV_ICONS["about"], True),
     ]
     items = []
-    for label, path, external, icon, keep in links:
-        cls = "nav-item" if keep else "nav-item nav-compact"
+    for label, path, external, icon, mobile in links:
+        cls = "nav-item" if mobile else "nav-item nav-hide-m"
         href = esc(path) if external else rel_url(current_file, path_to_file(path))
         target = ' target="_blank" rel="noopener noreferrer"' if external else ""
         items.append(f'<a class="{cls}" href="{href}"{target} title="{esc(label)}">{icon}<span class="nav-label">{esc(label)}</span></a>')
@@ -561,8 +565,8 @@ def nav(current_file, lang, title, alt_path):
         </a>
         <div class="nav-links">
           {link_html}
-          <a class="nav-item nav-lang" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
-          <a class="icon-button nav-github" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
+          <a class="nav-item nav-lang nav-hide-m" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
+          <a class="icon-button nav-github nav-hide-m" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
       </nav>
@@ -929,7 +933,7 @@ def render_friends_entry(entry, lang):
                 <article class="friend-card">
                   <img src="{esc(card_logo)}" alt="" loading="lazy" width="52" height="52">
                   <div><h2>{esc(label)}</h2><p>{esc(url.replace('https://', '').replace('http://', '').strip('/'))}</p></div>
-                  <a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)}</a>
+                  <a class="friend-visit" href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)} <span aria-hidden="true">↗</span></a>
                 </article>
                 """)
             else:
