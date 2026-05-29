@@ -824,8 +824,8 @@ def render_archive(site, lang):
             key = term["slug"]
             tag_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
             tag_counts[key]["count"] += 1
-    top_categories = sorted(category_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:24]
-    top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
+    top_categories = sorted(category_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
+    top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
     all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
     category_chips = "".join(
         f'<button class="filter-chip category-filter" type="button" data-archive-kind="category" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
@@ -945,7 +945,7 @@ def render_terms(site, lang):
                     for term in entry["tags"]:
                         tag_counts.setdefault(term["slug"], {"name": term["name"], "slug": term["slug"], "count": 0})
                         tag_counts[term["slug"]]["count"] += 1
-                top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))[:36]
+                top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
                 all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
                 tag_chips = "".join(
                     f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
