@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-toc-hl"
+ASSET_VERSION = "20260529-perf-seo"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -37,6 +37,10 @@ SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 EXCLUDE_PAGE_SLUGS = {
     "ai-ml-navigator", "web-running", "js_game", "regular_expression",
     "caculator", "onlinetools", "lab", "hello-world", "acknowledgement",
+    "hexconvert", "resource", "resource_software",
+}
+PAGE_TITLE_EN_OVERRIDE = {
+    "makefriends": "Make Friends with Me",
 }
 
 FOOTER_LINKS = [
@@ -123,6 +127,7 @@ I18N = {
         "footer_icp": "皖ICP备:17007601",
         "footer_business": "商业合作",
         "privacy": "隐私政策",
+        "sitemap": "站点地图",
         "footer_more_friends": "更多(非首页友链)...",
     },
     "en": {
@@ -162,6 +167,7 @@ I18N = {
         "footer_icp": "ICP record: 皖ICP备17007601",
         "footer_business": "Business",
         "privacy": "Privacy Policy",
+        "sitemap": "Sitemap",
         "footer_more_friends": "More friends...",
     },
 }
@@ -213,6 +219,10 @@ def load_site():
         entry for entry in site["entries"]
         if not (entry.get("type") == "page" and entry.get("slug") in EXCLUDE_PAGE_SLUGS)
     ]
+    for entry in site["entries"]:
+        override = PAGE_TITLE_EN_OVERRIDE.get(entry.get("slug"))
+        if override:
+            entry["title_en"] = override
     site["summary"] = build_summary(site["entries"])
     return site
 
@@ -518,16 +528,19 @@ def footer(current_file, lang):
     )
     more = rel_url(current_file, path_to_file(f"{lang}/friends/"))
     privacy = rel_url(current_file, path_to_file(f"{lang}/privacy/"))
+    sitemap = rel_url(current_file, OUT / "sitemap.xml")
     return f"""
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <section class="footer-brand">
         <a class="footer-logo" href="{rel_url(current_file, path_to_file(f'{lang}/'))}">
-          <img src="{FAVICON_URL}" alt="" width="42" height="42">
+          <img src="{FAVICON_URL}" alt="" width="38" height="38">
           <span>OmegaXYZ</span>
         </a>
-        <p>{esc(t["footer_license"])}</p>
-        <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> {esc(t["footer_icp"])} <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a></p>
+        <div class="footer-decl">
+          <p>{esc(t["footer_license"])}</p>
+          <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> {esc(t["footer_icp"])} <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
+        </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
         {friend_links}
@@ -559,7 +572,21 @@ def analytics_scripts():
     """
 
 
-def layout(current_file, lang, title, body, description="", alt_path=""):
+THEME_SCRIPT = (
+    '<script>(function(){try{var t=localStorage.getItem("theme");'
+    'if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";'
+    'document.documentElement.dataset.theme=t;}catch(e){}})();</script>'
+)
+ARTICLE_ASSETS = (
+    """
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/matlab.min.js"></script>"""
+)
+
+
+def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image=""):
     css = rel_url(current_file, OUT / "assets/site.css") + f"?v={ASSET_VERSION}"
     js = rel_url(current_file, OUT / "assets/site.js") + f"?v={ASSET_VERSION}"
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -567,35 +594,40 @@ def layout(current_file, lang, title, body, description="", alt_path=""):
     canonical = site_url_for_file(current_file)
     other = "en" if lang == "zh" else "zh"
     alternate = site_url_for_file(path_to_file(alt_path)) if alt_path else site_url_for_file(path_to_file(f"{other}/"))
+    og_image = image or LOGO_URL
+    head_katex = f'\n  <link rel="stylesheet" href="{katex}">' if article_assets else ""
+    body_assets = ARTICLE_ASSETS if article_assets else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {THEME_SCRIPT}
   <title>{esc(title)} · OmegaXYZ</title>
   <meta name="description" content="{esc(desc)}">
+  <meta name="theme-color" content="#008d98">
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="alternate" hreflang="{other}" href="{esc(alternate)}">
   <link rel="alternate" hreflang="{lang}" href="{esc(canonical)}">
   <meta property="og:site_name" content="OmegaXYZ">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{'article' if article_assets else 'website'}">
   <meta property="og:title" content="{esc(title)} · OmegaXYZ">
   <meta property="og:description" content="{esc(desc)}">
   <meta property="og:url" content="{esc(canonical)}">
+  <meta property="og:image" content="{esc(og_image)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(title)} · OmegaXYZ">
+  <meta name="twitter:description" content="{esc(desc)}">
+  <meta name="twitter:image" content="{esc(og_image)}">
   <link rel="icon" href="{FAVICON_URL}" type="image/png">
-  <link rel="apple-touch-icon" href="{FAVICON_URL}">
-  <link rel="stylesheet" href="{katex}">
+  <link rel="apple-touch-icon" href="{FAVICON_URL}">{head_katex}
   <link rel="stylesheet" href="{css}">
 </head>
 <body>
   {nav(current_file, lang, title, alt_path)}
   {body}
   <script src="{js}"></script>
-  {footer(current_file, lang)}
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/matlab.min.js"></script>
+  {footer(current_file, lang)}{body_assets}
   {analytics_scripts()}
 </body>
 </html>
@@ -663,7 +695,7 @@ def render_page_link(entry, lang, current_file):
 def render_latest_row(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
-    image_html = f'<img src="{esc(image)}" alt="">' if image else '<span>OmegaXYZ</span>'
+    image_html = f'<img src="{esc(image)}" alt="" loading="lazy" decoding="async" width="168" height="128">' if image else '<span>OmegaXYZ</span>'
     pills = render_term_pills(entry, lang, current_file, 2, 2)
     return f"""
     <article class="latest-row">
@@ -719,10 +751,10 @@ def render_home(site, lang, current=None):
         </section>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
-        <li><strong>{stats['posts']}</strong> {esc(t['archive'])}</li>
-        <li><strong>{stats['pages']}</strong> {esc(t['pages'])}</li>
-        <li><strong>{stats['comments']}</strong> {esc(t['comments'])}</li>
-        <li><strong>{stats['tags']}</strong> {esc(t['tags'])}</li>
+        <li><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></li>
+        <li><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></li>
+        <li><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></li>
+        <li><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></li>
       </ul>
       <section class="home-panel" data-home-topics>
         <div class="topic-bar">
@@ -812,6 +844,7 @@ def render_entry(entry, lang, legacy):
     excerpt = entry[f"excerpt_{lang}"]
     term_links = render_term_pills(entry, lang, current, 8, 12)
     comments = render_comments(entry, lang)
+    og_image = entry.get("thumbnail") or first_image(entry)
     body = f"""
     <main class="wrap layout">
       <article class="article">
@@ -826,7 +859,7 @@ def render_entry(entry, lang, legacy):
       </aside>
     </main>
     """
-    return layout(current, lang, title, body, excerpt, entry_path(entry, other))
+    return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image)
 
 
 def render_friends_entry(entry, lang):
@@ -1061,7 +1094,8 @@ def render_pages_index(site, lang):
 
 
 def render_terms(site, lang):
-    for kind, label in (("category", "categories"), ("tag", "tags")):
+    tag_cloud_html = ""
+    for kind, label in (("tag", "tags"), ("category", "categories")):
         grouped = defaultdict(list)
         representatives = {}
         for entry in site["entries"]:
@@ -1125,7 +1159,19 @@ def render_terms(site, lang):
                 items = "".join(render_archive_item(e, lang, term_current) for e in entries)
                 body = f'<main class="wrap band term-page"><div class="section-head"><h1>{esc(display_label)}</h1><p>{esc(I18N[lang][label])}</p></div><div class="archive-list">{items}</div></main>'
             write(term_current, layout(term_current, lang, display_label, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
-        body = f'<main class="wrap band term-index"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms term-cloud {kind}-cloud">{"".join(chips)}</div></main>'
+        cloud_html = "".join(chips)
+        if kind == "tag":
+            tag_cloud_html = cloud_html
+            body = f'<main class="wrap band term-index"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms term-cloud tag-cloud">{cloud_html}</div></main>'
+        else:
+            body = (
+                '<main class="wrap band term-index">'
+                f'<div class="section-head"><h1>{esc(I18N[lang]["categories"])}</h1></div>'
+                f'<div class="terms term-cloud category-cloud">{cloud_html}</div>'
+                f'<div class="section-head term-index-sub"><h2>{esc(I18N[lang]["tags"])}</h2></div>'
+                f'<div class="terms term-cloud tag-cloud">{tag_cloud_html}</div>'
+                '</main>'
+            )
         write(current, layout(current, lang, I18N[lang][label], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
 
 
@@ -1192,8 +1238,10 @@ def copy_public():
 def render_site_index_files():
     urls = []
     for file in sorted(OUT.rglob("*.html")):
+        if file.name == "404.html":
+            continue
         head = file.read_text(encoding="utf-8", errors="ignore")[:300].lower()
-        if 'http-equiv="refresh"' in head:
+        if 'http-equiv="refresh"' in head or 'name="robots" content="noindex"' in head:
             continue
         urls.append(site_url_for_file(file))
     xml_urls = "\n".join(f"  <url><loc>{esc(url)}</loc></url>" for url in urls)
@@ -1209,6 +1257,62 @@ Sitemap: {SITE_URL.rstrip("/")}/sitemap.xml
 """)
 
 
+def render_404():
+    css = f"/assets/site.css?v={ASSET_VERSION}"
+    write(OUT / "404.html", f"""<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {THEME_SCRIPT}
+  <title>404 · OmegaXYZ</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#008d98">
+  <link rel="icon" href="{FAVICON_URL}" type="image/png">
+  <link rel="stylesheet" href="{css}">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="/zh/">
+        <img src="{HOME_LOGO_URL}" alt="" width="40" height="40">
+        <span class="brand-text"><strong>OmegaXYZ</strong></span>
+      </a>
+      <div class="nav-links">
+        <a href="/zh/">主页 · Home</a>
+        <a href="/zh/archive/">文章 · Archive</a>
+        <a href="/zh/search/">搜索 · Search</a>
+      </div>
+    </nav>
+  </header>
+  <main class="wrap">
+    <section class="hero">
+      <p class="hero-kicker">404</p>
+      <h1 class="hero-line">页面走丢了 · Page not found</h1>
+      <p class="notfound-msg">这个链接可能已被移动或删除。This page may have been moved or removed.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/zh/">返回首页 / Home</a>
+        <a class="button" href="/zh/search/">搜索 / Search</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+""")
+
+
+def render_root_redirect():
+    canonical = SITE_URL.rstrip("/") + "/zh/"
+    write(OUT / "index.html", (
+        '<!doctype html><html lang="zh"><head><meta charset="utf-8">'
+        '<title>OmegaXYZ</title>'
+        f'<link rel="canonical" href="{canonical}">'
+        '<meta http-equiv="refresh" content="0; url=zh/">'
+        '<script>location.replace(String(navigator.language||"").toLowerCase().indexOf("en")===0?"en/":"zh/");</script>'
+        '</head><body></body></html>'
+    ))
+
+
 def main():
     site = load_site()
     legacy = build_legacy_map(site)
@@ -1218,7 +1322,7 @@ def main():
         render_pages_index(site, lang)
         render_terms(site, lang)
         render_search(site, lang)
-    write(OUT / "index.html", render_home(site, "zh", OUT / "index.html"))
+    render_root_redirect()
     for entry in site["entries"]:
         for lang in ("zh", "en"):
             write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy))
@@ -1229,6 +1333,7 @@ def main():
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
     render_site_index_files()
+    render_404()
     print(f"built {OUT}")
 
 

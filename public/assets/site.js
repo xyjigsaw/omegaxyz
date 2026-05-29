@@ -96,7 +96,11 @@
     if (!content) return;
     const headings = Array.from(content.querySelectorAll("h2, h3")).slice(0, 24);
     if (!headings.length) {
-      (box.closest(".side-box") || box).remove();
+      const sidebar = box.closest(".sidebar");
+      const layoutEl = box.closest(".layout");
+      if (sidebar) sidebar.remove();
+      else (box.closest(".side-box") || box).remove();
+      if (layoutEl) layoutEl.classList.add("layout-solo");
       return;
     }
     const root = document.createElement("ol");
@@ -214,6 +218,7 @@
       { w: "Fishing", d: "Casting lines through data oceans to catch the perfect response" }
     ];
     let last = -1;
+    let timer = null;
     const spin = () => {
       let i = Math.floor(Math.random() * VERBS.length);
       if (VERBS.length > 1 && i === last) i = (i + 1) % VERBS.length;
@@ -221,8 +226,12 @@
       spinnerEl.textContent = VERBS[i].w;
       if (defEl) defEl.textContent = VERBS[i].d;
     };
+    const schedule = () => { if (timer) clearInterval(timer); timer = setInterval(spin, 5000); };
     spin();
-    setInterval(spin, 5000);
+    schedule();
+    const heroLine = spinnerEl.closest(".hero-line") || spinnerEl;
+    heroLine.style.cursor = "pointer";
+    heroLine.addEventListener("click", () => { spin(); schedule(); });
   }
 
   const pickIndices = (count, show, random) => {
@@ -291,6 +300,56 @@
   };
   renderMath();
   window.addEventListener("load", renderMath, { once: true });
+
+  // Wrap article code blocks with a toolbar (copy + collapse). Default expanded.
+  const enhanceCodeBlocks = () => {
+    const lang = (document.documentElement.lang || "en").slice(0, 2);
+    const L = lang === "zh"
+      ? { copy: "复制", copied: "已复制", collapse: "折叠", expand: "展开" }
+      : { copy: "Copy", copied: "Copied", collapse: "Collapse", expand: "Expand" };
+    document.querySelectorAll(".article-content pre").forEach((pre) => {
+      if (pre.parentElement && pre.parentElement.classList.contains("code-block")) return;
+      const wrap = document.createElement("div");
+      wrap.className = "code-block";
+      const bar = document.createElement("div");
+      bar.className = "code-toolbar";
+      const collapseBtn = document.createElement("button");
+      collapseBtn.type = "button";
+      collapseBtn.className = "code-btn";
+      collapseBtn.textContent = L.collapse;
+      const copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.className = "code-btn";
+      copyBtn.textContent = L.copy;
+      bar.appendChild(collapseBtn);
+      bar.appendChild(copyBtn);
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(bar);
+      wrap.appendChild(pre);
+      collapseBtn.addEventListener("click", () => {
+        const collapsed = wrap.classList.toggle("is-collapsed");
+        collapseBtn.textContent = collapsed ? L.expand : L.collapse;
+      });
+      copyBtn.addEventListener("click", () => {
+        const text = (pre.querySelector("code") || pre).innerText;
+        const done = () => {
+          copyBtn.textContent = L.copied;
+          setTimeout(() => { copyBtn.textContent = L.copy; }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(() => {});
+        } else {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+  };
+  enhanceCodeBlocks();
 
   // Syntax-highlight code blocks once highlight.js (deferred) has loaded.
   const highlightCode = () => {
