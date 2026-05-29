@@ -1166,6 +1166,12 @@ a.pill:hover {
     align-items: center;
   }
   .latest-media { width: 116px; height: 84px; min-height: 0; }
+  /* mobile home: drop the category/tag rail and trim the post items */
+  .home-panel { display: none; }
+  .latest-copy p,
+  .latest-copy .terms { display: none; }
+  /* mobile footer: logo above the declaration */
+  .footer-brand { flex-direction: column; align-items: flex-start; gap: 12px; }
 
   .hero { padding: 56px 0 28px; }
   .hero-line { font-size: clamp(1.7rem, 8vw, 2.2rem); }

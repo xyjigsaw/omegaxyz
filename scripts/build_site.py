@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-ui6"
+ASSET_VERSION = "20260529-ui7"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -82,7 +82,6 @@ FRIEND_LINKS = [
     ("个人博客", "mmuaa", "https://www.mmuaa.com/", "https://omegaxyz.com/wp-content/uploads/2019/07/T19vXDXmNbXXXXXXXX.jpg"),
     ("个人博客", "谭升的博客", "https://face2ai.com", "https://omegaxyz.com/wp-content/uploads/2018/10/tansheng.png"),
     ("个人博客", "OhYee", "https://www.oyohyee.com/", "https://omegaxyz.com/wp-content/uploads/2020/02/oyohyee.png"),
-    ("按钮", "申请友链", "https://omegaxyz.com/makefriends/", ""),
     ("退休", "yoko blog", "", "https://omegaxyz.com/wp-content/uploads/2019/08/default_avatar.jpg"),
     ("退休", "shawnluo", "", "https://omegaxyz.com/wp-content/uploads/2018/06/shawnluo.png"),
     ("退休", "人工智能网", "", "https://omegaxyz.com/wp-content/uploads/2018/01/machinelearningicon.jpg"),
