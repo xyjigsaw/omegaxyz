@@ -202,6 +202,9 @@ def load_extra_entries():
             key = f"content_{lang}_file"
             if key in entry:
                 entry[f"content_{lang}"] = (ROOT / entry.pop(key)).read_text(encoding="utf-8")
+        for term in entry.get("categories", []) + entry.get("tags", []):
+            if not (term.get("name_en") or term.get("label_en")):
+                term["name_en"] = TERM_EN.get(term.get("slug"), auto_english_term_label(term))
     return entries
 
 
@@ -215,6 +218,20 @@ def build_summary(entries):
         "categories": len({term["slug"] for entry in entries for term in entry.get("categories", [])}),
         "tags": len({term["slug"] for entry in entries for term in entry.get("tags", [])}),
     }
+
+
+def auto_english_term_label(term):
+    explicit = term.get("name_en") or term.get("label_en")
+    if explicit:
+        return explicit
+    slug = term.get("slug", "")
+    if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]*", slug):
+        acronyms = {"ai", "api", "css", "gpt", "gui", "html", "ios", "llm", "mvc", "nlp", "sql", "svm"}
+        words = []
+        for part in slug.split("-"):
+            words.append(part.upper() if part.lower() in acronyms else part.capitalize())
+        return " ".join(words)
+    return term.get("name", slug)
 
 
 def ensure_dir(path):
@@ -287,8 +304,16 @@ def asset_url(value):
 
 def term_label(term, lang):
     if lang == "en":
-        return TERM_EN.get(term["slug"], term["name"])
+        return term.get("name_en") or term.get("label_en") or TERM_EN.get(term["slug"], term["name"])
     return term["name"]
+
+
+def term_info(term, count=0):
+    info = {"name": term["name"], "slug": term["slug"], "count": count}
+    for key in ("name_en", "label_en"):
+        if term.get(key):
+            info[key] = term[key]
+    return info
 
 
 def term_pill(term, lang, kind, href=""):
@@ -646,7 +671,7 @@ def render_home(site, lang, current=None):
     term_counts = {}
     for entry in posts:
         for term in entry["categories"]:
-            term_counts.setdefault(term["slug"], {"name": term["name"], "slug": term["slug"], "count": 0})
+            term_counts.setdefault(term["slug"], term_info(term))
             term_counts[term["slug"]]["count"] += 1
     top_terms = sorted(term_counts.values(), key=lambda item: item["count"], reverse=True)[:8]
     topic_links = "".join(
@@ -818,11 +843,11 @@ def render_archive(site, lang):
     for entry in posts:
         for term in entry["categories"]:
             key = term["slug"]
-            category_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
+            category_counts.setdefault(key, term_info(term))
             category_counts[key]["count"] += 1
         for term in entry["tags"]:
             key = term["slug"]
-            tag_counts.setdefault(key, {"name": term["name"], "slug": key, "count": 0})
+            tag_counts.setdefault(key, term_info(term))
             tag_counts[key]["count"] += 1
     top_categories = sorted(category_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
     top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
@@ -928,14 +953,17 @@ def render_pages_index(site, lang):
 def render_terms(site, lang):
     for kind, label in (("category", "categories"), ("tag", "tags")):
         grouped = defaultdict(list)
+        representatives = {}
         for entry in site["entries"]:
             for term in entry["categories" if kind == "category" else "tags"]:
-                grouped[(term["slug"], term["name"])].append(entry)
+                key = (term["slug"], term["name"])
+                grouped[key].append(entry)
+                representatives.setdefault(key, term_info(term))
         current = path_to_file(f"{lang}/{label}/")
         chips = []
         for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
-            display_label = term_label({"slug": slug, "name": name}, lang)
+            display_label = term_label(representatives[(slug, name)], lang)
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
             chips.append(f'<a class="pill term-pill term-{kind}" data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
             term_current = path_to_file(term_path(kind, slug, lang))
@@ -943,7 +971,7 @@ def render_terms(site, lang):
                 tag_counts = {}
                 for entry in entries:
                     for term in entry["tags"]:
-                        tag_counts.setdefault(term["slug"], {"name": term["name"], "slug": term["slug"], "count": 0})
+                        tag_counts.setdefault(term["slug"], term_info(term))
                         tag_counts[term["slug"]]["count"] += 1
                 top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
                 all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'

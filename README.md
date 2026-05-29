@@ -156,8 +156,8 @@ python3 scripts/generate_media_manifest.py
 不需要手动注册页面。只要文章元数据里写了：
 
 ```json
-"categories": [{"name": "自然语言处理", "slug": "nlp"}],
-"tags": [{"name": "LLM", "slug": "llm"}]
+"categories": [{"name": "自然语言处理", "name_en": "Natural Language Processing", "slug": "nlp"}],
+"tags": [{"name": "大语言模型", "name_en": "Large Language Models", "slug": "llm"}]
 ```
 
 构建时会自动生成：
@@ -171,11 +171,13 @@ python3 scripts/generate_media_manifest.py
 
 当前逻辑：归档页会展示全部分类和全部标签；分类页会展示该分类下出现过的全部标签。首页的“知识结构”只展示文章数最多的前 8 个分类，这是首页布局选择，不影响专页和筛选。
 
-英文分类/标签名来自 `scripts/build_site.py` 里的 `TERM_EN`。如果新增 slug 没写英文映射，英文页面会暂时显示中文名。要补英文名，在 `TERM_EN` 加一行：
+英文分类/标签名不需要再手动改脚本。构建时会按这个优先级自动决定英文显示名：
 
-```python
-"my-tag": "My Tag",
-```
+1. 文章元数据里的 `name_en` 或 `label_en`
+2. 旧站内置映射
+3. 根据 slug 自动生成，例如 `large-language-model` 会显示为 `Large Language Model`
+
+所以新增分类或标签时，推荐同时写 `name`、`name_en` 和 `slug`。如果忘记写 `name_en`，页面也能正常构建，只是英文名会根据 slug 自动生成。
 
 ## 构建逻辑摘要
 
