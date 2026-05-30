@@ -37,7 +37,7 @@ With saved templates and quick switching, you can prepare different layouts for 
 
 Menu Bar runs locally by default, and all data is processed on the device by default. Some features may require background permissions or clipboard access in order to provide floating display, clipboard history, or system status functionality.
 
-Read the full privacy policy: [Menu Bar Privacy Policy](https://omegaxyz.com/zh/menu-bar-privacy/index.html).
+Read the full privacy policy: [Menu Bar Privacy Policy](https://omegaxyz.com/menu-bar-privacy/).
 
 ## Download
 
