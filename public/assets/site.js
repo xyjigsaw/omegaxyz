@@ -309,6 +309,10 @@
       if (!loading) loading = fetch(dataUrl).then((r) => r.json()).then((rows) => { pool = rows; return rows; });
       return loading;
     };
+    // Warm the shuffle data in the background so the first "随机" click is instant.
+    const prefetch = () => { loadPool().catch(() => {}); };
+    if ("requestIdleCallback" in window) requestIdleCallback(prefetch, { timeout: 3000 });
+    else window.addEventListener("load", () => setTimeout(prefetch, 1000), { once: true });
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const mode = btn.dataset.homeMode;
