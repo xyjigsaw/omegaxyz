@@ -14,6 +14,8 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/site.json"
 EXTRA_ENTRIES = ROOT / "content/extra_entries.json"
+POSTS_DIR = ROOT / "content/posts"        # drop a .md here -> a page is generated
+EXAMPLE_MD = "example.md"                  # template, always skipped, never archived
 PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
@@ -214,7 +216,11 @@ TERM_EN = {
 
 def load_site():
     site = json.loads(DATA.read_text(encoding="utf-8"))
-    extras = load_extra_entries()
+    reverse_zh = {}
+    for entry in site["entries"]:
+        for term in entry.get("categories", []) + entry.get("tags", []):
+            reverse_zh.setdefault(term["slug"], term.get("name") or term["slug"])
+    extras = load_extra_entries() + load_markdown_entries(reverse_zh)
     if extras:
         extra_urls = {entry["url"] for entry in extras}
         site["entries"] = extras + [entry for entry in site["entries"] if entry.get("url") not in extra_urls]
@@ -247,6 +253,261 @@ def load_extra_entries():
             if not (term.get("name_en") or term.get("label_en")):
                 term["name_en"] = TERM_EN.get(term.get("slug"), auto_english_term_label(term))
     return entries
+
+
+# ---------------------------------------------------------------------------
+# Markdown posts: drop a .md into content/posts/ and a page is generated. The
+# build reads content/posts/**.md (including the archive/ subfolder, where CI
+# moves processed files), so an archived post keeps serving its page on every
+# rebuild — the move is only for tidiness. example.md and *.en.md companions
+# are skipped as standalone posts.
+# ---------------------------------------------------------------------------
+def load_markdown_entries(reverse_zh):
+    if not POSTS_DIR.exists():
+        return []
+    entries = []
+    for path in sorted(POSTS_DIR.rglob("*.md")):
+        if path.name == EXAMPLE_MD or path.name.lower() == "readme.md" or path.name.endswith(".en.md"):
+            continue
+        try:
+            entry = markdown_file_to_entry(path, reverse_zh)
+        except Exception as exc:  # one bad file shouldn't break the whole build
+            print(f"  markdown skip {path.relative_to(ROOT)}: {exc}")
+            continue
+        if entry:
+            entries.append(entry)
+            print(f"  markdown post: /{entry['url']}  <- {path.relative_to(ROOT)}")
+    entries.sort(key=lambda e: e["date"], reverse=True)
+    return entries
+
+
+def markdown_file_to_entry(path, reverse_zh):
+    meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+    title = meta.get("title") or meta.get("title_zh")
+    if not title or not meta.get("date"):
+        print(f"  markdown skip {path.name}: needs 'title' and 'date' frontmatter")
+        return None
+    slug = (meta.get("slug") or path.stem).strip()
+    date = meta["date"].strip()
+    if len(date) <= 10:
+        date += " 00:00:00"
+    year, month, day = date_only(date).split("-")[:3]
+    url = meta.get("url") or f"{year}/{month}/{day}/{slug}/"
+    if not url.endswith("/"):
+        url += "/"
+    content_zh = markdown_to_html(body)
+    en_path = path.with_name(path.stem + ".en.md")
+    if en_path.exists():
+        _, en_body = parse_frontmatter(en_path.read_text(encoding="utf-8"))
+        content_en = markdown_to_html(en_body)
+    else:
+        content_en = content_zh
+    excerpt_zh = meta.get("excerpt") or meta.get("excerpt_zh") or short_text(content_zh, 140)
+    excerpt_en = meta.get("excerpt_en") or (short_text(content_en, 140) if en_path.exists() else excerpt_zh)
+    return {
+        "id": 900000 + int(hashlib.md5(slug.encode("utf-8")).hexdigest()[:7], 16) % 99999,
+        "type": meta.get("type", "post"),
+        "title_zh": title,
+        "title_en": meta.get("title_en") or title,
+        "excerpt_zh": excerpt_zh,
+        "excerpt_en": excerpt_en,
+        "content_zh": content_zh,
+        "content_en": content_en,
+        "date": date,
+        "modified": meta.get("modified", date),
+        "slug": slug,
+        "url": url,
+        "categories": resolve_md_terms(meta.get("categories", []), reverse_zh),
+        "tags": resolve_md_terms(meta.get("tags", []), reverse_zh),
+        "comments": [],
+        "thumbnail": meta.get("thumbnail", ""),
+    }
+
+
+def resolve_md_terms(tokens, reverse_zh):
+    """Token forms: "slug" | "中文名|slug" | "中文名|slug|English Name".
+    A bare slug reuses an existing same-slug term's Chinese name when known.
+    name_en follows the site's standard priority: explicit value here, else the
+    built-in TERM_EN map, else auto-generated from the slug."""
+    terms = []
+    for token in tokens:
+        token = str(token).strip()
+        if not token:
+            continue
+        explicit_en = ""
+        if "|" in token:
+            parts = [part.strip() for part in token.split("|")]
+            name = parts[0]
+            slug = parts[1] if len(parts) > 1 and parts[1] else parts[0]
+            explicit_en = parts[2] if len(parts) > 2 else ""
+        else:
+            slug = token
+            name = reverse_zh.get(slug, slug)
+        term = {"name": name, "slug": slug}
+        term["name_en"] = explicit_en or TERM_EN.get(slug, auto_english_term_label(term))
+        terms.append(term)
+    return terms
+
+
+def parse_frontmatter(text):
+    """Minimal YAML-ish frontmatter: `key: value` lines between leading --- fences.
+    `[a, b, c]` and comma lists become lists; everything else is a string."""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    match = re.match(r"^---[ \t]*\n(.*?)\n---[ \t]*\n?", text, re.S)
+    if not match:
+        return {}, text
+    meta = {}
+    for line in match.group(1).split("\n"):
+        if not line.strip() or line.lstrip().startswith("#") or ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        key, value = key.strip(), value.strip()
+        if value.startswith("[") and value.endswith("]"):
+            value = [v.strip().strip("\"'") for v in value[1:-1].split(",") if v.strip()]
+        else:
+            value = value.strip("\"'")
+        meta[key] = value
+    return meta, text[match.end():]
+
+
+# ---- Markdown -> HTML (stdlib only; covers the common blog subset) ----
+def _md_escape(text):
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def md_inline(text):
+    # Protect math ($$..$$, $..$) and inline code from markdown processing so
+    # emphasis/escaping can't mangle them; the math delimiters are left intact
+    # for KaTeX to render client-side.
+    keep = []
+
+    def hold(fragment):
+        keep.append(fragment)
+        return f"\x00{len(keep) - 1}\x00"
+
+    text = re.sub(r"\$\$(.+?)\$\$", lambda m: hold("$$" + _md_escape(m.group(1)) + "$$"), text)
+    text = re.sub(r"(?<!\$)\$([^$\n]+?)\$(?!\$)", lambda m: hold("$" + _md_escape(m.group(1)) + "$"), text)
+    text = re.sub(r"`([^`]+)`", lambda m: hold(f"<code>{_md_escape(m.group(1))}</code>"), text)
+    text = _md_escape(text)
+    text = re.sub(
+        r"!\[([^\]]*)\]\(([^)\s]+)(?:\s+\"([^\"]*)\")?\)",
+        lambda m: f'<img src="{m.group(2)}" alt="{m.group(1)}"' + (f' title="{m.group(3)}"' if m.group(3) else "") + ">",
+        text,
+    )
+    text = re.sub(
+        r"\[([^\]]+)\]\(([^)\s]+)(?:\s+\"([^\"]*)\")?\)",
+        lambda m: f'<a href="{m.group(2)}"' + (f' title="{m.group(3)}"' if m.group(3) else "") + f">{m.group(1)}</a>",
+        text,
+    )
+    text = re.sub(r"\*\*([^*]+)\*\*|__([^_]+)__", lambda m: f"<strong>{m.group(1) or m.group(2)}</strong>", text)
+    text = re.sub(r"~~([^~]+)~~", r"<del>\1</del>", text)
+    text = re.sub(r"\*(?=\S)([^*\n]+?)(?<=\S)\*", r"<em>\1</em>", text)
+    text = re.sub(r"(?<![A-Za-z0-9_])_(?=\S)([^_\n]+?)(?<=\S)_(?![A-Za-z0-9_])", r"<em>\1</em>", text)
+    return re.sub(r"\x00(\d+)\x00", lambda m: keep[int(m.group(1))], text)
+
+
+def _md_list(lines, i, base_indent):
+    items, ordered, n = [], None, len(lines)
+    while i < n:
+        line = lines[i]
+        if not line.strip():
+            nxt = i + 1
+            if nxt < n and re.match(r"^\s*([-*+]|\d+\.)\s+", lines[nxt]) and (len(lines[nxt]) - len(lines[nxt].lstrip())) >= base_indent:
+                i = nxt
+                continue
+            break
+        indent = len(line) - len(line.lstrip())
+        match = re.match(r"^([-*+]|\d+\.)\s+(.*)$", line.strip())
+        if not match or indent < base_indent:
+            break
+        if indent > base_indent:
+            i, sub = _md_list(lines, i, indent)
+            if items:
+                items[-1] = items[-1][:-len("</li>")] + sub + "</li>"
+            continue
+        this_ordered = bool(re.match(r"^\d+\.$", match.group(1)))
+        if ordered is None:
+            ordered = this_ordered
+        elif this_ordered != ordered:
+            break  # marker type changed at same indent -> a new list starts
+        items.append(f"<li>{md_inline(match.group(2).strip())}</li>")
+        i += 1
+    tag = "ol" if ordered else "ul"
+    return i, f"<{tag}>{''.join(items)}</{tag}>"
+
+
+def _md_table(lines, i):
+    header = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+    i += 2  # header row + the ---|--- separator
+    rows, n = [], len(lines)
+    while i < n and lines[i].strip() and "|" in lines[i]:
+        rows.append([c.strip() for c in lines[i].strip().strip("|").split("|")])
+        i += 1
+    head = "".join(f"<th>{md_inline(c)}</th>" for c in header)
+    body = "".join("<tr>" + "".join(f"<td>{md_inline(c)}</td>" for c in row) + "</tr>" for row in rows)
+    return i, f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
+
+
+def markdown_to_html(text):
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    out, para, i, n = [], [], 0, len(lines)
+
+    def flush():
+        if para:
+            out.append("<p>" + md_inline(" ".join(para).strip()) + "</p>")
+            para.clear()
+
+    while i < n:
+        line, stripped = lines[i], lines[i].strip()
+        fence = re.match(r"^(```|~~~)(.*)$", stripped)
+        if fence:
+            flush()
+            mark, hint, code, i = fence.group(1), fence.group(2).strip(), [], i + 1
+            while i < n and lines[i].strip()[:3] != mark:
+                code.append(lines[i])
+                i += 1
+            i += 1
+            cls = f' class="language-{_md_escape(hint)}"' if hint else ""
+            out.append(f"<pre><code{cls}>{_md_escape(chr(10).join(code))}</code></pre>")
+            continue
+        if not stripped:
+            flush()
+            i += 1
+            continue
+        heading = re.match(r"^(#{1,6})\s+(.*?)\s*#*\s*$", line)
+        if heading:
+            flush()
+            level = len(heading.group(1))
+            out.append(f"<h{level}>{md_inline(heading.group(2).strip())}</h{level}>")
+            i += 1
+            continue
+        if re.match(r"^([*\-_])(?:\s*\1){2,}\s*$", stripped):
+            flush()
+            out.append("<hr>")
+            i += 1
+            continue
+        if stripped.startswith(">"):
+            flush()
+            quote = []
+            while i < n and lines[i].strip().startswith(">"):
+                quote.append(re.sub(r"^\s*>\s?", "", lines[i]))
+                i += 1
+            out.append(f"<blockquote>{markdown_to_html(chr(10).join(quote))}</blockquote>")
+            continue
+        if "|" in line and i + 1 < n and re.match(r"^\s*\|?(\s*:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$", lines[i + 1]):
+            flush()
+            i, table = _md_table(lines, i)
+            out.append(table)
+            continue
+        if re.match(r"^\s*([-*+]|\d+\.)\s+", line):
+            flush()
+            i, lst = _md_list(lines, i, len(line) - len(line.lstrip()))
+            out.append(lst)
+            continue
+        para.append(stripped)
+        i += 1
+    flush()
+    return "\n".join(out)
 
 
 def build_summary(entries):
