@@ -573,6 +573,68 @@ a.pill:hover {
 }
 .page-link:hover strong { color: var(--accent); }
 .page-link:hover .page-link-go { color: var(--accent); transform: translateX(3px); }
+.page-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.page-card {
+  position: relative;
+  min-height: 184px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.page-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -24px -36px auto;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  pointer-events: none;
+}
+.page-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: color-mix(in srgb, var(--panel) 86%, var(--fill));
+}
+.page-card-date {
+  color: var(--accent-2);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+.page-card strong {
+  position: relative;
+  z-index: 1;
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+.page-card-excerpt {
+  position: relative;
+  z-index: 1;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.page-card-go {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 800;
+  transition: transform 160ms ease;
+}
+.page-card:hover .page-card-go { transform: translateX(4px); }
 
 /* ---------- term index cloud ---------- */
 .term-index .term-cloud {
@@ -1169,6 +1231,8 @@ a.pill:hover {
   }
   .nav-links .icon-button { min-width: 38px; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .page-card-grid { grid-template-columns: 1fr; }
+  .page-card { min-height: 150px; padding: 16px; }
   .latest-row {
     grid-template-columns: 116px minmax(0, 1fr);
     gap: 14px;

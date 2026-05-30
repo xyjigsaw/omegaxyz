@@ -1040,6 +1040,19 @@ def render_page_link(entry, lang, current_file):
     """
 
 
+def render_page_card(entry, lang, current_file):
+    href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
+    excerpt = short_text(entry.get(f"excerpt_{lang}") or strip_tags(entry.get(f"content_{lang}", "")), 132)
+    return f"""
+    <a class="page-card" href="{href}">
+      <span class="page-card-date">{esc(date_only(entry['date']))}</span>
+      <strong>{esc(entry[f'title_{lang}'])}</strong>
+      <span class="page-card-excerpt">{esc(excerpt)}</span>
+      <span class="page-card-go" aria-hidden="true">→</span>
+    </a>
+    """
+
+
 def render_latest_row(entry, lang, current_file, eager=False):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
@@ -1471,8 +1484,8 @@ def render_pager(lang, current, page, pages):
 def render_pages_index(site, lang):
     current = path_to_file(f"{lang}/pages/")
     pages = [e for e in site["entries"] if e["type"] == "page"]
-    items = "".join(render_archive_item(e, lang, current) for e in pages)
-    body = f'<main class="wrap band"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1></div><div class="archive-list">{items}</div></main>'
+    items = "".join(render_page_card(e, lang, current) for e in pages)
+    body = f'<main class="wrap band pages-page"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1></div><div class="page-card-grid">{items}</div></main>'
     write(current, layout(current, lang, I18N[lang]["all_pages"], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/pages/"))
 
 
