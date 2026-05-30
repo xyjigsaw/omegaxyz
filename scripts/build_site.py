@@ -18,7 +18,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260529-ui7"
+ASSET_VERSION = "20260530-ui8"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -474,6 +474,37 @@ def fix_post_footer(markup):
     return head + '\n<p class="post-footer">' + "<br>".join(lines) + "</p>"
 
 
+# Migrated reference lists are raw text lines ("[1] ...") separated by blank
+# lines, so they collapse onto a single line in HTML. Give each one its own line.
+REF_RUN_RE = re.compile(r"\[\d+\][^\r\n]*(?:\r?\n\r?\n\[\d+\][^\r\n]*)+")
+
+
+def fix_reference_list(markup):
+    def repl(match):
+        lines = re.split(r"\r?\n\r?\n", match.group(0))
+        return "<br>".join(line.strip() for line in lines)
+
+    return REF_RUN_RE.sub(repl, markup)
+
+
+# WordPress migration cruft: headings that are empty (whitespace/&nbsp;/<br>) or
+# wrap nothing but an image, plus empty paragraphs that add stray vertical gaps.
+# Drop the empty ones; unwrap image-only headings so the image survives without
+# the bogus heading semantics.
+EMPTY_HEADING_RE = re.compile(r"<h([1-6])\b[^>]*>(?:\s|&nbsp;|<br\s*/?>)*</h\1>", re.I)
+IMG_ONLY_HEADING_RE = re.compile(
+    r"<h([1-6])\b[^>]*>\s*((?:<a\b[^>]*>\s*)?<img\b[^>]*?>\s*(?:</a>\s*)?)</h\1>", re.I
+)
+EMPTY_PARA_RE = re.compile(r"<p\b[^>]*>(?:\s|&nbsp;|<br\s*/?>)*</p>", re.I)
+
+
+def clean_block_cruft(markup):
+    markup = IMG_ONLY_HEADING_RE.sub(lambda m: m.group(2).strip(), markup)
+    markup = EMPTY_HEADING_RE.sub("", markup)
+    markup = EMPTY_PARA_RE.sub("", markup)
+    return markup
+
+
 def rewrite_content(markup, lang, current_file, legacy):
     markup = markup or ""
     markup = re.sub(r"\[latexpage\]\s*", "", markup, flags=re.I)
@@ -483,6 +514,8 @@ def rewrite_content(markup, lang, current_file, legacy):
         markup,
     )
     markup = fix_post_footer(markup)
+    markup = fix_reference_list(markup)
+    markup = clean_block_cruft(markup)
 
     def repl(match):
         attr, quote_char, value = match.groups()
@@ -564,7 +597,7 @@ def nav(current_file, lang, title, alt_path):
         </a>
         <div class="nav-links">
           {link_html}
-          <a class="nav-item nav-lang nav-hide-m" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
+          <a class="nav-item nav-lang" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
           <a class="icon-button nav-github nav-hide-m" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
           <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
         </div>
@@ -1105,12 +1138,13 @@ def render_archive_item(entry, lang, current, interactive=False):
         )
     else:
         attrs = ""
+    summary = short_text(entry[f"excerpt_{lang}"], 150)
+    summary_html = f"\n        <p>{esc(summary)}</p>" if summary else ""
     return f"""
     <article class="archive-item"{attrs}>
       <time>{esc(date_only(entry['date']))}</time>
       <div>
-        <h2><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h2>
-        <p>{esc(short_text(entry[f'excerpt_{lang}'], 150))}</p>
+        <h2><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h2>{summary_html}
         <div class="terms">{pills}</div>
       </div>
     </article>

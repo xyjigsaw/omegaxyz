@@ -1203,6 +1203,17 @@ a.pill:hover {
     margin-top: 6px;
     padding: 0;
   }
+  /* mobile archive: smaller filter chips, show a shorter scrollable portion */
+  .archive-filters { max-height: 156px; gap: 8px; padding: 6px 0; }
+  .filter-group { gap: 6px; }
+  .filter-group h2 { font-size: 0.68rem; }
+  .filter-group > div { gap: 6px; }
+  .filter-chip {
+    min-height: 26px;
+    padding: 2px 9px;
+    font-size: 0.8rem;
+  }
+  .filter-chip span { margin-left: 4px; }
   .archive-item {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -1280,14 +1291,10 @@ a.pill:hover {
 
 /* ---------- privacy policy page: drop redundant rules, tidy spacing ---------- */
 .privacy-page .article-content hr { display: none; }
-.privacy-page .article-content h2:first-child {
+/* the migrated WordPress logo at the top duplicates the header brand */
+.privacy-page .article-content img[src*="omegaxyz.png"] { display: none; }
+.privacy-page .article-content h2:first-of-type {
   border-top: 0;
   margin-top: 0;
   padding-top: 0;
-}
-.privacy-page .article-content h2 img {
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  box-shadow: none;
 }
