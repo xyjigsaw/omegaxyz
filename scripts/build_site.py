@@ -297,6 +297,8 @@ def markdown_file_to_entry(path, reverse_zh):
         url += "/"
     content_zh = markdown_to_html(body)
     en_path = path.with_name(path.stem + ".en.md")
+    if not en_path.exists() and path.parent.name == "archive":
+        en_path = POSTS_DIR / f"{path.stem}.en.md"
     if en_path.exists():
         _, en_body = parse_frontmatter(en_path.read_text(encoding="utf-8"))
         content_en = markdown_to_html(en_body)

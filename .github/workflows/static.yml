@@ -41,7 +41,15 @@ jobs:
           for f in content/posts/*.md; do
             base="$(basename "$f")"
             [ "$base" = "example.md" ] && continue
+            case "$base" in
+              *.en.md) continue ;;
+            esac
+            stem="${base%.md}"
+            companion="content/posts/${stem}.en.md"
             git mv -f "$f" "content/posts/archive/$base" 2>/dev/null || mv -f "$f" "content/posts/archive/$base"
+            if [ -f "$companion" ]; then
+              git mv -f "$companion" "content/posts/archive/${stem}.en.md" 2>/dev/null || mv -f "$companion" "content/posts/archive/${stem}.en.md"
+            fi
           done
           git add -A data/media-cdn.json content/posts
           if ! git diff --cached --quiet; then
