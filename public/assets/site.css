@@ -692,10 +692,19 @@ a.pill:hover {
   display: block;
   width: auto;
   max-width: min(100%, 880px);
+  max-height: min(82vh, 820px);
   height: auto;
   margin: 1.6rem auto;
   border-radius: 12px;
+  object-fit: contain;
+  background: color-mix(in srgb, var(--fill) 55%, transparent);
 }
+.article-content img.image-portrait {
+  max-width: min(100%, 520px);
+  max-height: min(86vh, 900px);
+}
+.article-content img.image-small { max-width: min(100%, 420px); }
+.article-content figure img { margin-bottom: 0.6rem; }
 .article-content iframe,
 .article-content embed,
 .article-content object { width: 100%; max-width: 100%; }

@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260530-ui8"
+ASSET_VERSION = "20260530-media1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -769,6 +769,45 @@ def clean_block_cruft(markup):
     return markup
 
 
+def img_attr(attrs, name):
+    match = re.search(rf'\b{name}=(["\'])(.*?)\1', attrs, flags=re.I)
+    return match.group(2) if match else ""
+
+
+def append_img_class(attrs, class_name):
+    if not class_name:
+        return attrs
+    match = re.search(r'\bclass=(["\'])(.*?)\1', attrs, flags=re.I)
+    if match:
+        classes = match.group(2).split()
+        if class_name not in classes:
+            classes.append(class_name)
+        return attrs[:match.start(2)] + " ".join(classes) + attrs[match.end(2):]
+    return attrs.rstrip() + f' class="{class_name}"'
+
+
+def enhance_img_tag(match):
+    attrs = match.group(1)
+    if not re.search(r"\bloading=", attrs, flags=re.I):
+        attrs += ' loading="lazy"'
+    if not re.search(r"\bdecoding=", attrs, flags=re.I):
+        attrs += ' decoding="async"'
+    try:
+        width = int(float(img_attr(attrs, "width")))
+        height = int(float(img_attr(attrs, "height")))
+    except ValueError:
+        width = height = 0
+    if width and height:
+        ratio = width / height
+        if ratio < 0.78:
+            attrs = append_img_class(attrs, "image-portrait")
+        elif ratio > 1.45:
+            attrs = append_img_class(attrs, "image-wide")
+        if width <= 420:
+            attrs = append_img_class(attrs, "image-small")
+    return f"<img{attrs}>"
+
+
 def rewrite_content(markup, lang, current_file, legacy):
     markup = markup or ""
     markup = re.sub(r"\[latexpage\]\s*", "", markup, flags=re.I)
@@ -790,7 +829,7 @@ def rewrite_content(markup, lang, current_file, legacy):
         return f'{attr}={quote_char}{html.escape(rewritten, quote=True)}{quote_char}'
 
     rewritten = re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup, flags=re.I)
-    rewritten = re.sub(r'<img (?![^>]*\bloading=)', '<img loading="lazy" decoding="async" ', rewritten, flags=re.I)
+    rewritten = re.sub(r"<img\b([^>]*)>", enhance_img_tag, rewritten, flags=re.I)
     return rewritten
 
 
@@ -1001,10 +1040,15 @@ def render_page_link(entry, lang, current_file):
     """
 
 
-def render_latest_row(entry, lang, current_file):
+def render_latest_row(entry, lang, current_file, eager=False):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     image = first_image(entry)
-    image_html = f'<img src="{esc(image)}" alt="" loading="lazy" decoding="async" width="200" height="132">' if image else '<span>OmegaXYZ</span>'
+    if image:
+        loading = "eager" if eager else "lazy"
+        priority = ' fetchpriority="high"' if eager else ""
+        image_html = f'<img src="{esc(image)}" alt="" loading="{loading}" decoding="async"{priority} width="200" height="132">'
+    else:
+        image_html = '<span>OmegaXYZ</span>'
     pills = render_term_pills(entry, lang, current_file, 2, 2)
     return f"""
     <article class="latest-row">
@@ -1028,7 +1072,7 @@ def render_home(site, lang, current=None):
     home_data_file = current.parent / "home-rows.json"
     write(home_data_file, json.dumps(all_rows, ensure_ascii=False))
     home_data_url = rel_url(current, home_data_file)
-    latest_rows = "".join(all_rows[:9])
+    latest_rows = "".join(render_latest_row(e, lang, current, eager=i == 0) for i, e in enumerate(posts[:9]))
     priority_slugs = ["friends", "webhistory", "makefriends", "comment"]
     home_pages = [p for p in pages if p["slug"] not in ("evolutionary-algorithm-navigator", "menu-bar-privacy")]
     ordered_pages = sorted(

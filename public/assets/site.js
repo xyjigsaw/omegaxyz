@@ -93,6 +93,23 @@
     applyArchiveFilters(archive);
   });
 
+  const classifyArticleImages = () => {
+    document.querySelectorAll(".article-content img").forEach((img) => {
+      const apply = () => {
+        const w = img.naturalWidth || Number(img.getAttribute("width")) || 0;
+        const h = img.naturalHeight || Number(img.getAttribute("height")) || 0;
+        if (!w || !h) return;
+        const ratio = w / h;
+        img.classList.toggle("image-portrait", ratio < 0.78);
+        img.classList.toggle("image-wide", ratio > 1.45);
+        img.classList.toggle("image-small", w <= 420);
+      };
+      if (img.complete) apply();
+      else img.addEventListener("load", apply, { once: true });
+    });
+  };
+  classifyArticleImages();
+
   document.querySelectorAll("[data-toc]").forEach((box) => {
     const content = document.querySelector(".article-content");
     if (!content) return;
@@ -292,10 +309,6 @@
       if (!loading) loading = fetch(dataUrl).then((r) => r.json()).then((rows) => { pool = rows; return rows; });
       return loading;
     };
-    // Warm the shuffle data in the background so the first "随机" click is instant.
-    const prefetch = () => { loadPool().catch(() => {}); };
-    if ("requestIdleCallback" in window) requestIdleCallback(prefetch, { timeout: 3000 });
-    else window.addEventListener("load", () => setTimeout(prefetch, 1000), { once: true });
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const mode = btn.dataset.homeMode;
