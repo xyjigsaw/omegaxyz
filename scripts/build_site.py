@@ -236,6 +236,7 @@ def load_site():
         for field in ("excerpt_zh", "excerpt_en", "title_zh", "title_en"):
             if entry.get(field):
                 entry[field] = re.sub(r"\[latexpage\]\s*", "", entry[field], flags=re.I).strip()
+    site["entries"].sort(key=lambda entry: entry.get("date", ""), reverse=True)
     site["summary"] = build_summary(site["entries"])
     return site
 
