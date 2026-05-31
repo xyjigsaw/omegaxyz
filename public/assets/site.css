@@ -1257,6 +1257,8 @@ a.pill:hover {
   .latest-media { width: 116px; height: 84px; min-height: 0; }
   /* mobile home: drop the category/tag rail and trim the post items */
   .home-panel { display: none; }
+  /* tags are hidden on mobile, so drop the divider line that sat under them */
+  .band[data-home-latest] { border-top: 0; padding-top: 18px; }
   .latest-copy p,
   .latest-copy .terms { display: none; }
   /* mobile footer: logo above the declaration */
