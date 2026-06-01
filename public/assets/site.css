@@ -1109,6 +1109,95 @@ a.pill:hover {
 }
 .friend-section { margin-top: 30px; }
 
+/* ---------- friend application ---------- */
+.makefriends-page {
+  width: min(100% - 48px, 980px);
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.makefriends-hero {
+  max-width: 760px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+.makefriends-hero h1 {
+  margin: 6px 0 12px;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+.makefriends-hero p {
+  margin: 0 auto;
+  max-width: 58ch;
+  color: var(--muted);
+}
+.makefriends-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 28px 0;
+}
+.makefriends-card,
+.makefriends-submit {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.makefriends-card {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  overflow-wrap: anywhere;
+}
+.makefriends-card span,
+.makefriends-card em {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-style: normal;
+}
+.makefriends-card strong {
+  display: block;
+  max-width: 100%;
+  color: var(--ink);
+  font-size: 0.98rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+.makefriends-submit {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+  align-items: start;
+  padding: 22px;
+}
+.makefriends-submit h2 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+}
+.makefriends-submit p {
+  margin: 0;
+  color: var(--muted);
+}
+.makefriends-submit ol {
+  margin: 0;
+  padding-left: 1.25em;
+}
+.makefriends-submit li { margin: 0.35em 0; }
+.makefriends-hero p,
+.makefriends-submit,
+.makefriends-submit li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.makefriends-page .giscus-comments {
+  max-width: 860px;
+  margin: 34px auto 0;
+}
+
 /* ---------- comments ---------- */
 .comments { max-width: 760px; margin-top: 44px; display: grid; gap: 20px; }
 .comments h2 { margin-bottom: 2px; font-size: 1.3rem; }
@@ -1348,11 +1437,17 @@ a.pill:hover {
   .search-box input { min-height: 52px; }
 
   .grid,
+  .makefriends-grid,
   .friends-grid,
   .page-strip,
   .archive-tools {
     grid-template-columns: 1fr;
   }
+  .makefriends-submit { grid-template-columns: 1fr; padding: 18px; }
+  .makefriends-hero { text-align: left; }
+  .makefriends-hero p,
+  .makefriends-submit p { max-width: 30ch; }
+  .makefriends-page { overflow-x: hidden; }
 
   .section-head h1,
   .section-head h2 { font-size: 1.5rem; }

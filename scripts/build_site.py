@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-giscus-theme1"
+ASSET_VERSION = "20260602-makefriends1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -42,7 +42,10 @@ EXCLUDE_PAGE_SLUGS = {
     "hexconvert", "resource", "resource_software",
 }
 PAGE_TITLE_EN_OVERRIDE = {
-    "makefriends": "Make Friends with Me",
+    "makefriends": "Friend Link Application",
+}
+PAGE_TITLE_ZH_OVERRIDE = {
+    "makefriends": "友链申请",
 }
 
 FOOTER_LINKS = [
@@ -233,9 +236,15 @@ def load_site():
         if not (entry.get("type") == "page" and entry.get("slug") in EXCLUDE_PAGE_SLUGS)
     ]
     for entry in site["entries"]:
+        override = PAGE_TITLE_ZH_OVERRIDE.get(entry.get("slug"))
+        if override:
+            entry["title_zh"] = override
         override = PAGE_TITLE_EN_OVERRIDE.get(entry.get("slug"))
         if override:
             entry["title_en"] = override
+        if entry.get("slug") == "makefriends":
+            entry["excerpt_zh"] = "欢迎交换友情链接。请先添加 OmegaXYZ 链接，再在评论区提交站点信息。"
+            entry["excerpt_en"] = "Friend link exchange for independent blogs and technical sites. Please add OmegaXYZ first, then submit your site details in the comments."
         # Strip the stray WordPress [latexpage] shortcode wherever it leaked.
         for field in ("excerpt_zh", "excerpt_en", "title_zh", "title_en"):
             if entry.get(field):
@@ -1265,6 +1274,8 @@ def render_related_posts(entry, site, lang, current):
 def render_entry(entry, lang, legacy, site):
     if entry["url"].strip("/") == "friends":
         return render_friends_entry(entry, lang)
+    if entry["url"].strip("/") == "makefriends":
+        return render_makefriends_entry(entry, lang)
     if entry["url"].strip("/") == "webhistory":
         return render_timeline_page(entry, lang)
     current = path_to_file(entry_path(entry, lang))
@@ -1374,6 +1385,92 @@ def render_friends_entry(entry, lang):
         <a class="button primary" href="{rel_url(current, path_to_file(f'{lang}/makefriends/'))}">{esc(apply_label)}</a>
       </section>
       {''.join(sections)}
+    </main>
+    """
+    body = "\n".join(line.rstrip() for line in body.splitlines())
+    return layout(current, lang, title, body, desc, entry_path(entry, other))
+
+
+def render_makefriends_entry(entry, lang):
+    current = path_to_file(entry_path(entry, lang))
+    other = "en" if lang == "zh" else "zh"
+    title = entry[f"title_{lang}"]
+    desc = entry[f"excerpt_{lang}"]
+    comments = render_giscus(entry, lang)
+    if lang == "zh":
+        intro = "欢迎独立站点交换友情链接。请先添加本站链接，再在下方评论区提交申请。"
+        checklist_title = "申请前请准备"
+        submit_title = "提交格式"
+        site_name = "站点名称"
+        site_desc = "OmegaXYZ"
+        link_label = "站点链接"
+        logo_label = "站点 Logo"
+        logo_note = "建议使用稳定可访问的图片链接"
+        contact_label = "申请位置"
+        contact_note = "使用 GitHub 登录后在下方评论区留言"
+        submit_items = [
+            "你的站点名称",
+            "你的站点链接",
+            "一句简短介绍",
+            "Logo 图片链接",
+            "RSS 地址或联系方式（可选）",
+        ]
+        comment_hint = "请在下方评论区提交，审核通过后会加入友情链接页。"
+    else:
+        intro = "Independent blogs and thoughtful technical sites are welcome. Please add OmegaXYZ to your site first, then submit your details in the comments below."
+        checklist_title = "Before Applying"
+        submit_title = "Submission Format"
+        site_name = "Site name"
+        site_desc = "OmegaXYZ"
+        link_label = "Site URL"
+        logo_label = "Site logo"
+        logo_note = "Use a stable public image URL"
+        contact_label = "Where to Apply"
+        contact_note = "Sign in with GitHub and leave a comment below"
+        submit_items = [
+            "Your site name",
+            "Your site URL",
+            "A short description",
+            "Logo image URL",
+            "RSS or contact URL (optional)",
+        ]
+        comment_hint = "Submit the information in the comments below. Approved sites will be added to the friends page."
+    submit_html = "".join(f"<li>{esc(item)}</li>" for item in submit_items)
+    body = f"""
+    <main class="wrap band makefriends-page">
+      <section class="makefriends-hero">
+        <div class="eyebrow">OmegaXYZ</div>
+        <h1>{esc(title)}</h1>
+        <p>{esc(intro)}</p>
+      </section>
+      <section class="makefriends-grid" aria-label="{esc(checklist_title)}">
+        <article class="makefriends-card">
+          <span>{esc(site_name)}</span>
+          <strong>{esc(site_desc)}</strong>
+        </article>
+        <article class="makefriends-card">
+          <span>{esc(link_label)}</span>
+          <strong>https://omegaxyz.com/</strong>
+        </article>
+        <article class="makefriends-card">
+          <span>{esc(logo_label)}</span>
+          <strong>https://cdn.omegaxyz.com/2020/01/AI-GIF.gif</strong>
+          <em>{esc(logo_note)}</em>
+        </article>
+        <article class="makefriends-card">
+          <span>{esc(contact_label)}</span>
+          <strong>{esc(I18N[lang]["comments"])}</strong>
+          <em>{esc(contact_note)}</em>
+        </article>
+      </section>
+      <section class="makefriends-submit">
+        <div>
+          <h2>{esc(submit_title)}</h2>
+          <p>{esc(comment_hint)}</p>
+        </div>
+        <ol>{submit_html}</ol>
+      </section>
+      {comments}
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
