@@ -966,6 +966,10 @@ THEME_SCRIPT = (
     'if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";'
     'document.documentElement.dataset.theme=t;}catch(e){}})();</script>'
 )
+ADSENSE_SCRIPT = (
+    '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?'
+    'client=ca-pub-1034651202564955" crossorigin="anonymous"></script>'
+)
 ARTICLE_ASSETS = (
     """
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
@@ -997,6 +1001,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <link rel="preconnect" href="https://cdn.omegaxyz.com">
   <link rel="preconnect" href="https://cv.omegaxyz.com">
   {THEME_SCRIPT}
+  {ADSENSE_SCRIPT}
   <title>{esc(title)} · OmegaXYZ</title>
   <meta name="description" content="{esc(desc)}">
   <meta name="theme-color" content="#008d98">
@@ -1599,7 +1604,13 @@ def render_redirect(path, target):
     file = path_to_file(path)
     target_file = path_to_file(target)
     href = rel_url(file, target_file)
-    write(file, f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url={href}"><link rel="canonical" href="{href}">')
+    write(file, (
+        '<!doctype html><html lang="zh"><head><meta charset="utf-8">'
+        f'{ADSENSE_SCRIPT}'
+        f'<meta http-equiv="refresh" content="0; url={href}">'
+        f'<link rel="canonical" href="{href}">'
+        '</head><body></body></html>'
+    ))
 
 
 def collect_legacy_paths(site, legacy):
@@ -1673,6 +1684,7 @@ def render_404():
   <link rel="preconnect" href="https://cdn.omegaxyz.com">
   <link rel="preconnect" href="https://cv.omegaxyz.com">
   {THEME_SCRIPT}
+  {ADSENSE_SCRIPT}
   <title>404 · OmegaXYZ</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#008d98">
@@ -1713,6 +1725,7 @@ def render_root_redirect():
     canonical = SITE_URL.rstrip("/") + "/zh/"
     write(OUT / "index.html", (
         '<!doctype html><html lang="zh"><head><meta charset="utf-8">'
+        f'{ADSENSE_SCRIPT}'
         '<title>OmegaXYZ</title>'
         f'<link rel="canonical" href="{canonical}">'
         '<meta http-equiv="refresh" content="0; url=zh/">'
