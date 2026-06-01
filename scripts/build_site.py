@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260601-author1"
+ASSET_VERSION = "20260602-404-search1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1726,8 +1726,14 @@ Sitemap: {SITE_URL.rstrip("/")}/sitemap.xml
 """)
 
 
-def render_404():
+def render_404(site):
     css = f"/assets/site.css?v={ASSET_VERSION}"
+    js = f"/assets/site.js?v={ASSET_VERSION}"
+    latest = [entry for entry in site["entries"] if entry.get("type") == "post"][:8]
+    latest_items = "".join(
+        f'<li><a href="/{entry_path(entry, "zh").strip("/")}">{esc(entry["title_zh"])}</a><time>{esc(date_only(entry["date"]))}</time></li>'
+        for entry in latest
+    )
     write(OUT / "404.html", f"""<!doctype html>
 <html lang="zh">
 <head>
@@ -1764,10 +1770,18 @@ def render_404():
       <p class="notfound-msg">这个链接可能已被移动或删除。This page may have been moved or removed.</p>
       <div class="hero-actions">
         <a class="button primary" href="/zh/">返回首页 / Home</a>
-        <a class="button" href="/zh/search/">搜索 / Search</a>
       </div>
+      <section class="search-box notfound-search" data-search="/zh/search-index.json">
+        <input type="search" placeholder="搜索文章、页面、标签... / Search posts, pages, and tags..." aria-label="搜索">
+        <div class="search-results" data-search-results></div>
+      </section>
+    </section>
+    <section class="notfound-latest">
+      <h2>最新文章 · Latest Posts</h2>
+      <ol>{latest_items}</ol>
     </section>
   </main>
+  <script src="{js}"></script>
 </body>
 </html>
 """)
@@ -1808,7 +1822,7 @@ def main():
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
     render_site_index_files(site)
-    render_404()
+    render_404(site)
     print(f"built {OUT}")
 
 

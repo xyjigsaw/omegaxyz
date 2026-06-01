@@ -203,6 +203,46 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 }
 .hero-actions a:hover { color: var(--accent); }
 .notfound-msg { margin: 0; max-width: 48ch; color: var(--muted); }
+.notfound-search {
+  width: min(100%, 680px);
+  margin-top: 22px;
+}
+.notfound-latest {
+  width: min(100%, 760px);
+  margin: -18px auto 70px;
+}
+.notfound-latest h2 {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.notfound-latest ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.notfound-latest li {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.notfound-latest a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 720;
+}
+.notfound-latest a:hover { color: var(--accent); }
+.notfound-latest time {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
 
 /* ---------- buttons (CTA, e.g. friends apply) ---------- */
 .button {
