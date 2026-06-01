@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260601-home-divider1"
+ASSET_VERSION = "20260601-related1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -110,6 +110,7 @@ I18N = {
         "featured": "知识结构",
         "comments": "评论",
         "toc": "目录",
+        "related": "相似推荐",
         "all_posts": "全部文章",
         "all_pages": "全部页面",
         "language": "English",
@@ -152,6 +153,7 @@ I18N = {
         "featured": "Knowledge Map",
         "comments": "Comments",
         "toc": "Contents",
+        "related": "Related",
         "all_posts": "All Posts",
         "all_pages": "All Pages",
         "language": "中文",
@@ -1213,7 +1215,52 @@ def render_timeline_page(entry, lang):
     return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, other))
 
 
-def render_entry(entry, lang, legacy):
+def entry_term_keys(entry):
+    keys = []
+    for kind, field in (("category", "categories"), ("tag", "tags")):
+        for term in entry.get(field, []):
+            slug = term.get("slug")
+            if slug:
+                keys.append((kind, slug))
+    return keys
+
+
+def render_related_posts(entry, site, lang, current):
+    if entry.get("type") != "post":
+        return ""
+    posts = [candidate for candidate in site["entries"] if candidate.get("type") == "post"]
+    term_counts = {}
+    for candidate in posts:
+        for key in set(entry_term_keys(candidate)):
+            term_counts[key] = term_counts.get(key, 0) + 1
+    current_keys = set(entry_term_keys(entry))
+    if not current_keys:
+        return ""
+    scored = []
+    for candidate in posts:
+        if candidate is entry:
+            continue
+        shared = current_keys & set(entry_term_keys(candidate))
+        if not shared:
+            continue
+        score = sum(1 / term_counts[key] for key in shared if term_counts.get(key))
+        scored.append((score, candidate.get("date", ""), candidate))
+    scored.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    items = []
+    for _score, _date, candidate in scored[:5]:
+        href = rel_url(current, path_to_file(entry_path(candidate, lang)))
+        items.append(
+            '<li>'
+            f'<a href="{href}">{esc(candidate[f"title_{lang}"])}</a>'
+            f'<span>{esc(date_only(candidate["date"]))}</span>'
+            '</li>'
+        )
+    if not items:
+        return ""
+    return f'<section class="side-box related-box"><h2>{esc(I18N[lang]["related"])}</h2><ol class="related-list">{"".join(items)}</ol></section>'
+
+
+def render_entry(entry, lang, legacy, site):
     if entry["url"].strip("/") == "friends":
         return render_friends_entry(entry, lang)
     if entry["url"].strip("/") == "webhistory":
@@ -1224,6 +1271,7 @@ def render_entry(entry, lang, legacy):
     content = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
     excerpt = entry[f"excerpt_{lang}"]
     term_links = render_term_pills(entry, lang, current, 8, 12)
+    related = render_related_posts(entry, site, lang, current)
     comments = render_comments(entry, lang)
     og_image = entry.get("thumbnail") or first_image(entry)
     ld = {
@@ -1252,6 +1300,7 @@ def render_entry(entry, lang, legacy):
       </article>
       <aside class="sidebar">
         <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
+        {related}
       </aside>
     </main>
     <script type="application/ld+json">{ld_json}</script>
@@ -1748,7 +1797,7 @@ def main():
     render_root_redirect()
     for entry in site["entries"]:
         for lang in ("zh", "en"):
-            write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy))
+            write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy, site))
         render_redirect(entry["url"], entry_path(entry, "zh"))
     for lang in ("zh", "en"):
         render_archive(site, lang)
