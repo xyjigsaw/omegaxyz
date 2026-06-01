@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-404-search1"
+ASSET_VERSION = "20260602-giscus1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -109,6 +109,7 @@ I18N = {
         "latest_desc": "近期更新与长期整理的技术、研究和知识工程笔记。",
         "featured": "知识结构",
         "comments": "评论",
+        "archived_comments": "旧评论已归档。",
         "toc": "目录",
         "related": "相似推荐",
         "all_posts": "全部文章",
@@ -152,6 +153,7 @@ I18N = {
         "latest_desc": "Recent updates and long-running notes on engineering, research, and knowledge systems.",
         "featured": "Knowledge Map",
         "comments": "Comments",
+        "archived_comments": "Archived comments.",
         "toc": "Contents",
         "related": "Related",
         "all_posts": "All Posts",
@@ -1276,6 +1278,7 @@ def render_entry(entry, lang, legacy, site):
         meta_html += '<span class="meta-sep">·</span><span>Yi Xu</span>'
     related = render_related_posts(entry, site, lang, current)
     comments = render_comments(entry, lang)
+    live_comments = render_giscus(entry, lang)
     og_image = entry.get("thumbnail") or first_image(entry)
     ld = {
         "@context": "https://schema.org",
@@ -1300,6 +1303,7 @@ def render_entry(entry, lang, legacy, site):
         <div class="terms">{term_links}</div>
         <div class="article-content">{content}</div>
         {comments}
+        {live_comments}
       </article>
       <aside class="sidebar">
         <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
@@ -1395,7 +1399,11 @@ def render_comments(entry, lang):
     comments = entry["comments"]
     if not comments:
         return ""
-    parts = [f'<section class="comments"><h2>{esc(I18N[lang]["comments"])} ({len(comments)})</h2>']
+    comments = sorted(comments, key=lambda item: item.get("date", ""), reverse=True)
+    parts = [
+        f'<section class="comments archived-comments"><h2>{esc(I18N[lang]["comments"])} ({len(comments)})</h2>',
+        f'<p class="comment-note">{esc(I18N[lang]["archived_comments"])}</p>',
+    ]
     for c in comments:
         cls = "comment reply" if c["parent"] else "comment"
         name = esc(c["author"] or "Anonymous")
@@ -1412,6 +1420,39 @@ def render_comments(entry, lang):
         """)
     parts.append("</section>")
     return "".join(parts)
+
+
+def should_show_giscus(entry):
+    return entry.get("type") == "post" or entry.get("url", "").strip("/") == "comment"
+
+
+def render_giscus(entry, lang):
+    if not should_show_giscus(entry):
+        return ""
+    heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>' if not entry.get("comments") else ""
+    giscus_lang = "zh-CN" if lang == "zh" else "en"
+    return f"""
+    <section class="comments giscus-comments">
+      {heading}
+      <div class="giscus"></div>
+      <script src="https://giscus.app/client.js"
+              data-repo="xyjigsaw/omegaxyz"
+              data-repo-id="R_kgDOSpZVLg"
+              data-category="Comments"
+              data-category-id="DIC_kwDOSpZVLs4C-SeJ"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="1"
+              data-input-position="bottom"
+              data-default-comment-order="newest"
+              data-theme="preferred_color_scheme"
+              data-lang="{giscus_lang}"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </section>
+    """
 
 
 def archive_count_box(value, lang):
