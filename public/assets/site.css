@@ -384,6 +384,7 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 .home-tab:hover { color: var(--ink); }
 .home-tab.is-active { background: var(--fill); color: var(--ink); }
 [data-home-latest] .section-head { align-items: center; }
+[data-home-latest] { border-top: 0; }
 
 /* ---------- bands / section heads ---------- */
 .band {
@@ -418,6 +419,7 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
+.latest-list .latest-row:first-child { border-top: 1px solid var(--line); }
 .latest-list .latest-row:last-child { border-bottom: 0; }
 .latest-media {
   position: relative;
@@ -445,11 +447,7 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   height: 100%;
   display: block;
   object-fit: cover;
-  background: var(--fill);
-  opacity: 0;
-  transition: opacity 180ms ease;
 }
-.latest-media img.is-loaded { opacity: 1; }
 .latest-copy { min-width: 0; }
 .latest-copy h3 {
   margin: 0 0 4px;

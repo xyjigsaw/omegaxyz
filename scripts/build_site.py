@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260601-home-placeholder2"
+ASSET_VERSION = "20260601-home-placeholder3"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1064,7 +1064,7 @@ def render_latest_row(entry, lang, current_file, eager=False):
     if image:
         loading = "eager" if eager else "lazy"
         priority = ' fetchpriority="high"' if eager else ""
-        image_html = f'<span>OmegaXYZ</span><img src="{esc(image)}" alt="" loading="{loading}" decoding="async"{priority} width="200" height="132" onload="this.classList.add(\'is-loaded\')" onerror="this.remove()">'
+        image_html = f'<span>OmegaXYZ</span><img src="{esc(image)}" alt="" loading="{loading}" decoding="async"{priority} width="200" height="132" onerror="this.remove()">'
     else:
         image_html = '<span>OmegaXYZ</span>'
     pills = render_term_pills(entry, lang, current_file, 2, 2)
