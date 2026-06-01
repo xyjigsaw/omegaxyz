@@ -117,9 +117,10 @@
     if (!headings.length) {
       const sidebar = box.closest(".sidebar");
       const layoutEl = box.closest(".layout");
-      if (sidebar) sidebar.remove();
-      else (box.closest(".side-box") || box).remove();
-      if (layoutEl) layoutEl.classList.add("layout-solo");
+      const tocBox = box.closest(".side-box") || box;
+      tocBox.remove();
+      if (sidebar && !sidebar.children.length) sidebar.remove();
+      if (layoutEl && (!sidebar || !sidebar.children.length)) layoutEl.classList.add("layout-solo");
       return;
     }
     const root = document.createElement("ol");
