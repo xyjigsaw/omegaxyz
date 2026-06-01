@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-giscus2"
+ASSET_VERSION = "20260602-giscus3"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -109,7 +109,7 @@ I18N = {
         "latest_desc": "近期更新与长期整理的技术、研究和知识工程笔记。",
         "featured": "知识结构",
         "comments": "评论",
-        "archived_comments": "旧评论已归档。",
+        "archived_comments": "归档评论",
         "toc": "目录",
         "related": "相似推荐",
         "all_posts": "全部文章",
@@ -153,7 +153,7 @@ I18N = {
         "latest_desc": "Recent updates and long-running notes on engineering, research, and knowledge systems.",
         "featured": "Knowledge Map",
         "comments": "Comments",
-        "archived_comments": "Archived comments.",
+        "archived_comments": "Archived Comments",
         "toc": "Contents",
         "related": "Related",
         "all_posts": "All Posts",
@@ -1399,13 +1399,20 @@ def render_comments(entry, lang):
     comments = entry["comments"]
     if not comments:
         return ""
-    comments = sorted(comments, key=lambda item: item.get("date", ""), reverse=True)
-    parts = [
-        f'<section class="comments archived-comments"><h2>{esc(I18N[lang]["comments"])} ({len(comments)})</h2>',
-        f'<p class="comment-note">{esc(I18N[lang]["archived_comments"])}</p>',
-    ]
+    ids = {c.get("id") for c in comments}
+    children = {}
+    roots = []
     for c in comments:
-        cls = "comment reply" if c["parent"] else "comment"
+        parent = c.get("parent") or 0
+        if parent and parent in ids:
+            children.setdefault(parent, []).append(c)
+        else:
+            roots.append(c)
+    roots.sort(key=lambda item: item.get("date", ""), reverse=True)
+    parts = [f'<section class="comments archived-comments"><h2>{esc(I18N[lang]["archived_comments"])} ({len(comments)})</h2>']
+
+    def append_comment(c, depth=0):
+        cls = "comment reply" if depth else "comment"
         name = esc(c["author"] or "Anonymous")
         author = f'<a href="{esc(c["url"])}" target="_blank" rel="nofollow noopener">{name}</a>' if c["url"] else name
         emoji, hue = comment_avatar(c["author"])
@@ -1418,6 +1425,11 @@ def render_comments(entry, lang):
           </div>
         </div>
         """)
+        for child in children.get(c.get("id"), []):
+            append_comment(child, depth + 1)
+
+    for c in roots:
+        append_comment(c)
     parts.append("</section>")
     return "".join(parts)
 
@@ -1429,7 +1441,7 @@ def should_show_giscus(entry):
 def render_giscus(entry, lang):
     if not should_show_giscus(entry):
         return ""
-    heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>' if not entry.get("comments") else ""
+    heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
     return f"""
     <section class="comments giscus-comments">
