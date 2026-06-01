@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-giscus1"
+ASSET_VERSION = "20260602-giscus2"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1302,8 +1302,8 @@ def render_entry(entry, lang, legacy, site):
         <h1>{esc(title)}</h1>
         <div class="terms">{term_links}</div>
         <div class="article-content">{content}</div>
-        {comments}
         {live_comments}
+        {comments}
       </article>
       <aside class="sidebar">
         <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
@@ -1423,7 +1423,7 @@ def render_comments(entry, lang):
 
 
 def should_show_giscus(entry):
-    return entry.get("type") == "post" or entry.get("url", "").strip("/") == "comment"
+    return entry.get("type") == "post" or entry.get("url", "").strip("/") in {"comment", "makefriends"}
 
 
 def render_giscus(entry, lang):
