@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260601-related-toc1"
+ASSET_VERSION = "20260601-author1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1271,6 +1271,9 @@ def render_entry(entry, lang, legacy, site):
     content = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
     excerpt = entry[f"excerpt_{lang}"]
     term_links = render_term_pills(entry, lang, current, 8, 12)
+    meta_html = f'<span>{esc(date_only(entry["date"]))}</span>'
+    if entry.get("type") == "post":
+        meta_html += '<span class="meta-sep">·</span><span>Yi Xu</span>'
     related = render_related_posts(entry, site, lang, current)
     comments = render_comments(entry, lang)
     og_image = entry.get("thumbnail") or first_image(entry)
@@ -1292,7 +1295,7 @@ def render_entry(entry, lang, legacy, site):
     body = f"""
     <main class="wrap layout{page_class}">
       <article class="article">
-        <div class="meta">{esc(date_only(entry['date']))}</div>
+        <div class="meta">{meta_html}</div>
         <h1>{esc(title)}</h1>
         <div class="terms">{term_links}</div>
         <div class="article-content">{content}</div>
