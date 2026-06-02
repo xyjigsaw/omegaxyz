@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-en-footer1"
+ASSET_VERSION = "20260602-comment-page1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1287,6 +1287,8 @@ def render_related_posts(entry, site, lang, current):
 
 
 def render_entry(entry, lang, legacy, site):
+    if entry["url"].strip("/") == "comment":
+        return render_comment_entry(entry, lang)
     if entry["url"].strip("/") == "friends":
         return render_friends_entry(entry, lang)
     if entry["url"].strip("/") == "makefriends":
@@ -1339,6 +1341,56 @@ def render_entry(entry, lang, legacy, site):
     <script type="application/ld+json">{ld_json}</script>
     """
     return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image)
+
+
+def render_comment_entry(entry, lang):
+    current = path_to_file(entry_path(entry, lang))
+    other = "en" if lang == "zh" else "zh"
+    title = entry[f"title_{lang}"]
+    desc = entry[f"excerpt_{lang}"] or title
+    live_comments = render_giscus(entry, lang)
+    archived_comments = render_comments(entry, lang)
+    archived_count = len(entry.get("comments", []))
+    if lang == "zh":
+        eyebrow = "留言板"
+        intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的留言使用 GitHub 登录，旧站评论会继续作为归档保留。"
+        live_label = "新留言"
+        archive_label = "旧站归档"
+        cv_label = "查看个人主页"
+        comment_label = "写留言"
+    else:
+        eyebrow = "Guestbook"
+        intro = "Leave a question, suggestion, collaboration note, or a quick hello. New comments use GitHub login, while legacy WordPress comments remain available as an archive."
+        live_label = "New comments"
+        archive_label = "Legacy archive"
+        cv_label = "View CV"
+        comment_label = "Leave a message"
+    body = f"""
+    <main class="wrap band comment-page">
+      <section class="comment-hero">
+        <div>
+          <div class="eyebrow">{esc(eyebrow)}</div>
+          <h1>{esc(title)}</h1>
+          <p>{esc(intro)}</p>
+          <div class="comment-actions">
+            <a class="button primary" href="#comments">{esc(comment_label)}</a>
+            <a class="button" href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">{esc(cv_label)}</a>
+          </div>
+        </div>
+        <div class="comment-hero-card" aria-label="{esc(archive_label)}">
+          <span>{esc(live_label)}</span>
+          <strong>Giscus</strong>
+          <em>{esc(archive_label)} · {archived_count}</em>
+        </div>
+      </section>
+      <div id="comments" class="comment-thread">
+        {live_comments}
+        {archived_comments}
+      </div>
+    </main>
+    """
+    body = "\n".join(line.rstrip() for line in body.splitlines())
+    return layout(current, lang, title, body, desc, entry_path(entry, other), article_assets=True)
 
 
 def render_friends_entry(entry, lang):
