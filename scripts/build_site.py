@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-makefriends2"
+ASSET_VERSION = "20260602-giscus-specific1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1542,6 +1542,7 @@ def render_giscus(entry, lang):
         return ""
     heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
+    term = entry.get("url", "").strip("/") + "/"
     return f"""
     <section class="comments giscus-comments">
       {heading}
@@ -1551,7 +1552,8 @@ def render_giscus(entry, lang):
               data-repo-id="R_kgDOSpZVLg"
               data-category="Comments"
               data-category-id="DIC_kwDOSpZVLs4C-SeJ"
-              data-mapping="pathname"
+              data-mapping="specific"
+              data-term="{esc(term)}"
               data-strict="0"
               data-reactions-enabled="1"
               data-emit-metadata="1"
