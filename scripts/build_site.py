@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-mobile-fixes1"
+ASSET_VERSION = "20260602-en-footer1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -737,17 +737,32 @@ def rewrite_srcset(value, lang, current_file, legacy):
 
 
 def fix_post_footer(markup):
-    """The migrated WordPress site footer is appended as raw text with bare
-    newlines (so it collapses into one line). When it appears as raw text at the
-    very end, give its lines real <br> breaks. Skip footers already wrapped in a tag."""
-    m = re.search(r"(更多内容访问|For more, visit)", markup)
+    """Wrap migrated WordPress post footers so translated license text keeps
+    readable line breaks instead of collapsing into one long inline run."""
+    m = re.search(r"(更多内容访问|For more, visit|More content access)", markup)
     if not m:
         return markup
     i = m.start()
-    if (i > 0 and markup[i - 1] == ">") or (len(markup) - i > 700):
+    before = markup[:i]
+    if re.search(r"<p\b[^>]*>\s*$", before, flags=re.I):
+        return markup
+    if len(markup) - i > 700:
         return markup  # already wrapped, or not the trailing footer
-    head = re.sub(r"(?:\s|&nbsp;|\r|\n)+$", "", markup[:i])
-    lines = [ln.strip() for ln in re.split(r"\r?\n", markup[i:]) if ln.strip() and ln.strip() != "&nbsp;"]
+    head = re.sub(r"(?:\s|&nbsp;|\r|\n)+$", "", before)
+    footer_text = markup[i:].strip()
+    footer_text = re.sub(r"\[([^\]\n]+)\]\s+\((https?://[^)\s]+)\)", r'<a href="\2">\1</a>', footer_text)
+    footer_text = re.sub(
+        r"\s+(All website codes are authorized by|Original code on this site is licensed under)",
+        r"\n\1",
+        footer_text,
+    )
+    footer_text = re.sub(
+        r"\s+(Website articles are authorized by|original articles are licensed under)",
+        r"\n\1",
+        footer_text,
+    )
+    footer_text = re.sub(r"\s+((?:Copyright\s*)?[©□]\s*\d{4}\b|\d{4}\s*•\s*OmegaXYZ\b)", r"\n\1", footer_text)
+    lines = [ln.strip() for ln in re.split(r"\r?\n", footer_text) if ln.strip() and ln.strip() != "&nbsp;"]
     return head + '\n<p class="post-footer">' + "<br>".join(lines) + "</p>"
 
 
