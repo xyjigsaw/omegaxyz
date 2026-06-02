@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-comment-page1"
+ASSET_VERSION = "20260602-comment-qr1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1350,21 +1350,22 @@ def render_comment_entry(entry, lang):
     desc = entry[f"excerpt_{lang}"] or title
     live_comments = render_giscus(entry, lang)
     archived_comments = render_comments(entry, lang)
-    archived_count = len(entry.get("comments", []))
     if lang == "zh":
         eyebrow = "留言板"
         intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的留言使用 GitHub 登录，旧站评论会继续作为归档保留。"
-        live_label = "新留言"
-        archive_label = "旧站归档"
         cv_label = "查看个人主页"
         comment_label = "写留言"
+        qr_label = "支持一下"
+        alipay_label = "支付宝"
+        wechat_label = "微信"
     else:
         eyebrow = "Guestbook"
-        intro = "Leave a question, suggestion, collaboration note, or a quick hello. New comments use GitHub login, while legacy WordPress comments remain available as an archive."
-        live_label = "New comments"
-        archive_label = "Legacy archive"
+        intro = "Leave a question, suggestion, collaboration note, or a quick hello. GitHub login is used for fresh messages, while legacy WordPress comments remain available as an archive."
         cv_label = "View CV"
         comment_label = "Leave a message"
+        qr_label = "Support"
+        alipay_label = "Alipay"
+        wechat_label = "WeChat"
     body = f"""
     <main class="wrap band comment-page">
       <section class="comment-hero">
@@ -1377,10 +1378,18 @@ def render_comment_entry(entry, lang):
             <a class="button" href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">{esc(cv_label)}</a>
           </div>
         </div>
-        <div class="comment-hero-card" aria-label="{esc(archive_label)}">
-          <span>{esc(live_label)}</span>
-          <strong>Giscus</strong>
-          <em>{esc(archive_label)} · {archived_count}</em>
+        <div class="comment-qr-card" aria-label="{esc(qr_label)}">
+          <span>{esc(qr_label)}</span>
+          <div class="comment-qr-grid">
+            <figure>
+              <img src="{CDN}/2022/01/alipay.jpg" alt="{esc(alipay_label)}">
+              <figcaption>{esc(alipay_label)}</figcaption>
+            </figure>
+            <figure>
+              <img src="{CDN}/2022/01/wechat.jpg" alt="{esc(wechat_label)}">
+              <figcaption>{esc(wechat_label)}</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
       <div id="comments" class="comment-thread">

@@ -1248,26 +1248,45 @@ a.pill:hover {
   gap: 10px;
   margin-top: 22px;
 }
-.comment-hero-card {
-  min-height: 180px;
+.comment-qr-card {
   display: grid;
-  align-content: end;
-  gap: 8px;
+  align-content: center;
+  gap: 12px;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: color-mix(in srgb, var(--panel) 62%, transparent);
 }
-.comment-hero-card span,
-.comment-hero-card em {
+.comment-qr-card span {
   color: var(--muted);
   font-size: 0.82rem;
-  font-style: normal;
+  font-weight: 720;
 }
-.comment-hero-card strong {
-  color: var(--ink);
-  font-size: 1.8rem;
-  line-height: 1;
+.comment-qr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.comment-qr-grid figure {
+  margin: 0;
+  min-width: 0;
+}
+.comment-qr-grid img {
+  width: 82px;
+  height: 112px;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.comment-qr-grid figcaption {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.2;
+  text-align: center;
 }
 .comment-thread {
   display: grid;
@@ -1632,7 +1651,15 @@ a.pill:hover {
   }
   .comment-actions { display: grid; }
   .comment-actions .button { width: 100%; }
-  .comment-hero-card { min-height: 116px; }
+  .comment-qr-card { padding: 16px; }
+  .comment-qr-grid {
+    grid-template-columns: repeat(2, minmax(0, 92px));
+    justify-content: start;
+  }
+  .comment-qr-grid img {
+    width: 92px;
+    height: 124px;
+  }
   .comment-page .comments {
     max-width: 100%;
     padding: 16px;
@@ -1652,8 +1679,8 @@ a.pill:hover {
     font-size: 1rem;
   }
   .comment-page .comment.reply {
-    margin-left: 0;
-    padding-left: 12px;
+    margin-left: 18px;
+    padding-left: 14px;
   }
   .comments { margin-top: 30px; }
   .comment.reply { margin-left: 0; }
