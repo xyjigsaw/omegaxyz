@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-comment-qr1"
+ASSET_VERSION = "20260602-icp1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -132,7 +132,7 @@ I18N = {
         "filter_by_tag": "按标签筛选",
         "footer_license": "该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权",
         "footer_copyright": "Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处",
-        "footer_icp": "皖ICP备:17007601",
+        "footer_icp": "沪ICP备2026023114号",
         "footer_business": "商业合作",
         "privacy": "隐私政策",
         "sitemap": "站点地图",
@@ -176,7 +176,7 @@ I18N = {
         "filter_by_tag": "Filter by tag",
         "footer_license": "Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.",
         "footer_copyright": "Copyright © 2026 OmegaXYZ. Please cite the source when reposting.",
-        "footer_icp": "ICP record: 皖ICP备17007601",
+        "footer_icp": "沪ICP备2026023114号",
         "footer_business": "Business",
         "privacy": "Privacy Policy",
         "sitemap": "Sitemap",
@@ -956,7 +956,7 @@ def footer(current_file, lang):
         </a>
         <div class="footer-decl">
           <p>{esc(t["footer_license"])}</p>
-          <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> {esc(t["footer_icp"])} <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
+          <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{esc(t["footer_icp"])}</a> <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
