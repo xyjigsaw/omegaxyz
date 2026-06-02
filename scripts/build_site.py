@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-makefriends1"
+ASSET_VERSION = "20260602-makefriends2"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1396,7 +1396,8 @@ def render_makefriends_entry(entry, lang):
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
     desc = entry[f"excerpt_{lang}"]
-    comments = render_giscus(entry, lang)
+    live_comments = render_giscus(entry, lang)
+    archived_comments = render_comments(entry, lang)
     if lang == "zh":
         intro = "欢迎独立站点交换友情链接。请先添加本站链接，再在下方评论区提交申请。"
         checklist_title = "申请前请准备"
@@ -1470,7 +1471,8 @@ def render_makefriends_entry(entry, lang):
         </div>
         <ol>{submit_html}</ol>
       </section>
-      {comments}
+      {live_comments}
+      {archived_comments}
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
