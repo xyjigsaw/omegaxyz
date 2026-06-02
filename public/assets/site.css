@@ -162,6 +162,7 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   max-width: 22ch;
   font-size: clamp(1.9rem, 4.4vw, 3rem);
   font-weight: 780;
+  overflow-wrap: anywhere;
 }
 .spinner-dots {
   color: var(--accent);
@@ -203,13 +204,17 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 }
 .hero-actions a:hover { color: var(--accent); }
 .notfound-msg { margin: 0; max-width: 48ch; color: var(--muted); }
+.notfound-title span {
+  display: block;
+  margin-top: 0.1em;
+}
 .notfound-search {
   width: min(100%, 680px);
   margin-top: 22px;
 }
 .notfound-latest {
   width: min(100%, 760px);
-  margin: -18px auto 70px;
+  margin: 18px auto 70px;
 }
 .notfound-latest h2 {
   margin: 0 0 14px;
@@ -225,6 +230,7 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   border-top: 1px solid var(--line);
 }
 .notfound-latest li {
+  min-width: 0;
   display: flex;
   justify-content: space-between;
   gap: 18px;
@@ -232,9 +238,13 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
   border-bottom: 1px solid var(--line);
 }
 .notfound-latest a {
+  display: block;
+  min-width: 0;
   color: var(--ink);
   text-decoration: none;
   font-weight: 720;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .notfound-latest a:hover { color: var(--accent); }
 .notfound-latest time {
@@ -1433,8 +1443,15 @@ a.pill:hover {
   .footer-brand { flex-direction: column; align-items: flex-start; gap: 12px; }
 
   .hero { padding: 56px 0 28px; }
-  .hero-line { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .hero-line { max-width: 100%; font-size: clamp(1.7rem, 8vw, 2.2rem); }
   .search-box input { min-height: 52px; }
+  .notfound-search { margin-top: 28px; }
+  .notfound-latest { margin-top: 28px; }
+  .notfound-latest li {
+    display: grid;
+    gap: 4px;
+  }
+  .notfound-latest time { justify-self: start; }
 
   .grid,
   .makefriends-grid,
@@ -1493,7 +1510,9 @@ a.pill:hover {
   .article-content h1 { font-size: 1.5rem; }
   .article-content h2 { font-size: 1.3rem; }
   .article-content h3 { font-size: 1.12rem; }
-  .article-content pre { margin-left: -8px; margin-right: -8px; padding: 14px; }
+  .article-content .code-block { margin-left: -8px; margin-right: -8px; }
+  .article-content pre { padding: 14px; }
+  .sidebar .side-box:has([data-toc]) { display: none; }
 
   .friends-hero { flex-direction: column; align-items: flex-start; }
   .comments { margin-top: 30px; }

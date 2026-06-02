@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-giscus-input-top1"
+ASSET_VERSION = "20260602-mobile-fixes1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1912,21 +1912,19 @@ def render_404(site):
       </a>
       <div class="nav-links">
         <a href="/zh/">主页 · Home</a>
-        <a href="/zh/archive/">文章 · Archive</a>
-        <a href="/zh/search/">搜索 · Search</a>
       </div>
     </nav>
   </header>
   <main class="wrap">
     <section class="hero">
       <p class="hero-kicker">404</p>
-      <h1 class="hero-line">页面走丢了 · Page not found</h1>
+      <h1 class="hero-line notfound-title">页面走丢了<span>Page not found</span></h1>
       <p class="notfound-msg">这个链接可能已被移动或删除。This page may have been moved or removed.</p>
       <div class="hero-actions">
         <a class="button primary" href="/zh/">返回首页 / Home</a>
       </div>
       <section class="search-box notfound-search" data-search="/zh/search-index.json">
-        <input type="search" placeholder="搜索文章、页面、标签... / Search posts, pages, and tags..." aria-label="搜索">
+        <input type="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
         <div class="search-results" data-search-results></div>
       </section>
     </section>
