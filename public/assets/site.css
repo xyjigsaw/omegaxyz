@@ -1702,12 +1702,17 @@ a.pill:hover {
   .comment-actions .button { width: 100%; }
   .comment-qr-card { padding: 16px; }
   .comment-qr-grid {
-    grid-template-columns: repeat(2, minmax(0, 92px));
-    justify-content: start;
+    grid-template-columns: repeat(2, minmax(0, 118px));
+    justify-content: center;
+    gap: 12px;
+  }
+  .comment-qr-grid figure {
+    display: grid;
+    justify-items: center;
   }
   .comment-qr-grid img {
-    width: 92px;
-    height: 124px;
+    width: 118px;
+    height: 160px;
   }
   .comment-page .comments {
     max-width: 100%;
@@ -1762,9 +1767,12 @@ a.pill:hover {
     margin-left: 18px;
     padding-left: 12px;
   }
+  .comment-page .comment.depth-2,
+  .comment-page .comment.depth-3,
   .comment.depth-2,
   .comment.depth-3 {
-    margin-left: 26px;
+    margin-left: 46px;
+    padding-left: 12px;
   }
 }
 
