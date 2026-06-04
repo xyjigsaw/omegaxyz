@@ -1358,11 +1358,23 @@ a.pill:hover {
   align-items: start;
 }
 .comment.reply {
+  position: relative;
   margin-left: 34px;
   padding-left: 16px;
-  border-left: 2px solid color-mix(in srgb, var(--accent) 24%, var(--line));
+}
+.comment.reply::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 33px;
+  width: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 24%, var(--line));
 }
 .comment-avatar {
+  position: relative;
+  z-index: 1;
   width: 36px;
   height: 36px;
   display: grid;
@@ -1375,6 +1387,8 @@ a.pill:hover {
   line-height: 1;
 }
 .comment-body {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1760,18 +1774,21 @@ a.pill:hover {
   }
   .comment-page .comment.reply {
     margin-left: 18px;
-    padding-left: 14px;
+    padding-left: 12px;
   }
   .comments { margin-top: 30px; }
   .comment.reply {
     margin-left: 18px;
     padding-left: 12px;
   }
+  .comment.reply::before {
+    left: 27px;
+  }
   .comment-page .comment.depth-2,
   .comment-page .comment.depth-3,
   .comment.depth-2,
   .comment.depth-3 {
-    margin-left: 46px;
+    margin-left: 18px;
     padding-left: 12px;
   }
 }
