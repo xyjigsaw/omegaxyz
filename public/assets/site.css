@@ -1309,12 +1309,11 @@ a.pill:hover {
   margin: 0;
 }
 .comment-page .comment {
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
+  padding: 0;
+  border-top: 0;
 }
 .comment-page .comments h2 + .comment {
-  border-top: 0;
-  padding-top: 4px;
+  padding-top: 0;
 }
 .comment-page .comment.reply {
   margin-left: 26px;
@@ -1322,8 +1321,25 @@ a.pill:hover {
 }
 
 /* ---------- comments ---------- */
-.comments { max-width: 760px; margin-top: 44px; display: grid; gap: 20px; }
-.comments h2 { margin-bottom: 2px; font-size: 1.3rem; }
+.comments {
+  max-width: 760px;
+  margin-top: 44px;
+  display: grid;
+  gap: 14px;
+}
+.archived-comments {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.comments h2 {
+  margin: 0 0 6px;
+  font-size: 1.3rem;
+  letter-spacing: 0;
+}
 .comment-note {
   margin: -10px 0 0;
   color: var(--muted);
@@ -1333,39 +1349,68 @@ a.pill:hover {
 .giscus, .giscus-frame { width: 100%; }
 .comment {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 12px;
   align-items: start;
 }
 .comment.reply {
-  margin-left: 30px;
-  padding-left: 18px;
-  border-left: 2px solid var(--line);
+  margin-left: 34px;
+  padding-left: 16px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 24%, var(--line));
 }
 .comment-avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: var(--fill);
-  border: 0;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-  font-size: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--panel) 72%, var(--line));
+  box-shadow: 0 6px 18px rgba(16, 24, 28, 0.08);
+  font-size: 1.08rem;
   line-height: 1;
 }
-.comment-body { min-width: 0; }
+.comment-body {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel) 82%, transparent);
+}
 .comment-head {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 10px;
+  min-height: 42px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--fill) 66%, transparent);
 }
-.comment-head strong { color: var(--ink); }
-.comment-head time { color: var(--muted); font-size: 0.8rem; }
-.comment-text { margin-top: 4px; overflow-wrap: anywhere; }
-.comment-text p { margin: 0.4em 0; }
+.comment-head strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+.comment-head strong a {
+  color: inherit;
+  text-decoration: none;
+}
+.comment-head strong a:hover { color: var(--accent); }
+.comment-head time {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.comment-text {
+  padding: 12px;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.comment-text p { margin: 0.55em 0; }
 .comment-text p:first-child { margin-top: 0; }
+.comment-text p:last-child { margin-bottom: 0; }
 
 /* migrated post footer (license/copyright) rendered as a small muted block */
 .article-content .post-footer {
@@ -1669,21 +1714,54 @@ a.pill:hover {
   .comment-page .giscus-frame {
     max-width: 100%;
   }
+  .archived-comments {
+    padding: 14px;
+    border-radius: 16px;
+    gap: 12px;
+  }
   .comment-page .comment {
     grid-template-columns: 34px minmax(0, 1fr);
     gap: 10px;
+  }
+  .comment {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 9px;
   }
   .comment-page .comment-avatar {
     width: 34px;
     height: 34px;
     font-size: 1rem;
   }
+  .comment-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.96rem;
+  }
+  .comment-head {
+    min-height: 38px;
+    padding: 8px 10px;
+    gap: 2px 8px;
+  }
+  .comment-head strong { font-size: 0.88rem; }
+  .comment-head time { font-size: 0.74rem; }
+  .comment-text {
+    padding: 10px;
+    font-size: 0.92rem;
+    line-height: 1.68;
+  }
   .comment-page .comment.reply {
     margin-left: 18px;
     padding-left: 14px;
   }
   .comments { margin-top: 30px; }
-  .comment.reply { margin-left: 0; }
+  .comment.reply {
+    margin-left: 18px;
+    padding-left: 12px;
+  }
+  .comment.depth-2,
+  .comment.depth-3 {
+    margin-left: 26px;
+  }
 }
 
 /* ---------- skip link (a11y) ---------- */

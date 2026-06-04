@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260602-icp1"
+ASSET_VERSION = "20260604-archived-comments1"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -1587,7 +1587,7 @@ def render_comments(entry, lang):
     parts = [f'<section class="comments archived-comments"><h2>{esc(I18N[lang]["archived_comments"])} ({len(comments)})</h2>']
 
     def append_comment(c, depth=0):
-        cls = "comment reply" if depth else "comment"
+        cls = f"comment depth-{min(depth, 3)}" + (" reply" if depth else "")
         name = esc(c["author"] or "Anonymous")
         author = f'<a href="{esc(c["url"])}" target="_blank" rel="nofollow noopener">{name}</a>' if c["url"] else name
         emoji, hue = comment_avatar(c["author"])
