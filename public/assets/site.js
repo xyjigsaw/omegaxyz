@@ -12,33 +12,6 @@
   }
   if (saved) root.dataset.theme = saved;
 
-  const giscusTheme = () => (root.dataset.theme === "dark" ? "dark" : "light");
-  const syncGiscusTheme = () => {
-    const frame = document.querySelector("iframe.giscus-frame");
-    if (!frame || !frame.contentWindow) return;
-    frame.contentWindow.postMessage({
-      giscus: {
-        setConfig: {
-          theme: giscusTheme()
-        }
-      }
-    }, "https://giscus.app");
-  };
-  document.querySelectorAll(".giscus-comments script[data-theme]").forEach((script) => {
-    script.setAttribute("data-theme", giscusTheme());
-  });
-  window.addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    if (event.data && event.data.giscus) syncGiscusTheme();
-  });
-  window.addEventListener("load", syncGiscusTheme, { once: true });
-  if ("MutationObserver" in window) {
-    const giscusObserver = new MutationObserver(() => {
-      if (document.querySelector("iframe.giscus-frame")) syncGiscusTheme();
-    });
-    giscusObserver.observe(document.body, { childList: true, subtree: true });
-  }
-
   if (toggle) {
     toggle.addEventListener("click", () => {
       const next = root.dataset.theme === "dark" ? "light" : "dark";
@@ -46,7 +19,6 @@
       try {
         localStorage.setItem("theme", next);
       } catch (error) {}
-      syncGiscusTheme();
     });
   }
 

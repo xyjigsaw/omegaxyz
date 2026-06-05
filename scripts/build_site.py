@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260604-archived-comments5"
+ASSET_VERSION = "20260605-mainland-filing2"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -36,6 +36,9 @@ GITHUB_ICON = (
     'A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 )
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
+MAINLAND_FILING_MODE = True
+ENABLE_GISCUS = not MAINLAND_FILING_MODE
+TEMP_HIDDEN_PAGE_SLUGS = {"comment"} if MAINLAND_FILING_MODE else set()
 EXCLUDE_PAGE_SLUGS = {
     "ai-ml-navigator", "web-running", "js_game", "regular_expression",
     "caculator", "onlinetools", "lab", "hello-world", "acknowledgement",
@@ -233,7 +236,7 @@ def load_site():
         site["entries"] = extras + [entry for entry in site["entries"] if entry.get("url") not in extra_urls]
     site["entries"] = [
         entry for entry in site["entries"]
-        if not (entry.get("type") == "page" and entry.get("slug") in EXCLUDE_PAGE_SLUGS)
+        if not (entry.get("type") == "page" and entry.get("slug") in EXCLUDE_PAGE_SLUGS | TEMP_HIDDEN_PAGE_SLUGS)
     ]
     for entry in site["entries"]:
         override = PAGE_TITLE_ZH_OVERRIDE.get(entry.get("slug"))
@@ -908,9 +911,10 @@ def nav(current_file, lang, title, alt_path):
         (t["archive"], archive_path(lang), False, NAV_ICONS["archive"], True),
         (t["pages"], f"{lang}/pages/", False, NAV_ICONS["pages"], False),
         (t["categories"], f"{lang}/categories/", False, NAV_ICONS["categories"], False),
-        (t["message"], f"{lang}/comment/", False, NAV_ICONS["comment"], False),
         (t["about"], "https://cv.omegaxyz.com/", True, NAV_ICONS["about"], True),
     ]
+    if "comment" not in TEMP_HIDDEN_PAGE_SLUGS:
+        links.insert(4, (t["message"], f"{lang}/comment/", False, NAV_ICONS["comment"], False))
     items = []
     for label, path, external, icon, mobile in links:
         cls = "nav-item" if mobile else "nav-item nav-hide-m"
@@ -1146,8 +1150,13 @@ def render_home(site, lang, current=None):
     search_index = rel_url(current, OUT / f"{lang}/search-index.json")
     stat_archive = rel_url(current, path_to_file(archive_path(lang)))
     stat_pages = rel_url(current, path_to_file(f"{lang}/pages/"))
-    stat_comment = rel_url(current, path_to_file(f"{lang}/comment/"))
     stat_terms = rel_url(current, path_to_file(f"{lang}/categories/"))
+    stat_tags = rel_url(current, path_to_file(f"{lang}/tags/"))
+    if "comment" in TEMP_HIDDEN_PAGE_SLUGS:
+        stat_third = f'<li><a href="{stat_terms}"><strong>{stats["categories"]}</strong><span>{esc(t["categories"])}</span></a></li>'
+    else:
+        stat_comment = rel_url(current, path_to_file(f"{lang}/comment/"))
+        stat_third = f'<li><a href="{stat_comment}"><strong>{stats["comments"]}</strong><span>{esc(t["comments"])}</span></a></li>'
     body = f"""
     <main class="wrap">
       <section class="hero">
@@ -1162,8 +1171,8 @@ def render_home(site, lang, current=None):
       <ul class="stats-row" aria-label="Site statistics">
         <li><a href="{stat_archive}"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></a></li>
         <li><a href="{stat_pages}"><strong>{stats['pages']}</strong><span>{esc(t['pages'])}</span></a></li>
-        <li><a href="{stat_comment}"><strong>{stats['comments']}</strong><span>{esc(t['comments'])}</span></a></li>
-        <li><a href="{stat_terms}"><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></a></li>
+        {stat_third}
+        <li><a href="{stat_tags}"><strong>{stats['tags']}</strong><span>{esc(t['tags'])}</span></a></li>
       </ul>
       <section class="home-panel" data-home-topics>
         <div class="topic-bar">
@@ -1610,6 +1619,8 @@ def render_comments(entry, lang):
 
 
 def should_show_giscus(entry):
+    if not ENABLE_GISCUS:
+        return False
     return entry.get("type") == "post" or entry.get("url", "").strip("/") in {"comment", "makefriends"}
 
 
