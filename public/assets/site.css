@@ -1352,9 +1352,11 @@ a.pill:hover {
 .giscus-comments { gap: 14px; }
 .giscus, .giscus-frame { width: 100%; }
 .comment-ip-card {
-  display: grid;
-  gap: 5px;
-  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: color-mix(in srgb, var(--fill) 68%, transparent);
@@ -1366,7 +1368,16 @@ a.pill:hover {
   font-size: 0.92rem;
 }
 .comment-ip-card small {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   line-height: 1.5;
+}
+.comment-ip-card small::before {
+  content: "";
+  width: 1px;
+  height: 1em;
+  background: var(--line);
 }
 .comment {
   display: grid;
