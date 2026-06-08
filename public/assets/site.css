@@ -133,7 +133,17 @@ h1, h2, h3 { line-height: 1.18; letter-spacing: -0.01em; }
 .nav-item { display: inline-flex; align-items: center; gap: 6px; }
 .nav-item svg { flex: 0 0 auto; opacity: 0.85; }
 .nav-item:hover svg { opacity: 1; }
-[data-theme-toggle] { font-size: 1.3rem; line-height: 1; }
+[data-theme-toggle] { line-height: 1; }
+[data-theme-toggle] svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .wrap {
   width: min(100% - 48px, 1120px);

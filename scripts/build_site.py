@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260608-runtime-ip3"
+ASSET_VERSION = "20260608-system-theme1"
 SITE_START_DATE = "2017-04-18"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
@@ -935,6 +935,8 @@ def nav(current_file, lang, title, alt_path):
         items.append(f'<a class="{cls}" href="{href}"{target} title="{esc(label)}">{icon}<span class="nav-label">{esc(label)}</span></a>')
     link_html = "".join(items)
     alt = rel_url(current_file, path_to_file(alt_path)) if alt_path else rel_url(current_file, path_to_file(f"{other}/"))
+    theme_title = "跟随系统" if lang == "zh" else "System theme"
+    theme_icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="2"></rect><path d="M9 20h6M12 16v4"></path></svg>'
     return f"""
     <header class="site-header">
       <nav class="nav">
@@ -946,7 +948,7 @@ def nav(current_file, lang, title, alt_path):
           {link_html}
           <a class="nav-item nav-lang" href="{alt}" title="{esc(t['language'])}">{NAV_ICONS["lang"]}<span class="nav-label">{esc(t['language'])}</span></a>
           <a class="icon-button nav-github nav-hide-m" href="{esc(GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{GITHUB_ICON}</a>
-          <button class="icon-button" type="button" data-theme-toggle aria-label="Theme">◐</button>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="{esc(theme_title)}" title="{esc(theme_title)}">{theme_icon}</button>
         </div>
       </nav>
     </header>
@@ -1017,8 +1019,10 @@ def analytics_scripts():
 
 THEME_SCRIPT = (
     '<script>(function(){try{var t=localStorage.getItem("theme");'
-    'if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";'
-    'document.documentElement.dataset.theme=t;}catch(e){}})();</script>'
+    'if(t!=="light"&&t!=="dark"&&t!=="system")t="system";'
+    'var dark=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);'
+    'document.documentElement.dataset.theme=dark?"dark":"light";'
+    'document.documentElement.dataset.themeMode=t;}catch(e){}})();</script>'
 )
 ADSENSE_SCRIPT = (
     '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?'

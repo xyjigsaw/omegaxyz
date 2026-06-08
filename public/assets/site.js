@@ -10,16 +10,54 @@
   } catch (error) {
     saved = "";
   }
-  if (saved) root.dataset.theme = saved;
-
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      const next = root.dataset.theme === "dark" ? "light" : "dark";
-      root.dataset.theme = next;
+  const themeQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  const themeModes = ["system", "light", "dark"];
+  const themeIcons = {
+    system: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="2"></rect><path d="M9 20h6M12 16v4"></path></svg>',
+    light: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>',
+    dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.1A8 8 0 1 1 10.9 3a6.2 6.2 0 0 0 10.1 10.1z"></path></svg>'
+  };
+  const themeLabels = {
+    system: root.lang === "en" ? "System theme" : "跟随系统",
+    light: root.lang === "en" ? "Light theme" : "白天模式",
+    dark: root.lang === "en" ? "Dark theme" : "夜间模式"
+  };
+  const normalizeThemeMode = (value) => themeModes.includes(value) ? value : "system";
+  const applyThemeMode = (mode, persist) => {
+    const next = normalizeThemeMode(mode);
+    const prefersDark = themeQuery ? themeQuery.matches : false;
+    const resolved = next === "dark" || (next === "system" && prefersDark) ? "dark" : "light";
+    root.dataset.theme = resolved;
+    root.dataset.themeMode = next;
+    if (toggle) {
+      toggle.innerHTML = themeIcons[next];
+      toggle.setAttribute("aria-label", themeLabels[next]);
+      toggle.setAttribute("title", themeLabels[next]);
+    }
+    if (persist) {
       try {
         localStorage.setItem("theme", next);
       } catch (error) {}
+    }
+  };
+  applyThemeMode(saved, false);
+
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = normalizeThemeMode(root.dataset.themeMode);
+      const next = themeModes[(themeModes.indexOf(current) + 1) % themeModes.length];
+      applyThemeMode(next, true);
     });
+  }
+  if (themeQuery) {
+    const syncSystemTheme = () => {
+      if (normalizeThemeMode(root.dataset.themeMode) === "system") applyThemeMode("system", false);
+    };
+    if (themeQuery.addEventListener) {
+      themeQuery.addEventListener("change", syncSystemTheme);
+    } else if (themeQuery.addListener) {
+      themeQuery.addListener(syncSystemTheme);
+    }
   }
 
   document.querySelectorAll("[data-site-uptime]").forEach((node) => {
