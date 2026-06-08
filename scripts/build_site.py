@@ -20,7 +20,8 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260605-mainland-filing2"
+ASSET_VERSION = "20260608-runtime-ip1"
+SITE_START_DATE = "2017-04-18"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -134,12 +135,17 @@ I18N = {
         "no_results": "没有匹配的文章",
         "filter_by_tag": "按标签筛选",
         "footer_license": "该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权",
+        "footer_runtime": "网站已运行 {days} 天",
         "footer_copyright": "Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处",
         "footer_icp": "沪ICP备2026023114号",
         "footer_business": "商业合作",
         "privacy": "隐私政策",
         "sitemap": "站点地图",
         "footer_more_friends": "更多(非首页友链)...",
+        "comment_ip_title": "留言环境",
+        "comment_ip_loading": "正在识别你的 IP 与国家/地区...",
+        "comment_ip_unavailable": "暂时无法识别 IP 与国家/地区。",
+        "comment_ip_note": "该信息仅用于展示你当前访问环境，便于留言时自查网络位置。",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -178,12 +184,17 @@ I18N = {
         "no_results": "No matching posts",
         "filter_by_tag": "Filter by tag",
         "footer_license": "Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.",
+        "footer_runtime": "Site running for {days} days",
         "footer_copyright": "Copyright © 2026 OmegaXYZ. Please cite the source when reposting.",
         "footer_icp": "沪ICP备2026023114号",
         "footer_business": "Business",
         "privacy": "Privacy Policy",
         "sitemap": "Sitemap",
         "footer_more_friends": "More friends...",
+        "comment_ip_title": "Comment environment",
+        "comment_ip_loading": "Detecting your IP and country/region...",
+        "comment_ip_unavailable": "IP and country/region are temporarily unavailable.",
+        "comment_ip_note": "This is shown only to help you verify the network location used for commenting.",
     },
 }
 
@@ -941,6 +952,11 @@ def nav(current_file, lang, title, alt_path):
     """
 
 
+def site_runtime_days():
+    start = datetime.strptime(SITE_START_DATE, "%Y-%m-%d").date()
+    return max(0, (datetime.now().date() - start).days)
+
+
 def footer(current_file, lang):
     t = I18N[lang]
     friend_links = "".join(
@@ -950,6 +966,10 @@ def footer(current_file, lang):
     more = rel_url(current_file, path_to_file(f"{lang}/friends/"))
     privacy = rel_url(current_file, path_to_file(f"{lang}/privacy/"))
     sitemap = rel_url(current_file, OUT / "sitemap.xml")
+    runtime_days = site_runtime_days()
+    runtime = esc(t["footer_runtime"]).format(
+        days=f'<span data-site-uptime data-site-start="{SITE_START_DATE}">{runtime_days}</span>'
+    )
     return f"""
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -959,7 +979,7 @@ def footer(current_file, lang):
           <span>OmegaXYZ</span>
         </a>
         <div class="footer-decl">
-          <p>{esc(t["footer_license"])}</p>
+          <p>{esc(t["footer_license"])} <span class="footer-sep">|</span> {runtime}</p>
           <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{esc(t["footer_icp"])}</a> <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
         </div>
       </section>
@@ -1630,9 +1650,17 @@ def render_giscus(entry, lang):
     heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
     term = entry.get("url", "").strip("/") + "/"
+    ip_card = f"""
+      <div class="comment-ip-card" data-ip-card>
+        <strong>{esc(I18N[lang]["comment_ip_title"])}</strong>
+        <span data-ip-status>{esc(I18N[lang]["comment_ip_loading"])}</span>
+        <small>{esc(I18N[lang]["comment_ip_note"])}</small>
+      </div>
+    """
     return f"""
     <section class="comments giscus-comments">
       {heading}
+      {ip_card}
       <div class="giscus"></div>
       <script src="https://giscus.app/client.js"
               data-repo="xyjigsaw/omegaxyz"

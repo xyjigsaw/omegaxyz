@@ -1351,6 +1351,23 @@ a.pill:hover {
 }
 .giscus-comments { gap: 14px; }
 .giscus, .giscus-frame { width: 100%; }
+.comment-ip-card {
+  display: grid;
+  gap: 5px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fill) 68%, transparent);
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+.comment-ip-card strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+.comment-ip-card small {
+  line-height: 1.5;
+}
 .comment {
   display: grid;
   grid-template-columns: 36px minmax(0, 1fr);

@@ -22,6 +22,59 @@
     });
   }
 
+  document.querySelectorAll("[data-site-uptime]").forEach((node) => {
+    const startValue = node.getAttribute("data-site-start") || "2017-04-18";
+    const start = new Date(`${startValue}T00:00:00+08:00`);
+    if (Number.isNaN(start.getTime())) return;
+    const days = Math.max(0, Math.floor((Date.now() - start.getTime()) / 86400000));
+    node.textContent = String(days);
+  });
+
+  const ipCards = Array.from(document.querySelectorAll("[data-ip-card]"));
+  if (ipCards.length) {
+    const countryLabel = (code) => {
+      if (!code) return "";
+      try {
+        return new Intl.DisplayNames([root.lang || "zh"], { type: "region" }).of(code.toUpperCase()) || code;
+      } catch (error) {
+        return code.toUpperCase();
+      }
+    };
+    const renderIpInfo = (data) => {
+      const ip = data.ip || data.query || "";
+      const code = data.country || data.country_code || "";
+      const country = data.country_name || countryLabel(code);
+      const text = [ip, country].filter(Boolean).join(" · ");
+      ipCards.forEach((card) => {
+        const status = card.querySelector("[data-ip-status]");
+        if (status) status.textContent = text || (root.lang === "en" ? "IP unavailable." : "暂时无法识别 IP。");
+      });
+    };
+    const renderIpError = () => {
+      ipCards.forEach((card) => {
+        const status = card.querySelector("[data-ip-status]");
+        if (status) status.textContent = root.lang === "en"
+          ? "IP and country/region are temporarily unavailable."
+          : "暂时无法识别 IP 与国家/地区。";
+      });
+    };
+    fetch("https://ipapi.co/json/", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error("ipapi failed");
+        return response.json();
+      })
+      .then(renderIpInfo)
+      .catch(() => {
+        fetch("https://api.country.is/", { cache: "no-store" })
+          .then((response) => {
+            if (!response.ok) throw new Error("country api failed");
+            return response.json();
+          })
+          .then(renderIpInfo)
+          .catch(renderIpError);
+      });
+  }
+
   const applyArchiveFilters = (archive) => {
     if (!archive) return;
     const queryInput = archive.querySelector("[data-archive-query]");
