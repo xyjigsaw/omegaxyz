@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260608-system-theme1"
+ASSET_VERSION = "20260608-lang-icon2"
 SITE_START_DATE = "2017-04-18"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
@@ -908,7 +908,7 @@ NAV_ICONS = {
     "pages": _nav_icon('<path d="M8 3h6l4 4v14H8z"/><path d="M14 3v4h4"/>'),
     "categories": _nav_icon('<path d="M3 7a1 1 0 0 1 1-1h4.5l2 2H20a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>'),
     "about": _nav_icon('<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.3 3.8-4.8 6.5-4.8s5.3 1.5 6.5 4.8"/>'),
-    "lang": _nav_icon('<text x="5" y="15" font-size="8.5" font-family="system-ui, sans-serif" fill="currentColor" stroke="none" font-weight="700">中</text><path d="M13.5 16 16.5 8l3 8M14.4 13.5h4.2"/>'),
+    "lang": _nav_icon('<text x="3.4" y="15.7" font-size="9.8" font-family="system-ui, sans-serif" fill="currentColor" stroke="none" font-weight="760">中</text><path d="M13 16.6 16.7 7.1l3.7 9.5M14 13.7h5.4"/>'),
     "comment": _nav_icon('<path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 4V6a1 1 0 0 1 1-1z"/>'),
 }
 
