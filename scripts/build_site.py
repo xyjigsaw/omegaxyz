@@ -38,6 +38,7 @@ GITHUB_ICON = (
 )
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
 MAINLAND_FILING_MODE = True
+SHOW_COMMENT_IP_CARD = True
 ENABLE_GISCUS = not MAINLAND_FILING_MODE
 TEMP_HIDDEN_PAGE_SLUGS = {"comment"} if MAINLAND_FILING_MODE else set()
 EXCLUDE_PAGE_SLUGS = {
@@ -1644,23 +1645,32 @@ def should_show_giscus(entry):
     return entry.get("type") == "post" or entry.get("url", "").strip("/") in {"comment", "makefriends"}
 
 
-def render_giscus(entry, lang):
-    if not should_show_giscus(entry):
-        return ""
-    heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
-    giscus_lang = "zh-CN" if lang == "zh" else "en"
-    term = entry.get("url", "").strip("/") + "/"
-    ip_card = f"""
+def should_show_comment_ip_card(entry):
+    return SHOW_COMMENT_IP_CARD and (
+        entry.get("type") == "post" or entry.get("url", "").strip("/") in {"makefriends"}
+    )
+
+
+def render_comment_ip_card(lang):
+    return f"""
       <div class="comment-ip-card" data-ip-card>
         <strong>{esc(I18N[lang]["comment_ip_title"])}</strong>
         <span data-ip-status>{esc(I18N[lang]["comment_ip_loading"])}</span>
         <small>{esc(I18N[lang]["comment_ip_note"])}</small>
       </div>
     """
-    return f"""
-    <section class="comments giscus-comments">
-      {heading}
-      {ip_card}
+
+
+def render_giscus(entry, lang):
+    show_giscus = should_show_giscus(entry)
+    show_ip_card = should_show_comment_ip_card(entry)
+    if not show_giscus and not show_ip_card:
+        return ""
+    heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
+    giscus_lang = "zh-CN" if lang == "zh" else "en"
+    term = entry.get("url", "").strip("/") + "/"
+    ip_card = render_comment_ip_card(lang) if show_ip_card else ""
+    giscus = f"""
       <div class="giscus"></div>
       <script src="https://giscus.app/client.js"
               data-repo="xyjigsaw/omegaxyz"
@@ -1679,6 +1689,12 @@ def render_giscus(entry, lang):
               crossorigin="anonymous"
               async>
       </script>
+    """ if show_giscus else ""
+    return f"""
+    <section class="comments giscus-comments">
+      {heading}
+      {ip_card}
+      {giscus}
     </section>
     """
 
