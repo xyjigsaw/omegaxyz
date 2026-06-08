@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260608-runtime-ip1"
+ASSET_VERSION = "20260608-runtime-ip2"
 SITE_START_DATE = "2017-04-18"
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
@@ -136,17 +136,17 @@ I18N = {
         "no_results": "没有匹配的文章",
         "filter_by_tag": "按标签筛选",
         "footer_license": "该网站原创代码采用 Apache 2.0 授权，原创文章采用 BY-NC-SA 4.0 授权",
-        "footer_runtime": "网站已运行 {days} 天",
+        "footer_runtime": "网站自 {start} 起已运行 {days} 天",
         "footer_copyright": "Copyright © 2026 OmegaXYZ 版权所有 转载请注明出处",
         "footer_icp": "沪ICP备2026023114号",
         "footer_business": "商业合作",
         "privacy": "隐私政策",
         "sitemap": "站点地图",
         "footer_more_friends": "更多(非首页友链)...",
-        "comment_ip_title": "留言环境",
+        "comment_ip_title": "访客 IP",
         "comment_ip_loading": "正在识别你的 IP 与国家/地区...",
         "comment_ip_unavailable": "暂时无法识别 IP 与国家/地区。",
-        "comment_ip_note": "该信息仅用于展示你当前访问环境，便于留言时自查网络位置。",
+        "comment_ip_note": "该信息仅用于展示你当前访问环境。",
     },
     "en": {
         "tagline": "Xu Yi's column",
@@ -185,17 +185,17 @@ I18N = {
         "no_results": "No matching posts",
         "filter_by_tag": "Filter by tag",
         "footer_license": "Original code on this site is licensed under Apache 2.0; original articles are licensed under BY-NC-SA 4.0.",
-        "footer_runtime": "Site running for {days} days",
+        "footer_runtime": "Site running for {days} days since {start}",
         "footer_copyright": "Copyright © 2026 OmegaXYZ. Please cite the source when reposting.",
         "footer_icp": "沪ICP备2026023114号",
         "footer_business": "Business",
         "privacy": "Privacy Policy",
         "sitemap": "Sitemap",
         "footer_more_friends": "More friends...",
-        "comment_ip_title": "Comment environment",
+        "comment_ip_title": "Visitor IP",
         "comment_ip_loading": "Detecting your IP and country/region...",
         "comment_ip_unavailable": "IP and country/region are temporarily unavailable.",
-        "comment_ip_note": "This is shown only to help you verify the network location used for commenting.",
+        "comment_ip_note": "This is only used to show your current access environment.",
     },
 }
 
@@ -969,6 +969,7 @@ def footer(current_file, lang):
     sitemap = rel_url(current_file, OUT / "sitemap.xml")
     runtime_days = site_runtime_days()
     runtime = esc(t["footer_runtime"]).format(
+        start=f'<time datetime="{SITE_START_DATE}">2017.4.18</time>',
         days=f'<span data-site-uptime data-site-start="{SITE_START_DATE}">{runtime_days}</span>'
     )
     return f"""
