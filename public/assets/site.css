@@ -1365,6 +1365,30 @@ a.pill:hover {
 }
 .giscus-comments { gap: 14px; }
 .giscus, .giscus-frame { width: 100%; }
+.mainland-comment-note {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--panel) 78%, transparent), color-mix(in srgb, var(--fill) 66%, transparent));
+  color: var(--muted);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.mainland-comment-note[hidden] { display: none; }
+.mainland-comment-note strong {
+  color: var(--ink);
+  font-size: 1rem;
+}
+.mainland-comment-note p {
+  margin: 0;
+  line-height: 1.7;
+}
+.mainland-comment-note .button {
+  justify-self: start;
+}
 .comment-ip-card {
   display: flex;
   align-items: center;

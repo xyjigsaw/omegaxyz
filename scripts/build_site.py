@@ -8,7 +8,7 @@ import shutil
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote, unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +20,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260609-runtime-days1"
+ASSET_VERSION = "20260609-region-comments1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -38,7 +38,7 @@ GITHUB_ICON = (
     'A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 )
 SOURCE_HOSTS = {"omegaxyz.com", "www.omegaxyz.com", "en.omegaxyz.com"}
-MAINLAND_FILING_MODE = True
+MAINLAND_FILING_MODE = False
 SHOW_COMMENT_IP_CARD = True
 ENABLE_GISCUS = not MAINLAND_FILING_MODE
 TEMP_HIDDEN_PAGE_SLUGS = {"comment"} if MAINLAND_FILING_MODE else set()
@@ -49,9 +49,11 @@ EXCLUDE_PAGE_SLUGS = {
 }
 PAGE_TITLE_EN_OVERRIDE = {
     "makefriends": "Friend Link Application",
+    "comment": "Signal",
 }
 PAGE_TITLE_ZH_OVERRIDE = {
     "makefriends": "友链申请",
+    "comment": "信号",
 }
 
 FOOTER_LINKS = [
@@ -103,7 +105,7 @@ I18N = {
     "zh": {
         "tagline": "徐奕的专栏",
         "skip": "跳到正文",
-        "message": "留言",
+        "message": "信号",
         "tab_latest": "最新",
         "tab_random": "随机",
         "shuffle_topics": "换一批",
@@ -148,11 +150,14 @@ I18N = {
         "comment_ip_loading": "正在识别你的 IP 与国家/地区...",
         "comment_ip_unavailable": "暂时无法识别 IP 与国家/地区。",
         "comment_ip_note": "该信息仅用于展示你当前访问环境。",
+        "comment_mainland_title": "本站不提供评论服务",
+        "comment_mainland_text": "当前访问环境下不展示站内评论模块。你可以前往对应的 GitHub Discussion 留言。",
+        "comment_mainland_link": "前往 GitHub Discussion",
     },
     "en": {
         "tagline": "Xu Yi's column",
         "skip": "Skip to content",
-        "message": "Message",
+        "message": "Signal",
         "tab_latest": "Latest",
         "tab_random": "Shuffle",
         "shuffle_topics": "Shuffle",
@@ -197,6 +202,9 @@ I18N = {
         "comment_ip_loading": "Detecting your IP and country/region...",
         "comment_ip_unavailable": "IP and country/region are temporarily unavailable.",
         "comment_ip_note": "This is only used to show your current access environment.",
+        "comment_mainland_title": "On-site comments are unavailable",
+        "comment_mainland_text": "The embedded comment module is not shown for your current access environment. Please leave a message in the corresponding GitHub Discussion.",
+        "comment_mainland_link": "Open GitHub Discussion",
     },
 }
 
@@ -1184,7 +1192,7 @@ def render_home(site, lang, current=None):
         stat_third = f'<li><a href="{stat_terms}"><strong>{stats["categories"]}</strong><span>{esc(t["categories"])}</span></a></li>'
     else:
         stat_comment = rel_url(current, path_to_file(f"{lang}/comment/"))
-        stat_third = f'<li><a href="{stat_comment}"><strong>{stats["comments"]}</strong><span>{esc(t["comments"])}</span></a></li>'
+        stat_third = f'<li><a href="{stat_comment}"><strong>{stats["comments"]}</strong><span>{esc(t["message"])}</span></a></li>'
     body = f"""
     <main class="wrap">
       <section class="hero">
@@ -1388,18 +1396,18 @@ def render_comment_entry(entry, lang):
     live_comments = render_giscus(entry, lang)
     archived_comments = render_comments(entry, lang)
     if lang == "zh":
-        eyebrow = "留言板"
-        intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的留言使用 GitHub 登录，旧站评论会继续作为归档保留。"
+        eyebrow = "信号"
+        intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的信号使用 GitHub 登录，旧站评论会继续作为归档保留。"
         cv_label = "查看个人主页"
-        comment_label = "写留言"
+        comment_label = "发送信号"
         qr_label = "支持一下"
         alipay_label = "支付宝"
         wechat_label = "微信"
     else:
-        eyebrow = "Guestbook"
-        intro = "Leave a question, suggestion, collaboration note, or a quick hello. GitHub login is used for fresh messages, while legacy WordPress comments remain available as an archive."
+        eyebrow = "Signal"
+        intro = "Leave a question, suggestion, collaboration note, or a quick hello. GitHub login is used for fresh signals, while legacy WordPress comments remain available as an archive."
         cv_label = "View CV"
-        comment_label = "Leave a message"
+        comment_label = "Send a signal"
         qr_label = "Support"
         alipay_label = "Alipay"
         wechat_label = "WeChat"
@@ -1654,7 +1662,7 @@ def should_show_giscus(entry):
 
 def should_show_comment_ip_card(entry):
     return SHOW_COMMENT_IP_CARD and (
-        entry.get("type") == "post" or entry.get("url", "").strip("/") in {"makefriends"}
+        entry.get("type") == "post" or entry.get("url", "").strip("/") in {"comment", "makefriends"}
     )
 
 
@@ -1676,29 +1684,21 @@ def render_giscus(entry, lang):
     heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
     term = entry.get("url", "").strip("/") + "/"
+    discussion_url = "https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=" + quote(f"category:Comments {term}")
     ip_card = render_comment_ip_card(lang) if show_ip_card else ""
     giscus = f"""
-      <div class="giscus"></div>
-      <script src="https://giscus.app/client.js"
-              data-repo="xyjigsaw/omegaxyz"
-              data-repo-id="R_kgDOSpZVLg"
-              data-category="Comments"
-              data-category-id="DIC_kwDOSpZVLs4C-SeJ"
-              data-mapping="specific"
-              data-term="{esc(term)}"
-              data-strict="0"
-              data-reactions-enabled="1"
-              data-emit-metadata="1"
-              data-input-position="top"
-              data-default-comment-order="newest"
-              data-theme="light"
-              data-lang="{giscus_lang}"
-              crossorigin="anonymous"
-              async>
-      </script>
+      <div class="mainland-comment-note" data-mainland-comment-note hidden>
+        <strong>{esc(I18N[lang]["comment_mainland_title"])}</strong>
+        <p>{esc(I18N[lang]["comment_mainland_text"])}</p>
+        <a class="button" href="{esc(discussion_url)}" target="_blank" rel="noopener noreferrer">{esc(I18N[lang]["comment_mainland_link"])}</a>
+      </div>
+      <div class="giscus" data-giscus-mount></div>
     """ if show_giscus else ""
     return f"""
-    <section class="comments giscus-comments">
+    <section class="comments giscus-comments"
+             data-giscus-comments
+             data-giscus-lang="{esc(giscus_lang)}"
+             data-giscus-term="{esc(term)}">
       {heading}
       {ip_card}
       {giscus}

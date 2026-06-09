@@ -22,6 +22,18 @@
     light: root.lang === "en" ? "Light theme" : "白天模式",
     dark: root.lang === "en" ? "Dark theme" : "夜间模式"
   };
+  const giscusTheme = () => root.dataset.theme === "dark" ? "dark" : "light";
+  const syncGiscusTheme = () => {
+    const frame = document.querySelector("iframe.giscus-frame");
+    if (!frame || !frame.contentWindow) return;
+    frame.contentWindow.postMessage({
+      giscus: {
+        setConfig: {
+          theme: giscusTheme()
+        }
+      }
+    }, "https://giscus.app");
+  };
   const normalizeThemeMode = (value) => themeModes.includes(value) ? value : "system";
   const applyThemeMode = (mode, persist) => {
     const next = normalizeThemeMode(mode);
@@ -34,6 +46,7 @@
       toggle.setAttribute("aria-label", themeLabels[next]);
       toggle.setAttribute("title", themeLabels[next]);
     }
+    syncGiscusTheme();
     if (persist) {
       try {
         localStorage.setItem("theme", next);
@@ -68,8 +81,67 @@
     node.textContent = String(days);
   });
 
+  const giscusBlocks = Array.from(document.querySelectorAll("[data-giscus-comments]"));
+  const discussionSearchUrl = (term) => {
+    const query = encodeURIComponent(`category:Comments ${term || ""}`);
+    return `https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=${query}`;
+  };
+  const loadGiscusBlock = (block) => {
+    if (!block || block.dataset.giscusState === "loaded") return;
+    const mount = block.querySelector("[data-giscus-mount]");
+    if (!mount) return;
+    block.dataset.giscusState = "loaded";
+    block.dataset.commentRegion = "global";
+    const note = block.querySelector("[data-mainland-comment-note]");
+    if (note) note.hidden = true;
+    mount.hidden = false;
+    const script = document.createElement("script");
+    const attrs = {
+      src: "https://giscus.app/client.js",
+      "data-repo": "xyjigsaw/omegaxyz",
+      "data-repo-id": "R_kgDOSpZVLg",
+      "data-category": "Comments",
+      "data-category-id": "DIC_kwDOSpZVLs4C-SeJ",
+      "data-mapping": "specific",
+      "data-term": block.dataset.giscusTerm || "",
+      "data-strict": "0",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "1",
+      "data-input-position": "top",
+      "data-default-comment-order": "newest",
+      "data-theme": giscusTheme(),
+      "data-lang": block.dataset.giscusLang || (root.lang === "en" ? "en" : "zh-CN"),
+      crossorigin: "anonymous"
+    };
+    Object.entries(attrs).forEach(([name, value]) => script.setAttribute(name, value));
+    script.async = true;
+    mount.appendChild(script);
+  };
+  const showMainlandCommentNotice = (block) => {
+    if (!block || block.dataset.giscusState === "loaded") return;
+    block.dataset.commentRegion = "mainland";
+    const mount = block.querySelector("[data-giscus-mount]");
+    const note = block.querySelector("[data-mainland-comment-note]");
+    if (mount) mount.hidden = true;
+    if (note) {
+      const link = note.querySelector("a");
+      if (link) link.href = discussionSearchUrl(block.dataset.giscusTerm || "");
+      note.hidden = false;
+    }
+  };
+  const applyCommentRegion = (code) => {
+    const normalized = (code || "").toUpperCase();
+    giscusBlocks.forEach((block) => {
+      if (normalized === "CN") {
+        showMainlandCommentNotice(block);
+      } else {
+        loadGiscusBlock(block);
+      }
+    });
+  };
+
   const ipCards = Array.from(document.querySelectorAll("[data-ip-card]"));
-  if (ipCards.length) {
+  if (ipCards.length || giscusBlocks.length) {
     const countryLabel = (code) => {
       if (!code) return "";
       try {
@@ -83,12 +155,15 @@
       const code = data.country || data.country_code || "";
       const country = data.country_name || countryLabel(code);
       const text = [ip, country].filter(Boolean).join(" · ");
+      applyCommentRegion(code);
       ipCards.forEach((card) => {
         const status = card.querySelector("[data-ip-status]");
         if (status) status.textContent = text || (root.lang === "en" ? "IP unavailable." : "暂时无法识别 IP。");
       });
     };
+    const loadGiscusWithoutRegion = () => giscusBlocks.forEach(loadGiscusBlock);
     const renderIpError = () => {
+      loadGiscusWithoutRegion();
       ipCards.forEach((card) => {
         const status = card.querySelector("[data-ip-status]");
         if (status) status.textContent = root.lang === "en"
