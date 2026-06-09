@@ -6,7 +6,7 @@ import math
 import re
 import shutil
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -20,8 +20,9 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260608-lang-icon2"
+ASSET_VERSION = "20260609-runtime-days1"
 SITE_START_DATE = "2017-04-18"
+SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
@@ -957,7 +958,8 @@ def nav(current_file, lang, title, alt_path):
 
 def site_runtime_days():
     start = datetime.strptime(SITE_START_DATE, "%Y-%m-%d").date()
-    return max(0, (datetime.now().date() - start).days)
+    today = datetime.now(SITE_TIMEZONE).date()
+    return max(0, (today - start).days)
 
 
 def footer(current_file, lang):
