@@ -3,12 +3,14 @@ import hashlib
 import html
 import json
 import math
+import os
 import re
 import shutil
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
+from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,13 +22,16 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260609-region-comments1"
+ASSET_VERSION = "20260609-comment-meta1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
 HOME_LOGO_URL = CDN + "/2020/01/AI-GIF.gif"
 FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
 GITHUB_URL = "https://github.com/xyjigsaw"
+GISCUS_REPO_OWNER = "xyjigsaw"
+GISCUS_REPO_NAME = "omegaxyz"
+GISCUS_CATEGORY_ID = "DIC_kwDOSpZVLs4C-SeJ"
 GITHUB_ICON = (
     '<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false">'
     '<path fill="currentColor" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 '
@@ -273,9 +278,81 @@ def load_site():
         for field in ("excerpt_zh", "excerpt_en", "title_zh", "title_en"):
             if entry.get(field):
                 entry[field] = re.sub(r"\[latexpage\]\s*", "", entry[field], flags=re.I).strip()
+    annotate_comment_counts(site["entries"])
     site["entries"].sort(key=lambda entry: entry.get("date", ""), reverse=True)
     site["summary"] = build_summary(site["entries"])
     return site
+
+
+def giscus_term_for_entry(entry):
+    return entry.get("url", "").strip("/") + "/"
+
+
+def fetch_giscus_comment_counts():
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if not token:
+        return {}
+    query = """
+    query($owner: String!, $name: String!, $categoryId: ID!, $after: String) {
+      repository(owner: $owner, name: $name) {
+        discussions(first: 100, after: $after, categoryId: $categoryId, orderBy: {field: UPDATED_AT, direction: DESC}) {
+          pageInfo { hasNextPage endCursor }
+          nodes { title comments { totalCount } }
+        }
+      }
+    }
+    """
+    counts = {}
+    after = None
+    try:
+        while True:
+            payload = json.dumps({
+                "query": query,
+                "variables": {
+                    "owner": GISCUS_REPO_OWNER,
+                    "name": GISCUS_REPO_NAME,
+                    "categoryId": GISCUS_CATEGORY_ID,
+                    "after": after,
+                },
+            }).encode("utf-8")
+            request = Request(
+                "https://api.github.com/graphql",
+                data=payload,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                    "Accept": "application/vnd.github+json",
+                },
+            )
+            with urlopen(request, timeout=20) as response:
+                result = json.loads(response.read().decode("utf-8"))
+            if result.get("errors"):
+                print("  giscus counts skipped:", result["errors"][0].get("message", "GraphQL error"))
+                return counts
+            discussions = (((result.get("data") or {}).get("repository") or {}).get("discussions") or {})
+            for node in discussions.get("nodes") or []:
+                title = (node.get("title") or "").strip()
+                if title:
+                    counts[title] = int(((node.get("comments") or {}).get("totalCount")) or 0)
+            page = discussions.get("pageInfo") or {}
+            if not page.get("hasNextPage"):
+                break
+            after = page.get("endCursor")
+        if counts:
+            print(f"  giscus counts: {len(counts)} discussions")
+    except Exception as exc:
+        print(f"  giscus counts skipped: {exc}")
+    return counts
+
+
+def annotate_comment_counts(entries):
+    giscus_counts = fetch_giscus_comment_counts()
+    for entry in entries:
+        archived = len(entry.get("comments", []))
+        giscus = giscus_counts.get(giscus_term_for_entry(entry), 0)
+        entry["_archived_comment_count"] = archived
+        entry["_giscus_comment_count"] = giscus
+        entry["_total_comment_count"] = archived + giscus
 
 
 def load_extra_entries():
@@ -556,10 +633,32 @@ def build_summary(entries):
     return {
         "posts": len(posts),
         "pages": len(pages),
-        "comments": sum(len(entry.get("comments", [])) for entry in entries),
+        "comments": sum(entry_comment_count(entry) for entry in entries),
         "categories": len({term["slug"] for entry in entries for term in entry.get("categories", [])}),
         "tags": len({term["slug"] for entry in entries for term in entry.get("tags", [])}),
     }
+
+
+DATE_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5.5" width="15" height="15" rx="3"/><path d="M8 3.5v4M16 3.5v4M5 10h14"/></svg>'
+COMMENT_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.2a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-14A1.5 1.5 0 0 1 6.5 5.5z"/></svg>'
+
+
+def entry_comment_count(entry):
+    if "_total_comment_count" in entry:
+        return int(entry.get("_total_comment_count") or 0)
+    return len(entry.get("comments", []))
+
+
+def entry_meta_html(entry, lang, include_author=False):
+    date = date_only(entry["date"])
+    count = entry_comment_count(entry)
+    parts = [
+        f'<span class="meta-item meta-date">{DATE_META_ICON}<time datetime="{esc(date)}">{esc(date)}</time></span>',
+        f'<span class="meta-item meta-comments">{COMMENT_META_ICON}<span>{count}</span><span>{esc(I18N[lang]["comments"])}</span></span>',
+    ]
+    if include_author:
+        parts.insert(1, '<span class="meta-item meta-author"><span>Yi Xu</span></span>')
+    return "".join(parts)
 
 
 def auto_english_term_label(term):
@@ -1141,7 +1240,7 @@ def render_latest_row(entry, lang, current_file, eager=False):
       <a class="latest-media" href="{href}">{image_html}</a>
       <div class="latest-copy">
         <h3><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h3>
-        <div class="meta">{esc(date_only(entry['date']))}</div>
+        <div class="meta meta-row">{entry_meta_html(entry, lang)}</div>
         <p>{esc(short_text(entry[f'excerpt_{lang}'], 160))}</p>
         <div class="terms">{pills}</div>
       </div>
@@ -1346,9 +1445,7 @@ def render_entry(entry, lang, legacy, site):
     content = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
     excerpt = entry[f"excerpt_{lang}"]
     term_links = render_term_pills(entry, lang, current, 8, 12)
-    meta_html = f'<span>{esc(date_only(entry["date"]))}</span>'
-    if entry.get("type") == "post":
-        meta_html += '<span class="meta-sep">·</span><span>Yi Xu</span>'
+    meta_html = entry_meta_html(entry, lang, include_author=entry.get("type") == "post")
     related = render_related_posts(entry, site, lang, current)
     comments = render_comments(entry, lang)
     live_comments = render_giscus(entry, lang)
@@ -1683,7 +1780,7 @@ def render_giscus(entry, lang):
         return ""
     heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
-    term = entry.get("url", "").strip("/") + "/"
+    term = giscus_term_for_entry(entry)
     discussion_url = "https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=" + quote(f"category:Comments {term}")
     ip_card = render_comment_ip_card(lang) if show_ip_card else ""
     giscus = f"""
@@ -1812,7 +1909,7 @@ def render_archive_item(entry, lang, current, interactive=False):
     summary_html = f"\n        <p>{esc(summary)}</p>" if summary else ""
     return f"""
     <article class="archive-item"{attrs}>
-      <time>{esc(date_only(entry['date']))}</time>
+      <div class="archive-item-meta meta-row">{entry_meta_html(entry, lang)}</div>
       <div>
         <h2><a href="{href}">{esc(entry[f'title_{lang}'])}</a></h2>{summary_html}
         <div class="terms">{pills}</div>
