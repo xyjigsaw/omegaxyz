@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20260609-comment-meta1"
+ASSET_VERSION = "20260609-qa-icons1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -639,8 +639,19 @@ def build_summary(entries):
     }
 
 
-DATE_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5.5" width="15" height="15" rx="3"/><path d="M8 3.5v4M16 3.5v4M5 10h14"/></svg>'
-COMMENT_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.2a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-14A1.5 1.5 0 0 1 6.5 5.5z"/></svg>'
+DATE_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#meta-date-icon"></use></svg>'
+COMMENT_META_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#meta-comment-icon"></use></svg>'
+META_ICON_SPRITE = """
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="meta-date-icon" viewBox="0 0 24 24">
+      <rect x="4.5" y="5.5" width="15" height="15" rx="3"></rect>
+      <path d="M8 3.5v4M16 3.5v4M5 10h14"></path>
+    </symbol>
+    <symbol id="meta-comment-icon" viewBox="0 0 24 24">
+      <path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.2a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-14A1.5 1.5 0 0 1 6.5 5.5z"></path>
+    </symbol>
+  </svg>
+"""
 
 
 def entry_comment_count(entry):
@@ -959,6 +970,23 @@ def enhance_img_tag(match):
     return f"<img{attrs}>"
 
 
+def dedupe_html_ids(markup):
+    seen = defaultdict(int)
+
+    def repl(match):
+        quote_char = match.group(1)
+        value = match.group(2)
+        if not value:
+            return match.group(0)
+        seen[value] += 1
+        if seen[value] == 1:
+            return match.group(0)
+        next_value = f"{value}-{seen[value]}"
+        return f'id={quote_char}{html.escape(next_value, quote=True)}{quote_char}'
+
+    return re.sub(r'\bid=(["\'])(.*?)\1', repl, markup, flags=re.I)
+
+
 def rewrite_content(markup, lang, current_file, legacy):
     markup = markup or ""
     markup = re.sub(r"\[latexpage\]\s*", "", markup, flags=re.I)
@@ -981,6 +1009,7 @@ def rewrite_content(markup, lang, current_file, legacy):
 
     rewritten = re.sub(r'\b(href|src|srcset)=(["\'])(.*?)\2', repl, markup, flags=re.I)
     rewritten = re.sub(r"<img\b([^>]*)>", enhance_img_tag, rewritten, flags=re.I)
+    rewritten = dedupe_html_ids(rewritten)
     return rewritten
 
 
@@ -1190,6 +1219,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <link rel="stylesheet" href="{css}">
 </head>
 <body>
+  {META_ICON_SPRITE}
   <a class="skip-link" href="#main-content">{esc(I18N[lang]["skip"])}</a>
   {nav(current_file, lang, title, alt_path)}
   <a id="main-content" tabindex="-1"></a>
