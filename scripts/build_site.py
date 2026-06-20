@@ -1289,7 +1289,7 @@ def render_home(site, lang, current=None):
     home_data_url = rel_url(current, home_data_file)
     latest_rows = "".join(render_latest_row(e, lang, current, eager=i == 0) for i, e in enumerate(posts[:9]))
     priority_slugs = ["friends", "webhistory", "makefriends", "comment"]
-    home_pages = [p for p in pages if p["slug"] not in ("evolutionary-algorithm-navigator", "menu-bar-privacy")]
+    home_pages = [p for p in pages if p["slug"] not in ("evolutionary-algorithm-navigator", "menu-bar-privacy", "idevtools-privacy")]
     ordered_pages = sorted(
         home_pages,
         key=lambda p: priority_slugs.index(p["slug"]) if p["slug"] in priority_slugs else len(priority_slugs),
