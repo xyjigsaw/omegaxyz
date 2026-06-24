@@ -1495,9 +1495,17 @@ def render_entry(entry, lang, legacy, site):
         ld["image"] = og_image
     ld_json = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     slug = entry.get("slug", "")
+    is_privacy_page = slug == "privacy" or slug.endswith("-privacy")
     page_class = {"comment": " donate-page"}.get(slug, "")
-    if slug == "privacy" or slug.endswith("-privacy"):
-        page_class += " privacy-page"
+    if is_privacy_page:
+        page_class += " layout-solo privacy-page"
+    sidebar_html = ""
+    if not is_privacy_page:
+        sidebar_html = f"""
+      <aside class="sidebar">
+        <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
+        {related}
+      </aside>"""
     body = f"""
     <main class="wrap layout{page_class}">
       <article class="article">
@@ -1508,10 +1516,7 @@ def render_entry(entry, lang, legacy, site):
         {live_comments}
         {comments}
       </article>
-      <aside class="sidebar">
-        <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
-        {related}
-      </aside>
+      {sidebar_html}
     </main>
     <script type="application/ld+json">{ld_json}</script>
     """

@@ -1943,15 +1943,35 @@ a.pill:hover {
 }
 
 /* ---------- privacy policy page: drop redundant rules, tidy spacing ---------- */
+.privacy-page {
+  padding-top: 34px;
+}
+.privacy-page .article {
+  width: 100%;
+}
+.privacy-page .article > h1 {
+  max-width: none;
+}
 .privacy-page .article-content hr { display: none; }
 /* the migrated WordPress logo at the top duplicates the header brand */
 .privacy-page .article-content img[src*="omegaxyz.png"] { display: none; }
+.privacy-page .article-content > h1:first-child { display: none; }
+.privacy-page .article-content h1,
 .privacy-page .article-content h2 {
   border-top: 0;
   padding-top: 0;
+  margin-top: 2em;
+  margin-bottom: 0.55em;
+  font-size: 1.24rem;
+  line-height: 1.35;
 }
+.privacy-page .article-content h1:first-child,
 .privacy-page .article-content h2:first-of-type {
   border-top: 0;
   margin-top: 0;
   padding-top: 0;
+}
+.privacy-page .article-content p,
+.privacy-page .article-content li {
+  line-height: 1.78;
 }
