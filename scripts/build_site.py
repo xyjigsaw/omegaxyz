@@ -1494,7 +1494,10 @@ def render_entry(entry, lang, legacy, site):
     if og_image:
         ld["image"] = og_image
     ld_json = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
-    page_class = {"comment": " donate-page", "privacy": " privacy-page"}.get(entry.get("slug"), "")
+    slug = entry.get("slug", "")
+    page_class = {"comment": " donate-page"}.get(slug, "")
+    if slug == "privacy" or slug.endswith("-privacy"):
+        page_class += " privacy-page"
     body = f"""
     <main class="wrap layout{page_class}">
       <article class="article">
