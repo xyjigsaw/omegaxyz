@@ -312,14 +312,26 @@
         if (!subList) {
           const details = document.createElement("details");
           const summary = document.createElement("summary");
-          const sectionTitle = parentItem.children[0].textContent;
-          summary.setAttribute("aria-label", document.documentElement.lang === "zh"
+          const parentLink = parentItem.children[0];
+          const sectionTitle = parentLink.textContent;
+          const zh = document.documentElement.lang === "zh";
+          summary.textContent = sectionTitle;
+          summary.setAttribute("aria-label", zh
             ? "展开或收起“" + sectionTitle + "”的下级章节"
             : "Toggle headings under “" + sectionTitle + "”");
           details.appendChild(summary);
           subList = document.createElement("ol");
           details.appendChild(subList);
+          parentLink.remove();
+          parentItem.classList.add("toc-parent");
           parentItem.appendChild(details);
+          // Keep navigation outside summary so it never also toggles details.
+          parentLink.textContent = "↗";
+          parentLink.classList.add("toc-section-link");
+          const jumpLabel = (zh ? "跳转正文：" : "Go to section: ") + sectionTitle;
+          parentLink.setAttribute("aria-label", jumpLabel);
+          parentLink.setAttribute("title", jumpLabel);
+          parentItem.appendChild(parentLink);
         }
         subList.appendChild(item);
       } else {
@@ -336,8 +348,12 @@
           if (!e.isIntersecting) return;
           const a = tocLinks[e.target.id];
           if (!a) return;
-          root.querySelectorAll("a.is-active").forEach((x) => x.classList.remove("is-active"));
+          root.querySelectorAll("a.is-active, summary.is-active").forEach((x) => x.classList.remove("is-active"));
           a.classList.add("is-active");
+          if (a.classList.contains("toc-section-link")) {
+            const summary = a.closest(".toc-parent").querySelector("summary");
+            if (summary) summary.classList.add("is-active");
+          }
         });
       }, { rootMargin: "0px 0px -78% 0px" });
       headings.forEach((h) => obs.observe(h));
