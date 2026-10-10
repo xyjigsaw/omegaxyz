@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261010-toc-jump-svg1"
+ASSET_VERSION = "20261010-pinned-posts1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -126,6 +126,8 @@ I18N = {
         "featured": "知识结构",
         "comments": "评论",
         "archived_comments": "归档评论",
+        "pinned": "置顶",
+        "pinned_first": "置顶优先",
         "toc": "目录",
         "related": "相似推荐",
         "all_posts": "全部文章",
@@ -178,6 +180,8 @@ I18N = {
         "featured": "Knowledge Map",
         "comments": "Comments",
         "archived_comments": "Archived Comments",
+        "pinned": "Pinned",
+        "pinned_first": "Pinned first",
         "toc": "Contents",
         "related": "Related",
         "all_posts": "All Posts",
@@ -438,6 +442,8 @@ def markdown_file_to_entry(path, reverse_zh):
         "tags": resolve_md_terms(meta.get("tags", []), reverse_zh),
         "comments": [],
         "thumbnail": meta.get("thumbnail", ""),
+        "pinned": meta.get("pinned", "false"),
+        "pin_order": meta.get("pin_order", 0),
     }
 
 
@@ -627,6 +633,25 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 
+def is_pinned(entry):
+    value = entry.get("pinned", False)
+    enabled = value.strip().lower() in {"true", "yes", "1"} if isinstance(value, str) else value is True
+    return entry.get("type") == "post" and enabled
+
+
+def post_pin_order(entry):
+    try:
+        return int(entry.get("pin_order", 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def sort_post_stream(entries):
+    # Keep dates untouched; stable sorting breaks equal pin priorities by date.
+    dated = sorted(entries, key=lambda entry: (entry.get("date", ""), entry.get("url", "")), reverse=True)
+    return sorted(dated, key=lambda entry: (not is_pinned(entry), post_pin_order(entry) if is_pinned(entry) else 0))
+
+
 def build_summary(entries):
     posts = [entry for entry in entries if entry["type"] == "post"]
     pages = [entry for entry in entries if entry["type"] == "page"]
@@ -667,6 +692,8 @@ def entry_meta_html(entry, lang, include_author=False):
         f'<span class="meta-item meta-date">{DATE_META_ICON}<time datetime="{esc(date)}">{esc(date)}</time></span>',
         f'<span class="meta-item meta-comments">{COMMENT_META_ICON}<span>{count}</span><span>{esc(I18N[lang]["comments"])}</span></span>',
     ]
+    if is_pinned(entry):
+        parts.insert(0, f'<span class="pin-badge">{esc(I18N[lang]["pinned"])}</span>')
     if include_author:
         parts.insert(1, '<span class="meta-item meta-author"><span>Yi Xu</span></span>')
     return "".join(parts)
@@ -1288,7 +1315,7 @@ def render_latest_row(entry, lang, current_file, eager=False):
 
 def render_home(site, lang, current=None):
     current = current or path_to_file(f"{lang}/")
-    posts = [e for e in site["entries"] if e["type"] == "post"]
+    posts = sort_post_stream([e for e in site["entries"] if e["type"] == "post"])
     pages = [e for e in site["entries"] if e["type"] == "page"]
     stats = site["summary"]
     all_rows = [render_latest_row(e, lang, current) for e in posts]
@@ -1865,7 +1892,7 @@ def archive_count_box(value, lang):
 
 
 def render_archive(site, lang):
-    posts = [e for e in site["entries"] if e["type"] == "post"]
+    posts = sort_post_stream([e for e in site["entries"] if e["type"] == "post"])
     current = path_to_file(archive_path(lang))
     items = "".join(render_archive_item(e, lang, current, interactive=True) for e in posts)
     category_counts = {}
@@ -1903,6 +1930,7 @@ def render_archive(site, lang):
         <label class="archive-sort">
           <span>{esc(I18N[lang]["sort"])}</span>
           <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
+            <option value="featured">{esc(I18N[lang]["pinned_first"])}</option>
             <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
             <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
             <option value="title">{esc(I18N[lang]["sort_title"])}</option>
@@ -1945,6 +1973,7 @@ def render_archive_item(entry, lang, current, interactive=False):
         attrs = (
             f' data-archive-item data-title="{esc(entry[f"title_{lang}"].lower())}"'
             f' data-date="{esc(date_only(entry["date"]))}"'
+            f' data-pinned="{str(is_pinned(entry)).lower()}" data-pin-order="{post_pin_order(entry)}"'
             f' data-categories="{esc(category_slugs)}"'
             f' data-tags="{esc(tag_slugs)}"'
             f' data-search="{esc(search_text)}"'
@@ -1994,6 +2023,7 @@ def render_terms(site, lang):
         current = path_to_file(f"{lang}/{label}/")
         chips = []
         for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
+            entries = sort_post_stream(entries)
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
             display_label = term_label(representatives[(slug, name)], lang)
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
@@ -2025,7 +2055,8 @@ def render_terms(site, lang):
                     <label class="archive-sort">
                       <span>{esc(I18N[lang]["sort"])}</span>
                       <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
-                        <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
+                        <option value="featured">{esc(I18N[lang]["pinned_first"])}</option>
+            <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
                         <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
                         <option value="title">{esc(I18N[lang]["sort_title"])}</option>
                       </select>

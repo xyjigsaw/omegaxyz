@@ -3,6 +3,7 @@ title: 我给 iPad Safari 做了个 Chrome DevTools
 title_en: I Built Chrome DevTools for iPad Safari
 date: 2026-06-25
 slug: idevtools-safari-devtools-ipad
+pinned: true
 categories: [APP开发|app|App Development, 技术域|tech|Technology]
 tags: [iOS|ios|iOS, iPad|ipad|iPad, Safari|safari|Safari, DevTools|devtools|DevTools, Web开发|web|Web Development, JavaScript|javascript|JavaScript]
 excerpt: iDevTools 让 Safari 也能像 Chrome 一样查看元素、监控网络请求和调试网页，把 iPad 上缺失的开发者工具补上。

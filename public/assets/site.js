@@ -209,6 +209,15 @@
     });
 
     visible.sort((a, b) => {
+      if (sort === "featured") {
+        const pinnedA = a.dataset.pinned === "true";
+        const pinnedB = b.dataset.pinned === "true";
+        if (pinnedA !== pinnedB) return pinnedA ? -1 : 1;
+        if (pinnedA) {
+          const priority = Number(a.dataset.pinOrder || 0) - Number(b.dataset.pinOrder || 0);
+          if (priority) return priority;
+        }
+      }
       if (sort === "oldest") return a.dataset.date.localeCompare(b.dataset.date);
       if (sort === "title") return a.dataset.title.localeCompare(b.dataset.title);
       return b.dataset.date.localeCompare(a.dataset.date);

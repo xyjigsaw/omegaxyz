@@ -3,6 +3,7 @@ title: Menu Bar：让 iPad 和 iPhone 拥有轻量悬浮菜单栏
 title_en: Menu Bar: A Lightweight Floating Menu Bar for iPad and iPhone
 date: 2026-05-30
 slug: menu-bar-ipad-iphone-floating-system-tool
+pinned: true
 categories: [APP开发|app|App Development, 技术域|tech|Technology]
 tags: [iOS|ios|iOS, iPad|ipad|iPad, Picture in Picture|picture-in-picture|Picture in Picture, 剪切板|clipboard|Clipboard]
 excerpt: Menu Bar 是一款专为 iPad 与 iPhone 设计的轻量级悬浮系统工具，通过画中画常驻显示网络速度、CPU、内存、剪切板等信息。

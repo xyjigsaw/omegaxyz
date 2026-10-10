@@ -102,6 +102,19 @@ content/my-post.en.html
 - 分类和标签必须写 `slug`，因为它决定分类页、标签页 URL 和前端过滤逻辑。
 - 分类和标签的 `name_en` 不是必填；如果不写，系统会优先使用旧站内置映射，仍没有映射时会根据 `slug` 自动生成英文名。
 
+## 文章置顶
+
+任何文章都可配置置顶，不修改真实发布日期。Markdown frontmatter 可写：
+
+```yaml
+pinned: true
+pin_order: 0
+```
+
+`pin_order` 选填，数值越小越靠前；相同优先级按原日期倒序。取消置顶写 `pinned: false` 或移除该字段。双语伴随文件共用主文件元数据，自动归档后设置继续生效。
+
+`content/extra_entries.json` 与 `data/site.json` 的文章记录也支持 JSON 字段 `"pinned": true`、`"pin_order": 0`。首页默认文章流、分类和标签列表置顶优先，标记显示“置顶 / Pinned”；全部文章及分类筛选默认“置顶优先”，选择日期或标题排序会尊重该排序。首页随机模式仍随机抽取；搜索、相似推荐、sitemap 与真实日期不受置顶排序影响。
+
 ## 上传图片
 
 小型站内图可以放到 `public/assets/`，例如：
