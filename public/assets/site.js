@@ -326,7 +326,22 @@
           parentItem.classList.add("toc-parent");
           parentItem.appendChild(details);
           // Keep navigation outside summary so it never also toggles details.
-          parentLink.textContent = "↗";
+          parentLink.textContent = "";
+          const jumpIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          jumpIcon.setAttribute("viewBox", "0 0 16 16");
+          jumpIcon.setAttribute("width", "14");
+          jumpIcon.setAttribute("height", "14");
+          jumpIcon.setAttribute("aria-hidden", "true");
+          jumpIcon.setAttribute("focusable", "false");
+          const jumpPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          jumpPath.setAttribute("d", "M4 12 12 4M5 4h7v7");
+          jumpPath.setAttribute("fill", "none");
+          jumpPath.setAttribute("stroke", "currentColor");
+          jumpPath.setAttribute("stroke-width", "1.5");
+          jumpPath.setAttribute("stroke-linecap", "round");
+          jumpPath.setAttribute("stroke-linejoin", "round");
+          jumpIcon.appendChild(jumpPath);
+          parentLink.appendChild(jumpIcon);
           parentLink.classList.add("toc-section-link");
           const jumpLabel = (zh ? "跳转正文：" : "Go to section: ") + sectionTitle;
           parentLink.setAttribute("aria-label", jumpLabel);
