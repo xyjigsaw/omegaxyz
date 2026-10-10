@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261010-tracking-layout1"
+ASSET_VERSION = "20261010-global-tables-toc1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -438,8 +438,6 @@ def markdown_file_to_entry(path, reverse_zh):
         "tags": resolve_md_terms(meta.get("tags", []), reverse_zh),
         "comments": [],
         "thumbnail": meta.get("thumbnail", ""),
-        "table_layout": "compact" if meta.get("table_layout") == "compact" else "",
-        "toc_depth": 2 if str(meta.get("toc_depth")) == "2" else 3,
     }
 
 
@@ -1501,13 +1499,11 @@ def render_entry(entry, lang, legacy, site):
     page_class = {"comment": " donate-page"}.get(slug, "")
     if is_privacy_page:
         page_class += " layout-solo privacy-page"
-    table_attr = ' data-table-layout="compact"' if entry.get("table_layout") == "compact" else ""
-    toc_attr = ' data-toc-depth="2"' if entry.get("toc_depth") == 2 else ""
     sidebar_html = ""
     if not is_privacy_page:
         sidebar_html = f"""
       <aside class="sidebar">
-        <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc{toc_attr}></nav></section>
+        <section class="side-box"><h2>{esc(I18N[lang]['toc'])}</h2><nav data-toc></nav></section>
         {related}
       </aside>"""
     body = f"""
@@ -1516,7 +1512,7 @@ def render_entry(entry, lang, legacy, site):
         <div class="meta">{meta_html}</div>
         <h1>{esc(title)}</h1>
         <div class="terms">{term_links}</div>
-        <div class="article-content"{table_attr}>{content}</div>
+        <div class="article-content">{content}</div>
         {live_comments}
         {comments}
       </article>

@@ -873,15 +873,11 @@ a.pill:hover {
   max-width: 100%;
   overflow: auto;
   border-collapse: collapse;
-}
-.article-content th,
-.article-content td { border: 1px solid var(--line); padding: 8px 10px; }
-/* Opt-in compact tables for dense reference articles. */
-.article-content[data-table-layout="compact"] table {
   font-size: 0.95rem;
   line-height: 1.55;
 }
-.article-content[data-table-layout="compact"] :is(th, td) { padding: 6px 8px; }
+.article-content th,
+.article-content td { border: 1px solid var(--line); padding: 6px 8px; }
 .article-content img {
   display: block;
   width: auto;
@@ -957,6 +953,10 @@ a.pill:hover {
 }
 .toc-list a { display: inline-block; }
 .toc-list a.is-active { color: var(--accent); }
+.toc-list details { margin-top: 3px; }
+.toc-list summary { cursor: pointer; color: var(--muted); font-size: 0.82rem; }
+.toc-list summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
 .related-list {
   list-style: none;
   margin: 0;

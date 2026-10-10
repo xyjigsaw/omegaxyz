@@ -279,14 +279,12 @@
   document.querySelectorAll("[data-toc]").forEach((box) => {
     const content = document.querySelector(".article-content");
     if (!content) return;
-    const allHeadings = Array.from(content.querySelectorAll("h2, h3")).slice(0, 24);
+    const allHeadings = Array.from(content.querySelectorAll("h2, h3"));
     // Assign IDs before filtering so existing subsection links remain stable.
     allHeadings.forEach((heading, index) => {
       if (!heading.id) heading.id = "section-" + (index + 1);
     });
-    const headings = box.dataset.tocDepth === "2"
-      ? allHeadings.filter((heading) => heading.tagName === "H2")
-      : allHeadings;
+    const headings = allHeadings;
     if (!headings.length) {
       const sidebar = box.closest(".sidebar");
       const layoutEl = box.closest(".layout");
@@ -299,6 +297,7 @@
     const root = document.createElement("ol");
     root.className = "toc-list";
     let subList = null;
+    let parentItem = null;
     headings.forEach((heading) => {
       const item = document.createElement("li");
       const link = document.createElement("a");
@@ -306,10 +305,19 @@
       link.textContent = heading.textContent;
       item.appendChild(link);
       if (heading.tagName === "H2") {
-        subList = document.createElement("ol");
-        item.appendChild(subList);
+        parentItem = item;
+        subList = null;
         root.appendChild(item);
-      } else if (subList) {
+      } else if (parentItem) {
+        if (!subList) {
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = document.documentElement.lang === "zh" ? "子章节" : "Subsections";
+          details.appendChild(summary);
+          subList = document.createElement("ol");
+          details.appendChild(subList);
+          parentItem.appendChild(details);
+        }
         subList.appendChild(item);
       } else {
         root.appendChild(item);
