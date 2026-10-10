@@ -806,7 +806,7 @@ a.pill:hover {
   position: static;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
 }
-.sidebar .side-box[hidden] { display: none; }
+.side-box[hidden], [data-toc][hidden] { display: none; }
 .term-index-sub { margin-top: 34px; }
 .article { min-width: 0; }
 .article > .meta { color: var(--accent-2); font-weight: 680; font-size: 0.86rem; }

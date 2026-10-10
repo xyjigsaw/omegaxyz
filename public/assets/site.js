@@ -349,24 +349,29 @@
     const content = article.querySelector(".article-content");
     if (!content || article.querySelector(".article-reading-controls")) return;
     const layout = article.closest(".layout");
-    const toc = layout.querySelector("[data-toc]");
-    const tocPanel = toc && toc.children.length ? toc.closest(".side-box") : null;
+    const tocPanels = [...new Set(Array.from(layout.querySelectorAll("[data-toc]"))
+      .filter((toc) => toc.children.length)
+      .map((toc) => toc.closest(".side-box") || toc))];
     const zh = document.documentElement.lang === "zh";
     const controls = document.createElement("div");
     controls.className = "article-reading-controls";
     controls.setAttribute("role", "group");
     controls.setAttribute("aria-label", zh ? "阅读设置" : "Reading options");
-    if (tocPanel) {
-      tocPanel.id = "article-toc-panel";
+    if (tocPanels.length) {
+      tocPanels.forEach((panel, index) => {
+        if (!panel.id) panel.id = "article-toc-panel-" + (index + 1);
+      });
+      let contentsVisible = true;
       const toggle = document.createElement("button");
       toggle.type = "button";
-      toggle.setAttribute("aria-controls", tocPanel.id);
+      toggle.setAttribute("aria-controls", tocPanels.map((panel) => panel.id).join(" "));
       toggle.setAttribute("aria-expanded", "true");
       toggle.textContent = zh ? "隐藏目录" : "Hide contents";
       toggle.addEventListener("click", () => {
-        tocPanel.hidden = !tocPanel.hidden;
-        toggle.setAttribute("aria-expanded", String(!tocPanel.hidden));
-        toggle.textContent = tocPanel.hidden
+        contentsVisible = !contentsVisible;
+        tocPanels.forEach((panel) => { panel.hidden = !contentsVisible; });
+        toggle.setAttribute("aria-expanded", String(contentsVisible));
+        toggle.textContent = !contentsVisible
           ? (zh ? "显示目录" : "Show contents")
           : (zh ? "隐藏目录" : "Hide contents");
       });
