@@ -4,7 +4,7 @@ title_en: Reading Post-Training Tracking: Metrics and Joint Diagnostics for PPO,
 date: 2026-10-10
 slug: post-training-tracking-guide
 categories: [技术域|tech|Technology, 机器学习|machine-learning|Machine Learning, 自然语言处理|nlp|Natural Language Processing]
-tags: [人工智能|ai|Artificial Intelligence, 大语言模型|llm|Large Language Models, 强化学习|reinforcement-learning|Reinforcement Learning, 后训练|post-training|Post-Training]
+tags: [人工智能|ai|Artificial Intelligence, LLM|llm|Large Language Models, 强化学习|reinforcement-learning|Reinforcement Learning, 后训练|post-training|Post-Training]
 excerpt: Reward 上涨不等于能力提升。按算法、统计口径和联合证据解读 reward、advantage、KL、entropy、clip 与评估，用 14 组诊断组合定位 PPO、GRPO 和 OPD 的问题。
 excerpt_en: Reward growth is not proof of capability. Interpret reward, advantage, KL, entropy, clipping and evaluation through algorithm definitions and 14 evidence-based diagnostic combinations.
 thumbnail: /assets/post-training-tracking.svg
