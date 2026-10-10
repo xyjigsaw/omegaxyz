@@ -963,24 +963,13 @@ a.pill:hover {
 }
 .side-box a { color: var(--muted); text-decoration: none; }
 .side-box a:hover { color: var(--accent); }
-/* TOC: hierarchical numbering (1 / 1.1 / 1.2), sub-levels reset per section */
+/* Preserve authored heading labels; generated counters duplicate chapter numbers. */
 .toc-list, .toc-list ol { list-style: none; margin: 0; padding: 0; }
-.toc-list { counter-reset: toc1; }
-.toc-list > li { counter-increment: toc1; margin: 5px 0; }
-.toc-list > li > a::before {
-  content: counter(toc1) ". ";
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-.toc-list ol { counter-reset: toc2; padding-left: 14px; margin-top: 4px; }
+.toc-list > li { margin: 5px 0; }
+.toc-list ol { padding-left: 14px; margin-top: 4px; }
 .toc-list ol:empty { display: none; }
-.toc-list ol > li { counter-increment: toc2; margin: 4px 0; }
+.toc-list ol > li { margin: 4px 0; }
 .toc-list ol > li > a { font-size: 0.94em; }
-.toc-list ol > li > a::before {
-  content: counter(toc1) "." counter(toc2) " ";
-  color: color-mix(in srgb, var(--muted) 75%, transparent);
-  font-variant-numeric: tabular-nums;
-}
 .toc-list a { display: inline-block; }
 .toc-list a.is-active { color: var(--accent); }
 .toc-list details { margin-top: 3px; }
