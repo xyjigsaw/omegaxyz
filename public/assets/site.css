@@ -797,6 +797,8 @@ a.pill:hover {
   overflow-wrap: anywhere;
 }
 .article-content > * { max-width: 100%; }
+/* Keep article TOC targets below the sticky navigation. */
+.article-content :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 80px; }
 .article-content h1 { font-size: 1.9rem; margin-top: 2em; }
 .article-content h2 {
   margin-top: 2.2em;
