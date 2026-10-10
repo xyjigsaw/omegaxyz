@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261010-global-tables-toc2"
+ASSET_VERSION = "20261010-stable-image-layout1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -949,7 +949,7 @@ def append_img_class(attrs, class_name):
 
 
 def enhance_img_tag(match):
-    attrs = match.group(1)
+    attrs = match.group(1).rstrip().removesuffix("/").rstrip()
     if not re.search(r"\bloading=", attrs, flags=re.I):
         attrs += ' loading="lazy"'
     if not re.search(r"\bdecoding=", attrs, flags=re.I):
@@ -959,7 +959,15 @@ def enhance_img_tag(match):
         height = int(float(img_attr(attrs, "height")))
     except ValueError:
         width = height = 0
-    if width and height:
+    if width > 0 and height > 0:
+        # Use declared dimensions before lazy images acquire intrinsic sizes.
+        reservation = f"--image-width:{width}px;--image-ratio:{width}/{height};"
+        style = re.search(r'\bstyle=(["\'])(.*?)\1', attrs, flags=re.I)
+        if style:
+            existing = style.group(2).rstrip().rstrip(";")
+            attrs = attrs[:style.start(2)] + existing + ";" + reservation + attrs[style.end(2):]
+        else:
+            attrs += f' style="{reservation}"'
         ratio = width / height
         if ratio < 0.78:
             attrs = append_img_class(attrs, "image-portrait")

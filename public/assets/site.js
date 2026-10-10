@@ -262,16 +262,16 @@
   const classifyArticleImages = () => {
     document.querySelectorAll(".article-content img").forEach((img) => {
       const apply = () => {
-        const w = img.naturalWidth || Number(img.getAttribute("width")) || 0;
-        const h = img.naturalHeight || Number(img.getAttribute("height")) || 0;
+        const w = Number(img.getAttribute("width")) || img.naturalWidth || 0;
+        const h = Number(img.getAttribute("height")) || img.naturalHeight || 0;
         if (!w || !h) return;
         const ratio = w / h;
         img.classList.toggle("image-portrait", ratio < 0.78);
         img.classList.toggle("image-wide", ratio > 1.45);
         img.classList.toggle("image-small", w <= 420);
       };
-      if (img.complete) apply();
-      else img.addEventListener("load", apply, { once: true });
+      apply();
+      if (!img.complete) img.addEventListener("load", apply, { once: true });
     });
   };
   classifyArticleImages();

@@ -889,6 +889,11 @@ a.pill:hover {
   object-fit: contain;
   background: color-mix(in srgb, var(--fill) 55%, transparent);
 }
+/* Reserve declared image geometry before lazy loading, including scaled WP images. */
+.article-content img[width][height] {
+  width: min(100%, var(--image-width, 100%));
+  aspect-ratio: var(--image-ratio, auto);
+}
 .article-content img.image-portrait {
   max-width: min(100%, 520px);
   max-height: min(86vh, 900px);
