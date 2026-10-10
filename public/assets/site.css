@@ -876,6 +876,12 @@ a.pill:hover {
 }
 .article-content th,
 .article-content td { border: 1px solid var(--line); padding: 8px 10px; }
+/* Opt-in compact tables for dense reference articles. */
+.article-content[data-table-layout="compact"] table {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.article-content[data-table-layout="compact"] :is(th, td) { padding: 6px 8px; }
 .article-content img {
   display: block;
   width: auto;

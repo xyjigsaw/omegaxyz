@@ -3,6 +3,8 @@ title: 后训练 Tracking 怎么看：从 PPO、GRPO 到 OPD 的指标与组合�
 title_en: Reading Post-Training Tracking: Metrics and Joint Diagnostics for PPO, GRPO and OPD
 date: 2026-10-10
 slug: post-training-tracking-guide
+table_layout: compact
+toc_depth: 2
 categories: [技术域|tech|Technology, 机器学习|machine-learning|Machine Learning, 自然语言处理|nlp|Natural Language Processing]
 tags: [人工智能|ai|Artificial Intelligence, LLM|llm|Large Language Models, 强化学习|reinforcement-learning|Reinforcement Learning, 后训练|post-training|Post-Training]
 excerpt: Reward 上涨不等于能力提升。按算法、统计口径和联合证据解读 reward、advantage、KL、entropy、clip 与评估，用 14 组诊断组合定位 PPO、GRPO 和 OPD 的问题。

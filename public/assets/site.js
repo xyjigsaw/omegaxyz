@@ -279,7 +279,14 @@
   document.querySelectorAll("[data-toc]").forEach((box) => {
     const content = document.querySelector(".article-content");
     if (!content) return;
-    const headings = Array.from(content.querySelectorAll("h2, h3")).slice(0, 24);
+    const allHeadings = Array.from(content.querySelectorAll("h2, h3")).slice(0, 24);
+    // Assign IDs before filtering so existing subsection links remain stable.
+    allHeadings.forEach((heading, index) => {
+      if (!heading.id) heading.id = "section-" + (index + 1);
+    });
+    const headings = box.dataset.tocDepth === "2"
+      ? allHeadings.filter((heading) => heading.tagName === "H2")
+      : allHeadings;
     if (!headings.length) {
       const sidebar = box.closest(".sidebar");
       const layoutEl = box.closest(".layout");
@@ -292,8 +299,7 @@
     const root = document.createElement("ol");
     root.className = "toc-list";
     let subList = null;
-    headings.forEach((heading, index) => {
-      if (!heading.id) heading.id = "section-" + (index + 1);
+    headings.forEach((heading) => {
       const item = document.createElement("li");
       const link = document.createElement("a");
       link.href = "#" + heading.id;
