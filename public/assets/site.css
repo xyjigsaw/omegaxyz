@@ -782,6 +782,31 @@ a.pill:hover {
   justify-content: center;
 }
 .layout.layout-solo .article-content { margin: 0 auto; }
+/* Reading controls affect only the current article layout. */
+.article-reading-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.article-reading-controls button {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  cursor: pointer;
+}
+.article-reading-controls button:hover { color: var(--accent); border-color: var(--accent); }
+.article-reading-controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.layout.article-wide {
+  width: min(100% - 48px, 1280px);
+  grid-template-columns: minmax(0, 1160px);
+  justify-content: center;
+}
+.article-wide .article-content { max-width: none; }
+.article-wide .sidebar {
+  position: static;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+.sidebar .side-box[hidden] { display: none; }
 .term-index-sub { margin-top: 34px; }
 .article { min-width: 0; }
 .article > .meta { color: var(--accent-2); font-weight: 680; font-size: 0.86rem; }
@@ -959,7 +984,20 @@ a.pill:hover {
 .toc-list a { display: inline-block; }
 .toc-list a.is-active { color: var(--accent); }
 .toc-list details { margin-top: 3px; }
-.toc-list summary { cursor: pointer; color: var(--muted); font-size: 0.82rem; }
+.toc-list summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.82rem;
+  list-style: none;
+  width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toc-list summary::-webkit-details-marker { display: none; }
+.toc-list summary::before { content: "▸"; font-size: 1rem; }
+.toc-list details[open] > summary::before { transform: rotate(90deg); }
 .toc-list summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .related-list {
@@ -1799,7 +1837,7 @@ a.pill:hover {
   .article-content h3 { font-size: 1.12rem; }
   .article-content .code-block { margin-left: -8px; margin-right: -8px; }
   .article-content pre { padding: 14px; }
-  .sidebar .side-box:has([data-toc]) { display: none; }
+  .layout.article-wide { width: min(100% - 30px, 1280px); }
 
   .friends-hero { flex-direction: column; align-items: flex-start; }
   .comment-page {

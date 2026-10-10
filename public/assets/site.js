@@ -312,7 +312,10 @@
         if (!subList) {
           const details = document.createElement("details");
           const summary = document.createElement("summary");
-          summary.textContent = document.documentElement.lang === "zh" ? "子章节" : "Subsections";
+          const sectionTitle = parentItem.children[0].textContent;
+          summary.setAttribute("aria-label", document.documentElement.lang === "zh"
+            ? "展开或收起“" + sectionTitle + "”的下级章节"
+            : "Toggle headings under “" + sectionTitle + "”");
           details.appendChild(summary);
           subList = document.createElement("ol");
           details.appendChild(subList);
@@ -339,6 +342,49 @@
       }, { rootMargin: "0px 0px -78% 0px" });
       headings.forEach((h) => obs.observe(h));
     }
+  });
+
+  // Local, reversible reading controls; no cross-page preference is persisted.
+  document.querySelectorAll(".layout > .article").forEach((article) => {
+    const content = article.querySelector(".article-content");
+    if (!content || article.querySelector(".article-reading-controls")) return;
+    const layout = article.closest(".layout");
+    const toc = layout.querySelector("[data-toc]");
+    const tocPanel = toc && toc.children.length ? toc.closest(".side-box") : null;
+    const zh = document.documentElement.lang === "zh";
+    const controls = document.createElement("div");
+    controls.className = "article-reading-controls";
+    controls.setAttribute("role", "group");
+    controls.setAttribute("aria-label", zh ? "阅读设置" : "Reading options");
+    if (tocPanel) {
+      tocPanel.id = "article-toc-panel";
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.setAttribute("aria-controls", tocPanel.id);
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.textContent = zh ? "隐藏目录" : "Hide contents";
+      toggle.addEventListener("click", () => {
+        tocPanel.hidden = !tocPanel.hidden;
+        toggle.setAttribute("aria-expanded", String(!tocPanel.hidden));
+        toggle.textContent = tocPanel.hidden
+          ? (zh ? "显示目录" : "Show contents")
+          : (zh ? "隐藏目录" : "Hide contents");
+      });
+      controls.appendChild(toggle);
+    }
+    const wide = document.createElement("button");
+    wide.type = "button";
+    wide.setAttribute("aria-pressed", "false");
+    wide.textContent = zh ? "宽屏阅读" : "Wide view";
+    wide.addEventListener("click", () => {
+      const expanded = layout.classList.toggle("article-wide");
+      wide.setAttribute("aria-pressed", String(expanded));
+      wide.textContent = expanded
+        ? (zh ? "标准宽度" : "Standard width")
+        : (zh ? "宽屏阅读" : "Wide view");
+    });
+    controls.appendChild(wide);
+    article.insertBefore(controls, content);
   });
 
   const search = document.querySelector(".search-box[data-search]");
