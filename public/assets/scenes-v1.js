@@ -272,7 +272,8 @@ function omega(T, scene, camera, invalidate) {
   landscape.renderOrder=-1;scene.add(landscape);
   const hero=sceneRegion, handle=hero.querySelector("[data-orbit]"), toggle=hero.querySelector("[data-motion]");
   const cleanup=new AbortController(), options={signal:cleanup.signal};
-  let drag=null,yaw=0,pitch=0,turn=0,time=0,pixelUnit=80,paused=false;
+  const poster=hero.querySelector(".facet-fallback");
+  let drag=null,yaw=0,pitch=0,turn=0,time=0,modelUnit=80,paused=false;
   const pauseLabel=toggle.getAttribute("aria-label");
   function setPaused(value){
     paused=value;toggle.toggleAttribute("data-paused",value);
@@ -297,7 +298,7 @@ function omega(T, scene, camera, invalidate) {
   },options);
   handle.addEventListener("pointermove",e=>{
     if(!drag || e.pointerId!==drag.id)return;
-    orbit((e.clientX-drag.x)/pixelUnit*.78,(e.clientY-drag.y)/pixelUnit*.78);
+    orbit((e.clientX-drag.x)/modelUnit*.78,(e.clientY-drag.y)/modelUnit*.78);
     drag.x=e.clientX;drag.y=e.clientY;
   },options);
   for(const event of ["pointerup","pointercancel","lostpointercapture"])
@@ -311,11 +312,15 @@ function omega(T, scene, camera, invalidate) {
     release,dispose(){cleanup.abort();release();},
     resize(w,h){
       const compact=w<=640,hh=hero.offsetHeight;
-      pixelUnit=Math.min(compact?w/10.1:w*.064,hh*(compact?.112:.215),103);
+      const pixelUnit=Math.min(compact?w/10.1:w*.064,hh*(compact?.112:.215),103);
       const half=h/(2*pixelUnit);
       camera.top=half;camera.bottom=-half;camera.right=half*w/h;camera.left=-camera.right;camera.updateProjectionMatrix();
-      mark.position.set(compact?0:w*.19/pixelUnit,half-hh*(compact?.32:.45)/pixelUnit,0);
-      handle.style.setProperty("--orbit-size",(4.08*pixelUnit)+"px");
+      // The SVG spans 3.8 model units. Use its layout for both renderers without zooming the terrain.
+      const box=poster.getBoundingClientRect(),stage=plate.getBoundingClientRect();
+      modelUnit=box.width/3.8;
+      mark.scale.setScalar(modelUnit/pixelUnit);
+      mark.position.set((box.left-stage.left+box.width/2-w/2)/pixelUnit,half-(box.top-stage.top+box.height/2)/pixelUnit,0);
+      handle.style.setProperty("--orbit-size",(4.08*modelUnit)+"px");
       const scale=(camera.right-camera.left)*1.27/landscape.geometry.parameters.width;
       landscape.scale.set(scale,Math.min(1.1,scale)*.88,scale);
       landscape.position.set(0,half-hh*.76/pixelUnit,-32);landscape.rotation.set(.46,-.12,-.10);
@@ -324,7 +329,7 @@ function omega(T, scene, camera, invalidate) {
       const playing=!paused && !reduced.matches;
       if(playing){time+=dt;if(!drag)turn+=dt;}
       mark.rotation.set(.42+pitch+.08*Math.sin(turn*.24),-.59+yaw+turn*.085,.09);
-      model.update(turn*.21,.38*Math.sin(turn*.25),dark,pixelUnit,time);
+      model.update(turn*.21,.38*Math.sin(turn*.25),dark,modelUnit,time);
       landscape.material.uniforms.night.value=dark?1:0;
       landscape.material.uniforms.phase.value=time;
       return playing;
