@@ -7,7 +7,7 @@ categories: [APP开发|app|App Development]
 tags: [iOS|ios|iOS, iPad|ipad|iPad, 文化遗产|cultural-heritage|Cultural Heritage]
 excerpt: 在三维地球上翻看世界遗产，从一个地点读到另一段历史，再把去过的城市和地点记进自己的旅行护照。
 excerpt_en: Explore world heritage on a 3D globe, follow the histories that connect places, and record your own travels in a personal passport.
-thumbnail: https://omegaxyz.com/assets/civ-globe/ipad-globe.webp
+thumbnail: https://omegaxyz.com/assets/civ-globe/home-cover.webp
 ---
 
 读到一个没听过的遗产地点时，我常想先看看它在地球的哪一边，再顺着附近的城市、相近的时代或相似的建筑往下读。这个过程通常要在地图、百科和自己的旅行记录之间来回切换。
