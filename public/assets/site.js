@@ -193,28 +193,32 @@
       category: node.dataset.categories.split(/\s+/), tag: node.dataset.tags.split(/\s+/),
       pinned: node.dataset.pinned === "true", priority: Number(node.dataset.pinOrder || 0)
     }));
-    let kind = "", term = "", order = "featured";
+    let kind = "", term = "", order = "featured", activeMonth = "";
     const chartYear = archive.querySelector("[data-chart-year]");
     if (chartYear) chartYear.disabled = false;
     const monthBars = archive.querySelectorAll("[data-month]");
+    monthBars.forEach((bar) => { bar.disabled = false; });
     const filter = () => {
       const text = query.value.trim().toLowerCase();
       let visible = 0;
       const months = Array(12).fill(0);
       items.forEach((item) => {
-        const show = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
+        const matchesTerms = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
+        // Count before applying the month so the other bars remain useful as filters.
+        if (matchesTerms && chartYear && item.date.startsWith(chartYear.value + "-")) months[Number(item.date.slice(5, 7)) - 1]++;
+        const show = matchesTerms && (!activeMonth || item.date.startsWith(activeMonth + "-"));
         if (item.node.hidden === show) item.node.hidden = !show;
-        if (show) {
-          visible++;
-          if (chartYear && item.date.startsWith(chartYear.value + "-")) months[Number(item.date.slice(5, 7)) - 1]++;
-        }
+        if (show) visible++;
       });
       const peak = Math.max(1, ...months);
       monthBars.forEach((bar, i) => {
         const n = months[i];
+        const month = chartYear.value + "-" + bar.dataset.month;
+        bar.dataset.count = n;
+        bar.setAttribute("aria-pressed", String(activeMonth === month));
         bar.style.setProperty("--level", n / peak);
         bar.querySelector("b").textContent = n;
-        bar.title = chartYear.value + "-" + bar.dataset.month + (root.lang === "en" ? ": " + n + " posts" : "：" + n + " 篇");
+        bar.title = month + (root.lang === "en" ? ": " + n + (n === 1 ? " post" : " posts") : "：" + n + " 篇");
         bar.setAttribute("aria-label", bar.title);
       });
       count.textContent = visible;
@@ -241,6 +245,12 @@
       ["q", "tag", "category", "sort"].forEach((key) => url.searchParams.delete(key));
       if (query.value.trim()) url.searchParams.set("q", query.value.trim());
       if (term) url.searchParams.set(kind, term);
+      if (chartYear) {
+        url.searchParams.delete("month");
+        url.searchParams.delete("year");
+        if (activeMonth) url.searchParams.set("month", activeMonth);
+        else if (chartYear.selectedIndex > 0) url.searchParams.set("year", chartYear.value);
+      }
       if (sort.value !== "featured") url.searchParams.set("sort", sort.value);
       return url.href;
     };
@@ -254,7 +264,7 @@
     };
     const markChips = () => {
       chips.forEach((button) => {
-        const active = button.dataset.archiveKind === kind && button.dataset.archiveTerm === term;
+        const active = button.dataset.archiveKind === kind && button.dataset.archiveTerm === term && (term !== "" || !activeMonth);
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-pressed", String(active));
       });
@@ -268,23 +278,44 @@
       term = selected ? selected.dataset.archiveTerm : "";
       const requested = params.get("sort");
       sort.value = Array.from(sort.options).some((o) => o.value === requested) ? requested : "featured";
+      if (chartYear) {
+        const month = params.get("month") || "";
+        const years = Array.from(chartYear.options, (o) => o.value);
+        activeMonth = /^\d{4}-(0[1-9]|1[0-2])$/.test(month) && years.includes(month.slice(0, 4)) ? month : "";
+        chartYear.value = activeMonth ? activeMonth.slice(0, 4) : years.includes(params.get("year")) ? params.get("year") : years[0];
+      }
       markChips();
       reorder();
       filter();
       syncLanguageLink();
     };
     archive.addEventListener("click", (event) => {
+      const bar = event.target.closest("button[data-month]");
+      if (bar) {
+        const month = chartYear.value + "-" + bar.dataset.month;
+        activeMonth = activeMonth === month ? "" : month;
+        markChips();
+        filter();
+        save(true);
+        return;
+      }
       const chip = event.target.closest("[data-archive-term]");
       if (!chip) return;
       const same = chip.dataset.archiveKind === kind && chip.dataset.archiveTerm === term;
       kind = same ? "" : chip.dataset.archiveKind;
       term = same ? "" : chip.dataset.archiveTerm;
+      if (!chip.dataset.archiveKind) activeMonth = "";
       markChips();
       filter();
       save(true);
     });
     query.addEventListener("input", () => { filter(); save(false); });
-    chartYear?.addEventListener("change", filter);
+    chartYear?.addEventListener("change", () => {
+      activeMonth = "";
+      markChips();
+      filter();
+      save(true);
+    });
     sort.addEventListener("change", () => { reorder(); save(true); });
     window.addEventListener("popstate", restore);
     restore();

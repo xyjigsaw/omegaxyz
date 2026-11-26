@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-monthly-glass1"
+ASSET_VERSION = "20261126-month-filter1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1958,10 +1958,14 @@ def archive_month_chart(posts, lang):
     bars = []
     for m, n in enumerate(values, 1):
         label = f"{year}-{m:02}：{n} 篇" if lang == "zh" else f"{year}-{m:02}: {n} posts"
-        bars.append(f'<li data-month="{m:02}" aria-label="{label}" title="{label}" style="--level:{n / peak:.4f}"><b>{n}</b><i aria-hidden="true"></i><span>{m:02}</span></li>')
+        name = f"{m}月" if lang == "zh" else datetime(2000, m, 1).strftime("%b")
+        bars.append(f'<li><button type="button" data-month="{m:02}" data-count="{n}" aria-pressed="false" disabled '
+                    f'aria-label="{label}" title="{label}" style="--level:{n / peak:.4f}">'
+                    f'<b>{n}</b><i aria-hidden="true"></i><span class="month-name">{name}</span>'
+                    f'<span class="month-short">{m:02}</span></button></li>')
     title = "月度发文" if lang == "zh" else "Monthly posts"
     year_label = "图表年份" if lang == "zh" else "Chart year"
-    return f'''<section class="month-chart" aria-labelledby="month-heading"><div>
+    return f'''<section class="month-chart" aria-labelledby="month-heading"><div class="month-heading">
       <h2 id="month-heading">{title}</h2><select aria-label="{year_label}" data-chart-year disabled>{years}</select>
       </div><ol aria-label="{title}">{"".join(bars)}</ol></section>'''
 
@@ -2012,18 +2016,18 @@ def render_archive(site, lang):
           </select>
         </label>
       </section>
-      <section class="archive-filters archive-overview" aria-label="{esc(I18N[lang]["all_posts"])}">
+      <section class="archive-filters" aria-label="{esc(I18N[lang]["all_posts"])}">
         <div class="filter-group filter-group-all">{all_chip}</div>
         <div class="filter-group">
           <h2>{esc(I18N[lang]["categories"])}</h2>
           <div>{category_chips}</div>
         </div>
-        {archive_month_chart(posts, lang)}
         <div class="filter-group">
           <h2>{esc(I18N[lang]["tags"])}</h2>
           <div>{tag_chips}</div>
         </div>
       </section>
+      {archive_month_chart(posts, lang)}
       <div class="archive-list archive-index">{items}</div>
       <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
     </main>
@@ -2085,11 +2089,9 @@ def render_pages_index(site, lang):
     pages = [e for e in site["entries"] if e["type"] == "page"]
     items = [render_page_card(entry, lang, current) for entry in pages]
     body = f"""
-    <main class="pages-page directory-page">
-      <header class="directory-mast"><div class="wrap directory-mast-inner">
-        <div><h1>{esc(I18N[lang]["all_pages"])}</h1><p>{len(pages)} {"个独立页面" if lang == "zh" else "standalone pages"}</p></div>
-      </div></header>
-      <div class="wrap directory-body"><div class="page-card-grid">{''.join(items)}</div></div>
+    <main class="wrap band pages-page directory-page">
+      <header class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1><span class="directory-count">{len(pages)} {"个独立页面" if lang == "zh" else "standalone pages"}</span></header>
+      <div class="directory-body page-card-grid">{''.join(items)}</div>
     </main>"""
     desc = ("浏览 OmegaXYZ 的独立页面：应用介绍、学习导航、站点历史、友链与隐私政策。"
             if lang == "zh" else "Explore OmegaXYZ’s standalone pages: apps, study guides, site history, friends and privacy policies.")

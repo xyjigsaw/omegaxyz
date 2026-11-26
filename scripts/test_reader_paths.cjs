@@ -129,6 +129,9 @@ async function exercise(browser, lang) {
     }
     await go(lang+"/archive/?category=tech");
     assert.equal(await p.locator('[data-archive-kind="category"][data-archive-term="tech"]').getAttribute("aria-pressed"),"true");
+    assert.deepEqual(await p.locator(".archive-filters").evaluate(el => [
+      el.clientHeight, el.nextElementSibling.className, el.contains(document.querySelector(".month-chart"))
+    ]), [en ? 230 : 156, "month-chart", false]);
     const year = p.locator("[data-chart-year]");
     async function checkMonths() {
       const counts = await p.locator("[data-archive-item]:visible").evaluateAll((els,y) => {
@@ -139,8 +142,38 @@ async function exercise(browser, lang) {
       assert.deepEqual((await p.locator("[data-month] b").allTextContents()).map(Number), counts);
     }
     await checkMonths();
-    await year.selectOption({index:1}); await checkMonths();
+    const visible = p.locator("[data-archive-item]:visible");
+    const month = (await visible.first().getAttribute("data-date")).slice(0,7);
+    await year.selectOption(month.slice(0,4));
+    const bar = p.locator('button[data-month="'+month.slice(5)+'"]');
+    const total = await visible.count();
+    const counts = await p.locator("[data-month] b").allTextContents();
+    await bar.focus(); await bar.press("Enter");
+    await p.waitForURL(u => u.searchParams.get("month") === month);
+    assert.deepEqual(await p.locator("[data-month] b").allTextContents(), counts);
+    assert.equal(await visible.count(), Number(await bar.getAttribute("data-count")));
+    assert.ok(await visible.evaluateAll((rows,m) => rows.every(row => row.dataset.date.startsWith(m+"-")),month));
+    assert.equal(Number(await p.locator("[data-archive-count]").innerText()),await visible.count());
+    await p.reload();
+    assert.equal(await bar.getAttribute("aria-pressed"),"true");
+    await p.locator(".nav-lang").click();
+    await p.locator('button[data-month][aria-pressed="true"]').waitFor();
+    assert.equal(await year.inputValue(),month.slice(0,4));
+    assert.equal(new URL(p.url()).searchParams.get("category"),"tech");
+    await bar.click();
+    await p.waitForURL(u => !u.searchParams.has("month"));
+    assert.equal(await visible.count(),total);
+    await p.goBack();
+    assert.equal(await bar.getAttribute("aria-pressed"),"true");
+    await year.selectOption({index: await year.evaluate(el => el.selectedIndex === 0 ? 1 : 0)});
+    assert.equal(await bar.getAttribute("aria-pressed"),"false");
+    await checkMonths();
     await p.locator("[data-archive-query]").fill("no-such-note-000"); await checkMonths();
+    await p.locator("button[data-month]").first().click();
+    assert.ok(await p.locator("[data-archive-empty]").isVisible());
+    await go(lang + "/pages/");
+    assert.equal(await p.locator(".pages-page .directory-mast").count(),0);
+    assert.ok(await p.locator(".pages-page > .section-head").isVisible());
 
     const article = lang + "/2026/11/26/scaling-low-ai-risk-roundup/";
     const block = p.locator("[data-giscus-comments]");
