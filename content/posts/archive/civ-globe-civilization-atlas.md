@@ -43,5 +43,5 @@ thumbnail: https://cdn.omegaxyz.com/2026/11/civ-globe/home-cover.webp?v=1
 Civ Globe 支持运行 iOS 或 iPadOS 17.0 及以上版本的 iPhone 和 iPad。核心图鉴和内置媒体可离线使用，无需注册账号。
 
 - [在 App Store 查看 Civ Globe](https://apps.apple.com/cn/app/id6829363953)
-- [技术支持与常见问题](../../../../civ-globe/index.html#support)
+- [技术支持与常见问题](../../../../civ-globe-privacy/index.html#support)
 - [Civ Globe 隐私政策](../../../../civ-globe-privacy/index.html)

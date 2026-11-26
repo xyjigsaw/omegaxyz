@@ -31,5 +31,5 @@ If you want help finding past trips, you can let Civ Globe read the location and
 Civ Globe is available for iPhone and iPad running iOS or iPadOS 17.0 or later. The core atlas and built-in media work offline without an account. The screenshots show the Chinese interface.
 
 - [View Civ Globe on the App Store](https://apps.apple.com/us/app/id6829363953)
-- [Support and FAQ](../../../../civ-globe/index.html#support)
+- [Support and FAQ](../../../../civ-globe-privacy/index.html#support)
 - [Civ Globe Privacy Policy](../../../../civ-globe-privacy/index.html)
