@@ -135,16 +135,35 @@ function omega(T, scene, camera, invalidate) {
   const landscape=new T.Mesh(makeRelief(T,peaks,Math.max(1,Math.ceil(Math.sqrt(peaks.length*2)))), reliefMaterial(T,true));
   landscape.renderOrder=-1;scene.add(landscape);
   let targetX=0,targetY=0,x=0,y=0, baseX=0,baseY=0,groundY=0;
+  const ray=new T.Raycaster(), mouse=new T.Vector2();
+  let pickFrame=0;
+  const rest=()=>{
+    cancelAnimationFrame(pickFrame);pickFrame=0;
+    if(targetX||targetY){targetX=targetY=0;invalidate();}
+  };
+  const hero=plate.parentElement.querySelector(".omega-hero");
+  // Pick through the decorative canvas, never through a foreground control.
   window.addEventListener("pointermove",e=>{
-    if(e.pointerType==="touch" || reduced.matches || scrollY>innerHeight)return;
-    targetX=e.clientX/innerWidth*2-1;targetY=e.clientY/innerHeight*2-1;invalidate();
+    if(e.pointerType==="touch" || reduced.matches || e.target!==hero || scrollY>innerHeight){rest();return;}
+    const rect=plate.getBoundingClientRect();
+    mouse.set((e.clientX-rect.left)/rect.width*2-1,1-(e.clientY-rect.top)/rect.height*2);
+    if(!pickFrame)pickFrame=requestAnimationFrame(()=>{
+      pickFrame=0;ray.setFromCamera(mouse,camera);
+      const hit=ray.intersectObjects(mark.children,false)[0];
+      if(!hit){rest();return;}
+      const local=mark.worldToLocal(hit.point);
+      targetX=T.MathUtils.clamp(local.x/4,-1,1);targetY=T.MathUtils.clamp(-local.y,-1,1);
+      invalidate();
+    });
   },{passive:true});
-  document.documentElement.addEventListener("pointerleave",()=>{targetX=targetY=0;invalidate();});
+  document.documentElement.addEventListener("pointerleave",rest);
+  window.addEventListener("scroll",rest,{passive:true});
+  window.addEventListener("blur",rest);
   return {
     resize(w,h){
       const compact=w<=640, unit=compact?w/10.1:Math.min(w*.064,103), half=h/(2*unit);
       camera.top=half;camera.bottom=-half;camera.right=half*w/h;camera.left=-camera.right;camera.updateProjectionMatrix();
-      const hero=plate.parentElement.querySelector(".omega-hero"), nav=document.querySelector(".site-header");
+      const nav=document.querySelector(".site-header");
       const navHeight=nav?.offsetHeight || 0;
       baseX=compact?0:(w*.19)/unit;
       baseY=half-(navHeight+hero.offsetHeight*(compact ? .32 : .45))/unit;
@@ -156,6 +175,7 @@ function omega(T, scene, camera, invalidate) {
     },
     update(dark){
       x+=(targetX-x)*.11;y+=(targetY-y)*.11;
+      if(Math.abs(targetX-x)+Math.abs(targetY-y)<=.002){x=targetX;y=targetY;}
       mark.position.set(baseX+x*.17,baseY-y*.085,0);
       mark.rotation.set(.13-y*.14,-.14+x*.23,-.014+x*.012);
       landscape.position.set(-x*.22,groundY+y*.10,-32);
@@ -233,10 +253,6 @@ function terrain(T, scene, camera, invalidate) {
   const label=plate.querySelector("[data-peak-label]");
   let mesh, selected=peaks[0], columns=0;
   let tx=0,ty=0,rx=0,ry=0;
-  window.addEventListener("pointermove",e=>{
-    if(e.pointerType==="touch" || reduced.matches)return;
-    tx=e.clientX/innerWidth*2-1;ty=e.clientY/innerHeight*2-1;invalidate();
-  },{passive:true});
   const ray=new T.Raycaster(), mouse=new T.Vector2();
   const material=reliefMaterial(T,false);
   function build(cols) {
@@ -262,6 +278,7 @@ function terrain(T, scene, camera, invalidate) {
     const hit=ray.intersectObject(mesh)[0];
     if(!hit)return null;
     mesh.worldToLocal(hit.point);
+    if(hit.point.y<.025 || Math.min(hit.uv.x,hit.uv.y,1-hit.uv.x,1-hit.uv.y)<.015)return null;
     return peaks.reduce((a,p)=>Math.hypot(p.x-hit.point.x,p.z-hit.point.z)<Math.hypot(a.x-hit.point.x,a.z-hit.point.z)?p:a);
   }
   const canvas=plate.querySelector("canvas");
@@ -272,8 +289,13 @@ function terrain(T, scene, camera, invalidate) {
     if(!pickFrame)pickFrame=requestAnimationFrame(()=>{
       pickFrame=0;
       const hovered=picked(pointer); canvas.style.cursor=hovered?"pointer":"";
+      tx=hovered&&!reduced.matches?mouse.x:0;ty=hovered&&!reduced.matches?-mouse.y:0;
+      invalidate();
       if(hovered && hovered!==selected)choose(hovered);
     });
+  });
+  canvas.addEventListener("pointerleave",()=>{
+    cancelAnimationFrame(pickFrame);pickFrame=0;tx=ty=0;invalidate();
   });
   plate.addEventListener("click",e=>{
     if(e.target!==canvas)return;
@@ -297,6 +319,7 @@ function terrain(T, scene, camera, invalidate) {
     update(dark) {
       material.uniforms.night.value=dark?1:0;
       rx+=(tx-rx)*.15;ry+=(ty-ry)*.15;
+      if(Math.abs(tx-rx)+Math.abs(ty-ry)<=.002){rx=tx;ry=ty;}
       mesh.rotation.set(ry*.018,rx*.035,0);mesh.updateMatrixWorld();
       const v=mesh.localToWorld(new T.Vector3(selected.x,selected.y,selected.z)).project(camera);
       const x=Math.min(plate.clientWidth-label.offsetWidth,Math.max(0,(v.x+1)*.5*plate.clientWidth+3));
