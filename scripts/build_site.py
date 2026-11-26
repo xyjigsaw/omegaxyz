@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-prism-motion1"
+ASSET_VERSION = "20261126-atlas-orbit1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -2133,6 +2133,10 @@ def render_terms(site, lang):
         else:
             terrain_title = "文章地形" if lang == "zh" else "Article terrain"
             terrain_note = "每座山峰对应一个分类，峰高按文章数对数缩放。" if lang == "zh" else "One peak per category. Heights follow article counts on a logarithmic scale."
+            reset = "复位视角" if lang == "zh" else "Reset view"
+            pause = "暂停变色" if lang == "zh" else "Pause color cycle"
+            play = "继续变色" if lang == "zh" else "Resume color cycle"
+            orbit_label = "文章地形：用方向键旋转，回车进入所选分类" if lang == "zh" else "Article terrain: arrow keys rotate, Enter opens the selected category"
             leaders = sorted(peaks, key=lambda p: (-p[0], p[1]))[:5]
             bars = "".join(
                 f'<li><a href="{href}"><span>{esc(name)}</span><i style="--share:{count / leaders[0][0]:.4f}"></i><b>{count}</b></a></li>'
@@ -2141,9 +2145,14 @@ def render_terms(site, lang):
             body = (
                 '<main class="wrap band term-index atlas-index">'
                 '<section class="terrain-plate">'
-                f'<h1>{terrain_title}</h1><div class="atlas-field">'
-                '<div class="terrain-stage" data-scene="terrain" hidden>'
-                '<a class="peak-label" data-peak-label hidden></a></div>'
+                f'<div class="terrain-titlebar"><h1>{terrain_title}</h1><div class="atlas-controls">'
+                f'<button type="button" data-terrain-reset title="{reset}" aria-label="{reset}">'
+                '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 1 9 9M3 4v8h8"/></svg></button>'
+                f'<button type="button" data-terrain-pause data-resume="{play}" aria-label="{pause}" title="{pause}">'
+                '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="pause-mark" d="M8 5v14M16 5v14"/>'
+                '<path class="play-mark" d="m7 4 13 8-13 8z"/></svg></button></div></div><div class="atlas-field">'
+                f'<div class="terrain-stage" data-scene="terrain" tabindex="0" role="group" aria-label="{orbit_label}" hidden>'
+                '<a class="peak-label" data-peak-label draggable="false" hidden></a></div>'
                 f'<div class="terrain-summary"><p>{"文章最多的分类" if lang == "zh" else "Categories by article count"}</p><ol>{bars}</ol></div>'
                 f'<p class="atlas-note">{terrain_note}</p></div></section>'
                 f'<div class="section-head"><h2>{esc(I18N[lang]["categories"])}</h2></div>'

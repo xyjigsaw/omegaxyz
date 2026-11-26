@@ -141,9 +141,9 @@ function drawPlate(T) {
   function render(now=performance.now()) {
     frame = 0;
     if (!visible || document.hidden) return;
-    // Bound GPU work for the continuously animated homepage, not the on-demand map.
-    if(isOmega && lastTick!==null && now-lastTick<1000/30-1){invalidate();return;}
-    const dt=lastTick===null?0:Math.min(.10,(now-lastTick)/1000);
+    const interval=study.frameInterval?.() ?? 1000/30;
+    if(lastTick!==null && now-lastTick<interval-1){invalidate();return;}
+    const dt=lastTick===null?0:Math.min(.15,(now-lastTick)/1000);
     lastTick=now;
     const w = plate.clientWidth, h = plate.clientHeight;
     if (!w || !h) return;
@@ -411,6 +411,12 @@ function reliefMaterial(T, background) {
           vec3 high=mix(vec3(.88,.66,.42),vec3(.64,.53,.85),drift);
           tint=mix(low,high,smoothstep(.22,.96,h))+night*.07;
           weight=weight*.45+line*.055;
+        #else
+          // The atlas animates pigments only, not vertices, contours or hit targets.
+          float cycle=.5-.5*cos(phase*.28);
+          vec3 foothill=mix(teal,mix(vec3(.24,.44,.72),vec3(.45,.64,.88),night),cycle);
+          vec3 summit=mix(vec3(.81,.66,.47),mix(vec3(.71,.45,.60),vec3(.88,.63,.73),night),cycle);
+          tint=mix(foothill,summit,smoothstep(.36,.94,h));
         #endif
         float opacity=edge*smoothstep(.004,.11,elevation);
         if(opacity<.008)discard;
@@ -424,82 +430,148 @@ function terrain(T, scene, camera, invalidate) {
   const peaks = links.map(link => ({ link, name:link.querySelector("span").textContent,
     count:Number(link.dataset.count), x:0,z:0,y:0 })).sort((a,b)=>b.count-a.count || a.link.dataset.peak.localeCompare(b.link.dataset.peak));
   if (!peaks.length) throw new Error("Empty terrain");
-  const label=plate.querySelector("[data-peak-label]");
-  let mesh, selected=peaks[0], columns=0;
-  let tx=0,ty=0,rx=0,ry=0;
-  const ray=new T.Raycaster(), mouse=new T.Vector2();
-  const material=reliefMaterial(T,false);
-  function build(cols) {
+  const label=plate.querySelector("[data-peak-label]"),canvas=plate.querySelector("canvas");
+  const controls=plate.closest(".terrain-plate").querySelector(".atlas-controls");
+  const pause=controls.querySelector("[data-terrain-pause]"), pauseLabel=pause.title;
+  const cleanup=new AbortController(),options={signal:cleanup.signal};
+  const ray=new T.Raycaster(),mouse=new T.Vector2(),projected=new T.Vector3(),material=reliefMaterial(T,false);
+  let mesh,columns=0,selected=peaks[0],yaw=0,pitch=0,width=0,height=0;
+  let fitDirty=true,labelDirty=true,paused=false,time=0,compact=null;
+  let press=null,canClick=false,hoverFrame=0,hoverEvent=null;
+  function build(cols){
     if(mesh){scene.remove(mesh);mesh.geometry.dispose();}
-    columns=cols;
-    mesh=new T.Mesh(makeRelief(T,peaks,cols),material);
-    scene.add(mesh);
+    columns=cols;mesh=new T.Mesh(makeRelief(T,peaks,cols),material);
+    mesh.geometry.computeBoundingSphere();scene.add(mesh);
   }
-  function choose(p) {
-    selected.link.classList.remove("is-peak");
-    selected=p; p.link.classList.add("is-peak");
+  function reset(){
+    yaw=compact ? .205 : .316;pitch=compact ? .78 : .59;fitDirty=true;invalidate();
+  }
+  function rotate(dx,dy){
+    yaw=(yaw+dx)%(Math.PI*2);pitch=T.MathUtils.clamp(pitch+dy,.30,1.33);
+    fitDirty=true;invalidate();
+  }
+  // Fit the visible relief, not the transparent skirt. Recompute only when the
+  // viewport or orbit changes; cycling the palette never scans the geometry.
+  function fit(){
+    const distance=mesh.geometry.boundingSphere.radius*2+8,horiz=distance*Math.cos(pitch);
+    camera.position.set(horiz*Math.sin(yaw),distance*Math.sin(pitch),horiz*Math.cos(yaw));
+    camera.lookAt(0,0,0);camera.updateMatrixWorld();camera.far=distance*2+8;
+    const m=camera.matrixWorldInverse.elements, pos=mesh.geometry.attributes.position.array;
+    let left=Infinity,right=-Infinity,bottom=Infinity,top=-Infinity;
+    for(let i=0;i<pos.length;i+=3){
+      const x=pos[i],y=pos[i+1],z=pos[i+2];
+      if(y<.012)continue;
+      const u=m[0]*x+m[4]*y+m[8]*z+m[12],v=m[1]*x+m[5]*y+m[9]*z+m[13];
+      left=Math.min(left,u);right=Math.max(right,u);bottom=Math.min(bottom,v);top=Math.max(top,v);
+    }
+    const aspect=width/height,half=Math.max((top-bottom)/2,(right-left)/(2*aspect),.01)*1.045;
+    const cx=(left+right)/2,cy=(bottom+top)/2;
+    camera.left=cx-half*aspect;camera.right=cx+half*aspect;camera.bottom=cy-half;camera.top=cy+half;
+    camera.updateProjectionMatrix();fitDirty=false;labelDirty=true;
+  }
+  function choose(p){
+    selected.link.classList.remove("is-peak");selected=p;p.link.classList.add("is-peak");
     label.textContent=p.name+" · "+p.count+" ↗";label.href=p.link.href;label.hidden=false;
-    invalidate();
+    labelDirty=true;invalidate();
+  }
+  function positionLabel(){
+    projected.set(selected.x,selected.y,selected.z).project(camera);
+    const x=T.MathUtils.clamp((projected.x+1)*width/2+3,0,width-label.offsetWidth);
+    const y=T.MathUtils.clamp((1-projected.y)*height/2-label.offsetHeight-2,0,height-label.offsetHeight);
+    label.style.transform="translate("+Math.round(x)+"px,"+Math.round(y)+"px)";labelDirty=false;
   }
   for(const p of peaks){
-    p.link.addEventListener("focus",()=>choose(p));
-    p.link.addEventListener("pointerenter",()=>choose(p));
+    p.link.addEventListener("focus",()=>choose(p),options);
+    p.link.addEventListener("pointerenter",()=>choose(p),options);
   }
-  function picked(event){
-    const b=plate.getBoundingClientRect();
-    mouse.set((event.clientX-b.left)/b.width*2-1,1-(event.clientY-b.top)/b.height*2);
+  function picked(e){
+    if(!mesh)return null;
+    if(fitDirty)fit();
+    const b=canvas.getBoundingClientRect();
+    mouse.set((e.clientX-b.left)/b.width*2-1,1-(e.clientY-b.top)/b.height*2);
     ray.setFromCamera(mouse,camera);
     const hit=ray.intersectObject(mesh)[0];
-    if(!hit)return null;
-    mesh.worldToLocal(hit.point);
-    if(hit.point.y<.025 || Math.min(hit.uv.x,hit.uv.y,1-hit.uv.x,1-hit.uv.y)<.015)return null;
+    if(!hit || hit.point.y<.025 || Math.min(hit.uv.x,hit.uv.y,1-hit.uv.x,1-hit.uv.y)<.015)return null;
     return peaks.reduce((a,p)=>Math.hypot(p.x-hit.point.x,p.z-hit.point.z)<Math.hypot(a.x-hit.point.x,a.z-hit.point.z)?p:a);
   }
-  const canvas=plate.querySelector("canvas");
-  let pointer=null, pickFrame=0;
-  canvas.addEventListener("pointermove",e=>{
-    if(e.pointerType==="touch")return;
-    pointer=e;
-    if(!pickFrame)pickFrame=requestAnimationFrame(()=>{
-      pickFrame=0;
-      const hovered=picked(pointer); canvas.style.cursor=hovered?"pointer":"";
-      tx=hovered&&!reduced.matches?mouse.x:0;ty=hovered&&!reduced.matches?-mouse.y:0;
-      invalidate();
-      if(hovered && hovered!==selected)choose(hovered);
+  function stopHover(){
+    cancelAnimationFrame(hoverFrame);hoverFrame=0;canvas.style.cursor="";
+  }
+  function release(){
+    canClick=false;stopHover();
+    if(!press)return;
+    const {target,id}=press;press=null;delete plate.dataset.dragging;
+    if(target.hasPointerCapture(id))target.releasePointerCapture(id);
+  }
+  function move(e){
+    const dx=e.clientX-press.x,dy=e.clientY-press.y;
+    if(!press.drag && Math.hypot(dx,dy)<press.slop)return;
+    press.drag=true;plate.dataset.dragging="";
+    rotate(-dx*Math.PI*1.35/Math.min(width,740),dy*1.5/height);
+    press.x=e.clientX;press.y=e.clientY;
+  }
+  plate.addEventListener("pointerdown",e=>{
+    if(!e.isPrimary){release();return;}
+    if(e.button!==0 || press || !(e.target===canvas||e.target===label))return;
+    canClick=false;stopHover();
+    press={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,slop:e.pointerType==="touch"?9:5,drag:false};
+    e.target.setPointerCapture(e.pointerId);
+  },options);
+  plate.addEventListener("pointermove",e=>{
+    if(press){if(press.id===e.pointerId)move(e);return;}
+    if(e.pointerType==="touch" || e.target!==canvas)return;
+    hoverEvent=e;
+    if(!hoverFrame)hoverFrame=requestAnimationFrame(()=>{
+      hoverFrame=0;const p=picked(hoverEvent);
+      canvas.style.cursor=p?"pointer":"";
+      if(p && p!==selected)choose(p);
     });
-  });
-  canvas.addEventListener("pointerleave",()=>{
-    cancelAnimationFrame(pickFrame);pickFrame=0;tx=ty=0;invalidate();
-  });
+  },options);
+  plate.addEventListener("pointerup",e=>{
+    if(press?.id!==e.pointerId)return;
+    move(e);const tap=!press.drag;release();canClick=tap;
+  },options);
+  for(const event of ["pointercancel","lostpointercapture"])
+    plate.addEventListener(event,e=>{if(press?.id===e.pointerId)release();},options);
+  plate.addEventListener("pointerleave",stopHover,options);
+  window.addEventListener("blur",release,options);
   plate.addEventListener("click",e=>{
-    if(e.target!==canvas)return;
-    const p=picked(e); if(!p)return;
-    if(matchMedia("(hover: hover)").matches)location.assign(p.link.href);
-    else choose(p);
-  });
+    if(e.target!==canvas && e.target!==label)return;
+    if(e.detail && !canClick){e.preventDefault();return;}
+    canClick=false;
+    if(e.target===canvas){const p=picked(e);if(p)location.assign(p.link.href);}
+  },options);
+  plate.addEventListener("keydown",e=>{
+    if(e.target!==plate)return;
+    const step={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.10],ArrowDown:[0,-.10]}[e.key];
+    if(step){e.preventDefault();rotate(...step);}
+    else if(e.key==="Home"){e.preventDefault();reset();}
+    else if(e.key==="Enter"){e.preventDefault();selected.link.click();}
+  },options);
+  controls.querySelector("[data-terrain-reset]").addEventListener("click",reset,options);
+  pause.addEventListener("click",()=>{
+    paused=!paused;pause.toggleAttribute("data-paused",paused);
+    pause.title=paused?pause.dataset.resume:pauseLabel;pause.setAttribute("aria-label",pause.title);invalidate();
+  },options);
   choose(selected);
   return {
-    resize(w,h) {
-      const cols=Math.min(peaks.length,Math.max(1,Math.ceil(Math.sqrt(peaks.length*(w <= 580 ? .72 : 1.85)))));
+    release,dispose(){cleanup.abort();release();},
+    frameInterval(){return press || fitDirty || labelDirty ? 0 : 1000/15;},
+    resize(w,h){
+      width=w;height=h;
+      const narrow=w<=580,ratio=narrow ? Math.min(.64,.52*w/h) : 1.85;
+      const cols=Math.min(peaks.length,Math.max(1,Math.ceil(Math.sqrt(peaks.length*ratio))));
       if(cols!==columns)build(cols);
-      camera.position.set(w<=580?2.3:3.6,w<=580?11:7.8,11);
-      camera.lookAt(0,0,0);camera.updateMatrixWorld();
-      const bounds=new T.Box3(),v=new T.Vector3(),a=mesh.geometry.attributes.position;
-      for(let i=0;i<a.count;i++)bounds.expandByPoint(v.fromBufferAttribute(a,i).applyMatrix4(camera.matrixWorldInverse));
-      const mid=bounds.getCenter(v), half=Math.max((bounds.max.y-bounds.min.y)*.54,(bounds.max.x-bounds.min.x)*h/w*.52);
-      camera.left=mid.x-half*w/h;camera.right=mid.x+half*w/h;
-      camera.top=mid.y+half;camera.bottom=mid.y-half;camera.updateProjectionMatrix();
+      if(compact!==narrow){compact=narrow;reset();}
+      fitDirty=true;
     },
-    update(dark) {
-      material.uniforms.night.value=dark?1:0;
-      rx+=(tx-rx)*.15;ry+=(ty-ry)*.15;
-      if(Math.abs(tx-rx)+Math.abs(ty-ry)<=.002){rx=tx;ry=ty;}
-      mesh.rotation.set(ry*.018,rx*.035,0);mesh.updateMatrixWorld();
-      const v=mesh.localToWorld(new T.Vector3(selected.x,selected.y,selected.z)).project(camera);
-      const x=Math.min(plate.clientWidth-label.offsetWidth,Math.max(0,(v.x+1)*.5*plate.clientWidth+3));
-      const y=Math.max(0,(1-v.y)*.5*plate.clientHeight-label.offsetHeight-2);
-      label.style.transform="translate("+Math.round(x)+"px,"+Math.round(y)+"px)";
-      return Math.abs(tx-rx)+Math.abs(ty-ry)>.002;
+    update(dark,dt){
+      const playing=!reduced.matches && !paused;
+      if(playing)time+=dt;
+      material.uniforms.phase.value=time;material.uniforms.night.value=dark?1:0;
+      if(fitDirty)fit();
+      if(labelDirty)positionLabel();
+      return playing;
     }
   };
 }
