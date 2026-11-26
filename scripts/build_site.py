@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-tesseract1"
+ASSET_VERSION = "20261126-prism-motion1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1381,6 +1381,10 @@ def render_home(site, lang, current=None):
     <main class="wrap home-edition">
       <div class="omega-stage" data-scene="omega" data-peaks="{','.join(str(t['count']) for t in sorted(term_counts.values(), key=lambda t: -t['count']))}" aria-hidden="true"></div>
       <section class="omega-hero">
+        <div class="model-orbit" data-orbit tabindex="0" role="group" aria-label="{'四维超立方体：拖动或使用方向键旋转' if lang == 'zh' else 'Tesseract: drag or use the arrow keys to rotate'}"></div>
+        <button class="scene-motion" data-motion type="button" aria-label="{'暂停背景动画' if lang == 'zh' else 'Pause background animation'}" data-resume="{'播放背景动画' if lang == 'zh' else 'Play background animation'}">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path class="pause-mark" d="M8 5h2v14H8zM14 5h2v14h-2z"/><path class="play-mark" d="m7 4 13 8-13 8z"/></svg>
+        </button>
         <svg class="facet-fallback" aria-hidden="true" focusable="false" viewBox="-190 -190 380 380" fill="none" stroke-linejoin="round" stroke-linecap="round">
           <path class="dimension-edges" d="M-22.1 50.3L-11.1 25.1M164.1 82.7L82 41.3M-38.9 -158.9L-19.5 -79.5M147.3 -126.5L73.6 -63.3M-147.3 126.5L-73.6 63.3M38.9 158.9L19.5 79.5M-164.1 -82.7L-82 -41.3M22.1 -50.3L11.1 -25.1"/>
           <path class="outer-cell" d="{TESSERACT_OUTLINE}"/>

@@ -11,8 +11,13 @@ if (isOmega) {
   };
   window.addEventListener("scroll",fade,{passive:true}); fade();
 }
-if (plate && !navigator.connection?.saveData && !(isOmega && reduced.matches)) {
+// The category canvas starts hidden; its fallback region has a real layout box.
+const sceneRegion=isOmega ? plate.parentElement.querySelector(".omega-hero") : plate?.parentElement;
+if (plate && !navigator.connection?.saveData) {
+  let started=false, inView=false;
   const mount = async () => {
+    if(started || !inView || (isOmega && reduced.matches))return;
+    started=true; reduced.removeEventListener("change",mount);
     try {
       const T = await import("./vendor/three-r160.min.js");
       drawPlate(T);
@@ -22,10 +27,12 @@ if (plate && !navigator.connection?.saveData && !(isOmega && reduced.matches)) {
   };
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { observer.disconnect(); mount(); }
+      inView=entry.isIntersecting;
+      if(inView){ mount(); if(started)observer.disconnect(); }
     });
-    observer.observe(plate.parentElement);
-  } else { mount(); }
+    observer.observe(sceneRegion);
+  } else { inView=true; mount(); }
+  if(isOmega && !started)reduced.addEventListener("change",mount);
 }
 
 function rotateWords(button) {
@@ -118,7 +125,7 @@ function fallback() {
 function drawPlate(T) {
   const renderer = new T.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
   renderer.setClearColor(0, 0);
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.65));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, isOmega ? 1.35 : 1.65));
   const canvas = renderer.domElement;
   canvas.className = "plate-canvas";
   canvas.setAttribute("aria-hidden", "true");
@@ -126,14 +133,18 @@ function drawPlate(T) {
   plate.prepend(canvas);
   const scene = new T.Scene();
   const camera = new T.OrthographicCamera(-2, 2, 2, -2, 0.1, 100);
-  let frame = 0, visible = true, width = 0, height = 0;
+  let frame = 0, visible = true, width = 0, height = 0, lastTick=null;
   const invalidate = () => {
     if (!frame && visible && !document.hidden && !renderer.getContext().isContextLost()) frame = requestAnimationFrame(render);
   };
   const study = isOmega ? omega(T, scene, camera, invalidate) : terrain(T, scene, camera, invalidate);
-  function render() {
+  function render(now=performance.now()) {
     frame = 0;
     if (!visible || document.hidden) return;
+    // Bound GPU work for the continuously animated homepage, not the on-demand map.
+    if(isOmega && lastTick!==null && now-lastTick<1000/30-1){invalidate();return;}
+    const dt=lastTick===null?0:Math.min(.10,(now-lastTick)/1000);
+    lastTick=now;
     const w = plate.clientWidth, h = plate.clientHeight;
     if (!w || !h) return;
     if (width !== w || height !== h) {
@@ -141,7 +152,7 @@ function drawPlate(T) {
       renderer.setSize(w, h, false);
       study.resize(w, h);
     }
-    const moving = study.update(document.documentElement.dataset.theme === "dark");
+    const moving = study.update(document.documentElement.dataset.theme === "dark",dt);
     renderer.render(scene, camera);
     plate.dataset.ready = "true";
     if (moving) invalidate();
@@ -150,13 +161,21 @@ function drawPlate(T) {
   size.observe(plate);
   const theme = new MutationObserver(invalidate);
   theme.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  const visibility = new IntersectionObserver(([e]) => { visible = e.isIntersecting; invalidate(); });
-  visibility.observe(plate);
-  document.addEventListener("visibilitychange", invalidate);
+  function syncVisibility(){
+    lastTick=null;
+    if(!visible || document.hidden){cancelAnimationFrame(frame);frame=0;study.release?.();}
+    else invalidate();
+  }
+  const visibility = new IntersectionObserver(([e]) => { visible=e.isIntersecting;syncVisibility(); });
+  visibility.observe(sceneRegion);
+  document.addEventListener("visibilitychange",syncVisibility);
+  reduced.addEventListener("change",invalidate);
   canvas.addEventListener("webglcontextlost", () => {
     cancelAnimationFrame(frame); visible = false;
     size.disconnect(); theme.disconnect(); visibility.disconnect();
-    document.removeEventListener("visibilitychange", invalidate);
+    document.removeEventListener("visibilitychange",syncVisibility);
+    reduced.removeEventListener("change",invalidate);
+    study.dispose?.();
     fallback();
   }, { once: true });
   render();
@@ -172,97 +191,143 @@ function tesseract(T) {
   }
   const ribs=new T.InstancedMesh(new T.CylinderGeometry(1,1,1,8),new T.MeshBasicMaterial(),32);
   const joints=new T.InstancedMesh(new T.SphereGeometry(1,10,8),new T.MeshBasicMaterial(),16);
-  ribs.frustumCulled=joints.frustumCulled=false;group.add(ribs,joints);
-  const frame=new T.Object3D(), axis=new T.Vector3(0,1,0), delta=new T.Vector3(), color=new T.Color();
-  let lastDark=null;
-  function update(ax,ay,dark,unit){
+  const glints=new T.InstancedMesh(ribs.geometry,new T.MeshBasicMaterial(),8);
+  glints.frustumCulled=false;glints.renderOrder=3;glints.instanceMatrix.setUsage(T.DynamicDrawUsage);
+  // The six axis pairs each generate four square faces, sharing the same 16 projected vertices.
+  const panels=new T.BufferGeometry(), indices=[];
+  for(const a of [1,2,4,8])for(const b of [1,2,4,8])if(a<b){
+    for(let i=0;i<16;i++)if(!(i&(a|b)))indices.push(i,i|a,i|a|b, i,i|a|b,i|b);
+  }
+  const coords=new T.Float32BufferAttribute(new Float32Array(16*3),3).setUsage(T.DynamicDrawUsage);
+  panels.setAttribute("position",coords);panels.setIndex(indices);
+  const film=new T.ShaderMaterial({
+    transparent:true,depthWrite:false,side:T.DoubleSide,forceSinglePass:true,extensions:{derivatives:true},
+    uniforms:{phase:{value:0},night:{value:0}},
+    vertexShader:`varying vec3 viewPos;
+      void main(){vec4 v=modelViewMatrix*vec4(position,1.);viewPos=v.xyz;gl_Position=projectionMatrix*v;}`,
+    fragmentShader:`varying vec3 viewPos; uniform float phase,night;
+      void main(){
+        vec3 normal=normalize(cross(dFdx(viewPos),dFdy(viewPos)));
+        float rim=pow(1.-abs(normal.z),1.7);
+        float sweep=.5+.5*cos(viewPos.x*1.8-viewPos.y*2.4+phase*.48);
+        float tint=.5+.5*sin(phase*.22+normal.x*2.6+normal.y);
+        vec3 aqua=mix(vec3(.15,.69,.71),vec3(.18,.88,.89),night);
+        vec3 iris=mix(vec3(.44,.48,.88),vec3(.65,.53,.96),night);
+        vec3 film=mix(aqua,iris,tint);
+        film=mix(film,vec3(.91,.98,1.),pow(sweep,9.)*.44);
+        gl_FragColor=vec4(film,.035+.105*rim+.065*pow(sweep,5.));
+      }`
+  });
+  const skin=new T.Mesh(panels,film);
+  skin.renderOrder=1;ribs.renderOrder=joints.renderOrder=2;
+  skin.frustumCulled=ribs.frustumCulled=joints.frustumCulled=false;
+  ribs.instanceMatrix.setUsage(T.DynamicDrawUsage);joints.instanceMatrix.setUsage(T.DynamicDrawUsage);
+  group.add(skin,ribs,joints,glints);
+  const frame=new T.Object3D(), axis=new T.Vector3(0,1,0), delta=new T.Vector3();
+  const spectra=[[0x226a73,0x965478,0x507d91,0x405aa8,0xae6b31,0x438b86],
+    [0x6ce8d8,0xf9bc8e,0x8eb5d1,0xa1baff,0xf6a5db,0x78d1c4]].map(row=>row.map(hex=>new T.Color(hex)));
+  const inks=[new T.Color(),new T.Color(),new T.Color()], radii=[1,.88,.6];
+  function update(ax,ay,dark,unit,time){
     const cx=Math.cos(ax),sx=Math.sin(ax),cy=Math.cos(ay),sy=Math.sin(ay);
     vertices.forEach(([x,y,z,w],i)=>{
       const x1=x*cx-w*sx,w1=x*sx+w*cx,y1=y*cy-w1*sy,w2=y*sy+w1*cy;
-      points[i].set(x1,y1,z).multiplyScalar(2.25/(3-w2));
+      const p=points[i].set(x1,y1,z).multiplyScalar(2.25/(3-w2));
+      coords.setXYZ(i,p.x,p.y,p.z);
     });
-    const palette=dark?[0x98dacf,0xf0b77d,0x7e9eab]:[0x286362,0xab622e,0x658291];
+    coords.needsUpdate=true;film.uniforms.phase.value=time;film.uniforms.night.value=dark?1:0;
+    const palette=spectra[dark?1:0],blend=.5-.5*Math.cos(time*.24);
+    inks.forEach((ink,i)=>ink.lerpColors(palette[i],palette[i+3],blend));
     const r=Math.max(.014,.85/unit);
+    glints.material.color.setHex(dark?0xbafff4:0x219b9b);
     edges.forEach(([a,b,kind],i)=>{
       delta.subVectors(points[b],points[a]);
-      const length=delta.length(), radius=r*[1,.88,.60][kind];
+      const length=delta.length(), radius=r*radii[kind];
       frame.position.copy(points[a]).lerp(points[b],.5);
       frame.quaternion.setFromUnitVectors(axis,delta.divideScalar(length));
       frame.scale.set(radius,length,radius);frame.updateMatrix();ribs.setMatrixAt(i,frame.matrix);
-      if(dark!==lastDark)ribs.setColorAt(i,color.setHex(palette[kind]));
+      ribs.setColorAt(i,inks[kind]);
+      if(kind===2){
+        const at=.5-.41*Math.cos(time*.77+a*Math.PI/4);
+        frame.position.copy(points[a]).lerp(points[b],at);
+        frame.scale.set(r*1.12,length*.14,r*1.12);frame.updateMatrix();glints.setMatrixAt(a,frame.matrix);
+      }
     });
     frame.quaternion.identity();
     points.forEach((p,i)=>{
       frame.position.copy(p);frame.scale.setScalar(i&8?r*1.7:r*1.45);
       frame.updateMatrix();joints.setMatrixAt(i,frame.matrix);
-      if(dark!==lastDark)joints.setColorAt(i,color.setHex(palette[i&8?0:1]));
+      joints.setColorAt(i,inks[i&8?0:1]);
     });
-    if(lastDark!==dark){ribs.instanceColor.needsUpdate=joints.instanceColor.needsUpdate=true;lastDark=dark;}
-    ribs.instanceMatrix.needsUpdate=joints.instanceMatrix.needsUpdate=true;
+    ribs.instanceColor.needsUpdate=joints.instanceColor.needsUpdate=true;
+    ribs.instanceMatrix.needsUpdate=joints.instanceMatrix.needsUpdate=glints.instanceMatrix.needsUpdate=true;
   }
   return {group,update};
 }
 
 function omega(T, scene, camera, invalidate) {
   const model=tesseract(T), mark=model.group;
-  const pickShell=new T.Mesh(new T.BoxGeometry(2.25,2.25,2.25),new T.MeshBasicMaterial({visible:false}));
-  scene.add(mark,pickShell);camera.position.z=12;
-  let pixelUnit=80;
+  scene.add(mark);camera.position.z=12;
   const peaks=(plate.dataset.peaks||"").split(",").map(Number).filter(n=>n>0).map(count=>({count}));
   const landscape=new T.Mesh(makeRelief(T,peaks,Math.max(1,Math.ceil(Math.sqrt(peaks.length*2)))), reliefMaterial(T,true));
   landscape.renderOrder=-1;scene.add(landscape);
-  let targetX=0,targetY=0,x=0,y=0, baseX=0,baseY=0,groundY=0;
-  const ray=new T.Raycaster(), mouse=new T.Vector2();
-  let pickFrame=0;
-  const rest=()=>{
-    cancelAnimationFrame(pickFrame);pickFrame=0;
-    if(targetX||targetY){targetX=targetY=0;invalidate();}
-  };
-  const hero=plate.parentElement.querySelector(".omega-hero");
-  // Pick through the decorative canvas, never through a foreground control.
-  window.addEventListener("pointermove",e=>{
-    if(e.pointerType==="touch" || reduced.matches || e.target!==hero || scrollY>innerHeight){rest();return;}
-    const rect=plate.getBoundingClientRect();
-    mouse.set((e.clientX-rect.left)/rect.width*2-1,1-(e.clientY-rect.top)/rect.height*2);
-    if(!pickFrame)pickFrame=requestAnimationFrame(()=>{
-      pickFrame=0;ray.setFromCamera(mouse,camera);
-      const hit=ray.intersectObject(pickShell,false)[0];
-      if(!hit){rest();return;}
-      targetX=T.MathUtils.clamp(hit.point.x-baseX,-1,1);
-      targetY=T.MathUtils.clamp(baseY-hit.point.y,-1,1);
-      invalidate();
-    });
-  },{passive:true});
-  document.documentElement.addEventListener("pointerleave",rest);
-  window.addEventListener("scroll",rest,{passive:true});
-  window.addEventListener("blur",rest);
+  const hero=sceneRegion, handle=hero.querySelector("[data-orbit]"), toggle=hero.querySelector("[data-motion]");
+  const cleanup=new AbortController(), options={signal:cleanup.signal};
+  let drag=null,yaw=0,pitch=0,turn=0,time=0,pixelUnit=80,paused=false;
+  const pauseLabel=toggle.getAttribute("aria-label");
+  function setPaused(value){
+    paused=value;toggle.toggleAttribute("data-paused",value);
+    const label=value?toggle.dataset.resume:pauseLabel;
+    toggle.title=label;toggle.setAttribute("aria-label",label);invalidate();
+  }
+  toggle.title=pauseLabel;
+  toggle.addEventListener("click",()=>setPaused(!paused),options);
+  function orbit(dx,dy){
+    yaw+=dx;pitch-=dy;invalidate();
+  }
+  function release(){
+    if(!drag)return;
+    const {id}=drag;drag=null;delete handle.dataset.dragging;
+    if(handle.hasPointerCapture(id))handle.releasePointerCapture(id);
+    invalidate();
+  }
+  handle.addEventListener("pointerdown",e=>{
+    if(drag || !e.isPrimary || e.button!==0)return;
+    drag={id:e.pointerId,x:e.clientX,y:e.clientY};
+    handle.dataset.dragging="";handle.setPointerCapture(e.pointerId);
+  },options);
+  handle.addEventListener("pointermove",e=>{
+    if(!drag || e.pointerId!==drag.id)return;
+    orbit((e.clientX-drag.x)/pixelUnit*.78,(e.clientY-drag.y)/pixelUnit*.78);
+    drag.x=e.clientX;drag.y=e.clientY;
+  },options);
+  for(const event of ["pointerup","pointercancel","lostpointercapture"])
+    handle.addEventListener(event,e=>{if(e.pointerId===drag?.id)release();},options);
+  window.addEventListener("blur",release,options);
+  handle.addEventListener("keydown",e=>{
+    const step={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,-.15],ArrowDown:[0,.15]}[e.key];
+    if(step){e.preventDefault();orbit(...step);}
+  },options);
   return {
+    release,dispose(){cleanup.abort();release();},
     resize(w,h){
-      const compact=w<=640, unit=compact?w/10.1:Math.min(w*.064,103), half=h/(2*unit);
+      const compact=w<=640,hh=hero.offsetHeight;
+      pixelUnit=Math.min(compact?w/10.1:w*.064,hh*(compact?.112:.215),103);
+      const half=h/(2*pixelUnit);
       camera.top=half;camera.bottom=-half;camera.right=half*w/h;camera.left=-camera.right;camera.updateProjectionMatrix();
-      const nav=document.querySelector(".site-header");
-      const navHeight=nav?.offsetHeight || 0;
-      baseX=compact?0:(w*.19)/unit;
-      baseY=half-(navHeight+hero.offsetHeight*(compact ? .32 : .45))/unit;
-      pixelUnit=unit;
-      pickShell.position.set(baseX,baseY,0);pickShell.rotation.set(.42,-.59,.09);
-      pickShell.updateMatrixWorld();
-      groundY=half-(navHeight+hero.offsetHeight*.76)/unit;
-      const span=landscape.geometry.parameters.width;
-      const scale=(camera.right-camera.left)*1.27/span;
+      mark.position.set(compact?0:w*.19/pixelUnit,half-hh*(compact?.32:.45)/pixelUnit,0);
+      handle.style.setProperty("--orbit-size",(4.08*pixelUnit)+"px");
+      const scale=(camera.right-camera.left)*1.27/landscape.geometry.parameters.width;
       landscape.scale.set(scale,Math.min(1.1,scale)*.88,scale);
-      landscape.position.set(0,groundY,-32);
+      landscape.position.set(0,half-hh*.76/pixelUnit,-32);landscape.rotation.set(.46,-.12,-.10);
     },
-    update(dark){
-      x+=(targetX-x)*.11;y+=(targetY-y)*.11;
-      if(Math.abs(targetX-x)+Math.abs(targetY-y)<=.002){x=targetX;y=targetY;}
-      mark.position.set(baseX+x*.17,baseY-y*.085,0);
-      mark.rotation.set(.42-y*.07,-.59+x*.12,.09);
-      model.update(x*.79,y*.68,dark,pixelUnit);
-      landscape.position.set(-x*.22,groundY+y*.10,-32);
-      landscape.rotation.set(.46-y*.035,-.12-x*.035,-.10+x*.024);
+    update(dark,dt){
+      const playing=!paused && !reduced.matches;
+      if(playing){time+=dt;if(!drag)turn+=dt;}
+      mark.rotation.set(.42+pitch+.08*Math.sin(turn*.24),-.59+yaw+turn*.085,.09);
+      model.update(turn*.21,.38*Math.sin(turn*.25),dark,pixelUnit,time);
       landscape.material.uniforms.night.value=dark?1:0;
-      return Math.abs(targetX-x)+Math.abs(targetY-y)>.002;
+      landscape.material.uniforms.phase.value=time;
+      return playing;
     }
   };
 }
@@ -316,10 +381,20 @@ function makeRelief(T, peaks, cols) {
 function reliefMaterial(T, background) {
   return new T.ShaderMaterial({
     transparent:true, depthWrite:!background,
-    uniforms:{ night:{value:0}, backdrop:{value:background?1:0} }, extensions:{derivatives:true},
-    vertexShader:`varying float elevation; varying vec3 norm; varying vec2 field;
-      void main(){field=uv;elevation=position.y;norm=normal;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-    fragmentShader:`varying float elevation; varying vec3 norm; varying vec2 field; uniform float night,backdrop;
+    defines:background?{HOME_WAVES:1}:{},
+    uniforms:{ night:{value:0}, phase:{value:0} }, extensions:{derivatives:true},
+    vertexShader:`varying float elevation; varying vec3 norm; varying vec2 field; uniform float phase;
+      void main(){
+        vec3 p=position;field=uv;norm=normal;
+        #ifdef HOME_WAVES
+          float wave=sin(.91*p.x+.64*p.z-phase*.73);
+          float swell=cos(.68*p.z-.43*p.x+phase*.49);
+          p.y*=1.+.24*wave+.16*swell;
+          p.x+=.10*swell*smoothstep(.02,.8,p.y);
+        #endif
+        elevation=p.y;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
+      }`,
+    fragmentShader:`varying float elevation; varying vec3 norm; varying vec2 field; uniform float night,phase;
       void main(){
         float h=clamp(elevation/1.8,0.,1.);
         vec2 ends=min(field,1.-field); float edge=smoothstep(0.,.13,min(ends.x,ends.y));
@@ -330,7 +405,13 @@ function reliefMaterial(T, background) {
         float k=elevation*14.,d=abs(fract(k+.5)-.5);
         float line=(1.-smoothstep(0.,max(.025,fwidth(k)*.95),d))*smoothstep(.012,.08,elevation);
         float weight=(.13+.65*h)*(.77+.23*shade)+line*.28;
-        weight*=mix(1.,.30,backdrop);
+        #ifdef HOME_WAVES
+          float drift=.5+.5*sin(phase*.25+field.x*4.-field.y*1.7);
+          vec3 low=mix(vec3(.11,.59,.54),vec3(.35,.50,.84),drift);
+          vec3 high=mix(vec3(.88,.66,.42),vec3(.64,.53,.85),drift);
+          tint=mix(low,high,smoothstep(.22,.96,h))+night*.07;
+          weight=weight*.45+line*.055;
+        #endif
         float opacity=edge*smoothstep(.004,.11,elevation);
         if(opacity<.008)discard;
         gl_FragColor=vec4(mix(paper,tint,clamp(weight,0.,1.)),opacity);
