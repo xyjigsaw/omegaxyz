@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-section-atlas2"
+ASSET_VERSION = "20261126-tesseract1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -256,11 +256,7 @@ TERM_EN = {
 
 def load_site():
     site = json.loads(DATA.read_text(encoding="utf-8"))
-    reverse_zh = {}
-    for entry in site["entries"]:
-        for term in entry.get("categories", []) + entry.get("tags", []):
-            reverse_zh.setdefault(term["slug"], term.get("name") or term["slug"])
-    extras = load_extra_entries() + load_markdown_entries(reverse_zh)
+    extras = load_extra_entries() + load_markdown_entries()
     if extras:
         extra_urls = {entry["url"] for entry in extras}
         site["entries"] = extras + [entry for entry in site["entries"] if entry.get("url") not in extra_urls]
@@ -282,6 +278,7 @@ def load_site():
         for field in ("excerpt_zh", "excerpt_en", "title_zh", "title_en"):
             if entry.get(field):
                 entry[field] = re.sub(r"\[latexpage\]\s*", "", entry[field], flags=re.I).strip()
+    normalize_taxonomy(site["entries"])
     annotate_comment_counts(site["entries"])
     site["entries"].sort(key=lambda entry: entry.get("date", ""), reverse=True)
     site["summary"] = build_summary(site["entries"])
@@ -368,9 +365,7 @@ def load_extra_entries():
             key = f"content_{lang}_file"
             if key in entry:
                 entry[f"content_{lang}"] = (ROOT / entry.pop(key)).read_text(encoding="utf-8")
-        for term in entry.get("categories", []) + entry.get("tags", []):
-            if not (term.get("name_en") or term.get("label_en")):
-                term["name_en"] = TERM_EN.get(term.get("slug"), auto_english_term_label(term))
+
     return entries
 
 
@@ -381,7 +376,7 @@ def load_extra_entries():
 # rebuild — the move is only for tidiness. example.md and *.en.md companions
 # are skipped as standalone posts.
 # ---------------------------------------------------------------------------
-def load_markdown_entries(reverse_zh):
+def load_markdown_entries():
     if not POSTS_DIR.exists():
         return []
     entries = []
@@ -389,7 +384,7 @@ def load_markdown_entries(reverse_zh):
         if path.name == EXAMPLE_MD or path.name.lower() == "readme.md" or path.name.endswith(".en.md"):
             continue
         try:
-            entry = markdown_file_to_entry(path, reverse_zh)
+            entry = markdown_file_to_entry(path)
         except Exception as exc:  # one bad file shouldn't break the whole build
             print(f"  markdown skip {path.relative_to(ROOT)}: {exc}")
             continue
@@ -400,7 +395,7 @@ def load_markdown_entries(reverse_zh):
     return entries
 
 
-def markdown_file_to_entry(path, reverse_zh):
+def markdown_file_to_entry(path):
     meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
     title = meta.get("title") or meta.get("title_zh")
     if not title or not meta.get("date"):
@@ -438,8 +433,8 @@ def markdown_file_to_entry(path, reverse_zh):
         "modified": meta.get("modified", date),
         "slug": slug,
         "url": url,
-        "categories": resolve_md_terms(meta.get("categories", []), reverse_zh),
-        "tags": resolve_md_terms(meta.get("tags", []), reverse_zh),
+        "categories": resolve_md_terms(meta.get("categories", [])),
+        "tags": resolve_md_terms(meta.get("tags", [])),
         "comments": [],
         "thumbnail": meta.get("thumbnail", ""),
         "pinned": meta.get("pinned", "false"),
@@ -447,11 +442,8 @@ def markdown_file_to_entry(path, reverse_zh):
     }
 
 
-def resolve_md_terms(tokens, reverse_zh):
-    """Token forms: "slug" | "中文名|slug" | "中文名|slug|English Name".
-    A bare slug reuses an existing same-slug term's Chinese name when known.
-    name_en follows the site's standard priority: explicit value here, else the
-    built-in TERM_EN map, else auto-generated from the slug."""
+def resolve_md_terms(tokens):
+    """Keep explicit labels; the shared registry resolves bare slugs after all files load."""
     terms = []
     for token in tokens:
         token = str(token).strip()
@@ -465,11 +457,33 @@ def resolve_md_terms(tokens, reverse_zh):
             explicit_en = parts[2] if len(parts) > 2 else ""
         else:
             slug = token
-            name = reverse_zh.get(slug, slug)
+            name = slug
         term = {"name": name, "slug": slug}
-        term["name_en"] = explicit_en or TERM_EN.get(slug, auto_english_term_label(term))
+        if explicit_en:
+            term["name_en"] = explicit_en
         terms.append(term)
     return terms
+
+
+def normalize_taxonomy(entries):
+    # Categories and tags have independent URLs. A slug, not its spelling in a
+    # particular article or language, identifies the term for every consumer.
+    newest = sorted(entries, key=lambda e: (e.get("date", ""), e["url"]), reverse=True)
+    for kind in ("categories", "tags"):
+        registry = {}
+        for entry in newest:
+            for term in entry.get(kind, []):
+                slug = term["slug"]
+                labels = registry.setdefault(slug, {"slug": slug})
+                if term.get("name") and term["name"] != slug:
+                    labels.setdefault("name", term["name"])
+                if english := term.get("name_en") or term.get("label_en"):
+                    labels.setdefault("name_en", english)
+        for slug, labels in registry.items():
+            labels.setdefault("name", slug)
+            labels.setdefault("name_en", TERM_EN.get(slug) or auto_english_term_label(labels))
+        for entry in entries:
+            entry[kind] = [registry[slug] for slug in dict.fromkeys(t["slug"] for t in entry.get(kind, []))]
 
 
 def parse_frontmatter(text):
@@ -1315,6 +1329,10 @@ def render_latest_row(entry, lang, current_file, eager=False):
     """
 
 
+# Orthographic outline at the tesseract's resting angle; the inner W cell is half its size.
+TESSERACT_OUTLINE = "M-22.1 50.3L164.1 82.7M-22.1 50.3L-38.9 -158.9M-22.1 50.3L-147.3 126.5M164.1 82.7L147.3 -126.5M164.1 82.7L38.9 158.9M-38.9 -158.9L147.3 -126.5M-38.9 -158.9L-164.1 -82.7M147.3 -126.5L22.1 -50.3M-147.3 126.5L38.9 158.9M-147.3 126.5L-164.1 -82.7M38.9 158.9L22.1 -50.3M-164.1 -82.7L22.1 -50.3"
+
+
 def render_home(site, lang, current=None):
     current = current or path_to_file(f"{lang}/")
     posts = sort_post_stream([e for e in site["entries"] if e["type"] == "post"])
@@ -1342,7 +1360,7 @@ def render_home(site, lang, current=None):
         for term in entry["categories"]:
             term_counts.setdefault(term["slug"], term_info(term))
             term_counts[term["slug"]]["count"] += 1
-    topic_pool = sorted(term_counts.values(), key=lambda item: item["count"], reverse=True)[:24]
+    topic_pool = sorted(term_counts.values(), key=lambda item: (-item["count"], item["slug"]))
     topic_links = "".join(
         f'<a class="topic-chip" data-topic-item href="{rel_url(current, path_to_file(term_path("category", term["slug"], lang)))}">'
         f'<span>{esc(term_label(term, lang))}</span><strong>{term.get("count", 0)}</strong></a>'
@@ -1363,17 +1381,20 @@ def render_home(site, lang, current=None):
     <main class="wrap home-edition">
       <div class="omega-stage" data-scene="omega" data-peaks="{','.join(str(t['count']) for t in sorted(term_counts.values(), key=lambda t: -t['count']))}" aria-hidden="true"></div>
       <section class="omega-hero">
-        <p class="plate-caption omega-edition"><i></i>{'技术笔记' if lang == 'zh' else 'Technical notes'} <span>/</span> EST. 2017</p>
+        <svg class="facet-fallback" aria-hidden="true" focusable="false" viewBox="-190 -190 380 380" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <path class="dimension-edges" d="M-22.1 50.3L-11.1 25.1M164.1 82.7L82 41.3M-38.9 -158.9L-19.5 -79.5M147.3 -126.5L73.6 -63.3M-147.3 126.5L-73.6 63.3M38.9 158.9L19.5 79.5M-164.1 -82.7L-82 -41.3M22.1 -50.3L11.1 -25.1"/>
+          <path class="outer-cell" d="{TESSERACT_OUTLINE}"/>
+          <path class="inner-cell" transform="scale(.5)" d="{TESSERACT_OUTLINE}"/>
+        </svg>
         <div class="omega-copy">
-          <h1>Omega<span>XYZ</span></h1>
+          <h1 class="site-name-only">OmegaXYZ</h1>
+          <button type="button" class="word-cycle" data-word-cycle aria-label="{'切换随机单词' if lang == 'zh' else 'Show another word'}"><span lang="en" data-word>Pondering</span><span class="word-dots" aria-hidden="true">…</span></button>
           <div class="search-box home-search" data-search="{search_index}">
             <svg class="search-glyph" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
             <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
             <div class="search-results" data-search-results></div>
           </div>
-          <a class="atlas-entry" href="{stat_terms}">{'文章地形' if lang == 'zh' else 'Article terrain'} <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="omega-legend" aria-hidden="true"><span>FIG. 01</span> ΩXYZ</div>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
         <li><a href="{stat_archive}"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></a></li>
@@ -2032,16 +2053,16 @@ def render_terms(site, lang):
         representatives = {}
         for entry in site["entries"]:
             for term in entry["categories" if kind == "category" else "tags"]:
-                key = (term["slug"], term["name"])
+                key = term["slug"]
                 grouped[key].append(entry)
                 representatives.setdefault(key, term_info(term))
         current = path_to_file(f"{lang}/{label}/")
         chips = []
         peaks = []
-        for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
+        for slug, entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), term_label(representatives[i[0]], lang), i[0])):
             entries = sort_post_stream(entries)
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
-            display_label = term_label(representatives[(slug, name)], lang)
+            display_label = term_label(representatives[slug], lang)
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
             count = sum(e["type"] == "post" for e in entries)
             peak = f' data-peak="{esc(slug)}" data-count="{count}"' if kind == "category" and count else ""
@@ -2116,7 +2137,6 @@ def render_terms(site, lang):
             body = (
                 '<main class="wrap band term-index atlas-index">'
                 '<section class="terrain-plate">'
-                '<p class="plate-caption"><i></i> FIG. 02 <span>/</span> OMEGAXYZ</p>'
                 f'<h1>{terrain_title}</h1><div class="atlas-field">'
                 '<div class="terrain-stage" data-scene="terrain" hidden>'
                 '<a class="peak-label" data-peak-label hidden></a></div>'

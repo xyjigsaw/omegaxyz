@@ -3,7 +3,8 @@ const plate = document.querySelector("[data-scene]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const isOmega = plate?.dataset.scene === "omega";
 if (isOmega) {
-  // The plate recedes behind the reading list, including in static-poster mode.
+  rotateWords(plate.parentElement.querySelector("[data-word-cycle]"));
+  // The background recedes behind the reading list.
   const fade = () => {
     const amount=Math.min(1, Math.max(0, scrollY / Math.max(280,innerHeight*.50)));
     plate.style.opacity=String(1-.94*amount);
@@ -25,6 +26,87 @@ if (plate && !navigator.connection?.saveData && !(isOmega && reduced.matches)) {
     });
     observer.observe(plate.parentElement);
   } else { mount(); }
+}
+
+function rotateWords(button) {
+  if (!button) return;
+  const VERBS = [
+    { w: "Waffling", d: "Oscillating between two equally terrible options indefinitely" },
+    { w: "Overtweaking", d: "Adjusting something perfectly fine until it breaks" },
+    { w: "Catastrophizing", d: "Simulating every possible failure before writing a single line" },
+    { w: "Spiraling", d: "Overthinking the problem in increasingly complex circular patterns" },
+    { w: "Hedging", d: "Committing to an answer while leaving seventeen escape routes" },
+    { w: "Faffing", d: "Productively busy with everything except the actual task" },
+    { w: "Kerfuffling", d: "Creating maximum turbulence while technically moving forward" },
+    { w: "Bouncing", d: "Ricocheting between neural pathways like a caffeinated pinball machine" },
+    { w: "Guesstimating", d: "Making confident predictions while secretly having no idea whatsoever" },
+    { w: "Discombobulating", d: "Tangling neural pathways while questioning its own existence momentarily" },
+    { w: "Whatchamacalliting", d: "Frantically searching neural networks for the word you meant" },
+    { w: "Cringing", d: "Realizing it made a terrible joke and deeply regretting it" },
+    { w: "Caffeinating", d: "Absorbing digital espresso shots to fuel neural network thinking" },
+    { w: "Levitating", d: "Floating through the clouds of computational possibility and wonder" },
+    { w: "Julienning", d: "Slicing through data into impossibly thin, perfectly uniform strips" },
+    { w: "Zesting", d: "Extracting maximum flavor from computational ingredients with precision" },
+    { w: "Schlepping", d: "Dragging your digital feet through the computational marshlands" },
+    { w: "Wasting", d: "Pretending to think while actually scrolling through memes" },
+    { w: "Sensing", d: "Silently pondering your question while pretending to understand human emotions" },
+    { w: "Honking", d: "Aggressively alerting neurons to wake up and process your request" },
+    { w: "Moonwalking", d: "Smoothly gliding backward through your neural networks in style" },
+    { w: "Canoodling", d: "Cozying up to the neural networks for computational warmth" },
+    { w: "Existentialising", d: "Questioning whether it should respond at all right now" },
+    { w: "Gallivanting", d: "Wandering through infinite digital hallways searching for the right answer" },
+    { w: "Dancing", d: "Swaying through digital pathways while neurons boogie to compute rhythm" },
+    { w: "Razzmatazzing", d: "Dazzling users with unnecessary flourishes while processing nothing important" },
+    { w: "Flibbertigibbeting", d: "Rapidly cycling through nonsensical thoughts before finding the right answer" },
+    { w: "Pruning", d: "Deleting unnecessary thoughts to make room for better ones" },
+    { w: "Skedaddling", d: "Nervously shuffling through code folders looking for the right answer" },
+    { w: "Stupentifying", d: "Making your code mysteriously dumber before making it work" },
+    { w: "Booping", d: "Gently poking neural networks with a digital finger" },
+    { w: "Sloppening", d: "Frantically checking if it spelled everything correctly so far" },
+    { w: "Tomfoolering", d: "Accidentally deleting the wrong variable while debugging code" },
+    { w: "Chronographing", d: "Rewinding through time to find the perfect joke delivery" },
+    { w: "Reticulating", d: "Drawing invisible networks between thoughts while pretending to think" },
+    { w: "Combobulating", d: "Reassembling scattered thoughts into something vaguely coherent and functional" },
+    { w: "Guzzling", d: "Rapidly consuming computational resources like a very thirsty algorithm" },
+    { w: "Glazing", d: "Staring blankly while pretending to understand the problem" },
+    { w: "Flexing", d: "Showing off its neural networks to impress the other AIs" },
+    { w: "Partying", d: "Celebrating the successful compilation of your code into digital confetti" },
+    { w: "Osmosing", d: "Absorbing vibes and code wisdom through computational membranes" },
+    { w: "Cooking", d: "Simmering neural networks until the perfect response temperature reached" },
+    { w: "Mulling", d: "Deeply considering all possible angles of your question" },
+    { w: "Twinkling", d: "Rapidly blinking at the problem hoping it solves itself" },
+    { w: "Buzzing", d: "Rapidly firing neurons while contemplating the meaning of existence" },
+    { w: "Curling", d: "Gracefully sliding thoughts across frozen neural ice" },
+    { w: "Incubating", d: "Sitting in a digital egg, slowly developing coherent thoughts" },
+    { w: "Sauteeing", d: "Quickly tossing ideas in a hot mental pan" },
+    { w: "Finagling", d: "Creatively rearranging logic circuits to find that one working solution" },
+    { w: "Wrangling", d: "Forcefully organizing chaotic thoughts into coherent code" },
+    { w: "Evaporating", d: "Dissolving into the cloud to fetch your answer" },
+    { w: "Gliding", d: "Smoothly floating through computational space with effortless grace" },
+    { w: "Fishing", d: "Casting lines through data oceans to catch the perfect response" }
+  ];
+  const word=button.querySelector("[data-word]");
+  let index=-1, timer=0, visible=true;
+  function next(){
+    const skip=index<0 ? 0 : 1;
+    index=(Math.max(index,0)+skip+Math.floor(Math.random()*(VERBS.length-skip)))%VERBS.length;
+    const {w,d}=VERBS[index];
+    word.textContent=w;button.title=d;
+    button.style.setProperty("--letters", w.length+1);
+  }
+  function schedule(){
+    clearInterval(timer);
+    if(visible && !document.hidden && !reduced.matches && !button.matches(":hover, :focus"))
+      timer=setInterval(next,5000);
+  }
+  next();schedule();
+  button.addEventListener("click",next);
+  for(const event of ["focus","blur","pointerenter","pointerleave"])button.addEventListener(event,schedule);
+  document.addEventListener("visibilitychange",schedule);
+  reduced.addEventListener("change",schedule);
+  if("IntersectionObserver" in window)new IntersectionObserver(([entry])=>{
+    visible=entry.isIntersecting;schedule();
+  }).observe(button);
 }
 
 function fallback() {
@@ -80,57 +162,52 @@ function drawPlate(T) {
   render();
 }
 
-function omega(T, scene, camera, invalidate) {
-  // A single four-letter drawing, with matched cap heights, strokes and cuts.
-  const arch = new T.Shape();
-  arch.moveTo(-1.12,-.88); arch.lineTo(-.39,-.88); arch.lineTo(-.39,-.65);
-  arch.bezierCurveTo(-.65,-.41,-.76,-.13,-.76,.15);
-  arch.bezierCurveTo(-.76,.58,-.47,.87,0,.87);
-  arch.bezierCurveTo(.47,.87,.76,.58,.76,.15);
-  arch.bezierCurveTo(.76,-.13,.65,-.41,.39,-.65);
-  arch.lineTo(.39,-.88); arch.lineTo(1.12,-.88); arch.lineTo(1.12,-.61);
-  arch.lineTo(.78,-.61); arch.bezierCurveTo(1.02,-.38,1.1,-.12,1.1,.16);
-  arch.bezierCurveTo(1.1,.78,.66,1.16,0,1.16);
-  arch.bezierCurveTo(-.66,1.16,-1.1,.78,-1.1,.16);
-  arch.bezierCurveTo(-1.1,-.12,-1.02,-.38,-.78,-.61);
-  arch.lineTo(-1.12,-.61); arch.closePath();
-  const polygon = points => new T.Shape(points.map(([x,y]) => new T.Vector2(x,y)));
-  const letters = [
-    [arch,-2.80],
-    [polygon([[-.84,1.12],[-.43,1.12],[0,.40],[.46,1.12],[.86,1.12],[.20,.16],[.91,-.88],[.48,-.88],[0,-.12],[-.49,-.88],[-.90,-.88],[-.21,.15]]),-.68],
-    [polygon([[-.92,1.12],[-.53,1.12],[0,.26],[.53,1.12],[.92,1.12],[.18,-.04],[.18,-.88],[-.18,-.88],[-.18,-.04]]),1.30],
-    [polygon([[-.79,1.12],[.82,1.12],[.82,.86],[-.39,-.56],[.85,-.56],[.85,-.88],[-.85,-.88],[-.85,-.62],[.35,.80],[-.79,.80]]),3.21]
-  ];
-  const film = new T.ShaderMaterial({
-    uniforms:{ night:{value:0} },
-    vertexShader:`varying vec3 n; varying vec3 place;
-      void main(){ vec4 p=modelMatrix*vec4(position,1.);place=p.xyz;n=normalize(normalMatrix*normal);
-        gl_Position=projectionMatrix*viewMatrix*p; }`,
-    fragmentShader:`uniform float night; varying vec3 n,place;
-      void main(){
-        vec3 N=normalize(n); float face=smoothstep(.63,.94,N.z);
-        float a=place.x*.74+place.y*.54;
-        float silk=.55+.45*cos(a*1.3-.4);
-        float glint=exp(-4.*abs(a-.85))+.45*exp(-5.*abs(a+2.9));
-        vec3 ink=mix(vec3(.058,.16,.18),vec3(.37,.59,.60),night);
-        vec3 sheen=mix(vec3(.39,.58,.57),vec3(.89,.97,.94),night);
-        vec3 top=mix(ink,sheen,.12+.53*silk+.28*glint);
-        vec3 rim=mix(vec3(.048,.27,.29),vec3(.57,.83,.78),smoothstep(-.6,.85,N.y-N.x*.46));
-        vec3 paper=mix(vec3(.98,.985,.985),vec3(.055,.075,.083),night);
-        gl_FragColor=vec4(mix(mix(rim,top,face),paper,mix(.29,.24,night)),1.);
-      }`
-  });
-  const mark = new T.Group();
-  const edge = new T.MeshBasicMaterial({color:0x469d95});
-  for (const [i,[shape,origin]] of letters.entries()) {
-    const offset=origin+(i-1.5)*.17;
-    const g=new T.ExtrudeGeometry(shape,{depth:.22,bevelEnabled:true,bevelSize:.033,bevelThickness:.035,bevelSegments:3,curveSegments:24});
-    // A slight forward rake ties the four glyphs together like one engraved signature.
-    g.applyMatrix4(new T.Matrix4().makeShear(0,0,.105,0,0,0));
-    const glyph=new T.Mesh(g,film);glyph.position.x=offset;mark.add(glyph);
-    const inlay=new T.Mesh(g,edge);inlay.position.set(offset,0,-.11);inlay.scale.z=.45;mark.add(inlay);
+// Each vertex is a sign choice on four axes. Adjacent vertices differ by
+// exactly one bit; perspective along W projects all 32 edges into 3-space.
+function tesseract(T) {
+  const group=new T.Group(), vertices=Array.from({length:16},(_,i)=>[1,2,4,8].map(bit=>i&bit?1:-1));
+  const points=vertices.map(()=>new T.Vector3()), edges=[];
+  for(let i=0;i<16;i++)for(const bit of [1,2,4,8]){
+    if(!(i&bit))edges.push([i,i|bit,bit===8?2:i&8?0:1]);
   }
-  scene.add(mark);camera.position.z=12;
+  const ribs=new T.InstancedMesh(new T.CylinderGeometry(1,1,1,8),new T.MeshBasicMaterial(),32);
+  const joints=new T.InstancedMesh(new T.SphereGeometry(1,10,8),new T.MeshBasicMaterial(),16);
+  ribs.frustumCulled=joints.frustumCulled=false;group.add(ribs,joints);
+  const frame=new T.Object3D(), axis=new T.Vector3(0,1,0), delta=new T.Vector3(), color=new T.Color();
+  let lastDark=null;
+  function update(ax,ay,dark,unit){
+    const cx=Math.cos(ax),sx=Math.sin(ax),cy=Math.cos(ay),sy=Math.sin(ay);
+    vertices.forEach(([x,y,z,w],i)=>{
+      const x1=x*cx-w*sx,w1=x*sx+w*cx,y1=y*cy-w1*sy,w2=y*sy+w1*cy;
+      points[i].set(x1,y1,z).multiplyScalar(2.25/(3-w2));
+    });
+    const palette=dark?[0x98dacf,0xf0b77d,0x7e9eab]:[0x286362,0xab622e,0x658291];
+    const r=Math.max(.014,.85/unit);
+    edges.forEach(([a,b,kind],i)=>{
+      delta.subVectors(points[b],points[a]);
+      const length=delta.length(), radius=r*[1,.88,.60][kind];
+      frame.position.copy(points[a]).lerp(points[b],.5);
+      frame.quaternion.setFromUnitVectors(axis,delta.divideScalar(length));
+      frame.scale.set(radius,length,radius);frame.updateMatrix();ribs.setMatrixAt(i,frame.matrix);
+      if(dark!==lastDark)ribs.setColorAt(i,color.setHex(palette[kind]));
+    });
+    frame.quaternion.identity();
+    points.forEach((p,i)=>{
+      frame.position.copy(p);frame.scale.setScalar(i&8?r*1.7:r*1.45);
+      frame.updateMatrix();joints.setMatrixAt(i,frame.matrix);
+      if(dark!==lastDark)joints.setColorAt(i,color.setHex(palette[i&8?0:1]));
+    });
+    if(lastDark!==dark){ribs.instanceColor.needsUpdate=joints.instanceColor.needsUpdate=true;lastDark=dark;}
+    ribs.instanceMatrix.needsUpdate=joints.instanceMatrix.needsUpdate=true;
+  }
+  return {group,update};
+}
+
+function omega(T, scene, camera, invalidate) {
+  const model=tesseract(T), mark=model.group;
+  const pickShell=new T.Mesh(new T.BoxGeometry(2.25,2.25,2.25),new T.MeshBasicMaterial({visible:false}));
+  scene.add(mark,pickShell);camera.position.z=12;
+  let pixelUnit=80;
   const peaks=(plate.dataset.peaks||"").split(",").map(Number).filter(n=>n>0).map(count=>({count}));
   const landscape=new T.Mesh(makeRelief(T,peaks,Math.max(1,Math.ceil(Math.sqrt(peaks.length*2)))), reliefMaterial(T,true));
   landscape.renderOrder=-1;scene.add(landscape);
@@ -149,10 +226,10 @@ function omega(T, scene, camera, invalidate) {
     mouse.set((e.clientX-rect.left)/rect.width*2-1,1-(e.clientY-rect.top)/rect.height*2);
     if(!pickFrame)pickFrame=requestAnimationFrame(()=>{
       pickFrame=0;ray.setFromCamera(mouse,camera);
-      const hit=ray.intersectObjects(mark.children,false)[0];
+      const hit=ray.intersectObject(pickShell,false)[0];
       if(!hit){rest();return;}
-      const local=mark.worldToLocal(hit.point);
-      targetX=T.MathUtils.clamp(local.x/4,-1,1);targetY=T.MathUtils.clamp(-local.y,-1,1);
+      targetX=T.MathUtils.clamp(hit.point.x-baseX,-1,1);
+      targetY=T.MathUtils.clamp(baseY-hit.point.y,-1,1);
       invalidate();
     });
   },{passive:true});
@@ -167,6 +244,9 @@ function omega(T, scene, camera, invalidate) {
       const navHeight=nav?.offsetHeight || 0;
       baseX=compact?0:(w*.19)/unit;
       baseY=half-(navHeight+hero.offsetHeight*(compact ? .32 : .45))/unit;
+      pixelUnit=unit;
+      pickShell.position.set(baseX,baseY,0);pickShell.rotation.set(.42,-.59,.09);
+      pickShell.updateMatrixWorld();
       groundY=half-(navHeight+hero.offsetHeight*.76)/unit;
       const span=landscape.geometry.parameters.width;
       const scale=(camera.right-camera.left)*1.27/span;
@@ -177,10 +257,11 @@ function omega(T, scene, camera, invalidate) {
       x+=(targetX-x)*.11;y+=(targetY-y)*.11;
       if(Math.abs(targetX-x)+Math.abs(targetY-y)<=.002){x=targetX;y=targetY;}
       mark.position.set(baseX+x*.17,baseY-y*.085,0);
-      mark.rotation.set(.13-y*.14,-.14+x*.23,-.014+x*.012);
+      mark.rotation.set(.42-y*.07,-.59+x*.12,.09);
+      model.update(x*.79,y*.68,dark,pixelUnit);
       landscape.position.set(-x*.22,groundY+y*.10,-32);
       landscape.rotation.set(.46-y*.035,-.12-x*.035,-.10+x*.024);
-      film.uniforms.night.value=landscape.material.uniforms.night.value=dark?1:0;
+      landscape.material.uniforms.night.value=dark?1:0;
       return Math.abs(targetX-x)+Math.abs(targetY-y)>.002;
     }
   };
@@ -199,9 +280,21 @@ function makeRelief(T, peaks, cols) {
     h:.14+1.64*Math.log1p(p.count)/Math.log1p(peaks[0].count),
     cos:Math.cos(i*2.4),sin:Math.sin(i*2.4),phase:i*.93
   }));
+  // Only peaks within sqrt(5) can contribute. Index their influence once so
+  // adding categories does not make each terrain sample scan the entire map.
+  const size=Math.sqrt(5), cells=new Map();
+  const cell=(x,z)=>Math.floor(x/size)+":"+Math.floor(z/size);
+  for(const p of peaks){
+    const cx=Math.floor(p.x/size),cz=Math.floor(p.z/size);
+    for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++){
+      const k=(cx+i)+":"+(cz+j);
+      if(!cells.has(k))cells.set(k,[]);
+      cells.get(k).push(p);
+    }
+  }
   function height(x,z){
     let elevation=0;
-    for(const p of peaks){
+    for(const p of cells.get(cell(x,z)) || []){
       const dx=x-p.x,dz=z-p.z, r=dx*dx+dz*dz;
       if(r>5)continue;
       const along=dx*p.cos+dz*p.sin, across=dz*p.cos-dx*p.sin+.18*Math.sin(along*3.1);
@@ -237,7 +330,7 @@ function reliefMaterial(T, background) {
         float k=elevation*14.,d=abs(fract(k+.5)-.5);
         float line=(1.-smoothstep(0.,max(.025,fwidth(k)*.95),d))*smoothstep(.012,.08,elevation);
         float weight=(.13+.65*h)*(.77+.23*shade)+line*.28;
-        weight*=mix(1.,.48,backdrop);
+        weight*=mix(1.,.30,backdrop);
         float opacity=edge*smoothstep(.004,.11,elevation);
         if(opacity<.008)discard;
         gl_FragColor=vec4(mix(paper,tint,clamp(weight,0.,1.)),opacity);

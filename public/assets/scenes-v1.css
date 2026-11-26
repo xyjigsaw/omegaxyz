@@ -9,28 +9,31 @@
 }
 .omega-copy { position: absolute; left: var(--page-inset); top: 50%; transform: translateY(-43%);
   z-index: 2; width: min(400px, 35%); }
-.omega-edition { position: absolute; top: 22px; left: var(--page-inset); pointer-events: none; }
-.plate-caption, .omega-legend {
-  margin: 0; font: 600 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-  color: var(--muted); text-transform: uppercase;
+.site-name-only { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.omega-copy { container-type:inline-size; }
+.word-cycle {
+  display:flex; align-items:center; width:100%; height:64px; margin:0 0 12px; padding:0;
+  font:620 min(48px, calc(160cqi / var(--letters, 10))) / 1.1 var(--font, system-ui, sans-serif);
+  letter-spacing:0; text-align:left; white-space:nowrap; background:none; border:0; color:var(--ink); cursor:pointer;
 }
-.plate-caption { display: flex; align-items: center; gap: 9px; }
-.plate-caption i { display: block; width: 24px; height: 3px; background: var(--accent); }
-.plate-caption span { color: var(--line-strong); }
-.omega-copy h1 { font-size: 60px; margin: 0 0 18px; letter-spacing: 0; line-height: 1; font-weight: 650; }
-.omega-copy h1 span { font-weight: 320; }
+.word-cycle:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+.word-dots { color:var(--accent); }
 .omega-stage {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-light-wide.webp") top center / 100% auto no-repeat;
   mask-image: linear-gradient(to bottom, transparent, black 9%, black 52%, transparent 90%);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 9%, black 52%, transparent 90%);
 }
-:root[data-theme="dark"] .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-dark-wide.webp"); }
-.omega-stage[data-ready] { background-image: none !important; }
+.facet-fallback {
+  --outer:#286362; --inner:#ab622e; --bridge:#658291; position:absolute; left:69%; top:45%;
+  width:min(24.32vw, 391.4px); aspect-ratio:1; transform:translate(-50%,-50%); pointer-events:none;
+}
+.facet-fallback path { vector-effect:non-scaling-stroke; }
+.facet-fallback .outer-cell { stroke:var(--outer); stroke-width:2.4; }
+.facet-fallback .inner-cell { stroke:var(--inner); stroke-width:1.8; }
+.facet-fallback .dimension-edges { stroke:var(--bridge); stroke-width:1.4; }
+:root[data-theme="dark"] .facet-fallback { --outer:#98dacf; --inner:#f0b77d; --bridge:#7e9eab; }
+.omega-stage[data-ready] + .omega-hero .facet-fallback { display:none; }
 canvas.plate-canvas { display: block; width: 100%; height: 100%; }
-@media (min-width: 641px) and (max-width: 900px) { .omega-copy h1 {font-size: 42px;} }
-.omega-legend { position: absolute; right: var(--page-inset); top: 22px; font-size: 10px; pointer-events: none; }
-.omega-legend span { margin-right: 10px; color: var(--accent); }
 .omega-copy .home-search { margin: 0; width: 100%; }
 .omega-copy .home-search input {
   border-radius: 6px; background: var(--panel); padding-left: 42px; min-height: 48px; font-size: 15px;
@@ -40,9 +43,7 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
   position: absolute; inset: 100% 0 auto; max-height: 310px; overflow-y: auto;
   border-radius: 6px; box-shadow: 0 12px 32px #081b2121; z-index: 4;
 }
-.atlas-entry { display: inline-flex; gap: 8px; align-items: center; margin-top: 14px; color: var(--muted); font-size: 13px; text-decoration: none; }
-.atlas-entry span { color: var(--accent); }
-.atlas-entry:hover { color: var(--accent); text-decoration: underline; }
+
 .home-edition .stats-row {
   display: flex; flex-wrap: wrap; justify-content: center; margin: 0 var(--page-inset);
   gap: 12px 32px; max-width: none; border-top: 1px solid var(--line); padding: 14px 0 0;
@@ -53,7 +54,7 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
 .home-edition .home-panel { padding-top: 16px; }
 .atlas-index { padding-top: 36px; }
 .terrain-plate { position: relative; }
-.terrain-plate > .plate-caption, .terrain-plate > h1, .atlas-field > .atlas-note,
+.terrain-plate > h1, .atlas-field > .atlas-note,
 .terrain-summary > p, .terrain-summary ol { margin-inline: var(--page-inset); }
 .terrain-plate h1 { font-size: 48px; line-height: 1.14; letter-spacing: 0; margin-block: 10px; }
 .atlas-field { position: relative; padding-top: 42px; margin-bottom: 24px; }
@@ -78,14 +79,11 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
 @media (max-width: 640px) {
   .wrap.home-edition, .wrap.atlas-index { --page-inset: 15px; }
   .omega-hero { height: clamp(274px, 39svh, 335px); }
-  .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-light-mobile.webp"); }
-  :root[data-theme="dark"] .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-dark-mobile.webp"); }
-  .omega-legend, .omega-edition { top: 14px; font-size: 9px; }
-  .omega-legend span { margin-right: 2px; }
+  .facet-fallback { width:37.62vw; left:50%; top:32%; }
   .omega-copy { left: var(--page-inset); width: calc(100% - 30px); top: auto; bottom: 12px; transform: none; }
-  .omega-copy h1 { font-size: 28px; margin-bottom: 8px; }
+  .word-cycle { height:40px; margin-bottom:8px; font-size:min(32px, calc(160cqi / var(--letters, 10))); }
   .omega-copy .home-search { width: 100%; }
-  .atlas-entry { margin-top: 8px; min-height: 26px; }
+
   .home-edition .stats-row { gap: 8px 16px; padding-top: 10px; }
   .home-edition .stats-row strong { font-size: 14px; }
   .terrain-plate h1 { font-size: 34px; }
