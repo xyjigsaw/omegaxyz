@@ -1,6 +1,6 @@
 # OmegaXYZ 静态站点维护手册
 
-这个仓库是 OmegaXYZ 从 WordPress 迁移后的静态站点。GitHub Actions 会自动构建静态页面并发布到 GitHub Pages，图片等大文件优先放到 Cloudflare R2/CDN。
+这个仓库是 OmegaXYZ 从 WordPress 迁移后的静态站点。GitHub Actions 会自动构建静态页面并发布到 GitHub Pages；文章和页面的媒体文件放在 Cloudflare R2，通过 CDN 引用。
 
 ## 换机器后怎么开始
 
@@ -29,12 +29,12 @@ python3 -m http.server 4173 --directory docs
 
 ```bash
 git status
-git add content public README.md scripts .github/workflows
+git add content
 git commit -m "Add new post"
 git push origin master
 ```
 
-GitHub Actions 会在服务器上重新生成 `docs/`，然后部署到 GitHub Pages。日常写文章时通常只需要提交 `content/` 和相关图片或资源文件，不需要提交本地生成的 `docs/`。如果构建后发现 `data/media-cdn.json` 有变化，Actions 会自动回写一个清单更新提交。
+GitHub Actions 会在服务器上重新生成 `docs/`，然后部署到 GitHub Pages。日常写文章只需要提交 `content/` 中的正文和元数据；图片等媒体先上传到 R2，不提交原文件或本地生成的 `docs/`。如果构建后发现 `data/media-cdn.json` 有变化，Actions 会自动回写一个清单更新提交。
 
 ## 内容从哪里来
 
@@ -115,49 +115,31 @@ pin_order: 0
 
 `content/extra_entries.json` 与 `data/site.json` 的文章记录也支持 JSON 字段 `"pinned": true`、`"pin_order": 0`。首页默认文章流、分类和标签列表置顶优先，标记显示“置顶 / Pinned”；全部文章及分类筛选默认“置顶优先”，选择日期或标题排序会尊重该排序。首页随机模式仍随机抽取；搜索、相似推荐、sitemap 与真实日期不受置顶排序影响。
 
-## 上传图片
+## 图片和媒体怎么存放
 
-小型站内图可以放到 `public/assets/`，例如：
+- **Cloudflare R2**：文章和页面用到的正文图片、封面、截图、SVG 插图、音视频和下载附件都上传到 `omegaxyz-image`。这些文件不按大小区分，小图和缩略图也不提交到 GitHub。
+- **GitHub**：只提交正文、媒体 URL、配置和站点代码。`public/assets/` 留给站点自身的 CSS、JavaScript 等界面资源，不放文章配图或附件。
 
-```text
-public/assets/my-diagram.svg
-```
+1. 先把媒体上传到 R2。新文件可按 `YYYY/MM/文章-slug/文件名` 组织，例如 `2026/11/my-post/cover.webp`。替换已发布的媒体时使用新文件名，并更新引用，避免 CDN 继续返回旧文件。
+2. 通过 `https://cdn.omegaxyz.com/` 加对象路径访问，确认能打开后再提交文章。不要把带凭据的链接或 R2 的 S3 API 地址写入正文。
+3. 中英文正文在 Markdown 链接或 HTML 的 `src` / `href` 中使用完整 CDN URL；首页封面在主 Markdown 的 `thumbnail` 字段或 `content/extra_entries.json` 对应记录的 `thumbnail` 字段填写完整 CDN URL。
 
-正文里引用：
-
-```html
-<img src="../../../../../assets/my-diagram.svg" alt="My diagram">
-```
-
-首页缩略图也可以写：
-
-```json
-"thumbnail": "/assets/my-diagram.svg"
-```
-
-大图片、截图、历史媒体建议上传到 Cloudflare R2，并通过 CDN 使用：
-
-```text
-https://cdn.omegaxyz.com/2026/05/image.png
-```
-
-批量上传脚本：
+可以用 Cloudflare 控制台上传，也可以用脚本批量上传。先在本机设置 `CF_API_TOKEN` 和 `CF_ACCOUNT_ID`，只上传本次要发布的媒体目录：
 
 ```bash
-export CF_API_TOKEN="不要写进仓库"
-export CF_ACCOUNT_ID="不要写进仓库"
-
 python3 scripts/upload_r2.py \
-  --root .media/uploads/uploads \
+  --root "$HOME/Pictures/my-post" \
+  --prefix 2026/11/my-post \
   --account-id "$CF_ACCOUNT_ID" \
   --bucket omegaxyz-image
 ```
 
 不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json` 和 `data/media-cdn.json`。
 
-GitHub Actions 构建时会自动刷新 CDN 媒体清单，并在有变化时提交回仓库。若你想在本地检查当前站点引用了哪些 CDN 图片，也可以手动运行：
+新文章引用 CDN 媒体时，不需要手动修改 `data/site.json` 或 `data/media-cdn.json`。前者是旧 WordPress 的迁移数据；后者由 GitHub Actions 扫描构建产物后自动更新。换机器写文章只需 clone 仓库，不需要下载已有媒体。若要在本地检查 CDN 清单，可以先构建再运行：
 
 ```bash
+python3 scripts/build_site.py
 python3 scripts/generate_media_manifest.py
 ```
 
