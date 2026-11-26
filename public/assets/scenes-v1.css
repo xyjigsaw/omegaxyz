@@ -5,9 +5,8 @@
 }
 .omega-hero {
   --hero-height:clamp(355px, 51svh, 455px); --copy-width:min(400px, 35%);
-  --model-width:min(37.5vw, calc(var(--hero-height)*1.12), 590px);
-  /* Keep the trailing letters over the near edge without moving the model on each word change. */
-  --model-x:calc(var(--page-inset) + var(--copy-width) + var(--model-width)*.30); --model-y:53%;
+  --model-width:min(40vw, calc(var(--hero-height)*1.18));
+  --model-x:calc(50% + min(24%, 280px)); --model-y:53%;
   position: relative; height:var(--hero-height);
   isolation: isolate;
 }
@@ -22,7 +21,6 @@
 }
 .word-cycle:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
 .word-dots { color:var(--accent); }
-@media (min-width:641px) { .omega-copy .word-cycle { justify-content:flex-end; } }
 .omega-stage {
   position:absolute; inset:0 0 auto; height:100svh; z-index:-1; pointer-events:none;
   mask-image: linear-gradient(to bottom, transparent, black 9%, black 52%, transparent 90%);
