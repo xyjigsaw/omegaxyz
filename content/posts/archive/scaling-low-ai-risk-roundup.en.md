@@ -1,39 +1,37 @@
-Show a model a photo of a workbench and ask it to draw a box around a particular part. Now ask how far a robot arm should reach to pick it up. The second question feels like a natural extension of the first. For a vision model, it is a different problem. That gap is why one story on [Scaling Low](https://scalinglow.com/) stuck with me: the picture stays the same, but a different question reveals a different limit.
+[Scaling Low](https://scalinglow.com/) has a countdown clock on its front page. I thought someone had finally picked a date for the AI bubble to pop. Then I opened the [formula](https://scalinglow.com/bubble.json). Half the weight goes to a date after NVIDIA's GTC, when there will be fresh numbers on inference costs and chip supply. The other half goes to a date after the cloud companies report capital spending, profits and cash flow. Most tech countdowns end with an unveiling. This one waits for the receipts.
 
-## What is Scaling Low?
+That tells you quite a bit about Scaling Low. It's a bilingual AI risk publication. Its [news desk](https://scalinglow.com/#news) puts a claim next to the original material; its [risk map](https://scalinglow.com/#risks) files the stories under questions such as reliability, misuse, governance and infrastructure. For anyone inclined to take the bear side, the attraction is simple: **you can concede that the models are getting smarter and still ask who gets to keep the savings.**
 
-Scaling Low is a bilingual site tracking AI risks in English and Chinese. Its [news feed](https://scalinglow.com/#news) follows research and checks claims made about it, with entries that open onto the underlying evidence. The [risk map](https://scalinglow.com/#risks) offers another way in: follow reliability, misuse, governance or infrastructure instead of scrolling by date.
+![Scaling Low's English front page, with a clock counting down to its next review of the technology and the books](https://cdn.omegaxyz.com/2026/11/scaling-low-ai-risk-roundup/home-en.webp)
 
-![Scaling Low's English homepage with its AI risk countdown and navigation](https://cdn.omegaxyz.com/2026/11/scaling-low-ai-risk-roundup/home-en.webp)
+## Six entries from the desk
 
-The first thing you notice is the countdown. **It is not a prediction of when an AI bubble will burst.** The site's [published method](https://scalinglow.com/bubble.json), as of November 26, gives equal weight to two dates: one to revisit inference costs, performance and supply after GTC, the other to check capital spending, cloud profits and cash flow after quarterly results. When the clock runs down, the useful question is what the new numbers say.
+These are the dates Scaling Low filed the stories, November 19–26, 2026.
 
-## Six stories from November 19–26
+### November 26 | For the demo, draw a box. For delivery, pick up the part.
 
-Dates below are when **Scaling Low listed each story**, not necessarily when a paper first appeared.
+[BOP-Refer](https://arxiv.org/abs/2611.34862) gave 17 vision-language models a photograph and asked them to locate a particular object. The top model, Gemini 4 Carbon, scored 72.6% average precision in two dimensions and 12.4% in three. A box could look snug on screen while missing in depth by more than the size of the part. If I were giving the demo, I'd freeze the frame when the box lights up. If I were buying, I'd stand beside the robot arm and see what it catches.
 
-### November 26 | The right part, at the wrong distance
+### November 25 | The job is marked complete. Who's on cleanup?
 
-BOP-Refer tested 17 vision-language models on locating a described object in a single image. The strongest, Gemini 4 Carbon, scored 72.6% average precision in 2D but just 12.4% in 3D, even with more forgiving overlap thresholds. A predicted box could line up nicely on screen yet miss in depth by more than the size of the object. A convincing overlay is not enough to choose a vision system for that robot arm. [BOP-Refer paper](https://arxiv.org/abs/2611.34862)
+[SecondChance](https://arxiv.org/abs/2611.31586) puts an agent back at the scene of an earlier mistake and lets it carry on. Researchers examined 84 AppWorld continuations that eventually earned a passing grade. In 40, the original error was still there. On the sales team, I'd have 84 success stories. On the Monday morning shift, I'd like those 40 tickets forwarded to me.
 
-### November 25 | A successful retry can leave an error behind
+### November 24 | By all means print “11.8×.” Leave room for the units.
 
-SecondChance restarts agents from states where an earlier attempt went wrong. On AppWorld, the researchers examined 84 continuations that ultimately succeeded; 40 left the earlier mistake in place. Those weren't 40 failed tasks. They are exactly what you miss when you look only at the successes column. [SecondChance paper](https://arxiv.org/abs/2611.31586)
+Agents working with Google DeepMind and Google Quantum AI proposed changes to quantum algorithms; Lean checked them. For a circuit computing a fusion-related property, the new design took the estimated cost, measured in qubits and operations, down to **1/11.8 of the original**. It's my favorite piece of bullish evidence this week: a real saving with an address. Getting from that circuit to a plant that sells power will take some engineering. Dropping the word “circuit” from a headline takes considerably less. [The research team's account](https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/)
 
-### November 24 | What got 11.8 times cheaper?
+### November 24 | A splendid research memo. Could I have the page number?
 
-Google DeepMind and Google Quantum AI used agents to propose changes to quantum algorithms and Lean to check them. For one circuit used to calculate a fusion-related property, the estimated computing cost fell by a factor of 11.8. That measure combines qubits and operations. It says nothing about energy output, and it isn't a stopwatch result from running the full simulation on existing hardware. [Research team's account](https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/)
+[RDQA](https://aclanthology.org/2026.emnlp-main.1855/) poses 1,350 questions about documents, recordings and videos. You need the answer and the evidence for it. The best of 12 general-purpose agent configurations scored 24.0%; RDQA-Skill, built for this kind of retrieval, scored 41.1%. I'd book one meeting for the next automated-researcher pitch. Spend the first half producing a one-page interview summary and the second finding the passage on the tape. By the end we should know whose time we've saved.
 
-### November 24 | Can the research assistant point to the passage?
+### November 20 | The doubling curve goes to accounting
 
-RDQA asks 1,350 questions whose answers depend on evidence in documents, recordings and videos. Under scoring that requires source evidence, the best of 12 general-purpose agent configurations scored 24.0%; RDQA-Skill, designed for this kind of retrieval, scored 41.1%. Try asking an assistant which part of a recorded interview supports its summary. That's a different test from asking whether the summary sounds plausible. [RDQA paper](https://aclanthology.org/2026.emnlp-main.1855/)
+[METR's quarterly assessment](https://metr.org/blog/2026-11-20-q4-2026-capability-update/) has a lovely curve. Across two test suites, the length of task agents could handle at 50% success doubled roughly every 3.6 months. Length here means the time a human expert would need. An R&D lead can take that result and try delegating a longer job. Accounting has a slightly different cell to fill in: on the half that go wrong, who notices, who does the work again, and how many hours did that take?
 
-### November 20 | What doubles every 3.6 months?
+### November 19 | At last, a business with a meter
 
-Across two task suites, METR estimates that the length of task an agent can complete with 50% success has been doubling roughly every 3.6 months. The unit is **how long a human expert would need**, not how long the model runs. That matters when choosing longer R&D tasks to try with an agent; it is not a conversion factor for a team's productivity. [METR quarterly update](https://metr.org/blog/2026-11-20-q4-2026-capability-update/)
+In its [winter assessment](https://ferc.gov/news-events/news/2026-2027-winter-energy-market-electric-reliability-assessment) (report p. 23), the US Federal Energy Regulatory Commission cites a projection of roughly 245 gigawatts of growth in North American winter peak demand over the next decade. Data centers are a major contributor among new large loads. The grid has to be ready for the peak. The data center owes what it agreed to pay. Whether the customer at the other end renews the AI subscription is a question for an entirely different contract. My favorite billing model in the AI business belongs to the electric company.
 
-### November 19 | Data centers and the winter peak
+## The bear's next appointment
 
-The US Federal Energy Regulatory Commission cites a reliability forecast putting North America's winter peak demand growth at 245 gigawatts over the next decade. Large new loads, particularly data centers, are an important driver. The number measures power needed at peak, not annual energy use, and not all of it is attributable to AI. The same report expects adequate resources in the assessed US regions this winter under normal conditions. A ten-year projection and a one-winter assessment answer different questions. [FERC winter assessment, report p. 23](https://ferc.gov/news-events/news/2026-2027-winter-energy-market-electric-reliability-assessment)
-
-I'd read BOP-Refer and SecondChance together. In one, the box looks right; in the other, the task is marked complete. Neither green check tells you the thing you most want to know. “What didn't this test?” is a good question to take back to the [latest entries on Scaling Low](https://scalinglow.com/#news).
+The two tabs I'd leave open are METR's chart and a cloud company's cash flow statement. One tells me how long a job the model can take on. The other gives me somewhere to look for the money advanced to win that work. When customers renew, rework falls and the margin on the jobs pays for the machines, the bear has some figures to revise. That's a date worth keeping on [Scaling Low's clock](https://scalinglow.com/).
