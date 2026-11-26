@@ -231,6 +231,7 @@ TERM_EN = {
     "高级语言": "Programming Languages",
     "python": "Python",
     "c": "C",
+    "c-2": "C++",  # Keep the original WordPress tag URL.
     "cpp": "C++",
     "cc": "C & C++",
     "java": "Java",

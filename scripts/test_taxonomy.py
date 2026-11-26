@@ -22,6 +22,15 @@ class Attributes(HTMLParser):
 
 
 class PublishedTaxonomy(TestCase):
+    def test_legacy_cpp_tag_name_and_url(self):
+        tags = [{"name": "C语言", "slug": "c"}, {"name": "C++", "slug": "c-2"}]
+        entry = {"url": "example/", "tags": tags}
+        site.normalize_taxonomy([entry])
+        c, cpp = entry["tags"]
+        self.assertEqual([site.term_label(t, "en") for t in (c, cpp)], ["C", "C++"])
+        self.assertEqual(site.term_label(cpp, "zh"), "C++")
+        self.assertEqual(site.term_path("tag", cpp["slug"], "en"), "en/tag/c-2/")
+
     def test_new_reused_renamed_and_retired_categories(self):
         with TemporaryDirectory() as tmp, mock.patch.object(site, "OUT", Path(tmp) / "docs"):
             def article(slug, day, cats, tags="", kind="post"):
