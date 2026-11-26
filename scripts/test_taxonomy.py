@@ -22,6 +22,18 @@ class Attributes(HTMLParser):
 
 
 class PublishedTaxonomy(TestCase):
+    def test_archive_year_totals_rebuilt_from_post_dates(self):
+        year = site.datetime.now(site.SITE_TIMEZONE).year
+        posts = [{"date": f"{year-2}-12-30"}]
+        for count in range(3):
+            chart = site.archive_month_chart(posts, "en")
+            self.assertIn(f'<option value="{year}" selected>{year} ({count})</option>', chart)
+            self.assertIn(f'<option value="{year-1}">{year-1} (0)</option>', chart)
+            self.assertIn(f'<option value="{year-2}">{year-2} (1)</option>', chart)
+            bars = Attributes(chart).values("data-count")
+            self.assertEqual(list(map(int, bars)), [0, count] + [0] * 10)
+            posts.append({"date": f"{year}-02-08"})
+
     def test_legacy_cpp_tag_name_and_url(self):
         tags = [{"name": "C语言", "slug": "c"}, {"name": "C++", "slug": "c-2"}]
         entry = {"url": "example/", "tags": tags}

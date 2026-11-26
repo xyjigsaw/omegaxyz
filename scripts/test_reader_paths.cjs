@@ -140,6 +140,10 @@ async function exercise(browser, lang) {
         return months;
       }, await year.inputValue());
       assert.deepEqual((await p.locator("[data-month] b").allTextContents()).map(Number), counts);
+      const n = counts.reduce((a,b) => a+b,0);
+      const y = await year.inputValue();
+      const label = await year.locator("option:checked").innerText();
+      assert.equal(label, await p.locator("html").getAttribute("lang") === "en" ? y+" ("+n+")" : y+"（"+n+"）");
     }
     await checkMonths();
     const visible = p.locator("[data-archive-item]:visible");
@@ -148,9 +152,11 @@ async function exercise(browser, lang) {
     const bar = p.locator('button[data-month="'+month.slice(5)+'"]');
     const total = await visible.count();
     const counts = await p.locator("[data-month] b").allTextContents();
+    const annualLabel = await year.locator("option:checked").innerText();
     await bar.focus(); await bar.press("Enter");
     await p.waitForURL(u => u.searchParams.get("month") === month);
     assert.deepEqual(await p.locator("[data-month] b").allTextContents(), counts);
+    assert.equal(await year.locator("option:checked").innerText(),annualLabel);
     assert.equal(await visible.count(), Number(await bar.getAttribute("data-count")));
     assert.ok(await visible.evaluateAll((rows,m) => rows.every(row => row.dataset.date.startsWith(m+"-")),month));
     assert.equal(Number(await p.locator("[data-archive-count]").innerText()),await visible.count());
@@ -171,6 +177,15 @@ async function exercise(browser, lang) {
     await p.locator("[data-archive-query]").fill("no-such-note-000"); await checkMonths();
     await p.locator("button[data-month]").first().click();
     assert.ok(await p.locator("[data-archive-empty]").isVisible());
+    // Same build, two visits straddling midnight on January 1 in Shanghai.
+    const newest = Number(await year.locator("option").first().getAttribute("value"));
+    for (const [hour, expected] of [[15,newest+1],[16,newest+2]]) {
+      await p.clock.setFixedTime(new Date(Date.UTC(newest+1,11,31,hour)));
+      await go(lang+"/archive/");
+      assert.equal(await year.inputValue(),String(expected));
+      await checkMonths();
+      assert.equal(await year.locator("option:checked").innerText(),en ? expected+" (0)" : expected+"（0）");
+    }
     await go(lang + "/pages/");
     assert.equal(await p.locator(".pages-page .directory-mast").count(),0);
     assert.ok(await p.locator(".pages-page > .section-head").isVisible());

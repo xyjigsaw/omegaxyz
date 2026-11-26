@@ -196,20 +196,42 @@
     let kind = "", term = "", order = "featured", activeMonth = "";
     const chartYear = archive.querySelector("[data-chart-year]");
     if (chartYear) chartYear.disabled = false;
+    const yearLabel = (year, n) => root.lang === "en" ? year + " (" + n + ")" : year + "（" + n + "）";
+    // Match the build's UTC+8 calendar even for a cached page opened after New Year.
+    const siteYear = () => String(new Date(Date.now() + 8 * 3600000).getUTCFullYear());
+    let defaultYear = chartYear?.value;
+    const syncChartYears = () => {
+      const current = siteYear();
+      for (let y = Number(chartYear.options[0].value) + 1; y <= Number(current); y++) {
+        chartYear.add(new Option(yearLabel(y, 0), String(y)), 0);
+      }
+      if (Array.from(chartYear.options).some(o => o.value === current)) defaultYear = current;
+    };
     const monthBars = archive.querySelectorAll("[data-month]");
     monthBars.forEach((bar) => { bar.disabled = false; });
     const filter = () => {
       const text = query.value.trim().toLowerCase();
       let visible = 0;
       const months = Array(12).fill(0);
+      const annual = new Map();
       items.forEach((item) => {
         const matchesTerms = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
         // Count before applying the month so the other bars remain useful as filters.
-        if (matchesTerms && chartYear && item.date.startsWith(chartYear.value + "-")) months[Number(item.date.slice(5, 7)) - 1]++;
+        if (matchesTerms && chartYear) {
+          const year = item.date.slice(0, 4);
+          annual.set(year, (annual.get(year) || 0) + 1);
+          if (year === chartYear.value) months[Number(item.date.slice(5, 7)) - 1]++;
+        }
         const show = matchesTerms && (!activeMonth || item.date.startsWith(activeMonth + "-"));
         if (item.node.hidden === show) item.node.hidden = !show;
         if (show) visible++;
       });
+      if (chartYear) {
+        for (const option of chartYear.options) {
+          const label = yearLabel(option.value, annual.get(option.value) || 0);
+          if (option.text !== label) option.text = label;
+        }
+      }
       const peak = Math.max(1, ...months);
       monthBars.forEach((bar, i) => {
         const n = months[i];
@@ -249,7 +271,7 @@
         url.searchParams.delete("month");
         url.searchParams.delete("year");
         if (activeMonth) url.searchParams.set("month", activeMonth);
-        else if (chartYear.selectedIndex > 0) url.searchParams.set("year", chartYear.value);
+        else if (chartYear.value !== defaultYear) url.searchParams.set("year", chartYear.value);
       }
       if (sort.value !== "featured") url.searchParams.set("sort", sort.value);
       return url.href;
@@ -279,10 +301,11 @@
       const requested = params.get("sort");
       sort.value = Array.from(sort.options).some((o) => o.value === requested) ? requested : "featured";
       if (chartYear) {
+        syncChartYears();
         const month = params.get("month") || "";
         const years = Array.from(chartYear.options, (o) => o.value);
         activeMonth = /^\d{4}-(0[1-9]|1[0-2])$/.test(month) && years.includes(month.slice(0, 4)) ? month : "";
-        chartYear.value = activeMonth ? activeMonth.slice(0, 4) : years.includes(params.get("year")) ? params.get("year") : years[0];
+        chartYear.value = activeMonth ? activeMonth.slice(0, 4) : years.includes(params.get("year")) ? params.get("year") : defaultYear;
       }
       markChips();
       reorder();
@@ -318,6 +341,9 @@
     });
     sort.addEventListener("change", () => { reorder(); save(true); });
     window.addEventListener("popstate", restore);
+    if (chartYear) document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && siteYear() !== defaultYear) restore();
+    });
     restore();
   });
 

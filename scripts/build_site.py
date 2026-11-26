@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-month-filter1"
+ASSET_VERSION = "20261126-archive-year-totals1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1947,14 +1947,20 @@ def archive_count_box(value, lang):
 def archive_month_chart(posts, lang):
     if not posts:
         return ""
-    months = {}
+    months = defaultdict(int)
+    totals = defaultdict(int)
     for entry in posts:
         month = date_only(entry["date"])[:7]
-        months[month] = months.get(month, 0) + 1
-    year = int(max(months)[:4])
-    years = "".join(f'<option>{y}</option>' for y in range(year, int(min(months)[:4]) - 1, -1))
-    values = [months.get(f"{year}-{m:02}", 0) for m in range(1, 13)]
-    peak = max(values)
+        months[month] += 1
+        totals[int(month[:4])] += 1
+    year = datetime.now(SITE_TIMEZONE).year
+    options = []
+    for y in range(max(year, max(totals)), min(year, min(totals)) - 1, -1):
+        label = f"{y}（{totals[y]}）" if lang == "zh" else f"{y} ({totals[y]})"
+        selected = " selected" if y == year else ""
+        options.append(f'<option value="{y}"{selected}>{label}</option>')
+    values = [months[f"{year}-{m:02}"] for m in range(1, 13)]
+    peak = max(1, *values)
     bars = []
     for m, n in enumerate(values, 1):
         label = f"{year}-{m:02}：{n} 篇" if lang == "zh" else f"{year}-{m:02}: {n} posts"
@@ -1964,9 +1970,9 @@ def archive_month_chart(posts, lang):
                     f'<b>{n}</b><i aria-hidden="true"></i><span class="month-name">{name}</span>'
                     f'<span class="month-short">{m:02}</span></button></li>')
     title = "月度发文" if lang == "zh" else "Monthly posts"
-    year_label = "图表年份" if lang == "zh" else "Chart year"
+    year_label = "图表年份（括号内为符合筛选条件的全年文章数）" if lang == "zh" else "Chart year (matching posts in the full year)"
     return f'''<section class="month-chart" aria-labelledby="month-heading"><div class="month-heading">
-      <h2 id="month-heading">{title}</h2><select aria-label="{year_label}" data-chart-year disabled>{years}</select>
+      <h2 id="month-heading">{title}</h2><span class="month-year"><select aria-label="{year_label}" data-chart-year disabled>{"".join(options)}</select></span>
       </div><ol aria-label="{title}">{"".join(bars)}</ol></section>'''
 
 

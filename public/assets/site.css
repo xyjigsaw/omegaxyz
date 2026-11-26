@@ -1207,12 +1207,27 @@ a.pill:hover {
 .filter-group { display: grid; gap: 8px; }
 .month-chart {
   --bar-height: 58px;
-  margin: 0 0 18px;
+  margin: 0 -8px 18px;
+  padding: 8px 8px 6px;
+  border-radius: 8px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 7%, var(--bg)),
+    color-mix(in srgb, var(--accent) 2%, var(--bg)) 58%, color-mix(in srgb, var(--tag) 6%, var(--bg)));
 }
 .month-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.month-year { position: relative; display: inline-flex; color: var(--muted); }
+.month-year::after {
+  content: ""; position: absolute; inset-inline-end: 13px; top: 50%; width: 7px; height: 7px;
+  border: solid currentColor; border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
 .month-chart select {
-  min-height: 30px; padding: 3px 6px; font: inherit; font-size: .86rem;
-  color: var(--ink); background: var(--fill); border: 1px solid var(--line); border-radius: 6px;
+  appearance: none; -webkit-appearance: none; min-height: 32px; padding-block: 4px; padding-inline: 10px 34px;
+  font: inherit; font-size: .86rem; font-variant-numeric: tabular-nums; cursor: pointer;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--line-strong); border-radius: 6px;
+}
+@media (forced-colors: active) {
+  .month-chart select { appearance: auto; padding-inline: 8px; }
+  .month-year::after { display: none; }
 }
 .month-chart ol {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0;
