@@ -10,7 +10,7 @@ CDN = "https://cdn.omegaxyz.com"
 
 
 def collect_urls(root):
-    pattern = re.compile(r"https://cdn\.omegaxyz\.com/[^\s\"'<>)]*", re.I)
+    pattern = re.compile(r"https://cdn\.omegaxyz\.com/[^\s\\\"'<>)]*", re.I)
     urls = set()
     for file in sorted(root.rglob("*")):
         if not file.is_file():

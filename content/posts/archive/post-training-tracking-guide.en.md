@@ -2,7 +2,7 @@ Reward rising, entropy falling, and KL shrinking are tempting signs of progress.
 
 This guide covers PPO, GRPO and on-policy distillation (OPD), with metric tables and 14 joint diagnostics. Examples are illustrative, not measurements. There is no universal healthy threshold or mandatory curve shape.
 
-![A reading workflow for post-training metrics](../../../../../assets/post-training-tracking.svg)
+![A reading workflow for post-training metrics](https://cdn.omegaxyz.com/2026/10/post-training-tracking.svg)
 
 *Original workflow illustration; not an empirical curve or a causal diagram.*
 

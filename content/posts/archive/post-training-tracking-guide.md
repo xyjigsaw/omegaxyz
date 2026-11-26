@@ -7,7 +7,7 @@ categories: [技术域|tech|Technology, 机器学习|machine-learning|Machine Le
 tags: [人工智能|ai|Artificial Intelligence, LLM|llm|Large Language Models, 强化学习|reinforcement-learning|Reinforcement Learning, 后训练|post-training|Post-Training]
 excerpt: Reward 上涨不等于能力提升。按算法、统计口径和联合证据解读 reward、advantage、KL、entropy、clip 与评估，用 14 组诊断组合定位 PPO、GRPO 和 OPD 的问题。
 excerpt_en: Reward growth is not proof of capability. Interpret reward, advantage, KL, entropy, clipping and evaluation through algorithm definitions and 14 evidence-based diagnostic combinations.
-thumbnail: /assets/post-training-tracking.svg
+thumbnail: https://cdn.omegaxyz.com/2026/10/post-training-tracking.svg
 ---
 
 打开一次大语言模型后训练的 dashboard，几十条曲线很容易让人产生错觉：reward 涨了就是训练成功，entropy 低了就是坍缩，KL 降了就是蒸馏有效。
@@ -16,7 +16,7 @@ thumbnail: /assets/post-training-tracking.svg
 
 本文讨论 PPO、GRPO 与 on-policy distillation（OPD），给出可以直接用于 W&B、TensorBoard 或其他 tracking 系统的阅读顺序、指标清单和组合诊断表。没有通用的“健康数值”，也没有所有训练都必须遵循的健康曲线。下文中的例子均为教学示例，不是实测结果。
 
-![后训练指标阅读流程：先确认定义，再同时检查效果、信号、更新和行为](../../../../../assets/post-training-tracking.svg)
+![后训练指标阅读流程：先确认定义，再同时检查效果、信号、更新和行为](https://cdn.omegaxyz.com/2026/10/post-training-tracking.svg)
 
 *原创阅读流程示意，不代表实测曲线或因果关系。各组证据需要互相核对。*
 

@@ -7,14 +7,14 @@ categories: [APP开发|app|App Development]
 tags: [iOS|ios|iOS, iPad|ipad|iPad, 文化遗产|cultural-heritage|Cultural Heritage]
 excerpt: 在三维地球上翻看世界遗产，从一个地点读到另一段历史，再把去过的城市和地点记进自己的旅行护照。
 excerpt_en: Explore world heritage on a 3D globe, follow the histories that connect places, and record your own travels in a personal passport.
-thumbnail: https://omegaxyz.com/assets/civ-globe/home-cover.webp
+thumbnail: https://cdn.omegaxyz.com/2026/11/civ-globe/home-cover.webp?v=1
 ---
 
 读到一个没听过的遗产地点时，我常想先看看它在地球的哪一边，再顺着附近的城市、相近的时代或相似的建筑往下读。这个过程通常要在地图、百科和自己的旅行记录之间来回切换。
 
 我做 Civ Globe，是想让这几件事在 iPhone 和 iPad 上连起来。从一个地点开始，读它的故事，也看看它和其他地方有什么关系。带着 App 出门时，即使没有网络，也能翻看图鉴。
 
-![Civ Globe 在 iPad 上的三维地球与地点浏览界面](../../../../../assets/civ-globe/ipad-globe.webp)
+![Civ Globe 在 iPad 上的三维地球与地点浏览界面](https://cdn.omegaxyz.com/2026/11/civ-globe/ipad-globe.webp)
 
 *在 iPad 上转动地球，按地区浏览遗产地点。*
 
@@ -24,7 +24,7 @@ thumbnail: https://omegaxyz.com/assets/civ-globe/home-cover.webp
 
 打开一个条目后，可以沿知识图谱、时间筛选和主题导览继续找相关地点和事件。部分地点还有内置的三维建筑或城市场景，可以换个角度看看建筑和周边空间。Civ Globe 是独立开发的应用。
 
-![Civ Globe 在 iPhone 上的发现首页和遗产类别](../../../../../assets/civ-globe/iphone-discover.webp)
+![Civ Globe 在 iPhone 上的发现首页和遗产类别](https://cdn.omegaxyz.com/2026/11/civ-globe/iphone-discover.webp)
 
 *在 iPhone 的「发现」页，从推荐条目或遗产类别开始浏览。*
 
@@ -34,7 +34,7 @@ thumbnail: https://omegaxyz.com/assets/civ-globe/home-cover.webp
 
 如果你想从旧照片找回旅行记录，可选择授权，让 App 在设备上读取照片的地点和日期来建议足迹。也可以纯手动记录。个人记录保存在设备上，换设备前可以手动导出备份。
 
-![Civ Globe 在 iPhone 上的个人旅行护照和足迹地图](../../../../../assets/civ-globe/iphone-passport.webp)
+![Civ Globe 在 iPhone 上的个人旅行护照和足迹地图](https://cdn.omegaxyz.com/2026/11/civ-globe/iphone-passport.webp)
 
 *在旅行护照中回看自己的地点、城市和国家记录。*
 

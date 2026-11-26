@@ -2,7 +2,7 @@ When I come across a heritage site I haven't heard of, I want to see where it is
 
 I built Civ Globe to bring those parts together on iPhone and iPad. You can start with one place, read its story, and follow its connections to other places. You can also bring the atlas on a trip and browse its built-in content offline.
 
-![The interactive globe and places browser in Civ Globe on iPad](../../../../../assets/civ-globe/ipad-globe.webp)
+![The interactive globe and places browser in Civ Globe on iPad](https://cdn.omegaxyz.com/2026/11/civ-globe/ipad-globe.webp)
 
 *On iPad, you can turn the globe and browse heritage places by region.*
 
@@ -12,7 +12,7 @@ Spin the 3D globe or browse by country, region, or category. The atlas covers cu
 
 From an entry, you can use the knowledge graph, time filters, or themed tours to keep exploring related places and events. Selected entries include built-in 3D models of buildings or city scenes, which let you see how a place fits together. Civ Globe is an independently developed app.
 
-![The Discover screen and heritage categories in Civ Globe on iPhone](../../../../../assets/civ-globe/iphone-discover.webp)
+![The Discover screen and heritage categories in Civ Globe on iPhone](https://cdn.omegaxyz.com/2026/11/civ-globe/iphone-discover.webp)
 
 *The Discover screen makes it easy to start with a featured entry or browse by heritage category.*
 
@@ -22,7 +22,7 @@ Mark places you've visited or record cities and countries directly. As you add e
 
 If you want help finding past trips, you can let Civ Globe read the location and date information in your photos on your device and suggest places to add. You can also enter everything manually. Your records stay on your device, and you can export a backup before moving to another one.
 
-![The travel passport and personal footprint map in Civ Globe on iPhone](../../../../../assets/civ-globe/iphone-passport.webp)
+![The travel passport and personal footprint map in Civ Globe on iPhone](https://cdn.omegaxyz.com/2026/11/civ-globe/iphone-passport.webp)
 
 *The travel passport brings together your visited places, cities, and countries.*
 
