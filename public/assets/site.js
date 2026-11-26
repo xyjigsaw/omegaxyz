@@ -2,8 +2,19 @@
   const root = document.documentElement;
   const toggle = document.querySelector("[data-theme-toggle]");
   root.dataset.enhanced = "true";
-  // Remember the last-viewed language so the root "/" redirect can honor it next visit.
-  try { localStorage.setItem("lang", root.lang === "en" ? "en" : "zh"); } catch (error) {}
+  if (root.hasAttribute("data-not-found")) {
+    const routeLang = location.pathname.split("/")[1];
+    let preference;
+    try { preference = localStorage.getItem("lang"); } catch (error) {}
+    root.lang = [routeLang, preference].find((lang) => lang === "en" || lang === "zh")
+      || (/^en/i.test(navigator.language) ? "en" : "zh");
+    if (root.lang === "en") {
+      document.querySelectorAll("[data-en-text]").forEach((el) => { el.textContent = el.dataset.enText; });
+      document.querySelectorAll("[data-en-href]").forEach((el) => { el.href = el.dataset.enHref; });
+    }
+  } else {
+    try { localStorage.setItem("lang", root.lang === "en" ? "en" : "zh"); } catch (error) {}
+  }
   let saved = "";
   try {
     saved = localStorage.getItem("theme");
@@ -83,13 +94,29 @@
 
   const giscusBlocks = Array.from(document.querySelectorAll("[data-giscus-comments]"));
   const loadGiscusBlock = (block) => {
-    if (!block || block.dataset.giscusState === "loaded") return;
+    if (!block || block.dataset.giscusState) return;
     const mount = block.querySelector("[data-giscus-mount]");
     if (!mount) return;
-    block.dataset.giscusState = "loaded";
+    block.dataset.giscusState = "loading";
     block.dataset.commentRegion = "global";
     const note = block.querySelector("[data-mainland-comment-note]");
     if (note) note.hidden = true;
+    const fallback = block.querySelector("[data-global-discussion-link]");
+    fallback.hidden = false;
+    // An iframe load event also fires for some blocked pages. Wait for the widget itself.
+    window.addEventListener("message", (event) => {
+      const frame = mount.querySelector("iframe.giscus-frame");
+      if (event.origin !== "https://giscus.app" || !frame || event.source !== frame.contentWindow) return;
+      const payload = event.data && event.data.giscus;
+      if (!payload) return;
+      if (payload.error && !String(payload.error).includes("Discussion not found")) {
+        block.dataset.giscusState = "failed";
+        fallback.hidden = false;
+      } else if (payload.discussion || (block.dataset.giscusState !== "failed" && Number(payload.resizeHeight) > 0)) {
+        block.dataset.giscusState = "ready";
+        fallback.hidden = true;
+      }
+    });
     mount.hidden = false;
     const script = document.createElement("script");
     const attrs = {
@@ -111,6 +138,7 @@
     };
     Object.entries(attrs).forEach(([name, value]) => script.setAttribute(name, value));
     script.async = true;
+    script.addEventListener("error", () => { block.dataset.giscusState = "failed"; });
     mount.appendChild(script);
   };
   const ipCards = Array.from(document.querySelectorAll("[data-ip-card]"));
@@ -193,23 +221,57 @@
       sorted.forEach(({ node }) => fragment.appendChild(node));
       list.appendChild(fragment);
     };
+    const languageLink = document.querySelector(".nav-lang");
+    const setParams = (url) => {
+      ["q", "tag", "category", "sort"].forEach((key) => url.searchParams.delete(key));
+      if (query.value.trim()) url.searchParams.set("q", query.value.trim());
+      if (term) url.searchParams.set(kind, term);
+      if (sort.value !== "featured") url.searchParams.set("sort", sort.value);
+      return url.href;
+    };
+    const syncLanguageLink = () => {
+      if (languageLink) languageLink.href = setParams(new URL(languageLink.href));
+    };
+    const save = (push) => {
+      const next = setParams(new URL(location.href));
+      if (next !== location.href) history[push ? "pushState" : "replaceState"](null, "", next);
+      syncLanguageLink();
+    };
+    const markChips = () => {
+      chips.forEach((button) => {
+        const active = button.dataset.archiveKind === kind && button.dataset.archiveTerm === term;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+    };
+    const restore = () => {
+      const params = new URLSearchParams(location.search);
+      query.value = params.get("q") || "";
+      const selected = Array.from(chips).find(({ dataset }) =>
+        dataset.archiveTerm && params.get(dataset.archiveKind) === dataset.archiveTerm);
+      kind = selected ? selected.dataset.archiveKind : "";
+      term = selected ? selected.dataset.archiveTerm : "";
+      const requested = params.get("sort");
+      sort.value = Array.from(sort.options).some((o) => o.value === requested) ? requested : "featured";
+      markChips();
+      reorder();
+      filter();
+      syncLanguageLink();
+    };
     archive.addEventListener("click", (event) => {
       const chip = event.target.closest("[data-archive-term]");
       if (!chip) return;
       const same = chip.dataset.archiveKind === kind && chip.dataset.archiveTerm === term;
       kind = same ? "" : chip.dataset.archiveKind;
       term = same ? "" : chip.dataset.archiveTerm;
-      chips.forEach((button) => {
-        const active = button.dataset.archiveKind === kind && button.dataset.archiveTerm === term;
-        button.classList.toggle("is-active", active);
-        button.setAttribute("aria-pressed", String(active));
-      });
+      markChips();
       filter();
+      save(true);
     });
-    query.addEventListener("input", filter);
-    sort.addEventListener("change", reorder);
-    reorder();
-    if (query.value) filter();
+    query.addEventListener("input", () => { filter(); save(false); });
+    sort.addEventListener("change", () => { reorder(); save(true); });
+    window.addEventListener("popstate", restore);
+    restore();
   });
 
   const classifyArticleImages = () => {
@@ -380,44 +442,103 @@
   if (search) {
     const input = search.querySelector("input");
     const results = search.querySelector("[data-search-results]");
-    const english404 = search.dataset.searchEn && location.pathname.startsWith("/en/");
-    const indexPath = english404 ? search.dataset.searchEn : search.dataset.search;
-    if (english404) {
+    const recent = document.querySelector("[data-search-recent]");
+    const en = root.lang === "en";
+    const indexPath = (en && search.dataset.searchEn) || search.dataset.search;
+    if (en && search.dataset.searchEn) {
       input.placeholder = "Search articles, pages and tags…";
       input.setAttribute("aria-label", "Search");
     }
-    let index = [];
-    let loaded = false;
-    const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-    const highlight = (text, q) => {
-      const safe = escapeHtml(text || "");
-      if (!q) return safe;
-      const pat = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      return safe.replace(new RegExp("(" + pat + ")", "gi"), "<mark>$1</mark>");
-    };
-    const runSearch = () => {
-      const q = input.value.trim();
-      const ql = q.toLowerCase();
-      results.innerHTML = "";
-      if (ql.length < 2) return;
-      const matches = index
-        .filter((item) => (item.title + " " + item.excerpt + " " + item.tags).toLowerCase().includes(ql))
-        .slice(0, 12);
-      matches.forEach((item) => {
-        const a = document.createElement("a");
-        a.href = new URL(item.url, new URL(indexPath, document.baseURI)).href;
-        a.innerHTML = "<strong>" + highlight(item.title, q) + "</strong><span>" + highlight(item.excerpt, q) + "</span>";
-        results.appendChild(a);
+    const status = document.createElement("p");
+    status.className = "search-feedback";
+    status.setAttribute("role", "status");
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "search-more";
+    let index = [], matches = [], shown = 0, state = "idle";
+    let pattern;
+    const appendMatches = (moveFocus) => {
+      more.remove();
+      const batch = matches.slice(shown, shown + 12);
+      const fragment = document.createDocumentFragment();
+      let first;
+      batch.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.url;
+        ["title", "excerpt"].forEach((field) => {
+          const node = document.createElement(field === "title" ? "strong" : "span");
+          let last = 0;
+          const value = item[field] || "";
+          for (const hit of value.matchAll(pattern)) {
+            const mark = document.createElement("mark");
+            mark.textContent = hit[0];
+            node.append(value.slice(last, hit.index), mark);
+            last = hit.index + hit[0].length;
+          }
+          node.append(value.slice(last));
+          link.append(node);
+        });
+        fragment.append(link);
+        if (!first) first = link;
       });
+      results.append(fragment);
+      shown += batch.length;
+      status.textContent = matches.length ? (en ? "Showing " + shown + " of " + matches.length + " results" : "共 " + matches.length + " 条结果，已显示 " + shown + " 条")
+        : (en ? "No results. Try a different keyword." : "没有找到结果，换个关键词试试。");
+      if (shown < matches.length) {
+        more.textContent = en ? "Show more results" : "显示更多结果";
+        results.append(more);
+      }
+      if (moveFocus && first) first.focus();
     };
-    // Only fetch the (large) search index when the user actually engages the box.
-    const loadIndex = () => {
-      if (loaded) return;
-      loaded = true;
-      fetch(indexPath).then((r) => r.json()).then((data) => { index = data; runSearch(); }).catch(() => { loaded = false; });
+    const render = () => {
+      const q = input.value.trim();
+      if (recent) recent.hidden = Boolean(q);
+      results.replaceChildren();
+      if (!q) return;
+      results.append(status);
+      if (state !== "ready") {
+        status.textContent = state === "error"
+          ? (en ? "Search could not load." : "搜索暂时无法加载。")
+          : (en ? "Loading search…" : "正在加载搜索…");
+        if (state === "error") {
+          more.textContent = en ? "Retry" : "重试";
+          results.append(more);
+        }
+        return;
+      }
+      const literal = q.replace(/[.*+?^{}$()|[\]\\]/g, "\\$&");
+      // Treat single-letter language names such as C and R as words, not arbitrary substrings.
+      const term = /^[a-z]$/i.test(q) ? "\\b" + literal + "\\b" : literal;
+      const matcher = new RegExp(term, "i");
+      pattern = new RegExp(term, "gi");
+      const inTitle = [], inOther = [];
+      index.forEach((item) => {
+        if (matcher.test(item.title)) inTitle.push(item);
+        else if (matcher.test(item.tags) || matcher.test(item.excerpt)) inOther.push(item);
+      });
+      matches = inTitle.concat(inOther);
+      shown = 0;
+      appendMatches(false);
     };
+    const loadIndex = async () => {
+      if (state === "loading" || state === "ready") return;
+      state = "loading";
+      render();
+      try {
+        const response = await fetch(indexPath);
+        if (!response.ok) throw new Error("Search index unavailable");
+        index = await response.json();
+        if (!Array.isArray(index)) throw new Error("Invalid search index");
+        state = "ready";
+      } catch (error) {
+        state = "error";
+      }
+      render();
+    };
+    more.addEventListener("click", () => state === "error" ? loadIndex() : appendMatches(true));
     input.addEventListener("focus", loadIndex, { once: true });
-    input.addEventListener("input", () => { loadIndex(); runSearch(); });
+    input.addEventListener("input", () => state === "idle" ? loadIndex() : render());
   }
 
 

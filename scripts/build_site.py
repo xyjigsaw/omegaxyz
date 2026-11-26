@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-right-tesseract1"
+ASSET_VERSION = "20261126-reader-navigation1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1118,7 +1118,8 @@ def nav(current_file, lang, title, alt_path):
         cls = "nav-item" if mobile else "nav-item nav-hide-m"
         href = esc(path) if external else rel_url(current_file, path_to_file(path))
         target = ' target="_blank" rel="noopener noreferrer"' if external else ""
-        items.append(f'<a class="{cls}" href="{href}"{target} title="{esc(label)}">{icon}<span class="nav-label">{esc(label)}</span></a>')
+        current = ' aria-current="page"' if not external and current_file == path_to_file(path) else ""
+        items.append(f'<a class="{cls}" href="{href}"{target}{current} title="{esc(label)}">{icon}<span class="nav-label">{esc(label)}</span></a>')
     link_html = "".join(items)
     alt = rel_url(current_file, path_to_file(alt_path)) if alt_path else rel_url(current_file, path_to_file(f"{other}/"))
     theme_title = "跟随系统" if lang == "zh" else "System theme"
@@ -1298,7 +1299,7 @@ def render_page_card(entry, lang, current_file):
     excerpt = short_text(entry.get(f"excerpt_{lang}") or strip_tags(entry.get(f"content_{lang}", "")), 132)
     return f"""
     <a class="page-card" href="{href}">
-      <span class="page-card-date">{esc(date_only(entry['date']))}</span>
+      <time class="page-card-date" datetime="{esc(date_only(entry['date']))}">{esc(date_only(entry['date']))}</time>
       <strong>{esc(entry[f'title_{lang}'])}</strong>
       <span class="page-card-excerpt">{esc(excerpt)}</span>
       <span class="page-card-go" aria-hidden="true">→</span>
@@ -1602,7 +1603,6 @@ def render_comment_entry(entry, lang):
     live_comments = render_giscus(entry, lang)
     archived_comments = render_comments(entry, lang)
     if lang == "zh":
-        eyebrow = "信号"
         intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的信号使用 GitHub 登录，旧站评论会继续作为归档保留。"
         cv_label = "查看个人主页"
         comment_label = "发送信号"
@@ -1610,7 +1610,6 @@ def render_comment_entry(entry, lang):
         alipay_label = "支付宝"
         wechat_label = "微信"
     else:
-        eyebrow = "Signal"
         intro = "Leave a question, suggestion, collaboration note, or a quick hello. GitHub login is used for fresh signals, while legacy WordPress comments remain available as an archive."
         cv_label = "View CV"
         comment_label = "Send a signal"
@@ -1621,7 +1620,6 @@ def render_comment_entry(entry, lang):
     <main class="wrap band comment-page">
       <section class="comment-hero">
         <div>
-          <div class="eyebrow">{esc(eyebrow)}</div>
           <h1>{esc(title)}</h1>
           <p>{esc(intro)}</p>
           <div class="comment-actions">
@@ -1659,7 +1657,7 @@ def render_friends_entry(entry, lang):
     title = "友情链接" if lang == "zh" else "Friends"
     desc = "长期阅读、技术写作与知识分享的朋友链接。" if lang == "zh" else "A curated set of long-running blogs and technical communities."
     apply_label = "申请友链" if lang == "zh" else "Apply for a link"
-    visit_label = "访问" if lang == "zh" else "Visit"
+    group_names = {"站点": "Sites", "个人博客": "Independent blogs", "退休": "Retired", "按钮": "Applications"}
     retired_label = "已退休" if lang == "zh" else "Retired"
     groups = []
     for category, label, url, logo in FRIEND_LINKS:
@@ -1682,11 +1680,11 @@ def render_friends_entry(entry, lang):
                 """)
             elif url:
                 cards.append(f"""
-                <article class="friend-card">
+                <a class="friend-card" href="{esc(url)}" target="_blank" rel="noopener noreferrer">
                   <img src="{esc(card_logo)}" alt="" loading="lazy" width="52" height="52">
                   <div><h2>{esc(label)}</h2><p>{esc(url.replace('https://', '').replace('http://', '').strip('/'))}</p></div>
-                  <a class="friend-visit" href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(visit_label)} <span aria-hidden="true">↗</span></a>
-                </article>
+                  <span class="friend-go" aria-hidden="true">↗</span>
+                </a>
                 """)
             else:
                 cards.append(f"""
@@ -1697,7 +1695,7 @@ def render_friends_entry(entry, lang):
                 """)
         sections.append(f"""
         <section class="friend-section">
-          <div class="section-head"><div><h2>{esc(category)}</h2></div></div>
+          <div class="section-head"><h2>{esc(category if lang == "zh" else group_names.get(category, category))}</h2><span class="directory-count">{len(cards)}</span></div>
           <div class="friends-grid">{''.join(cards)}</div>
         </section>
         """)
@@ -1705,7 +1703,6 @@ def render_friends_entry(entry, lang):
     <main class="wrap band friends-page">
       <section class="friends-hero">
         <div>
-          <div class="eyebrow">OmegaXYZ</div>
           <h1>{esc(title)}</h1>
           <p>{esc(desc)}</p>
         </div>
@@ -1767,7 +1764,6 @@ def render_makefriends_entry(entry, lang):
     body = f"""
     <main class="wrap band makefriends-page">
       <section class="makefriends-hero">
-        <div class="eyebrow">OmegaXYZ</div>
         <h1>{esc(title)}</h1>
         <p>{esc(intro)}</p>
       </section>
@@ -1898,6 +1894,7 @@ def render_giscus(entry, lang):
         <p>{esc(I18N[lang]["comment_mainland_text"])}</p>
         <a class="button" href="{esc(discussion_url)}" target="_blank" rel="noopener noreferrer">{esc(I18N[lang]["comment_mainland_link"])}</a>
       </div>
+      <a class="comment-discussion-link" data-global-discussion-link href="{esc(discussion_url)}" target="_blank" rel="noopener noreferrer" hidden>{esc(I18N[lang]["comment_mainland_link"])}</a>
       <div class="giscus" data-giscus-mount hidden></div>
     """ if show_giscus else ""
     return f"""
@@ -2044,7 +2041,7 @@ def render_pages_index(site, lang):
     current = path_to_file(f"{lang}/pages/")
     pages = [e for e in site["entries"] if e["type"] == "page"]
     items = "".join(render_page_card(e, lang, current) for e in pages)
-    body = f'<main class="wrap band pages-page"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1></div><div class="page-card-grid">{items}</div></main>'
+    body = f'<main class="wrap band pages-page"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1><span class="directory-count">{len(pages)} {"页" if lang == "zh" else "pages"}</span></div><div class="page-card-grid">{items}</div></main>'
     desc = ("浏览 OmegaXYZ 的独立页面：应用介绍、学习导航、站点历史、友链与隐私政策。"
             if lang == "zh" else "Explore OmegaXYZ’s standalone pages: apps, study guides, site history, friends and privacy policies.")
     write(current, layout(current, lang, I18N[lang]["all_pages"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/pages/"))
@@ -2166,6 +2163,18 @@ def render_terms(site, lang):
         write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/", scenes=kind == "category"))
 
 
+def recent_links(site, lang, limit, bilingual=False):
+    entries = sorted((e for e in site["entries"] if e["type"] == "post"), key=lambda e: e["date"], reverse=True)
+    rows = []
+    for entry in entries[:limit]:
+        href = "/" + entry_path(entry, lang).strip("/") + "/"
+        alternate = (f' data-en-href="/{esc(entry_path(entry, "en").strip("/"))}/" data-en-text="{esc(entry["title_en"])}"'
+                     if bilingual else "")
+        day = esc(date_only(entry["date"]))
+        rows.append(f'<li><a href="{esc(href)}"{alternate}>{esc(entry[f"title_{lang}"])}</a><time datetime="{day}">{day}</time></li>')
+    return "".join(rows)
+
+
 def render_search(site, lang):
     current = path_to_file(f"{lang}/search/")
     index_file = OUT / f"{lang}/search-index.json"
@@ -2179,11 +2188,15 @@ def render_search(site, lang):
         })
     write(index_file, json.dumps(index, ensure_ascii=False))
     body = f"""
-    <main class="wrap band">
+    <main class="wrap band search-page">
       <div class="section-head"><h1>{esc(I18N[lang]['search'])}</h1></div>
       <section class="search-box" data-search="{rel_url(current, index_file)}">
-        <input type="search" placeholder="{esc(I18N[lang]['search'])}">
+        <input type="search" placeholder="{esc(I18N[lang]['search'])}" aria-label="{esc(I18N[lang]['search'])}">
         <div class="search-results" data-search-results></div>
+      </section>
+      <section class="recent-reading" data-search-recent>
+        <h2>{esc(I18N[lang]["latest"])}</h2>
+        <ol>{recent_links(site, lang, 5)}</ol>
       </section>
     </main>
     """
@@ -2264,13 +2277,9 @@ def render_site_index_files(site):
 def render_404(site):
     css = f"/assets/site.css?v={ASSET_VERSION}"
     js = f"/assets/site.js?v={ASSET_VERSION}"
-    latest = [entry for entry in site["entries"] if entry.get("type") == "post"][:8]
-    latest_items = "".join(
-        f'<li><a href="/{entry_path(entry, "zh").strip("/")}">{esc(entry["title_zh"])}</a><time>{esc(date_only(entry["date"]))}</time></li>'
-        for entry in latest
-    )
+    latest_items = recent_links(site, "zh", 8, bilingual=True)
     write(OUT / "404.html", f"""<!doctype html>
-<html lang="zh">
+<html lang="zh" data-not-found>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -2287,30 +2296,31 @@ def render_404(site):
 <body>
   <header class="site-header">
     <nav class="nav">
-      <a class="brand" href="/zh/">
+      <a class="brand" href="/zh/" data-en-href="/en/">
         <img src="{HOME_LOGO_URL}" alt="" width="40" height="40">
         <span class="brand-text"><strong>OmegaXYZ</strong></span>
       </a>
       <div class="nav-links">
-        <a href="/zh/">主页 · Home</a>
+        <a href="/zh/" data-en-href="/en/" data-en-text="Home">主页</a>
       </div>
     </nav>
   </header>
   <main class="wrap">
     <section class="hero">
       <p class="hero-kicker">404</p>
-      <h1 class="hero-line notfound-title">页面走丢了<span>Page not found</span></h1>
-      <p class="notfound-msg">这个链接可能已被移动或删除。This page may have been moved or removed.</p>
+      <h1 class="hero-line notfound-title" data-en-text="Page not found">页面走丢了</h1>
+      <p class="notfound-msg" data-en-text="This page may have been moved or removed.">这个链接可能已被移动或删除。</p>
       <div class="hero-actions">
-        <a class="button primary" href="/zh/">返回首页 / Home</a>
+        <a class="button primary" href="/zh/" data-en-href="/en/" data-en-text="Back to home">返回首页</a>
+        <noscript><a href="/en/">English home</a></noscript>
       </div>
       <section class="search-box notfound-search" data-search="/zh/search-index.json" data-search-en="/en/search-index.json">
         <input type="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
         <div class="search-results" data-search-results></div>
       </section>
     </section>
-    <section class="notfound-latest">
-      <h2>最新文章 · Latest Posts</h2>
+    <section class="notfound-latest recent-reading">
+      <h2 data-en-text="Latest posts">最新文章</h2>
       <ol>{latest_items}</ol>
     </section>
   </main>
