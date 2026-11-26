@@ -189,10 +189,22 @@ function tesseract(T) {
   for(let i=0;i<16;i++)for(const bit of [1,2,4,8]){
     if(!(i&bit))edges.push([i,i|bit,bit===8?2:i&8?0:1]);
   }
-  const ribs=new T.InstancedMesh(new T.CylinderGeometry(1,1,1,8),new T.MeshBasicMaterial(),32);
-  const joints=new T.InstancedMesh(new T.SphereGeometry(1,10,8),new T.MeshBasicMaterial(),16);
+  const alloy=new T.MeshPhongMaterial({specular:0xc5e7ef,shininess:65});
+  const ribs=new T.InstancedMesh(new T.CylinderGeometry(1,1,1,10),alloy,32);
+  const joints=new T.InstancedMesh(new T.SphereGeometry(1,12,10),alloy,16);
   const glints=new T.InstancedMesh(ribs.geometry,new T.MeshBasicMaterial(),8);
   glints.frustumCulled=false;glints.renderOrder=3;glints.instanceMatrix.setUsage(T.DynamicDrawUsage);
+  // Confine the light spill to the eight moving contacts instead of a full-canvas bloom pass.
+  const spill=new T.InstancedMesh(ribs.geometry,new T.ShaderMaterial({
+    transparent:true,depthWrite:false,
+    vertexShader:`varying float facing,along;
+      void main(){facing=abs(normalize(normalMatrix*mat3(instanceMatrix)*normal).z);
+        along=position.y;gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.);}`,
+    fragmentShader:`varying float facing,along;
+      void main(){float core=pow(facing,3.)*(1.-smoothstep(.18,.5,abs(along)));
+        gl_FragColor=vec4(.27,.94,.89,.28*core);}`
+  }),8);
+  spill.frustumCulled=false;spill.renderOrder=4;spill.instanceMatrix.setUsage(T.DynamicDrawUsage);
   // The six axis pairs each generate four square faces, sharing the same 16 projected vertices.
   const panels=new T.BufferGeometry(), indices=[];
   for(const a of [1,2,4,8])for(const b of [1,2,4,8])if(a<b){
@@ -203,26 +215,28 @@ function tesseract(T) {
   const film=new T.ShaderMaterial({
     transparent:true,depthWrite:false,side:T.DoubleSide,forceSinglePass:true,extensions:{derivatives:true},
     uniforms:{phase:{value:0},night:{value:0}},
-    vertexShader:`varying vec3 viewPos;
-      void main(){vec4 v=modelViewMatrix*vec4(position,1.);viewPos=v.xyz;gl_Position=projectionMatrix*v;}`,
-    fragmentShader:`varying vec3 viewPos; uniform float phase,night;
+    vertexShader:`varying vec3 viewPos,localPos;
+      void main(){localPos=position;vec4 v=modelViewMatrix*vec4(position,1.);viewPos=v.xyz;gl_Position=projectionMatrix*v;}`,
+    fragmentShader:`varying vec3 viewPos,localPos; uniform float phase,night;
       void main(){
-        vec3 normal=normalize(cross(dFdx(viewPos),dFdy(viewPos)));
-        float rim=pow(1.-abs(normal.z),1.7);
-        float sweep=.5+.5*cos(viewPos.x*1.8-viewPos.y*2.4+phase*.48);
-        float tint=.5+.5*sin(phase*.22+normal.x*2.6+normal.y);
-        vec3 aqua=mix(vec3(.15,.69,.71),vec3(.18,.88,.89),night);
-        vec3 iris=mix(vec3(.44,.48,.88),vec3(.65,.53,.96),night);
-        vec3 film=mix(aqua,iris,tint);
-        film=mix(film,vec3(.91,.98,1.),pow(sweep,9.)*.44);
-        gl_FragColor=vec4(film,.035+.105*rim+.065*pow(sweep,5.));
+        vec3 n=normalize(cross(dFdx(viewPos),dFdy(viewPos)));
+        vec3 reflected=reflect(vec3(0.,0.,-1.),n);
+        float rim=pow(1.-abs(n.z),2.);
+        float strip=1.-smoothstep(.03,.24,abs(dot(reflected,normalize(vec3(.8,.5,.2)))-.34));
+        float pass=abs(fract(dot(localPos,vec3(.19,.28,.12))-phase*.09)-.5);
+        float scan=1.-smoothstep(.008,.045,pass);
+        float facing=.5+.5*dot(n,normalize(vec3(-.55,.8,.4)));
+        vec3 base=mix(vec3(.08,.44,.55),vec3(.26,.73,.75),facing);
+        vec3 edge=mix(vec3(.27,.41,.70),vec3(.49,.82,1.),night);
+        vec3 coat=mix(mix(base,edge,rim),vec3(.88,1.,.97),max(strip*.86,scan));
+        gl_FragColor=vec4(coat,.055+.13*rim+.20*strip+.22*scan);
       }`
   });
   const skin=new T.Mesh(panels,film);
   skin.renderOrder=1;ribs.renderOrder=joints.renderOrder=2;
   skin.frustumCulled=ribs.frustumCulled=joints.frustumCulled=false;
   ribs.instanceMatrix.setUsage(T.DynamicDrawUsage);joints.instanceMatrix.setUsage(T.DynamicDrawUsage);
-  group.add(skin,ribs,joints,glints);
+  group.add(skin,ribs,joints,glints,spill);
   const frame=new T.Object3D(), axis=new T.Vector3(0,1,0), delta=new T.Vector3();
   const spectra=[[0x226a73,0x965478,0x507d91,0x405aa8,0xae6b31,0x438b86],
     [0x6ce8d8,0xf9bc8e,0x8eb5d1,0xa1baff,0xf6a5db,0x78d1c4]].map(row=>row.map(hex=>new T.Color(hex)));
@@ -237,8 +251,8 @@ function tesseract(T) {
     coords.needsUpdate=true;film.uniforms.phase.value=time;film.uniforms.night.value=dark?1:0;
     const palette=spectra[dark?1:0],blend=.5-.5*Math.cos(time*.24);
     inks.forEach((ink,i)=>ink.lerpColors(palette[i],palette[i+3],blend));
-    const r=Math.max(.014,.85/unit);
-    glints.material.color.setHex(dark?0xbafff4:0x219b9b);
+    const r=Math.max(.016,.95/unit);
+    glints.material.color.setHex(dark?0xcafff8:0x74dacf);
     edges.forEach(([a,b,kind],i)=>{
       delta.subVectors(points[b],points[a]);
       const length=delta.length(), radius=r*radii[kind];
@@ -249,7 +263,8 @@ function tesseract(T) {
       if(kind===2){
         const at=.5-.41*Math.cos(time*.77+a*Math.PI/4);
         frame.position.copy(points[a]).lerp(points[b],at);
-        frame.scale.set(r*1.12,length*.14,r*1.12);frame.updateMatrix();glints.setMatrixAt(a,frame.matrix);
+        frame.scale.set(r*1.48,length*.12,r*1.48);frame.updateMatrix();glints.setMatrixAt(a,frame.matrix);
+        frame.scale.set(r*4.6,length*.17,r*4.6);frame.updateMatrix();spill.setMatrixAt(a,frame.matrix);
       }
     });
     frame.quaternion.identity();
@@ -260,6 +275,7 @@ function tesseract(T) {
     });
     ribs.instanceColor.needsUpdate=joints.instanceColor.needsUpdate=true;
     ribs.instanceMatrix.needsUpdate=joints.instanceMatrix.needsUpdate=glints.instanceMatrix.needsUpdate=true;
+    spill.instanceMatrix.needsUpdate=true;
   }
   return {group,update};
 }
@@ -267,6 +283,10 @@ function tesseract(T) {
 function omega(T, scene, camera, invalidate) {
   const model=tesseract(T), mark=model.group;
   scene.add(mark);camera.position.z=12;
+  // Fixed studio lights let the polished edges catch highlights as the projection turns.
+  const key=new T.DirectionalLight(0xe2fffa,2.2), rim=new T.DirectionalLight(0xffc49a,1.4);
+  key.position.set(-3,5,4);rim.position.set(3,1,-2);
+  scene.add(key,rim,new T.HemisphereLight(0xd9edff,0x456063,1.15));
   const peaks=(plate.dataset.peaks||"").split(",").map(Number).filter(n=>n>0).map(count=>({count}));
   const landscape=new T.Mesh(makeRelief(T,peaks,Math.max(1,Math.ceil(Math.sqrt(peaks.length*2)))), reliefMaterial(T,true));
   landscape.renderOrder=-1;scene.add(landscape);

@@ -194,13 +194,28 @@
       pinned: node.dataset.pinned === "true", priority: Number(node.dataset.pinOrder || 0)
     }));
     let kind = "", term = "", order = "featured";
+    const chartYear = archive.querySelector("[data-chart-year]");
+    if (chartYear) chartYear.disabled = false;
+    const monthBars = archive.querySelectorAll("[data-month]");
     const filter = () => {
       const text = query.value.trim().toLowerCase();
       let visible = 0;
+      const months = Array(12).fill(0);
       items.forEach((item) => {
         const show = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
         if (item.node.hidden === show) item.node.hidden = !show;
-        if (show) visible++;
+        if (show) {
+          visible++;
+          if (chartYear && item.date.startsWith(chartYear.value + "-")) months[Number(item.date.slice(5, 7)) - 1]++;
+        }
+      });
+      const peak = Math.max(1, ...months);
+      monthBars.forEach((bar, i) => {
+        const n = months[i];
+        bar.style.setProperty("--level", n / peak);
+        bar.querySelector("b").textContent = n;
+        bar.title = chartYear.value + "-" + bar.dataset.month + (root.lang === "en" ? ": " + n + " posts" : "：" + n + " 篇");
+        bar.setAttribute("aria-label", bar.title);
       });
       count.textContent = visible;
       empty.hidden = visible !== 0;
@@ -269,6 +284,7 @@
       save(true);
     });
     query.addEventListener("input", () => { filter(); save(false); });
+    chartYear?.addEventListener("change", filter);
     sort.addEventListener("change", () => { reorder(); save(true); });
     window.addEventListener("popstate", restore);
     restore();
@@ -536,6 +552,23 @@
       }
       render();
     };
+    if (search.classList.contains("home-search")) {
+      const outside = (event) => {
+        if (!search.contains(event.target)) results.hidden = true;
+      };
+      document.addEventListener("pointerdown", outside);
+      document.addEventListener("focusin", outside);
+      const open = () => { results.hidden = false; };
+      search.addEventListener("focusin", open);
+      search.addEventListener("pointerdown", open);
+      input.addEventListener("input", open);
+      search.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        event.preventDefault();
+        input.focus();
+        results.hidden = true;
+      });
+    }
     more.addEventListener("click", () => state === "error" ? loadIndex() : appendMatches(true));
     input.addEventListener("focus", loadIndex, { once: true });
     input.addEventListener("input", () => state === "idle" ? loadIndex() : render());

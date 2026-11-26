@@ -40,6 +40,10 @@ async function exercise(browser, lang) {
     const locale = () => p.evaluate(() => [document.documentElement.lang, localStorage.getItem("lang")]);
     assert.deepEqual(await locale(), [lang,other]);
     assert.equal(await p.locator("h1").innerText(), en ? "Page not found" : "页面走丢了");
+    for (const selector of [".notfound-title", ".notfound-search", ".notfound-latest"]) {
+      assert.ok(await p.locator(selector).evaluate(el => Math.abs(el.getBoundingClientRect().left * 2 +
+        el.getBoundingClientRect().width - document.documentElement.clientWidth) < 2));
+    }
     assert.ok(await p.locator("header a,.hero-actions a,.notfound-latest a").evaluateAll((as, lang) =>
       as.every(a => a.pathname.startsWith("/" + lang + "/")), lang));
     let box = p.locator(".search-box input");
@@ -48,6 +52,20 @@ async function exercise(browser, lang) {
     assert.ok((await p.locator("[data-search-results] a").first().getAttribute("href")).startsWith("/"+lang+"/"));
     await go("missing-for-test");
     assert.deepEqual(await locale(), [other,other]);
+
+    await p.emulateMedia({reducedMotion:"reduce"});
+    await go(lang + "/");
+    await box.fill("AI");
+    const dropdown = p.locator(".home-search [data-search-results]");
+    await dropdown.locator("a").first().waitFor();
+    await p.locator(".omega-hero").click({position:{x:4,y:4}});
+    assert.ok(await dropdown.isHidden());
+    await box.click();
+    assert.equal(await box.inputValue(), "AI");
+    await dropdown.locator("a").first().waitFor();
+    await box.press("Escape");
+    assert.ok(await dropdown.isHidden());
+    assert.equal(await box.inputValue(), "AI");
 
     await go(lang + "/search/");
     const recent = p.locator("[data-search-recent]");
@@ -111,6 +129,18 @@ async function exercise(browser, lang) {
     }
     await go(lang+"/archive/?category=tech");
     assert.equal(await p.locator('[data-archive-kind="category"][data-archive-term="tech"]').getAttribute("aria-pressed"),"true");
+    const year = p.locator("[data-chart-year]");
+    async function checkMonths() {
+      const counts = await p.locator("[data-archive-item]:visible").evaluateAll((els,y) => {
+        const months = Array(12).fill(0);
+        els.forEach(e => { if (e.dataset.date.startsWith(y+"-")) months[Number(e.dataset.date.slice(5,7))-1]++; });
+        return months;
+      }, await year.inputValue());
+      assert.deepEqual((await p.locator("[data-month] b").allTextContents()).map(Number), counts);
+    }
+    await checkMonths();
+    await year.selectOption({index:1}); await checkMonths();
+    await p.locator("[data-archive-query]").fill("no-such-note-000"); await checkMonths();
 
     const article = lang + "/2026/11/26/scaling-low-ai-risk-roundup/";
     const block = p.locator("[data-giscus-comments]");

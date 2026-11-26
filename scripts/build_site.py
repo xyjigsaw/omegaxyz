@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-directory-index1"
+ASSET_VERSION = "20261126-monthly-glass1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1297,7 +1297,7 @@ def render_page_link(entry, lang, current_file):
     """
 
 
-def render_page_card(entry, lang, current_file, year_anchor=None):
+def render_page_card(entry, lang, current_file):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
     summaries = {
         "friends": {"zh": "独立博客与技术社区的友链目录。", "en": "Independent blogs and technical communities in the OmegaXYZ directory."},
@@ -1306,9 +1306,8 @@ def render_page_card(entry, lang, current_file, year_anchor=None):
     }
     summary = summaries.get(entry["slug"])
     excerpt = summary[lang] if summary else short_text(entry.get(f"excerpt_{lang}") or entry.get(f"content_{lang}", ""), 132)
-    anchor = f' id="year-{esc(year_anchor)}"' if year_anchor else ""
     return f"""
-    <a class="page-card" href="{href}"{anchor}>
+    <a class="page-card" href="{href}">
       <time class="page-card-date" datetime="{esc(date_only(entry['date']))}">{esc(date_only(entry['date']))}</time>
       <strong>{esc(entry[f'title_{lang}'])}</strong>
       <span class="page-card-excerpt">{esc(excerpt)}</span>
@@ -1397,6 +1396,11 @@ def render_home(site, lang, current=None):
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path class="pause-mark" d="M8 5h2v14H8zM14 5h2v14h-2z"/><path class="play-mark" d="m7 4 13 8-13 8z"/></svg>
         </button>
         <svg class="facet-fallback" aria-hidden="true" focusable="false" viewBox="-190 -190 380 380" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <defs><linearGradient id="facet-reflection" x2=".75" y2="1" gradientUnits="objectBoundingBox">
+            <stop stop-color="var(--outer)" stop-opacity=".32"/><stop offset=".43" stop-color="var(--bridge)" stop-opacity=".08"/>
+            <stop offset=".49" stop-color="var(--outer)" stop-opacity=".38"/><stop offset=".57" stop-color="var(--bridge)" stop-opacity=".08"/>
+            <stop offset="1" stop-color="var(--inner)" stop-opacity=".24"/></linearGradient></defs>
+          <path fill="url(#facet-reflection)" d="M-38.9 -158.9L147.3 -126.5L164.1 82.7L-22.1 50.3ZM-22.1 50.3L164.1 82.7L38.9 158.9L-147.3 126.5Z"/>
           <path class="dimension-edges" d="M-22.1 50.3L-11.1 25.1M164.1 82.7L82 41.3M-38.9 -158.9L-19.5 -79.5M147.3 -126.5L73.6 -63.3M-147.3 126.5L-73.6 63.3M38.9 158.9L19.5 79.5M-164.1 -82.7L-82 -41.3M22.1 -50.3L11.1 -25.1"/>
           <path class="outer-cell" d="{TESSERACT_OUTLINE}"/>
           <path class="inner-cell" transform="scale(.5)" d="{TESSERACT_OUTLINE}"/>
@@ -1940,6 +1944,28 @@ def archive_count_box(value, lang):
     )
 
 
+def archive_month_chart(posts, lang):
+    if not posts:
+        return ""
+    months = {}
+    for entry in posts:
+        month = date_only(entry["date"])[:7]
+        months[month] = months.get(month, 0) + 1
+    year = int(max(months)[:4])
+    years = "".join(f'<option>{y}</option>' for y in range(year, int(min(months)[:4]) - 1, -1))
+    values = [months.get(f"{year}-{m:02}", 0) for m in range(1, 13)]
+    peak = max(values)
+    bars = []
+    for m, n in enumerate(values, 1):
+        label = f"{year}-{m:02}：{n} 篇" if lang == "zh" else f"{year}-{m:02}: {n} posts"
+        bars.append(f'<li data-month="{m:02}" aria-label="{label}" title="{label}" style="--level:{n / peak:.4f}"><b>{n}</b><i aria-hidden="true"></i><span>{m:02}</span></li>')
+    title = "月度发文" if lang == "zh" else "Monthly posts"
+    year_label = "图表年份" if lang == "zh" else "Chart year"
+    return f'''<section class="month-chart" aria-labelledby="month-heading"><div>
+      <h2 id="month-heading">{title}</h2><select aria-label="{year_label}" data-chart-year disabled>{years}</select>
+      </div><ol aria-label="{title}">{"".join(bars)}</ol></section>'''
+
+
 def render_archive(site, lang):
     posts = sort_post_stream([e for e in site["entries"] if e["type"] == "post"])
     current = path_to_file(archive_path(lang))
@@ -1986,12 +2012,13 @@ def render_archive(site, lang):
           </select>
         </label>
       </section>
-      <section class="archive-filters" aria-label="{esc(I18N[lang]["tags"])}">
+      <section class="archive-filters archive-overview" aria-label="{esc(I18N[lang]["all_posts"])}">
         <div class="filter-group filter-group-all">{all_chip}</div>
         <div class="filter-group">
           <h2>{esc(I18N[lang]["categories"])}</h2>
           <div>{category_chips}</div>
         </div>
+        {archive_month_chart(posts, lang)}
         <div class="filter-group">
           <h2>{esc(I18N[lang]["tags"])}</h2>
           <div>{tag_chips}</div>
@@ -2056,22 +2083,11 @@ def render_pager(lang, current, page, pages):
 def render_pages_index(site, lang):
     current = path_to_file(f"{lang}/pages/")
     pages = [e for e in site["entries"] if e["type"] == "page"]
-    by_year = {}
-    items = []
-    for entry in pages:
-        year = date_only(entry["date"])[:4]
-        items.append(render_page_card(entry, lang, current, year if year not in by_year else None))
-        by_year[year] = by_year.get(year, 0) + 1
-    chart = []
-    peak = max(by_year.values(), default=1)
-    for year, count in sorted(by_year.items()):
-        label = f"{year} 年：{count} 页" if lang == "zh" else f"{year}: {count} {'page' if count == 1 else 'pages'}"
-        chart.append(f'<a href="#year-{year}" aria-label="{label}" title="{label}"><b>{count}</b><i style="--level:{count / peak:.3f}" aria-hidden="true"></i><span>{year}</span></a>')
+    items = [render_page_card(entry, lang, current) for entry in pages]
     body = f"""
     <main class="pages-page directory-page">
       <header class="directory-mast"><div class="wrap directory-mast-inner">
         <div><h1>{esc(I18N[lang]["all_pages"])}</h1><p>{len(pages)} {"个独立页面" if lang == "zh" else "standalone pages"}</p></div>
-        <nav class="directory-years" aria-label="{'按发布年份浏览' if lang == 'zh' else 'Browse by publication year'}">{''.join(chart)}</nav>
       </div></header>
       <div class="wrap directory-body"><div class="page-card-grid">{''.join(items)}</div></div>
     </main>"""
