@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-home-search-width1"
+ASSET_VERSION = "20261126-directory-index1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -234,6 +234,8 @@ TERM_EN = {
     "c-2": "C++",  # Keep the original WordPress tag URL.
     "cpp": "C++",
     "cc": "C & C++",
+    "os": "OS",
+    "cg": "CG",
     "java": "Java",
     "linux": "Linux",
     "matlab": "MATLAB",
@@ -1295,15 +1297,22 @@ def render_page_link(entry, lang, current_file):
     """
 
 
-def render_page_card(entry, lang, current_file):
+def render_page_card(entry, lang, current_file, year_anchor=None):
     href = rel_url(current_file, path_to_file(entry_path(entry, lang)))
-    excerpt = short_text(entry.get(f"excerpt_{lang}") or strip_tags(entry.get(f"content_{lang}", "")), 132)
+    summaries = {
+        "friends": {"zh": "独立博客与技术社区的友链目录。", "en": "Independent blogs and technical communities in the OmegaXYZ directory."},
+        "webhistory": {"zh": "从建站至今的重要更新与迁移记录。", "en": "A timeline of changes, milestones and migrations at OmegaXYZ."},
+        "archive": {"zh": "按关键词、分类或标签浏览历史文章。", "en": "Explore articles by keyword, category or tag."},
+    }
+    summary = summaries.get(entry["slug"])
+    excerpt = summary[lang] if summary else short_text(entry.get(f"excerpt_{lang}") or entry.get(f"content_{lang}", ""), 132)
+    anchor = f' id="year-{esc(year_anchor)}"' if year_anchor else ""
     return f"""
-    <a class="page-card" href="{href}">
+    <a class="page-card" href="{href}"{anchor}>
       <time class="page-card-date" datetime="{esc(date_only(entry['date']))}">{esc(date_only(entry['date']))}</time>
       <strong>{esc(entry[f'title_{lang}'])}</strong>
       <span class="page-card-excerpt">{esc(excerpt)}</span>
-      <span class="page-card-go" aria-hidden="true">→</span>
+      <span class="page-card-route" aria-hidden="true">{NAV_ICONS["pages"]}<span>/{esc(entry["slug"])}/</span><b>→</b></span>
     </a>
     """
 
@@ -1665,6 +1674,7 @@ def render_friends_entry(entry, lang):
         if category not in groups:
             groups.append(category)
     sections = []
+    channels = []
     for category in groups:
         cards = []
         for item_category, label, url, logo in FRIEND_LINKS:
@@ -1694,22 +1704,27 @@ def render_friends_entry(entry, lang):
                   <div><h2>{esc(label)}</h2><p>{esc(retired_label)}</p></div>
                 </article>
                 """)
+        group_id = "links-" + esc(group_names.get(category, category).lower().replace(" ", "-"))
+        name = esc(category if lang == "zh" else group_names.get(category, category))
+        cells = '<i></i>' * len(cards)
+        channels.append(f'<a href="#{group_id}"><span>{name}</span><span class="channel-cells" aria-hidden="true">{cells}</span><b>{len(cards)}</b></a>')
         sections.append(f"""
-        <section class="friend-section">
-          <div class="section-head"><h2>{esc(category if lang == "zh" else group_names.get(category, category))}</h2><span class="directory-count">{len(cards)}</span></div>
+        <section class="friend-section" id="{group_id}">
+          <div class="section-head"><h2>{name}</h2><span class="directory-count">{len(cards)}</span></div>
           <div class="friends-grid">{''.join(cards)}</div>
         </section>
         """)
     body = f"""
-    <main class="wrap band friends-page">
-      <section class="friends-hero">
+    <main class="friends-page directory-page">
+      <header class="directory-mast"><div class="wrap directory-mast-inner">
         <div>
           <h1>{esc(title)}</h1>
           <p>{esc(desc)}</p>
+          <a class="directory-apply" href="{rel_url(current, path_to_file(f'{lang}/makefriends/'))}">{esc(apply_label)} <span aria-hidden="true">→</span></a>
         </div>
-        <a class="button primary" href="{rel_url(current, path_to_file(f'{lang}/makefriends/'))}">{esc(apply_label)}</a>
-      </section>
-      {''.join(sections)}
+        <nav class="directory-channels" aria-label="{'友链分组' if lang == 'zh' else 'Link groups'}">{''.join(channels)}</nav>
+      </div></header>
+      <div class="wrap directory-body">{''.join(sections)}</div>
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
@@ -2041,8 +2056,25 @@ def render_pager(lang, current, page, pages):
 def render_pages_index(site, lang):
     current = path_to_file(f"{lang}/pages/")
     pages = [e for e in site["entries"] if e["type"] == "page"]
-    items = "".join(render_page_card(e, lang, current) for e in pages)
-    body = f'<main class="wrap band pages-page"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1><span class="directory-count">{len(pages)} {"页" if lang == "zh" else "pages"}</span></div><div class="page-card-grid">{items}</div></main>'
+    by_year = {}
+    items = []
+    for entry in pages:
+        year = date_only(entry["date"])[:4]
+        items.append(render_page_card(entry, lang, current, year if year not in by_year else None))
+        by_year[year] = by_year.get(year, 0) + 1
+    chart = []
+    peak = max(by_year.values(), default=1)
+    for year, count in sorted(by_year.items()):
+        label = f"{year} 年：{count} 页" if lang == "zh" else f"{year}: {count} {'page' if count == 1 else 'pages'}"
+        chart.append(f'<a href="#year-{year}" aria-label="{label}" title="{label}"><b>{count}</b><i style="--level:{count / peak:.3f}" aria-hidden="true"></i><span>{year}</span></a>')
+    body = f"""
+    <main class="pages-page directory-page">
+      <header class="directory-mast"><div class="wrap directory-mast-inner">
+        <div><h1>{esc(I18N[lang]["all_pages"])}</h1><p>{len(pages)} {"个独立页面" if lang == "zh" else "standalone pages"}</p></div>
+        <nav class="directory-years" aria-label="{'按发布年份浏览' if lang == 'zh' else 'Browse by publication year'}">{''.join(chart)}</nav>
+      </div></header>
+      <div class="wrap directory-body"><div class="page-card-grid">{''.join(items)}</div></div>
+    </main>"""
     desc = ("浏览 OmegaXYZ 的独立页面：应用介绍、学习导航、站点历史、友链与隐私政策。"
             if lang == "zh" else "Explore OmegaXYZ’s standalone pages: apps, study guides, site history, friends and privacy policies.")
     write(current, layout(current, lang, I18N[lang]["all_pages"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/pages/"))
