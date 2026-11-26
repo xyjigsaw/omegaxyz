@@ -1,0 +1,93 @@
+.wrap.home-edition, .wrap.atlas-index { width: 100%; --page-inset: max(24px, calc((100% - 1120px)/2)); }
+.home-edition { position: relative; isolation: isolate; }
+.home-edition > :not(.omega-hero):not(.omega-stage), .atlas-index > :not(.terrain-plate) {
+  margin-inline: var(--page-inset);
+}
+.omega-hero {
+  position: relative; height: clamp(355px, 51svh, 455px);
+  isolation: isolate;
+}
+.omega-copy { position: absolute; left: var(--page-inset); top: 50%; transform: translateY(-43%);
+  z-index: 2; width: min(400px, 35%); }
+.omega-edition { position: absolute; top: 22px; left: var(--page-inset); pointer-events: none; }
+.plate-caption, .omega-legend {
+  margin: 0; font: 600 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--muted); text-transform: uppercase;
+}
+.plate-caption { display: flex; align-items: center; gap: 9px; }
+.plate-caption i { display: block; width: 24px; height: 3px; background: var(--accent); }
+.plate-caption span { color: var(--line-strong); }
+.omega-copy h1 { font-size: 60px; margin: 0 0 18px; letter-spacing: 0; line-height: 1; font-weight: 650; }
+.omega-copy h1 span { font-weight: 320; }
+.omega-stage {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-light-wide.webp") top center / 100% auto no-repeat;
+  mask-image: linear-gradient(to bottom, transparent, black 9%, black 52%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 9%, black 52%, transparent 90%);
+}
+:root[data-theme="dark"] .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-dark-wide.webp"); }
+.omega-stage[data-ready] { background-image: none !important; }
+canvas.plate-canvas { display: block; width: 100%; height: 100%; }
+@media (min-width: 641px) and (max-width: 900px) { .omega-copy h1 {font-size: 42px;} }
+.omega-legend { position: absolute; right: var(--page-inset); top: 22px; font-size: 10px; pointer-events: none; }
+.omega-legend span { margin-right: 10px; color: var(--accent); }
+.omega-copy .home-search { margin: 0; width: 100%; }
+.omega-copy .home-search input {
+  border-radius: 6px; background: var(--panel); padding-left: 42px; min-height: 48px; font-size: 15px;
+}
+.omega-copy .search-glyph { position: absolute; width: 18px; height: 18px; top: 15px; left: 15px; color: var(--muted); pointer-events: none; }
+.omega-copy .search-results:not(:empty) {
+  position: absolute; inset: 100% 0 auto; max-height: 310px; overflow-y: auto;
+  border-radius: 6px; box-shadow: 0 12px 32px #081b2121; z-index: 4;
+}
+.atlas-entry { display: inline-flex; gap: 8px; align-items: center; margin-top: 14px; color: var(--muted); font-size: 13px; text-decoration: none; }
+.atlas-entry span { color: var(--accent); }
+.atlas-entry:hover { color: var(--accent); text-decoration: underline; }
+.home-edition .stats-row {
+  display: flex; flex-wrap: wrap; justify-content: center; margin: 0 var(--page-inset);
+  gap: 12px 32px; max-width: none; border-top: 1px solid var(--line); padding: 14px 0 0;
+}
+.home-edition .stats-row a { flex-direction: row; gap: 7px; padding: 0; border: 0; border-radius: 0; background: none; }
+.home-edition .stats-row strong { font-size: 16px; color: var(--ink); }
+.home-edition .stats-row a:hover strong { color: var(--accent); }
+.home-edition .home-panel { padding-top: 16px; }
+.atlas-index { padding-top: 36px; }
+.terrain-plate { position: relative; }
+.terrain-plate > .plate-caption, .terrain-plate > h1, .atlas-field > .atlas-note,
+.terrain-summary > p, .terrain-summary ol { margin-inline: var(--page-inset); }
+.terrain-plate h1 { font-size: 48px; line-height: 1.14; letter-spacing: 0; margin-block: 10px; }
+.atlas-field { position: relative; padding-top: 42px; margin-bottom: 24px; }
+.atlas-note, .terrain-summary > p { position: absolute; inset: 0 0 auto; margin: 0; color: var(--muted); font-size: 14px; }
+.terrain-stage, .terrain-summary { height: clamp(320px, 43svh, 460px); }
+.terrain-stage { position: relative; touch-action: pan-y; }
+.terrain-summary { display: grid; align-content: center; }
+.terrain-summary ol { padding: 0; margin-block: 0; list-style: none; width: min(620px, calc(100% - 2 * var(--page-inset))); }
+.terrain-summary a { display: grid; grid-template-columns: minmax(75px, 1fr) 2fr 3ch; gap: 12px; align-items: center; padding: 5px 0; text-decoration: none; color: var(--ink); }
+.terrain-summary i { height: 5px; background: var(--accent); width: calc(var(--share) * 100%); }
+.terrain-summary b { font-variant-numeric: tabular-nums; text-align: end; }
+.terrain-stage[data-ready] + .terrain-summary, .terrain-stage:not([data-ready]) ~ .atlas-note { display: none; }
+.terrain-stage:not([data-ready]):not([hidden]) { position: absolute; inset: 42px 0 0; }
+.terrain-stage[hidden] { display: none; }
+.peak-label {
+  position: absolute; left: 0; top: 0; padding: 4px 10px; white-space: nowrap; max-width: 90%;
+  overflow: hidden; text-overflow: ellipsis; border-left: 3px solid var(--accent);
+  background: var(--panel); font-size: 13px; font-weight: 650; text-decoration: none; color: var(--ink);
+  box-shadow: 0 2px 10px #04181d20;
+}
+.category-cloud a.is-peak { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .wrap.home-edition, .wrap.atlas-index { --page-inset: 15px; }
+  .omega-hero { height: clamp(274px, 39svh, 335px); }
+  .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-light-mobile.webp"); }
+  :root[data-theme="dark"] .omega-stage { background-image: url("https://cdn.omegaxyz.com/design/section-omega/wordmark-v2-dark-mobile.webp"); }
+  .omega-legend, .omega-edition { top: 14px; font-size: 9px; }
+  .omega-legend span { margin-right: 2px; }
+  .omega-copy { left: var(--page-inset); width: calc(100% - 30px); top: auto; bottom: 12px; transform: none; }
+  .omega-copy h1 { font-size: 28px; margin-bottom: 8px; }
+  .omega-copy .home-search { width: 100%; }
+  .atlas-entry { margin-top: 8px; min-height: 26px; }
+  .home-edition .stats-row { gap: 8px 16px; padding-top: 10px; }
+  .home-edition .stats-row strong { font-size: 14px; }
+  .terrain-plate h1 { font-size: 34px; }
+  .terrain-stage, .terrain-summary { height: 295px; }
+}

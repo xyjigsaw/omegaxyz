@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-site-audit1"
+ASSET_VERSION = "20261126-section-atlas1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1210,7 +1210,7 @@ ARTICLE_ASSETS = (
 )
 
 
-def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image=""):
+def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", scenes=False):
     css = rel_url(current_file, OUT / "assets/site.css") + f"?v={ASSET_VERSION}"
     js = rel_url(current_file, OUT / "assets/site.js") + f"?v={ASSET_VERSION}"
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -1224,6 +1224,8 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
         f'\n  <link rel="stylesheet" href="{katex}">'
     ) if article_assets else ""
     body_assets = ARTICLE_ASSETS if article_assets else ""
+    scene_css = f'<link rel="stylesheet" href="/assets/scenes-v1.css?v={ASSET_VERSION}">' if scenes else ""
+    scene_js = f'<script type="module" src="/assets/scenes-v1.js?v={ASSET_VERSION}"></script>' if scenes else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -1251,7 +1253,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <meta name="twitter:image" content="{esc(og_image)}">
   <link rel="icon" href="{FAVICON_URL}" type="image/png">
   <link rel="apple-touch-icon" href="{FAVICON_URL}">{head_katex}
-  <link rel="stylesheet" href="{css}">
+  <link rel="stylesheet" href="{css}">{scene_css}
 </head>
 <body>
   {META_ICON_SPRITE}
@@ -1260,7 +1262,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <a id="main-content" tabindex="-1"></a>
   {body}
   {footer(current_file, lang)}
-  <script src="{js}"></script>{body_assets}
+  <script src="{js}"></script>{body_assets}{scene_js}
   {analytics_scripts()}
 </body>
 </html>
@@ -1358,15 +1360,20 @@ def render_home(site, lang, current=None):
         stat_comment = rel_url(current, path_to_file(f"{lang}/comment/"))
         stat_third = f'<li><a href="{stat_comment}"><strong>{stats["comments"]}</strong><span>{esc(t["message"])}</span></a></li>'
     body = f"""
-    <main class="wrap">
-      <section class="hero">
-        <p class="hero-kicker">{esc(t['tagline'])}</p>
-        <h1 class="hero-line"><span class="spinner-verb" data-spinner-verb>Pondering</span><span class="spinner-dots" aria-hidden="true">…</span></h1>
-        <p class="spinner-def" data-spinner-def></p>
-        <section class="search-box home-search" data-search="{search_index}">
-          <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
-          <div class="search-results" data-search-results></div>
-        </section>
+    <main class="wrap home-edition">
+      <div class="omega-stage" data-scene="omega" data-peaks="{','.join(str(t['count']) for t in sorted(term_counts.values(), key=lambda t: -t['count']))}" aria-hidden="true"></div>
+      <section class="omega-hero">
+        <p class="plate-caption omega-edition"><i></i>{'技术笔记' if lang == 'zh' else 'Technical notes'} <span>/</span> EST. 2017</p>
+        <div class="omega-copy">
+          <h1>Omega<span>XYZ</span></h1>
+          <div class="search-box home-search" data-search="{search_index}">
+            <svg class="search-glyph" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
+            <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
+            <div class="search-results" data-search-results></div>
+          </div>
+          <a class="atlas-entry" href="{stat_terms}">{'文章地形' if lang == 'zh' else 'Article terrain'} <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="omega-legend" aria-hidden="true"><span>FIG. 01</span> ΩXYZ</div>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
         <li><a href="{stat_archive}"><strong>{stats['posts']}</strong><span>{esc(t['archive'])}</span></a></li>
@@ -1400,7 +1407,7 @@ def render_home(site, lang, current=None):
     """
     desc = ("徐奕的编程、机器学习与数学笔记。浏览近期文章、开发工具和历年技术专题。"
             if lang == "zh" else "Yi Xu’s notes on programming, machine learning and mathematics. Explore recent articles, developer tools and the topic archives.")
-    return layout(current, lang, "OmegaXYZ", body, desc, f"{'en' if lang == 'zh' else 'zh'}/")
+    return layout(current, lang, "OmegaXYZ", body, desc, f"{'en' if lang == 'zh' else 'zh'}/", scenes=True)
 
 
 TIMELINE = [
@@ -2030,12 +2037,17 @@ def render_terms(site, lang):
                 representatives.setdefault(key, term_info(term))
         current = path_to_file(f"{lang}/{label}/")
         chips = []
+        peaks = []
         for (slug, name), entries in sorted(grouped.items(), key=lambda i: (-len(i[1]), i[0][1])):
             entries = sort_post_stream(entries)
             href = rel_url(current, path_to_file(term_path(kind, slug, lang)))
             display_label = term_label(representatives[(slug, name)], lang)
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
-            chips.append(f'<a class="pill term-pill term-{kind}" data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
+            count = sum(e["type"] == "post" for e in entries)
+            peak = f' data-peak="{esc(slug)}" data-count="{count}"' if kind == "category" and count else ""
+            if peak:
+                peaks.append((count, display_label, href))
+            chips.append(f'<a class="pill term-pill term-{kind}"{peak} data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
             term_current = path_to_file(term_path(kind, slug, lang))
             if kind == "category":
                 tag_counts = {}
@@ -2094,9 +2106,23 @@ def render_terms(site, lang):
             tag_cloud_html = cloud_html
             body = f'<main class="wrap band term-index"><div class="section-head"><h1>{esc(I18N[lang][label])}</h1></div><div class="terms term-cloud tag-cloud">{cloud_html}</div></main>'
         else:
+            terrain_title = "文章地形" if lang == "zh" else "Article terrain"
+            terrain_note = "每座山峰对应一个分类，峰高按文章数对数缩放。" if lang == "zh" else "One peak per category. Heights follow article counts on a logarithmic scale."
+            leaders = sorted(peaks, key=lambda p: (-p[0], p[1]))[:5]
+            bars = "".join(
+                f'<li><a href="{href}"><span>{esc(name)}</span><i style="--share:{count / leaders[0][0]:.4f}"></i><b>{count}</b></a></li>'
+                for count, name, href in leaders
+            )
             body = (
-                '<main class="wrap band term-index">'
-                f'<div class="section-head"><h1>{esc(I18N[lang]["categories"])}</h1></div>'
+                '<main class="wrap band term-index atlas-index">'
+                '<section class="terrain-plate">'
+                '<p class="plate-caption"><i></i> FIG. 02 <span>/</span> OMEGAXYZ</p>'
+                f'<h1>{terrain_title}</h1><div class="atlas-field">'
+                '<div class="terrain-stage" data-scene="terrain" hidden>'
+                '<a class="peak-label" data-peak-label hidden></a></div>'
+                f'<div class="terrain-summary"><p>{"文章最多的分类" if lang == "zh" else "Categories by article count"}</p><ol>{bars}</ol></div>'
+                f'<p class="atlas-note">{terrain_note}</p></div></section>'
+                f'<div class="section-head"><h2>{esc(I18N[lang]["categories"])}</h2></div>'
                 f'<div class="terms term-cloud category-cloud">{cloud_html}</div>'
                 f'<div class="section-head term-index-sub"><h2>{esc(I18N[lang]["tags"])}</h2></div>'
                 f'<div class="terms term-cloud tag-cloud">{tag_cloud_html}</div>'
@@ -2104,7 +2130,7 @@ def render_terms(site, lang):
             )
         desc = (f"按{I18N[lang][label]}浏览 OmegaXYZ：从 {len(grouped)} 个主题入口查找相关笔记与文章。"
                 if lang == "zh" else f"Browse {len(grouped)} {label} on OmegaXYZ and find notes and articles on each topic.")
-        write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
+        write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/", scenes=kind == "category"))
 
 
 def render_search(site, lang):
