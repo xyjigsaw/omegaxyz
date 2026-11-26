@@ -82,10 +82,6 @@
   });
 
   const giscusBlocks = Array.from(document.querySelectorAll("[data-giscus-comments]"));
-  const discussionSearchUrl = (term) => {
-    const query = encodeURIComponent(`category:Comments ${term || ""}`);
-    return `https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=${query}`;
-  };
   const loadGiscusBlock = (block) => {
     if (!block || block.dataset.giscusState === "loaded") return;
     const mount = block.querySelector("[data-giscus-mount]");
@@ -117,53 +113,33 @@
     script.async = true;
     mount.appendChild(script);
   };
-  const showMainlandCommentNotice = (block) => {
-    if (!block || block.dataset.giscusState === "loaded") return;
-    block.dataset.commentRegion = "mainland";
-    const mount = block.querySelector("[data-giscus-mount]");
-    const note = block.querySelector("[data-mainland-comment-note]");
-    if (mount) mount.hidden = true;
-    if (note) {
-      const link = note.querySelector("a");
-      if (link) link.href = discussionSearchUrl(block.dataset.giscusTerm || "");
-      note.hidden = false;
-    }
-  };
-  const applyCommentRegion = (code) => {
-    const normalized = (code || "").toUpperCase();
-    giscusBlocks.forEach((block) => {
-      if (normalized === "CN") {
-        showMainlandCommentNotice(block);
-      } else {
-        loadGiscusBlock(block);
-      }
-    });
-  };
-
   const ipCards = Array.from(document.querySelectorAll("[data-ip-card]"));
   if (ipCards.length || giscusBlocks.length) {
-    const countryLabel = (code) => {
-      if (!code) return "";
+    const lookup = async (url) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 4500);
       try {
-        return new Intl.DisplayNames([root.lang || "zh"], { type: "region" }).of(code.toUpperCase()) || code;
-      } catch (error) {
-        return code.toUpperCase();
+        const response = await fetch(url, { cache: "no-store", signal: controller.signal });
+        if (!response.ok) throw new Error("Region lookup failed");
+        const data = await response.json();
+        const code = String(data.country_code || data.country || "").toUpperCase();
+        if (data.error || !/^[A-Z]{2}$/.test(code) || ["ZZ", "XX", "T1"].includes(code)) throw new Error("Unknown region");
+        const name = new Intl.DisplayNames([root.lang || "zh"], { type: "region", fallback: "none" }).of(code);
+        if (!name) throw new Error("Unknown region");
+        return { ip: data.ip || data.query, country: data.country_name || name, code };
+      } finally {
+        clearTimeout(timeout);
       }
     };
     const renderIpInfo = (data) => {
-      const ip = data.ip || data.query || "";
-      const code = data.country || data.country_code || "";
-      const country = data.country_name || countryLabel(code);
-      const text = [ip, country].filter(Boolean).join(" · ");
-      applyCommentRegion(code);
+      const text = [data.ip, data.country].filter(Boolean).join(" · ");
+      if (data.code !== "CN") giscusBlocks.forEach(loadGiscusBlock);
       ipCards.forEach((card) => {
         const status = card.querySelector("[data-ip-status]");
         if (status) status.textContent = text || (root.lang === "en" ? "IP unavailable." : "暂时无法识别 IP。");
       });
     };
-    const loadGiscusWithoutRegion = () => giscusBlocks.forEach(loadGiscusBlock);
     const renderIpError = () => {
-      loadGiscusWithoutRegion();
       ipCards.forEach((card) => {
         const status = card.querySelector("[data-ip-status]");
         if (status) status.textContent = root.lang === "en"
@@ -171,101 +147,69 @@
           : "暂时无法识别 IP 与国家/地区。";
       });
     };
-    fetch("https://ipapi.co/json/", { cache: "no-store" })
-      .then((response) => {
-        if (!response.ok) throw new Error("ipapi failed");
-        return response.json();
-      })
+    lookup("https://ipapi.co/json/")
+      .catch(() => lookup("https://api.country.is/"))
       .then(renderIpInfo)
-      .catch(() => {
-        fetch("https://api.country.is/", { cache: "no-store" })
-          .then((response) => {
-            if (!response.ok) throw new Error("country api failed");
-            return response.json();
-          })
-          .then(renderIpInfo)
-          .catch(renderIpError);
-      });
+      .catch(renderIpError);
   }
 
-  const applyArchiveFilters = (archive) => {
-    if (!archive) return;
-    const queryInput = archive.querySelector("[data-archive-query]");
-    const sortSelect = archive.querySelector("[data-archive-sort]");
+  document.querySelectorAll("[data-archive]").forEach((archive) => {
+    const query = archive.querySelector("[data-archive-query]");
+    const sort = archive.querySelector("[data-archive-sort]");
     const list = archive.querySelector(".archive-index");
     const count = archive.querySelector("[data-archive-count]");
     const empty = archive.querySelector("[data-archive-empty]");
-    const items = Array.from(archive.querySelectorAll("[data-archive-item]"));
-    const query = (queryInput && queryInput.value ? queryInput.value : "").trim().toLowerCase();
-    const sort = sortSelect ? sortSelect.value : "newest";
-    const activeKind = archive.dataset.activeKind || "";
-    const activeTerm = archive.dataset.activeTerm || "";
-    let visible = items.filter((item) => {
-      const itemSearch = item.dataset.search || "";
-      const itemTerms = (activeKind === "category" ? item.dataset.categories || "" : item.dataset.tags || "").split(/\s+/);
-      const matchesQuery = !query || itemSearch.includes(query);
-      const matchesTerm = !activeTerm || itemTerms.includes(activeTerm);
-      return matchesQuery && matchesTerm;
-    });
-
-    visible.sort((a, b) => {
-      if (sort === "featured") {
-        const pinnedA = a.dataset.pinned === "true";
-        const pinnedB = b.dataset.pinned === "true";
-        if (pinnedA !== pinnedB) return pinnedA ? -1 : 1;
-        if (pinnedA) {
-          const priority = Number(a.dataset.pinOrder || 0) - Number(b.dataset.pinOrder || 0);
-          if (priority) return priority;
+    const chips = archive.querySelectorAll("[data-archive-term]");
+    const items = Array.from(list.children, (node) => ({
+      node, search: node.dataset.search, date: node.dataset.date, title: node.dataset.title,
+      category: node.dataset.categories.split(/\s+/), tag: node.dataset.tags.split(/\s+/),
+      pinned: node.dataset.pinned === "true", priority: Number(node.dataset.pinOrder || 0)
+    }));
+    let kind = "", term = "", order = "featured";
+    const filter = () => {
+      const text = query.value.trim().toLowerCase();
+      let visible = 0;
+      items.forEach((item) => {
+        const show = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
+        if (item.node.hidden === show) item.node.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = visible;
+      empty.hidden = visible !== 0;
+    };
+    const reorder = () => {
+      if (sort.value === order) return;
+      order = sort.value;
+      const sorted = items.slice().sort((a, b) => {
+        if (order === "featured") {
+          if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+          if (a.pinned && a.priority !== b.priority) return a.priority - b.priority;
         }
-      }
-      if (sort === "oldest") return a.dataset.date.localeCompare(b.dataset.date);
-      if (sort === "title") return a.dataset.title.localeCompare(b.dataset.title);
-      return b.dataset.date.localeCompare(a.dataset.date);
+        if (order === "oldest") return a.date.localeCompare(b.date);
+        if (order === "title") return a.title.localeCompare(b.title, root.lang);
+        return b.date.localeCompare(a.date);
+      });
+      const fragment = document.createDocumentFragment();
+      sorted.forEach(({ node }) => fragment.appendChild(node));
+      list.appendChild(fragment);
+    };
+    archive.addEventListener("click", (event) => {
+      const chip = event.target.closest("[data-archive-term]");
+      if (!chip) return;
+      const same = chip.dataset.archiveKind === kind && chip.dataset.archiveTerm === term;
+      kind = same ? "" : chip.dataset.archiveKind;
+      term = same ? "" : chip.dataset.archiveTerm;
+      chips.forEach((button) => {
+        const active = button.dataset.archiveKind === kind && button.dataset.archiveTerm === term;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      filter();
     });
-
-    items.forEach((item) => {
-      item.hidden = true;
-      item.style.display = "none";
-    });
-    visible.forEach((item) => {
-      item.hidden = false;
-      item.style.removeProperty("display");
-      if (list) list.appendChild(item);
-    });
-    if (count) count.textContent = visible.length;
-    if (empty) empty.hidden = visible.length !== 0;
-  };
-
-  window.omegaArchiveApply = (control) => {
-    const archive = control && control.closest ? control.closest("[data-archive]") : null;
-    applyArchiveFilters(archive);
-  };
-  window.omegaArchiveTag = (chip) => {
-    const archive = chip && chip.closest ? chip.closest("[data-archive]") : null;
-    if (!archive) return;
-    const nextKind = chip.dataset.archiveKind || "";
-    const nextTerm = chip.dataset.archiveTerm || "";
-    const isSame = (archive.dataset.activeKind || "") === nextKind && (archive.dataset.activeTerm || "") === nextTerm;
-    archive.dataset.activeKind = isSame ? "" : nextKind;
-    archive.dataset.activeTerm = isSame ? "" : nextTerm;
-    archive.querySelectorAll("[data-archive-term]").forEach((item) => {
-      item.classList.toggle(
-        "is-active",
-        (item.dataset.archiveKind || "") === archive.dataset.activeKind &&
-          (item.dataset.archiveTerm || "") === archive.dataset.activeTerm
-      );
-    });
-    applyArchiveFilters(archive);
-  };
-
-  document.querySelectorAll("[data-archive]").forEach((archive) => {
-    const queryInput = archive.querySelector("[data-archive-query]");
-    const sortSelect = archive.querySelector("[data-archive-sort]");
-    archive.dataset.activeKind = archive.dataset.activeKind || "";
-    archive.dataset.activeTerm = archive.dataset.activeTerm || "";
-    if (queryInput) queryInput.addEventListener("input", () => applyArchiveFilters(archive));
-    if (sortSelect) sortSelect.addEventListener("change", () => applyArchiveFilters(archive));
-    applyArchiveFilters(archive);
+    query.addEventListener("input", filter);
+    sort.addEventListener("change", reorder);
+    reorder();
+    if (query.value) filter();
   });
 
   const classifyArticleImages = () => {
@@ -436,7 +380,12 @@
   if (search) {
     const input = search.querySelector("input");
     const results = search.querySelector("[data-search-results]");
-    const indexPath = search.dataset.search;
+    const english404 = search.dataset.searchEn && location.pathname.startsWith("/en/");
+    const indexPath = english404 ? search.dataset.searchEn : search.dataset.search;
+    if (english404) {
+      input.placeholder = "Search articles, pages and tags…";
+      input.setAttribute("aria-label", "Search");
+    }
     let index = [];
     let loaded = false;
     const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -456,7 +405,7 @@
         .slice(0, 12);
       matches.forEach((item) => {
         const a = document.createElement("a");
-        a.href = item.url;
+        a.href = new URL(item.url, new URL(indexPath, document.baseURI)).href;
         a.innerHTML = "<strong>" + highlight(item.title, q) + "</strong><span>" + highlight(item.excerpt, q) + "</span>";
         results.appendChild(a);
       });

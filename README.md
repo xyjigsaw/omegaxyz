@@ -175,6 +175,10 @@ python3 scripts/generate_media_manifest.py
 
 ## 构建逻辑摘要
 
+`public/robots.txt` 是源站的爬虫规则，允许百度和 Google 搜索，保留其他已配置的爬虫限制。Cloudflare 的托管 robots.txt 可能在它前面追加规则。修改后要检查主域名实际返回的 `https://omegaxyz.com/robots.txt`，不只看仓库。如果百度同时出现 `Disallow: /` 和 `Allow: /`，应在 Cloudflare 的域名设置中停止同步冲突的 robots 规则，并检查 AI Crawl Control 是否单独拦截 Baiduspider；不需要关闭整站防护。
+
+构建后运行 `python3 scripts/check_site_indexes.py` 可以检查 sitemap、规范地址、中英文互链、搜索索引和源站爬虫规则；GitHub Actions 发布前也会自动执行。
+
 - `scripts/build_site.py` 读取 `data/site.json`
 - 合并 `content/extra_entries.json`
 - 复制 `public/` 到 `docs/`

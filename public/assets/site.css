@@ -1149,6 +1149,7 @@ a.pill:hover {
 .tag-filter:hover { border-color: color-mix(in srgb, var(--tag) 55%, var(--line)); }
 
 .archive-list { display: flex; flex-direction: column; }
+.archive-item[hidden] { display: none; }
 .archive-item {
   display: grid;
   grid-template-columns: 116px minmax(0, 1fr);
@@ -1736,6 +1737,14 @@ a.pill:hover {
   }
   .sidebar { position: static; }
   .side-box { padding-left: 14px; }
+}
+
+@media (max-width: 350px) {
+  .site-header .nav { width: calc(100% - 16px); gap: 4px; }
+  .site-header .brand { gap: 4px; }
+  .site-header .brand img { width: 28px; height: 28px; }
+  .site-header .brand-text strong { font-size: 1.1rem; }
+  .site-header .nav-links a { padding-inline: 5px; }
 }
 
 @media (max-width: 640px) {

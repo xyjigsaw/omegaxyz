@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261010-pinned-posts1"
+ASSET_VERSION = "20261126-site-audit1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1259,8 +1259,8 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   {nav(current_file, lang, title, alt_path)}
   <a id="main-content" tabindex="-1"></a>
   {body}
-  <script src="{js}"></script>
-  {footer(current_file, lang)}{body_assets}
+  {footer(current_file, lang)}
+  <script src="{js}"></script>{body_assets}
   {analytics_scripts()}
 </body>
 </html>
@@ -1398,7 +1398,9 @@ def render_home(site, lang, current=None):
       </section>
     </main>
     """
-    return layout(current, lang, "OmegaXYZ", body, t["intro"], f"{'en' if lang == 'zh' else 'zh'}/")
+    desc = ("徐奕的编程、机器学习与数学笔记。浏览近期文章、开发工具和历年技术专题。"
+            if lang == "zh" else "Yi Xu’s notes on programming, machine learning and mathematics. Explore recent articles, developer tools and the topic archives.")
+    return layout(current, lang, "OmegaXYZ", body, desc, f"{'en' if lang == 'zh' else 'zh'}/")
 
 
 TIMELINE = [
@@ -1447,7 +1449,9 @@ def render_timeline_page(entry, lang):
       {render_timeline(lang)}
     </main>
     """
-    return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, other))
+    desc = ("从 2017 年建站至今，按时间了解 OmegaXYZ 的重要更新、内容改版和站点迁移。"
+            if lang == "zh" else "Follow the history of OmegaXYZ from its launch in 2017 through site migrations, redesigns and publishing milestones.")
+    return layout(current, lang, title, body, desc, entry_path(entry, other))
 
 
 def entry_term_keys(entry):
@@ -1857,12 +1861,12 @@ def render_giscus(entry, lang):
     discussion_url = "https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=" + quote(f"category:Comments {term}")
     ip_card = render_comment_ip_card(lang) if show_ip_card else ""
     giscus = f"""
-      <div class="mainland-comment-note" data-mainland-comment-note hidden>
+      <div class="mainland-comment-note" data-mainland-comment-note>
         <strong>{esc(I18N[lang]["comment_mainland_title"])}</strong>
         <p>{esc(I18N[lang]["comment_mainland_text"])}</p>
         <a class="button" href="{esc(discussion_url)}" target="_blank" rel="noopener noreferrer">{esc(I18N[lang]["comment_mainland_link"])}</a>
       </div>
-      <div class="giscus" data-giscus-mount></div>
+      <div class="giscus" data-giscus-mount hidden></div>
     """ if show_giscus else ""
     return f"""
     <section class="comments giscus-comments"
@@ -1908,13 +1912,13 @@ def render_archive(site, lang):
             tag_counts[key]["count"] += 1
     top_categories = sorted(category_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
     top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
-    all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
+    all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" aria-pressed="true">{esc(I18N[lang]["filter_all"])}</button>'
     category_chips = "".join(
-        f'<button class="filter-chip category-filter" type="button" data-archive-kind="category" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+        f'<button class="filter-chip category-filter" type="button" data-archive-kind="category" data-archive-term="{esc(term["slug"])}" aria-pressed="false">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
         for term in top_categories
     )
     tag_chips = "".join(
-        f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+        f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" aria-pressed="false">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
         for term in top_tags
     )
     body = f"""
@@ -1925,11 +1929,11 @@ def render_archive(site, lang):
       </div>
       <section class="archive-tools">
         <div class="archive-search">
-          <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
+          <input type="search" data-archive-query placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
         </div>
         <label class="archive-sort">
           <span>{esc(I18N[lang]["sort"])}</span>
-          <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
+          <select data-archive-sort aria-label="{esc(I18N[lang]["sort"])}">
             <option value="featured">{esc(I18N[lang]["pinned_first"])}</option>
             <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
             <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
@@ -1952,7 +1956,9 @@ def render_archive(site, lang):
       <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
     </main>
     """
-    write(current, layout(current, lang, I18N[lang]["all_posts"], body, alt_path=archive_path("en" if lang == "zh" else "zh")))
+    desc = (f"浏览 OmegaXYZ 的 {len(posts)} 篇文章，按关键词、分类或标签筛选，并按日期或标题排序。"
+            if lang == "zh" else f"Browse {len(posts)} OmegaXYZ articles. Filter by keyword, category or tag, and sort by date or title.")
+    write(current, layout(current, lang, I18N[lang]["all_posts"], body, desc, archive_path("en" if lang == "zh" else "zh")))
     pages = max(1, math.ceil(len(posts) / 24))
     for page in range(2, pages + 1):
         render_redirect(archive_path(lang, page), archive_path(lang))
@@ -1972,7 +1978,7 @@ def render_archive_item(entry, lang, current, interactive=False):
         tag_slugs = " ".join(t["slug"] for t in entry["tags"])
         attrs = (
             f' data-archive-item data-title="{esc(entry[f"title_{lang}"].lower())}"'
-            f' data-date="{esc(date_only(entry["date"]))}"'
+            f' data-date="{esc(entry["date"])}"'
             f' data-pinned="{str(is_pinned(entry)).lower()}" data-pin-order="{post_pin_order(entry)}"'
             f' data-categories="{esc(category_slugs)}"'
             f' data-tags="{esc(tag_slugs)}"'
@@ -2007,7 +2013,9 @@ def render_pages_index(site, lang):
     pages = [e for e in site["entries"] if e["type"] == "page"]
     items = "".join(render_page_card(e, lang, current) for e in pages)
     body = f'<main class="wrap band pages-page"><div class="section-head"><h1>{esc(I18N[lang]["all_pages"])}</h1></div><div class="page-card-grid">{items}</div></main>'
-    write(current, layout(current, lang, I18N[lang]["all_pages"], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/pages/"))
+    desc = ("浏览 OmegaXYZ 的独立页面：应用介绍、学习导航、站点历史、友链与隐私政策。"
+            if lang == "zh" else "Explore OmegaXYZ’s standalone pages: apps, study guides, site history, friends and privacy policies.")
+    write(current, layout(current, lang, I18N[lang]["all_pages"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/pages/"))
 
 
 def render_terms(site, lang):
@@ -2036,9 +2044,9 @@ def render_terms(site, lang):
                         tag_counts.setdefault(term["slug"], term_info(term))
                         tag_counts[term["slug"]]["count"] += 1
                 top_tags = sorted(tag_counts.values(), key=lambda item: (-item["count"], term_label(item, lang).lower()))
-                all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(I18N[lang]["filter_all"])}</button>'
+                all_chip = f'<button class="filter-chip is-active" type="button" data-archive-kind="" data-archive-term="" aria-pressed="true">{esc(I18N[lang]["filter_all"])}</button>'
                 tag_chips = "".join(
-                    f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" onclick="window.omegaArchiveTag&&window.omegaArchiveTag(this)">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
+                    f'<button class="filter-chip tag-filter" type="button" data-archive-kind="tag" data-archive-term="{esc(term["slug"])}" aria-pressed="false">{esc(term_label(term, lang))}<span>{term["count"]}</span></button>'
                     for term in top_tags
                 )
                 items = "".join(render_archive_item(e, lang, term_current, interactive=True) for e in entries)
@@ -2050,11 +2058,11 @@ def render_terms(site, lang):
                   </div>
                   <section class="archive-tools">
                     <div class="archive-search">
-                      <input type="search" data-archive-query oninput="window.omegaArchiveApply&&window.omegaArchiveApply(this)" placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
+                      <input type="search" data-archive-query placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
                     </div>
                     <label class="archive-sort">
                       <span>{esc(I18N[lang]["sort"])}</span>
-                      <select data-archive-sort onchange="window.omegaArchiveApply&&window.omegaArchiveApply(this)" aria-label="{esc(I18N[lang]["sort"])}">
+                      <select data-archive-sort aria-label="{esc(I18N[lang]["sort"])}">
                         <option value="featured">{esc(I18N[lang]["pinned_first"])}</option>
             <option value="newest">{esc(I18N[lang]["sort_newest"])}</option>
                         <option value="oldest">{esc(I18N[lang]["sort_oldest"])}</option>
@@ -2077,7 +2085,10 @@ def render_terms(site, lang):
             else:
                 items = "".join(render_archive_item(e, lang, term_current) for e in entries)
                 body = f'<main class="wrap band term-page"><div class="section-head"><h1>{esc(display_label)}</h1><p>{esc(I18N[lang][label])}</p></div><div class="archive-list">{items}</div></main>'
-            write(term_current, layout(term_current, lang, display_label, body, alt_path=term_path(kind, slug, "en" if lang == "zh" else "zh")))
+            newest = date_only(max(e["date"] for e in entries))
+            desc = (f"浏览「{display_label}」{'分类' if kind == 'category' else '标签'}下的 {len(entries)} 篇内容，最近发布于 {newest}。"
+                    if lang == "zh" else f"Explore {len(entries)} entries in the {display_label} {kind} on OmegaXYZ. Most recently published: {newest}.")
+            write(term_current, layout(term_current, lang, display_label, body, desc, term_path(kind, slug, "en" if lang == "zh" else "zh")))
         cloud_html = "".join(chips)
         if kind == "tag":
             tag_cloud_html = cloud_html
@@ -2091,7 +2102,9 @@ def render_terms(site, lang):
                 f'<div class="terms term-cloud tag-cloud">{tag_cloud_html}</div>'
                 '</main>'
             )
-        write(current, layout(current, lang, I18N[lang][label], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
+        desc = (f"按{I18N[lang][label]}浏览 OmegaXYZ：从 {len(grouped)} 个主题入口查找相关笔记与文章。"
+                if lang == "zh" else f"Browse {len(grouped)} {label} on OmegaXYZ and find notes and articles on each topic.")
+        write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/"))
 
 
 def render_search(site, lang):
@@ -2103,7 +2116,7 @@ def render_search(site, lang):
             "title": entry[f"title_{lang}"],
             "excerpt": entry[f"excerpt_{lang}"],
             "tags": " ".join(term_label(t, lang) for t in entry["tags"] + entry["categories"]),
-            "url": rel_url(index_file, path_to_file(entry_path(entry, lang))),
+            "url": "/" + entry_path(entry, lang).strip("/") + "/",
         })
     write(index_file, json.dumps(index, ensure_ascii=False))
     body = f"""
@@ -2115,7 +2128,9 @@ def render_search(site, lang):
       </section>
     </main>
     """
-    write(current, layout(current, lang, I18N[lang]["search"], body, alt_path=f"{'en' if lang == 'zh' else 'zh'}/search/"))
+    desc = ("在 OmegaXYZ 的中文文章和页面中按标题、摘要或标签搜索。"
+            if lang == "zh" else "Search OmegaXYZ’s English articles and pages by title, summary or tag.")
+    write(current, layout(current, lang, I18N[lang]["search"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/search/"))
 
 
 def render_redirect(path, target):
@@ -2168,9 +2183,9 @@ def render_site_index_files(site):
             lastmod[site_url_for_file(path_to_file(entry_path(entry, lang)))] = mod
     rows = []
     for file in sorted(OUT.rglob("*.html")):
-        if file.name == "404.html":
+        if file.relative_to(OUT).parts[0] not in ("zh", "en"):
             continue
-        head = file.read_text(encoding="utf-8", errors="ignore")[:300].lower()
+        head = file.read_text(encoding="utf-8", errors="ignore").partition("</head>")[0].lower()
         if 'http-equiv="refresh"' in head or 'name="robots" content="noindex"' in head:
             continue
         url = site_url_for_file(file)
@@ -2184,11 +2199,6 @@ def render_site_index_files(site):
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {xml_urls}
 </urlset>
-""")
-    write(OUT / "robots.txt", f"""User-agent: *
-Allow: /
-
-Sitemap: {SITE_URL.rstrip("/")}/sitemap.xml
 """)
 
 
@@ -2235,7 +2245,7 @@ def render_404(site):
       <div class="hero-actions">
         <a class="button primary" href="/zh/">返回首页 / Home</a>
       </div>
-      <section class="search-box notfound-search" data-search="/zh/search-index.json">
+      <section class="search-box notfound-search" data-search="/zh/search-index.json" data-search-en="/en/search-index.json">
         <input type="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
         <div class="search-results" data-search-results></div>
       </section>
