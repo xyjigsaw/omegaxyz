@@ -2135,15 +2135,13 @@ def render_search(site, lang):
 
 def render_redirect(path, target):
     file = path_to_file(path)
-    target_path, separator, fragment = target.partition("#")
-    target_file = path_to_file(target_path)
+    target_file = path_to_file(target)
     href = rel_url(file, target_file)
-    lang = "en" if target_path.startswith("en/") else "zh"
     write(file, (
-        f'<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
+        '<!doctype html><html lang="zh"><head><meta charset="utf-8">'
         f'{ADSENSE_SCRIPT}'
-        f'<meta http-equiv="refresh" content="0; url={esc(href + separator + fragment)}">'
-        f'<link rel="canonical" href="{esc(href)}">'
+        f'<meta http-equiv="refresh" content="0; url={href}">'
+        f'<link rel="canonical" href="{href}">'
         '</head><body></body></html>'
     ))
 
@@ -2297,10 +2295,6 @@ def main():
     for path in collect_legacy_paths(site, legacy):
         render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
-    # App Store listings and older links still use the former support page.
-    render_redirect("civ-globe/", "zh/civ-globe-privacy/#support")
-    for lang in ("zh", "en"):
-        render_redirect(f"{lang}/civ-globe/", f"{lang}/civ-globe-privacy/#support")
     render_site_index_files(site)
     render_404(site)
     print(f"built {OUT}")
