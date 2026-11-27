@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-archive-filter-tint1"
+ASSET_VERSION = "20261127-search-submit1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1408,11 +1408,11 @@ def render_home(site, lang, current=None):
         <div class="omega-copy">
           <h1 class="site-name-only">OmegaXYZ</h1>
           <button type="button" class="word-cycle" data-word-cycle aria-label="{'切换随机单词' if lang == 'zh' else 'Show another word'}"><span lang="en" data-word>Pondering</span><span class="word-dots" aria-hidden="true">…</span></button>
-          <div class="search-box home-search" data-search="{search_index}">
+          <form class="search-box home-search" role="search" action="/{lang}/search/" method="get" data-search="{search_index}">
             <svg class="search-glyph" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
-            <input type="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
+            <input type="search" name="q" enterkeyhint="search" placeholder="{esc(t['search_placeholder'])}" aria-label="{esc(t['search'])}">
             <div class="search-results" data-search-results></div>
-          </div>
+          </form>
         </div>
       </section>
       <ul class="stats-row" aria-label="Site statistics">
@@ -2249,10 +2249,10 @@ def render_search(site, lang):
     body = f"""
     <main class="wrap band search-page">
       <div class="section-head"><h1>{esc(I18N[lang]['search'])}</h1></div>
-      <section class="search-box" data-search="{rel_url(current, index_file)}">
-        <input type="search" placeholder="{esc(I18N[lang]['search'])}" aria-label="{esc(I18N[lang]['search'])}">
+      <form class="search-box" role="search" action="/{lang}/search/" method="get" data-search="{rel_url(current, index_file)}" data-search-page>
+        <input type="search" name="q" enterkeyhint="search" placeholder="{esc(I18N[lang]['search'])}" aria-label="{esc(I18N[lang]['search'])}">
         <div class="search-results" data-search-results></div>
-      </section>
+      </form>
       <section class="recent-reading" data-search-recent>
         <h2>{esc(I18N[lang]["latest"])}</h2>
         <ol>{recent_links(site, lang, 5)}</ol>
@@ -2373,10 +2373,10 @@ def render_404(site):
         <a class="button primary" href="/zh/" data-en-href="/en/" data-en-text="Back to home">返回首页</a>
         <noscript><a href="/en/">English home</a></noscript>
       </div>
-      <section class="search-box notfound-search" data-search="/zh/search-index.json" data-search-en="/en/search-index.json">
-        <input type="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
+      <form class="search-box notfound-search" role="search" action="/zh/search/" data-en-action="/en/search/" method="get" data-search="/zh/search-index.json" data-search-en="/en/search-index.json">
+        <input type="search" name="q" enterkeyhint="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
         <div class="search-results" data-search-results></div>
-      </section>
+      </form>
     </section>
     <section class="notfound-latest recent-reading">
       <h2 data-en-text="Latest posts">最新文章</h2>

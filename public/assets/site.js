@@ -519,6 +519,7 @@
     const en = root.lang === "en";
     const indexPath = (en && search.dataset.searchEn) || search.dataset.search;
     if (en && search.dataset.searchEn) {
+      search.action = search.dataset.enAction;
       input.placeholder = "Search articles, pages and tags…";
       input.setAttribute("aria-label", "Search");
     }
@@ -629,6 +630,22 @@
     more.addEventListener("click", () => state === "error" ? loadIndex() : appendMatches(true));
     input.addEventListener("focus", loadIndex, { once: true });
     input.addEventListener("input", () => state === "idle" ? loadIndex() : render());
+    if (search.hasAttribute("data-search-page")) {
+      input.value = (new URLSearchParams(location.search).get("q") || "").trim();
+      const switcher = document.querySelector(".nav-lang");
+      if (switcher) {
+        const alternate = new URL(switcher.href);
+        const syncLanguageLink = () => {
+          const q = input.value.trim();
+          if (q) alternate.searchParams.set("q", q);
+          else alternate.searchParams.delete("q");
+          switcher.href = alternate.href;
+        };
+        syncLanguageLink();
+        input.addEventListener("input", syncLanguageLink);
+      }
+      if (input.value) loadIndex();
+    }
   }
 
 
