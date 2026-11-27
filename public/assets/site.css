@@ -1204,33 +1204,24 @@ a.pill:hover {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
 }
-.archive-filter-frame {
-  --category-edge: color-mix(in srgb, var(--category) 40%, transparent);
-  --tag-edge: color-mix(in srgb, var(--tag) 36%, transparent);
-  --across: linear-gradient(to right, transparent, var(--category-edge) 30%, var(--tag-edge) 70%, transparent);
-  margin: 0 -8px 18px;
-  padding-inline: 8px;
-  background:
-    var(--across) top / 100% 1px,
-    var(--across) bottom / 100% 1px,
-    linear-gradient(transparent, var(--category-edge), transparent) left / 1px 100%,
-    linear-gradient(transparent, var(--tag-edge), transparent) right / 1px 100%;
-  background-repeat: no-repeat;
-}
+.archive-filter-frame { padding-inline: 8px; }
 .archive-filter-frame > .archive-filters { margin-bottom: 0; }
 .filter-group { display: grid; gap: 8px; }
+.archive-filter-frame,
 .month-chart {
-  --bar-height: 58px;
   --fade-x: clamp(20px, 8%, 64px);
   --fade-y: 24%;
   margin: 0 -8px 18px;
-  padding: 8px 8px 6px;
-  border-radius: 8px;
   background:
     linear-gradient(to right, var(--bg) 1px, transparent var(--fade-x), transparent calc(100% - var(--fade-x)), var(--bg) calc(100% - 1px)),
     linear-gradient(to bottom, var(--bg) 1px, transparent var(--fade-y), transparent calc(100% - var(--fade-y)), var(--bg) calc(100% - 1px)),
     linear-gradient(120deg, color-mix(in srgb, var(--accent) 7%, var(--bg)),
       color-mix(in srgb, var(--accent) 2%, var(--bg)) 58%, color-mix(in srgb, var(--tag) 6%, var(--bg)));
+}
+.month-chart {
+  --bar-height: 58px;
+  padding: 8px 8px 6px;
+  border-radius: 8px;
 }
 .month-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
 .month-year { position: relative; display: inline-flex; color: var(--muted); }
