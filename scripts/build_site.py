@@ -23,7 +23,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-atlas1"
+ASSET_VERSION = "20261127-history1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1233,7 +1233,7 @@ ARTICLE_ASSETS = (
 )
 
 
-def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", scenes=False):
+def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", feature=""):
     css = rel_url(current_file, OUT / "assets/site.css") + f"?v={ASSET_VERSION}"
     js = rel_url(current_file, OUT / "assets/site.js") + f"?v={ASSET_VERSION}"
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -1247,10 +1247,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
         f'\n  <link rel="stylesheet" href="{katex}">'
     ) if article_assets else ""
     body_assets = ARTICLE_ASSETS if article_assets else ""
-    scene_asset = "article-graph" if scenes == "graph" else "scenes-v1"
-    scene_version = "20261127-graph-day1" if scenes == "graph" else ASSET_VERSION
-    scene_css = f'<link rel="stylesheet" href="/assets/{scene_asset}.css?v={scene_version}">' if scenes else ""
-    scene_js = f'<script type="module" src="/assets/{scene_asset}.js?v={scene_version}"></script>' if scenes else ""
+    version = "20261127-graph-day1" if feature == "article-graph" else ASSET_VERSION
+    feature_css = f'<link rel="stylesheet" href="/assets/{feature}.css?v={version}">' if feature else ""
+    feature_js = f'<script type="module" src="/assets/{feature}.js?v={version}"></script>' if feature else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -1278,7 +1277,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <meta name="twitter:image" content="{esc(og_image)}">
   <link rel="icon" href="{FAVICON_URL}" type="image/png">
   <link rel="apple-touch-icon" href="{FAVICON_URL}">{head_katex}
-  <link rel="stylesheet" href="{css}">{scene_css}
+  <link rel="stylesheet" href="{css}">{feature_css}
 </head>
 <body>
   {META_ICON_SPRITE}
@@ -1287,7 +1286,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <a id="main-content" tabindex="-1"></a>
   {body}
   {footer(current_file, lang)}
-  <script src="{js}"></script>{body_assets}{scene_js}
+  <script src="{js}"></script>{body_assets}{feature_js}
   {analytics_scripts()}
 </body>
 </html>
@@ -1454,7 +1453,7 @@ def render_home(site, lang, current=None):
     """
     desc = ("徐奕的编程、机器学习与数学笔记。浏览近期文章、开发工具和历年技术专题。"
             if lang == "zh" else "Yi Xu’s notes on programming, machine learning and mathematics. Explore recent articles, developer tools and the topic archives.")
-    return layout(current, lang, "OmegaXYZ", body, desc, f"{'en' if lang == 'zh' else 'zh'}/", scenes=True)
+    return layout(current, lang, "OmegaXYZ", body, desc, f"{'en' if lang == 'zh' else 'zh'}/", feature="scenes-v1")
 
 
 TIMELINE = [
@@ -1480,32 +1479,62 @@ TIMELINE = [
 ]
 
 
-def render_timeline(lang):
-    items = "".join(
-        f"""
-        <li class="timeline-item">
-          <span class="timeline-marker" aria-hidden="true"></span>
-          <time class="timeline-date">{esc(item['date'])}</time>
-          <p class="timeline-event">{esc(item[lang])}</p>
-        </li>"""
-        for item in TIMELINE
-    )
-    return f'<ol class="timeline">{items}</ol>'
-
-
 def render_timeline_page(entry, lang):
     current = path_to_file(entry_path(entry, lang))
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
+    zh = lang == "zh"
+    by_year = defaultdict(list)
+    monthly = defaultdict(int)
+    dated = sorted(((datetime.strptime(item["date"], "%Y.%m.%d").date(), item[lang]) for item in TIMELINE), reverse=True)
+    for day, event in dated:
+        by_year[day.year].append((day, event))
+        monthly[day.year, day.month] += 1
+    first, latest = min(by_year), max(by_year)
+    peak = math.log1p(max(monthly.values()))
+    bands, groups = [], []
+    for year in range(latest, first - 1, -1):
+        entries = by_year.get(year, [])
+        # A common scale for all years. December is on the left, newest first.
+        marks = []
+        trace = ["M0 19"]
+        for i in range(12):
+            n = monthly.get((year, 12 - i), 0)
+            x = 4 + i * 8
+            marks.append(f'M{x} 24v2')
+            if n:
+                rise = 16 * math.log1p(n) / peak
+                trace.append(f'H{x-3}l3 {-rise:.1f} 2 {rise+2:.1f} 1 -2')
+        trace.append("H96")
+        signal = (f'<svg viewBox="0 0 96 30" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+                  f'<path class="month-ticks" d="{" ".join(marks)}"/><path class="year-trace" d="{" ".join(trace)}"/></svg>')
+        if not entries:
+            bands.append(f'<span class="history-gap">{signal}<span>{year}</span></span>')
+            continue
+        n = len(entries)
+        amount = f"{n} 条记录" if zh else f"{n} milestone" + ("s" if n != 1 else "")
+        bands.append(f'<a href="#year-{year}" aria-label="{year} · {amount}">{signal}<span>{year}</span></a>')
+        rows = []
+        for day, event in entries:
+            date_label = f"{day.month}月{day.day}日" if zh else f"{day:%b} {day.day:02d}"
+            rows.append(f'<li class="history-event"><i class="history-pin" aria-hidden="true"></i>'
+                        f'<time datetime="{day.isoformat()}">{date_label}</time><p>{esc(event)}</p></li>')
+        groups.append(f'<section class="history-year" id="year-{year}" aria-labelledby="stamp-{year}">'
+                      f'<header><h2 id="stamp-{year}">{year}</h2><small>{amount}</small></header>'
+                      f'<ol>{"".join(rows)}</ol></section>')
+    total = f"{len(dated)} 条记录" if zh else f"{len(dated)} milestones"
     body = f"""
-    <main class="wrap band timeline-page">
-      <div class="section-head"><h1>{esc(title)}</h1></div>
-      {render_timeline(lang)}
+    <main class="wrap timeline-page">
+      <header class="history-title"><h1>{esc(title)}</h1><p><span>{first}–{latest}</span><i aria-hidden="true">/</i>{total}</p></header>
+      <nav class="history-nav" aria-label="{"按年份跳转" if zh else "Jump to year"}">
+        <div class="history-scale">{"".join(bands)}</div>
+      </nav>
+      <div class="history-log"><div class="history-spine" aria-hidden="true"><i></i></div>{"".join(groups)}</div>
     </main>
     """
     desc = ("从 2017 年建站至今，按时间了解 OmegaXYZ 的重要更新、内容改版和站点迁移。"
             if lang == "zh" else "Follow the history of OmegaXYZ from its launch in 2017 through site migrations, redesigns and publishing milestones.")
-    return layout(current, lang, title, body, desc, entry_path(entry, other))
+    return layout(current, lang, title, body, desc, entry_path(entry, other), feature="history")
 
 
 def entry_term_keys(entry):
@@ -1594,7 +1623,7 @@ def render_article_graph(entry, lang, site):
       <p class="graph-status"><a href="/{lang}/archive/">{tr("浏览文章归档","Browse the article archive")}</a></p>
       <noscript><ul>{noscript}</ul></noscript>
     </main>"""
-    return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, "en" if zh else "zh"), scenes="graph")
+    return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, "en" if zh else "zh"), feature="article-graph")
 
 
 def render_entry(entry, lang, legacy, site):
@@ -2058,8 +2087,12 @@ def render_archive(site, lang):
     body = f"""
     <main class="wrap band archive-page" data-archive>
       <div class="section-head">
-        <div><h1>{esc(I18N[lang]["all_posts"])}</h1><p>{esc(I18N[lang]["latest_desc"])}</p></div>
+        <div class="archive-heading"><h1>{esc(I18N[lang]["all_posts"])}</h1>
+          <a class="archive-graph-link" href="/{lang}/article-graph/" aria-label="{"文章关联图谱" if lang == "zh" else "Article Graph"}" title="{"文章关联图谱" if lang == "zh" else "Article Graph"}">
+            {_nav_icon('<ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(-34 12 12)"/><circle cx="12" cy="12" r="2"/><circle cx="19.8" cy="6.8" r="2" fill="currentColor"/>')}
+            <span>{"文章关联图谱" if lang == "zh" else "Article Graph"}</span><b aria-hidden="true">{"图谱" if lang == "zh" else "Graph"}</b></a></div>
         {archive_count_box(len(posts), lang)}
+        <p class="archive-description">{esc(I18N[lang]["latest_desc"])}</p>
       </div>
       <section class="archive-tools">
         <div class="archive-search">
@@ -2294,7 +2327,7 @@ def render_terms(site, lang):
             )
         desc = (f"按{I18N[lang][label]}浏览 OmegaXYZ：从 {len(grouped)} 个主题入口查找相关笔记与文章。"
                 if lang == "zh" else f"Browse {len(grouped)} {label} on OmegaXYZ and find notes and articles on each topic.")
-        write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/", scenes=kind == "category"))
+        write(current, layout(current, lang, I18N[lang][label], body, desc, f"{'en' if lang == 'zh' else 'zh'}/{label}/", feature="scenes-v1" if kind == "category" else ""))
 
 
 def recent_links(site, lang, limit, bilingual=False):

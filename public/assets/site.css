@@ -1176,7 +1176,23 @@ a.pill:hover {
 }
 
 /* ---------- archive ---------- */
-.archive-page .section-head { align-items: center; }
+.archive-page > .section-head {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:0 14px;
+}
+.archive-page > .section-head .archive-count { grid-column:2; grid-row:1 / 3; }
+.archive-page .section-head .archive-description { grid-column:1; margin:0; }
+.archive-heading { display:flex; align-items:center; flex-wrap:wrap; gap:2px 12px; }
+.archive-graph-link { display:inline-flex; gap:6px; align-items:center; min-height:44px; padding-inline:4px; color:var(--accent); font-size:.86rem; font-weight:600; text-decoration:none; }
+.archive-graph-link svg { width:19px; height:19px; }
+.archive-graph-link:hover { text-decoration:underline; }
+.archive-graph-link b { display:none; font-weight:inherit; }
+@media(max-width:520px) {
+  .archive-graph-link span { display:none; }
+  .archive-graph-link b { display:inline; }
+  .archive-heading { gap:2px 7px; }
+  .archive-page > .section-head .archive-count { grid-row:1; }
+  .archive-page .section-head .archive-description { grid-column:1 / -1; }
+}
 .archive-count {
   display: inline-flex;
   align-items: center;
@@ -1776,59 +1792,6 @@ a.friend-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--
   line-height: 1.7;
 }
 
-/* ---------- website-history timeline ---------- */
-.timeline-page .section-head { margin-bottom: 26px; }
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-width: 680px;
-  position: relative;
-}
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  background: var(--line-strong);
-}
-.timeline-item {
-  position: relative;
-  padding: 0 0 26px 36px;
-}
-.timeline-item:last-child { padding-bottom: 0; }
-.timeline-marker {
-  position: absolute;
-  left: 0;
-  top: 5px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 3px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--bg);
-  transition: background 140ms ease, transform 140ms ease;
-}
-.timeline-item:hover .timeline-marker {
-  background: var(--accent);
-  transform: scale(1.12);
-}
-.timeline-date {
-  display: block;
-  color: var(--accent-2);
-  font-weight: 780;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.timeline-event {
-  margin: 3px 0 0;
-  color: var(--ink);
-  line-height: 1.55;
-}
-
 /* ---------- eyebrow ---------- */
 .eyebrow {
   color: var(--accent-2);
@@ -2008,7 +1971,6 @@ a.friend-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--
   .section-head h1,
   .section-head h2 { font-size: 1.5rem; }
 
-  .archive-page .section-head { align-items: flex-start; flex-wrap: wrap; gap: 14px; }
   .archive-count-icon { width: 34px; height: 34px; }
   .archive-count-body strong { font-size: 1.3rem; }
   .archive-sort {
