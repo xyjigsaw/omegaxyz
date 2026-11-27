@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
+from article_graph import build_graph
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +23,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-duo-nav1"
+ASSET_VERSION = "20261127-atlas1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1246,8 +1247,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
         f'\n  <link rel="stylesheet" href="{katex}">'
     ) if article_assets else ""
     body_assets = ARTICLE_ASSETS if article_assets else ""
-    scene_css = f'<link rel="stylesheet" href="/assets/scenes-v1.css?v={ASSET_VERSION}">' if scenes else ""
-    scene_js = f'<script type="module" src="/assets/scenes-v1.js?v={ASSET_VERSION}"></script>' if scenes else ""
+    scene_asset = "article-graph" if scenes == "graph" else "scenes-v1"
+    scene_css = f'<link rel="stylesheet" href="/assets/{scene_asset}.css?v={ASSET_VERSION}">' if scenes else ""
+    scene_js = f'<script type="module" src="/assets/{scene_asset}.js?v={ASSET_VERSION}"></script>' if scenes else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -1357,7 +1359,7 @@ def render_home(site, lang, current=None):
     write(home_data_file, json.dumps(all_rows, ensure_ascii=False))
     home_data_url = rel_url(current, home_data_file)
     latest_rows = "".join(render_latest_row(e, lang, current, eager=i == 0) for i, e in enumerate(posts[:9]))
-    priority_slugs = ["friends", "webhistory", "makefriends", "comment"]
+    priority_slugs = ["friends", "webhistory", "makefriends", "comment", "article-graph"]
     home_pages = [p for p in pages if p["slug"] not in ("evolutionary-algorithm-navigator", "menu-bar-privacy", "idevtools-privacy")]
     ordered_pages = sorted(
         home_pages,
@@ -1550,7 +1552,53 @@ def render_related_posts(entry, site, lang, current):
     return f'<section class="side-box related-box"><h2>{esc(I18N[lang]["related"])}</h2><ol class="related-list">{"".join(items)}</ol></section>'
 
 
+def render_article_graph(entry, lang, site):
+    zh = lang == "zh"
+    if "_graph" not in site:
+        site["_graph"] = build_graph(site["entries"])
+    posts, terms, nodes = site["_graph"]
+    current = path_to_file(entry_path(entry, lang))
+    data = {
+        "terms": [{"name": term_label(t, lang), "slug": t["slug"], "cat": kind == "categories", "count": count}
+                  for kind, t, count in terms],
+        "nodes": [dict(node, title=p[f"title_{lang}"], date=date_only(p["date"]), url="/" + entry_path(p, lang))
+                  for p, node in zip(posts, nodes)],
+    }
+    # Content-address the graph so HTML and data never disagree across deploys.
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    filename = "graph-" + hashlib.sha256(payload.encode()).hexdigest()[:12] + ".json"
+    write(current.parent / filename, payload)
+    cats = sorted(((i, t) for i, t in enumerate(data["terms"]) if t["cat"]), key=lambda p: (-p[1]["count"], p[1]["name"]))
+    options = "".join(f'<option value="{i}">{esc(t["name"])} ({t["count"]})</option>' for i, t in cats)
+    tr = lambda a, b: a if zh else b
+    title = esc(entry[f"title_{lang}"])
+    noscript = "".join(f'<li><a href="{esc(n["url"])}">{esc(n["title"])}</a></li>' for n in data["nodes"])
+    tools = "".join(f'<button type="button" data-view="{key}" aria-label="{name}" title="{name}">{symbol}</button>'
+                    for key, name, symbol in (("out", tr("缩小", "Zoom out"), "−"), ("reset", tr("复位视角", "Reset view"), "⟲"), ("in", tr("放大", "Zoom in"), "+")))
+    body = f"""
+    <main class="wrap graph-page" data-graph="{filename}">
+      <header class="graph-heading"><div><h1>{title}</h1><p>{tr("每颗星是一篇文章。沿年份轨道回看笔记，循共享主题找到下一篇。","One star per article. Follow a year in orbit, or trace a shared topic to the next note.")}</p></div>
+      <div class="graph-totals"><b>{len(posts)}</b> {tr("篇文章","articles")} <span>·</span> <b>{len(cats)}</b> {tr("个分类","categories")}</div></header>
+      <section class="graph-workbench" hidden>
+        <div class="graph-toolbar"><label>{tr("分类","Category")}<select data-graph-cat><option value="">{tr("所有分类","All categories")}</option>{options}</select></label>
+        <label>{tr("查找文章","Find article")}<input type="search" data-graph-query placeholder="{tr("标题或主题","Title or topic")}"></label></div>
+        <div class="graph-layout"><div class="graph-field" hidden>
+          <div class="orbit-epoch">{tr("发文轨道","Publication orbits")}<b>{posts[-1]["date"][:4] if posts else ""} <i>→</i> {posts[0]["date"][:4] if posts else ""}</b></div>
+          <div class="graph-stage" tabindex="0" role="group" aria-label="{tr("文章图谱，方向键旋转","Article graph, arrow keys rotate")}"></div>
+          <a class="graph-picked" hidden></a><div class="graph-view">{tools}</div><span class="graph-caption"><i></i>{tr("共同主题","Shared topic")}</span></div>
+          <aside class="graph-inspector"><div data-graph-detail></div></aside></div>
+        <div class="graph-directory"><h2>{tr("文章索引","Article index")} <small data-graph-count></small></h2>
+        <ul data-graph-results></ul><button class="graph-more" type="button" hidden>{tr("显示更多","Show more")}</button></div>
+      </section>
+      <p class="graph-status"><a href="/{lang}/archive/">{tr("浏览文章归档","Browse the article archive")}</a></p>
+      <noscript><ul>{noscript}</ul></noscript>
+    </main>"""
+    return layout(current, lang, title, body, entry[f"excerpt_{lang}"], entry_path(entry, "en" if zh else "zh"), scenes="graph")
+
+
 def render_entry(entry, lang, legacy, site):
+    if entry["url"].strip("/") == "article-graph":
+        return render_article_graph(entry, lang, site)
     if entry["url"].strip("/") == "comment":
         return render_comment_entry(entry, lang)
     if entry["url"].strip("/") == "friends":
@@ -2066,7 +2114,7 @@ def render_archive_item(entry, lang, current, interactive=False):
         tag_slugs = " ".join(t["slug"] for t in entry["tags"])
         attrs = (
             f' data-archive-item data-title="{esc(entry[f"title_{lang}"].lower())}"'
-            f' data-date="{esc(entry["date"])}"'
+            f' data-date="{esc(entry["date"])}" data-entry-type="{esc(entry["type"])}"'
             f' data-pinned="{str(is_pinned(entry)).lower()}" data-pin-order="{post_pin_order(entry)}"'
             f' data-categories="{esc(category_slugs)}"'
             f' data-tags="{esc(tag_slugs)}"'
@@ -2134,7 +2182,14 @@ def render_terms(site, lang):
             display_label = term_label(representatives[slug], lang)
             kind_label = "分类" if kind == "category" and lang == "zh" else "标签" if kind == "tag" and lang == "zh" else "CAT" if kind == "category" else "TAG"
             count = sum(e["type"] == "post" for e in entries)
-            peak = f' data-peak="{esc(slug)}" data-count="{count}"' if kind == "category" and count else ""
+            peak = ""
+            if kind == "category" and count:
+                yearly = defaultdict(int)
+                for e in entries:
+                    if e["type"] == "post":
+                        yearly[int(e["date"][:4])] += 1
+                history = " ".join(f"{y}:{n}" for y, n in sorted(yearly.items()))
+                peak = f' data-peak="{esc(slug)}" data-count="{count}" data-years="{history}"'
             if peak:
                 peaks.append((count, display_label, href))
             chips.append(f'<a class="pill term-pill term-{kind}"{peak} data-label="{esc(kind_label)}" href="{href}"><span>{esc(display_label)}</span><strong>{len(entries)}</strong></a>')
@@ -2158,6 +2213,7 @@ def render_terms(site, lang):
                     <div><h1>{esc(display_label)}</h1><p>{esc(I18N[lang]["categories"])} · {esc(I18N[lang]["filter_by_tag"])}</p></div>
                     {archive_count_box(len(entries), lang)}
                   </div>
+                  <button type="button" class="filter-chip" data-through-clear hidden></button>
                   <section class="archive-tools">
                     <div class="archive-search">
                       <input type="search" data-archive-query placeholder="{esc(I18N[lang]["archive_search_placeholder"])}" aria-label="{esc(I18N[lang]["search"])}">
@@ -2203,6 +2259,15 @@ def render_terms(site, lang):
             play = "继续变色" if lang == "zh" else "Resume color cycle"
             orbit_label = "文章地形：用方向键旋转，回车进入所选分类" if lang == "zh" else "Article terrain: arrow keys rotate, Enter opens the selected category"
             leaders = sorted(peaks, key=lambda p: (-p[0], p[1]))[:5]
+            annual = defaultdict(int)
+            for e in site["entries"]:
+                if e["type"] == "post":
+                    annual[int(e["date"][:4])] += 1
+            first, last = (min(annual), max(annual)) if annual else (0, 0)
+            timeline = (f'<div class="terrain-timeline" data-years="{" ".join(f"{y}:{n}" for y, n in sorted(annual.items()))}" hidden>'
+                        f'<label for="terrain-year">{"截至年份" if lang == "zh" else "Through year"} <output for="terrain-year">{last}</output></label>'
+                        f'<input id="terrain-year" type="range" min="{first}" max="{last}" step="1" value="{last}">'
+                        '<span data-terrain-total></span></div>') if annual else ""
             bars = "".join(
                 f'<li><a href="{href}"><span>{esc(name)}</span><i style="--share:{count / leaders[0][0]:.4f}"></i><b>{count}</b></a></li>'
                 for count, name, href in leaders
@@ -2219,7 +2284,7 @@ def render_terms(site, lang):
                 f'<div class="terrain-stage" data-scene="terrain" tabindex="0" role="group" aria-label="{orbit_label}" hidden>'
                 '<a class="peak-label" data-peak-label draggable="false" hidden></a></div>'
                 f'<div class="terrain-summary"><p>{"文章最多的分类" if lang == "zh" else "Categories by article count"}</p><ol>{bars}</ol></div>'
-                f'<p class="atlas-note">{terrain_note}</p></div></section>'
+                f'<p class="atlas-note">{terrain_note}</p></div>{timeline}</section>'
                 f'<div class="section-head"><h2>{esc(I18N[lang]["categories"])}</h2></div>'
                 f'<div class="terms term-cloud category-cloud">{cloud_html}</div>'
                 f'<div class="section-head term-index-sub"><h2>{esc(I18N[lang]["tags"])}</h2></div>'

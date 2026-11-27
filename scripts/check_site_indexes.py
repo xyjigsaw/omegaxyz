@@ -47,6 +47,20 @@ def main():
         for row in rows:
             path = row["url"]
             assert path.startswith(f"/{lang}/") and SITE_URL + path in urls, path
+        graph_dir = OUT / lang / "article-graph"
+        graph_file, = graph_dir.glob("graph-*.json")
+        assert graph_file.name in (graph_dir / "index.html").read_text(encoding="utf-8")
+        graph = json.loads(graph_file.read_text(encoding="utf-8"))
+        nodes, terms = graph["nodes"], graph["terms"]
+        expected = {row["url"] for row in rows if row["kind"] == "post"}
+        assert len(nodes) == len(expected) and {n["url"] for n in nodes} == expected
+        counts = [0] * len(terms)
+        for i, n in enumerate(nodes):
+            for t in set(n["terms"]):
+                counts[t] += 1
+            assert len(n["near"]) <= 5 and i not in n["near"]
+            assert all(set(n["terms"]).intersection(nodes[j]["terms"]) for j in n["near"])
+        assert counts == [t["count"] for t in terms], "Graph topic counts do not match posts"
     robots = RobotFileParser()
     robots.parse((OUT / "robots.txt").read_text(encoding="utf-8").splitlines())
     assert robots.can_fetch("Baiduspider", "/zh/") and robots.can_fetch("Googlebot", "/en/")

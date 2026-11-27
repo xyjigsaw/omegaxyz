@@ -28,6 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           python scripts/test_taxonomy.py
+          python scripts/test_article_graph.py
           python scripts/build_site.py
           python scripts/check_site_indexes.py
           python scripts/generate_media_manifest.py

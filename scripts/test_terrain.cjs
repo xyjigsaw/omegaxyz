@@ -78,6 +78,28 @@ async function exercise(browser, mobile) {
     assert.ok(await p.evaluate(({x,y}) => document.elementFromPoint(x,y)?.tagName === "CANVAS", target));
     await Promise.all([p.waitForURL(target.href), mobile ? p.touchscreen.tap(target.x,target.y) : p.mouse.click(target.x,target.y)]);
     await p.goto(home); await canvas.waitFor();
+    const slider=p.locator("#terrain-year");
+    const latest=await slider.getAttribute("max"), firstYear=await slider.getAttribute("min");
+    assert.equal(await slider.inputValue(),latest);
+    await pause.click();await p.waitForTimeout(140);
+    const today=await fingerprints(canvas);
+    await slider.fill(firstYear);await p.waitForTimeout(140);
+    assert.equal(new URL(p.url()).searchParams.get("through"),firstYear);
+    assert.notEqual((await fingerprints(canvas)).alpha,today.alpha);
+    const visiblePeaks=p.locator(".category-cloud [data-peak]:visible");
+    assert.ok(await visiblePeaks.evaluateAll((els,y)=>els.every(el=>{
+      const count=el.dataset.years.split(" ").map(p=>p.split(":").map(Number)).reduce((n,[year,k])=>n+(year<=y?k:0),0);
+      return count>0 && Number(el.querySelector("strong").textContent)===count;
+    }), Number(firstYear)));
+    const historic=await visiblePeaks.first().evaluate(el=>el.href);
+    assert.equal(new URL(historic).searchParams.get("through"),firstYear);
+    await slider.fill(latest);await p.waitForTimeout(140);
+    assert.equal((await fingerprints(canvas)).alpha,today.alpha,"latest restores the same positions, scale and camera");
+    await p.goto(historic);
+    assert.ok(await p.locator("[data-archive-item]:visible").evaluateAll((items,y)=>items.length>0 && items.every(el=>el.dataset.date.slice(0,4)<=y),firstYear));
+    assert.ok((await p.locator(".nav-lang").getAttribute("href")).includes("through="+firstYear));
+    await p.locator("[data-through-clear]").click();assert.equal(new URL(p.url()).searchParams.get("through"),null);
+    await p.goto(home);await canvas.waitFor();
     const labelUrl = await label.evaluate(a=>a.href);
     await Promise.all([p.waitForURL(labelUrl), mobile ? label.tap() : label.click()]);
     if (mobile) {

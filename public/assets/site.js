@@ -193,7 +193,12 @@
       category: node.dataset.categories.split(/\s+/), tag: node.dataset.tags.split(/\s+/),
       pinned: node.dataset.pinned === "true", priority: Number(node.dataset.pinOrder || 0)
     }));
-    let kind = "", term = "", order = "featured", activeMonth = "";
+    let kind = "", term = "", order = "featured", activeMonth = "", through = "";
+    const cutoff = archive.querySelector("[data-through-clear]");
+    const datedTags = cutoff ? Array.from(chips).filter(b=>b.dataset.archiveKind==="tag").map(b=>({
+      slug:b.dataset.archiveTerm, count:b.querySelector("span"), total:b.querySelector("span").textContent
+    })) : [];
+    let countedThrough=null;
     const chartYear = archive.querySelector("[data-chart-year]");
     if (chartYear) chartYear.disabled = false;
     const yearLabel = (year, n) => root.lang === "en" ? year + " (" + n + ")" : year + "（" + n + "）";
@@ -214,6 +219,15 @@
       let visible = 0;
       const months = Array(12).fill(0);
       const annual = new Map();
+      if(cutoff && countedThrough!==through){
+        const counts=new Map();
+        if(through)for(const item of items){
+          if(item.node.dataset.entryType!=="post" || item.date.slice(0,4)>through)continue;
+          for(const slug of item.tag)counts.set(slug,(counts.get(slug)||0)+1);
+        }
+        for(const tag of datedTags)tag.count.textContent=through?(counts.get(tag.slug)||0):tag.total;
+        countedThrough=through;
+      }
       items.forEach((item) => {
         const matchesTerms = (!text || item.search.includes(text)) && (!term || item[kind].includes(term));
         // Count before applying the month so the other bars remain useful as filters.
@@ -222,7 +236,8 @@
           annual.set(year, (annual.get(year) || 0) + 1);
           if (year === chartYear.value) months[Number(item.date.slice(5, 7)) - 1]++;
         }
-        const show = matchesTerms && (!activeMonth || item.date.startsWith(activeMonth + "-"));
+        const show = matchesTerms && (!activeMonth || item.date.startsWith(activeMonth + "-"))
+          && (!through || (item.node.dataset.entryType === "post" && item.date.slice(0,4) <= through));
         if (item.node.hidden === show) item.node.hidden = !show;
         if (show) visible++;
       });
@@ -267,6 +282,7 @@
       ["q", "tag", "category", "sort"].forEach((key) => url.searchParams.delete(key));
       if (query.value.trim()) url.searchParams.set("q", query.value.trim());
       if (term) url.searchParams.set(kind, term);
+      if(cutoff){if(through)url.searchParams.set("through",through);else url.searchParams.delete("through");}
       if (chartYear) {
         url.searchParams.delete("month");
         url.searchParams.delete("year");
@@ -293,6 +309,12 @@
     };
     const restore = () => {
       const params = new URLSearchParams(location.search);
+      if(cutoff){
+        through=/^\d{4}$/.test(params.get("through") || "")?params.get("through"):"";
+        cutoff.hidden=!through;
+        cutoff.textContent=root.lang==="en"?"Through "+through+" ×":"截至 "+through+" 年 ×";
+        cutoff.title=root.lang==="en"?"Clear year limit":"清除年份限制";
+      }
       query.value = params.get("q") || "";
       const selected = Array.from(chips).find(({ dataset }) =>
         dataset.archiveTerm && params.get(dataset.archiveKind) === dataset.archiveTerm);
@@ -313,6 +335,7 @@
       syncLanguageLink();
     };
     archive.addEventListener("click", (event) => {
+      if(cutoff && event.target===cutoff){through="";cutoff.hidden=true;filter();save(true);return;}
       const bar = event.target.closest("button[data-month]");
       if (bar) {
         const month = chartYear.value + "-" + bar.dataset.month;

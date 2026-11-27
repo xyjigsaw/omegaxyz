@@ -2,6 +2,7 @@
 const plate = document.querySelector("[data-scene]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const isOmega = plate?.dataset.scene === "omega";
+if (plate?.dataset.scene === "terrain") timeline();
 if (isOmega) {
   rotateWords(plate.parentElement.querySelector("[data-word-cycle]"));
   // The background recedes behind the reading list.
@@ -357,6 +358,58 @@ function omega(T, scene, camera, invalidate) {
   };
 }
 
+function timeline() {
+  const bar=document.querySelector(".terrain-timeline");
+  if(!bar)return;
+  const input=bar.querySelector("input"), output=bar.querySelector("output");
+  const sum=(pairs,year)=>pairs.reduce((n,[y,v])=>n+(y<=year?v:0),0);
+  const series=el=>el.dataset.years.split(" ").map(pair=>pair.split(":").map(Number));
+  const data=Array.from(document.querySelectorAll(".category-cloud [data-peak]"),link=>({
+    link,years:series(link),href:link.href,name:link.querySelector("span").textContent,
+    original:link.querySelector("strong").textContent
+  }));
+  const totals=series(bar), list=document.querySelector(".terrain-summary ol");
+  const langLink=document.querySelector(".nav-lang"), peakless=document.querySelectorAll(".category-cloud a:not([data-peak])");
+  const en=document.documentElement.lang==="en";
+  function withYear(href,year){
+    const url=new URL(href);
+    if(year===+input.max)url.searchParams.delete("through");else url.searchParams.set("through",year);
+    return url.href;
+  }
+  function sync(save){
+    const year=+input.value,total=sum(totals,year), latest=year===+input.max;
+    output.value=year;
+    bar.querySelector("[data-terrain-total]").textContent=en?total+" posts":total+" 篇文章";
+    input.style.setProperty("--fraction",((year-input.min)/Math.max(1,input.max-input.min)*100)+"%");
+    for(const p of data){
+      p.count=sum(p.years,year);p.link.dataset.visibleCount=p.count;
+      p.link.href=withYear(p.href,year);p.link.hidden=!p.count;
+      p.link.querySelector("strong").textContent=latest?p.original:p.count;
+    }
+    peakless.forEach(a=>a.hidden=!latest);
+    const leaders=data.filter(p=>p.count).sort((a,b)=>b.count-a.count || a.name.localeCompare(b.name)).slice(0,5);
+    const max=Math.max(1,...data.map(p=>Number(p.link.dataset.count)));
+    list.replaceChildren(...leaders.map(p=>{
+      const row=document.createElement("li"),a=document.createElement("a"),name=document.createElement("span"),
+        meter=document.createElement("i"),n=document.createElement("b");
+      name.textContent=p.name;n.textContent=p.count;meter.style.setProperty("--share",p.count/max);
+      a.href=p.link.href;a.append(name,meter,n);row.append(a);return row;
+    }));
+    if(!leaders.length){const li=document.createElement("li");li.textContent=en?"No categories yet.":"当时尚无分类。";list.append(li);}
+    if(save)history.replaceState(history.state,"",withYear(location.href,year));
+    if(langLink)langLink.href=withYear(langLink.href,year);
+    plate.dispatchEvent(new Event("terrainyear"));
+  }
+  function restore(){
+    const raw=new URL(location.href).searchParams.get("through"), y=Number(raw);
+    input.value=(raw && Number.isInteger(y) && y>=+input.min && y<=+input.max)?y:input.max;
+    sync(false);
+  }
+  restore();bar.hidden=false;
+  input.addEventListener("input",()=>sync(true));
+  window.addEventListener("popstate",restore);
+}
+
 function makeRelief(T, peaks, cols) {
   const rows=Math.max(1,Math.ceil(peaks.length/cols));
   const mapWidth=cols*1.35+1.5, mapDepth=rows*1.35+1.5;
@@ -397,9 +450,22 @@ function makeRelief(T, peaks, cols) {
   const g=new T.PlaneGeometry(mapWidth,mapDepth,cols*18,rows*18);
   g.rotateX(-Math.PI/2);
   const pos=g.attributes.position;
-  for(let i=0;i<pos.count;i++)pos.setY(i,height(pos.getX(i),pos.getZ(i)));
-  g.computeVertexNormals();
-  peaks.forEach(p=>p.y=height(p.x,p.z));
+  function rebuild(){
+    for(let i=0;i<pos.count;i++)pos.setY(i,height(pos.getX(i),pos.getZ(i)));
+    pos.needsUpdate=true;g.computeVertexNormals();
+    peaks.forEach(p=>p.y=height(p.x,p.z));
+  }
+  rebuild();
+  if(!isOmega){
+    const scale=Math.log1p(peaks[0].count);
+    g.userData.setYear=()=>{
+      for(const p of peaks){
+        const n=Number(p.link.dataset.visibleCount ?? p.count);
+        p.h=n ? .14+1.64*Math.log1p(n)/scale : 0;
+      }
+      rebuild();
+    };
+  }
   return g;
 }
 
@@ -460,13 +526,15 @@ function terrain(T, scene, camera, invalidate) {
   const pause=controls.querySelector("[data-terrain-pause]"), pauseLabel=pause.title;
   const cleanup=new AbortController(),options={signal:cleanup.signal};
   const ray=new T.Raycaster(),mouse=new T.Vector2(),projected=new T.Vector3(),material=reliefMaterial(T,false);
-  let mesh,columns=0,selected=peaks[0],yaw=0,pitch=0,width=0,height=0;
+  let mesh,fullPositions,columns=0,selected=peaks[0],yaw=0,pitch=0,width=0,height=0;
   let fitDirty=true,labelDirty=true,paused=false,time=0,compact=null;
   let press=null,canClick=false,hoverFrame=0,hoverEvent=null;
   function build(cols){
     if(mesh){scene.remove(mesh);mesh.geometry.dispose();}
     columns=cols;mesh=new T.Mesh(makeRelief(T,peaks,cols),material);
     mesh.geometry.computeBoundingSphere();scene.add(mesh);
+    fullPositions=mesh.geometry.attributes.position.array.slice();
+    mesh.geometry.userData.setYear();
   }
   function reset(){
     yaw=compact ? .205 : .316;pitch=compact ? .78 : .59;fitDirty=true;invalidate();
@@ -481,7 +549,7 @@ function terrain(T, scene, camera, invalidate) {
     const distance=mesh.geometry.boundingSphere.radius*2+8,horiz=distance*Math.cos(pitch);
     camera.position.set(horiz*Math.sin(yaw),distance*Math.sin(pitch),horiz*Math.cos(yaw));
     camera.lookAt(0,0,0);camera.updateMatrixWorld();camera.far=distance*2+8;
-    const m=camera.matrixWorldInverse.elements, pos=mesh.geometry.attributes.position.array;
+    const m=camera.matrixWorldInverse.elements, pos=fullPositions;
     let left=Infinity,right=-Infinity,bottom=Infinity,top=-Infinity;
     for(let i=0;i<pos.length;i+=3){
       const x=pos[i],y=pos[i+1],z=pos[i+2];
@@ -495,11 +563,14 @@ function terrain(T, scene, camera, invalidate) {
     camera.updateProjectionMatrix();fitDirty=false;labelDirty=true;
   }
   function choose(p){
-    selected.link.classList.remove("is-peak");selected=p;p.link.classList.add("is-peak");
-    label.textContent=p.name+" · "+p.count+" ↗";label.href=p.link.href;label.hidden=false;
+    selected?.link.classList.remove("is-peak");selected=p;
+    if(!p){label.hidden=true;invalidate();return;}
+    p.link.classList.add("is-peak");
+    label.textContent=p.name+" · "+(p.link.dataset.visibleCount ?? p.count)+" ↗";label.href=p.link.href;label.hidden=false;
     labelDirty=true;invalidate();
   }
   function positionLabel(){
+    if(!selected){labelDirty=false;return;}
     projected.set(selected.x,selected.y,selected.z).project(camera);
     const x=T.MathUtils.clamp((projected.x+1)*width/2+3,0,width-label.offsetWidth);
     const y=T.MathUtils.clamp((1-projected.y)*height/2-label.offsetHeight-2,0,height-label.offsetHeight);
@@ -517,7 +588,7 @@ function terrain(T, scene, camera, invalidate) {
     ray.setFromCamera(mouse,camera);
     const hit=ray.intersectObject(mesh)[0];
     if(!hit || hit.point.y<.025 || Math.min(hit.uv.x,hit.uv.y,1-hit.uv.x,1-hit.uv.y)<.015)return null;
-    return peaks.reduce((a,p)=>Math.hypot(p.x-hit.point.x,p.z-hit.point.z)<Math.hypot(a.x-hit.point.x,a.z-hit.point.z)?p:a);
+    return peaks.filter(p=>!p.link.hidden).reduce((a,p)=>!a || Math.hypot(p.x-hit.point.x,p.z-hit.point.z)<Math.hypot(a.x-hit.point.x,a.z-hit.point.z)?p:a,null);
   }
   function stopHover(){
     cancelAnimationFrame(hoverFrame);hoverFrame=0;canvas.style.cursor="";
@@ -571,14 +642,18 @@ function terrain(T, scene, camera, invalidate) {
     const step={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,.10],ArrowDown:[0,-.10]}[e.key];
     if(step){e.preventDefault();rotate(...step);}
     else if(e.key==="Home"){e.preventDefault();reset();}
-    else if(e.key==="Enter"){e.preventDefault();selected.link.click();}
+    else if(e.key==="Enter"){e.preventDefault();selected?.link.click();}
   },options);
   controls.querySelector("[data-terrain-reset]").addEventListener("click",reset,options);
   pause.addEventListener("click",()=>{
     paused=!paused;pause.toggleAttribute("data-paused",paused);
     pause.title=paused?pause.dataset.resume:pauseLabel;pause.setAttribute("aria-label",pause.title);invalidate();
   },options);
-  choose(selected);
+  function syncYear(){
+    mesh?.geometry.userData.setYear();
+    choose(selected && !selected.link.hidden?selected:peaks.find(p=>!p.link.hidden));
+  }
+  plate.addEventListener("terrainyear",syncYear,options);syncYear();
   return {
     release,dispose(){cleanup.abort();release();},
     frameInterval(){return press || fitDirty || labelDirty ? 0 : 1000/15;},
