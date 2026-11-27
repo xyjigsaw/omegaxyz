@@ -29,6 +29,7 @@ jobs:
         run: |
           python scripts/test_taxonomy.py
           python scripts/test_article_graph.py
+          python scripts/test_publish.py
           python scripts/build_site.py
           python scripts/check_site_indexes.py
           python scripts/generate_media_manifest.py
@@ -36,24 +37,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Move newly published markdown (top-level content/posts/*.md) into the
-          # archive subfolder. The example template is never moved, and the build
-          # still reads archive/ on every run, so the pages keep regenerating.
-          mkdir -p content/posts/archive
-          shopt -s nullglob
-          for f in content/posts/*.md; do
-            base="$(basename "$f")"
-            [ "$base" = "example.md" ] && continue
-            case "$base" in
-              *.en.md) continue ;;
-            esac
-            stem="${base%.md}"
-            companion="content/posts/${stem}.en.md"
-            git mv -f "$f" "content/posts/archive/$base" 2>/dev/null || mv -f "$f" "content/posts/archive/$base"
-            if [ -f "$companion" ]; then
-              git mv -f "$companion" "content/posts/archive/${stem}.en.md" 2>/dev/null || mv -f "$companion" "content/posts/archive/${stem}.en.md"
-            fi
-          done
+          python scripts/archive_posts.py
           git add -A data/media-cdn.json content/posts
           if ! git diff --cached --quiet; then
             git commit -m "Archive markdown posts & update media manifest [skip ci]"

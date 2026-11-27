@@ -12,13 +12,13 @@ from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 from article_graph import build_graph
+from archive_posts import archive_plan, is_post
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/site.json"
 EXTRA_ENTRIES = ROOT / "content/extra_entries.json"
 POSTS_DIR = ROOT / "content/posts"        # drop a .md here -> a page is generated
-EXAMPLE_MD = "example.md"                  # template, always skipped, never archived
 PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
@@ -369,7 +369,8 @@ def load_extra_entries():
     if not EXTRA_ENTRIES.exists():
         return []
     entries = json.loads(EXTRA_ENTRIES.read_text(encoding="utf-8"))
-    for entry in entries:
+    for i, entry in enumerate(entries):
+        validate_post_header(entry.get("title_zh"), entry.get("date"), f"{EXTRA_ENTRIES} (entry {i + 1})")
         for lang in ("zh", "en"):
             key = f"content_{lang}_file"
             if key in entry:
@@ -388,28 +389,32 @@ def load_extra_entries():
 def load_markdown_entries():
     if not POSTS_DIR.exists():
         return []
+    archive_plan(POSTS_DIR)
     entries = []
     for path in sorted(POSTS_DIR.rglob("*.md")):
-        if path.name == EXAMPLE_MD or path.name.lower() == "readme.md" or path.name.endswith(".en.md"):
+        if not is_post(path):
             continue
-        try:
-            entry = markdown_file_to_entry(path)
-        except Exception as exc:  # one bad file shouldn't break the whole build
-            print(f"  markdown skip {path.relative_to(ROOT)}: {exc}")
-            continue
-        if entry:
-            entries.append(entry)
-            print(f"  markdown post: /{entry['url']}  <- {path.relative_to(ROOT)}")
+        entry = markdown_file_to_entry(path)
+        entries.append(entry)
+        print(f"  markdown post: /{entry['url']}  <- {path.relative_to(ROOT)}")
     entries.sort(key=lambda e: e["date"], reverse=True)
     return entries
+
+
+def validate_post_header(title, date, source):
+    for field, value in (("title", title), ("date", date)):
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{source}: missing or empty {field}")
+    try:
+        datetime.strptime(date.strip().split(" ", 1)[0], "%Y-%m-%d")
+    except ValueError as exc:
+        raise ValueError(f"{source}: invalid date; expected YYYY-MM-DD") from exc
 
 
 def markdown_file_to_entry(path):
     meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
     title = meta.get("title") or meta.get("title_zh")
-    if not title or not meta.get("date"):
-        print(f"  markdown skip {path.name}: needs 'title' and 'date' frontmatter")
-        return None
+    validate_post_header(title, meta.get("date"), path)
     slug = (meta.get("slug") or path.stem).strip()
     date = meta["date"].strip()
     if len(date) <= 10:
@@ -508,6 +513,8 @@ def parse_frontmatter(text):
             continue
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
+        if value.startswith("#"):
+            value = ""
         if value.startswith("[") and value.endswith("]"):
             value = [v.strip().strip("\"'") for v in value[1:-1].split(",") if v.strip()]
         else:
@@ -875,21 +882,21 @@ def internal_target(value, lang, legacy):
     if value.startswith("//"):
         value = "https:" + value
     parsed = urlparse(value)
-    if parsed.scheme in ("mailto", "tel", "javascript"):
+    if parsed.scheme and parsed.scheme not in ("https", "http"):
         return ""
     if parsed.netloc and parsed.netloc.lower() not in SOURCE_HOSTS:
+        return ""
+    if not parsed.netloc and not parsed.path.startswith("/"):
         return ""
     target_lang = "en" if parsed.netloc.lower() == "en.omegaxyz.com" else lang
 
     path = normalize_legacy_path(value)
     if path.startswith("wp-content/uploads/"):
-        return CDN + "/" + path.removeprefix("wp-content/uploads/")
+        return CDN + "/" + parsed.path.lstrip("/").removeprefix("wp-content/uploads/")
     if path in legacy:
         return legacy[path][target_lang]
     if path.startswith(("wp-admin/", "wp-login.php", "feed/", "comments/")):
         return f"{target_lang}/"
-    if parsed.netloc.lower() in SOURCE_HOSTS or value.startswith("/"):
-        return f"{target_lang}/search/"
     return ""
 
 
@@ -902,11 +909,9 @@ def rewrite_url(value, lang, current_file, legacy):
     target = internal_target(value, lang, legacy)
     if not target:
         return value
-    if target.startswith("https://"):
-        return target
-    fragment = urlparse(value).fragment
-    href = rel_url(current_file, path_to_file(target))
-    return f"{href}#{fragment}" if fragment else href
+    parsed = urlparse(value)
+    href = target if target.startswith("https://") else rel_url(current_file, path_to_file(target))
+    return href + ("?" + parsed.query if parsed.query else "") + ("#" + parsed.fragment if parsed.fragment else "")
 
 
 def rewrite_srcset(value, lang, current_file, legacy):
@@ -1062,6 +1067,9 @@ def rewrite_content(markup, lang, current_file, legacy):
         if attr.lower() == "srcset":
             rewritten = rewrite_srcset(value, lang, current_file, legacy)
         else:
+            parsed = urlparse(value)
+            if parsed.query and ((not parsed.netloc and not parsed.scheme) or parsed.netloc.lower() in SOURCE_HOSTS):
+                value = html.unescape(value)
             rewritten = rewrite_url(value, lang, current_file, legacy)
         return f'{attr}={quote_char}{html.escape(rewritten, quote=True)}{quote_char}'
 
@@ -2422,34 +2430,18 @@ def render_redirect(path, target):
     file = path_to_file(path)
     target_file = path_to_file(target)
     href = rel_url(file, target_file)
-    write(file, (
+    markup = (
         '<!doctype html><html lang="zh"><head><meta charset="utf-8">'
         f'{ADSENSE_SCRIPT}'
         f'<meta http-equiv="refresh" content="0; url={href}">'
         f'<link rel="canonical" href="{href}">'
         '</head><body></body></html>'
-    ))
-
-
-def collect_legacy_paths(site, legacy):
-    found = set()
-    pattern = re.compile(r'\b(?:href|src)=["\']([^"\']+)["\']|(?:https?:)?//(?:www\.)?omegaxyz\.com/([^"\'\s<>)]+)', re.I)
-    for entry in site["entries"]:
-        for lang in ("zh", "en"):
-            for match in pattern.finditer(entry.get(f"content_{lang}", "")):
-                value = match.group(1) or ("https://omegaxyz.com/" + (match.group(2) or ""))
-                parsed = urlparse(value if not value.startswith("//") else "https:" + value)
-                if parsed.netloc and parsed.netloc.lower() not in SOURCE_HOSTS:
-                    continue
-                if not parsed.netloc and not value.startswith("/"):
-                    continue
-                path = normalize_legacy_path(value)
-                if not path or path in legacy:
-                    continue
-                if path.startswith(("wp-content/uploads/", "wp-admin/", "wp-login.php")):
-                    continue
-                found.add(path)
-    return found
+    )
+    if file.exists():
+        if file.read_text(encoding="utf-8") == markup:
+            return
+        raise ValueError(f"Redirect for {path} would overwrite an existing page: {file}")
+    write(file, markup)
 
 
 def copy_public():
@@ -2577,8 +2569,6 @@ def main():
             render_redirect(entry["url"], entry_path(entry, "zh"))
     for lang in ("zh", "en"):
         render_archive(site, lang)
-    for path in collect_legacy_paths(site, legacy):
-        render_redirect(path, "zh/search/")
     render_redirect("archive/", "zh/archive/")
     render_site_index_files(site)
     render_404(site)

@@ -4,15 +4,16 @@
 # This template (example.md) is always skipped by the build and never archived.
 # To publish: copy this file, rename it (e.g. my-first-post.md), drop it in content/posts/.
 
-title: 一篇用 Markdown 写的文章          # 必填 / required（中文标题）
-title_en: A Post Written in Markdown    # 选填 / optional（缺省时回退到 title）
-date: 2026-05-30                         # 必填 / required（YYYY-MM-DD，决定 URL 与排序）
-slug: example-markdown-post              # 选填 / optional（缺省用文件名；最终 URL = /YYYY/MM/DD/slug/）
-categories: [tech, machine-learning]     # 选填：slug 列表；已存在的 slug 会自动套用中文名
-tags: [AI, LLM, 想法生成|idea-generation] # 选填：可用 "中文名|slug" 或 "中文名|slug|English" 显式指定名字
-excerpt: 一句话摘要，会显示在列表页和分享卡片里。   # 选填（缺省自动从正文截取）
+# title 和 date 必填；其余选填。注释请单独写一行。
+title: 一篇用 Markdown 写的文章
+title_en: A Post Written in Markdown
+date: 2026-05-30
+slug: example-markdown-post
+categories: [tech, machine-learning]
+tags: [AI, LLM, 想法生成|idea-generation]
+excerpt: 一句话摘要，会显示在列表页和分享卡片里。
 excerpt_en: A one-line summary for list pages and share cards.
-thumbnail: https://cdn.omegaxyz.com/2020/01/AI-GIF.gif   # 选填：列表缩略图 / og:image
+thumbnail: https://cdn.omegaxyz.com/2020/01/AI-GIF.gif
 ---
 
 正文从这里开始，用标准 Markdown 书写即可。

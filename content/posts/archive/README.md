@@ -1,7 +1,7 @@
 # content/posts —— 用 Markdown 发文章
 
-把一个 `.md` 放进**这个目录**，push 到 `master`，GitHub Actions 会自动：
-**构建出页面 → 部署上线 → 把这个 md 和同名 `.en.md` 移到 `archive/` 子目录**（并回提一个 `[skip ci]` 提交，不会再触发一轮构建）。
+新稿放进 `content/posts/`，修改已发布文章则直接编辑 `content/posts/archive/` 里的原文件。push 到 `master` 后，GitHub Actions 会自动：
+**检查稿件和归档文件名 → 构建并验证页面 → 归档新稿及其同名英文稿 → 部署上线**。自动归档提交不会再触发一轮构建。
 
 > `archive/` 里的文件仍会被每次构建读取——`docs/` 是 CI 每次重新生成的，所以归档只是“收件箱清空”，页面不会消失，URL 也不变。想下线某篇就删掉 `archive/` 里那个 md。
 
@@ -24,20 +24,20 @@ git pull
 
 ```markdown
 ---
-title: 中文标题            # 必填
-title_en: English Title    # 选填（缺省 = title）
-date: 2026-05-30           # 必填，决定 URL 与排序（URL = /年/月/日/slug/）
-slug: my-post              # 选填，缺省用文件名；建议只用小写英文、数字、连字符
+title: 中文标题
+title_en: English Title
+date: 2026-05-30
+slug: my-post
 categories: [tech, machine-learning]
 tags: [ai, llm]
-excerpt: 一句话摘要         # 选填，缺省自动从正文截取
+excerpt: 一句话摘要
 excerpt_en: One-line summary.
-thumbnail: https://cdn.omegaxyz.com/2026/05/demo.png   # 选填，列表缩略图 / og:image
+thumbnail: https://cdn.omegaxyz.com/2026/05/demo.png
 ---
 正文……
 ```
 
-缺 `title` 或 `date` 的文件会被静默跳过（不报错、也不生成页面）。
+主稿缺标题（`title` 或 `title_zh`）或日期（`date`）将停止发布，保留线上版本。英文伴随文件只需正文。新稿不要与已归档的主稿或英文稿同名，遇到冲突不会覆盖。修改旧文时保留原日期和 slug，避免改变网址。
 
 ## 分类 / 标签的写法（和根目录 README 的逻辑一致，没有改）
 
