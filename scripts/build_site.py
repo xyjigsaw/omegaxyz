@@ -1697,7 +1697,8 @@ def render_entry(entry, lang, legacy, site):
     </main>
     <script type="application/ld+json">{ld_json}</script>
     """
-    return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image)
+    return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image,
+                  feature="article-contents" if entry.get("type") == "post" else "")
 
 
 def render_comment_entry(entry, lang):

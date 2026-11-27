@@ -1,0 +1,71 @@
+.contents-trigger { display: none; }
+.article-contents-sheet { display: none; }
+.article-contents-sheet[open] {
+  position: fixed;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 36rem);
+  max-width: 100%;
+  max-height: 75vh;
+  max-height: 75dvh;
+  margin: 0 auto;
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px 8px 0 0;
+}
+.article-contents-sheet::backdrop { background: rgb(8 15 17 / 45%); }
+html:has(.article-contents-sheet[open]) { overflow: hidden; }
+.article-contents-sheet header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px 6px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.article-contents-sheet h2 { margin: 0; font-size: 1.05rem; letter-spacing: 0; }
+.article-contents-sheet header button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.article-contents-sheet ol { list-style: none; margin: 0; padding: 6px 12px 12px; overflow-y: auto; overscroll-behavior: contain; }
+.article-contents-sheet a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 7px 10px;
+  color: var(--ink);
+  line-height: 1.4;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  border-inline-start: 2px solid transparent;
+}
+.article-contents-sheet .subsection a { padding-inline-start: 26px; font-size: .92rem; color: var(--muted); }
+.article-contents-sheet a[aria-current] { border-color: var(--accent); color: var(--ink); background: var(--fill); }
+.article-contents-sheet :is(a, button):focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+@media (max-width: 980px) {
+  [data-mobile-contents] .desktop-contents-panel,
+  [data-mobile-contents="empty"] .article-reading-controls,
+  [data-mobile-contents] .article-reading-controls button:not(.contents-trigger) { display: none; }
+  [data-mobile-contents] .article-reading-controls .contents-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 44px;
+    padding-inline: 12px;
+    border-radius: 6px;
+    color: var(--ink);
+  }
+}
+@media (max-width: 980px) and (prefers-reduced-motion: reduce) {
+  html:has([data-mobile-contents]) { scroll-behavior: auto; }
+}
