@@ -32,6 +32,7 @@ FAVICON_URL = CDN + "/2020/02/omegaxyz-logo-100.png"
 GITHUB_URL = "https://github.com/xyjigsaw"
 GISCUS_REPO_OWNER = "xyjigsaw"
 GISCUS_REPO_NAME = "omegaxyz"
+SIGNAL_DISCUSSION_URL = "https://github.com/xyjigsaw/omegaxyz/discussions/5"
 GISCUS_CATEGORY_ID = "DIC_kwDOSpZVLs4C-SeJ"
 GITHUB_ICON = (
     '<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false">'
@@ -1696,55 +1697,59 @@ def render_comment_entry(entry, lang):
     other = "en" if lang == "zh" else "zh"
     title = entry[f"title_{lang}"]
     desc = entry[f"excerpt_{lang}"] or title
-    live_comments = render_giscus(entry, lang)
-    archived_comments = render_comments(entry, lang)
+    live_comments = render_giscus(entry, lang, discussion_url=SIGNAL_DISCUSSION_URL)
+    archived_comments = render_comments(entry, lang, group_threads=True)
     if lang == "zh":
-        intro = "欢迎在这里留下问题、建议、合作想法，或只是打个招呼。新的信号使用 GitHub 登录，旧站评论会继续作为归档保留。"
+        intro = "想聊聊某篇文章，提个建议，或只是打声招呼？欢迎来信。"
         cv_label = "查看个人主页"
         comment_label = "发送信号"
         qr_label = "支持一下"
         alipay_label = "支付宝"
         wechat_label = "微信"
     else:
-        intro = "Leave a question, suggestion, collaboration note, or a quick hello. GitHub login is used for fresh signals, while legacy WordPress comments remain available as an archive."
+        intro = "Have a question about a note, an idea to share, or just want to say hello? Leave a message."
         cv_label = "View CV"
         comment_label = "Send a signal"
         qr_label = "Support"
         alipay_label = "Alipay"
         wechat_label = "WeChat"
+    github_label = "去 GitHub 留言" if lang == "zh" else "Comment on GitHub"
     body = f"""
-    <main class="wrap band comment-page">
-      <section class="comment-hero">
+    <main class="wrap signal-page">
+      <section class="signal-hero">
         <div>
-          <h1>{esc(title)}</h1>
+          <div class="signal-title"><h1>{esc(title)}</h1>
+            <svg viewBox="0 0 84 28" width="84" height="28" fill="none" aria-hidden="true"><path d="M1 16h18l4-5 5 10 7-18 7 22 6-13 4 4h23"/><circle cx="79" cy="16" r="2.5"/></svg>
+          </div>
           <p>{esc(intro)}</p>
-          <div class="comment-actions">
-            <a class="button primary" href="#comments">{esc(comment_label)}</a>
-            <a class="button" href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">{esc(cv_label)}</a>
+          <div class="signal-actions">
+            <a class="signal-send" href="{SIGNAL_DISCUSSION_URL}" target="_blank" rel="noopener noreferrer"
+               data-send-label="{esc(comment_label)}">{esc(github_label)}</a>
+            <a class="signal-cv" href="https://cv.omegaxyz.com/" target="_blank" rel="noopener noreferrer">{esc(cv_label)} <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="comment-qr-card" aria-label="{esc(qr_label)}">
-          <span>{esc(qr_label)}</span>
-          <div class="comment-qr-grid">
+        <details class="signal-support">
+          <summary>{esc(qr_label)}</summary>
+          <div class="signal-codes">
             <figure>
-              <img src="{CDN}/2022/01/alipay.jpg" alt="{esc(alipay_label)}">
+              <a href="{CDN}/2022/01/alipay.jpg" target="_blank" rel="noopener noreferrer"><img src="{CDN}/2022/01/alipay.jpg" width="1200" height="1800" alt="{"查看支付宝收款码原图" if lang == "zh" else "Open full-size Alipay code"}" loading="lazy" decoding="async"></a>
               <figcaption>{esc(alipay_label)}</figcaption>
             </figure>
             <figure>
-              <img src="{CDN}/2022/01/wechat.jpg" alt="{esc(wechat_label)}">
+              <a href="{CDN}/2022/01/wechat.jpg" target="_blank" rel="noopener noreferrer"><img src="{CDN}/2022/01/wechat.jpg" width="1242" height="1686" alt="{"查看微信收款码原图" if lang == "zh" else "Open full-size WeChat code"}" loading="lazy" decoding="async"></a>
               <figcaption>{esc(wechat_label)}</figcaption>
             </figure>
           </div>
-        </div>
+        </details>
       </section>
-      <div id="comments" class="comment-thread">
+      <div id="comments" class="signal-thread">
         {live_comments}
         {archived_comments}
       </div>
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
-    return layout(current, lang, title, body, desc, entry_path(entry, other), article_assets=True)
+    return layout(current, lang, title, body, desc, entry_path(entry, other), article_assets=True, feature="signal")
 
 
 def render_friends_entry(entry, lang):
@@ -1919,7 +1924,7 @@ def comment_avatar(author):
     return emoji, hue
 
 
-def render_comments(entry, lang):
+def render_comments(entry, lang, group_threads=False):
     comments = entry["comments"]
     if not comments:
         return ""
@@ -1953,7 +1958,13 @@ def render_comments(entry, lang):
             append_comment(child, depth + 1)
 
     for c in roots:
+        if group_threads:
+            parts.append('<div class="signal-topic">')
         append_comment(c)
+        if group_threads:
+            parts.append('</div>')
+    if group_threads and len(roots) > 10:
+        parts.append(f'<button type="button" class="signal-earlier" hidden>{"更早的留言" if lang == "zh" else "Earlier messages"} <span aria-hidden="true">↓</span></button>')
     parts.append("</section>")
     return "".join(parts)
 
@@ -1980,7 +1991,7 @@ def render_comment_ip_card(lang):
     """
 
 
-def render_giscus(entry, lang):
+def render_giscus(entry, lang, discussion_url=None):
     show_giscus = should_show_giscus(entry)
     show_ip_card = should_show_comment_ip_card(entry)
     if not show_giscus and not show_ip_card:
@@ -1988,7 +1999,7 @@ def render_giscus(entry, lang):
     heading = f'<h2>{esc(I18N[lang]["comments"])}</h2>'
     giscus_lang = "zh-CN" if lang == "zh" else "en"
     term = giscus_term_for_entry(entry)
-    discussion_url = "https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=" + quote(f"category:Comments {term}")
+    discussion_url = discussion_url or "https://github.com/xyjigsaw/omegaxyz/discussions?discussions_q=" + quote(f"category:Comments {term}")
     ip_card = render_comment_ip_card(lang) if show_ip_card else ""
     giscus = f"""
       <div class="mainland-comment-note" data-mainland-comment-note>
@@ -2392,6 +2403,21 @@ def render_search(site, lang):
     write(current, layout(current, lang, I18N[lang]["search"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/search/"))
 
 
+def render_legacy_signal(entry, target):
+    # A meta refresh drops WordPress comment fragments. With scripts disabled,
+    # the old URL still has the real archived comments for native fragment navigation.
+    current = path_to_file(entry["url"])
+    href = rel_url(current, path_to_file(target))
+    write(current, f'''<!doctype html><html lang="zh"><head><meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="robots" content="noindex,follow"><link rel="canonical" href="{esc(site_url_for_file(path_to_file(target)))}">
+      <title>信号 · OmegaXYZ</title><script>location.replace({json.dumps(href)}+location.hash)</script>
+      <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
+      <link rel="stylesheet" href="/assets/signal.css?v={ASSET_VERSION}"></head>
+      <body><main class="wrap signal-page"><h1>信号</h1><a href="{esc(href)}">前往新版信号页</a>
+      <noscript>{render_comments(entry, "zh", group_threads=True)}</noscript></main></body></html>''')
+
+
 def render_redirect(path, target):
     file = path_to_file(path)
     target_file = path_to_file(target)
@@ -2545,7 +2571,10 @@ def main():
     for entry in site["entries"]:
         for lang in ("zh", "en"):
             write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy, site))
-        render_redirect(entry["url"], entry_path(entry, "zh"))
+        if entry["url"].strip("/") == "comment":
+            render_legacy_signal(entry, entry_path(entry, "zh"))
+        else:
+            render_redirect(entry["url"], entry_path(entry, "zh"))
     for lang in ("zh", "en"):
         render_archive(site, lang)
     for path in collect_legacy_paths(site, legacy):
