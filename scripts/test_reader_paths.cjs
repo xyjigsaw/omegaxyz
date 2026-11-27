@@ -55,6 +55,25 @@ async function exercise(browser, lang) {
 
     await p.emulateMedia({reducedMotion:"reduce"});
     await go(lang + "/");
+    const initialViewport = p.viewportSize();
+    for (const width of [320, 390, 466, 640, 641, 669, 768, 940, 992, 993, 1280]) {
+      await p.setViewportSize({width, height:951});
+      const nav = p.locator(".site-header nav");
+      const controls = nav.locator(".nav-links > :visible");
+      const boxes = await controls.evaluateAll(els => els.map(el => el.getBoundingClientRect().toJSON()));
+      const brand = await nav.locator(".brand").boundingBox();
+      const centers = boxes.map(b => b.y + b.height / 2);
+      const hint = lang + " navigation at " + width + "px";
+      assert.ok(Math.max(...centers) - Math.min(...centers) <= 1, hint + " wraps");
+      assert.ok(brand.x + brand.width <= boxes[0].left && boxes.at(-1).right <= width, hint + " overflows");
+      if (width > 640 && width <= 992) {
+        assert.equal(boxes.length, await nav.locator(".nav-links > *").count(), hint + " is missing a control");
+        assert.ok(boxes.every(b => b.width >= 44 && b.height >= 44), hint + " has a small touch target");
+        const langLink = nav.locator(".nav-lang");
+        assert.ok(await nav.getByRole("link", {name:await langLink.getAttribute("title"), exact:true}).isVisible());
+      }
+    }
+    await p.setViewportSize(initialViewport);
     await box.fill("AI");
     const dropdown = p.locator(".home-search [data-search-results]");
     await dropdown.locator("a").first().waitFor();
