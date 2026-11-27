@@ -17,6 +17,9 @@ cd omegaxyz
 3. 修改内容后可以选择本地预览：
 
 ```bash
+python3 -m venv .cache/build-env
+source .cache/build-env/bin/activate
+python -m pip install -r requirements-build.txt
 python3 scripts/build_site.py
 python3 -m http.server 4173 --directory docs
 ```
@@ -106,6 +109,14 @@ content/my-post.en.html
 - 分类和标签必须写 `slug`，因为它决定分类页、标签页 URL 和前端过滤逻辑。
 - 分类和标签的 `name_en` 不是必填；如果不写，系统会优先使用旧站内置映射，仍没有映射时会根据 `slug` 自动生成英文名。
 
+## 纯正文与订阅
+
+- 发布文章或正文型独立页面后，每个语言版本的网址末尾都有 `index.md`。正文前后都可以打开或复制同一份 Markdown。不下载图片，保留其 CDN 地址、代码和 LaTeX；归档评论、Giscus 和访问统计不在导出范围内。无需手写或提交这些生成文件。
+- 当前语言的搜索索引（`/zh/search-index.json`、`/en/search-index.json`）中，可导出的条目还有 `markdown` 地址。网页头部也声明对应 Markdown、RSS 和 Atom 链接。
+- 中文：[RSS](https://omegaxyz.com/zh/rss.xml)、[Atom](https://omegaxyz.com/zh/atom.xml)；英文：[RSS](https://omegaxyz.com/en/rss.xml)、[Atom](https://omegaxyz.com/en/atom.xml)。页脚有当前语言的订阅入口。两种格式各提供最近发布或更新的 50 条摘要，链接回正式网页。搜索、文章列表、图谱和留言讨论不作为稿件推送。
+- 修改正文、标题或摘要后，Actions 比较两种语言各自的内容指纹，自动更新变化的那一版。首次导入沿用原发表或修改时间；以后新增的旧日期稿也会进入更新流。文章按正式网址识别，同一网址的修改不会产生重复条目。RSS 保留原发表时间，Atom 区分发表与更新时间；阅读器是否把修订重新标为未读取决于客户端。
+- `data/feed-state.json` 只保存公开路径、内容指纹和更新时间，由 Actions 自动维护，不要手动删除或编辑。样式修改、评论数量变化、草稿自动归档或无内容变化的重建不会刷新发文时间。
+
 ## 文章置顶
 
 任何文章都可配置置顶，不修改真实发布日期。Markdown frontmatter 可写：
@@ -138,7 +149,7 @@ python3 scripts/upload_r2.py \
   --bucket omegaxyz-image
 ```
 
-不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `data/site.json` 和 `data/media-cdn.json`。
+不要把 Cloudflare token、S3 key、`.cache/`、`.media/`、原始备份包、翻译缓存或上传缓存提交到 GitHub。`data/` 目录里只提交 `site.json`、`media-cdn.json` 和 `feed-state.json`。
 
 新文章引用 CDN 媒体时，不需要手动修改 `data/site.json` 或 `data/media-cdn.json`。前者是旧 WordPress 的迁移数据；后者由 GitHub Actions 扫描构建产物后自动更新。换机器写文章只需 clone 仓库，不需要下载已有媒体。若要在本地检查 CDN 清单，可以先构建再运行：
 
@@ -214,5 +225,5 @@ python scripts/generate_media_manifest.py
 如果 `data/media-cdn.json` 发生变化，workflow 会自动提交：
 
 ```bash
-Update CDN media manifest [skip ci]
+Update publishing state and archive new posts [skip ci]
 ```

@@ -9,10 +9,11 @@ import shutil
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import quote, unquote, urlparse
+from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 from article_graph import build_graph
 from archive_posts import archive_plan, is_post
+import syndication
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -431,6 +432,7 @@ def markdown_file_to_entry(path):
         _, en_body = parse_frontmatter(en_path.read_text(encoding="utf-8"))
         content_en = markdown_to_html(en_body)
     else:
+        en_body = body
         content_en = content_zh
     excerpt_zh = meta.get("excerpt") or meta.get("excerpt_zh") or short_text(content_zh, 140)
     excerpt_en = meta.get("excerpt_en") or (short_text(content_en, 140) if en_path.exists() else excerpt_zh)
@@ -443,6 +445,7 @@ def markdown_file_to_entry(path):
         "excerpt_en": excerpt_en,
         "content_zh": content_zh,
         "content_en": content_en,
+        "_markdown": {"zh": body, "en": en_body},
         "date": date,
         "modified": meta.get("modified", date),
         "slug": slug,
@@ -1190,6 +1193,7 @@ def footer(current_file, lang):
         <div class="footer-decl">
           <p>{esc(t["footer_license"])} <span class="footer-sep">|</span> {runtime}</p>
           <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{esc(t["footer_icp"])}</a> <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
+          <p><a href="/{lang}/rss.xml">RSS</a> <span class="footer-sep">·</span> <a href="/{lang}/atom.xml">Atom</a></p>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -1242,7 +1246,14 @@ ARTICLE_ASSETS = (
 )
 
 
-def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", feature=""):
+def reader_tools(lang):
+    view, copy = ("打开纯正文", "复制 Markdown") if lang == "zh" else ("Open Markdown", "Copy Markdown")
+    icon = _nav_icon('<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>')
+    return (f'<div class="md-tools"><a type="text/markdown" href="index.md">{NAV_ICONS["pages"]}{view}</a>'
+            f'<button type="button" data-md-copy hidden>{icon}{copy}</button><span role="status"></span></div>')
+
+
+def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", feature="", reader=False):
     css = rel_url(current_file, OUT / "assets/site.css") + f"?v={ASSET_VERSION}"
     js = rel_url(current_file, OUT / "assets/site.js") + f"?v={ASSET_VERSION}"
     katex = "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -1259,6 +1270,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
     version = "20261127-graph-day1" if feature == "article-graph" else ASSET_VERSION
     feature_css = f'<link rel="stylesheet" href="/assets/{feature}.css?v={version}">' if feature else ""
     feature_js = f'<script type="module" src="/assets/{feature}.js?v={version}"></script>' if feature else ""
+    reader_head = ('<link rel="alternate" type="text/markdown" href="index.md">'
+                   '<link rel="stylesheet" href="/assets/markdown-tools.css?v=1">') if reader else ""
+    reader_js = '<script defer src="/assets/markdown-tools.js?v=1"></script>' if reader else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -1274,6 +1288,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="alternate" hreflang="{other}" href="{esc(alternate)}">
   <link rel="alternate" hreflang="{lang}" href="{esc(canonical)}">
+  <link rel="alternate" type="application/rss+xml" title="OmegaXYZ RSS ({lang})" href="/{lang}/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="OmegaXYZ Atom ({lang})" href="/{lang}/atom.xml">
+  {reader_head}
   <meta property="og:site_name" content="OmegaXYZ">
   <meta property="og:type" content="{'article' if article_assets else 'website'}">
   <meta property="og:title" content="{esc(title)} · OmegaXYZ">
@@ -1295,7 +1312,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
   <a id="main-content" tabindex="-1"></a>
   {body}
   {footer(current_file, lang)}
-  <script src="{js}"></script>{body_assets}{feature_js}
+  <script src="{js}"></script>{body_assets}{feature_js}{reader_js}
   {analytics_scripts()}
 </body>
 </html>
@@ -1538,12 +1555,14 @@ def render_timeline_page(entry, lang):
       <nav class="history-nav" aria-label="{"按年份跳转" if zh else "Jump to year"}">
         <div class="history-scale">{"".join(bands)}</div>
       </nav>
+      {reader_tools(lang)}
       <div class="history-log"><div class="history-spine" aria-hidden="true"><i></i></div>{"".join(groups)}</div>
+      {reader_tools(lang)}
     </main>
     """
     desc = ("从 2017 年建站至今，按时间了解 OmegaXYZ 的重要更新、内容改版和站点迁移。"
             if lang == "zh" else "Follow the history of OmegaXYZ from its launch in 2017 through site migrations, redesigns and publishing milestones.")
-    return layout(current, lang, title, body, desc, entry_path(entry, other), feature="history")
+    return layout(current, lang, title, body, desc, entry_path(entry, other), feature="history", reader=True)
 
 
 def entry_term_keys(entry):
@@ -1689,7 +1708,9 @@ def render_entry(entry, lang, legacy, site):
         <div class="meta">{meta_html}</div>
         <h1>{esc(title)}</h1>
         <div class="terms">{term_links}</div>
+        {reader_tools(lang) if syndication.editorial(entry) else ""}
         <div class="article-content">{content}</div>
+        {reader_tools(lang) if syndication.editorial(entry) else ""}
         {live_comments}
         {comments}
       </article>
@@ -1698,7 +1719,7 @@ def render_entry(entry, lang, legacy, site):
     <script type="application/ld+json">{ld_json}</script>
     """
     return layout(current, lang, title, body, excerpt, entry_path(entry, other), article_assets=True, image=og_image,
-                  feature="article-contents" if entry.get("type") == "post" else "")
+                  feature="article-contents" if entry.get("type") == "post" else "", reader=syndication.editorial(entry))
 
 
 def render_comment_entry(entry, lang):
@@ -1824,11 +1845,11 @@ def render_friends_entry(entry, lang):
         </div>
         <nav class="directory-channels" aria-label="{'友链分组' if lang == 'zh' else 'Link groups'}">{''.join(channels)}</nav>
       </div></header>
-      <div class="wrap directory-body">{''.join(sections)}</div>
+      <div class="wrap directory-body">{reader_tools(lang)}{''.join(sections)}{reader_tools(lang)}</div>
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
-    return layout(current, lang, title, body, desc, entry_path(entry, other))
+    return layout(current, lang, title, body, desc, entry_path(entry, other), reader=True)
 
 
 def render_makefriends_entry(entry, lang):
@@ -1883,6 +1904,7 @@ def render_makefriends_entry(entry, lang):
         <h1>{esc(title)}</h1>
         <p>{esc(intro)}</p>
       </section>
+      {reader_tools(lang)}
       <section class="makefriends-grid" aria-label="{esc(checklist_title)}">
         <article class="makefriends-card">
           <span>{esc(site_name)}</span>
@@ -1910,12 +1932,13 @@ def render_makefriends_entry(entry, lang):
         </div>
         <ol>{submit_html}</ol>
       </section>
+      {reader_tools(lang)}
       {live_comments}
       {archived_comments}
     </main>
     """
     body = "\n".join(line.rstrip() for line in body.splitlines())
-    return layout(current, lang, title, body, desc, entry_path(entry, other))
+    return layout(current, lang, title, body, desc, entry_path(entry, other), reader=True)
 
 
 COMMENT_EMOJIS = [
@@ -2375,6 +2398,7 @@ def render_search(site, lang):
             "tags": " ".join(dict.fromkeys(term_label(t, language) for t in entry["tags"] + entry["categories"]
                                            for language in (lang, other))),
             "url": "/" + entry_path(entry, lang).strip("/") + "/",
+            **({"markdown": "/" + entry_path(entry, lang).strip("/") + "/index.md"} if syndication.editorial(entry) else {}),
         })
     for kind, key in (("category", "categories"), ("tag", "tags")):
         groups, terms = group_terms(site["entries"], key)
@@ -2561,18 +2585,45 @@ def main():
         render_terms(site, lang)
         render_search(site, lang)
     render_root_redirect()
+    state_file = ROOT / "data/feed-state.json"
+    previous = json.loads(state_file.read_text(encoding="utf-8")) if state_file.exists() else {}
+    state, rows = {}, {"zh": [], "en": []}
+    now = datetime.now(timezone.utc).replace(microsecond=0)
     for entry in site["entries"]:
         for lang in ("zh", "en"):
-            write(path_to_file(entry_path(entry, lang)), render_entry(entry, lang, legacy, site))
+            current = path_to_file(entry_path(entry, lang))
+            page = render_entry(entry, lang, legacy, site)
+            write(current, page)
+            if syndication.editorial(entry):
+                canonical = site_url_for_file(current)
+                selector = syndication.SPECIAL_BODIES.get(entry["url"].strip("/"))
+                if selector:
+                    body = syndication.special_body(page, selector, canonical)
+                elif "_markdown" in entry:
+                    body = syndication.authored_markdown(entry["_markdown"][lang],
+                        lambda value: urljoin(canonical, rewrite_url(value, lang, current, legacy)))
+                else:
+                    fragment = rewrite_content(entry[f"content_{lang}"], lang, current, legacy)
+                    body = syndication.markdown_body(fragment, canonical)
+                doc, (key, stamp), row = syndication.record(entry, lang, canonical, body, previous, now)
+                write(current.with_name("index.md"), doc)
+                state[key] = stamp
+                rows[lang].append(row)
         if entry["url"].strip("/") == "comment":
             render_legacy_signal(entry, entry_path(entry, "zh"))
         else:
             render_redirect(entry["url"], entry_path(entry, "zh"))
     for lang in ("zh", "en"):
         render_archive(site, lang)
+        for name, xml in syndication.feeds(rows[lang], lang, SITE_URL).items():
+            write(OUT / lang / name, xml)
     render_redirect("archive/", "zh/archive/")
     render_site_index_files(site)
     render_404(site)
+    if os.environ.get("WRITE_FEED_STATE") == "1":
+        # One line per edition keeps automated metadata changes easy to review.
+        lines = [f"  {json.dumps(k, ensure_ascii=False)}: {json.dumps(state[k])}" for k in sorted(state)]
+        write(state_file, "{\n" + ",\n".join(lines) + "\n}\n")
     print(f"built {OUT}")
 
 

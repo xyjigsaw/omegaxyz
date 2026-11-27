@@ -1,6 +1,6 @@
 # Optional local tooling for full Chinese -> English migration.
-# The checked-in build script only needs Python's standard library.
-beautifulsoup4
+# Include the HTML-to-Markdown dependencies used by the static build.
+-r requirements-build.txt
 lxml
 argostranslate==1.8.0
 ctranslate2>=4,<5

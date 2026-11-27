@@ -1,0 +1,12 @@
+.md-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin-block: 8px; }
+.md-tools a, .md-tools button {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 2px 0;
+  border: 0; background: transparent; color: var(--muted); font: inherit; font-size: .82rem;
+  text-decoration: none; cursor: pointer;
+}
+.md-tools [hidden] { display: none; }
+.md-tools :is(a,button):hover, .md-tools :is(a,button):focus-visible { color: var(--accent); }
+.md-tools :is(a,button):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.md-tools [role=status] { font-size: .8rem; color: var(--muted); }
+.md-tools textarea { flex: 1 0 100%; min-width: 0; max-width: 100%; height: 7rem; color: var(--ink); background: var(--panel); font: inherit; }
+@media (pointer: coarse) { .md-tools :is(a,button) { min-height: 44px; } }

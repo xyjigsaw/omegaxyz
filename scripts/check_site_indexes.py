@@ -23,7 +23,7 @@ class Head(HTMLParser):
             self.redirect = True
         if tag == "link" and attrs.get("rel") == "canonical":
             self.canonical = attrs.get("href")
-        if tag == "link" and attrs.get("rel") == "alternate":
+        if tag == "link" and attrs.get("rel") == "alternate" and attrs.get("hreflang"):
             self.alternates[attrs.get("hreflang")] = attrs.get("href")
 
 
@@ -44,9 +44,24 @@ def main():
     for lang in ("zh", "en"):
         rows = json.loads((OUT / lang / "search-index.json").read_text(encoding="utf-8"))
         assert rows, lang
+        documents = set()
         for row in rows:
             path = row["url"]
             assert path.startswith(f"/{lang}/") and SITE_URL + path in urls, path
+            if row.get("markdown"):
+                assert row["markdown"] == path + "index.md"
+                folder = OUT / unquote(path.strip("/"))
+                md = (folder / "index.md").read_text(encoding="utf-8")
+                assert md.startswith("# ") and f"<{SITE_URL}{path}>" in md
+                page = (folder / "index.html").read_text(encoding="utf-8")
+                assert page.count("data-md-copy") == 2 and 'type="text/markdown" href="index.md"' in page, path
+                documents.add(SITE_URL + path)
+        rss = ElementTree.parse(OUT / lang / "rss.xml")
+        atom = ElementTree.parse(OUT / lang / "atom.xml")
+        guids = [node.text for node in rss.findall("./channel/item/guid")]
+        ids = [node.text for node in atom.findall("./{*}entry/{*}id")]
+        assert guids == ids and len(set(ids)) == len(ids) == min(50, len(documents))
+        assert set(ids) <= documents
         graph_dir = OUT / lang / "article-graph"
         graph_file, = graph_dir.glob("graph-*.json")
         assert graph_file.name in (graph_dir / "index.html").read_text(encoding="utf-8")
