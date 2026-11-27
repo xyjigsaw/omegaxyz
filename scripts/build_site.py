@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261126-chart-feather1"
+ASSET_VERSION = "20261127-archive-filter-edges1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -2022,17 +2022,19 @@ def render_archive(site, lang):
           </select>
         </label>
       </section>
-      <section class="archive-filters" aria-label="{esc(I18N[lang]["all_posts"])}">
-        <div class="filter-group filter-group-all">{all_chip}</div>
-        <div class="filter-group">
-          <h2>{esc(I18N[lang]["categories"])}</h2>
-          <div>{category_chips}</div>
-        </div>
-        <div class="filter-group">
-          <h2>{esc(I18N[lang]["tags"])}</h2>
-          <div>{tag_chips}</div>
-        </div>
-      </section>
+      <div class="archive-filter-frame">
+        <section class="archive-filters" aria-label="{esc(I18N[lang]["all_posts"])}">
+          <div class="filter-group filter-group-all">{all_chip}</div>
+          <div class="filter-group">
+            <h2>{esc(I18N[lang]["categories"])}</h2>
+            <div>{category_chips}</div>
+          </div>
+          <div class="filter-group">
+            <h2>{esc(I18N[lang]["tags"])}</h2>
+            <div>{tag_chips}</div>
+          </div>
+        </section>
+      </div>
       {archive_month_chart(posts, lang)}
       <div class="archive-list archive-index">{items}</div>
       <p class="archive-empty" data-archive-empty hidden>{esc(I18N[lang]["no_results"])}</p>
