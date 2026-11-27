@@ -1248,8 +1248,9 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
     ) if article_assets else ""
     body_assets = ARTICLE_ASSETS if article_assets else ""
     scene_asset = "article-graph" if scenes == "graph" else "scenes-v1"
-    scene_css = f'<link rel="stylesheet" href="/assets/{scene_asset}.css?v={ASSET_VERSION}">' if scenes else ""
-    scene_js = f'<script type="module" src="/assets/{scene_asset}.js?v={ASSET_VERSION}"></script>' if scenes else ""
+    scene_version = "20261127-graph-day1" if scenes == "graph" else ASSET_VERSION
+    scene_css = f'<link rel="stylesheet" href="/assets/{scene_asset}.css?v={scene_version}">' if scenes else ""
+    scene_js = f'<script type="module" src="/assets/{scene_asset}.js?v={scene_version}"></script>' if scenes else ""
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>

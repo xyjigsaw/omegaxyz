@@ -47,9 +47,9 @@ export function createScene(T,d3,nodes,terms,field,onPick){
   const scene=new T.Scene(),camera=new T.OrthographicCamera(-1,1,1,-1,.1,32), group=new T.Group();
   camera.position.z=6;scene.add(group);
   const TAU=2*Math.PI,polar=map.at;
-  const rgb=(v)=>new T.Color(v);
-  const pigments=["#65e4d9","#97afff","#8fc9fd","#f19a9c","#c2a0f4","#d8c888","#82bfb8","#91d4aa"];
-  const tones=new Map(map.sectors.map((s,i)=>[s.cat,pigments[i%pigments.length]]));
+  const sectorIndex=new Map(map.sectors.map((s,i)=>[s.cat,i]));
+  const themedLines=new Map();
+  let pigments=[],selectedInk,relatedInk,pulseInk;
   const def={yaw:-.18,pitch:-.82,roll:-.19};
   const reduced=matchMedia("(prefers-reduced-motion: reduce)");
   let yaw=def.yaw,pitch=def.pitch,zoom=1,frame=0,dead=false,w0=0,h0=0,press=null;
@@ -60,8 +60,10 @@ export function createScene(T,d3,nodes,terms,field,onPick){
     object.geometry.dispose();object.geometry=new T.BufferGeometry();
     object.geometry.setAttribute("position",new T.Float32BufferAttribute(coords,3));
   }
-  function wires(color,opacity,order){
-    const obj=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color,opacity,transparent:true,depthWrite:false}));
+  function wires(role,opacity,order){
+    const material=new T.LineBasicMaterial({opacity,transparent:true,depthWrite:false});
+    themedLines.set(role,material);
+    const obj=new T.LineSegments(new T.BufferGeometry(),material);
     obj.renderOrder=order;group.add(obj);return obj;
   }
   function arc(arr,r,z,a,b,n){
@@ -80,12 +82,12 @@ export function createScene(T,d3,nodes,terms,field,onPick){
     arc(accents,1.033,.12,s.from+.014,s.to-.014,36);
     rulers.push(...polar(s.from,.20,-.11),...polar(s.from,1.04,.12));
   }
-  geom(wires("#48717e",.39,0),rings);geom(wires("#92becc",.36,0),rulers);
-  geom(wires("#709aa5",.56,0),rims);geom(wires("#6cd8cf",.75,1),accents);
-  const focus=wires("#ffbd79",.93,3),traces=wires("#79aebe",.21,1);
-  const dotMat=new T.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{dpr:{value:dpr}},
-    vertexShader:"attribute float radius;attribute vec3 tint;varying vec3 ink;uniform float dpr;void main(){ink=tint;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=radius*dpr;}",
-    fragmentShader:"varying vec3 ink;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;float core=1.-smoothstep(.2,.51,r);float glow=exp(-4.*r*r);gl_FragColor=vec4(mix(ink,vec3(.92,1.,1.),core*.38),max(core,glow*.67));\n#include <colorspace_fragment>\n}"});
+  geom(wires("rings",.39,0),rings);geom(wires("rulers",.36,0),rulers);
+  geom(wires("rims",.56,0),rims);geom(wires("accents",.75,1),accents);
+  const focus=wires("focus",.93,3),traces=wires("traces",.21,1);
+  const dotMat=new T.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{dpr:{value:dpr},night:{value:0},smallScale:{value:1}},
+    vertexShader:"attribute float radius;attribute vec3 tint;varying vec3 ink;uniform float dpr,smallScale;void main(){ink=tint;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=radius*dpr*mix(smallScale,1.,smoothstep(8.,15.,radius));}",
+    fragmentShader:"varying vec3 ink;uniform float night;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;float core=1.-smoothstep(.2,.51,r);float glow=exp(-4.*r*r);float day=1.-smoothstep(.44,.78,r);gl_FragColor=vec4(mix(ink,vec3(.92,1.,1.),night*core*.38),mix(day,max(core,glow*.67),night));\n#include <colorspace_fragment>\n}"});
   const dots=new T.Points(new T.BufferGeometry(),dotMat);dots.renderOrder=4;group.add(dots);
   const pulse=new T.Points(new T.BufferGeometry(),dotMat);
   pulse.renderOrder=6;pulse.frustumCulled=false;group.add(pulse);
@@ -93,7 +95,7 @@ export function createScene(T,d3,nodes,terms,field,onPick){
   // A hollow reticle marks the selected article even when the graph is dense.
   const reticle=new T.LineLoop(new T.BufferGeometry().setFromPoints(Array.from({length:54},(_,k)=>
     new T.Vector3(.028*Math.cos(TAU*k/54),.028*Math.sin(TAU*k/54),0))),
-  new T.LineBasicMaterial({color:"#ffca86",depthTest:false,transparent:true,opacity:.93}));reticle.renderOrder=5;group.add(reticle);
+  new T.LineBasicMaterial({depthTest:false,transparent:true,opacity:.93}));reticle.renderOrder=5;group.add(reticle);
   const annotations=[];
   function annotate(text,p,kind){
     const el=document.createElement("span");el.className="orbit-label "+kind;el.textContent=text;stage.append(el);
@@ -114,22 +116,39 @@ export function createScene(T,d3,nodes,terms,field,onPick){
     for(let k=1;k<steps.length;k++)arr.push(...steps[k-1].toArray(),...steps[k].toArray());
     return curve;
   }
-  function select(i){
-    sel=i;curves=[];
-    const neighbors=new Set(nodes[i]?.near||[]), c=[],sizes=[],links=[];
+  function paintPoints(){
+    const neighbors=new Set(nodes[sel]?.near||[]), c=[];
     for(const id of ids){
-      const related=neighbors.has(id),selected=id===i;
-      c.push(...rgb(selected?"#ffde92":related?"#ffc88e":tones.get(map.positions[id].cat)).toArray());
-      sizes.push(selected?21:related?15:ids.length<75?12:8);
-      if(related && active.has(i))curves.push(connect(links,i,id,.16+.2*vector(map.positions[i].p).distanceTo(vector(map.positions[id].p))));
+      const ink=id===sel?selectedInk:neighbors.has(id)?relatedInk:pigments[sectorIndex.get(map.positions[id].cat)%pigments.length];
+      c.push(ink.r,ink.g,ink.b);
     }
     dots.geometry.setAttribute("tint",new T.Float32BufferAttribute(c,3));
+    pulse.geometry.setAttribute("tint",new T.Float32BufferAttribute(curves.flatMap(()=>pulseInk.toArray()),3));
+  }
+  // Repaint the existing buffers; a theme change must not replay a selection or reset the camera.
+  function syncTheme(){
+    const style=getComputedStyle(field),read=role=>style.getPropertyValue("--orbit-"+role).trim();
+    for(const [role,material] of themedLines)material.color.set(read(role));
+    pigments=read("pigments").split(/\s+/).map(s=>new T.Color(s));
+    selectedInk=new T.Color(read("selected"));relatedInk=new T.Color(read("related"));pulseInk=new T.Color(read("pulse"));
+    reticle.material.color.set(read("focus"));
+    dotMat.uniforms.night.value=document.documentElement.dataset.theme==="dark"?1:0;
+    paintPoints();schedule();
+  }
+  function select(i){
+    sel=i;curves=[];
+    const neighbors=new Set(nodes[i]?.near||[]),sizes=[],links=[];
+    for(const id of ids){
+      const related=neighbors.has(id);
+      sizes.push(id===i?21:related?15:ids.length<75?12:8);
+      if(related && active.has(i))curves.push(connect(links,i,id,.16+.2*vector(map.positions[i].p).distanceTo(vector(map.positions[id].p))));
+    }
     dots.geometry.setAttribute("radius",new T.Float32BufferAttribute(sizes,1));
     reticle.visible=active.has(sel);if(reticle.visible)reticle.position.fromArray(map.positions[i].p);
     geom(focus,links);field.querySelector(".graph-picked").hidden=true;
     geom(pulse,new Float32Array(curves.length*3));
     pulse.geometry.setAttribute("radius",new T.Float32BufferAttribute(curves.map(()=>14),1));
-    pulse.geometry.setAttribute("tint",new T.Float32BufferAttribute(curves.flatMap(()=>[1,.64,.19]),3));
+    paintPoints();
     phaseStart=performance.now();schedule();
   }
   function layout(list,i){
@@ -149,6 +168,7 @@ export function createScene(T,d3,nodes,terms,field,onPick){
     frame=0;const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;
     if(w!==w0||h!==h0){renderer.setSize(w,h,false);w0=w;h0=h;}
     const aspect=w/h,extent=Math.max(1.21,aspect*.87)/zoom;
+    dotMat.uniforms.smallScale.value=dotMat.uniforms.night.value ? 1 : Math.min(1,Math.max(.6,w/600));
     camera.left=-extent;camera.right=extent;camera.top=extent/aspect;camera.bottom=-camera.top;camera.updateProjectionMatrix();
     group.rotation.set(pitch,yaw,def.roll,"YXZ");group.updateMatrixWorld(true);camera.updateMatrixWorld();
     reticle.quaternion.copy(group.quaternion).invert();
@@ -206,6 +226,8 @@ export function createScene(T,d3,nodes,terms,field,onPick){
     if(b.dataset.view==="reset")reset();else zoomBy(b.dataset.view==="in"?1.25:.8);
   }));
   const size=new ResizeObserver(schedule);size.observe(stage);
-  canvas.addEventListener("webglcontextlost",()=>{dead=true;cancelAnimationFrame(frame);size.disconnect();field.hidden=true;},{once:true});
+  const theme=new MutationObserver(syncTheme);
+  theme.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});syncTheme();
+  canvas.addEventListener("webglcontextlost",()=>{dead=true;cancelAnimationFrame(frame);size.disconnect();theme.disconnect();field.hidden=true;},{once:true});
   return {layout,select};
 }

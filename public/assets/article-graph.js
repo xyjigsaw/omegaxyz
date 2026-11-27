@@ -56,7 +56,9 @@ function boot({terms,nodes}){
   search.addEventListener("input",()=>filter());category.addEventListener("change",()=>filter());
   $(".graph-workbench").hidden=false;$(".graph-status").hidden=true;filter();
   if(!nodes.length || navigator.connection?.saveData)return;
-  Promise.all([import("./vendor/three-r160.min.js"),import("./vendor/d3-hierarchy-3.1.2.min.js"),import("./graph-orbit-v1.js")])
+  const orbitURL=new URL("./graph-orbit-v1.js",import.meta.url);
+  orbitURL.search=new URL(import.meta.url).search;
+  Promise.all([import("./vendor/three-r160.min.js"),import("./vendor/d3-hierarchy-3.1.2.min.js"),import(orbitURL.href)])
     .then(([T,,orbit])=>{
       view=orbit.createScene(T,globalThis.d3,nodes,terms,field,i=>{navigate(i);const link=$(".graph-picked");
         link.href=nodes[i].url;link.textContent=nodes[i].title+" ↗";link.hidden=false;});

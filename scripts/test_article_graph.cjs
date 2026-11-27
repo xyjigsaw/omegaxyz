@@ -9,15 +9,16 @@ async function inspectPixels(canvas) {
     img.width=Math.round(box.width);img.height=Math.round(box.height);
     const ctx=img.getContext("2d");ctx.drawImage(el,0,0,img.width,img.height);
     const rgba=ctx.getImageData(0,0,img.width,img.height).data;
-    let hash=0,opaque=0,hit=null;
+    let hash=0,opaque=0,brightness=0,hit=null;
     for(let i=0;i<rgba.length;i+=4){
       const a=rgba[i+3];hash=(Math.imul(hash,31)+a)>>>0;
       if(a<245)continue;opaque++;
+      brightness+=(rgba[i]*.213+rgba[i+1]*.715+rgba[i+2]*.072);
       const x=(i/4)%img.width,y=Math.floor(i/4/img.width);
       if(!hit && x>20 && y>30 && document.elementFromPoint(box.left+x,box.top+y)===el)
         hit={x:box.left+x,y:box.top+y};
     }
-    return {hash,opaque,hit};
+    return {hash,opaque,hit,brightness:brightness/Math.max(1,opaque)};
   });
 }
 
@@ -56,11 +57,36 @@ async function exercise(browser,lang,width,fallback=false){
       }else{await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+65,y+12,{steps:5});await p.mouse.up();}
       await p.waitForTimeout(90);
       assert.notEqual((await inspectPixels(canvas)).hash,before);
+      const original=mobile?"dark":"light", other=mobile?"light":"dark";
+      const picked=p.locator(".graph-picked"),selectedUrl=await picked.getAttribute("href");
+      const positions=()=>p.locator(".orbit-label").evaluateAll(labels=>labels.map(el=>el.style.transform));
+      const rotated=await positions();
+      async function themeFrame(mode){
+        await p.waitForFunction(theme=>document.documentElement.dataset.theme===theme,mode);
+        await p.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
+        const surface=await p.locator(mobile?".graph-field":".graph-layout").evaluate(el=>getComputedStyle(el,"::before").backgroundImage);
+        const {opaque,brightness}=await inspectPixels(canvas);
+        assert.ok(opaque>500);assert.ok(await picked.isVisible());assert.equal(await picked.getAttribute("href"),selectedUrl);
+        assert.deepEqual(await positions(),rotated,"switching themes must preserve the rotated view");
+        return {surface,brightness};
+      }
+      const themes={};themes[original]=await themeFrame(original);
+      await p.emulateMedia({colorScheme:other});themes[other]=await themeFrame(other);
+      assert.notEqual(themes.light.surface,themes.dark.surface);
+      assert.ok(themes.dark.brightness-themes.light.brightness>50,"canvas needs dark ink by day and bright stars at night");
+      const toggle=p.locator("[data-theme-toggle]");
+      await toggle.click();await themeFrame("light");
+      await toggle.click();await themeFrame("dark");
+      await toggle.click();await themeFrame(other);
+      await p.emulateMedia({colorScheme:original});await themeFrame(original);
       await p.locator('[data-view="reset"]').click();await p.waitForTimeout(90);
       assert.equal((await inspectPixels(canvas)).hash,before);
       assert.ok(new URL(p.url()).pathname.includes("/article-graph/"));
     }else{assert.ok(await p.locator(".graph-field").isHidden());}
     const option=await cat.locator("option").nth(1).getAttribute("value");await cat.selectOption(option);
+    assert.equal(Number(await p.locator("[data-graph-count]").innerText()),data.terms[Number(option)].count);
+    await p.emulateMedia({colorScheme:mobile?"light":"dark"});
+    assert.equal(await cat.inputValue(),option);
     assert.equal(Number(await p.locator("[data-graph-count]").innerText()),data.terms[Number(option)].count);
     await q.fill("!no-matching-article!");assert.equal(await p.locator("[data-graph-count]").innerText(),"0");
     await q.fill("");await cat.selectOption("");
