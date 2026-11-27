@@ -68,9 +68,17 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
   .omega-copy .home-search input:focus {
     border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
   }
+  .omega-copy .home-search .search-results:not(:empty) {
+    --result-surface: transparent;
+    background: color-mix(in srgb, var(--panel) 80%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(115%); backdrop-filter: blur(16px) saturate(115%);
+  }
 }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
-  .omega-copy .home-search input { background: var(--panel); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .omega-copy .home-search input, .omega-copy .home-search .search-results:not(:empty) {
+    --result-surface: var(--panel);
+    background: var(--panel); -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
 }
 .omega-copy .search-glyph { position: absolute; z-index: 1; width: 18px; height: 18px; top: 15px; left: 15px; color: var(--muted); pointer-events: none; }
 .omega-copy .search-results:not(:empty) {

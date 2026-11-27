@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-search-terms1"
+ASSET_VERSION = "20261127-search-types1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -2268,11 +2268,18 @@ def render_search(site, lang):
                 "url": "/" + term_path(kind, slug, lang),
             })
     write(index_file, json.dumps(index, ensure_ascii=False))
+    filters = "".join(
+        f'<button type="button" data-search-kind="{kind}" aria-pressed="{str(kind == "all").lower()}">'
+        f'{zh if lang == "zh" else en} <span data-count>0</span></button>'
+        for kind, zh, en in (("all", "全部", "All"), ("post", "文章", "Posts"), ("page", "页面", "Pages"),
+                             ("category", "分类", "Categories"), ("tag", "标签", "Tags"))
+    )
     body = f"""
     <main class="wrap band search-page">
       <div class="section-head"><h1>{esc(I18N[lang]['search'])}</h1></div>
       <form class="search-box" role="search" action="/{lang}/search/" method="get" data-search="{rel_url(current, index_file)}" data-search-page>
         <input type="search" name="q" enterkeyhint="search" placeholder="{esc(I18N[lang]['search'])}" aria-label="{esc(I18N[lang]['search'])}">
+        <div class="search-types" role="group" aria-label="{'结果类型' if lang == 'zh' else 'Result type'}">{filters}</div>
         <div class="search-results" data-search-results></div>
       </form>
       <section class="recent-reading" data-search-recent>

@@ -517,6 +517,9 @@
     const results = search.querySelector("[data-search-results]");
     const recent = document.querySelector("[data-search-recent]");
     const en = root.lang === "en";
+    const filters = [...search.querySelectorAll("[data-search-kind]")];
+    const labels = en ? { post: "Post", page: "Page", category: "Category", tag: "Tag" }
+      : { post: "文章", page: "页面", category: "分类", tag: "标签" };
     const indexPath = (en && search.dataset.searchEn) || search.dataset.search;
     if (en && search.dataset.searchEn) {
       search.action = search.dataset.enAction;
@@ -529,7 +532,7 @@
     const more = document.createElement("button");
     more.type = "button";
     more.className = "search-more";
-    let index = [], matches = [], shown = 0, state = "idle";
+    let index = [], ranked = [], matches = [], shown = 0, state = "idle", kind = "all";
     let pattern;
     const isTerm = (item) => item.kind === "category" || item.kind === "tag";
     const highlighted = (tag, value) => {
@@ -559,11 +562,11 @@
         const link = document.createElement("a");
         link.href = item.url;
         const title = highlighted("strong", item.title);
+        const badge = document.createElement("span");
+        badge.className = "search-kind";
+        badge.textContent = labels[item.kind];
         if (isTerm(item)) {
           link.className = "search-term search-" + item.kind;
-          const badge = document.createElement("span");
-          badge.className = "search-kind";
-          badge.textContent = item.kind === "category" ? (en ? "Category" : "分类") : (en ? "Tag" : "标签");
           const names = document.createElement("div");
           names.className = "search-term-names";
           names.append(title);
@@ -576,7 +579,11 @@
           count.textContent = termCount(item);
           link.append(badge, names, count);
         } else {
-          link.append(title, highlighted("span", item.excerpt || ""));
+          link.className = "search-entry search-entry-" + item.kind;
+          const heading = document.createElement("div");
+          heading.className = "search-entry-heading";
+          heading.append(badge, title);
+          link.append(heading, highlighted("span", item.excerpt || ""));
         }
         fragment.append(link);
         if (!first) first = link;
@@ -584,6 +591,7 @@
       results.append(fragment);
       shown += batch.length;
       status.textContent = matches.length ? (en ? "Showing " + shown + " of " + matches.length + " results" : "共 " + matches.length + " 条结果，已显示 " + shown + " 条")
+        : ranked.length ? (en ? "No matches of this type." : "该类型没有匹配结果。")
         : (en ? "No results. Try a different keyword." : "没有找到结果，换个关键词试试。");
       if (shown < matches.length) {
         more.textContent = en ? "Show more results" : "显示更多结果";
@@ -591,13 +599,29 @@
       }
       if (moveFocus && first) first.focus();
     };
+    const showKind = () => {
+      matches = kind === "all" ? ranked : ranked.filter((item) => item.kind === kind);
+      shown = 0;
+      results.replaceChildren(status);
+      appendMatches(false);
+    };
+    const updateCounts = (known) => {
+      if (!filters.length) return;
+      const counts = { all: ranked.length, post: 0, page: 0, category: 0, tag: 0 };
+      for (const item of ranked) counts[item.kind]++;
+      for (const button of filters) {
+        button.querySelector("[data-count]").textContent = known ? counts[button.dataset.searchKind] : "…";
+      }
+    };
     const render = () => {
       const q = input.value.trim();
       if (recent) recent.hidden = Boolean(q);
       results.replaceChildren();
-      if (!q) return;
+      ranked = [];
+      if (!q) { updateCounts(true); return; }
       results.append(status);
       if (state !== "ready") {
+        updateCounts(false);
         status.textContent = state === "error"
           ? (en ? "Search could not load." : "搜索暂时无法加载。")
           : (en ? "Loading search…" : "正在加载搜索…");
@@ -624,9 +648,9 @@
         else if (matcher.test(item.tags) || matcher.test(item.excerpt)) inOther.push(item);
       });
       partialTerms.sort((a, b) => (b.posts + b.pages) - (a.posts + a.pages));
-      matches = exactTerms.concat(exactTitles, partialTerms.slice(0, 3), inTitle, partialTerms.slice(3), inOther);
-      shown = 0;
-      appendMatches(false);
+      ranked = exactTerms.concat(exactTitles, partialTerms.slice(0, 3), inTitle, partialTerms.slice(3), inOther);
+      updateCounts(true);
+      showKind();
     };
     const loadIndex = async () => {
       if (state === "loading" || state === "ready") return;
@@ -664,19 +688,35 @@
     input.addEventListener("focus", loadIndex, { once: true });
     input.addEventListener("input", () => state === "idle" ? loadIndex() : render());
     if (search.hasAttribute("data-search-page")) {
-      input.value = (new URLSearchParams(location.search).get("q") || "").trim();
+      const params = new URLSearchParams(location.search);
+      input.value = (params.get("q") || "").trim();
+      const selectKind = (value) => {
+        kind = Object.hasOwn(labels, value) ? value : "all";
+        for (const button of filters) button.setAttribute("aria-pressed", String(button.dataset.searchKind === kind));
+      };
+      selectKind(params.get("type"));
       const switcher = document.querySelector(".nav-lang");
-      if (switcher) {
-        const alternate = new URL(switcher.href);
-        const syncLanguageLink = () => {
-          const q = input.value.trim();
-          if (q) alternate.searchParams.set("q", q);
-          else alternate.searchParams.delete("q");
-          switcher.href = alternate.href;
-        };
+      const searchUrl = (href) => {
+        const url = new URL(href);
+        const q = input.value.trim();
+        if (q) url.searchParams.set("q", q);
+        else url.searchParams.delete("q");
+        if (kind !== "all") url.searchParams.set("type", kind);
+        else url.searchParams.delete("type");
+        return url;
+      };
+      const syncLanguageLink = () => { if (switcher) switcher.href = searchUrl(switcher.href).href; };
+      syncLanguageLink();
+      input.addEventListener("input", syncLanguageLink);
+      search.addEventListener("formdata", (event) => {
+        if (kind !== "all") event.formData.set("type", kind);
+      });
+      for (const button of filters) button.addEventListener("click", () => {
+        selectKind(button.dataset.searchKind);
+        if (state === "ready" && input.value.trim()) showKind();
+        history.replaceState(history.state, "", searchUrl(location.href));
         syncLanguageLink();
-        input.addEventListener("input", syncLanguageLink);
-      }
+      });
       if (input.value) loadIndex();
     }
   }

@@ -58,6 +58,8 @@ async function exercise(browser, lang) {
     await box.fill("AI");
     const dropdown = p.locator(".home-search [data-search-results]");
     await dropdown.locator("a").first().waitFor();
+    assert.equal(await p.locator("[data-search-kind]").count(), 0);
+    assert.match(await dropdown.evaluate(el => getComputedStyle(el).backdropFilter), /blur/);
     await p.locator(".omega-hero").click({position:{x:4,y:4}});
     assert.ok(await dropdown.isHidden());
     await box.click();
@@ -89,6 +91,44 @@ async function exercise(browser, lang) {
         return parseFloat(secondary.fontSize) < parseFloat(primary.fontSize) && secondary.color !== primary.color;
       }));
     }
+
+    const type = k => p.locator('[data-search-kind="' + k + '"]');
+    const hitCounts = () => p.locator("[data-search-kind] [data-count]").allTextContents();
+    assert.equal(await type("all").getAttribute("aria-pressed"), "true");
+    await box.fill("Python");
+    const index = await (await context.request.get(url(lang + "/search-index.json"))).json();
+    const kinds = ["post","page","category","tag"];
+    const expected = kinds.map(kind => index.filter(r => r.kind === kind &&
+      [r.title,r.excerpt,r.tags,r.alternate,r.slug].some(s => s && s.toLowerCase().includes("python"))).length);
+    const totals = [expected.reduce((a,b) => a+b, 0), ...expected].map(String);
+    const searchLinks = p.locator("[data-search-results] a");
+    for (const [i, k] of kinds.entries()) {
+      await type(k).click();
+      assert.deepEqual(await hitCounts(), totals);
+      assert.equal(await searchLinks.count(), Math.min(expected[i],12));
+      const label = (en ? ["Post","Page","Category","Tag"] : ["文章","页面","分类","标签"])[i];
+      assert.ok((await searchLinks.locator(".search-kind").allTextContents()).every(t => t === label));
+      if (expected[i] > 12) {
+        await p.locator(".search-more").click();
+        assert.equal(await searchLinks.count(), Math.min(expected[i],24));
+        assert.deepEqual(await hitCounts(), totals);
+      }
+    }
+    await type("page").click();
+    const pages = index.filter(r => r.kind === "page");
+    const onlyPostTitle = index.find(r => r.kind === "post" && r.title.length > 4 &&
+      !pages.some(page => [page.title,page.excerpt,page.tags].some(s => s.toLowerCase().includes(r.title.toLowerCase())))).title;
+    await box.fill(onlyPostTitle);
+    assert.equal(await searchLinks.count(),0);
+    assert.match(await p.locator(".search-feedback").innerText(), /this type|该类型/);
+    await box.fill("Python");
+    await Promise.all([p.waitForNavigation(), box.press("Enter")]);
+    assert.equal(await type("page").getAttribute("aria-pressed"), "true");
+    await p.locator(".nav-lang").click();
+    assert.equal(await type("page").getAttribute("aria-pressed"), "true");
+    assert.equal(await box.inputValue(), "Python");
+    await type("all").click();
+    assert.ok(!new URL(p.url()).searchParams.has("type"));
 
     await go(lang + "/search/");
     const recent = p.locator("[data-search-recent]");
