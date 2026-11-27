@@ -1,12 +1,31 @@
-.md-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin-block: 8px; }
-.md-tools a, .md-tools button {
-  display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 2px 0;
-  border: 0; background: transparent; color: var(--muted); font: inherit; font-size: .82rem;
-  text-decoration: none; cursor: pointer;
+.md-tools, .reader-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-block: 12px;
 }
+.reader-toolbar { container-type: inline-size; }
+.reader-toolbar > .md-tools { display: contents; }
+.reader-toolbar > .article-reading-controls { gap: 6px; margin: 0; }
+.md-tools :is(a, button), .reader-toolbar .article-reading-controls button {
+  box-sizing: border-box; align-items: center; justify-content: center; gap: 5px;
+  min-height: 36px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px;
+  color: var(--ink); background: var(--bg); font: inherit; font-size: .83rem;
+  line-height: 1.35; white-space: nowrap; text-decoration: none; cursor: pointer;
+}
+.md-tools :is(a, button) { display: inline-flex; }
 .md-tools [hidden] { display: none; }
-.md-tools :is(a,button):hover, .md-tools :is(a,button):focus-visible { color: var(--accent); }
-.md-tools :is(a,button):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.md-tools :is(a,button):hover, .reader-toolbar button:hover { color: var(--accent); border-color: var(--accent); }
+.md-tools :is(a,button):focus-visible, .reader-toolbar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.md-tools [role=status]:empty { display: none; }
 .md-tools [role=status] { font-size: .8rem; color: var(--muted); }
 .md-tools textarea { flex: 1 0 100%; min-width: 0; max-width: 100%; height: 7rem; color: var(--ink); background: var(--panel); font: inherit; }
-@media (pointer: coarse) { .md-tools :is(a,button) { min-height: 44px; } }
+@media (max-width: 980px), (pointer: coarse) {
+  .md-tools :is(a,button), .reader-toolbar .article-reading-controls button { min-height: 44px; }
+}
+@container (max-width: 26rem) {
+  .reader-toolbar .md-tools :is(a, button) { padding-inline: 7px; }
+  .reader-toolbar .md-tools svg { display: none; }
+}
+@container (max-width: 22rem) {
+  .reader-toolbar [data-md-copy] { width: 44px; }
+  .reader-toolbar [data-md-copy] span { display: none; }
+  .reader-toolbar [data-md-copy] svg { display: block; }
+}

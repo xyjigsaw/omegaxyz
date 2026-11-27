@@ -531,7 +531,9 @@
         : (zh ? "宽屏阅读" : "Wide view");
     });
     controls.appendChild(wide);
-    article.insertBefore(controls, content);
+    const toolbar = article.querySelector(":scope > .reader-toolbar");
+    if (toolbar) toolbar.prepend(controls);
+    else article.insertBefore(controls, content);
   });
 
   const search = document.querySelector(".search-box[data-search]");

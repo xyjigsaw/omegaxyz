@@ -24,7 +24,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-history1"
+ASSET_VERSION = "20261127-reader-tools"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -1192,8 +1192,7 @@ def footer(current_file, lang):
         </a>
         <div class="footer-decl">
           <p>{esc(t["footer_license"])} <span class="footer-sep">|</span> {runtime}</p>
-          <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{esc(t["footer_icp"])}</a> <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <a href="{sitemap}">{esc(t["sitemap"])}</a></p>
-          <p><a href="/{lang}/rss.xml">RSS</a> <span class="footer-sep">·</span> <a href="/{lang}/atom.xml">Atom</a></p>
+          <p>{esc(t["footer_copyright"])} <span class="footer-sep">|</span> <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{esc(t["footer_icp"])}</a> <span class="footer-sep">|</span> {esc(t["footer_business"])}:<a href="mailto:noverfitting@gmail.com">noverfitting@gmail.com</a> <span class="footer-sep">|</span> <a href="{privacy}">{esc(t["privacy"])}</a> <span class="footer-sep">|</span> <span class="footer-site-links"><a href="{sitemap}">{esc(t["sitemap"])}</a> <span class="footer-sep">|</span> <a href="/{lang}/rss.xml">RSS</a> · <a href="/{lang}/atom.xml">Atom</a></span></p>
         </div>
       </section>
       <nav class="footer-friends" aria-label="友情链接">
@@ -1247,10 +1246,11 @@ ARTICLE_ASSETS = (
 
 
 def reader_tools(lang):
-    view, copy = ("打开纯正文", "复制 Markdown") if lang == "zh" else ("Open Markdown", "Copy Markdown")
+    view, copy = ("打开 Markdown", "复制 Markdown") if lang == "zh" else ("Open Markdown", "Copy Markdown")
     icon = _nav_icon('<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>')
     return (f'<div class="md-tools"><a type="text/markdown" href="index.md">{NAV_ICONS["pages"]}{view}</a>'
-            f'<button type="button" data-md-copy hidden>{icon}{copy}</button><span role="status"></span></div>')
+            f'<button type="button" data-md-copy hidden aria-label="{copy}" title="{copy}">{icon}<span>{copy}</span></button>'
+            '<span role="status"></span></div>')
 
 
 def layout(current_file, lang, title, body, description="", alt_path="", article_assets=False, image="", feature="", reader=False):
@@ -1271,7 +1271,7 @@ def layout(current_file, lang, title, body, description="", alt_path="", article
     feature_css = f'<link rel="stylesheet" href="/assets/{feature}.css?v={version}">' if feature else ""
     feature_js = f'<script type="module" src="/assets/{feature}.js?v={version}"></script>' if feature else ""
     reader_head = ('<link rel="alternate" type="text/markdown" href="index.md">'
-                   '<link rel="stylesheet" href="/assets/markdown-tools.css?v=1">') if reader else ""
+                   '<link rel="stylesheet" href="/assets/markdown-tools.css?v=2">') if reader else ""
     reader_js = '<script defer src="/assets/markdown-tools.js?v=1"></script>' if reader else ""
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -1708,7 +1708,7 @@ def render_entry(entry, lang, legacy, site):
         <div class="meta">{meta_html}</div>
         <h1>{esc(title)}</h1>
         <div class="terms">{term_links}</div>
-        {reader_tools(lang) if syndication.editorial(entry) else ""}
+        {f'<div class="reader-toolbar">{reader_tools(lang)}</div>' if syndication.editorial(entry) else ""}
         <div class="article-content">{content}</div>
         {reader_tools(lang) if syndication.editorial(entry) else ""}
         {live_comments}

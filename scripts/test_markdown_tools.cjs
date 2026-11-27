@@ -27,6 +27,25 @@ async function check(browser, lang, blocked) {
     await p.goto(new URL(path, base).href);
     const boxes = p.locator(".md-tools");
     assert.equal(await boxes.count(), 2);
+    assert.equal(await p.getByRole("link", {name: lang === "zh" ? "打开 Markdown" : "Open Markdown", exact: true}).count(), 2);
+    for (const width of [320, 375, 390, 414, 430, 768, 1366]) {
+      await p.setViewportSize({width, height:820});
+      const controls = p.locator(".reader-toolbar :is(button, a):visible");
+      const expectedCount = width > 980 ? 4 : 3;
+      await p.waitForFunction(n => Array.from(document.querySelectorAll(".reader-toolbar :is(button,a)"))
+        .filter(el => el.getClientRects().length).length === n, expectedCount);
+      const rects = await controls.evaluateAll(els => els.map(el => {
+        const r = el.getBoundingClientRect();
+        return [r.top, r.height];
+      }));
+      assert(rects.every(([top, height]) => Math.abs(top - rects[0][0]) < 1 && Math.abs(height - rects[0][1]) < 1),
+        lang + " toolbar at " + width + ": " + JSON.stringify(rects));
+      assert(await p.locator(".footer-site-links").evaluate(group => {
+        const links = [...group.querySelectorAll("a")];
+        return links.length === 3 && links.every(a => a.getBoundingClientRect().top === links[0].getBoundingClientRect().top);
+      }));
+    }
+    await p.setViewportSize({width: blocked ? 320 : 1366, height:820});
     assert.equal(requests, 0);
     const raw = new URL(path + "index.md", base).href;
     const expected = await (await context.request.get(raw)).text();
