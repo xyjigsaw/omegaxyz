@@ -22,7 +22,7 @@ PUBLIC = ROOT / "public"
 OUT = ROOT / "docs"
 CDN = "https://cdn.omegaxyz.com"
 SITE_URL = "https://omegaxyz.com"
-ASSET_VERSION = "20261127-search-submit1"
+ASSET_VERSION = "20261127-search-terms1"
 SITE_START_DATE = "2017-04-18"
 SITE_TIMEZONE = timezone(timedelta(hours=8))
 LOGO_URL = CDN + "/2017/11/cropped-omegaxyzlogo.jpg"
@@ -133,7 +133,7 @@ I18N = {
         "all_posts": "全部文章",
         "all_pages": "全部页面",
         "language": "English",
-        "search_placeholder": "搜索文章、页面、标签...",
+        "search_placeholder": "搜索文章、页面、分类和标签…",
         "explore": "探索知识库",
         "intro": "OmegaXYZ",
         "archive_search_placeholder": "搜索标题、摘要、标签...",
@@ -187,7 +187,7 @@ I18N = {
         "all_posts": "All Posts",
         "all_pages": "All Pages",
         "language": "中文",
-        "search_placeholder": "Search posts, pages, and tags...",
+        "search_placeholder": "Search posts, pages, categories and tags…",
         "explore": "Explore the archive",
         "intro": "OmegaXYZ",
         "archive_search_placeholder": "Search titles, summaries, and tags...",
@@ -229,6 +229,10 @@ TERM_EN = {
     "math": "Mathematics",
     "programming": "Programming",
     "高级语言": "Programming Languages",
+    "机器学习": "Machine Learning",
+    "三体": "The Three-Body Problem",
+    "元胞自动机": "Cellular Automata",
+    "mpi并行": "MPI Parallel Computing",
     "python": "Python",
     "c": "C",
     "c-2": "C++",  # Keep the original WordPress tag URL.
@@ -2106,16 +2110,21 @@ def render_pages_index(site, lang):
     write(current, layout(current, lang, I18N[lang]["all_pages"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/pages/"))
 
 
+def group_terms(entries, key):
+    grouped = defaultdict(list)
+    representatives = {}
+    for entry in entries:
+        for term in entry[key]:
+            slug = term["slug"]
+            grouped[slug].append(entry)
+            representatives[slug] = term
+    return grouped, representatives
+
+
 def render_terms(site, lang):
     tag_cloud_html = ""
     for kind, label in (("tag", "tags"), ("category", "categories")):
-        grouped = defaultdict(list)
-        representatives = {}
-        for entry in site["entries"]:
-            for term in entry["categories" if kind == "category" else "tags"]:
-                key = term["slug"]
-                grouped[key].append(entry)
-                representatives.setdefault(key, term_info(term))
+        grouped, representatives = group_terms(site["entries"], label)
         current = path_to_file(f"{lang}/{label}/")
         chips = []
         peaks = []
@@ -2237,14 +2246,27 @@ def recent_links(site, lang, limit, bilingual=False):
 def render_search(site, lang):
     current = path_to_file(f"{lang}/search/")
     index_file = OUT / f"{lang}/search-index.json"
+    other = "zh" if lang == "en" else "en"
     index = []
     for entry in site["entries"]:
         index.append({
+            "kind": entry["type"],
             "title": entry[f"title_{lang}"],
             "excerpt": entry[f"excerpt_{lang}"],
-            "tags": " ".join(term_label(t, lang) for t in entry["tags"] + entry["categories"]),
+            "tags": " ".join(dict.fromkeys(term_label(t, language) for t in entry["tags"] + entry["categories"]
+                                           for language in (lang, other))),
             "url": "/" + entry_path(entry, lang).strip("/") + "/",
         })
+    for kind, key in (("category", "categories"), ("tag", "tags")):
+        groups, terms = group_terms(site["entries"], key)
+        for slug, members in groups.items():
+            posts = sum(e["type"] == "post" for e in members)
+            index.append({
+                "kind": kind, "slug": slug, "title": term_label(terms[slug], lang),
+                "alternate": term_label(terms[slug], other),
+                "posts": posts, "pages": len(members) - posts,
+                "url": "/" + term_path(kind, slug, lang),
+            })
     write(index_file, json.dumps(index, ensure_ascii=False))
     body = f"""
     <main class="wrap band search-page">
@@ -2259,8 +2281,8 @@ def render_search(site, lang):
       </section>
     </main>
     """
-    desc = ("在 OmegaXYZ 的中文文章和页面中按标题、摘要或标签搜索。"
-            if lang == "zh" else "Search OmegaXYZ’s English articles and pages by title, summary or tag.")
+    desc = ("搜索 OmegaXYZ 的文章、页面、分类和标签。分类与标签可按中文或英文名称查找。"
+            if lang == "zh" else "Search OmegaXYZ posts, pages, categories and tags. Find topics by their English or Chinese names.")
     write(current, layout(current, lang, I18N[lang]["search"], body, desc, f"{'en' if lang == 'zh' else 'zh'}/search/"))
 
 
@@ -2374,7 +2396,7 @@ def render_404(site):
         <noscript><a href="/en/">English home</a></noscript>
       </div>
       <form class="search-box notfound-search" role="search" action="/zh/search/" data-en-action="/en/search/" method="get" data-search="/zh/search-index.json" data-search-en="/en/search-index.json">
-        <input type="search" name="q" enterkeyhint="search" placeholder="搜索文章、页面、标签..." aria-label="搜索">
+        <input type="search" name="q" enterkeyhint="search" placeholder="{esc(I18N['zh']['search_placeholder'])}" aria-label="搜索">
         <div class="search-results" data-search-results></div>
       </form>
     </section>

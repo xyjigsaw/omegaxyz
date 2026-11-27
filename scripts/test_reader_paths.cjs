@@ -66,6 +66,29 @@ async function exercise(browser, lang) {
     await box.press("Escape");
     assert.ok(await dropdown.isHidden());
     assert.equal(await box.inputValue(), "AI");
+    const topic = en ? "机器学习" : "Machine Learning";
+    await box.fill(topic);
+    await dropdown.locator("a.search-tag").first().waitFor();
+    assert.ok(await dropdown.evaluate(el => {
+      const rect = el.getBoundingClientRect();
+      return el.contains(document.elementFromPoint(rect.left + 20, Math.min(innerHeight - 1, rect.bottom - 10)));
+    }), "Home search results should be above the latest posts");
+    await box.press("Enter");
+    await p.waitForURL(u => u.pathname === "/"+lang+"/search/" && u.searchParams.get("q") === topic);
+    for (const [kind, slug] of [["category","machine-learning"],["tag","机器学习"]]) {
+      const hit = p.locator(".search-results a.search-"+kind).first();
+      await hit.waitFor();
+      assert.equal(await hit.getAttribute("href"), "/"+lang+"/"+kind+"/"+slug+"/");
+      assert.match(await hit.locator(".search-term-names").innerText(), /机器学习/);
+      assert.match(await hit.locator(".search-term-names").innerText(), /Machine Learning/);
+      assert.match(await hit.locator("small").innerText(), /[1-9]\d* (?:post|篇文章)/);
+      const alias = hit.locator(".search-term-names > [lang]");
+      assert.equal(await alias.getAttribute("lang"), other);
+      assert.ok(await alias.evaluate(el => {
+        const primary = getComputedStyle(el.previousElementSibling), secondary = getComputedStyle(el);
+        return parseFloat(secondary.fontSize) < parseFloat(primary.fontSize) && secondary.color !== primary.color;
+      }));
+    }
 
     await go(lang + "/search/");
     const recent = p.locator("[data-search-recent]");
@@ -130,7 +153,7 @@ async function exercise(browser, lang) {
     await go(lang+"/archive/?category=tech");
     assert.equal(await p.locator('[data-archive-kind="category"][data-archive-term="tech"]').getAttribute("aria-pressed"),"true");
     assert.deepEqual(await p.locator(".archive-filters").evaluate(el => [
-      el.clientHeight, el.nextElementSibling.className, el.contains(document.querySelector(".month-chart"))
+      el.clientHeight, el.closest(".archive-filter-frame").nextElementSibling.className, el.contains(document.querySelector(".month-chart"))
     ]), [en ? 230 : 156, "month-chart", false]);
     const year = p.locator("[data-chart-year]");
     async function checkMonths() {

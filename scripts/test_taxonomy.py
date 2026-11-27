@@ -1,4 +1,5 @@
 """Exercise the publication path without touching the real site or fetching data."""
+import json
 from copy import deepcopy
 from html.parser import HTMLParser
 from pathlib import Path
@@ -69,6 +70,20 @@ class PublishedTaxonomy(TestCase):
                     self.assertEqual(len(home.values("data-topic-item")), len(expected))
                     site.render_terms(data, lang)
                     site.render_archive(data, lang)
+                    site.render_search(data, lang)
+                    rows = json.loads((site.OUT / lang / "search-index.json").read_text())
+                    topics = {(r["kind"], r["slug"]): r for r in rows if r["kind"] in ("category", "tag")}
+                    counts = {slug: (r["posts"], r["pages"]) for (kind, slug), r in topics.items() if kind == "category"}
+                    self.assertEqual(counts, {**{slug: (n, 0) for slug, n in expected.items()}, "page-only": (0, 1)})
+                    if "new-field" in expected:
+                        tag = topics["tag", "new-field"]
+                        self.assertEqual({tag["title"], tag["alternate"]}, {"同名标签", "Separate Tag"})
+                        self.assertEqual((tag["posts"], tag["pages"], tag["url"]), (1, 0, f"/{lang}/tag/new-field/"))
+                        original = next(r for r in rows if r["kind"] == "post" and r["title"] == "first")
+                        self.assertIn("同名标签", original["tags"])
+                        self.assertIn("Separate Tag", original["tags"])
+                    else:
+                        self.assertNotIn(("tag", "new-field"), topics)
                     catalog = Attributes(site.path_to_file(f"{lang}/categories/").read_text())
 
                     peaks = [(a["data-peak"], int(a["data-count"])) for a in catalog.nodes if "data-peak" in a]

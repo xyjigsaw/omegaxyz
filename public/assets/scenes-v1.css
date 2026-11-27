@@ -59,12 +59,26 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
 .omega-copy .home-search input {
   border-radius: 6px; background: var(--panel); padding-left: 42px; min-height: 48px; font-size: 15px;
 }
-.omega-copy .search-glyph { position: absolute; width: 18px; height: 18px; top: 15px; left: 15px; color: var(--muted); pointer-events: none; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .omega-copy .home-search input {
+    background: linear-gradient(115deg, color-mix(in srgb, var(--panel) 70%, transparent), color-mix(in srgb, var(--panel) 40%, transparent));
+    -webkit-backdrop-filter: blur(12px) saturate(115%); backdrop-filter: blur(12px) saturate(115%);
+    box-shadow: inset 0 1px 0 #ffffff25, 0 3px 12px #091d2710;
+  }
+  .omega-copy .home-search input:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .omega-copy .home-search input { background: var(--panel); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+.omega-copy .search-glyph { position: absolute; z-index: 1; width: 18px; height: 18px; top: 15px; left: 15px; color: var(--muted); pointer-events: none; }
 .omega-copy .search-results:not(:empty) {
   position: absolute; inset: 100% 0 auto; max-height: 310px; overflow-y: auto;
   border-radius: 6px; box-shadow: 0 12px 32px #081b2121; z-index: 4;
 }
 .omega-copy .search-results[hidden] { display: none; }
+.omega-hero:focus-within { z-index: 2; }
 
 .home-edition .stats-row {
   display: flex; flex-wrap: wrap; justify-content: center; margin: 0 var(--page-inset);
@@ -117,6 +131,7 @@ canvas.plate-canvas { display: block; width: 100%; height: 100%; }
   .omega-copy { left: var(--page-inset); width: calc(100% - 30px); top: auto; bottom: 12px; transform: none; }
   .word-cycle { height:40px; margin-bottom:8px; font-size:min(32px, calc(160cqi / var(--letters, 10))); }
   .omega-copy .home-search { width: 100%; }
+  .omega-copy .home-search input { font-size: 16px; }
 
   .home-edition .stats-row { gap: 8px 16px; padding-top: 10px; }
   .home-edition .stats-row strong { font-size: 14px; }

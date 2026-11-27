@@ -520,7 +520,7 @@
     const indexPath = (en && search.dataset.searchEn) || search.dataset.search;
     if (en && search.dataset.searchEn) {
       search.action = search.dataset.enAction;
-      input.placeholder = "Search articles, pages and tags…";
+      input.placeholder = "Search posts, pages, categories and tags…";
       input.setAttribute("aria-label", "Search");
     }
     const status = document.createElement("p");
@@ -531,6 +531,25 @@
     more.className = "search-more";
     let index = [], matches = [], shown = 0, state = "idle";
     let pattern;
+    const isTerm = (item) => item.kind === "category" || item.kind === "tag";
+    const highlighted = (tag, value) => {
+      const node = document.createElement(tag);
+      let last = 0;
+      for (const hit of value.matchAll(pattern)) {
+        const mark = document.createElement("mark");
+        mark.textContent = hit[0];
+        node.append(value.slice(last, hit.index), mark);
+        last = hit.index + hit[0].length;
+      }
+      node.append(value.slice(last));
+      return node;
+    };
+    const termCount = (item) => {
+      const parts = [];
+      if (item.posts) parts.push(en ? item.posts + (item.posts === 1 ? " post" : " posts") : item.posts + " 篇文章");
+      if (item.pages) parts.push(en ? item.pages + (item.pages === 1 ? " page" : " pages") : item.pages + " 个页面");
+      return parts.join(" · ");
+    };
     const appendMatches = (moveFocus) => {
       more.remove();
       const batch = matches.slice(shown, shown + 12);
@@ -539,19 +558,26 @@
       batch.forEach((item) => {
         const link = document.createElement("a");
         link.href = item.url;
-        ["title", "excerpt"].forEach((field) => {
-          const node = document.createElement(field === "title" ? "strong" : "span");
-          let last = 0;
-          const value = item[field] || "";
-          for (const hit of value.matchAll(pattern)) {
-            const mark = document.createElement("mark");
-            mark.textContent = hit[0];
-            node.append(value.slice(last, hit.index), mark);
-            last = hit.index + hit[0].length;
+        const title = highlighted("strong", item.title);
+        if (isTerm(item)) {
+          link.className = "search-term search-" + item.kind;
+          const badge = document.createElement("span");
+          badge.className = "search-kind";
+          badge.textContent = item.kind === "category" ? (en ? "Category" : "分类") : (en ? "Tag" : "标签");
+          const names = document.createElement("div");
+          names.className = "search-term-names";
+          names.append(title);
+          if (item.alternate.toLowerCase() !== item.title.toLowerCase()) {
+            const alternate = highlighted("span", item.alternate);
+            alternate.lang = en ? "zh" : "en";
+            names.append(alternate);
           }
-          node.append(value.slice(last));
-          link.append(node);
-        });
+          const count = document.createElement("small");
+          count.textContent = termCount(item);
+          link.append(badge, names, count);
+        } else {
+          link.append(title, highlighted("span", item.excerpt || ""));
+        }
         fragment.append(link);
         if (!first) first = link;
       });
@@ -586,12 +612,19 @@
       const term = /^[a-z]$/i.test(q) ? "\\b" + literal + "\\b" : literal;
       const matcher = new RegExp(term, "i");
       pattern = new RegExp(term, "gi");
-      const inTitle = [], inOther = [];
+      const exactTerms = [], partialTerms = [], exactTitles = [], inTitle = [], inOther = [];
+      const key = q.toLowerCase();
       index.forEach((item) => {
-        if (matcher.test(item.title)) inTitle.push(item);
+        if (isTerm(item)) {
+          const names = [item.title, item.alternate, item.slug];
+          if (names.some((name) => name.toLowerCase() === key)) exactTerms.push(item);
+          else if (names.some((name) => matcher.test(name))) partialTerms.push(item);
+        } else if (item.title.toLowerCase() === key) exactTitles.push(item);
+        else if (matcher.test(item.title)) inTitle.push(item);
         else if (matcher.test(item.tags) || matcher.test(item.excerpt)) inOther.push(item);
       });
-      matches = inTitle.concat(inOther);
+      partialTerms.sort((a, b) => (b.posts + b.pages) - (a.posts + a.pages));
+      matches = exactTerms.concat(exactTitles, partialTerms.slice(0, 3), inTitle, partialTerms.slice(3), inOther);
       shown = 0;
       appendMatches(false);
     };

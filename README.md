@@ -162,6 +162,7 @@ python3 scripts/generate_media_manifest.py
 - 标签专页：`/zh/tag/llm/`、`/en/tag/llm/`
 - 文章归档页筛选按钮
 - 分类页下方的标签筛选按钮
+- 中英文搜索中的独立分类、标签结果：两种名称与 slug 均可查找，点击进入当前语言的专页。文章数和独立页面数在每次构建时重新统计，不需要手工维护。
 
 首次使用新分类时，在主 Markdown 文件写 `categories: [科学计算|scientific-computing|Scientific Computing]`；以后其他文章写 `categories: [scientific-computing]` 即可。分类和标签分别按 slug 识别，同一篇重复填写同一 slug 只计一次；同一 slug 有多个明确的显示名时，以发布日期较新的明确名称为准。只改显示名不会拆成两个分类；改 slug 则是另一个分类。
 
